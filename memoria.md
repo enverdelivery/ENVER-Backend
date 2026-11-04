@@ -2,18 +2,20 @@
 
 ## 1. Estado actual
 
-- **Fase funcional activa:** `002-authentication`; spec aprobado para planificación, habilitada y no iniciada. La intervención separada actual es higiene del repositorio, sin desarrollo funcional; registro en §14.
+- **Fase funcional activa:** `002-authentication`; spec **APROBADO PARA PLANIFICACIÓN**, plan **APROBADO PARA DESCOMPOSICIÓN EN TAREAS**, task v0.1.0 **APROBADO PARA EJECUCIÓN INCREMENTAL**. Catálogo de 79 tareas no ejecutadas, sin implementación; creación documental en §16. Resolución APR-03 en §15 e higiene previa en §14.
 - **Fase 0:** completada en su elaboración documental; no habilitó automáticamente entregas posteriores ni implementación.
 - **Solución:** `Enver.Backend`.
 - **Proyecto:** `Enver.API`.
-- **Alcance vigente:** intervención separada autorizada de higiene: crear `.gitignore`, retirar solo del índice Git los artefactos locales/build y registrar el resultado en esta memoria. Sin borrar copias locales, modificar código, implementar autenticación o generar plan/tareas; sin commit ni push. Constituciones, 001 y el spec 002 se conservan intactos en esta intervención; la autorización de aprobación anterior permanece en §13 como historial.
+- **Alcance vigente:** SOL-TASK-002 autoriza crear únicamente `specs/002-authentication/task.md` y sincronizar AGENTS/memoria/README para registrar las 79 tareas aprobadas, sin ejecutarlas. Sin modificar código/configuración, instalar, conectar dependencias, ejecutar builds/pruebas/scanners, crear workflows, commit o push. Spec/plan, constituciones y 001 permanecen intactos; los §§7–15 conservan el historial de sus entregas.
 - **Fuente de autoridad:** [constitución canónica](.specify/memory/constitution.md), versión documental inicial 1.0.0.
 - **Estado observado:** 5 subagentes y 5 skills conservados; foundation documentada mediante 49 FND, 28 PLD y 38 TBF; implementación técnica parcial/inicial integrada mediante PR #1. Detalle y límites de evidencia en §12.
-- **Aprobación:** 001 conserva sus borradores y estados de origen. El spec 002 pasa a versión 0.2.0, **APROBADO PARA PLANIFICACIÓN**, por decisión expresa posterior del responsable (APR-02). La creación original v0.1.0 como borrador se conserva en §12; la aprobación y sus límites se registran en §13.
+- **Aprobación:** 001 conserva sus borradores y estados de origen. Spec 002 v0.3.0 **APROBADO PARA PLANIFICACIÓN** y plan v0.2.0 **APROBADO PARA DESCOMPOSICIÓN EN TAREAS**, por APR-03; task v0.1.0 **APROBADO PARA EJECUCIÓN INCREMENTAL**, por SOL-TASK-002 (§16). Creación original y APR-02 permanecen en §§12–13; creación del plan, bloqueo inicial y resolución posterior en §15 y plan §23.1. No equivalen a aceptación técnica ni autorización inmediata de tareas.
 - **Ejecución:** no se marca completada ninguna TBF ni cerrado íntegramente ningún DEC; la implementación parcial no acredita cumplimiento integral de FND/PLD/TBF/DEC. No se implementa autenticación en esta entrega.
 - **Especificación funcional:** [002-authentication](specs/002-authentication/spec.md), 48 requisitos AUTH-001 a AUTH-048 para registro, login y logout versionados por ruta.
+- **Plan técnico:** [plan 002](specs/002-authentication/plan.md), 25 decisiones PLD-AUTH-01 a PLD-AUTH-25, trazabilidad de diseño 48/48 y diferidos con puertas; conservado intacto en esta entrega.
+- **Catálogo de tareas:** [task 002](specs/002-authentication/task.md), 79 T-AUTH-001 a T-AUTH-079, todas PENDIENTE / NO EJECUTADA; cobertura documental AUTH 48/48, PLD-AUTH 25/25 y AC 21/21; 8 gates pendientes.
 
-La creación documental no acredita cumplimiento técnico de la rúbrica. La aprobación expresa posterior de §13 habilita elaborar el plan, no autoriza tareas, implementación ni verificación técnica; no se genera el plan en esta intervención.
+La creación documental no acredita cumplimiento técnico de la rúbrica. El estado APROBADO PARA EJECUCIÓN INCREMENTAL solo permite solicitar ejecución posterior de una tarea/incremento con autorización propia; no satisface gates, resuelve diferidos ni autoriza AWS. No se implementa autenticación: AUTH-027 permanece **NO IMPLEMENTADO / NO SATISFECHO**.
 
 ## 2. Estado inicial observado
 
@@ -53,17 +55,17 @@ Estos requisitos deberán concretarse y verificarse en fases autorizadas. No se 
 - API REST modular, con separación de responsabilidades y aplicación proporcionada de SOLID.
 - Estrategia futura de DevSecOps y CI/CD con controles de calidad, seguridad y aprobación.
 
-Las propuestas no establecen una arquitectura de capas. Las selecciones posteriores expresas se registran en §§3, 12 y 13; no son adopciones por iniciativa del agente ni evidencia de implementación.
+Las propuestas originales no establecieron una arquitectura de capas. La aprobación posterior del plan de 002 adopta un único Enver.API con separación lógica y tres proyectos futuros de pruebas; registro en §15. Las selecciones expresas no son adopciones por iniciativa del agente ni evidencia de implementación.
 
 ## 6. Decisiones pendientes
 
 - Servicios concretos AWS, región, red, topología, TLS y presupuesto; proveedor ya seleccionado.
 - Garantías, configuración y modelado detallado de MongoDB Atlas; motor ya seleccionado y contrato conceptual de usuarios definido en 002.
-- Estructura definitiva de capas y módulos.
-- Librerías y versiones complementarias.
+- Detalles de estructura de 002 dentro de los límites aprobados de un Enver.API con separación lógica; no proyectos adicionales de aplicación ni patrones excluidos.
+- Versiones/grafo/licencias/vulnerabilidades de las librerías seleccionadas en el plan y dependencias complementarias que requieran autorización.
 - Mecanismos técnicos de rotación HS256, configuración efectiva del hasher administrada por framework, actualización concurrente segura, BSON/read-write concerns, integridad/recuperación Redis y margen TTL, coordinación/pseudonimización de cuotas, presupuestos y observabilidad. Contratos, normalización, estados, selección obligatoria del hasher, modelo y cuotas quedan aprobados en §13 y 002; no se fijan iteraciones criptográficas manuales.
 - Herramientas, entornos y criterios de pruebas, controles y CI/CD; plataforma GitHub Actions y herramienta IaC Terraform seleccionadas, no configuradas.
-- Elaboración/revisión posterior del plan 002 habilitada por el estado APROBADO PARA PLANIFICACIÓN; no iniciada aquí. Tareas, implementación y verificaciones técnicas requieren autorización separada. AD-01 a AD-08 aprobadas con detalles técnicos al plan; AD-09/AD-11/AD-12 diferidas y AD-10 parcial con detalle diferido, según spec §10 y registro §13.
+- Catálogo task.md creado documentalmente por SOL-TASK-002 (§16), con 79 tareas pendientes; implementación/verificaciones técnicas requieren autorización separada. AD-07 precisada por APR-03: pérdida detectada → cierre/recuperación; silenciosa no observable → riesgo residual de infraestructura, sin ledger. AD-09/AD-11/AD-12 diferidas y AD-10 parcial con detalle diferido, según spec §10, plan §23.2 y registro §15.
 
 ## 7. Registro documental de la Fase 0
 
@@ -220,3 +222,52 @@ Se retiran **solo del índice Git** los 57 archivos auditados mediante `git rm -
 La política se comprueba mediante `git check-ignore --no-index` sobre 36 rutas ignorables y 22 rutas que deben permanecer versionables, incluidas `.env.example`, `.terraform.lock.hcl`, appsettings base, Dockerfile, `.dockerignore`, workflows, fuente y specs. Son comprobaciones de higiene Git, no pruebas de autenticación ni gates DevSecOps satisfechos. La salida final de Git mostrará las retiradas como eliminaciones preparadas para el próximo commit, aunque los archivos continúan en disco; ignorarlos no borra su historial.
 
 Se modifica únicamente esta memoria además de crear `.gitignore` y actualizar el índice para los artefactos indicados. No se modifican README, AGENTS, ambas constituciones, 001, spec 002, código, configuración de aplicación o Docker. No se crean archivos de autenticación, `plan.md` o `task.md`, ni se ejecutan builds/pruebas/instalaciones/despliegues. Sin commit ni push; la intervención termina sin iniciar planificación.
+
+## 15. Planificación 002 y resolución normativa Redis — APR-03
+
+### 15.1. Antecedente y autorización posterior
+
+SOL-PLAN-002 aprobó las 25 decisiones técnicas y autorizó crear exclusivamente plan 002 v0.1.0. Se documentó la contradicción entre AUTH-027 de spec v0.2.0 y PLD-AUTH-08: el criterio exigía preservar revocaciones ante pérdida silenciosa más allá de las garantías de la arquitectura Redis sin testigo duradero. El plan quedó **PENDIENTE DE REVISIÓN NORMATIVA DE AUTH-027 — NO HABILITADO PARA DESCOMPOSICIÓN EN TAREAS**, sin generar tareas ni código. La propuesta y evidencia de aquel bloqueo se conservan íntegros como historial en plan §23.1; no se borran por su resolución.
+
+Tras revisión conversacional de solo lectura, el responsable aprueba el ajuste mínimo. **APR-03** identifica esta nueva autorización: modificar spec/plan y AGENTS/memoria/README solo para la sincronización necesaria. No autoriza implementación, task.md, paquetes, Program.cs, conexiones, workflows, Terraform, commit o push. No se invocan subagentes ni se cargan skills.
+
+### 15.2. Cambios aprobados y garantía resultante
+
+- Spec pasa a v0.3.0 conservando **APROBADO PARA PLANIFICACIÓN**. Solo cambian de contenido AUTH-022, AUTH-027 y AUTH-043. Los otros 45 requisitos, incluidos AUTH-023/024/025/026/038/039, permanecen íntegros. Se conservan los 48 IDs consecutivos, 21 AC, 14 AM y 12 AD.
+- AUTH-022: tras 204 confirmado, rechazo en todas las instancias con continuidad confiable del estado compartido; pérdida/discontinuidad detectada, integridad incierta o estado no verificable → fail-closed/503, sin autorizar por marca ausente. Mantiene el límite de solicitudes ya autorizadas antes de revocar.
+- AUTH-027: modelo de fallos/señales/límites, no admisión compartida, sin emisión/204 sin controles, recuperación validada o cuarentena suficiente desde última emisión posible considerando skew/margen/solicitudes en curso. Prevención de evicción, capacidad/monitoreo y pruebas detectables; pérdida catastrófica silenciosa no observable es residual, no eliminada. Aprobado documentalmente, **NO IMPLEMENTADO / NO SATISFECHO**.
+- AUTH-043: probar pérdida detectable, reacción y recuperación; evaluar el riesgo no observable sin afirmar detección universal. Inyectar una señal solo demuestra reacción, no el detector.
+- Se sincronizan AC-15, AD-07 (garantía/prevención/residual), §4.3 paso 6, §6.2 y AM-07. No cambian JWT, TTL, idempotencia, sesiones ni cuotas.
+- Arquitectura inalterada: un Enver.API con separación lógica, tres proyectos futuros de pruebas y Redis compartido para revocaciones/cuotas. Sin MongoDB revocation ledger, segundo almacén duradero obligatorio o transacciones distribuidas; no se exigen dos Redis físicos.
+
+El plan pasa a v0.2.0 **APROBADO PARA DESCOMPOSICIÓN EN TAREAS**: PLD-AUTH-08 alineada, matrices de diseño 48/48 y resolución histórica/vigente diferenciadas. Se resuelve la contradicción normativa; la pérdida no observable permanece como riesgo técnico residual. La aceptación técnica aún exige evidencia de los controles definidos; ping, persistencia, marcador colocalizado o prueba finita no prueban ausencia universal.
+
+### 15.3. Diferidos, continuidad y cierre
+
+Permanecen diferidos: versiones/grafo/licencias/vulnerabilidades; detalles MongoDB/Redis, ACK, topología/detección/recuperación/capacidad; cardinalidad y rotación HMAC; calibración de presupuestos/margen/latencias; TLS/proxies/AWS/readiness; privacidad/retención; herramientas/gates/OWASP/rúbrica y evidencia OpenAPI; endurecimiento Docker/publish antes de un build sensible. Plan §23.2 conserva sus puertas. No bloquean esta aprobación documental ni quedan automáticamente aprobados/ejecutados.
+
+La sincronización actualiza solo los cinco documentos autorizados, mantiene constituciones/001/código/configuración intactos y preserva §§7–14 como historial. La validación documental revisa IDs, campos, matrices directa/inversa, enlaces, diferencias de AUTH y estado; no es build, prueba de seguridad ni escaneo de dependencias. No se declara cumplida la rúbrica o completada foundation.
+
+Resultado de la validación documental interna: 48 AUTH consecutivos con sus seis campos; solo 022/027/043 difieren frente a la línea base y los otros 45 permanecen íntegros. 25 PLD consecutivas, cobertura 48/48 y 188 relaciones directas/inversas coincidentes; 21 AC, 14 AM y 12 AD conservados. Los 66 enlaces locales de los cinco documentos existen; sin espacios finales ni errores en `git diff --check` (solo advertencias LF→CRLF). Los 25 archivos versionados fuera del alcance conservan el manifiesto SHA256 de partida; §§7–14 de memoria permanecen íntegros y no existe task.md de 002. No quedan contradicciones normativas vigentes identificadas; las desalineaciones literales históricas ya contextualizadas no reforman la constitución ni son bloqueos nuevos.
+
+La aprobación del plan solo permite crear posteriormente `specs/002-authentication/task.md` en otra entrega delimitada; no autoriza implementar ni ejecutar tareas. La intervención termina sin task.md, código, paquetes, conexiones, workflows, cambios Terraform, commit o push.
+
+## 16. Catálogo aprobado de tareas 002 — SOL-TASK-002
+
+### 16.1. Autorización y alcance documental
+
+El responsable aprueba expresamente el catálogo compactado de **79 tareas**, T-AUTH-001 a T-AUTH-079, y autoriza crear [specs/002-authentication/task.md](specs/002-authentication/task.md) y sincronizar exclusivamente AGENTS/memoria/README. SOL-TASK-002 identifica este acto conversacional posterior, no un commit ni evidencia de ejecución. Se conservan íntegros los antecedentes de §§7–15 y el historial APR-03; no se modifica spec v0.3.0, plan v0.2.0, constituciones o 001.
+
+### 16.2. Resultado y significado del estado
+
+Task v0.1.0 queda **APROBADO PARA EJECUCIÓN INCREMENTAL**, con las 79 tareas en **PENDIENTE / NO EJECUTADA**, fases F0–F15, matrices AUTH 48/48, PLD-AUTH 25/25 y AC 21/21; los 8 gates permanecen pendientes/no satisfechos. El documento reserva E(T-AUTH-nnn) sin resultados técnicos inventados; conserva dependencias, orden JWT → Logout → Login, paralelismo condicionado, ediciones serializadas, recomendaciones de commit y puertas de los diferidos.
+
+El estado solo significa que el catálogo puede comenzar a ejecutarse una tarea o incremento a la vez **mediante autorización posterior** de alcance, archivos, acciones y entorno. No permite ejecutar todas las tareas inmediatamente, satisface gates, resuelve diferidos, autoriza AWS/Terraform/despliegues o acredita requisitos implementados. La asociación documental no demuestra cumplimiento.
+
+**AUTH-027 continúa NO IMPLEMENTADO / NO SATISFECHO.** Detección, coordinación, recuperación y operación requieren evidencia futura; pérdida completamente silenciosa no observable sigue como riesgo residual, sin detección universal, ledger MongoDB, segundo almacén duradero obligatorio o transacciones distribuidas. Las puertas técnicas de AD-09/10/11/12 y demás detalles conservan su vigencia.
+
+### 16.3. Validación documental y límite de entrega
+
+La comprobación documental identifica 79 IDs consecutivos y fichas con campos obligatorios/estado/evidencia prevista, matrices 48/25/21 con referencias concordantes con las fichas, 8 gates y grafo de dependencias sin ciclos ni IDs inexistentes. Se revisan fases, enlaces y coherencia con spec/plan; no se genera evidencia de ejecución de las tareas. Las referencias principales de las matrices no pretenden enumerar todas las relaciones de cada ficha.
+
+Se crea solo task.md y se modifican solo AGENTS/memoria/README para registrar su creación/estado y ausencia de implementación. No se implementa código, instala paquetes, ejecuta builds/pruebas/scanners, conecta MongoDB/Redis, modifica Program.cs, crea workflows o realiza commit/push. Finalizada la validación documental, se detiene el trabajo; la siguiente ejecución requiere nueva autorización.
