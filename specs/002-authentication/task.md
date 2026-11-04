@@ -9,6 +9,12 @@
 | Estado del documento | **APROBADO PARA EJECUCIÓN INCREMENTAL** |
 | Catálogo vigente | 79 tareas: T-AUTH-001 a T-AUTH-079 |
 | Estado inicial de todas las tareas | PENDIENTE / NO EJECUTADA |
+| Estado tras el cierre de T-AUTH-001 | 1 COMPLETADA / EVIDENCIA DOCUMENTAL REGISTRADA; 78 PENDIENTE / NO EJECUTADA; evidencia en §10 |
+| Estado tras el cierre de T-AUTH-002 | 2 COMPLETADAS / EVIDENCIA DOCUMENTAL REGISTRADA: 001 y 002; 77 PENDIENTE / NO EJECUTADA: 003–079; evidencia de 002 en §11 |
+| Estado tras el cierre de T-AUTH-003 | 001/002 COMPLETADAS / EVIDENCIA DOCUMENTAL REGISTRADA; 003 COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA; 76 PENDIENTE / NO EJECUTADA: 004–079; evidencia de 003 en §12 |
+| Estado tras el cierre de T-AUTH-004 | 001/002/004 COMPLETADAS / EVIDENCIA DOCUMENTAL REGISTRADA; 003 COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA; 75 PENDIENTE / NO EJECUTADA: 005–079; evidencia de 004 en §13 |
+| Estado tras el cierre de T-AUTH-005 | 001/002/004 COMPLETADAS / EVIDENCIA DOCUMENTAL REGISTRADA; 003/005 COMPLETADAS / EVIDENCIA TÉCNICA REGISTRADA; 74 PENDIENTE / NO EJECUTADA: 006–079; evidencia de 005 en §14 |
+| Estado del checkpoint T-AUTH-006 | 001–005 conservan sus cierres; 006 COMPLETADA / EVIDENCIA TÉCNICA Y CHECKPOINT GIT REGISTRADOS, sujeto a commit único correcto y verificación posterior limpia según §15; 73 PENDIENTE / NO EJECUTADA: 007–079 |
 | Cobertura documental prevista | AUTH 48/48; PLD-AUTH 25/25; AC 21/21 |
 | Gates | 8; todos PENDIENTES / NO SATISFECHOS |
 | Fuente de aprobación | SOL-TASK-002: aprobación expresa del catálogo compactado y autorización documental del responsable |
@@ -22,7 +28,17 @@ Fuentes, en su función normativa:
 4. [Plan 002](plan.md), v0.2.0, **APROBADO PARA DESCOMPOSICIÓN EN TAREAS**: arquitectura, decisiones PLD-AUTH-01 a PLD-AUTH-25, incrementos §19 y puertas §23.2.
 5. SOL-TASK-002 identifica únicamente la solicitud conversacional que aprueba estas 79 tareas y autoriza crear este archivo y sincronizar los tres documentos de estado. No es evidencia técnica, commit ni aprobación de los detalles diferidos.
 
-Esta entrega es exclusivamente documental: no ejecuta ninguna tarea del catálogo. Se conservan intactos spec/plan, ambas referencias constitucionales y los [tres antecedentes de foundation](../001-backend-foundation/). Las restricciones de entregas anteriores se interpretan en su contexto histórico; esta autorización posterior no reforma la constitución, aprueba retrospectivamente 001 ni cierra FND/PLD/TBF/DEC. Memoria §16 registra esta entrega, sin borrar §§7–15.
+La entrega de creación SOL-TASK-002 fue exclusivamente documental y no ejecutó ninguna tarea del catálogo. Se conservan intactos spec/plan, ambas referencias constitucionales y los [tres antecedentes de foundation](../001-backend-foundation/). Las restricciones de entregas anteriores se interpretan en su contexto histórico; esta autorización posterior no reforma la constitución, aprueba retrospectivamente 001 ni cierra FND/PLD/TBF/DEC. Memoria §16 registra aquella entrega, sin borrar §§7–15. El cierre posterior autorizado únicamente de T-AUTH-001 se registra en §10 de este documento y memoria §17; no implica implementación ni cierre de gates.
+
+Otro acto posterior autoriza cerrar únicamente T-AUTH-002, cuya evaluación previa fue dictaminada LISTA PARA CIERRE DOCUMENTAL; registro en §11 y memoria §18. No altera E(T-AUTH-001), aprueba versiones definitivas, inicia T-AUTH-003 ni satisface gates.
+
+La autorización BUILD posterior de T-AUTH-003 permite únicamente fijar la baseline existente, generar/verificar lockfile, restaurar, compilar y auditar; tras éxito técnico, registrar E(T-AUTH-003) en §12 y memoria §19. Se ejecuta y cierra solo 003, sin implementar autenticación, iniciar 004 ni cerrar gates; los cierres e historiales anteriores se conservan.
+
+Otro acto posterior aprueba el dictamen LISTA PARA CIERRE DOCUMENTAL de la inspección de solo lectura de T-AUTH-004 y autoriza registrar únicamente su cierre en este documento (§13) y memoria (§20). No repite la inspección, modifica reglas/configuración, inicia T-AUTH-005 ni satisface gates; las evidencias y estados de 001–003 se conservan.
+
+La autorización BUILD posterior de T-AUTH-005 permite corregir exclusivamente .dockerignore, Enver.API/Dockerfile y Enver.API.csproj después del diagnóstico REQUIERE CORRECCIÓN; solo tras éxito de las verificaciones locales autorizadas, registrar su cierre en §14 y memoria §21. No autoriza Docker, publish real, implementación de autenticación, inicio de T-AUTH-006 ni satisfacción de gates; conserva las evidencias e historia anteriores.
+
+El acto BUILD CONTROLADO posterior de T-AUTH-006 autoriza consolidar ownership/integración en este documento y memoria, preparar E(T-AUTH-006) antes de un único commit y confirmar después un working tree limpio. El responsable amplía expresamente el alcance del commit a los cierres históricos válidos 001/002, intactos, además de 003–006, únicamente en las siete rutas de §15. No permite push, iniciar 007, crear componentes futuros o repetir restore/build sin inconsistencia técnica.
 
 **APROBADO PARA EJECUCIÓN INCREMENTAL** significa exclusivamente que el catálogo podrá ejecutarse una tarea o incremento a la vez mediante **autorización posterior** de alcance, archivos, acciones y entorno. No autoriza ejecución inmediata, instalaciones, conexiones, builds, pruebas, scanners, workflows, AWS, Terraform, commit o push; no satisface gates ni resuelve decisiones diferidas.
 
@@ -41,7 +57,7 @@ Convenciones de fichas y matrices:
 
 ### Evidencia E(T-AUTH-nnn)
 
-Cada ficha reserva su identificador **E(T-AUTH-nnn)**. Todos los resultados de ejecución están **PENDIENTES / SIN EVIDENCIA TÉCNICA GENERADA**. La definición de una prueba o salida esperada no constituye resultado obtenido.
+Cada ficha reserva su identificador **E(T-AUTH-nnn)**. **E(T-AUTH-001)** conserva la inspección de solo lectura y su cierre documental autorizado (§10); **E(T-AUTH-002)** registra la evaluación previa de SDK/dependencias/riesgos y su cierre documental autorizado (§11); **E(T-AUTH-003)** registra la baseline técnica y sus verificaciones reales (§12); **E(T-AUTH-004)** registra la inspección acotada de higiene Git y su cierre documental autorizado (§13); **E(T-AUTH-005)** registra las correcciones de contexto/publish y verificaciones locales sin Docker ni publish real (§14); **E(T-AUTH-006)** registra estructura, ownership y condiciones de confirmación del checkpoint Git único (§15). Los resultados de ejecución de T-AUTH-007 a T-AUTH-079 siguen **PENDIENTES / SIN EVIDENCIA TÉCNICA GENERADA**. La definición de una prueba o salida esperada no constituye resultado obtenido; los cierres de 001–006 no acreditan autenticación implementada ni aceptación global de seguridad. El cierre de 006 solo es efectivo si el commit y la verificación Git posterior de §15 son correctos.
 
 | Campo de evidencia futura | Registro requerido cuando corresponda |
 | --- | --- |
@@ -112,9 +128,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** —.
 - **Archivos esperados:** Registro de autorización y revisión de `AGENTS.md`, `memoria.md`, `README.md`, spec/plan/task; sin cambios automáticos a esas fuentes.
 - **Salida verificable:** Alcance, comandos, componentes, entorno, rama/commit y cambios pendientes identificados; recomendar versionar baseline documental antes del inicio técnico.
-- **Pruebas/evidencia requerida:** E(T-AUTH-001): revisión de autorización y estado Git de solo lectura; resultado real pendiente.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-001)](#e-t-auth-001): revisión de autorización y estado Git de solo lectura realizada; evidencia documental registrada en §10, sin pruebas del backend.
 - **Riesgos/notas:** No stash/reset, descarte, commit o push implícitos. Esta tarea tampoco se ejecuta por crear el catálogo.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA DOCUMENTAL REGISTRADA.
 
 #### T-AUTH-002
 
@@ -127,9 +143,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 21.
 - **Archivos esperados:** `API/Enver.API.csproj`, inventario y reporte de evaluación en soporte autorizado.
 - **Salida verificable:** SDK/runtime/grafo, vulnerabilidades y licencias inventariados; aviso OpenAPI contrastado con informe verificable, no inferido por versión.
-- **Pruebas/evidencia requerida:** E(T-AUTH-002): comandos de inventario/auditoría expresamente autorizados, herramientas/fecha/resultado y tratamiento.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-002)](#e-t-auth-002): inventario/auditoría expresamente autorizados realizados; herramientas, fecha, resultados, tratamiento y límites registrados en §11, sin build ni pruebas del backend.
 - **Riesgos/notas:** Restauraciones o accesos de red implícitos requieren alcance autorizado; dependencias de plantilla no son selecciones definitivas.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA DOCUMENTAL REGISTRADA.
 
 #### T-AUTH-003
 
@@ -142,9 +158,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 21.
 - **Archivos esperados:** `global.json`, `API/Enver.API.csproj`, política y lockfiles de los proyectos cuando se incorporen dependencias.
 - **Salida verificable:** Matriz aprobada SDK/NuGet/runner/imágenes, licencias/grafo y estrategia de versiones exactas/restore bloqueado; paquetes por nombre conforme plan §5.
-- **Pruebas/evidencia requerida:** E(T-AUTH-003): revisión de compatibilidad .NET 10 y reproducibilidad al autorizar restore; lockfiles actualizados por cada capacidad consumidora.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-003)](#e-t-auth-003): SDK/grafo fijados, lockfile generado, restore normal/bloqueado, build y auditoría NuGet realizados (§12); cada capacidad futura debe actualizar/verificar sus propios lockfiles bajo autorización.
 - **Riesgos/notas:** Sin referencias redundantes, versiones transitivas forzadas sin justificación ni incorporación tácita de herramientas candidatas.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA.
 
 #### T-AUTH-004
 
@@ -157,9 +173,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 19,21.
 - **Archivos esperados:** `.gitignore` y registro seguro del alcance versionado.
 - **Salida verificable:** Rutas sintéticas sensibles/generadas ignoradas y fuentes/SDD versionables; identificar material ya versionado sin borrarlo ni reescribir historial automáticamente.
-- **Pruebas/evidencia requerida:** E(T-AUTH-004): comprobaciones de reglas/rutas y revisión acotada; secret scanning solo bajo autorización y política aplicable.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-004)](#e-t-auth-004): inspección de solo lectura y 44 comprobaciones de exclusión/versionabilidad realizadas; resultados, alcance y límites registrados en §13, sin auditoría exhaustiva del historial ni scanner adicional en este cierre.
 - **Riesgos/notas:** Ignorar no retira secretos del historial; una exposición requiere tratamiento/rotación. No certificar historial o binarios no revisados.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA DOCUMENTAL REGISTRADA.
 
 #### T-AUTH-005
 
@@ -172,9 +188,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 19,21.
 - **Archivos esperados:** `.dockerignore`, `API/Enver.API.csproj` y sentinelas sintéticas en entorno de prueba autorizado.
 - **Salida verificable:** Excluir `.env*`, variantes appsettings locales, secrets, certificados/claves, `.git/.vs`, bin/obj, resultados/cobertura y estado/variables Terraform pertinentes; retirar excepciones que reintroducen `.git`; proteger contenido/publish MSBuild.
-- **Pruebas/evidencia requerida:** E(T-AUTH-005): revisión de contexto/contenido y sentinelas sin secretos reales, antes de cualquier build sensible; inspección final en 078.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-005)](#e-t-auth-005): inspección estática de exclusiones/Dockerfile, evaluación MSBuild con 42 archivos sintéticos vacíos, restore bloqueado y dos builds locales correctos; alcance y límites en §14. Sin Docker ni publish real; verificación efectiva de publicación con sentinelas y revisión final en 078 pendientes de autorización posterior.
 - **Riesgos/notas:** `.gitignore` no protege Docker ni publish. No diferir esta protección hasta después de construir imágenes.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA.
 
 #### T-AUTH-006
 
@@ -187,9 +203,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 21.
 - **Archivos esperados:** Mapa de `API/`, `tests/` y propietarios de archivos compartidos; registro de baseline en soporte autorizado.
 - **Salida verificable:** Un API/tres proyectos futuros de tests, dependencias interiores y archivos de edición serializada definidos; working tree limpio tras commits expresamente autorizados.
-- **Pruebas/evidencia requerida:** E(T-AUTH-006): revisión de estructura, alcance y estado Git; no regenerar solución/artefactos existentes.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-006)](#e-t-auth-006): revisión de estructura/baseline registrada y ownership por rol en §15; checkpoint único autorizado, preparado con la evidencia antes de commit y confirmado únicamente tras verificar working tree limpio. Sin regenerar solución/artefactos existentes.
 - **Riesgos/notas:** Limpieza no se obtiene descartando trabajo. No exige un commit por tarea ni incorpora patrones/proyectos excluidos.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA TÉCNICA Y CHECKPOINT GIT REGISTRADOS.
 
 ### F1 — Configuración y HTTP
 
@@ -1614,4 +1630,654 @@ El catálogo contiene exclusivamente las 79 tareas aprobadas, con fases F0–F15
 
 Se mantienen fuera del alcance funcional MFA, refresh tokens, recuperación/cambio de contraseña, OAuth externo, administración completa, repartidor/CLABE, chat, pagos, pedidos y push; tampoco se inventan verificación institucional, endpoints de consulta o cierre global ordinario. AWS/Terraform/despliegue/servicios/readiness pública requieren entrega independiente, no tareas técnicas implícitas en este catálogo.
 
-La validación de esta entrega se limita a estructura documental, IDs/campos/estados, referencias, matrices, dependencias/gates, coherencia con fuentes y formato Git. No es ejecución de E(T-AUTH-nnn), build, prueba del backend, scanner, conexión o pipeline. Tras registrar el resultado documental y sincronizar AGENTS/memoria/README se detiene el trabajo; cualquier tarea necesita autorización posterior independiente.
+La validación de la entrega de creación SOL-TASK-002 se limitó a estructura documental, IDs/campos/estados, referencias, matrices, dependencias/gates, coherencia con fuentes y formato Git. No fue ejecución de E(T-AUTH-nnn), build, prueba del backend, scanner, conexión o pipeline. Tras registrar el resultado documental y sincronizar AGENTS/memoria/README se detuvo aquel trabajo. La autorización posterior de §10 cierra únicamente T-AUTH-001; cualquier tarea siguiente necesita delimitar su propia intervención, sin ejecución automática.
+
+La solicitud de cierre posterior de §11 registra únicamente la evaluación ya realizada de T-AUTH-002. T-AUTH-001 conserva su cierre; 003–079 y los ocho gates continúan pendientes. La deuda de parches identificada se traslada a la selección autorizada posterior, sin instalar, restaurar ni fijar versiones en este cierre.
+
+El acto técnico posterior de §12 cierra exclusivamente T-AUTH-003 tras sus verificaciones autorizadas. 004–079 y los ocho gates siguen pendientes; no se transforma la evidencia de baseline en aceptación integral de AUTH/AC, foundation o infraestructura.
+
+El cierre documental posterior de §13 registra exclusivamente la inspección ya realizada de T-AUTH-004. 001–003 conservan sus estados y evidencias; 005–079 y los ocho gates siguen pendientes. R-008 se reduce, sin resolverse ni borrar su historial; no se inicia la protección Docker/publish de T-AUTH-005 automáticamente.
+
+La ejecución posterior de §14 corrige y valida localmente solo T-AUTH-005, sin Docker ni publish real. 001–004 conservan sus estados y evidencias; 006–079 y los ocho gates siguen pendientes. R-006 queda REDUCIDO y R-007 REDUCIDO — NO RESUELTO; no se inicia T-AUTH-006 ni se transforma la evaluación de elementos MSBuild en una publicación validada.
+
+El checkpoint posterior de §15 consolida ownership y versiona en un solo commit autorizado los cambios acumulados válidos 001–006. Sus estados históricos/evidencias no se reescriben; la confirmación de 006 exige commit correcto y estado Git posterior limpio. Eso completa únicamente F0 — Baseline de 002, no GATE-A: 007–079 y los ocho gates permanecen pendientes, sin inicio automático de F1.
+
+## 10. Cierre documental autorizado de T-AUTH-001
+
+<a id="e-t-auth-001"></a>
+
+### E(T-AUTH-001)
+
+#### Autorización, resultado y trazabilidad
+
+El responsable autorizó revisar únicamente T-AUTH-001 en modo PLAN mediante inspección de solo lectura. El dictamen fue **LISTA PARA CIERRE DOCUMENTAL**. Una solicitud posterior, en modo BUILD DOCUMENTAL, autoriza registrar esa evidencia y cerrar únicamente esta tarea en este archivo, con un registro breve al final de memoria. No se repite la inspección técnica ni se generan resultados nuevos de SDK, dependencias o servicios por registrar el cierre.
+
+| Campo | Evidencia registrada |
+| --- | --- |
+| Tarea | T-AUTH-001 — Delimitar ejecución y baseline documental/Git |
+| Estado de cierre | **COMPLETADA / EVIDENCIA DOCUMENTAL REGISTRADA** |
+| AUTH relacionados | AUTH-001, AUTH-047, AUTH-048; no se declaran satisfechos globalmente por este cierre |
+| PLD-AUTH relacionados | PLD-AUTH-01, PLD-AUTH-25 |
+| Gate | GATE-A — **PENDIENTE**; no se cierra por completar 001 |
+| AC | Sin escenario funcional directo |
+| Resultado esperado | Identificar baseline SDD/Git, alcance, entorno, operaciones, protecciones, dependencias y riesgos sin modificar archivos durante la inspección |
+| Resultado obtenido | Inspección y delimitación realizadas en solo lectura; baseline identificada y riesgos trasladados, sin implementación |
+| Archivos modificados durante la inspección | Ninguno; este cierre posterior modifica únicamente task.md y añade el registro histórico en memoria.md |
+| Pruebas ejecutadas | Ninguna; los comandos de consulta no constituyen pruebas del backend |
+| Commit del cierre / workflow run / captura académica | No generados; el commit de baseline siguiente es previo, no un commit de esta intervención |
+
+#### Baseline Git y entorno observados en la inspección anterior
+
+| Elemento | Dato observado |
+| --- | --- |
+| Rama | `feature/authentication` |
+| HEAD | `d1d29298f86e25070f7bd1835acecd25d88d3e35` |
+| Commit de baseline | `docs(auth): finalize authentication planning and tasks` |
+| Working tree | Limpio al inicio y al final de aquella inspección; no describe el árbol tras escribir este cierre |
+| Seguimiento observado | HEAD coincidía con la referencia **local** `origin/feature/authentication`; no se consultó nuevamente el remoto |
+| Repositorio configurado | `https://github.com/enverdelivery/ENVER-Backend.git` |
+| Sistema | Windows x64 |
+| Git | `2.55.0.windows.3` |
+| SDK seleccionado | .NET `10.0.300` |
+| SDK instalados | `9.0.205` y `10.0.300` |
+| ASP.NET Core Runtime | `10.0.8` |
+| TargetFramework | `net10.0` |
+| Spec de baseline | spec.md v0.3.0 — **APROBADO PARA PLANIFICACIÓN** |
+| Plan de baseline | plan.md v0.2.0 — **APROBADO PARA DESCOMPOSICIÓN EN TAREAS** |
+| Task de baseline | task.md v0.1.0 — **APROBADO PARA EJECUCIÓN INCREMENTAL** |
+| Catálogo / gates | 79 tareas; 8 gates pendientes. Tras este cierre: solo 001 completada documentalmente, 002–079 pendientes |
+
+Estos datos proceden únicamente de las salidas y lecturas ya obtenidas en la inspección autorizada, ratificadas en la solicitud de cierre. No certifican versiones aprobadas definitivas, compilación, seguridad de dependencias ni infraestructura. Las comprobaciones documentales del cierre no sustituyen ni actualizan aquella evidencia.
+
+#### Alcance F0 y dependencias siguientes
+
+F0 — Baseline de autenticación comprende las seis tareas siguientes; no reabre la Fase 0 histórica de gobierno. La autorización del bloque no significa ejecutar automáticamente todas sus tareas:
+
+| Tarea | Alcance | Dependencias | Estado tras este cierre |
+| --- | --- | --- | --- |
+| T-AUTH-001 | Delimitar ejecución y baseline documental/Git | Sin tarea previa | COMPLETADA / EVIDENCIA DOCUMENTAL REGISTRADA |
+| T-AUTH-002 | Evaluar SDK, dependencias y riesgos actuales | T-AUTH-001 | PENDIENTE / NO EJECUTADA |
+| T-AUTH-003 | Fijar versiones y restore reproducible | T-AUTH-002 | PENDIENTE / NO EJECUTADA |
+| T-AUTH-004 | Verificar higiene Git y secretos versionados | T-AUTH-001 | PENDIENTE / NO EJECUTADA |
+| T-AUTH-005 | Proteger contexto Docker y publicación | T-AUTH-003, T-AUTH-004 | PENDIENTE / NO EJECUTADA |
+| T-AUTH-006 | Consolidar estructura y checkpoint técnico | T-AUTH-003, T-AUTH-004, T-AUTH-005 | PENDIENTE / NO EJECUTADA |
+
+Únicamente T-AUTH-001 queda cerrada aquí. T-AUTH-002 no se ha iniciado: antes de sus acciones deben delimitarse comandos, archivos, entorno, escrituras o accesos a red y autorizaciones aplicables. Los ocho gates, incluido GATE-A, continúan **PENDIENTES / NO SATISFECHOS**; F0 no incluye todos los componentes requeridos para superar GATE-A.
+
+#### Operaciones permitidas y no autorizadas en T-AUTH-001
+
+La inspección permitió únicamente lectura de las fuentes y comandos locales de consulta efectivamente ejecutados:
+
+```text
+git status
+git branch --show-current
+git log --oneline --decorate -n 10
+git log -1 --format=%H
+git remote -v
+git --version
+dotnet --info
+dotnet --list-sdks
+```
+
+T-AUTH-001 **no autorizó** modificaciones de código, instalaciones, restore, builds, pruebas, scanners, Docker, conexiones o integración funcional MongoDB/Redis, endpoints, JWT, PasswordHasher, rate limiting, workflows, AWS, Terraform, despliegues, commit o push. Consultar `git remote -v` solo mostró configuración local. La autorización posterior para escribir este cierre no altera retrospectivamente los límites de la inspección ni inicia ninguna otra tarea.
+
+**Archivos protegidos:** `constitution.md`, `.specify/memory/constitution.md` y `specs/001-backend-foundation/*`; se conservan los estados de FND/PLD/TBF/DEC, sin cierre retrospectivo. Durante la inspección no se autorizó modificar archivo alguno. Durante este cierre también permanecen intactos spec/plan de 002, código/configuración de Enver.API, Dockerfile, `.dockerignore`, `.gitignore`, AGENTS.md y README.md.
+
+#### Riesgos trasladados, pendientes y sin corregir
+
+Los IDs R-001 a R-008 identifican exclusivamente las observaciones de esta evidencia; no sustituyen riesgos o requisitos de las fuentes.
+
+| ID | Observación y limitación de la inspección | Traslado para tratamiento autorizado |
+| --- | --- | --- |
+| R-001 | No existe `global.json` observado | T-AUTH-002 evalúa SDK; T-AUTH-003 define fijación aprobada |
+| R-002 | No existen lockfiles observados | T-AUTH-003, tras evaluación de T-AUTH-002 |
+| R-003 | Dependencias actuales sin evaluación vigente completa de grafo, vulnerabilidades y licencias | T-AUTH-002; decisiones posteriores en T-AUTH-003 |
+| R-004 | Corrección OpenAPI informada requiere evidencia verificable, no inferencia únicamente por versión | T-AUTH-002; contraste DevSecOps posterior según catálogo |
+| R-005 | Algunos comandos NuGet pueden provocar restore, escritura o acceso a red | Autorizar explícitamente esas acciones en T-AUTH-002/T-AUTH-003 antes de ejecutarlas |
+| R-006 | `.dockerignore` requiere endurecimiento porque Dockerfile utiliza `COPY . .`; reintroduce metadatos Git y no cubre todas las variantes sensibles previstas | T-AUTH-005, sin construir antes con contexto sensible desprotegido |
+| R-007 | Protección de publish pendiente | T-AUTH-005 |
+| R-008 | Working tree limpio no demuestra ausencia de secretos en historial, archivos ignorados, binarios o artefactos locales | T-AUTH-004 con alcance explícito; no certificar lo no revisado |
+
+No se corrige ninguno de estos riesgos en esta intervención. No se consultaron feeds ni se ejecutaron auditorías/scanners, restore, builds, pruebas, Docker, conexiones MongoDB/Redis o acciones cloud en la inspección; no hay evidencia de seguridad, licencias, rendimiento o despliegue. La coincidencia con una referencia remota local no acredita una consulta actual al servidor. No se afirma ausencia universal de secretos o vulnerabilidades.
+
+**AUTH-027 — NO IMPLEMENTADO / NO SATISFECHO.** T-AUTH-001 no aporta evidencia técnica para cerrarlo y no intenta resolverlo en F0. Se conserva el riesgo residual de pérdida Redis completamente silenciosa no observable, sin afirmar detección universal.
+
+El cierre termina al registrar esta evidencia y el breve historial en memoria. No cambia el estado documental global APROBADO PARA EJECUCIÓN INCREMENTAL, no satisface globalmente AUTH-001/047/048, no cierra gates ni autoriza iniciar T-AUTH-002 automáticamente.
+
+## 11. Cierre documental autorizado de T-AUTH-002
+
+<a id="e-t-auth-002"></a>
+
+### E(T-AUTH-002)
+
+#### Autorización, resultado y trazabilidad
+
+El responsable autorizó únicamente T-AUTH-002 — Evaluar SDK, dependencias y riesgos actuales, en modo PLAN / INSPECCIÓN TÉCNICA. La dependencia T-AUTH-001 estaba COMPLETADA / EVIDENCIA DOCUMENTAL REGISTRADA. Se realizó inventario local y contraste de fuentes oficiales, sin modificar el repositorio. El dictamen **LISTA PARA CIERRE DOCUMENTAL** fue aprobado; una solicitud posterior BUILD DOCUMENTAL autoriza escribir este registro y añadir un historial breve en memoria, sin repetir comandos técnicos ni consultas externas. Esta aprobación no aprueba las versiones observadas como baseline definitiva.
+
+| Campo | Evidencia registrada |
+| --- | --- |
+| Tarea / cierre | T-AUTH-002 — **COMPLETADA / EVIDENCIA DOCUMENTAL REGISTRADA** |
+| AUTH relacionados | AUTH-013, AUTH-018, AUTH-041, AUTH-044, AUTH-045 |
+| PLD-AUTH relacionados | PLD-AUTH-03, PLD-AUTH-21 |
+| AC relacionado | AC-21; sin acreditar su aceptación integral |
+| Gates | GATE-A **PENDIENTE**; soporte futuro de GATE-H, también pendiente |
+| Resultado esperado / obtenido | Inventariar plataforma/grafo/licencias, contrastar OpenAPI y riesgos antes de seleccionar versiones / evaluación realizada con los resultados y límites siguientes |
+| Archivos de la evaluación | Lectura de csproj, Program.cs, documentos SDD/gobierno, assets/nuspecs y componentes locales; ninguno modificado durante la evaluación |
+| Pruebas | Ninguna; consultas de inventario/auditoría NuGet, no build ni pruebas del backend |
+| Commit del cierre / workflow run / captura académica | No generados; HEAD corresponde a una baseline previa |
+
+La trazabilidad no declara satisfechos estos AUTH, PLD-AUTH o AC únicamente por cerrar la tarea. Los ocho gates siguen **PENDIENTES / NO SATISFECHOS**; T-AUTH-003 no se inicia.
+
+#### Baseline y entorno observados el 2026-11-04
+
+| Elemento | Observación de la evaluación anterior |
+| --- | --- |
+| Rama / HEAD | `feature/authentication` / `d1d29298f86e25070f7bd1835acecd25d88d3e35` |
+| Commit de baseline | `docs(auth): finalize authentication planning and tasks` |
+| Working tree antes/después | Mismos cambios documentales preexistentes: `memoria.md` y `specs/002-authentication/task.md`; no estaba limpio, no hubo cambios nuevos durante la evaluación |
+| Remoto Git | No consultado nuevamente; la referencia local origin no acredita una consulta al servidor |
+| Sistema | Windows x64, versión `10.0.19045` |
+| SDK seleccionado / instalados | `10.0.300` / `9.0.205` y `10.0.300` |
+| MSBuild / host .NET | `18.6.3` / `10.0.8` |
+| Runtimes relevantes | `Microsoft.AspNetCore.App`, `Microsoft.NETCore.App` y `Microsoft.WindowsDesktop.App`: `8.0.27`, `9.0.6`, `9.0.16` y `10.0.8`, x64 |
+| TargetFramework | `net10.0` |
+| global.json / lockfiles | No encontrados |
+| Conservación comprobada durante la evaluación | 31 archivos versionados con contenido SHA-256 idéntico antes/después; project.assets.json y los otros cuatro archivos NuGet del primer nivel de obj conservaron contenido y fecha de modificación |
+
+No apareció incompatibilidad evidente entre SDK, runtime, TFM y assets seleccionados. No se validó mediante compilación o ejecución; compatibilidad aparente no equivale a mantenimiento o seguridad actualizados.
+
+#### Comandos, restore y consultas de red
+
+La ayuda del SDK y [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-package-list) confirmaron que .NET 10 puede restaurar implícitamente al listar paquetes. Antes de las consultas se identificó el riesgo de escritura de obj/project.assets.json y otros artefactos; se usó **--no-restore en las cuatro consultas de paquetes**. No se realizó restore nuevo ni instalación, y se revisó Git después de cada consulta. Las consultas de vulnerabilidades/outdated y fuentes oficiales sí emplearon acceso de red autorizado; no se afirma que todas fueran offline.
+
+```text
+dotnet --info
+dotnet --list-sdks
+dotnet --list-runtimes
+dotnet package list --help
+dotnet package list --project Enver.API/Enver.API.csproj --no-restore
+dotnet package list --project Enver.API/Enver.API.csproj --no-restore --include-transitive
+dotnet package list --project Enver.API/Enver.API.csproj --no-restore --vulnerable --include-transitive
+dotnet package list --project Enver.API/Enver.API.csproj --no-restore --outdated
+git status --short --branch --untracked-files=all
+git log -1 --format="%H %s"
+git log --oneline --all -- Enver.API/Enver.API.csproj
+git show dcf04a4 -- Enver.API/Enver.API.csproj
+```
+
+También se realizaron lecturas/búsquedas y consultas PowerShell de assets, nuspecs, versiones de DLL y hashes, sin escribir informes en archivos. Dos intentos auxiliares fallaron por disponibilidad de Get-FileHash y sintaxis de canalización; se corrigieron mediante consultas de lectura. Una URL de release OpenAPI sin prefijo v devolvió 404; se consultó el tag oficial correcto v2.13.0. No se ejecutaron scanners adicionales a la consulta NuGet autorizada.
+
+#### Grafo, dependencias directas y licencias
+
+| Paquete | Versión declarada y resuelta | Uso observado | Licencia declarada y fuente oficial consultada |
+| --- | --- | --- | --- |
+| Microsoft.AspNetCore.OpenApi | 10.0.8 | Generación OpenAPI mediante AddOpenApi/MapOpenApi | MIT; [NuGet 10.0.8](https://www.nuget.org/packages/Microsoft.AspNetCore.OpenApi/10.0.8) |
+| Microsoft.OpenApi | 2.13.0 | Modelo/serialización OpenAPI; selección directa de la dependencia | MIT; [NuGet 2.13.0](https://www.nuget.org/packages/Microsoft.OpenApi/2.13.0) |
+| Microsoft.VisualStudio.Azure.Containers.Tools.Targets | 1.23.0 | Targets MSBuild para tooling de contenedores de Visual Studio | Microsoft Software License Terms — Visual Studio Container Tools Targets; [NuGet](https://www.nuget.org/packages/Microsoft.VisualStudio.Azure.Containers.Tools.Targets/1.23.0) y [licencia](https://www.nuget.org/packages/Microsoft.VisualStudio.Azure.Containers.Tools.Targets/1.23.0/License) |
+
+No se observaron paquetes exclusivamente transitivos adicionales. Microsoft.AspNetCore.OpenApi 10.0.8 declara Microsoft.OpenApi >= 2.0.0; **Microsoft.OpenApi se resuelve una sola vez como 2.13.0**, no como otra copia transitiva 2.0.0. El asset seleccionado de OpenAPI.NET es lib/net8.0, cuyo grupo no añade dependencias. Los frameworks compartidos no son paquetes transitivos adicionales del listado. No existen todavía JwtBearer, IdentityModel, MongoDB.Driver ni StackExchange.Redis en el grafo del proyecto; no se presentan las dependencias futuras como instaladas.
+
+Container Tools incorpora DLL embebidas fuera de las dependencias NuGet separadas: se observaron Newtonsoft.Json.dll (producto 13.0.1) y System.Security.Principal.Windows.dll (producto 5.0.0). Su ThirdPartyNotices.txt declara MIT para Json.NET y Apache-2.0 para material BindingAddress. No se hizo auditoría binaria exhaustiva. La licencia principal del tooling no es MIT; permite desarrollo/pruebas bajo sus términos y requiere revisar distribución/uso en build. No se identificó impedimento evidente para desarrollo/pruebas en la lectura acotada; no es dictamen legal ni aprobación general de redistribución. Conservar avisos aplicables de las licencias.
+
+#### Vulnerabilidades, alcance y deuda de plataforma
+
+**Resultado observado:** dotnet package list --no-restore --vulnerable --include-transitive **no reportó paquetes vulnerables en el grafo NuGet actual**. Herramienta: SDK 10.0.300. Fuentes mostradas: https://api.nuget.org/v3/index.json y la carpeta local Microsoft SDKs/NuGetPackages. Se contrastó además el [índice oficial de vulnerabilidades NuGet](https://api.nuget.org/v3/vulnerabilities/index.json), cuyos datos base/update consultados indicaban actualización 2026-11-04T11:49:31.6454276Z. Todo el contraste corresponde a la fecha de consulta 2026-11-04, no a una nueva auditoría durante este cierre.
+
+Ese resultado **no cubre automáticamente SDK, runtime, frameworks compartidos, DLL embebidas, imágenes ni vulnerabilidades no publicadas**. No certifica seguridad global del proyecto. El feed consultado no contenía todos los avisos presentes en el repositorio oficial OpenAPI.NET; por ello se contrastaron también fuentes del mantenedor.
+
+| Componente / tipo | Aviso oficial y severidad contrastados | Corrección relevante y evaluación para ENVER |
+| --- | --- | --- |
+| Microsoft.OpenApi, directo y dependencia del paquete ASP.NET OpenAPI | [GHSA-v5pm-xwqc-g5wc / CVE-2026-49451](https://github.com/microsoft/OpenAPI.NET/security/advisories/GHSA-v5pm-xwqc-g5wc), HIGH 7.5 | Rama 2.x corregida en 2.7.5; 2.13.0 queda fuera del rango afectado. Terminación al procesar documentos maliciosos en versiones anteriores; conservar resolución parcheada |
+| Mismo paquete core | [GHSA-m2pf-rgqv-ggvv](https://github.com/microsoft/OpenAPI.NET/security/advisories/GHSA-m2pf-rgqv-ggvv), HIGH 7.5 | Rama 2.x: frontera conservadora 2.12.2; 2.13.0 queda fuera del rango afectado. Riesgo de recursión/agotamiento de recursos en operaciones afectadas; no actualizar automáticamente a 3.x |
+| Readers/YamlReader, ausentes del grafo | [GHSA-7pxr-59rr-hqj2 / CVE-2026-72923](https://github.com/microsoft/OpenAPI.NET/security/advisories/GHSA-7pxr-59rr-hqj2), HIGH 7.5 | YamlReader 2.x corregido en 2.12.0, con endurecimiento posterior 2.12.2; no se identificaron estos paquetes instalados en el proyecto |
+| SDK Windows 10.0.300, no PackageReference | [CVE-2026-45490](https://github.com/dotnet/announcements/issues/403), MODERATE 6.0 | Corregido para ese aviso en SDK 10.0.301; elevación local mediante workload. Seleccionar SDK mantenido, no congelar 10.0.300 sin evaluación |
+| Runtime 10.0.8, Brotli, no PackageReference | [CVE-2026-111497](https://github.com/dotnet/announcements/issues/494), HIGH 8.1 según Microsoft/.NET | Runtime 10.0.14; exposición requiere descomprimir datos Brotli controlados por atacante, ruta no observada en Program.cs. Actualización pendiente |
+| Runtime Windows 10.0.8, sockets, no PackageReference | [CVE-2026-70197](https://github.com/dotnet/announcements/issues/493), HIGH 8.1 | Runtime 10.0.14; requiere patrón concreto de reutilización UDP IPv4/IPv6, no demostrado en ENVER. Actualización pendiente |
+| Runtime 10.0.8, System.Formats.Tar | CVE-2026-45491, MODERATE 6.8, [notas oficiales 10.0.9](https://github.com/dotnet/core/blob/main/release-notes/10.0/10.0.9/10.0.9.md) | Corregido para ese aviso en 10.0.9; extracción TAR/enlaces simbólicos no observados como funcionalidad ENVER; mantenimiento pendiente |
+| ASP.NET Core 10.0.8, SignalR/Blazor | CVE-2026-45591, HIGH 7.5, mismas notas oficiales 10.0.9 | Corregido para ese aviso en 10.0.9; ruta MessagePack/SignalR no observada, sin afirmar explotación de ENVER |
+
+La tabla no es una auditoría exhaustiva de todas las CVE del entorno ni prueba explotación. No se identificaron casos CRITICAL/LOW aplicables en el contraste efectuado; no es garantía universal. **La plataforma instalada SDK 10.0.300 / runtime 10.0.8 está atrasada respecto a parches de seguridad actuales.** La [metadata oficial .NET 10](https://builds.dotnet.microsoft.com/dotnet/release-metadata/10.0/releases.json) y las [notas 10.0.14](https://github.com/dotnet/core/blob/main/release-notes/10.0/10.0.14/10.0.14.md) publicaban SDK 10.0.403 y runtime 10.0.14: candidatos a evaluar en T-AUTH-003, no versiones adoptadas o instaladas aquí.
+
+#### Outdated y estado específico OpenAPI
+
+| Paquete | Actual | Última estable mostrada por outdated | Tratamiento propuesto, no ejecutado |
+| --- | --- | --- | --- |
+| Microsoft.AspNetCore.OpenApi | 10.0.8 | 10.0.14 | Evaluar revisión compatible de mantenimiento; cambiar el paquete no corrige por sí solo el runtime instalado |
+| Microsoft.OpenApi | 2.13.0 | 3.11.0 | Major distinto: evaluación separada, no actualización automática a latest; la rama 2.x parcheada cubre los avisos contrastados |
+| Container Tools | 1.23.0 | No se mostró actualización | Tooling no funcional de autenticación; revisar necesidad, aislamiento y licencia |
+
+No se observó conflicto de resolución de Microsoft.OpenApi. La referencia directa se incorporó en dcf04a4, coherente con la corrección informada; no se observó uso explícito de APIs del modelo en el código consultado. **La referencia directa 2.13.0 se conserva por ahora**: con ASP.NET OpenAPI 10.0.8, quitarla podría permitir resolver una versión mínima vulnerable. Los advisories core revisados quedan corregidos antes de 2.13.0; el informe High histórico original no se identificó inequívocamente y no se atribuye retrospectivamente un ID concreto a aquel informe.
+
+Se recomienda evaluar Microsoft.AspNetCore.OpenApi **10.0.8 → 10.0.14** y después reevaluar la necesidad del pin directo. El [nuspec oficial 10.0.14 consultado](https://api.nuget.org/v3-flatcontainer/microsoft.aspnetcore.openapi/10.0.14/microsoft.aspnetcore.openapi.nuspec) exige Microsoft.OpenApi **[2.12.2, 3.0.0)**; la decisión futura deberá verificar y bloquear el grafo resultante. No se elimina la referencia ni se adopta 3.x en esta tarea.
+
+#### Riesgos heredados: actualización documental solo en E(T-AUTH-002)
+
+Se conservan las observaciones históricas R-001 a R-008 de E(T-AUTH-001). La siguiente evaluación posterior no elimina riesgos ni corrige configuración:
+
+| ID | Estado documental en esta evidencia | Motivo y continuidad |
+| --- | --- | --- |
+| R-001 | **PENDIENTE** | Sin global.json observado; selección y fijación en T-AUTH-003 |
+| R-002 | **PENDIENTE** | Sin lockfiles observados; política reproducible en T-AUTH-003 |
+| R-003 | **REDUCIDO** | Inventario/grafo/licencias/auditoría actual realizados, con límites; persisten deuda SDK/runtime, componentes embebidos y necesidad de repetir auditoría del grafo definitivo |
+| R-004 | **REDUCIDO** | OpenAPI 2.13.0 contrastado con advisories oficiales; informe histórico original no identificado inequívocamente |
+| R-005 | **REDUCIDO** | Restore evitado mediante --no-restore; hubo consultas de red autorizadas y comprobación Git posterior. Mantener autorización expresa para acciones futuras |
+
+#### Recomendaciones para T-AUTH-003, sin iniciarla
+
+1. Seleccionar versión mantenida del SDK .NET 10, verificando compatibilidad con IDE/runner.
+2. Evaluar SDK 10.0.403.
+3. Evaluar runtime 10.0.14.
+4. Evaluar Microsoft.AspNetCore.OpenApi 10.0.14.
+5. Mantener Microsoft.OpenApi en rama 2.x compatible y parcheada; reevaluar justificadamente el pin directo después de evaluar el paquete padre.
+6. No adoptar 3.x automáticamente.
+7. Definir global.json.
+8. Definir política de rollForward.
+9. Definir lockfiles.
+10. Definir restore reproducible/bloqueado, delimitando escrituras y red antes de ejecutarlo.
+11. Repetir auditoría después de fijar el grafo definitivo.
+12. Mantener evaluación de futuras dependencias MongoDB/Redis/JWT para sus tareas correspondientes; no incorporarlas como consecuencia automática de este cierre.
+
+**Límites y cierre:** no se modificaron archivos durante la evaluación previa ni se instalaron paquetes, ejecutó restore nuevo, build, pruebas, Docker, conexiones MongoDB/Redis, workflows, commit o push. No se hicieron scanners adicionales a la consulta NuGet expresamente autorizada. No se garantiza frescura permanente de feeds/advisories, seguridad de DLL embebidas/imágenes o compatibilidad productiva; los resultados no acreditan aceptación de AC-21. Este cierre posterior modifica únicamente task.md y añade memoria §18, sin nueva auditoría, cambio de versiones o creación de global.json/lockfiles. T-AUTH-001 permanece completada; T-AUTH-003..079 siguen **PENDIENTE / NO EJECUTADA** y los ocho gates siguen pendientes, incluido GATE-A. **AUTH-027 — NO IMPLEMENTADO / NO SATISFECHO**. Se detiene el trabajo sin iniciar T-AUTH-003.
+
+## 12. Ejecución y cierre técnico autorizado de T-AUTH-003
+
+<a id="e-t-auth-003"></a>
+
+### E(T-AUTH-003)
+
+#### Autorización, trazabilidad y baseline
+
+El responsable autoriza en modo BUILD exclusivamente T-AUTH-003 — Fijar versiones y restore reproducible. Autoriza crear global.json, actualizar solo Microsoft.AspNetCore.OpenApi, habilitar/generar packages.lock.json y ejecutar restore normal/bloqueado, build sin restore, auditoría NuGet y outdated diagnóstico. Solo después del éxito técnico permite modificar este documento y memoria para registrar la evidencia y el estado **COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA**. T-AUTH-001/002 estaban completadas documentalmente. Los intentos previos se detuvieron sin cambios porque 10.0.403 no aparecía; el responsable realizó la instalación manual y autorizó esta reanudación. El agente no instaló el SDK.
+
+| Campo | Resultado observado el 2026-11-04 |
+| --- | --- |
+| AUTH relacionados | AUTH-013, AUTH-018, AUTH-041–045; preparación técnica, no satisfacción integral de esos requisitos |
+| PLD-AUTH / AC | PLD-AUTH-03/20/21; AC-21, cuya aceptación integral sigue pendiente |
+| Gates | GATE-A **PENDIENTE**; soporte futuro de GATE-H, también pendiente; los ocho gates no se cierran |
+| Rama / HEAD inicial | `feature/authentication` / `d1d29298f86e25070f7bd1835acecd25d88d3e35` |
+| Estado Git inicial | Modificaciones preexistentes en `memoria.md` y `specs/002-authentication/task.md`, conservadas; no era un árbol limpio |
+| Remoto Git | No consultado nuevamente; origin en el estado es una referencia local |
+| Entorno | Windows x64, versión 10.0.19045; RID win-x64; raíz `C:\API_SDD_ENVER\Enver.Backend` |
+| SDK anterior observado | 10.0.300, MSBuild 18.6.3, host/runtime 10.0.8, según E(T-AUTH-002) e intentos bloqueados |
+| SDK al reanudar y tras global.json | **10.0.403**, commit 5a2162bea6; instalación y selección confirmadas antes de modificar archivos; dotnet --version desde raíz devuelve 10.0.403 después del pin |
+| SDK instalados | 9.0.205, 10.0.300 y 10.0.403, en `C:\Program Files\dotnet\sdk` |
+| MSBuild / host finales observados | **18.9.15+5a2162bea** / **10.0.14**, commit 0427b9abbe; Microsoft.NETCore.App y Microsoft.AspNetCore.App 10.0.14 instalados |
+| Framework | **net10.0**, sin cambio; salida de compilación Debug/net10.0/Enver.API.dll |
+| Commit del cambio / workflow / captura | No generados; HEAD identifica la baseline anterior, no un commit de esta implementación |
+
+#### Configuración y dependencias finales
+
+Se crea en la raíz el siguiente global.json, confirmado mediante dotnet --version:
+
+```json
+{
+  "sdk": {
+    "version": "10.0.403",
+    "allowPrerelease": false,
+    "rollForward": "disable"
+  }
+}
+```
+
+La política exacta disable fue aprobada expresamente: evita cambios implícitos de SDK/NuGet y de grafo entre máquinas. A diferencia de latestPatch, feature y minor, no permite avanzar automáticamente ni a otro parche, banda o minor. Los parches de seguridad futuros requieren actualizar deliberadamente el pin y revalidar restore/grafo/build; no significa congelar indefinidamente esta versión. La [guía oficial de lockfiles y SDK](https://learn.microsoft.com/en-us/dotnet/core/install/upgrade#package-lock-files) consultada en la evaluación previa recomienda deshabilitar roll-forward. SDK 10.0.403/runtime 10.0.14 fueron contrastados previamente con [metadata oficial .NET 10](https://builds.dotnet.microsoft.com/dotnet/release-metadata/10.0/releases.json); esta ejecución confirma su disponibilidad local, no instala herramientas.
+
+Cambios exactos en Enver.API.csproj: añadir `<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>` al PropertyGroup existente y cambiar Microsoft.AspNetCore.OpenApi de 10.0.8 a 10.0.14. No se cambia TFM, código, otras referencias, metadatos del tooling ni estructura de solución.
+
+| Dependencia directa | Antes | Declarada/resuelta final | Licencia / tratamiento |
+| --- | --- | --- | --- |
+| Microsoft.AspNetCore.OpenApi | 10.0.8 | **10.0.14** | MIT; nuspec oficial previamente consultado declara net10.0 y dependencia Microsoft.OpenApi [2.12.2, 3.0.0), confirmada ahora en lockfile |
+| Microsoft.OpenApi | 2.13.0 | **2.13.0** | MIT; referencia directa conservada, sin adopción de 3.x |
+| Microsoft.VisualStudio.Azure.Containers.Tools.Targets | 1.23.0 | **1.23.0** | Microsoft Software License Terms — Visual Studio Container Tools Targets; se conserva tooling de Visual Studio, no funcionalidad de autenticación |
+
+El restore generó **Enver.API/packages.lock.json**, formato 1, sección net10.0, tres paquetes Direct con versiones resueltas y contentHash. Los rangos requested del lockfile son mínimos NuGet; las versiones exactas resueltas se verifican con locked-mode. Assets y lockfile contienen únicamente estas tres bibliotecas, sin paquetes exclusivamente transitivos adicionales ni MongoDB.Driver, StackExchange.Redis, JwtBearer, IdentityModel u otra dependencia funcional nueva. Microsoft.OpenApi se resuelve una sola vez como 2.13.0 y satisface el rango del paquete padre. Su pin podría reevaluarse en otro cambio autorizado; no se elimina aquí ni se reconstruye el informe High histórico no identificado.
+
+SHA-256 del lockfile tras generarlo: `6B6E8F6A214D7850EDB9BD00A19CA83FDF0321B27606CF929F6561A218562EBC`; permaneció idéntico después de restore bloqueado, build y consultas de auditoría/outdated. No se editó manualmente. Container Tools no impidió restore/build; esto no valida su flujo Docker/depuración ni audita sus DLL embebidas.
+
+#### Comandos y resultados reales
+
+Ejecutados desde la raíz; sintaxis de una línea compatible con Windows. No se ejecutaron pruebas ni la aplicación.
+
+| Comando | Resultado obtenido |
+| --- | --- |
+| `dotnet --list-sdks` | 9.0.205, 10.0.300 y 10.0.403; verificaciones inicial/final |
+| `dotnet --info` | Selecciona 10.0.403 antes de cambiar archivos; MSBuild/host/entorno de la tabla anterior |
+| `dotnet --version` | **10.0.403** desde la raíz tras crear global.json; comprobación final conservada |
+| `dotnet restore Enver.API/Enver.API.csproj` | Correcto; informa restauración en 2.39 s; genera lockfile y actualiza artefactos NuGet locales |
+| `dotnet restore Enver.API/Enver.API.csproj --locked-mode` | Correcto; informa restauración en 775 ms; lockfile sin cambios |
+| `dotnet build Enver.API/Enver.API.csproj --no-restore` | **Compilación correcta, 0 advertencias, 0 errores**, 20.92 s; Enver.API/bin/Debug/net10.0/Enver.API.dll |
+| `dotnet package list --project Enver.API/Enver.API.csproj --no-restore --vulnerable --include-transitive` | No reportó paquetes vulnerables en el grafo consultado; ningún paquete/severidad reportados, sin supresiones añadidas |
+| `dotnet package list --project Enver.API/Enver.API.csproj --no-restore --outdated` | Solo Microsoft.OpenApi: solicitado/resuelto 2.13.0, más reciente 3.11.0; sin actualización automática |
+
+Herramienta de auditoría: CLI NuGet incluida en **SDK 10.0.403**. La consulta vulnerable y outdated muestran **https://api.nuget.org/v3/index.json** y **C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\**. Los assets registran además **C:\Program Files\dotnet\library-packs** como origen de restore. Son consultas con red/cachés autorizadas, no una certificación de frescura absoluta del feed ni auditoría universal.
+
+La auditoría cubre paquetes NuGet directos y transitivos presentes en el grafo restaurado para net10.0 y los avisos disponibles en esos orígenes. **No cubre automáticamente SDK/runtime/frameworks compartidos, DLL embebidas, imágenes, vulnerabilidades no publicadas ni seguridad funcional de la aplicación.** El contraste oficial previo OpenAPI de E(T-AUTH-002) sigue siendo un antecedente separado; aquí se revalida la resolución compatible mediante lockfile/assets, build y consulta NuGet, sin afirmar nueva revisión exhaustiva de advisories.
+
+Outdated no mostró actualización para Microsoft.AspNetCore.OpenApi 10.0.14 o Container Tools 1.23.0. La versión 3.11.0 de OpenAPI.NET es otra major y no se adopta. No se ignoraron advertencias/errores de seguridad ni se añadieron NoWarn/excepciones.
+
+Se revisaron también estado Git, HEAD, diff, XML del proyecto, JSON de global/lock/assets y hashes mediante lecturas/comandos de solo inspección. Task/memoria conservaron exactamente su contenido previo hasta completar restore normal, locked, build y revisión de auditoría. El primer restore con este SDK mostró mensajes de primera ejecución/telemetría y un anuncio de instalación de certificado HTTPS de desarrollo; no se ejecutó dev-certs --trust ni se auditó el almacén de certificados. No se afirma ausencia de escrituras en cachés/perfil/almacenes externos al repositorio. No se corrigió el estado global de workloads ni se ejecutó workload restore.
+
+#### Evaluación posterior de riesgos, sin borrar el historial
+
+| ID | Estado en E(T-AUTH-003) | Evidencia y límites |
+| --- | --- | --- |
+| R-001 | **RESUELTO** | global.json válido selecciona exactamente SDK instalado 10.0.403, allowPrerelease=false y rollForward=disable. Mantener actualizaciones explícitas de seguridad; no fija por sí solo todo runtime de despliegue |
+| R-002 | **RESUELTO** | Lockfile del proyecto generado por restore, consistente con assets y verificado por locked-mode sin alterarlo; proyectos/dependencias futuros necesitan sus propios lockfiles y validaciones |
+| R-003 | **REDUCIDO / REVALIDADO** | Grafo definitivo actual verificado, licencias de las tres dependencias conservadas según evaluación/nuspecs previos, build y consulta NuGet sin hallazgos reportados; límites de plataforma, DLL embebidas e imágenes siguen explícitos |
+| R-004 | **REDUCIDO / REVALIDADO** | OpenAPI ASP.NET 10.0.14 + core 2.13.0 compatibles en grafo real/build; pin conservado, sin conflicto observado ni hallazgo NuGet. El informe High histórico original sigue sin identificación inequívoca |
+| R-005 | **REDUCIDO / COMPORTAMIENTO DE RESTORE DOCUMENTADO** | Restore normal y bloqueado autorizados actualizan obj/caché; generación automática de lockfile y consultas de red permitidas. Build y list usan --no-restore; lockfile estable y fuentes/escrituras/primera ejecución documentadas |
+
+Los estados anteriores en E(T-AUTH-001/002) permanecen intactos como historial; tampoco se cierran R-006..008 u otros riesgos por esta intervención. Un restore normal futuro puede actualizar el lockfile si cambian entradas; **esta tarea valida el comando explícito --locked-mode, no activa RestoreLockedMode global ni crea CI**. La reproducibilidad aquí es operacional del SDK/grafo actual, no identidad binaria bit a bit, restauración probada con caché vacía o validación de otros runners/sistemas/IDE. Los SDK/runtimes antiguos siguen instalados; no se desinstalan ni se certifica todo el equipo. No se ejecutó la aplicación para demostrar qué runtime cargaría en producción.
+
+#### Archivos, Git final y cierre
+
+Archivos técnicos: **global.json** creado; **Enver.API/Enver.API.csproj** modificado solo como se indicó; **Enver.API/packages.lock.json** generado. Después del éxito técnico, se modifica únicamente **specs/002-authentication/task.md** para esta evidencia/estado/resúmenes y se añade **memoria.md §19**, preservando su historia. Bin/obj son artefactos locales generados/ignorados; no se añaden al índice. Los otros 28 archivos versionados conservaron su contenido comprobado por SHA-256; spec/plan, constituciones, 001, Program.cs, appsettings, Dockerfile, .dockerignore, .gitignore, solución y workflows no se modifican.
+
+Estado Git de cierre, conservando los cambios documentales anteriores y sin preparar archivos:
+
+```text
+## feature/authentication...origin/feature/authentication
+ M Enver.API/Enver.API.csproj
+ M memoria.md
+ M specs/002-authentication/task.md
+?? Enver.API/packages.lock.json
+?? global.json
+```
+
+**Resultado: T-AUTH-003 — COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA**, limitada a la baseline aprobada. T-AUTH-001/002 y sus evidencias se conservan; **T-AUTH-004..079 (76 tareas) siguen PENDIENTE / NO EJECUTADA**. Los **8 gates siguen PENDIENTES / NO SATISFECHOS**, incluido GATE-A; no se acredita AC-21 integral ni se cierra foundation retrospectivamente. **AUTH-027 — NO IMPLEMENTADO / NO SATISFECHO**. Sin autenticación implementada, pruebas, ejecución de la API, conexiones MongoDB/Redis, Docker, workflows, AWS, commit o push. Se detiene el trabajo sin iniciar T-AUTH-004.
+
+## 13. Cierre documental autorizado de T-AUTH-004
+
+<a id="e-t-auth-004"></a>
+
+### E(T-AUTH-004)
+
+#### Autorización, trazabilidad y alcance de la evidencia
+
+El responsable autorizó únicamente T-AUTH-004 — Verificar higiene Git y secretos versionados, en modo PLAN / INSPECCIÓN TÉCNICA de solo lectura. Aprobó el dictamen **LISTA PARA CIERRE DOCUMENTAL** y posteriormente autorizó, en modo BUILD DOCUMENTAL, modificar solo este documento y añadir un registro breve en memoria para cerrar la tarea como **COMPLETADA / EVIDENCIA DOCUMENTAL REGISTRADA**. Este cierre registra los resultados ya observados; no repite búsquedas de secretos, comprobaciones check-ignore o revisión del historial, ni ejecuta scanners.
+
+| Campo | Evidencia de la inspección previa |
+| --- | --- |
+| Fecha | **2026-11-04** |
+| Rama / HEAD | `feature/authentication` / `d1d29298f86e25070f7bd1835acecd25d88d3e35` |
+| AUTH relacionados | **AUTH-034, AUTH-044, AUTH-045** |
+| PLD-AUTH relacionados | **PLD-AUTH-21, PLD-AUTH-22** |
+| AC relacionados | **AC-19, AC-21**; sin aceptación integral por cerrar esta tarea |
+| Gate / soporte | **GATE-A PENDIENTE**; soporte futuro de **GATE-H**, también pendiente |
+| Entorno / herramientas | Repositorio local en Windows; Git **2.55.0.windows.3** y lecturas/comprobaciones PowerShell, sin instalar herramientas |
+| Resultado esperado / obtenido | Comprobar higiene actual, reglas, versionabilidad y candidatos sensibles sin modificar archivos / inspección acotada y 44 comprobaciones correctas, sin correcciones requeridas dentro del alcance |
+| Commit del cierre / workflow / captura | No generados; HEAD identifica la baseline anterior, no un commit de este cierre |
+
+La trazabilidad no declara cumplidos globalmente estos AUTH, PLD-AUTH o AC. Los ocho gates permanecen **PENDIENTES / NO SATISFECHOS** y la tarea no acredita un secret scanning exhaustivo ni seguridad de autenticación.
+
+#### Estado Git inicial/final de la inspección y conservación
+
+El estado fue **idéntico antes y después de la inspección**, con cambios válidos preexistentes de T-AUTH-003 y cierres anteriores. No era un working tree limpio; no hubo cambios nuevos ni archivos preparados en el índice:
+
+```text
+## feature/authentication...origin/feature/authentication
+ M Enver.API/Enver.API.csproj
+ M memoria.md
+ M specs/002-authentication/task.md
+?? Enver.API/packages.lock.json
+?? global.json
+```
+
+No se consultó nuevamente el remoto Git; origin representa una referencia local, no evidencia de sincronización nueva con el servidor. Se revisaron **31 archivos versionados** en sus copias de trabajo y sus versiones del índice, y los **2 archivos nuevos no ignorados** (global.json y packages.lock.json). Los 33 archivos actuales conservaron el manifiesto SHA-256 inicial/final `DCC73948B2E91DC86F10117F79A78E846CDE64887444BF748026753146FFC8E1`. Esta identidad de contenido corresponde a aquella inspección, no niega las ediciones documentales expresamente autorizadas para este cierre posterior.
+
+Entre los archivos versionados relevantes estaban .gitignore, .dockerignore, Enver.API.csproj, Program.cs, appsettings.json, appsettings.Development.json, Properties/launchSettings.json, Enver.API.http, Dockerfile, solución y documentos de gobierno/specs. No se observaron artefactos generados actualmente versionados ni archivos seguidos que contradijeran las reglas de exclusión comprobadas.
+
+#### Comandos y método ya realizados
+
+La inspección utilizó `git --no-optional-locks` para evitar refrescos opcionales del índice. Se ejecutaron status normal y corto, status --ignored, ls-files, listados de ignorados/no versionados, lectura de blobs del índice con cat-file, revisión histórica por nombres con log y check-ignore sobre rutas sintéticas. Las llamadas parametrizadas por ruta no volcaron valores sensibles; no se crearon archivos sintéticos ni temporales persistentes.
+
+```text
+git --no-optional-locks status
+git --no-optional-locks status --short --branch --untracked-files=all
+git --no-optional-locks status --ignored --short --untracked-files=normal
+git --no-optional-locks ls-files
+git --no-optional-locks ls-files --others --exclude-standard
+git --no-optional-locks ls-files --others --ignored --exclude-standard
+git --no-optional-locks log -1 --format="%H %s"
+git --no-optional-locks log --all --format= --name-only --no-renames
+git --no-optional-locks log --all --diff-filter=D --format="%h %ad" --date=short -- .vs Enver.API/bin Enver.API/obj Enver.API/Enver.API.csproj.user
+git --no-optional-locks diff --cached --name-only
+git --version
+```
+
+Para las 44 rutas siguientes se usó `check-ignore --no-index -v` (con core.quotePath=false en la matriz), interpretando las reglas negadas `!` como versionables; también se contrastaron las rutas seguidas con las reglas. La búsqueda PowerShell en textos/índice comprobó patrones y asignaciones con salida limitada a metadatos redactados; no fue Gitleaks. Se revisaron estructura y valores base de ambos appsettings y únicamente la presencia de UserSecretsId en csproj, sin abrir su almacén. Un intento auxiliar inicial de cálculo de hashes falló por sintaxis; se corrigió mediante lectura, sin escrituras ni cambios del estado inspeccionado.
+
+#### Cobertura .gitignore y pruebas check-ignore
+
+La lectura y las comprobaciones confirmaron cobertura de **.vs/**, **bin/**, **obj/**, **TestResults/**, **coverage/**, **\*.trx**, **\*.log**, **.env**, **.env.\*** con excepción **!.env.example**, **appsettings.Local.json**, **appsettings.\*.Local.json**, **secrets.json**, **\*.pfx**, **\*.p12**, **\*.pem**, **\*.key**, **.terraform/**, **\*.tfstate**, **\*.tfstate.\***, **\*.tfvars** y **\*.tfvars.json**. Se conserva versionable **.terraform.lock.hcl** mediante su excepción; también los appsettings base, global.json y Enver.API/packages.lock.json. No se modifica .gitignore.
+
+**Resultado: 44 comprobaciones correctas; 28/28 rutas esperadas como ignoradas y 16/16 esperadas como versionables.** Las rutas de la tabla fueron comprobadas sin crearlas:
+
+| Rutas comprobadas | Resultado | Cantidad |
+| --- | --- | --- |
+| `.vs/probe.suo`; `Enver.API/bin/probe.dll`; `Enver.API/obj/probe.json` | Ignoradas | 3 |
+| `TestResults/probe.txt`; `tests/TestResults/probe.txt`; `coverage/probe.xml`; `tests/coverage/probe.xml` | Ignoradas | 4 |
+| `probe.trx`; `probe.log` | Ignoradas | 2 |
+| `.env`; `.env.local`; `Enver.API/.env.production` | Ignoradas | 3 |
+| `appsettings.Local.json`; `Enver.API/appsettings.Local.json`; `Enver.API/appsettings.Development.Local.json` | Ignoradas | 3 |
+| `secrets.json`; `Enver.API/secrets.json` | Ignoradas | 2 |
+| `secret.key`; `test.pfx`; `test.p12`; `test.pem` | Ignoradas | 4 |
+| `.terraform/probe`; `infra/.terraform/probe` | Ignoradas | 2 |
+| `terraform.tfstate`; `terraform.tfstate.backup`; `infra/terraform.tfstate`; `terraform.tfvars`; `infra/probe.tfvars.json` | Ignoradas | 5 |
+| `.env.example`; `Enver.API/.env.example` | Versionables | 2 |
+| `.terraform.lock.hcl`; `infra/.terraform.lock.hcl` | Versionables | 2 |
+| `Enver.API/appsettings.json`; `Enver.API/appsettings.Development.json` | Versionables | 2 |
+| `global.json`; `Enver.API/packages.lock.json` | Versionables; existentes, aún no versionados | 2 |
+| `Enver.API/Enver.API.csproj`; `Enver.API/Program.cs`; `Enver.API/Dockerfile`; `.dockerignore`; `.gitignore`; `.github/workflows/ci.yml`; `specs/002-authentication/task.md`; `memoria.md` | Versionables; prueba de ruta, no creación de workflow | 8 |
+
+El lockfile NuGet no se clasificó como secreto; que global.json y packages.lock.json sean versionables no significa que ya se hayan incorporado al índice o comprometido. .gitignore no protege por sí solo Docker/publish ni impide una adición forzada; esa protección adicional permanece fuera de este cierre.
+
+#### Revisión acotada de candidatos sensibles y configuración
+
+**No se detectaron candidatos de secretos literales dentro del alcance revisado.** Los patrones incluyeron password assignments, claves, tokens, connection strings, URI MongoDB, credenciales Redis/AWS, Bearer literal, JWT y cabeceras de claves privadas, además de asignaciones genéricas key/secret/token. Se revisaron archivos actuales versionados, sus versiones del índice y los dos nuevos no ignorados; las menciones documentales y nombres de API no se confundieron con secretos. No se mostraron valores sensibles completos ni se detectó un secreto confirmado al que asignar severidad o tratamiento de rotación. Esto no garantiza ausencia universal de secretos.
+
+| Archivo / componente | Resultado observado |
+| --- | --- |
+| `Enver.API/appsettings.json` | Solo configuración base de logging con niveles estándar y AllowedHosts de plantilla |
+| `Enver.API/appsettings.Development.json` | Solo configuración base de logging con niveles estándar |
+| Ambos appsettings | No se detectaron credenciales, connection strings reales, signing keys, tokens o claves AWS; tampoco placeholders sensibles |
+| UserSecretsId | **CONFIGURADO**; solo se verificó presencia, sin registrar su valor ni inspeccionar el contenido de User Secrets |
+
+Se enumeraron **57 archivos ignorados** por nombre/ruta. No aparecieron nombres candidatos de .env, secrets.json, configuración local sensible, claves/certificados, estados/variables Terraform o almacenes .aws/.ssh/.azure en ese listado. Sí existían archivos locales potencialmente sensibles por su función: Enver.API/Enver.API.csproj.user, .vs/Enver.Backend.slnx/v18/.suo y DocumentLayout*.json de Visual Studio. **Sus contenidos no se abrieron**; no se afirma que contengan secretos ni que estén libres de ellos.
+
+#### Historial por rutas y evaluación posterior de R-008
+
+La revisión de nombres/rutas en referencias locales (`log --all`) identificó 88 rutas históricas. Se observaron estos artefactos antes versionados y retirados del seguimiento en **04ff903**:
+
+| Ruta histórica | Archivos |
+| --- | --- |
+| `.vs/` | **10** |
+| `Enver.API/bin/` | **10** |
+| `Enver.API/obj/` | **36** |
+| `Enver.API/Enver.API.csproj.user` | **1** |
+
+No aparecieron nombres candidatos de secretos en esa búsqueda histórica acotada, pero **no se auditó exhaustivamente el contenido de los blobs**. La retirada del seguimiento y las reglas actuales no borran versiones históricas ni acreditan que su contenido esté libre de secretos. No se vuelcan commits completos, se reescribe historial o se declara el historial limpio.
+
+| Riesgo heredado | Estado posterior únicamente en esta evidencia | Motivo y continuidad |
+| --- | --- | --- |
+| **R-008** | **REDUCIDO — NO RESUELTO** | Higiene actual, versionabilidad, appsettings y patrones acotados comprobados; siguen fuera del alcance blobs históricos no auditados exhaustivamente, contenido de archivos ignorados, binarios, artefactos locales, secretos ofuscados o fragmentados, User Secrets y almacenes externos. Auditoría completa del historial pendiente para DevSecOps/Gitleaks bajo autorización propia |
+
+No se crea otro riesgo ni se elimina/reformula la observación histórica de E(T-AUTH-001); las evidencias y evaluaciones previas de 001–003 se conservan intactas. Los patrones pueden omitir formatos no reconocidos, contenido generado o material fuera de las referencias locales; no hubo fetch ni certificación de repositorios remotos. Cualquier exposición futura requerirá evaluación y tratamiento/rotación, no solo ignorar o borrar el archivo.
+
+#### Cierre documental y límites
+
+Este acto posterior modifica únicamente **specs/002-authentication/task.md** para estado/evidencia/resúmenes y añade **memoria.md §20**, sin reescribir su historial. Conserva las modificaciones técnicas y archivos nuevos de T-AUTH-003; spec/plan, constituciones, foundation, Program.cs, csproj, global.json, lockfile, appsettings, Dockerfile, .dockerignore, .gitignore y workflows permanecen intactos en este cierre. No se repite la inspección técnica; las verificaciones de esta entrega se limitan a integridad documental, estados, conservación de archivos y formato Git.
+
+**T-AUTH-004 — COMPLETADA / EVIDENCIA DOCUMENTAL REGISTRADA**. T-AUTH-001/002 conservan su cierre documental y T-AUTH-003 su cierre técnico; **T-AUTH-005..079 (75 tareas) siguen PENDIENTE / NO EJECUTADA**. Los **8 gates siguen PENDIENTES / NO SATISFECHOS**, incluido **GATE-A**; no se acredita cumplimiento global AUTH/AC ni cierre retrospectivo de foundation. **AUTH-027 — NO IMPLEMENTADO / NO SATISFECHO**. Sin implementación, instalaciones, restore/build/tests/scanners nuevos, conexiones MongoDB/Redis, Docker, commit o push. Trabajo detenido sin iniciar T-AUTH-005.
+
+## 14. Ejecución y cierre técnico autorizado de T-AUTH-005
+
+<a id="e-t-auth-005"></a>
+
+### E(T-AUTH-005)
+
+#### Diagnóstico, autorización y trazabilidad
+
+La inspección previa de T-AUTH-005, del **2026-11-04**, concluyó **REQUIERE CORRECCIÓN**: .dockerignore reintroducía metadatos Git y no cubría variantes locales sensibles; el primer restore Docker precedía a la copia de global.json/lockfile; el Web SDK incluía JSON del proyecto para output/publish sin exclusiones locales propias. Aquella inspección no modificó archivos ni ejecutó Docker/publish; la propuesta conversacional no se presentó como evidencia persistida o tarea cerrada.
+
+El responsable autoriza reanudar exclusivamente T-AUTH-005 en BUILD, corregir solo **.dockerignore**, **Enver.API/Dockerfile** y **Enver.API/Enver.API.csproj**, y validar estáticamente, evaluar MSBuild con material sintético, restaurar en modo bloqueado y compilar localmente. Solo después de éxito técnico se autoriza registrar el cierre en este documento y memoria. **No se autoriza ni ejecuta Docker o publish real**.
+
+| Campo | Evidencia |
+| --- | --- |
+| Fecha de ejecución | **2026-11-04** |
+| Rama / HEAD | `feature/authentication` / `d1d29298f86e25070f7bd1835acecd25d88d3e35` |
+| Trazabilidad | **AUTH-032, AUTH-034, AUTH-044, AUTH-045**; **PLD-AUTH-22**; **AC-19, AC-21** |
+| Gates | **GATE-A PENDIENTE**; condición previa de GATE-H, también pendiente; los ocho gates siguen no satisfechos |
+| Entorno / herramientas | Windows, repositorio local; SDK **10.0.403**, PowerShell y Git; sin instalaciones o nuevas dependencias NuGet |
+| Resultado esperado / obtenido | Exclusiones preventivas y Dockerfile alineados, evaluación MSBuild/restore/build correctos / comprobaciones locales satisfactorias con límites explícitos de contexto e imagen no construidos y publish no ejecutado |
+| Commit / workflow / captura | No generados; HEAD identifica la baseline anterior, no un commit de esta entrega |
+
+No se acredita cumplimiento global AUTH/PLD/AC, cierre de foundation ni aceptación de autenticación. La tarea se cierra en el alcance local expresamente autorizado, conservando las comprobaciones reales de Docker/publish como pendientes posteriores.
+
+#### Cambios técnicos aplicados
+
+**.dockerignore:** se conservan las exclusiones útiles de la plantilla, incluidas .git, .vs, .vscode, bin, obj, node_modules, .env y archivos de herramientas. Se eliminan las cinco excepciones `!**/.gitignore`, `!.git/HEAD`, `!.git/config`, `!.git/packed-refs` y `!.git/refs/heads/**`; no queda ninguna regla negada que reintroduzca Git. Se añaden patrones recursivos para:
+
+- .github, TestResults, coverage/coverage.*, archivos coverage/coveragexml/trx/log.
+- .env.*, appsettings.Local.json, appsettings.*.Local.json, secrets.json y certificados/claves pfx/p12/pem/key.
+- .terraform, tfstate/tfstate.*, tfvars/tfvars.json y tfplan.
+- dist, build, artifacts, BenchmarkDotNet.Artifacts; .aws/.azure/.ssh/.docker/.idea.
+- Preferencias IDE/user/suo, perfiles de publicación personales, temporales y archivos OS; estado local de runners/act.
+- Documentación/gobierno raíz innecesarios para construir la API: memoria.md, specs/, .opencode/, .specify/, AGENTS.md y constitution.md. Se excluyen del contexto, no del repositorio.
+
+No se excluyen global.json, Enver.API/packages.lock.json, csproj, appsettings.json o appsettings.Development.json. No se añade exclusión genérica JSON. .env.example queda fuera del contexto junto con .env.* por no existir una necesidad de build para conservarlo; su versionabilidad Git no se modifica. .terraform.lock.hcl tampoco queda excluido.
+
+**Enver.API/Dockerfile:** se conserva la arquitectura base/build/publish/final, runtime **mcr.microsoft.com/dotnet/aspnet:10.0**, USER $APP_UID, puertos, directorios y ENTRYPOINT. La etapa build usa **mcr.microsoft.com/dotnet/sdk:10.0.403**, alineada con global.json. Antes del restore se copian global.json a /src y csproj/packages.lock.json a /src/Enver.API; el restore lleva **--locked-mode**. COPY . . se conserva después de restaurar, sujeto a .dockerignore. Build y publish conservan Release por defecto y añaden **--no-restore**. La etapa final copia exclusivamente **/app/publish** desde publish. No se introducen secretos ARG/ENV ni credenciales; EXPOSE no se interpreta como HTTPS validado. La sintaxis admite la etiqueta SDK fijada; disponibilidad, digest y contenido de las imágenes no se comprobaron mediante pull/build.
+
+**Enver.API/Enver.API.csproj:** se añade la propiedad interna `_LocalSensitiveFilePatterns` con 14 patrones recursivos: appsettings.Local.json, appsettings.*.Local.json, secrets.json, *.pfx, *.p12, *.pem, *.key, .env, .env.*, *.tfstate, *.tfstate.*, *.tfvars, *.tfvars.json y *.tfplan. Dos actualizaciones de elementos **Content** y **None** fijan **CopyToOutputDirectory="Never"** y **CopyToPublishDirectory="Never"** para dichos patrones. No se cambia TFM, UserSecretsId, configuración Docker de proyecto ni paquetes/versiones; se conserva íntegra la baseline de T-AUTH-003, incluido RestorePackagesWithLockFile. Los appsettings base no coinciden con esas exclusiones.
+
+#### Validaciones realmente ejecutadas
+
+| Orden / comando o comprobación | Resultado obtenido |
+| --- | --- |
+| Lectura/validación XML del csproj y comparación de dependencias | XML válido; mismas tres referencias/versiones de T-AUTH-003; 14 patrones sensibles |
+| Inspección estática de .dockerignore con evaluador independiente de sus patrones simples, sin Docker/Moby | **142/142 rutas esperadas excluidas**, incluidas variantes raíz/anidadas, Git y documentación; **8/8 entradas esperadas disponibles**; cero negaciones; no se crean archivos para esta matriz |
+| Inspección estática de Dockerfile | SDK alineado, tres COPY anteriores al restore bloqueado, COPY amplio posterior, build/publish sin restore, runtime y COPY final conservados; sin secretos ARG/ENV añadidos |
+| `dotnet msbuild Enver.API/Enver.API.csproj -nologo -getItem:Content,None` | Salida 0; evaluación de **42 archivos sintéticos vacíos**, sin ejecutar targets build/publish: **42/42 con Never para output y publish**, 22 Content y 20 None |
+| Limpieza controlada de las pruebas sintéticas | Los 42 archivos propios y todos sus directorios propios retirados; sin archivos sintéticos persistidos ni secretos reales |
+| `dotnet build Enver.API/Enver.API.csproj --no-restore` | Salida 0; **0 advertencias, 0 errores**; Debug/net10.0/Enver.API.dll; 10,29 s |
+| `dotnet restore Enver.API/Enver.API.csproj --locked-mode` desde raíz | Salida 0; informa que todos los proyectos están actualizados para la restauración; lockfile inalterado |
+| `dotnet build Enver.API/Enver.API.csproj --no-restore` después del restore bloqueado | Salida 0; **0 advertencias, 0 errores**; Debug/net10.0/Enver.API.dll; 2,98 s |
+| `dotnet --version` | **10.0.403** |
+
+Las ocho rutas disponibles comprobadas estáticamente fueron global.json, Enver.API/packages.lock.json, Enver.API/Enver.API.csproj, Enver.API/appsettings.json, Enver.API/appsettings.Development.json, Enver.API/Program.cs, Enver.Backend.slnx y .terraform.lock.hcl. La matriz de exclusiones cubrió nombres sintéticos Git, IDE, build/test, entorno, configuración local, certificados, Terraform y temporales, tanto en raíz como anidados; **no es un empaquetado real del contexto ni ejecución del matcher oficial de Docker**.
+
+Para MSBuild se crearon 14 nombres sensibles por ubicación: un subárbol único de proyecto, otro nivel anidado y un subárbol único bajo wwwroot. Los nombres fueron appsettings.Local.json, appsettings.Development.Local.json, secrets.json, probe.pfx/p12/pem/key, .env, .env.local, terraform.tfstate, terraform.tfstate.backup, probe.tfvars, probe.tfvars.json y probe.tfplan. Se usaron archivos de cero bytes, se evaluaron sus metadatos y se retiraron en finally antes de los builds. No se construyó ni publicó con esos archivos. Los dos appsettings base conservaron **PreserveNewest** para output/publish; packages.lock.json permaneció fuera de Content/None según el SDK.
+
+global.json conserva SHA-256 `0A568475B41B131EF308328AE8EED9DF85C42C776505089E3153C0A13220B6FB`; packages.lock.json conserva `6B6E8F6A214D7850EDB9BD00A19CA83FDF0321B27606CF929F6561A218562EBC`. No se edita o regenera manualmente el lockfile. El restore fue bloqueado, no forzado con caché vacía; su éxito no implica un nuevo análisis de vulnerabilidades o identidad binaria bit a bit. Los builds escriben bin/obj locales ignorados; no son builds Release/Linux ni pruebas de imagen. Una comprobación auxiliar inicial de hashes falló porque Get-FileHash no estaba disponible en la sesión; se sustituyó por SHA-256 de .NET, sin cambios en las entradas protegidas.
+
+Antes de registrar este cierre se verificó que task.md y memoria.md seguían intactos respecto al inicio; los cinco cambios/archivos preexistentes de T-AUTH-003 y cierres anteriores no se descartaron. Solo tras los resultados correctos anteriores se modifican estos dos documentos.
+
+#### Riesgos posteriores y límites
+
+| Riesgo heredado | Estado posterior en esta evidencia | Fundamento y pendiente |
+| --- | --- | --- |
+| **R-006** | **REDUCIDO** | Se corrigen las brechas conocidas de .dockerignore y las excepciones Git; 142 exclusiones, 8 entradas disponibles y Dockerfile comprobados estáticamente. No se ejecutó el builder/matcher oficial, inspección de contexto real, pull o análisis de capas; no se certifica imagen/contexto efectivo |
+| **R-007** | **REDUCIDO — NO RESUELTO** | Exclusiones preventivas MSBuild añadidas y metadatos verificados con 42 archivos vacíos; sigue pendiente ejecutar y verificar un **publish real con sentinelas controladas** bajo autorización posterior |
+
+No se reescriben los estados históricos de E(T-AUTH-001..004), ni se resuelve R-008 por estas correcciones. .gitignore no sustituye .dockerignore o MSBuild. La actualización de metadatos evaluada no certifica la salida efectiva de todos los targets de publish/static web assets, imports o inclusiones futuras; la revisión posterior deberá inspeccionar los artefactos reales. Tampoco se inspeccionan User Secrets ni almacenes externos. No se acredita HTTPS, runtime no privilegiado efectivo, seguridad de bases, ausencia universal de secretos o cumplimiento integral AC-21.
+
+#### Git, archivos y cierre de alcance
+
+Se conserva rama/HEAD y no se consulta nuevamente el remoto. Al inicio estaban modificados Enver.API.csproj, memoria.md y task.md, y sin seguimiento global.json/packages.lock.json. Esta entrega interviene únicamente **.dockerignore**, **Enver.API/Dockerfile**, **Enver.API/Enver.API.csproj**, y, después del éxito técnico, **specs/002-authentication/task.md** y **memoria.md**. Los otros 28 archivos versionados/nuevos no ignorados, incluidos global.json/lockfile, conservan contenido; spec/plan, constituciones, foundation, Program.cs, appsettings, .gitignore y workflows no se modifican.
+
+Estado Git final observado, sin staged, commit o push:
+
+```text
+## feature/authentication...origin/feature/authentication
+ M .dockerignore
+ M Enver.API/Dockerfile
+ M Enver.API/Enver.API.csproj
+ M memoria.md
+ M specs/002-authentication/task.md
+?? Enver.API/packages.lock.json
+?? global.json
+```
+
+La validación final mediante **git diff --check** resulta sin errores de whitespace, con advertencias LF→CRLF en las cinco rutas modificadas; **git status** confirma el listado anterior y ningún staged. La comprobación de hashes/estructura confirma conservación de los 28 archivos protegidos, historia de memoria, fichas/evidencias 001–004 y bloque 006–matrices/gates; solo 005 cambia de estado. **T-AUTH-005 — COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA** en el alcance autorizado sin Docker/publish. 001–004 conservan sus cierres; **T-AUTH-006..079 (74 tareas) siguen PENDIENTE / NO EJECUTADA**. Los **8 gates siguen PENDIENTES / NO SATISFECHOS**, incluido **GATE-A**. **AUTH-027 — NO IMPLEMENTADO / NO SATISFECHO**. Sin autenticación implementada, instalaciones, tests/scanners, ejecución de API, conexiones MongoDB/Redis/AWS, Docker, publish real, workflows, commit o push. Se detiene el trabajo sin iniciar T-AUTH-006.
+
+## 15. Consolidación de estructura y checkpoint Git de T-AUTH-006
+
+<a id="e-t-auth-006"></a>
+
+### E(T-AUTH-006)
+
+#### Definición, autorización y fuentes
+
+**T-AUTH-006 — Consolidar estructura y checkpoint técnico**, F0 / GATE-A, tiene por objetivo delimitar responsabilidades y una baseline limpia para incrementos posteriores; depende de **003–005**. Su salida exige un API/tres proyectos futuros de tests, dependencias interiores y edición serializada definidas, además de working tree limpio tras commits expresamente autorizados. La ficha no exige crear componentes funcionales, proyectos vacíos o un commit por tarea.
+
+El responsable autoriza BUILD CONTROLADO para resolver ownership y checkpoint mediante **un único commit**, sin push. La aclaración posterior permite incluir también los cierres históricos 001/002 que seguían sin versionar, **sin reescribir evidencia, trazabilidad o estados**. Este registro se prepara antes del commit para no ensuciar después el checkpoint; la declaración de cierre solo es efectiva si se verifican las condiciones Git finales descritas abajo. No se redefine la tarea con el título/trazabilidad incorrectos de la solicitud descartada.
+
+| Campo | Evidencia / fuente |
+| --- | --- |
+| Fecha / entorno | **2026-11-04**; repositorio local Windows, Git **2.55.0.windows.3**; sin consulta nueva al remoto |
+| Rama / HEAD previo | `feature/authentication` / `d1d29298f86e25070f7bd1835acecd25d88d3e35` |
+| Trazabilidad oficial | **AUTH-001, AUTH-002, AUTH-035, AUTH-041, AUTH-047, AUTH-048**; **PLD-AUTH-01, PLD-AUTH-02, PLD-AUTH-20, PLD-AUTH-25**; **AC-21** |
+| Fuentes | Ficha 006 y task §6; plan §§3–4, 16, 19; AGENTS y memoria; E(T-AUTH-001..005) |
+| Resultado de la inspección previa | Estructura suficiente; **REQUIERE CORRECCIÓN / CONSOLIDACIÓN** por ownership explícito y checkpoint Git pendientes |
+| Cambios propios de 006 | Solo este documento y memoria §22: ownership, registro del checkpoint y estado; sin código/configuración nuevos |
+| Identificador del checkpoint | El commit que incorpora esta sección, hijo del HEAD previo, con mensaje `chore(auth): consolidate authentication baseline checkpoint`; su SHA se obtiene y comunica después del commit, no se inventa ni se inserta recursivamente en su propio contenido |
+
+AUTH-001/047/048 aportan separación de autorizaciones, trazabilidad, historia y límites; AUTH-002 preserva una identidad base sin adelantar repartidor; AUTH-035 conserva autenticación distinta de permisos; AUTH-041 exige mantener lógica aislable para pruebas posteriores. No se declara implementación funcional ni satisfacción global de esos requisitos o AC-21. PLD-AUTH-01/02 determinan proyecto único y dependencias interiores; PLD-AUTH-20 reserva tres suites futuras; PLD-AUTH-25 mantiene incrementos autorizados individualmente.
+
+#### Ownership e integración por responsabilidad técnica
+
+Se reutilizan las áreas y dependencias del plan §3 y la serialización de task §6. No existía una asignación explícita por archivo: se fija aquí por **roles técnicos**, sin inventar personas, crear CODEOWNERS, agentes o permisos adicionales. El **integrador técnico del backend** es el rol responsable de la revisión/consolidación final de todos los archivos compartidos; para este checkpoint lo ejerce el ejecutor expresamente autorizado, bajo las aprobaciones del responsable del proyecto. El ejecutor de cada incremento posterior asume el rol de su componente solo durante el alcance autorizado; el rol no habilita por sí mismo su ejecución.
+
+| Archivo/componente | Rol propietario técnico | Incrementos que pueden proponer cambios, con autorización propia | Integración final |
+| --- | --- | --- | --- |
+| `Enver.API/Program.cs` | Composición/pipeline del backend | **056 → 057 → 058**: base HTTP, dependencias/admisión y autenticación/controllers, respectivamente; 059 solo ante ajuste de integración expresamente autorizado | Integrador técnico del backend; edición serializada, sin lógica funcional en Program |
+| `Enver.API/Enver.API.csproj` | Baseline SDK/dependencias y protección de artefactos | 003/005 ya ejecutadas; 016, 023, 038 u otra tarea cuyo alcance aprobado requiera modificar el proyecto; sin paquetes funcionales incorporados por 006 | Integrador técnico del backend; serializar cambios de proyecto/grafo |
+| `Enver.API/packages.lock.json` y lockfiles futuros | Grafo reproducible del proyecto correspondiente | Solo el incremento autorizado que cambie sus dependencias/entradas; generar mediante restore y verificar locked-mode, nunca editar manualmente | Integrador técnico del backend; coordinar con csproj/SDK y verificar diff |
+| `Enver.Backend.slnx` | Estructura de solución y pruebas | 013 incorpora los tres proyectos de tests; otros cambios solo con alcance explícito, sin regenerar la solución | Integrador técnico del backend; edición serializada |
+| Futuro `Features/Authentication/Application/AuthenticationService.cs` | Aplicación de autenticación y puertos | 034/035 registro; 043 logout; 047–050 login según responsabilidad; 032 solo si su coordinación corresponde realmente al servicio conforme ficha | Integrador técnico del backend; conservar dependencias/orden del catálogo, sin ediciones concurrentes |
+| Futuro `Controllers/AuthenticationController.cs` | Transporte HTTP y proyección de contratos | 035 registro, 044 logout, 049 login; integración final del host en 058 | Integrador técnico del backend; endpoints incorporados de forma serializada |
+| Futuros `AuthenticationInputs.cs` / `AuthenticationResults.cs` | Contratos interiores de aplicación | 034 registro, 043 logout y 047 login; otros consumidores solo dentro de su alcance aprobado | Integrador técnico del backend; revisar conjuntamente productores/consumidores |
+| Futuro `tests/Shared/*` | Pruebas/fixtures y aislamiento de entornos | 014 utilidades, 015 factories/fixtures y tareas de pruebas posteriores que necesiten extenderlas bajo autorización | Integrador técnico del backend; serializar cambios comunes y conservar aislamiento |
+| Futuro `.github/workflows/ci.yml` | DevSecOps/CI | 070 build/unit, 071 integration/security, 072 SAST/auditoría y 073 secret/container scanning, conforme cada ficha | Integrador técnico del backend; integración serializada; sin workflow creado por 006 |
+
+Los IDs anteriores describen ownership de los incrementos previstos, **no amplían archivos ni alteran dependencias, gates o autorizaciones del catálogo**. Antes de editar un archivo compartido, el ejecutor declara tarea/rol/ruta, coordina un único turno con el integrador y revisa el diff acumulado; el integrador valida coherencia con el incremento anterior antes de aceptar el siguiente. Compartir responsabilidad funcional no permite ediciones concurrentes del mismo archivo. Cambios adicionales requieren autorización delimitada; no se crean ahora ninguno de los componentes futuros.
+
+#### Mapa y baseline consolidados sin materialización anticipada
+
+Se observa **Enver.Backend.slnx → Enver.API/Enver.API.csproj**, único proyecto de aplicación **net10.0**, Controllers vacío, configuración base, host inicial con OpenAPI solo en Development y /health básico, sin readiness MongoDB/Redis. El mapa futuro del plan conserva Controllers/Contracts → Application → Core/Ports; Infrastructure/Security implementan puertos y Composition conecta implementaciones. Configuration, Http y Observability mantienen sus responsabilidades transversales, sin proyectos extra de aplicación.
+
+**tests/Enver.API.UnitTests**, **tests/Enver.API.IntegrationTests** y **tests/Enver.API.SecurityTests** son las tres ubicaciones futuras; tests/Shared comparte fuentes sin cuarto proyecto. No existen todavía esos proyectos ni tests/; su creación pertenece a **013**, utilidades/dependencias a **014** y factories/fixtures a **015**. Options/HTTP pertenecen a 007–012; Program se integra después en 056–058. Ninguna ausencia de esas capacidades futuras se convierte en bloqueo artificial de 006.
+
+E001 conserva alcance y baseline inicial; E002 evaluación/grafo/licencias/riesgos; E003 fija SDK **10.0.403**, lockfile y restore reproducible; E004 registra higiene Git y revisión sensible acotada; E005 protege contexto/publish hasta su nivel actual. La lectura confirma global.json exacto, RestorePackagesWithLockFile, tres paquetes baseline (Microsoft.AspNetCore.OpenApi **10.0.14**, Microsoft.OpenApi **2.13.0**, Container Tools **1.23.0**) y ausencia de nuevas referencias funcionales MongoDB/Redis/JWT. Dockerfile conserva SDK alineado, restore bloqueado y build/publish sin restores implícitos. No se detecta inconsistencia que justifique repetir comandos .NET.
+
+Se reutilizan **como evidencia anterior, no como ejecuciones de 006**, el restore bloqueado y los builds Debug/net10.0 con **0 advertencias y 0 errores** de E005, las 44 pruebas de higiene de E004 y las 142 exclusiones/8 entradas y evaluación de 42 archivos sintéticos de E005. No se repiten restore/build, scanners, pruebas, Docker o publish; no se certifica runtime/imagen, publicación efectiva, seguridad funcional o ausencia universal de secretos por este checkpoint.
+
+#### Estado Git, alcance exacto y protocolo del único commit
+
+El estado inicial contiene cinco rutas modificadas y dos sin seguimiento: .dockerignore, Enver.API/Dockerfile, Enver.API/Enver.API.csproj, memoria.md, specs/002-authentication/task.md, Enver.API/packages.lock.json y global.json; no había staged. Se revisó que el diff técnico acumulado corresponde a 003/005, y que task/memoria conservan los cierres 001–005; los cierres 001/002 aún no estaban en HEAD. El responsable autoriza expresamente incluirlos intactos para no descartarlos ni dejar el árbol sucio.
+
+**Únicas siete rutas del commit:**
+
+```text
+.dockerignore
+Enver.API/Dockerfile
+Enver.API/Enver.API.csproj
+Enver.API/packages.lock.json
+global.json
+specs/002-authentication/task.md
+memoria.md
+```
+
+Antes de commit se revisan git status, git diff --check y diff del índice limitado a esas siete rutas; la validación documental comprueba 79 fichas, conservación de las fichas/evidencias 001–005 y del historial de memoria, 007–079 pendientes, ocho gates pendientes y archivos protegidos intactos. Las lecturas/checks previos no informan errores de whitespace, solo advertencias LF→CRLF. Se versiona la baseline acumulada en un checkpoint, no un commit por tarea; no hay descartes, reset, checkout, clean, reescritura de historial ni archivos ajenos incluidos.
+
+**Verificación posterior obligatoria, no adelantada como resultado al redactar:** ejecutar `git status`, `git log -1 --oneline`, `git rev-parse HEAD` y comprobar que no haya modificaciones, staged o archivos no versionados no ignorados. El commit debe tener como padre el HEAD previo, el mensaje autorizado y exactamente las siete rutas anteriores. El SHA y resultado efectivo se comunicarán en la entrega posterior al commit. Si falla el commit o el estado final no está limpio, **no se declara completada 006**, se informa la causa y no se crea otro commit/amend sin autorización. No se modifica este registro después del commit exitoso.
+
+#### Continuidad y riesgos sin cambios
+
+| Riesgo | Estado conservado | Límite |
+| --- | --- | --- |
+| **R-006** | **REDUCIDO** | Contexto/builder e imagen reales no verificados |
+| **R-007** | **REDUCIDO — NO RESUELTO** | Publish real con sentinelas pendiente de autorización/verificación |
+| **R-008** | **REDUCIDO — NO RESUELTO** | Historial/ignorados/binarios/artefactos/almacenes externos fuera de auditoría exhaustiva; árbol limpio no prueba ausencia de secretos |
+
+Tras commit correcto y verificación limpia, **T-AUTH-006 — COMPLETADA / EVIDENCIA TÉCNICA Y CHECKPOINT GIT REGISTRADOS**. Se completa únicamente **F0 — Baseline de 002**, sin reformar la Fase 0 documental original ni cerrar foundation retrospectivamente. **GATE-A PENDIENTE**: requiere además 007–015 y sus verificaciones según task §4; los otros siete gates siguen pendientes. **T-AUTH-007..079 (73 tareas) PENDIENTE / NO EJECUTADA**. **AUTH-027 — NO IMPLEMENTADO / NO SATISFECHO**. Sin autenticación, dependencias nuevas, carpetas/proyectos ficticios, instalaciones, conexiones MongoDB/Redis/AWS, Docker, publish real o push. Trabajo detenido sin iniciar 007.

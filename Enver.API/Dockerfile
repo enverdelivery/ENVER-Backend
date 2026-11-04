@@ -9,19 +9,21 @@ EXPOSE 8081
 
 
 # Esta fase se usa para compilar el proyecto de servicio
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0.403 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["global.json", "./"]
 COPY ["Enver.API/Enver.API.csproj", "Enver.API/"]
-RUN dotnet restore "./Enver.API/Enver.API.csproj"
+COPY ["Enver.API/packages.lock.json", "Enver.API/"]
+RUN dotnet restore "./Enver.API/Enver.API.csproj" --locked-mode
 COPY . .
 WORKDIR "/src/Enver.API"
-RUN dotnet build "./Enver.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./Enver.API.csproj" -c $BUILD_CONFIGURATION -o /app/build --no-restore
 
 # Esta fase se usa para publicar el proyecto de servicio que se copiará en la fase final.
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Enver.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Enver.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false --no-restore
 
 # Esta fase se usa en producción o cuando se ejecuta desde VS en modo normal (valor predeterminado cuando no se usa la configuración de depuración)
 FROM base AS final
