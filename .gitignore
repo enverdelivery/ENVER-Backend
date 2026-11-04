@@ -1,0 +1,104 @@
+# ENVER: artefactos locales y generados; conservar código, configuración base y SDD.
+# ASP.NET Core / .NET (incluido .NET 10)
+[Bb]in/
+[Oo]bj/
+artifacts/
+BenchmarkDotNet.Artifacts/
+*.nupkg
+*.snupkg
+
+# Visual Studio: estado local, preferencias y perfiles con credenciales
+.vs/
+*.user
+*.suo
+*.csproj.user
+*.userosscache
+*.sln.docstates
+*.publishsettings
+
+# Visual Studio Code: ignorar estado local, permitir configuración compartida revisada
+**/.vscode/*
+!**/.vscode/settings.json
+!**/.vscode/tasks.json
+!**/.vscode/launch.json
+!**/.vscode/extensions.json
+!**/.vscode/*.code-snippets
+
+# JetBrains Rider: conservar ajustes de equipo, no preferencias personales
+.idea/
+*.sln.iml
+*.DotSettings.user
+
+# Pruebas, cobertura y logs
+[Tt]est[Rr]esults/
+[Cc]overage/
+coverage.*
+*.coverage
+*.coveragexml
+*.trx
+*.log
+
+# Archivos temporales y del sistema operativo
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Secretos y configuración local: .env.example debe contener solo placeholders
+.env
+.env.*
+!.env.example
+appsettings.Local.json
+appsettings.*.Local.json
+secrets.json
+*.pfx
+*.p12
+*.pem
+*.key
+.aws/
+.azure/
+.ssh/
+
+# Docker local: no ignorar Dockerfile, .dockerignore ni archivos Compose base
+.docker/
+docker-compose.override.yml
+docker-compose.override.yaml
+docker-compose.*.local.yml
+docker-compose.*.local.yaml
+compose.override.yml
+compose.override.yaml
+compose.*.local.yml
+compose.*.local.yaml
+
+# GitHub Actions: estado de runner/act local, no .github/workflows/
+_work/
+_temp/
+_diag/
+.act/
+.actrc
+.act.secrets
+.act.vars
+
+# Terraform futuro: estado, variables sensibles y overrides locales
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+*.tfplan
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+# El lock de proveedores debe poder versionarse.
+!.terraform.lock.hcl
+
+# appsettings.json y appsettings.Development.json permanecen versionables:
+# mantener secretos externos y revisar cambios antes de añadirlos a Git.
