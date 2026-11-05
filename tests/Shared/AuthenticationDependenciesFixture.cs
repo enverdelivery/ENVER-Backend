@@ -1,0 +1,344 @@
+using System.Security.Cryptography;
+using Testcontainers.MongoDb;
+using Testcontainers.Redis;
+using Xunit;
+
+namespace Enver.Testing;
+
+[CollectionDefinition(Name, DisableParallelization = true)]
+public sealed class AuthenticationDependenciesCollection : ICollectionFixture<AuthenticationDependenciesFixture>
+{
+    public const string Name = "authentication-dependencies";
+}
+
+public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
+{
+    public const string MongoImage = "docker.io/library/mongo:8.0.34-noble@sha256:3c64937121b9437095921c4bb2569911084c05f7b88e4a263d62a8959d2b2399";
+    public const string RedisImage = "docker.io/library/redis:8.2.11-bookworm@sha256:99ffb973380cc2f47bca06bd094f7f8c7138a0879a63cb8939896a22b7a65bba";
+    public const string RyukImage = "testcontainers/ryuk:0.14.0@sha256:7c1a8a9a47c780ed0f983770a662f80deb115d95cce3e2daa3d12115b8cd28f0";
+    public const string ReplicaSetName = "rs0";
+    public const long RedisMaxMemoryBytes = 64L * 1024 * 1024;
+
+    private readonly CancellationTokenSource _lifetimeCancellation = new(TimeSpan.FromMinutes(10));
+    private readonly HashSet<string> _ownedRedisKeys = new(StringComparer.Ordinal);
+    private readonly string _mongoPassword = Convert.ToBase64String(RandomNumberGenerator.GetBytes(24));
+    private readonly string _jwtKey = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
+    private readonly string _rateLimitingKey = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
+    private MongoDbContainer? _mongo;
+    private RedisContainer? _redis;
+    private bool _initialized;
+    private bool _cleaned;
+
+    public string RunId { get; } = Guid.NewGuid().ToString("N");
+    public string EnvironmentName => $"T015_{RunId}";
+    public string MongoDatabase => $"enver_t015_{RunId}";
+    public string RedisNamespace => $"enver:t015_{RunId}";
+    public string MongoConnectionString => Mongo.GetConnectionString();
+    public string RedisConnectionString => Redis.GetConnectionString();
+
+    private MongoDbContainer Mongo => _mongo ?? throw new InvalidOperationException("MongoDB de pruebas no inicializado.");
+    private RedisContainer Redis => _redis ?? throw new InvalidOperationException("Redis de pruebas no inicializado.");
+
+    public async Task InitializeAsync()
+    {
+        var token = _lifetimeCancellation.Token;
+        _mongo = new MongoDbBuilder(MongoImage)
+            .WithUsername("t015")
+            .WithPassword(_mongoPassword)
+            .WithReplicaSet(ReplicaSetName)
+            .Build();
+        _redis = new RedisBuilder(RedisImage)
+            .WithCommand("redis-server", "--maxmemory-policy", "noeviction", "--maxmemory", "64mb")
+            .Build();
+
+        try
+        {
+            await Mongo.StartAsync(token);
+            await Redis.StartAsync(token);
+            _initialized = true;
+            await VerifyMongoAsync(token);
+            await VerifyRedisAsync(token);
+        }
+        catch
+        {
+            await DisposeContainersAsync();
+            throw;
+        }
+    }
+
+    public IReadOnlyDictionary<string, string?> CreateConfiguration(IReadOnlyDictionary<string, string?>? overrides = null)
+    {
+        EnsureInitialized();
+        var values = new Dictionary<string, string?>(StringComparer.Ordinal)
+        {
+            ["MongoDb:ConnectionString"] = MongoConnectionString,
+            ["MongoDb:DatabaseName"] = MongoDatabase,
+            ["MongoDb:UsersCollectionName"] = "users",
+            ["MongoDb:OperationTimeoutMilliseconds"] = "500",
+            ["MongoDb:ConnectionTimeoutMilliseconds"] = "500",
+            ["MongoDb:WriteConcernCandidate"] = "majority",
+            ["MongoDb:ReadConcernCandidate"] = "majority",
+            ["MongoDb:ReadPreference"] = "primary",
+            ["Redis:ConnectionString"] = RedisConnectionString,
+            ["Redis:NamespacePrefix"] = RedisNamespace,
+            ["Redis:RevocationPurpose"] = "auth:revocation",
+            ["Redis:RateLimitingPurpose"] = "auth:ratelimit",
+            ["Redis:OperationTimeoutMilliseconds"] = "250",
+            ["Redis:ConnectionTimeoutMilliseconds"] = "250",
+            ["Redis:RevocationOperationalMarginSeconds"] = "30",
+            ["Redis:FailClosed"] = "true",
+            ["Redis:RequiredRevocationEvictionPolicy"] = "noeviction",
+            ["Jwt:Algorithm"] = "HS256",
+            ["Jwt:Issuer"] = "enver-api",
+            ["Jwt:Audience"] = "enver-mobile",
+            ["Jwt:LifetimeSeconds"] = "900",
+            ["Jwt:ClockSkewSeconds"] = "30",
+            ["Jwt:ActiveKid"] = "t015-current",
+            ["Jwt:Keys:0:Kid"] = "t015-current",
+            ["Jwt:Keys:0:KeyBase64"] = _jwtKey,
+            ["Authentication:InstitutionalDomain"] = "uttt.edu.mx",
+            ["Authentication:FullNameMaxUnicodeScalars"] = "200",
+            ["Authentication:EmailMaxAsciiBytes"] = "254",
+            ["Authentication:EmailLocalPartMaxAsciiBytes"] = "64",
+            ["Authentication:PasswordCreationMinUnicodeScalars"] = "12",
+            ["Authentication:PasswordMaxUnicodeScalars"] = "128",
+            ["Authentication:PasswordMaxUtf8Bytes"] = "512",
+            ["Authentication:MaxRequestBodyBytes"] = "16384",
+            ["Authentication:MaxJsonDepth"] = "4",
+            ["Authentication:MaxJwtBytes"] = "4096",
+            ["Authentication:RegisterBudgetMilliseconds"] = "1000",
+            ["Authentication:LoginBudgetMilliseconds"] = "1000",
+            ["Authentication:LogoutBudgetMilliseconds"] = "500",
+            ["Authentication:HashingConcurrencyLimit"] = "1",
+            ["RateLimiting:RegisterEmail:PermitLimit"] = "3",
+            ["RateLimiting:RegisterEmail:WindowSeconds"] = "900",
+            ["RateLimiting:RegisterOrigin:PermitLimit"] = "20",
+            ["RateLimiting:RegisterOrigin:WindowSeconds"] = "900",
+            ["RateLimiting:LoginOriginEmail:PermitLimit"] = "5",
+            ["RateLimiting:LoginOriginEmail:WindowSeconds"] = "60",
+            ["RateLimiting:LoginEmail:PermitLimit"] = "10",
+            ["RateLimiting:LoginEmail:WindowSeconds"] = "60",
+            ["RateLimiting:LoginOrigin:PermitLimit"] = "60",
+            ["RateLimiting:LoginOrigin:WindowSeconds"] = "60",
+            ["RateLimiting:LogoutAccount:PermitLimit"] = "30",
+            ["RateLimiting:LogoutAccount:WindowSeconds"] = "60",
+            ["RateLimiting:LogoutOrigin:PermitLimit"] = "300",
+            ["RateLimiting:LogoutOrigin:WindowSeconds"] = "60",
+            ["RateLimiting:PolicyRevision"] = "t015-synthetic",
+            ["RateLimiting:PseudonymizationKeyBase64"] = _rateLimitingKey
+        };
+
+        if (overrides is not null)
+        {
+            foreach (var (key, value) in overrides)
+            {
+                values[key] = value;
+            }
+        }
+
+        return values;
+    }
+
+    public async Task VerifyMongoAsync(CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        var result = await Mongo.ExecScriptAsync($"var hello = db.adminCommand({{hello:1}}); if (hello.setName !== '{ReplicaSetName}' || hello.isWritablePrimary !== true) quit(71); var target = db.getSiblingDB('{MongoDatabase}'); var write = target.getCollection('t015_probes').updateOne({{_id:'fixture'}}, {{$set:{{value:'fixture'}}}}, {{upsert:true}}); if (write.acknowledged !== true || target.getCollection('t015_probes').findOne({{_id:'fixture'}}) === null) quit(72);", cancellationToken);
+        EnsureSuccess(result.ExitCode, "La sonda MongoDB no confirmó replica set primario y lectura/escritura.");
+        MarkDirty();
+    }
+
+    public async Task WriteMongoAsync(string marker, CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        var key = MongoKey(marker);
+        var result = await Mongo.ExecScriptAsync($"var target = db.getSiblingDB('{MongoDatabase}'); var write = target.getCollection('t015_probes').updateOne({{_id:'{key}'}}, {{$set:{{value:'{key}'}}}}, {{upsert:true}}); quit(write.acknowledged === true ? 0 : 73);", cancellationToken);
+        EnsureSuccess(result.ExitCode, "La escritura MongoDB sintética falló.");
+        MarkDirty();
+    }
+
+    public async Task<bool> ContainsMongoAsync(string marker, CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        var key = MongoKey(marker);
+        var result = await Mongo.ExecScriptAsync($"var target = db.getSiblingDB('{MongoDatabase}'); quit(target.getCollection('t015_probes').findOne({{_id:'{key}'}}) === null ? 1 : 0);", cancellationToken);
+        return result.ExitCode == 0;
+    }
+
+    public async Task VerifyRedisAsync(CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        var ping = await RedisCliAsync(cancellationToken, "PING");
+        EnsureSuccess(ping.ExitCode, "Redis no respondió a PING.");
+        if (!string.Equals(ping.Stdout.Trim(), "PONG", StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException("Redis no devolvió PONG.");
+        }
+
+        var policy = await RedisCliAsync(cancellationToken, "CONFIG", "GET", "maxmemory-policy");
+        EnsureSuccess(policy.ExitCode, "No se pudo consultar maxmemory-policy.");
+        if (!string.Equals(ConfigValue(policy.Stdout, "maxmemory-policy"), "noeviction", StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException("Redis no confirmó maxmemory-policy=noeviction.");
+        }
+
+        var memory = await RedisCliAsync(cancellationToken, "CONFIG", "GET", "maxmemory");
+        EnsureSuccess(memory.ExitCode, "No se pudo consultar maxmemory.");
+        if (!long.TryParse(ConfigValue(memory.Stdout, "maxmemory"), out var maxMemory) || maxMemory != RedisMaxMemoryBytes)
+        {
+            throw new InvalidOperationException("Redis no confirmó el maxmemory sintético esperado.");
+        }
+
+        await WriteRedisAsync("fixture", cancellationToken);
+        if (!await ContainsRedisAsync("fixture", cancellationToken))
+        {
+            throw new InvalidOperationException("Redis no devolvió la clave sintética propia.");
+        }
+    }
+
+    public async Task WriteRedisAsync(string marker, CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        var key = RedisKey(marker);
+        TrackRedisKey(key);
+        var result = await RedisCliAsync(cancellationToken, "SET", key, marker);
+        EnsureSuccess(result.ExitCode, "La escritura Redis sintética falló.");
+        if (!string.Equals(result.Stdout.Trim(), "OK", StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException("Redis no confirmó SET.");
+        }
+
+        MarkDirty();
+    }
+
+    public async Task<bool> ContainsRedisAsync(string marker, CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        var result = await RedisCliAsync(cancellationToken, "GET", RedisKey(marker));
+        EnsureSuccess(result.ExitCode, "La lectura Redis sintética falló.");
+        return string.Equals(result.Stdout.Trim(), marker, StringComparison.Ordinal);
+    }
+
+    public async Task CleanupOwnDataAsync(CancellationToken cancellationToken = default)
+    {
+        if (!_initialized || _cleaned)
+        {
+            return;
+        }
+
+        var mongoResult = await Mongo.ExecScriptAsync($"db.getSiblingDB('{MongoDatabase}').dropDatabase();", cancellationToken);
+        EnsureSuccess(mongoResult.ExitCode, "No se pudo eliminar la base MongoDB propia.");
+
+        string[] keys;
+        lock (_ownedRedisKeys)
+        {
+            keys = _ownedRedisKeys.ToArray();
+        }
+
+        foreach (var key in keys)
+        {
+            var redisResult = await RedisCliAsync(cancellationToken, "DEL", key);
+            EnsureSuccess(redisResult.ExitCode, "No se pudo eliminar una clave Redis propia.");
+        }
+
+        _cleaned = true;
+    }
+
+    public async Task AssertOwnDataRemovedAsync(CancellationToken cancellationToken = default)
+    {
+        if (!_cleaned)
+        {
+            throw new InvalidOperationException("La limpieza propia no se ejecutó.");
+        }
+
+        var mongoResult = await Mongo.ExecScriptAsync($"var target = db.getSiblingDB('{MongoDatabase}'); quit(target.getCollectionNames().length === 0 ? 0 : 1);", cancellationToken);
+        EnsureSuccess(mongoResult.ExitCode, "MongoDB conserva datos propios después de la limpieza.");
+
+        string[] keys;
+        lock (_ownedRedisKeys)
+        {
+            keys = _ownedRedisKeys.ToArray();
+        }
+
+        foreach (var key in keys)
+        {
+            var redisResult = await RedisCliAsync(cancellationToken, "EXISTS", key);
+            EnsureSuccess(redisResult.ExitCode, "No se pudo comprobar una clave Redis propia.");
+            if (!string.Equals(redisResult.Stdout.Trim(), "0", StringComparison.Ordinal))
+            {
+                throw new InvalidOperationException("Redis conserva una clave propia después de la limpieza.");
+            }
+        }
+    }
+
+    public bool ContainsSyntheticSecret(string value) => value.Contains(_mongoPassword, StringComparison.Ordinal) || value.Contains(_jwtKey, StringComparison.Ordinal) || value.Contains(_rateLimitingKey, StringComparison.Ordinal);
+
+    public async Task DisposeAsync()
+    {
+        try
+        {
+            await CleanupOwnDataAsync();
+        }
+        finally
+        {
+            await DisposeContainersAsync();
+            _lifetimeCancellation.Dispose();
+        }
+    }
+
+    private async Task DisposeContainersAsync()
+    {
+        if (_redis is not null)
+        {
+            await _redis.DisposeAsync();
+            _redis = null;
+        }
+
+        if (_mongo is not null)
+        {
+            await _mongo.DisposeAsync();
+            _mongo = null;
+        }
+    }
+
+    private async Task<DotNet.Testcontainers.Containers.ExecResult> RedisCliAsync(CancellationToken cancellationToken, params string[] arguments)
+    {
+        var command = new List<string> { "redis-cli", "--raw" };
+        command.AddRange(arguments);
+        return await Redis.ExecAsync(command, cancellationToken);
+    }
+
+    private static string ConfigValue(string output, string expectedName)
+    {
+        var values = output.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        return values.Length == 2 && values[0] == expectedName ? values[1] : string.Empty;
+    }
+
+    private static void EnsureSuccess(long? exitCode, string message)
+    {
+        if (exitCode is not 0)
+        {
+            throw new InvalidOperationException(message);
+        }
+    }
+
+    private void EnsureInitialized()
+    {
+        if (!_initialized)
+        {
+            throw new InvalidOperationException("Las dependencias de pruebas aún no están disponibles.");
+        }
+    }
+
+    private void TrackRedisKey(string key)
+    {
+        lock (_ownedRedisKeys)
+        {
+            _ownedRedisKeys.Add(key);
+        }
+    }
+
+    private void MarkDirty() => _cleaned = false;
+
+    private string MongoKey(string marker) => $"t015-{RunId}-{marker}";
+    private string RedisKey(string marker) => $"{RedisNamespace}:probe:{marker}";
+}

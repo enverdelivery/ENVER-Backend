@@ -1,3 +1,6 @@
 <Solution>
   <Project Path="Enver.API/Enver.API.csproj" />
+  <Project Path="tests/Enver.API.UnitTests/Enver.API.UnitTests.csproj" />
+  <Project Path="tests/Enver.API.IntegrationTests/Enver.API.IntegrationTests.csproj" />
+  <Project Path="tests/Enver.API.SecurityTests/Enver.API.SecurityTests.csproj" />
 </Solution>

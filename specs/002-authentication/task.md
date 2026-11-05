@@ -15,6 +15,10 @@
 | Estado tras el cierre de T-AUTH-004 | 001/002/004 COMPLETADAS / EVIDENCIA DOCUMENTAL REGISTRADA; 003 COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA; 75 PENDIENTE / NO EJECUTADA: 005–079; evidencia de 004 en §13 |
 | Estado tras el cierre de T-AUTH-005 | 001/002/004 COMPLETADAS / EVIDENCIA DOCUMENTAL REGISTRADA; 003/005 COMPLETADAS / EVIDENCIA TÉCNICA REGISTRADA; 74 PENDIENTE / NO EJECUTADA: 006–079; evidencia de 005 en §14 |
 | Estado del checkpoint T-AUTH-006 | 001–005 conservan sus cierres; 006 COMPLETADA / EVIDENCIA TÉCNICA Y CHECKPOINT GIT REGISTRADOS, sujeto a commit único correcto y verificación posterior limpia según §15; 73 PENDIENTE / NO EJECUTADA: 007–079 |
+| Estado posterior del bloque 007/008 | 001–006 conservan sus cierres; 007 COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA (§16); 008 IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN DE STARTUP PENDIENTE (§17); 009–079: 71 PENDIENTE / NO EJECUTADA |
+| Estado posterior del bloque 009–012 | 001–007 conservan sus cierres; 008 mantiene verificación de startup pendiente; 009–012 COMPLETADAS / EVIDENCIA TÉCNICA REGISTRADA como componentes aislables (§§18–21); 013–079: 67 PENDIENTE / NO EJECUTADA |
+| Estado posterior de 013–014 | 001–007 y 009–012 conservan sus cierres; 008 mantiene verificación de startup pendiente; 013/014 COMPLETADAS / EVIDENCIA TÉCNICA REGISTRADA (§22); 015–079: 65 PENDIENTE / NO EJECUTADA |
+| Estado posterior de 015 | 001–007 y 009–015 COMPLETADAS / EVIDENCIA TÉCNICA REGISTRADA; 008 mantiene IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN DE STARTUP PENDIENTE; 016–079: 64 PENDIENTE / NO EJECUTADA; 8 gates pendientes / no satisfechos |
 | Cobertura documental prevista | AUTH 48/48; PLD-AUTH 25/25; AC 21/21 |
 | Gates | 8; todos PENDIENTES / NO SATISFECHOS |
 | Fuente de aprobación | SOL-TASK-002: aprobación expresa del catálogo compactado y autorización documental del responsable |
@@ -40,6 +44,14 @@ La autorización BUILD posterior de T-AUTH-005 permite corregir exclusivamente .
 
 El acto BUILD CONTROLADO posterior de T-AUTH-006 autoriza consolidar ownership/integración en este documento y memoria, preparar E(T-AUTH-006) antes de un único commit y confirmar después un working tree limpio. El responsable amplía expresamente el alcance del commit a los cierres históricos válidos 001/002, intactos, además de 003–006, únicamente en las siete rutas de §15. No permite push, iniciar 007, crear componentes futuros o repetir restore/build sin inconsistencia técnica.
 
+Una autorización BUILD CONTROLADO posterior permite exclusivamente 007/008: seis archivos Configuration, ambos appsettings no sensibles, restore bloqueado/build y comprobaciones controladas; después, evidencia en §§16–17 y memoria §23. No autoriza Program.cs, F2, conexiones o autenticación funcional, dependencias nuevas, commit o push. El mecanismo ValidateOnStart queda preparado, no integrado en el host; 008 no se declara completada.
+
+La autorización posterior para 009–012 exige ejecución secuencial y comprobación antes de avanzar, preserva los cambios 007/008 y prohíbe integración de Program/F2/endpoints/clientes/criptografía/cuotas distribuidas/paquetes nuevos/commit/push. Se permite código aislable, probes temporales eliminables y evidencia individual después de verificar. El responsable aprueba explícitamente la matriz mínima D012 durante esta ejecución; registro en §21. Los componentes quedan PREPARADOS / AISLABLES / NO INTEGRADOS AL HOST, sin cambiar el estado de 008 ni cerrar gates.
+
+La autorización BUILD CONTROLADO posterior permite exclusivamente 013/014: crear los tres proyectos bajo `tests/`, actualizar sin regenerar `Enver.Backend.slnx`, añadir las seis referencias aprobadas únicamente donde corresponden, generar/verificar lockfiles, materializar pruebas F1 y auditar el grafo. Acepta expresamente xUnit 2.9.3 como Legacy por coherencia con el plan, sin sustituir su familia/major. No autoriza Program, host, endpoints, Docker/Testcontainers, T-AUTH-015, dependencias fuera de la lista, commit o push. Tras validación, la evidencia se registra en §22 y memoria §29.
+
+La autorización BUILD CONTROLADO posterior delimita exclusivamente T-AUTH-015: Docker/Testcontainers con las imágenes y digests aprobados, fixture/factory y pruebas IT/ST de soporte; restore bloqueado, build y suites bajo los comandos indicados. Autoriza correcciones mínimas de fixture/factory/tests pertenecientes a 015, incluido presupuesto finito de inicialización máximo de 10 minutos, ambiente sintético efectivo y namespace Redis derivado del contrato F1. No autoriza `Program.cs`, producción, paquetes, imágenes/digests, spec/plan, T-AUTH-016, commit ni push. El registro de éxito queda en §23 y memoria §30.
+
 **APROBADO PARA EJECUCIÓN INCREMENTAL** significa exclusivamente que el catálogo podrá ejecutarse una tarea o incremento a la vez mediante **autorización posterior** de alcance, archivos, acciones y entorno. No autoriza ejecución inmediata, instalaciones, conexiones, builds, pruebas, scanners, workflows, AWS, Terraform, commit o push; no satisface gates ni resuelve decisiones diferidas.
 
 ## 2. Reglas comunes y evidencia
@@ -57,7 +69,7 @@ Convenciones de fichas y matrices:
 
 ### Evidencia E(T-AUTH-nnn)
 
-Cada ficha reserva su identificador **E(T-AUTH-nnn)**. **E(T-AUTH-001)** conserva la inspección de solo lectura y su cierre documental autorizado (§10); **E(T-AUTH-002)** registra la evaluación previa de SDK/dependencias/riesgos y su cierre documental autorizado (§11); **E(T-AUTH-003)** registra la baseline técnica y sus verificaciones reales (§12); **E(T-AUTH-004)** registra la inspección acotada de higiene Git y su cierre documental autorizado (§13); **E(T-AUTH-005)** registra las correcciones de contexto/publish y verificaciones locales sin Docker ni publish real (§14); **E(T-AUTH-006)** registra estructura, ownership y condiciones de confirmación del checkpoint Git único (§15). Los resultados de ejecución de T-AUTH-007 a T-AUTH-079 siguen **PENDIENTES / SIN EVIDENCIA TÉCNICA GENERADA**. La definición de una prueba o salida esperada no constituye resultado obtenido; los cierres de 001–006 no acreditan autenticación implementada ni aceptación global de seguridad. El cierre de 006 solo es efectivo si el commit y la verificación Git posterior de §15 son correctos.
+Cada ficha reserva su identificador **E(T-AUTH-nnn)**. **E(T-AUTH-001)** conserva la inspección de solo lectura y su cierre documental autorizado (§10); **E(T-AUTH-002)** registra la evaluación previa de SDK/dependencias/riesgos y su cierre documental autorizado (§11); **E(T-AUTH-003)** registra la baseline técnica y sus verificaciones reales (§12); **E(T-AUTH-004)** registra la inspección acotada de higiene Git y su cierre documental autorizado (§13); **E(T-AUTH-005)** registra las correcciones de contexto/publish y verificaciones locales sin Docker ni publish real (§14); **E(T-AUTH-006)** registra estructura, ownership y condiciones de confirmación del checkpoint Git único (§15). **E(T-AUTH-007)** registra configuración declarada y verificaciones controladas (§16); **E(T-AUTH-008)** registra implementación preparada con startup real pendiente (§17). **E(T-AUTH-009)** registra presupuestos/cancelación (§18); **E(T-AUTH-010)** errores/correlación/no-store (§19); **E(T-AUTH-011)** frontera HTTP (§20); **E(T-AUTH-012)** decisión aprobada y coordinación aislable (§21); **E(T-AUTH-013/014)** registra proyectos, dependencias, lockfiles, pruebas y auditoría (§22); **E(T-AUTH-015)** registra Docker/Testcontainers, hosts, aislamiento, cleanup y startup real de Options (§23). Los resultados de ejecución de T-AUTH-016 a T-AUTH-079 siguen **PENDIENTES / SIN EVIDENCIA TÉCNICA GENERADA**. La definición de una prueba o salida esperada no constituye resultado obtenido; los cierres registrados no acreditan autenticación integrada ni aceptación global de seguridad. El cierre de 006 solo es efectivo si el commit y la verificación Git posterior de §15 son correctos.
 
 | Campo de evidencia futura | Registro requerido cuando corresponda |
 | --- | --- |
@@ -220,9 +232,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 14,15,17,20.
 - **Archivos esperados:** `CFG/MongoDbOptions.cs`, `CFG/RedisOptions.cs`, `API/appsettings*.json` sin secretos.
 - **Salida verificable:** Base/colección, namespaces, concerns candidatos, timeouts, retención y admisión coherentes; conexiones/credenciales exclusivamente externas.
-- **Pruebas/evidencia requerida:** E(T-AUTH-007): casos de valores ausentes/incoherentes y aislamiento; materialización con F2/008 y regresión 060.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-007)](#e-t-auth-007): casos de valores ausentes/incoherentes y aislamiento; materialización con F2/008 y regresión 060.
 - **Riesgos/notas:** Declarar Options no demuestra disponibilidad, integridad ni aprobación de topología/ACK; se preservan puertas de §7.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA.
 
 #### T-AUTH-008
 
@@ -235,9 +247,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 04,10,16,18,20.
 - **Archivos esperados:** `CFG/JwtOptions.cs`, `AuthenticationOptions.cs`, `RateLimitingOptions.cs`, `AuthenticationOptionsValidation.cs`, `API/appsettings*.json`.
 - **Salida verificable:** IValidateOptions/ValidateOnStart para las cinco Options; HS256/issuer/audience/vida/skew/kids/claves válidos, límites/presupuestos coherentes, siete cuotas configurables y secretos externos.
-- **Pruebas/evidencia requerida:** E(T-AUTH-008): configuración inválida impide inicio/admisión; User Secrets/variables sintéticas sin volcado de valores; pruebas Options en UT y 060.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-008)](#e-t-auth-008): configuración inválida impide inicio/admisión; User Secrets/variables sintéticas sin volcado de valores; pruebas Options en UT y 060.
 - **Riesgos/notas:** Longitud Base64 no acredita entropía; no recargar claves/skew/cuotas descoordinadamente ni inventar topes pendientes.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN DE STARTUP PENDIENTE.
 
 #### T-AUTH-009
 
@@ -250,9 +262,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 14,17,18.
 - **Archivos esperados:** Auxiliares de presupuesto en `HTTP/` o `FA/Application/`, pruebas en `UT/`.
 - **Salida verificable:** Presupuesto restante/cancelaciones enlazados; candidatos register/login 8 s, logout 4 s, Mongo 2 s, Redis 750 ms y conexión 2 s configurables, nunca SLA.
-- **Pruebas/evidencia requerida:** E(T-AUTH-009): casos de agotamiento, cancelación del cliente, operación incierta y ausencia de reintento/espera ilimitados.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-009)](#e-t-auth-009): casos de agotamiento, cancelación del cliente, operación incierta y ausencia de reintento/espera ilimitados.
 - **Riesgos/notas:** Timeout no prueba ausencia de efecto; cancelar no interrumpe mágicamente PasswordHasher síncrono. Calibración AD-09 en 067.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA.
 
 #### T-AUTH-010
 
@@ -265,9 +277,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 07,13,14,19.
 - **Archivos esperados:** `HTTP/ApiProblemDetails.cs`, `ApiExceptionHandler.cs`, `RequestContextMiddleware.cs`, `UT/`, `IT/ProblemDetailsTests.cs`.
 - **Salida verificable:** RFC 9457/type about:blank/title/status/detail/code/traceId, errors solo por campo sin valores, sin instance; códigos del plan §12, correlación validada y no-store también en éxitos. Preparar integración MVC/challenge/autorización.
-- **Pruebas/evidencia requerida:** E(T-AUTH-010): 400/401/409/413/415/429/500/503, cancelación y respuesta iniciada; 204 vacío y sin segunda escritura.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-010)](#e-t-auth-010): 400/401/409/413/415/429/500/503, cancelación y respuesta iniciada; 204 vacío y sin segunda escritura.
 - **Riesgos/notas:** Handler de excepciones no cubre por sí solo MVC/challenge/cuotas; no exponer infraestructura, stack traces, secretos ni existencia/estado.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA.
 
 #### T-AUTH-011
 
@@ -280,9 +292,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 05,09,13,18.
 - **Archivos esperados:** `HTTP/AuthenticationRequestLimitsMiddleware.cs`, configuración System.Text.Json/MVC y pruebas `UT/IT/ST`.
 - **Salida verificable:** UTF-8/camelCase exactos, profundidad 4, sin comentarios/coerción/comas finales; desconocidas/duplicadas/null/tipos inválidos rechazados. Cuerpo real ≤16 KiB también chunked; 413/415; logout no vacío, incluso whitespace, 400. Authorization única/JWT ≤4 KiB antes de criptografía y sin canales alternativos.
-- **Pruebas/evidencia requerida:** E(T-AUTH-011): fronteras, charset/encoding, duplicados y cuerpos; JWT excesivo 401 API, distinto del posible rechazo de headers del borde.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-011)](#e-t-auth-011): fronteras, charset/encoding, duplicados y cuerpos; JWT excesivo 401 API, distinto del posible rechazo de headers del borde.
 - **Riesgos/notas:** Si la API nativa de duplicados no sirve, comprobación equivalente acotada, nunca aceptar duplicados; no confiar solo en Content-Length.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA.
 
 #### T-AUTH-012
 
@@ -295,9 +307,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 05,14,16,18.
 - **Archivos esperados:** Resultados propios en `FA/Validation/`, coordinación MVC en `HTTP/`, matriz de precedencia en soporte autorizado.
 - **Salida verificable:** Decisión aprobada para JSON ilegible/email no normalizable/defectos múltiples y 400–429–503; errores por campo seguros, sin buckets arbitrarios ni dependencia de existencia de usuario.
-- **Pruebas/evidencia requerida:** E(T-AUTH-012): casos con colaboradores controlados; 400 automático MVC no omite un control asíncrono requerido; integración final en 058.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-012)](#e-t-auth-012): casos con colaboradores controlados; 400 automático MVC no omite un control asíncrono requerido; integración final en 058.
 - **Riesgos/notas:** No requiere el normalizador funcional posterior para definir el contrato; no cambiar estados ni cuotas aprobados.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA.
 
 ### F2 — Infraestructura de pruebas
 
@@ -314,7 +326,7 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **Salida verificable:** Tres proyectos .NET 10 con referencias mínimas, conservando solución y sin cuarto proyecto auxiliar.
 - **Pruebas/evidencia requerida:** E(T-AUTH-013): descubrimiento independiente de pruebas mínimas, ejecutado solo en incremento autorizado; no falso verde por cero tests.
 - **Riesgos/notas:** No recrear archivos de Visual Studio ni agregar proyectos extra de aplicación.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA (§22).
 
 #### T-AUTH-014
 
@@ -329,7 +341,7 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **Salida verificable:** Test SDK/xUnit/runner, MVC Testing y módulos Testcontainers según suite; assets privados y tiempo controlable con TimeProvider sin Moq.
 - **Pruebas/evidencia requerida:** E(T-AUTH-014): grafo/licencias/versiones aprobadas, determinismo temporal y ausencia de dependencias de pruebas en publish.
 - **Riesgos/notas:** No fijar porcentaje de cobertura ni sleeps arbitrarios; compartir fuentes no exige otro ensamblado.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA (§22).
 
 #### T-AUTH-015
 
@@ -344,7 +356,7 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **Salida verificable:** MongoDB/Redis Testcontainers con imágenes revisadas, replica set donde aplique, noeviction, disponibilidad reproducible, secretos sintéticos y base/namespace por ejecución; dos hosts independientes compartiendo dependencias.
 - **Pruebas/evidencia requerida:** E(T-AUTH-015): arranque, aislamiento, limpieza limitada a datos propios y composición incremental de módulos.
 - **Riesgos/notas:** Docker autorizado; fixtures son soporte, no prueban aún majority/failover productivos ni dos instancias AWS/LB. No agregar endpoint productivo para tests.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA (§23).
 
 ### F3 — Redis
 
@@ -2281,3 +2293,276 @@ Antes de commit se revisan git status, git diff --check y diff del índice limit
 | **R-008** | **REDUCIDO — NO RESUELTO** | Historial/ignorados/binarios/artefactos/almacenes externos fuera de auditoría exhaustiva; árbol limpio no prueba ausencia de secretos |
 
 Tras commit correcto y verificación limpia, **T-AUTH-006 — COMPLETADA / EVIDENCIA TÉCNICA Y CHECKPOINT GIT REGISTRADOS**. Se completa únicamente **F0 — Baseline de 002**, sin reformar la Fase 0 documental original ni cerrar foundation retrospectivamente. **GATE-A PENDIENTE**: requiere además 007–015 y sus verificaciones según task §4; los otros siete gates siguen pendientes. **T-AUTH-007..079 (73 tareas) PENDIENTE / NO EJECUTADA**. **AUTH-027 — NO IMPLEMENTADO / NO SATISFECHO**. Sin autenticación, dependencias nuevas, carpetas/proyectos ficticios, instalaciones, conexiones MongoDB/Redis/AWS, Docker, publish real o push. Trabajo detenido sin iniciar 007.
+
+## 16. Evidencia técnica de T-AUTH-007
+
+<a id="e-t-auth-007"></a>
+
+### E(T-AUTH-007)
+
+El responsable autoriza exclusivamente 007/008 en BUILD CONTROLADO el **2026-11-04**, con estado inicial limpio en `feature/authentication`, HEAD **a4e5cc2a5dc9a36e8b3f383af05389799d1aa559** (checkpoint F0), sin consulta nueva al remoto. La implementación de configuración y los comandos técnicos preceden a este registro. No se alteran título, fase/gate, dependencias o relaciones de las fichas.
+
+| Campo | Evidencia real |
+| --- | --- |
+| Trazabilidad oficial 007 | AUTH-015/025/026/027/034/038; PLD-AUTH-04/05/07/08; AC-14/15/17/20; depende de 006; F1 / GATE-A |
+| Archivos nuevos 007 | `Enver.API/Configuration/MongoDbOptions.cs`, `Enver.API/Configuration/RedisOptions.cs` |
+| Archivos existentes | `Enver.API/appsettings.json`, `Enver.API/appsettings.Development.json`; después de éxito técnico, este documento y memoria §23 |
+| MongoDB declarado | Base por ambiente, colección `users`, operación/conexión 2000 ms, candidatos write/read concern `majority` y preferencia `primary`; sin cliente, topología, journaling o política retry efectiva |
+| Redis declarado | Prefijo por ambiente, propósitos `auth:revocation`/`auth:ratelimit`, operación 750 ms, conexión 2000 ms, margen candidato 60 s, admisión fail-closed y requisito futuro `noeviction`; no un TTL fijo ni configuración de servidor |
+| Aislamiento local | Convención explícita de implementación: base `enver_<ambiente>` con sufijo opcional `_...` para ejecución; namespace `enver:<ambiente>`, ambos cotejados contra IHostEnvironment. Development declara `enver_development` y `enver:development`; la base común deja ambos vacíos para exigir selección externa por ambiente |
+| Secretos | ConnectionString existe solo como propiedad inicialmente vacía; se omite de ambos JSON y debe suministrarse por User Secrets/variables. No se abrió el almacén real, no se mostraron conexiones ni credenciales |
+| Validadores | MongoDbOptionsValidator/RedisOptionsValidator en el único archivo autorizado `AuthenticationOptionsValidation.cs`; presencia de conexión, ambiente, colección/propósitos, timeouts, candidatos, margen y requisitos seguros |
+| Herramientas/entorno | Windows local; SDK fijado 10.0.403, net10.0, compilador del SDK y referencias/runtime 10.0.14; PowerShell 5.1/.NET Framework 4.8 para orquestación; sin infraestructura externa |
+| Restore | `dotnet restore Enver.API/Enver.API.csproj --locked-mode`: correcto, restaurado en 899 ms; grafo sin paquetes nuevos |
+| Build | `dotnet build Enver.API/Enver.API.csproj --no-restore`: correcto en 11,36 s; **0 advertencias / 0 errores** |
+| Comprobación compartida 007/008 | **71/71 casos** en DI aislada con IStartupValidator; detalle en §17. No se arrancó la API ni un host, no se instanciaron clientes MongoDB/Redis |
+| Inspección JSON/grafo | Cinco secciones presentes, siete cuotas coincidentes 7/7, conexiones/claves ausentes de JSON, cardinalidad null; packages.lock.json conserva SHA-256 `6B6E8F6A214D7850EDB9BD00A19CA83FDF0321B27606CF929F6561A218562EBC` |
+| Commit/workflow/captura | No generados; HEAD conserva el checkpoint F0; cambios sin commit |
+
+La convención de nombres no demuestra separación efectiva de permisos/datos, disponibilidad o seguridad de transporte. Los concerns son candidatos conforme al plan §7, no selección final de topología/ACK. `noeviction` es un requisito declarado, no verificado; el margen 60 s sigue candidato de calibración. TLS/ACL/conexiones efectivas se validarán con el cliente y entorno autorizados. No se acredita AUTH-027 ni garantías Redis por declarar Options.
+
+**Casos reservados para F2 y regresión 060:** sección ausente individualmente; conexión ausente; base/namespace de otro ambiente; colección/propósitos incorrectos; timeouts cero/negativos o superiores al presupuesto; concerns candidatos incompatibles; margen inválido; fail-closed desactivado; política de expulsión incompatible; aislamiento de dos ejecuciones sin tocar datos ajenos. Los casos ejecutados en la comprobación temporal no se presentan como suites unitarias/integración existentes.
+
+**Estado final 007: COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA**, para su salida de declaración de configuración, sin inferir integración ni aceptación operativa. La incorporación al host y suites siguen pendientes; 008 conserva la limitación específica de startup.
+
+## 17. Evidencia parcial de T-AUTH-008
+
+<a id="e-t-auth-008"></a>
+
+### E(T-AUTH-008)
+
+Misma autorización, baseline, entorno y restore/build compartidos de §16, ejecutados **una vez** en este bloque. Trazabilidad oficial: **AUTH-005/006/007/008/019/020/029/034/038; PLD-AUTH-04/10/13/15/18; AC-04/10/16/18/20**; depende de 007; F1 / GATE-A. No se declara satisfacción global de esos requisitos o AC.
+
+**Archivos nuevos:** `Enver.API/Configuration/JwtOptions.cs`, `AuthenticationOptions.cs`, `RateLimitingOptions.cs`, `AuthenticationOptionsValidation.cs`. Los dos appsettings comparten alcance con 007. Ningún archivo adicional de aplicación/pruebas, dependencia o proyecto creado.
+
+### Reglas implementadas y límites
+
+- **JWT:** HS256, issuer `enver-api`, audience `enver-mobile`, vida 900 s, skew obligatorio 0–30 s; conjunto local no vacío, kids presentes/únicos y activo perteneciente al conjunto; Base64 estándar canónico y al menos 32 bytes decodificados. No firma, parseo de JWT real, generación de claves ni prueba de entropía. Los buffers decodificados de la comprobación estructural se limpian; las Options no se imprimen.
+- **Authentication:** dominio `uttt.edu.mx`; límites iniciales del spec: nombre 200 escalares, email 254/64 bytes ASCII, creación de password 12–128 escalares/512 bytes, cuerpo 16384 bytes, JSON profundidad 4, JWT 4096 bytes. La mínima de creación permanece separada conceptualmente de verificación de login. Cambiar estos valores fuera de la política inicial requiere decisión posterior, no defaults silenciosos.
+- **Presupuestos:** candidatos register/login 8000 ms, logout 4000 ms y concurrencia de hashing 2, configurables positivos; los timeouts de dependencias no pueden exceder el total mínimo. No se ejecuta cancelación, hashing ni presupuesto restante (009); no se afirma SLA o calibración.
+- **RateLimiting:** siete estructuras configurables exactamente por los ámbitos del spec, con máximo/ventana positivos: REGISTER email 3/900 s y origen 20/900 s; LOGIN origen-email 5/60 s, email 10/60 s, origen 60/60 s; LOGOUT cuenta 30/60 s y origen 300/60 s. No algoritmo Redis, buckets, middleware ni consumo.
+- **Política/HMAC:** etiqueta local no sensible `academic-initial`; no protocolo de transición aprobado. Clave HMAC externa en Base64 canónico no vacío, sin inventar tamaño mínimo criptográfico no fijado para HMAC; se rechaza reutilización de una clave JWT configurada. La exclusividad real por ambiente y calidad/entropía deben acreditarse posteriormente. `MaxActivePartitions = null` conserva explícitamente la puerta de cardinalidad; si se proporciona un valor, solo se comprueba positividad, no aprobación del tope. No habilita construir cuotas con topes sin resolver.
+- **Registro preparado:** método `AddValidatedAuthenticationOptions(IServiceCollection, IConfiguration, IHostEnvironment)` en el archivo autorizado. Cinco implementaciones pequeñas de IValidateOptions, una por tipo, para separar responsabilidades; secciones obligatorias mediante GetRequiredSection, cinco llamadas ValidateOnStart. No hace falta crear cinco archivos adicionales. Errores fijos sin interpolar valores sensibles.
+- **Sin recarga automática:** Configure/Bind al crear Options, sin suscribir cambios; el consumo previsto es IOptions, no una recarga independiente por instancia. Esto no demuestra coordinación de un cambio/reinicio entre instancias ni sustituye las puertas de rotación/política.
+
+### Comprobación técnica temporal real, no suite F2
+
+Se compiló un ejecutable temporal mediante `dotnet exec <SDK 10.0.403>/Roslyn/bincore/csc.dll @arguments`, contra la DLL ya construida y las referencias instaladas net10.0/ASP.NET Core 10.0.14; sin csproj, NuGet, tests/ ni cambios de solución. Se ejecutó con `dotnet exec <temporal>/auth-options-007008-20261104.dll`. El código construía IConfiguration desde los dos JSON autorizados más un proveedor **en memoria**, ServiceCollection y un IHostEnvironment sintético Development. Nunca usó configuración predeterminada de host, User Secrets reales, variables reales o servicios de red. Las cadenas de conexión sintéticas no eran conexiones válidas; el material de claves consistía en bytes repetidos creados solo en memoria, deliberadamente sin atribuir entropía.
+
+**Resultado: Controlled DI checks: 71/71.** Se invocó IStartupValidator de ese contenedor aislado, no el startup de Enver.API. Se comprobaron configuración sintética válida, rechazo de base sin secretos/secciones ausentes, conexiones vacías, aislamiento, colección/concerns/propósitos, timeouts/margen/admisión, algoritmo/emisor/audiencia/vida/skew, kids ausentes/desconocidos/duplicados, Base64 inválido/no canónico/corto, límites/presupuestos/concurrencia, máximo/ventana inválidos en cada una de las siete cuotas, revisión/cardinalidad/HMAC inválidos y reutilización HMAC-JWT. Casos positivos adicionales: skew cero, base con sufijo de ejecución y ausencia de invalidación automática de IOptionsMonitor tras Reload. No se imprimieron valores de claves/conexiones.
+
+Los primeros intentos de invocar el compilador temporal fallaron por longitud de línea de comandos y construcción del argumento /out en PowerShell; se corrigió la invocación con referencias específicas y argumentos delimitados, sin modificar la implementación de aplicación. La compilación/ejecución final del probe fue correcta. Una comprobación de hash falló porque Get-FileHash no estaba disponible; se repitió con SHA256 de .NET y confirmó el lockfile intacto. No son errores/warnings del build del proyecto.
+
+Los **cuatro artefactos temporales** (fuente, runtimeconfig, ejecutable y copia de Enver.API.dll) en el directorio temporal aprobado se eliminaron y se comprobó **4/4 ausentes**. No se conservaron valores sintéticos ni se crearon suites unitarias/integración; el probe descartable no sustituye casos mantenibles y repetibles de F2/060.
+
+### Casos que debe materializar F2
+
+1. Cada sección/valor obligatorio ausente por separado; fuentes externas sintéticas sin volcado y mensajes sin reflejar datos.
+2. Matriz MongoDB/Redis e aislamiento de §16; presupuestos negativos/cero/incoherentes y fronteras con dependencias válidas.
+3. JWT: HS256/issuer/audience exactos; vida distinta de 900; skew ausente/negativo/0/30/31; kid vacío/desconocido/duplicado; clave ausente, Base64 malformado/no canónico y 31/32 bytes. Aceptar longitud no debe acreditarse como entropía.
+4. Límites iniciales y distinción creación/verificación de password; errores con datos de configuración inválidos sin secretos.
+5. Las siete cuotas: ausencia individual, máximo/ventana cero/negativos, valores positivos; cardinalidad pendiente no convertida en tope aprobado; clave HMAC ausente/malformada/reutilizada y revisión de política ausente.
+6. ValidateOnStart en factory/host de prueba, pruebas de no admisión del host real al integrarlo y regresión 060. La comprobación DI actual no demuestra este resultado en el host real.
+
+**Estado final 008: IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN DE STARTUP PENDIENTE.** Program.cs no se modificó ni se invocó el método de registro desde la aplicación: **PREPARADO / NO INTEGRADO EN HOST**. No se afirma que Enver.API rechace hoy una configuración inválida antes de admitir tráfico. La integración continúa reservada a 056 → 057 → 058 bajo autorización propia; F2 y 060 pendientes.
+
+Estado agregado: **7 tareas completadas (001–007), 1 preparada no completada (008), 71 pendientes/no ejecutadas (009–079)**. Fichas 009–079 y E001–E006/historial preservados. **8 gates pendientes**, incluido **GATE-A**; cobertura documental AUTH 48/48, PLD-AUTH 25/25, AC 21/21 sin acreditar cumplimiento técnico. **AUTH-027 NO IMPLEMENTADO / NO SATISFECHO**. R-006 REDUCIDO; R-007 y R-008 REDUCIDO — NO RESUELTO. Sin API ejecutada, conexiones MongoDB/Redis, servicios/endpoints funcionales, F2, dependencias nuevas, Docker/publish, commit o push. Trabajo detenido sin iniciar 009.
+
+La comparación final contra HEAD leyendo Git explícitamente como UTF-8 confirmó **71/71 fichas 009–079 intactas**, secciones E001–E006 idénticas e historial previo de memoria conservado como prefijo. El primer intento de comparación por salida de PowerShell tuvo diferencias de decodificación, no cambios de esas fichas; se corrigió la lectura. El inventario Git confirma exactamente seis archivos nuevos Configuration y cuatro modificados autorizados, sin staged ni cambios en archivos protegidos. Las advertencias Git LF→CRLF son de normalización, distintas de los 0 warnings del build; el diff/check y status finales se comunican al cerrar la entrega.
+
+## 18. Evidencia técnica de T-AUTH-009
+
+<a id="e-t-auth-009"></a>
+
+### E(T-AUTH-009)
+
+Autorización conversacional BUILD CONTROLADO del **2026-11-04**, exclusivamente 009 → 010 → 011 → 012, en secuencia y con parada si no se verifica el componente anterior. Inicio en feature/authentication, HEAD **a4e5cc2a5dc9a36e8b3f383af05389799d1aa559**; se preservan los diez archivos cambiados/no versionados válidos de 007/008. Sin nueva consulta al remoto. La revisión anterior permite preparar consumidores de 008 sin acreditar startup real; 008 mantiene **IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN DE STARTUP PENDIENTE**. No se altera su estado ni se adelanta Program.
+
+| Campo | Evidencia real 009 |
+| --- | --- |
+| Trazabilidad | AUTH-008/026/038/040; PLD-AUTH-18; AC-14/17/18; depende de 007/008; F1 / GATE-A, transversal |
+| Archivo nuevo | `Enver.API/Http/RequestBudget.cs`; tras verificación, este documento y memoria §24 |
+| Implementación | RequestBudget/DependencyBudget con TimeProvider, tiempo monotónico, saldo no negativo, CTS enlazados y ámbito de dependencia limitado por el saldo; sin colas/reintentos ni operaciones de infraestructura |
+| Configuración consumida | AuthenticationOptions para 8000/8000/4000 ms; BeginDependency acepta los candidatos de Options Mongo/Redis (2000/750 ms) y conexión (2000 ms); ningún valor se declara SLA ni se duplica como constante funcional |
+| Semántica | Client, RequestBudget y DependencyTimeout diferenciados; prioridad determinista cliente → total → dependencia si coinciden señales, sin afirmar cronología. MarkDispatched antes de enviar conserva ResultUncertain ante cancelación/timeout; el llamador no debe inferir ausencia de efecto ni reintentar ciegamente |
+| Restore | `dotnet restore Enver.API/Enver.API.csproj --locked-mode`: correcto, proyecto actualizado |
+| Build | `dotnet build Enver.API/Enver.API.csproj --no-restore`: correcto, **0 advertencias / 0 errores**, 11,27 s |
+| Entorno/herramientas | Windows local, SDK 10.0.403, net10.0; probe compilado con csc del SDK contra referencias ASP.NET/Core 10.0.14; sin proyecto de pruebas/NuGet nuevo |
+| Comprobación real | **19/19 aserciones aisladas**, tiempo manual sin sleeps: candidatos por operación, cero/negativo rechazado, saldo/saturación a cero, clamp al saldo, tokens enlazados, expiración, prioridad, fallo tipado, incertidumbre antes/después del envío y cancelación del cliente. Ningún host/API iniciado |
+| Comando probe | Script temporal Run.ps1: `dotnet exec .../Roslyn/bincore/csc.dll @Compile.rsp`, seguido de `dotnet exec .../Probe.dll`; sin credenciales ni conexiones |
+| Resultado/estado | **COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA**, para auxiliares aislables; no demuestra presupuesto efectivo en pipeline/operaciones reales |
+
+**Casos F2 pendientes:** trasladar estas fronteras a UT mantenibles, cancelación simultánea, disposición, presupuesto restante entre fases, timeout con efecto incierto y clasificación segura; regresión 060/calibración 067 posteriores. Cancelar no interrumpe un PasswordHasher síncrono ni revierte efectos remotos. Los artefactos del probe se mantienen solo durante esta ejecución secuencial y deben eliminarse al cierre. No se crearon tests/, endpoints o clientes; Program intacto, sin dependencias nuevas, commit/push. GATE-A y los otros siete gates pendientes; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO. Se verifica 009 antes de iniciar 010.
+
+## 19. Evidencia técnica de T-AUTH-010
+
+<a id="e-t-auth-010"></a>
+
+### E(T-AUTH-010)
+
+Misma autorización, baseline y entorno de §18; se inicia solo después de verificar 009. **Trazabilidad oficial:** AUTH-011/023/026/031/032/036/037/038; PLD-AUTH-14/19/23; AC-07/13/14/19; depende de 009, F1 / GATE-A transversal.
+
+| Campo | Evidencia real 010 |
+| --- | --- |
+| Nuevos archivos | `Enver.API/Http/ApiProblemDetails.cs`, `ApiExceptionHandler.cs`, `RequestContextMiddleware.cs`; después, este registro y memoria §25 |
+| Contrato | RFC 9457, about:blank/title/status/detail/code/traceId, sin instance, errors solo para 400 y por campos permitidos; mensajes constantes, nunca valores suministrados. Los ocho estados/códigos del plan §12 se preservan |
+| Writer/registro | IProblemDetailsWriter propio sobre AddProblemDetails/IProblemDetailsService nativos; AddSafeApiErrors prepara registros, sin invocarlos en Program. El writer reconstruye un problema seguro incluso si otro productor aporta detail/instance/extensions arbitrarias |
+| Respuestas | 204 vacío, no-store en errores y éxitos al componer RequestContext; Bearer genérico en 401, Retry-After calculado/redondeado hacia arriba en 429 si se suministra; guardas HasStarted/cancelación y marca de escritura para evitar duplicar documento |
+| Excepciones | IExceptionHandler: cliente cancelado no recibe documento; respuesta iniciada no se reescribe y se aborta; OCE/TimeoutException no cliente → 503; inesperada → 500. Nunca se serializa ni registra el texto/stack de excepción |
+| Correlación | Concreción técnica local: X-Correlation-ID único de 32 hex minúsculas no todo cero; otro formato/múltiples valores genera ActivityTraceId aleatorio. TraceIdentifier y cabecera consistentes; no es identidad ni se interpreta como claims confiables |
+| Build | `dotnet build Enver.API/Enver.API.csproj --no-restore`: correcto, **0 advertencias / 0 errores**, 6,26 s; reutiliza restore bloqueado de §18, sin cambio de paquetes |
+| Probe ejecutado | Run.ps1/csc/dotnet exec temporales: **65/65 aserciones nuevas**; se repiten 19 de 009, acumulado **84/84**; DI nativa y DefaultHttpContext/streams de memoria, feature de respuesta iniciada controlada, sin host/API ni endpoints |
+| Cobertura real | Ocho estados/códigos y forma JSON, errores condicionales, no instance ni segunda escritura, 204, challenge, Retry-After, saneamiento de productor, excepciones/cancelación, respuesta iniciada, correlación válida/inválida/múltiple/CRLF y no-store de éxito |
+| Resultado/estado | **COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA**, componentes PREPARADOS / AISLABLES / NO INTEGRADOS AL HOST |
+
+**F2/056/058 pendientes:** materializar estos casos en UT/IT, ejecución de OnStarting y escrituras bajo servidor real, respuestas de MVC/challenge/autorización/cuotas y cancelación durante escritura. Un handler aislado no garantiza comportamiento del ExceptionHandlerMiddleware ante una respuesta ya iniciada; servidor/borde pueden rechazar antes y quedan fuera del writer. No se acredita integración ni no-store efectivo de la API actual. Sin pruebas UT/IT/ST existentes, nuevos paquetes o conexiones; gates pendientes, AUTH-027 NO IMPLEMENTADO / NO SATISFECHO. Se verifica 010 antes de iniciar 011.
+
+## 20. Evidencia técnica de T-AUTH-011
+
+<a id="e-t-auth-011"></a>
+
+### E(T-AUTH-011)
+
+Se inicia tras verificar 010, bajo autorización/baseline de §18. **Trazabilidad oficial:** AUTH-003/008/018/023/030/035/040; PLD-AUTH-13/14/18/19; AC-05/09/13/18; dependencias 008–010; F1 / GATE-A. 008 mantiene verificación diferida, no se declara cerrado su startup.
+
+| Campo | Evidencia real 011 |
+| --- | --- |
+| Nuevo archivo | `Enver.API/Http/AuthenticationRequestLimitsMiddleware.cs`, con metadata/resultado de frontera, contrato de continuación y configuración System.Text.Json; después este registro y memoria §26 |
+| Alcance | Solo metadata AuthenticationRequestMetadata de operación; sin rutas/controllers/DTOs funcionales creados. Sin metadata pasa al siguiente. La composición futura debe asignarla después de routing, no se afirma protección de endpoints actuales |
+| Cuerpo | Alquiler de buffer para límite + 1, lectura real hasta 16385 bytes aunque falte Content-Length, stream no seekable/chunks; longitud declarada excesiva también rechaza. Replay acotado para el consumidor, restauración del stream y devolución del buffer con limpieza; sin disco ni logging del cuerpo |
+| Presupuesto | Reutiliza RequestBudget del contexto o crea uno desde Options que cubre lectura y continuación, sin reinicio por dependencia. ReadAsync usa token enlazado; cancelación cliente no escribe, agotamiento total 503. No es límite global de recepción de servidor/borde |
+| JSON | application/json UTF-8 estricto, charset opcional UTF-8, Content-Encoding ausente/identity, sin descompresión; nombre exacto camelCase, objeto con strings obligatorios fullName/email/password en registro o email/password en login; desconocidas/null/tipos/ausentes rechazados sin validar aún reglas funcionales de dominio/password |
+| Duplicados/Unicode | APIs .NET 10 JsonDocumentOptions/JsonSerializerOptions.AllowDuplicateProperties=false disponibles y usadas; duplicados incluso por nombre escapado rechazados, profundidad 4, sin comentarios/trailing commas/coerción; decoder UTF-8 estricto y control de UTF-16/surrogates |
+| Logout/Bearer | Cuerpo no vacío (whitespace incluido) 400 dentro de límite general; vacío no exige Content-Type. Authorization única, esquema Bearer y forma compacta ASCII de tres segmentos, token ≤4096 bytes antes de criptografía. Nunca obtiene token de query/cookie/cuerpo. Sin firmas ni claims confiables |
+| Register/login públicos | Bearer opcional no inicia validación/revocación ni altera contrato, conforme al plan §9; límite global de cabecera y posible 431 pertenecen al servidor/borde posterior |
+| Coordinación preparada | IAuthenticationBoundaryContinuation recibe resultados admisibles/400 si se registra; sin continuación, rechazo seguro 400 por defecto. Permite a 012 ejecutar controles asíncronos antes del 400; 413/415/401/503 permanecen terminales de frontera |
+| Build | `dotnet build Enver.API/Enver.API.csproj --no-restore`: correcto, **0 advertencias / 0 errores**, 5,54 s; restore/grafo de §18 conservados |
+| Probe real | **149/149 aserciones nuevas**, acumulado **233/233** al repetir 009/010; streams de memoria/no seekable de 3 bytes por lectura y ReadAsync cancelable controlado, sin host/API |
+| Casos verificados | JSON válido register/login, ausente/ilegible/array/null/tipos/operadores/case/unknown/missing/duplicados simples y escapados/comentarios/comas/surrogates/UTF-8 inválido/profundidad; 16384/16385 bytes y longitud declarada engañosa; media types/charset/encoding; logout vacío/whitespace/objeto; Bearer ausente/múltiple/malformado/no ASCII/4096/4097 bytes/solo canales alternativos; configuración serializer y timeout de lectura |
+| Estado | **COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA**, frontera PREPARADA / AISLABLE / NO INTEGRADA AL HOST |
+
+**Pendientes F2/056/058:** materializar casos en UT/IT/ST y servidor de prueba, framing chunked real, límites de servidor/proxy y headers, OnStarting, deserialización MVC real con contratos futuros y continuidad asíncrona. Los chunks del probe son un stream controlado, no evidencia de Kestrel/LB. No hay normalizador funcional, hashing, clientes, JWT criptográfico ni cuotas. Gates pendientes, AUTH-027 NO IMPLEMENTADO / NO SATISFECHO. Se verifica 011 antes de comenzar 012; la precedencia de resultados 400 y controles obligatorios se decide separadamente en 012.
+
+## 21. Evidencia técnica y decisión aprobada de T-AUTH-012
+
+<a id="e-t-auth-012"></a>
+
+### E(T-AUTH-012)
+
+Se inicia después de verificar 011, con la autorización/baseline de §18. **Trazabilidad oficial:** AUTH-008/028/029/030/031/035/040; PLD-AUTH-02/13/14/15/18/19; AC-05/14/16/18; depende de 010/011; F1 / GATE-A, entrada GATE-B. No se modifica esta trazabilidad ni las cuotas/estados aprobados.
+
+### D012 — Precedencia y consumo, APROBADA EXPRESAMENTE
+
+Spec/plan no imponían una precedencia única: plan §§13/15 y task §7 conservaban esta puerta antes de cuotas/MVC. Tras verificar 011, el agente presenta la matriz mínima mediante pregunta explícita. El responsable responde **«Aprobar matriz propuesta»** el **2026-11-04**, autorizando registrarla y comprobar sus componentes con colaboradores controlados, manteniendo integración real diferida a F2/058. D012 identifica esta decisión local de ejecución de 012; no crea otro AUTH/PLD ni reforma spec/plan.
+
+| Situación/orden | Resultado | Consumo y controles |
+| --- | --- | --- |
+| 1. Exceso real/declarado de cuerpo | 413 | Terminal antes de parseo, preflight y cuota; lectura acotada |
+| 2. Media type/charset/encoding no soportado en cuerpos funcionales | 415 | Terminal de frontera, sin cuota |
+| 3. Bearer requerido ausente/ambiguo/excesivo/malformado | 401 | Terminal; nunca derivar buckets de claims no autenticados. Logout no vacío es 400 de estructura dentro del límite general; no se usa su cuerpo como token |
+| 4. JSON ilegible/email no normalizable/defectos de validación, con control obligatorio no verificable | 503 | Ejecutar preflight asíncrono antes de responder 400; sin fallback local ni consultar existencia de usuario |
+| 5. Control verificable, JSON ilegible o sin identidad válida para los ámbitos | 400 | Sin cuota/particiones arbitrarias ni cargo parcial de origen; no admitido a procesamiento funcional |
+| 6. Identidad válida, evaluación conjunta indisponible/incierta | 503 | No continuar/reintentar; si el comando se envió, pudo haber consumo: no afirmar ausencia de efecto |
+| 7. Identidad válida, algún ámbito excedido | 429 | Cero consumo según contrato del colaborador, sin prolongar penalización; Retry-After calculado cuando disponible |
+| 8. Todos los ámbitos admiten, quedan defectos de campos/MVC | 400 | Consumo conjunto único: intentos admitidos consumen aunque fallen después; sin hashing/servicio funcional |
+| 9. Todos admiten, sin defectos | Continuar | Un solo consumo conjunto por request; no implica éxito funcional ni emisión |
+
+No se inventa una cuota de JSON inválido ni un bucket de email arbitrario. No se consulta usuario para decidir identidad/cuota. Para register/login, identidad debe proceder del normalizador compartido futuro antes del consumo; nombre/password inválidos no eluden cuotas si la identidad es válida. En logout, identidad de cuenta autenticada debe existir antes de cuota; una identidad criptográfica no confiable no se acepta por un flag del cliente. Los defectos múltiples se agregan mediante campos permitidos, nunca valores/mensajes del request.
+
+### Componentes y verificación
+
+| Campo | Evidencia real 012 |
+| --- | --- |
+| Nuevos archivos | `Enver.API/Features/Authentication/Validation/AuthenticationAdmissionResults.cs`, `Enver.API/Http/AuthenticationValidationCoordinator.cs`, `Enver.API/Http/AuthenticationValidationFilter.cs`; después task/memoria §27 |
+| Contratos | Resultados propios de assessment/cuota/coordinación, sin DTOs funcionales o valores sensibles; tres colaboradores obligatorios para preflight, evaluación de identidad/campos y consumo conjunto. No hay adaptadores reales, fakes productivos ni fallback disponible/no-op |
+| Coordinación | Continuación de frontera intercepta 400 antes de MVC. Frontera válida continúa hasta autenticación/binding y filtro MVC; preflight precede al 400, una única identidad preparada precede a cuota, no hay lectura de usuarios |
+| Evitar doble cargo | Lazy<Task> compartida en Items por HttpContext, acceso protegido y resultado de control reutilizado por todas las invocaciones del request; ID de intento interno generado una vez al evaluar cuota. No idempotencia pública, entre requests, ni promesa de exactly-once distribuido |
+| MVC preparado | IAsyncActionFilter/IOrderedFilter con orden -3000, anterior al ModelStateInvalidFilter nativo (-2000), sin deshabilitar globalmente validación de otros controllers. Await de controles antes de resolver ModelState; no copia RawValue/AttemptedValue/mensajes. Registro y JsonOptions preparados, no invocados desde Program |
+| Fail-closed | Colaborador no verificable/timeout/incierto → 503 sin texto interno ni reintento; cancelación cliente aborta sin respuesta; falta de frontera en filtro → 503; cuenta logout no autenticada → 401 sin cuota |
+| Build | `dotnet build Enver.API/Enver.API.csproj --no-restore`: correcto, **0 advertencias / 0 errores**, 4,44 s; grafo/restore de §18 sin cambios |
+| Probe real | **53/53 aserciones nuevas**, acumulado **286/286** con 009/010/011 repetidas; colaboradores controlados, HttpContext/ModelState/filtros MVC nativos en memoria, TCS para espera asíncrona y ocho invocaciones concurrentes de coordinación |
+| Casos ejecutados | JSON ilegible/identidad inválida y disponibilidad; matriz 400/429/503 con defectos; consumo único/reutilización de error MVC posterior; timeout incierto no reintentado; coordinación concurrente; frontera 400 con guard; frontera válida difiere a MVC; orden frente al filtro automático nativo, espera obligatoria y no ejecución de su 400 anticipado; resultados seguros; guard 503 frente a ModelState inválido; frontera ausente; cuenta no autenticada; cliente cancelado; registros scoped/JsonOptions; composición frontera → continuación |
+| Estado | **COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA**, para decisión expresamente aprobada y coordinación aislable verificada; sin declarar integración real |
+
+**Diferidos obligatorios:** F2 materializa suites mantenibles y factories; 021 implementa cuota real con sus puertas de cardinalidad/HMAC, atomicidad y coordinación, sin obtener permiso de este cierre; normalizador/validadores funcionales en sus tareas. 056 conecta tramo HTTP/Options, 057 dependencias/admisión, **058 integra MVC/cuotas/autenticación y prueba el orden completo**, 060 regresa el conjunto. Aquí se invocaron componentes/filtros reales con colaboradores controlados, no se ejecutó un pipeline MVC/servidor real, modelo funcional, Redis ni control distribuido. No se acredita rechazo/admisión de la API actual ni que Redis haya consumido exactamente una vez.
+
+**Casos F2:** matriz D012 en suites y factory incremental, 400 automático con errores de binding/ModelState reales, guard cancelado/no verificable, identidad inválida sin buckets, datos completos con defectos múltiples, atomicidad de cuotas reales y doble invocación/reentradas, ninguna consulta de existencia, timeout con consumo incierto, orden autenticación → cuenta/logout → cuota y no dependencia de Bearer opcional en register/login. Las 286 aserciones del probe no son UT/IT/ST mantenibles ni cierre de GATE-A.
+
+Estado agregado: **11 completadas (001–007,009–012), 008 preparada con startup pendiente, 67 PENDIENTE / NO EJECUTADA (013–079)**. Los cierres previos y 008 se preservan; **8 gates pendientes**, incluido **GATE-A**, faltan 013–015 y materialización F2. Cobertura documental AUTH 48/48, PLD-AUTH 25/25, AC 21/21 no equivale a satisfacción. **AUTH-027 NO IMPLEMENTADO / NO SATISFECHO**; riesgos R-006/007/008 sin cambios. Program, Options/appsettings de 007/008, spec/plan, constituciones/foundation, dependencias/lockfile/solución y Docker/workflows no se modifican por este bloque. Sin endpoints, conexiones, JWT criptográfico, cuotas distribuidas, commit o push. Se detiene el trabajo al completar 012, sin iniciar F2.
+
+**Verificación de cierre del bloque:** eliminados los **10/10 artefactos temporales** (cinco fuentes del probe, script, runtimeconfig, response file del compilador y dos DLL) y el directorio temporal propio vacío; ausencia comprobada. Inventario Git: ocho archivos nuevos de este bloque, seis Configuration previos preservados y cuatro tracked modificados (dos JSON previos más task/memoria), sin staged. Comparación UTF-8 con HEAD confirma 67/67 fichas 013–079 intactas, definiciones oficiales 001–012 sin alteración salvo estados/enlaces de evidencia y E001–E006 íntegros. Archivos protegidos fuera de esas rutas sin diff; hash del lockfile idéntico a F0; comprobación de whitespace en los 14 archivos nuevos correcta. Git diff/check y status finales se comunican al entregar, sin commit/push.
+
+## 22. Evidencia técnica de T-AUTH-013 y T-AUTH-014
+
+<a id="e-t-auth-013"></a>
+
+### E(T-AUTH-013)
+
+Autorización BUILD CONTROLADO delimitada a F2, con baseline F1 recuperada y SDK 10.0.403 / `net10.0`. **Trazabilidad oficial:** AUTH-041/042/043; PLD-AUTH-01/03/20; AC-21; depende de 003/006; F2 / GATE-A. No se modifica `Program.cs`, no se integra host ni se inicia 015.
+
+| Campo | Evidencia real 013 |
+| --- | --- |
+| Proyectos | Se crean exactamente `tests/Enver.API.UnitTests`, `tests/Enver.API.IntegrationTests` y `tests/Enver.API.SecurityTests`, cada uno net10.0, no empaquetable y con referencia a `Enver.API`; no se crea cuarto proyecto. |
+| Solución | `Enver.Backend.slnx` conserva `Enver.API` y añade los tres proyectos mediante entradas `Project Path`; no se regenera la solución. |
+| Descubrimiento/ejecución | `dotnet test ...UnitTests... --no-build`: 4/4; `...IntegrationTests...`: 2/2; `...SecurityTests...`: 2/2. El adaptador real xUnit VSTest 4.0.1 descubre cada suite; no hay falso verde por cero tests. |
+| Pruebas materializadas | UT: Options sintéticas válidas, duplicate kid, cancelación cliente y resultado incierto tras despacho. IT: Problem Details 503 seguro/no-store y D012 con admisión conjunta única bajo concurrencia. ST: JSON duplicado y Bearer de 4097 bytes rechazados sin eco de valores. No se inicia host, endpoints, MVC pipeline real, MongoDB o Redis. |
+| Build | `dotnet build Enver.Backend.slnx --no-restore`: correcto, **0 advertencias / 0 errores**, 11,26 s tras corregir exclusivamente dos detalles de las nuevas pruebas (API de NullFileProvider y colisión local del nombre Options). |
+| Estado | **COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA**; tres suites reales disponibles, sin afirmar integración completa. |
+
+<a id="e-t-auth-014"></a>
+
+### E(T-AUTH-014)
+
+**Trazabilidad oficial:** AUTH-039/041/042/043/044/045; PLD-AUTH-03/20; AC-10/21; depende de 013; F2 / GATE-A. La aceptación explícita conserva **xunit 2.9.3 Legacy**, únicamente por coherencia con el plan que exige xUnit v2; no se sustituye familia/major ni se interpreta como mantenimiento funcional futuro.
+
+| Campo | Evidencia real 014 |
+| --- | --- |
+| Directos aprobados | En los tres proyectos: Microsoft.NET.Test.Sdk 18.11.0, xunit 2.9.3 y xunit.runner.visualstudio 4.0.1. Solo IT/ST añaden Microsoft.AspNetCore.Mvc.Testing 10.0.14, Testcontainers.MongoDb 4.16.0 y Testcontainers.Redis 4.16.0. Todas las referencias tienen `PrivateAssets="all"`. |
+| Lockfiles | Cada proyecto declara `RestorePackagesWithLockFile=true`; restore autorizado genera sus tres `packages.lock.json`, sin edición manual. `dotnet restore Enver.Backend.slnx --locked-mode` correcto para API y tres suites. |
+| Utilidades | Se crea solo el directorio físico `tests/Shared/`, sin proyecto ni fuente vacía: ningún auxiliar no-Docker compartido era necesario. Las pruebas usan TimeProvider nativo; no hay sleeps, Moq, coverlet, FluentAssertions, Microsoft.Extensions.TimeProvider.Testing, Testcontainers base directo ni transitivas forzadas. |
+| Restore/build | `dotnet restore Enver.Backend.slnx` correcto; dos descargas iniciales truncadas de Microsoft.CodeCoverage 18.11.0 y Docker.DotNet.Enhanced 4.3.3 fueron reintentadas por NuGet y los tres restores concluyeron correctamente. Build final y los tres tests se ejecutan después sin advertencias/errores. |
+| Grafo/auditoría | Directos y versiones coinciden con el aprobado. Transitivos relevantes: TestHost/ObjectModel/CodeCoverage 18.11.0; xunit core/assert/extensibility 2.9.3 y analyzers 1.18.0; TestHost/Hosting/DependencyModel 10.0.14; Testcontainers 4.16.0, Docker.DotNet.Enhanced/X509 4.3.3, SSH.NET 2026.0.0, SharpZipLib 1.4.2 y BouncyCastle.Cryptography 2.7.0. `dotnet list Enver.Backend.slnx package --include-transitive --vulnerable --no-restore` no informa paquetes vulnerables en los orígenes actuales `https://api.nuget.org/v3/index.json` y la caché SDK local. |
+| Límites | La auditoría depende de avisos/fuentes actuales y no certifica ausencia universal de vulnerabilidades, imágenes, DLL embebidas o seguridad funcional. PrivateAssets evita propagación NuGet, pero no sustituye una verificación publish futura. Los módulos Testcontainers se restauran pero no se instancian: no hubo Docker, contenedores, imágenes, MongoDB, Redis ni Testcontainers ejecutados. |
+| Estado | **COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA**. |
+
+Estado agregado: **13 completadas (001–007,009–014), 008 preparada con startup pendiente, 65 PENDIENTE / NO EJECUTADA (015–079)**. Los ocho gates, incluido **GATE-A**, continúan PENDIENTE / NO SATISFECHO porque falta 015 y sus fixtures/arranque, entre otras condiciones. **AUTH-027 permanece NO IMPLEMENTADO / NO SATISFECHO**. Sin commit/push; se detiene el incremento sin iniciar 015.
+
+## 23. Evidencia técnica de T-AUTH-015
+
+<a id="e-t-auth-015"></a>
+
+### E(T-AUTH-015)
+
+Autorización BUILD CONTROLADO limitada a F2/T-AUTH-015. **Trazabilidad oficial:** AUTH-009/022/025–028/038/042/043; PLD-AUTH-05/07/08/20; AC-03/11/14–17; depende de 005/007/008/014; soporte GATE-A/B/C/G. No modifica `Program.cs`, producción, dependencias, imágenes/digests, lockfiles, spec/plan ni inicia 016.
+
+| Campo | Evidencia real 015 |
+| --- | --- |
+| Fixture y plazo | `tests/Shared/AuthenticationDependenciesFixture.cs` usa un único presupuesto finito de inicialización de `TimeSpan.FromMinutes(10)` para pull/create/start de MongoDB y Redis, bootstrap del replica set y probes iniciales. Sustituye el presupuesto original de 2 minutos que canceló el primer pull de Mongo; cleanup y probes públicos conservan sus tokens de llamada. La primera descarga/inicialización efectiva de Mongo superó 2 minutos (aprox. 2 min 30 s de suite) y completó dentro del máximo autorizado. |
+| Contenedores | Testcontainers inició MongoDB `mongo:8.0.34-noble@sha256:3c64937121b9437095921c4bb2569911084c05f7b88e4a263d62a8959d2b2399`, Redis `redis:8.2.11-bookworm@sha256:99ffb973380cc2f47bca06bd094f7f8c7138a0879a63cb8939896a22b7a65bba` y Ryuk `testcontainers/ryuk:0.14.0@sha256:7c1a8a9a47c780ed0f983770a662f80deb115d95cce3e2daa3d12115b8cd28f0`. |
+| MongoDB | Contenedor iniciado con replica set `rs0`; `hello` confirmó primary escribible. La sonda realizó `updateOne`/lectura sintéticas en la base por ejecución y las pruebas comprobaron escritura/lectura compartida entre hosts. |
+| Redis | Contenedor iniciado; `PING` devolvió `PONG`, `CONFIG GET maxmemory-policy` devolvió `noeviction` y `CONFIG GET maxmemory` confirmó 64 MiB (`67108864`). Se comprobó `SET`/`GET` y la eliminación selectiva de claves propias. |
+| Aislamiento sintético | Una ejecución comparte el mismo `RunId`: `EnvironmentName=T015_<RunId>`, `MongoDatabase=enver_t015_<RunId>` y `RedisNamespace=enver:t015_<RunId>`. El guion bajo del namespace es la forma derivada del contrato F1 `enver:{environment.ToLowerInvariant()}`; no modifica el validador. |
+| Factories | `AuthenticationApiFactory` aplica el ambiente sintético al `IHostBuilder` antes de construir el host y conserva la configuración in-memory. Dos factories A/B arrancaron con `/health` 200, mismo ambiente/base/namespace y la misma fixture externa; `IServiceProvider`, `TestServer`, probes y `TestHostLocalState` son distintos. El estado local de A no apareció en B; una escritura Mongo/Redis de A fue observable desde B mediante las dependencias compartidas. |
+| Startup de Options | La corrección de factory evita que `WebApplicationFactory` conserve `Development`: `IHostEnvironment.EnvironmentName` es exactamente `T015_<RunId>` durante `ValidateOnStart`. SecurityTests acreditó un startup válido y el rechazo durante startup de cinco configuraciones inválidas (MongoDb, Redis, Jwt, Authentication y RateLimiting), sin secretos sintéticos en los mensajes comprobados. |
+| Limpieza | Cada prueba elimina solo la base MongoDB propia y las claves Redis registradas; se comprobó su ausencia. Ante fallo parcial se disponen los contenedores creados; al final Testcontainers/Ryuk eliminó los contenedores. No se ejecutaron `FLUSHALL`, `FLUSHDB` ni `docker system prune`. |
+| Restore y build | `dotnet restore Enver.Backend.slnx --locked-mode` correcto; los cuatro lockfiles no cambiaron. `dotnet build Enver.Backend.slnx --no-restore` correcto, **0 advertencias / 0 errores**. |
+| Suites | `dotnet test tests/Enver.API.IntegrationTests/Enver.API.IntegrationTests.csproj --no-build`: 4 descubiertas/ejecutadas, 4 correctas, 0 fallidas, 0 omitidas. `dotnet test tests/Enver.API.SecurityTests/Enver.API.SecurityTests.csproj --no-build`: 8/8 correctas, 0 fallidas/omitidas, 46,1764 s. `dotnet test tests/Enver.API.UnitTests/Enver.API.UnitTests.csproj --no-build`: 4/4 correctas, 0 fallidas/omitidas, 3,1385 s. |
+| Limitación Scout | Docker Scout requiere autenticación en este entorno. No se inició sesión ni se solicitaron credenciales; la coincidencia de digests no afirma ausencia de vulnerabilidades de imágenes. |
+| Estado | **T-AUTH-015 COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA.** T-AUTH-008 conserva **IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN PRODUCTIVA DE STARTUP PENDIENTE**. **GATE-A** y los otros siete gates siguen pendientes/no satisfechos; **AUTH-027 permanece NO IMPLEMENTADO / NO SATISFECHO**. |
+
+## 24. Evidencia complementaria para reevaluación de GATE-A
+
+Tras autorización BUILD CONTROLADO para materializar exclusivamente las brechas de evidencia de componentes, se crean/actualizan pruebas mantenibles de F1 sin modificar `Program.cs`, componentes productivos, paquetes, lockfiles, imágenes, digests efectivos, spec ni plan. Los dos primeros resultados de SecurityTests mostraron que los casos sintéticos de Bearer omitían el esquema `Bearer `; se corrigieron solo esos casos positivos/de frontera y su generador, no el middleware. El token sintético usa tres segmentos Base64url sin padding; las aserciones del mismo caso verifican longitud total de token y tres segmentos para 4096/4097, antes de invocar la frontera. Esto no implementa autenticación criptográfica.
+
+| Verificación | Resultado real |
+| --- | --- |
+| T-AUTH-008 | `AuthenticationOptionsValidationTests` cubre secciones/valores obligatorios, MongoDB/Redis y aislamiento, issuer/audience/lifetime/skew/ActiveKid/kids/claves JWT, límites/presupuestos Authentication, las siete cuotas RateLimiting y HMAC sintético sin exponer secretos. Conserva **IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN PRODUCTIVA DE STARTUP PENDIENTE**; no integra F1 en `Program.cs`. |
+| T-AUTH-009 / 014 | `RequestBudgetTests` usa `ManualTimeProvider` propio, sin sleeps, para saldo monotónico/no negativo, agotamiento, clamp, timeout de dependencia, cancelación enlazada y de cliente, prioridad, `MarkDispatched` e incertidumbre posterior al despacho. |
+| T-AUTH-010 | `ProblemDetailsTests` cubre los códigos F1, forma y Content-Type, `no-store`, correlación, saneamiento y ausencia de sentinelas/eco, Retry-After, challenge Bearer, 204 vacío, segunda escritura, respuesta iniciada y cancelación. La evidencia de OnStarting usa `ControlledResponseFeature`: registra el callback, lo ejecuta explícitamente y observa correlación/no-store antes de marcar `HasStarted` y antes de que retorne el delegado; por ello no puede quedar verde por el fallback `finally` del middleware. |
+| T-AUTH-011 | `AuthenticationBoundarySecurityTests` cubre 16384/16385, stream fragmentado no seekable, cancelación, JSON ambiguo/UTF-8/surrogates, media type/charset/encoding, logout vacío/no vacío y Authorization ausente/múltiple/malformado/compacto. Un token de **4096** caracteres con `Authorization: Bearer <token>` continúa la frontera; **4097** recibe 401 antes de criptografía. No acredita framing Kestrel, TLS, ALB/LB ni request smuggling. |
+| T-AUTH-012 | `AuthenticationValidationCompositionTests` cubre D012 con colaboradores controlados: preflight 503 antes del 400, JSON ilegible o identidad inválida sin cuota, 429, resultado incierto 503 sin reintento, espera asíncrona MVC, ModelState saneado, admisión única/reentrada/concurrencia y logout no autenticado sin cuota ni buckets arbitrarios. |
+| Restore/build/suites | `dotnet restore Enver.Backend.slnx --locked-mode` correcto, cuatro lockfiles sin cambios; `dotnet build Enver.Backend.slnx --no-restore` correcto con **0 advertencias / 0 errores**. UnitTests **44/44**, IntegrationTests **29/29** y SecurityTests **32/32** correctas, sin fallidas ni omitidas. |
+| Publish | `dotnet publish Enver.API/Enver.API.csproj --no-restore -c Release` en directorio temporal exclusivo correcto. Archivos: configuración, `Enver.API`/PDB/deps/runtimeconfig/staticwebassets, `Microsoft.AspNetCore.OpenApi.dll`, `Microsoft.OpenApi.dll` y `web.config`. `Enver.API.deps.json` no contiene xunit, Microsoft.NET.Test.Sdk/TestPlatform, MVC Testing/TestHost, Testcontainers, Docker.DotNet, SSH.NET ni BouncyCastle. El directorio temporal se eliminó tras inspección. |
+| Digest MongoDB | Se corrige solo la transcripción documental previa `...c05f7f88e4...` por el digest efectivo de la fixture `...c05f7b88e4...`; no cambia la fixture, imagen ni digest ejecutado. |
+
+**BRECHAS TÉCNICAS PARA REEVALUACIÓN DE GATE-A: COMPLETADAS.** La corrección posterior de la prueba confirma además: **BRECHA ONSTARTING PARA GATE-A: COMPLETADA.** Esta evidencia complementaria no cierra automáticamente GATE-A: queda **PENDIENTE, A FALTA DE CONSOLIDACIÓN GIT Y CIERRE FORMAL**. T-AUTH-009 a T-AUTH-015 conservan **COMPLETADAS / EVIDENCIA TÉCNICA REGISTRADA**; T-AUTH-016 permanece **PENDIENTE / NO EJECUTADA** y AUTH-027 **NO IMPLEMENTADO / NO SATISFECHO**. Sin stage, commit ni push.
