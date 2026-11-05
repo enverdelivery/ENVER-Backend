@@ -195,6 +195,19 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
         }
     }
 
+    public async Task StopRedisAsync(CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        await Redis.StopAsync(cancellationToken);
+    }
+
+    public async Task StartRedisAsync(CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        await Redis.StartAsync(cancellationToken);
+        await VerifyRedisAsync(cancellationToken);
+    }
+
     public async Task WriteRedisAsync(string marker, CancellationToken cancellationToken = default)
     {
         EnsureInitialized();
