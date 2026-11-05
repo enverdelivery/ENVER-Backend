@@ -19,8 +19,9 @@
 | Estado posterior del bloque 009–012 | 001–007 conservan sus cierres; 008 mantiene verificación de startup pendiente; 009–012 COMPLETADAS / EVIDENCIA TÉCNICA REGISTRADA como componentes aislables (§§18–21); 013–079: 67 PENDIENTE / NO EJECUTADA |
 | Estado posterior de 013–014 | 001–007 y 009–012 conservan sus cierres; 008 mantiene verificación de startup pendiente; 013/014 COMPLETADAS / EVIDENCIA TÉCNICA REGISTRADA (§22); 015–079: 65 PENDIENTE / NO EJECUTADA |
 | Estado posterior de 015 | 001–007 y 009–015 COMPLETADAS / EVIDENCIA TÉCNICA REGISTRADA; 008 mantiene IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN DE STARTUP PENDIENTE; 016–079: 64 PENDIENTE / NO EJECUTADA; 8 gates pendientes / no satisfechos |
+| Estado vigente tras cierre formal de GATE-A | 001–007 y 009–015 COMPLETADAS / EVIDENCIA TÉCNICA REGISTRADA; 008 mantiene IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN PRODUCTIVA DE STARTUP PENDIENTE; 016–079: 64 PENDIENTE / NO EJECUTADA; GATE-A SATISFECHO / CERRADO; GATE-B a GATE-H PENDIENTES / NO SATISFECHOS |
 | Cobertura documental prevista | AUTH 48/48; PLD-AUTH 25/25; AC 21/21 |
-| Gates | 8; todos PENDIENTES / NO SATISFECHOS |
+| Gates | 8; GATE-A SATISFECHO / CERRADO; GATE-B a GATE-H PENDIENTES / NO SATISFECHOS |
 | Fuente de aprobación | SOL-TASK-002: aprobación expresa del catálogo compactado y autorización documental del responsable |
 | Estado técnico | Autenticación NO IMPLEMENTADA / NO VERIFICADA por esta entrega; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO |
 
@@ -1350,13 +1351,14 @@ Las pruebas funcionales acompañan a sus capacidades. Esta fase reutiliza esas s
 
 ## 4. Gates de aceptación
 
-Todos los gates tienen estado **PENDIENTE / NO SATISFECHO**. Las condiciones de salida son requisitos futuros, no resultados observados. Los gates revisan capacidades; no reemplazan autorización por tarea/incremento. No se impone terminar el gate completo para construir sus propias tareas integrantes: sus entradas y dependencias indican qué parte puede iniciarse.
+El catálogo se creó con todos los gates **PENDIENTE / NO SATISFECHO**. Tras la reevaluación y el registro de §25, el estado vigente es: **GATE-A SATISFECHO / CERRADO**; **GATE-B a GATE-H PENDIENTES / NO SATISFECHOS**. Los gates revisan capacidades; no reemplazan autorización por tarea/incremento. No se impone terminar el gate completo para construir sus propias tareas integrantes: sus entradas y dependencias indican qué parte puede iniciarse.
 
 **Un gate superado localmente no demuestra AWS/Atlas/infraestructura productiva.** Cada aceptación identifica entorno/topología y alcance. Un checkpoint local puede permitir trabajo posterior independiente autorizado, pero no cerrar la aceptación externa pendiente de 068, simularla o afirmar cumplimiento integral. El cierre 079 depende de 068; mientras falte, permanece pendiente aunque existan checkpoints locales.
 
 ### GATE-A
 
 - **Nombre:** Base/configuración.
+- **Estado vigente:** **SATISFECHO / CERRADO**; registro formal y límites en §25.
 - **Tareas de entrada:** 001–006; componentes 007–015.
 - **Condiciones de entrada:** Solicitud técnica posterior delimitada, fuentes/baseline identificadas, conservación de cambios existentes y entornos aprobados para las acciones de preparación.
 - **Condiciones de salida:** 001–015 revisadas/verificadas: SDK/grafo/versiones, higiene/contexto/publish, Options inválidas rechazadas, presupuestos/errores/HTTP probados y tres suites/fixtures disponibles. Resultados reales, no mera presencia de clases.
@@ -2566,3 +2568,19 @@ Tras autorización BUILD CONTROLADO para materializar exclusivamente las brechas
 | Digest MongoDB | Se corrige solo la transcripción documental previa `...c05f7f88e4...` por el digest efectivo de la fixture `...c05f7b88e4...`; no cambia la fixture, imagen ni digest ejecutado. |
 
 **BRECHAS TÉCNICAS PARA REEVALUACIÓN DE GATE-A: COMPLETADAS.** La corrección posterior de la prueba confirma además: **BRECHA ONSTARTING PARA GATE-A: COMPLETADA.** Esta evidencia complementaria no cierra automáticamente GATE-A: queda **PENDIENTE, A FALTA DE CONSOLIDACIÓN GIT Y CIERRE FORMAL**. T-AUTH-009 a T-AUTH-015 conservan **COMPLETADAS / EVIDENCIA TÉCNICA REGISTRADA**; T-AUTH-016 permanece **PENDIENTE / NO EJECUTADA** y AUTH-027 **NO IMPLEMENTADO / NO SATISFECHO**. Sin stage, commit ni push.
+
+## 25. Cierre formal de GATE-A — Base/configuración
+
+El **5 de noviembre de 2026**, tras la reevaluación formal final y la consolidación autorizada, **GATE-A — Base/configuración queda SATISFECHO / CERRADO**. El cierre se limita a las capacidades de baseline, configuración, componentes F1 y soporte de pruebas F2 descritos en este catálogo; no altera el estado ni la evidencia histórica de sus tareas integrantes.
+
+| Campo | Registro de cierre |
+| --- | --- |
+| Checkpoint técnico F1/F2 | `1658c57478c8866ae5abe9aaabefe7fcba088508` — `test(auth): complete base configuration gate evidence` |
+| Evidencia | E(T-AUTH-001) a E(T-AUTH-015), más la evidencia complementaria de §24 y la brecha OnStarting completada |
+| Restore y build | `restore --locked-mode` correcto; build con **0 advertencias / 0 errores** |
+| Suites | UnitTests **44/44**, IntegrationTests **30/30** y SecurityTests **32/32**; **0 fallidas / 0 omitidas** |
+| Publish | Publish de `Enver.API` inspeccionado correctamente; `Enver.API.deps.json` sin dependencias exclusivas de testing |
+| OnStarting | Ejecución efectiva acreditada mediante `ControlledResponseFeature`: callback registrado y ejecutado, con correlación y `no-store` observados antes de iniciar la respuesta y sin depender del fallback `finally` |
+| Git | Consolidación completada en el checkpoint indicado; working tree limpio al evaluar el gate |
+
+El cierre de GATE-A **no significa** autenticación productiva terminada, endpoints Register/Login/Logout implementados, Redis/MongoDB/JWT productivos integrados, despliegue AWS o infraestructura cloud validada. **T-AUTH-008** conserva **IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN PRODUCTIVA DE STARTUP PENDIENTE**; su integración de host permanece reservada a 056. **T-AUTH-016** permanece **PENDIENTE / NO EJECUTADA**, y GATE-B a GATE-H permanecen **PENDIENTES / NO SATISFECHOS**. **AUTH-027** sigue **NO IMPLEMENTADO / NO SATISFECHO**. **R-007** permanece **REDUCIDO — NO RESUELTO**; la inspección completa posterior de artefactos/sentinelas pertenece a 078 / GATE-H. Este cierre no declara aceptación externa, infraestructura productiva ni cumplimiento integral de la rúbrica.
