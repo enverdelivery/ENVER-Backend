@@ -21,6 +21,7 @@
     <ProjectReference Include="../../Enver.API/Enver.API.csproj" />
     <Compile Include="../Shared/AuthenticationDependenciesFixture.cs" Link="Shared/AuthenticationDependenciesFixture.cs" />
     <Compile Include="../Shared/AuthenticationApiFactory.cs" Link="Shared/AuthenticationApiFactory.cs" />
+    <Compile Include="../Shared/AuthenticationSecurityAuthorityFake.cs" Link="Shared/AuthenticationSecurityAuthorityFake.cs" />
     <Using Include="Xunit" />
   </ItemGroup>
 

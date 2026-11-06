@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../Enver.API/Enver.API.csproj" />
+    <Compile Include="../Shared/AuthenticationSecurityAuthorityFake.cs" Link="Shared/AuthenticationSecurityAuthorityFake.cs" />
     <Using Include="Xunit" />
   </ItemGroup>
 

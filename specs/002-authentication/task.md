@@ -23,6 +23,7 @@
 | Estado posterior de 016 | 001–007 y 009–016 COMPLETADAS / EVIDENCIA TÉCNICA REGISTRADA; 008 mantiene IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN PRODUCTIVA DE STARTUP PENDIENTE; 017–079: 63 PENDIENTE / NO EJECUTADA; GATE-A SATISFECHO / CERRADO; GATE-B a GATE-H PENDIENTES / NO SATISFECHOS |
 | Estado posterior de 018 | 001–007 y 009–016/018 COMPLETADAS / EVIDENCIA TÉCNICA REGISTRADA; 008 mantiene IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN PRODUCTIVA DE STARTUP PENDIENTE; 017 y 019–079: 62 PENDIENTE / NO EJECUTADA; GATE-A SATISFECHO / CERRADO; GATE-B a GATE-H PENDIENTES / NO SATISFECHOS |
 | Estado posterior de 019 | 001–007 y 009–016/018–019 COMPLETADAS / EVIDENCIA TÉCNICA REGISTRADA; 008 mantiene IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN PRODUCTIVA DE STARTUP PENDIENTE; 017 y 020–079: 61 PENDIENTE / NO EJECUTADA; GATE-A SATISFECHO / CERRADO; GATE-B a GATE-H PENDIENTES / NO SATISFECHOS |
+| Estado posterior de 020-A | 001–007, 009–017 y 018–019 conservan sus cierres; 008 mantiene IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN PRODUCTIVA DE STARTUP PENDIENTE; **020-A COMPLETADA / EVIDENCIA LOCAL REGISTRADA**, mientras **T-AUTH-020 permanece IMPLEMENTACIÓN PARCIAL / ADAPTER DYNAMODB PENDIENTE**; 021–079: 59 PENDIENTE / NO EJECUTADA; GATE-A SATISFECHO / CERRADO; GATE-B a GATE-H PENDIENTES / NO SATISFECHOS |
 | Cobertura documental prevista | AUTH 48/48; PLD-AUTH 25/25; AC 21/21 |
 | Gates | 8; GATE-A SATISFECHO / CERRADO; GATE-B a GATE-H PENDIENTES / NO SATISFECHOS |
 | Fuente de aprobación | SOL-TASK-002: aprobación expresa del catálogo compactado y autorización documental del responsable |
@@ -61,6 +62,8 @@ La autorización BUILD CONTROLADO posterior delimita exclusivamente T-AUTH-016: 
 La autorización BUILD CONTROLADO posterior delimita exclusivamente T-AUTH-018: puerto de admisión de estado de seguridad, guard Redis fail-closed y pruebas UT/IT. Reutiliza `RedisConnections`, `RequestBudget`/`DependencyBudget` y Redis Testcontainer existente; no agrega paquetes ni modifica lockfiles, `Program.cs`, endpoints, revocación/TTL, cuotas/HMAC, MongoDB, JWT funcional, detección real 019, recuperación/coordinación 020 o T-AUTH-017. La evidencia queda en §27 y memoria §34.
 
 La autorización BUILD CONTROLADO posterior delimita exclusivamente T-AUTH-019: detector local de señales Redis reales, cierre conservador, medición local T0/T1/T2 y casos IT/ST. Reutiliza el multiplexer de `RedisConnections`, sin recrearlo, sin polling, paquetes, `Program.cs`, revocación/TTL, cuotas, JWT funcional, recuperación/reapertura coordinada 020 ni T-AUTH-017. La evidencia queda en §28 y memoria §35.
+
+Una autorización posterior independiente ejecuta exclusivamente el subpaso local T-AUTH-020-A y registra evidencia parcial en §30 y memoria §37, sin cerrar T-AUTH-020 ni incorporar DynamoDB.
 
 **APROBADO PARA EJECUCIÓN INCREMENTAL** significa exclusivamente que el catálogo podrá ejecutarse una tarea o incremento a la vez mediante **autorización posterior** de alcance, archivos, acciones y entorno. No autoriza ejecución inmediata, instalaciones, conexiones, builds, pruebas, scanners, workflows, AWS, Terraform, commit o push; no satisface gates ni resuelve decisiones diferidas.
 
@@ -443,7 +446,7 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **Salida verificable:** No admisión compartida y freno de emisión cuando proceda; restauración confiable validada o cuarentena desde última emisión posible, con hosts/solicitudes en vuelo, skew/margen y cambios de reloj/configuración. Sin prueba de cese/reapertura segura, mantener cierre.
 - **Pruebas/evidencia requerida:** E(T-AUTH-020): propagación, emisión en vuelo y ausencia de reapertura prematura; 990 s solo horizonte candidato con 900+30+60, no RTO ni temporizador desde primera alerta.
 - **Riesgos/notas:** AUTH-027 NO IMPLEMENTADO / NO SATISFECHO; no segundo almacén duradero obligatorio ni transacciones distribuidas; confianza no reside únicamente en el estado perdido.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** IMPLEMENTACIÓN PARCIAL — 020-A COMPLETADA / EVIDENCIA LOCAL REGISTRADA (§30); adapter DynamoDB y evidencia de autoridad externa real pendientes.
 
 #### T-AUTH-021
 
@@ -2674,3 +2677,21 @@ Autorización BUILD CONTROLADO limitada a F3/T-AUTH-017. **Trazabilidad oficial:
 | Límites explícitos | Dos consumidores y un contenedor local no prueban continuidad, persistencia, ACK de réplica, failover, pérdida/restauración, integridad ni coordinación distribuida. `AUTH-027` sigue no implementado/no satisfecho; cuarentena, recuperación y reapertura confiable permanecen en T-AUTH-020 y contrastes posteriores. |
 | Restore, build y suites | `dotnet restore Enver.Backend.slnx --locked-mode` correcto, lockfiles sin cambios; build **0 advertencias / 0 errores**. UnitTests **76/76**, IntegrationTests **46/46** y SecurityTests **33/33**, sin fallidas ni omitidas. |
 | Estado | **T-AUTH-017 COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA.** **T-AUTH-020** permanece PENDIENTE / NO EJECUTADA. **GATE-B** permanece PENDIENTE / NO SATISFECHO. **AUTH-027** permanece NO IMPLEMENTADO / NO SATISFECHO. |
+
+## 30. Evidencia local parcial de T-AUTH-020-A
+
+<a id="e-t-auth-020-a"></a>
+
+### E(T-AUTH-020-A)
+
+Autorización BUILD CONTROLADO limitada al subpaso local 020-A de F3/T-AUTH-020. **Trazabilidad oficial:** AUTH-022/024/026–028/038/039; PLD-AUTH-08/09; AC-15/20; depende de 017/019; GATE-B. No modifica `Program.cs`, endpoints, login/JWT, Terraform, AWS, IAM, DynamoDB Local/real, paquetes ni lockfiles; no crea el adapter DynamoDB ni inicia 021.
+
+| Campo | Evidencia real 020-A |
+| --- | --- |
+| Puerto y modelos | Se crea `IAuthenticationSecurityAuthority` con `ReadAsync`, `MergeClosedAsync` y `TryReopenAsync`, sin tipos AWS, DynamoDB, Redis, HTTP, JWT ni PII. Sus modelos distinguen `Open`/`Closed`, `Available`/`Conflict`/`Unavailable`/`Uncertain`, causa de cancelación cuando corresponde, `Generation`, `Revision`, última emisión posible y metadatos de cuarentena. `Closed` requiere metadatos UTC válidos; ausencia de registro no equivale a `Open`. |
+| Coordinador local | `AuthenticationSecurityCoordinator` implementa sin cambios `IAuthenticationSecurityState`. Consulta la autoridad antes de admitir; ausencia, fallo, resultado incierto o `Closed` cierran el latch local. `CloseAsync` cierra el latch antes de E/S y no lo abre por Redis sano, `PING`, reconexión, `ConnectionRestored` ni Redis vacío. Solo una transición explícita de autoridad `Closed → Open` con revisión posterior puede ser observada como reapertura. |
+| Emisión, horizonte y cuarentena | `BeginEmissionAsync` exige autoridad `Open` verificable y registra una lease local; `CompleteEmission`/`FailEmission` liberan solo el seguimiento local y nunca reducen el máximo conservado. El cierre usa el máximo local y el instante UTC actual; el horizonte se deriva de `JwtOptions.LifetimeSeconds + JwtOptions.ClockSkewSeconds + RedisOptions.RevocationOperationalMarginSeconds`, sin literal 990. El fake conserva máximos de emisión, cuarentena y horizonte durante el cierre. La persistencia CAS distribuida por emisión no se afirma: requiere el adapter 020-B. |
+| CAS y reapertura | `Generation` aumenta exclusivamente en `Open → Closed`; `Revision` aumenta en los cambios compartidos realizados por el fake. Ante un conflicto hay un reread/recomputación y un único segundo intento; otro conflicto sigue cerrado. La operación explícita de control solo reabre tras cuarentena completa, sin leases locales en vuelo y con CAS de generación/revisión; errores, timeout/incierto o autoridad no disponible no asumen `Open`. Restauración confiable validada queda fuera de 020-A. |
+| Pruebas locales | Fake compartido thread-safe cubre estado ausente, Open/Closed, CAS, conflictos y resultados no disponibles/inciertos. UT cubren admisión inicial, latch, emisiones, máximo, horizonte, cuarentena, cambios de configuración, generación/revisión, conflicto y reloj. IT usa Redis Testcontainer real, dos coordinadores con fake compartido, parada/arranque Redis, clave ausente, cierre observado por B y reapertura explícita tras cuarentena. ST cubre ping, Redis vacío/reinicio, autoridad ausente/no disponible, generación atrasada, cuarentena incompleta y que una clave de revocación ausente no autoriza cuando la autoridad está cerrada. |
+| Restore, build y suites | `dotnet restore Enver.Backend.slnx --locked-mode` correcto y lockfiles sin cambios. Build **0 advertencias / 0 errores**. UnitTests **88/88**, IntegrationTests **48/48** y SecurityTests **37/37**, sin fallidas ni omitidas. |
+| Límites y estado | Un fake compartido y Redis local no acreditan DynamoDB, lectura fuertemente consistente, `ConditionExpression`, timeout real de SDK, despliegue AWS, IAM, bootstrap del registro, continuidad/failover ni coordinación distribuida de emisiones. **T-AUTH-020-A COMPLETADA / EVIDENCIA LOCAL REGISTRADA. T-AUTH-020 IMPLEMENTACIÓN PARCIAL / ADAPTER DYNAMODB PENDIENTE. GATE-B PENDIENTE / NO SATISFECHO. AUTH-027 NO IMPLEMENTADO / NO SATISFECHO.** |
