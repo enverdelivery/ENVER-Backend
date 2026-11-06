@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <EmbeddedResource Include="Infrastructure\Redis\Scripts\RevokeToken.lua" />
   </ItemGroup>
 
   <PropertyGroup>
