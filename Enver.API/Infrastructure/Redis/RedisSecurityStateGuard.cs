@@ -1,7 +1,6 @@
 using Enver.API.Configuration;
 using Enver.API.Features.Authentication.Application.Ports;
 using Enver.API.Http;
-using StackExchange.Redis;
 
 namespace Enver.API.Infrastructure.Redis;
 
@@ -29,8 +28,7 @@ public sealed class RedisSecurityStateGuard : IAuthenticationSecurityState
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(options.OperationTimeoutMilliseconds);
 
         operationTimeoutMilliseconds = options.OperationTimeoutMilliseconds;
-        this.verifier = verifier ?? (budget => VerifyWithRedisAsync(connections, budget));
-        connections.ConnectivityChanged += (_, signal) => ObserveConnectivitySignal(signal);
+        this.verifier = verifier ?? (budget => VerifyConnectionAsync(connections, budget));
     }
 
     public ValueTask<AuthenticationSecurityDecision> EvaluateAsync(RequestBudget requestBudget)
@@ -75,11 +73,6 @@ public sealed class RedisSecurityStateGuard : IAuthenticationSecurityState
                 exception.ResultUncertain ? AuthenticationSecurityAdmission.Uncertain : AuthenticationSecurityAdmission.Unavailable,
                 exception.Cause);
         }
-        catch (RedisVerificationUncertainException)
-        {
-            CloseAdmission();
-            return new AuthenticationSecurityDecision(AuthenticationSecurityAdmission.Uncertain);
-        }
         catch (OperationCanceledException)
         {
             try
@@ -108,25 +101,12 @@ public sealed class RedisSecurityStateGuard : IAuthenticationSecurityState
         }
     }
 
-    private static async ValueTask VerifyWithRedisAsync(RedisConnections connections, DependencyBudget dependency)
+    private static async ValueTask VerifyConnectionAsync(RedisConnections connections, DependencyBudget dependency)
     {
-        var multiplexer = await connections.GetMultiplexerAsync(dependency.Token).ConfigureAwait(false);
-        dependency.ThrowIfCancellationRequested();
-        dependency.MarkDispatched();
-
-        try
-        {
-            await multiplexer.GetDatabase().PingAsync().WaitAsync(dependency.Token).ConfigureAwait(false);
-        }
-        catch (RedisException exception)
-        {
-            throw new RedisVerificationUncertainException(exception);
-        }
-
+        _ = await connections.GetMultiplexerAsync(dependency.Token).ConfigureAwait(false);
         dependency.ThrowIfCancellationRequested();
     }
 
     private void CloseAdmission() => Interlocked.Exchange(ref closed, 1);
 
-    private sealed class RedisVerificationUncertainException(Exception innerException) : Exception("No fue posible verificar el estado Redis.", innerException);
 }
