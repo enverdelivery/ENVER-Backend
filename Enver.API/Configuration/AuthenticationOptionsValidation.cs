@@ -11,11 +11,13 @@ public static class AuthenticationOptionsValidation
     {
         services.AddSingleton<IValidateOptions<MongoDbOptions>>(new MongoDbOptionsValidator(environment.EnvironmentName));
         services.AddSingleton<IValidateOptions<RedisOptions>>(new RedisOptionsValidator(environment.EnvironmentName));
+        services.AddSingleton<IValidateOptions<AuthenticationSecurityAuthorityOptions>, AuthenticationSecurityAuthorityOptionsValidator>();
         services.AddSingleton<IValidateOptions<JwtOptions>, JwtOptionsValidator>();
         services.AddSingleton<IValidateOptions<AuthenticationOptions>, AuthenticationOptionsValidator>();
         services.AddSingleton<IValidateOptions<RateLimitingOptions>, RateLimitingOptionsValidator>();
         services.AddOptions<MongoDbOptions>().Configure(o => configuration.GetRequiredSection(MongoDbOptions.SectionName).Bind(o)).ValidateOnStart();
         services.AddOptions<RedisOptions>().Configure(o => configuration.GetRequiredSection(RedisOptions.SectionName).Bind(o)).ValidateOnStart();
+        services.AddOptions<AuthenticationSecurityAuthorityOptions>().Configure(o => configuration.GetRequiredSection(AuthenticationSecurityAuthorityOptions.SectionName).Bind(o)).ValidateOnStart();
         services.AddOptions<JwtOptions>().Configure(o => configuration.GetRequiredSection(JwtOptions.SectionName).Bind(o)).ValidateOnStart();
         services.AddOptions<AuthenticationOptions>().Configure(o => configuration.GetRequiredSection(AuthenticationOptions.SectionName).Bind(o)).ValidateOnStart();
         services.AddOptions<RateLimitingOptions>().Configure(o => configuration.GetRequiredSection(RateLimitingOptions.SectionName).Bind(o)).ValidateOnStart();
@@ -44,6 +46,15 @@ internal sealed class RedisOptionsValidator(string environment) : IValidateOptio
         (o.RevocationPurpose == "auth:revocation" && o.RateLimitingPurpose == "auth:ratelimit", "Redis: propósitos incompatibles."),
         (o.OperationTimeoutMilliseconds > 0 && o.ConnectionTimeoutMilliseconds > 0 && o.RevocationOperationalMarginSeconds > 0, "Redis: límites positivos requeridos."),
         (o.FailClosed && o.RequiredRevocationEvictionPolicy == "noeviction", "Redis: requisito fail-closed/noeviction requerido.")
+    ]);
+}
+
+internal sealed class AuthenticationSecurityAuthorityOptionsValidator : IValidateOptions<AuthenticationSecurityAuthorityOptions>
+{
+    public ValidateOptionsResult Validate(string? name, AuthenticationSecurityAuthorityOptions o) => Checks.Result(
+    [
+        (!string.IsNullOrWhiteSpace(o.TableName) && o.TableName.Length is >= 3 and <= 255 && o.TableName.All(c => char.IsAsciiLetterOrDigit(c) || c is '_' or '-' or '.'), "AuthenticationSecurityAuthority: TableName incompatible."),
+        (o.OperationTimeoutMilliseconds is >= 1 and <= 2000, "AuthenticationSecurityAuthority: timeout debe estar entre 1 y 2000 ms.")
     ]);
 }
 

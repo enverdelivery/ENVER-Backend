@@ -68,11 +68,11 @@ public sealed class AuthenticationSecurityCoordinatorTests
         var authority = new AuthenticationSecurityAuthorityFake(Open());
         var coordinator = Coordinator(authority, time);
 
-        var first = await coordinator.BeginEmissionAsync(Budget());
+        var first = await coordinator.BeginEmissionAsync(Budget(time, 1_000));
         Assert.NotNull(first);
         coordinator.CompleteEmission(first!);
         time.Advance(TimeSpan.FromSeconds(10));
-        var second = await coordinator.BeginEmissionAsync(Budget());
+        var second = await coordinator.BeginEmissionAsync(Budget(time, 1_000));
         Assert.NotNull(second);
         coordinator.FailEmission(second!);
         time.SetUtcNow(T0.AddSeconds(5));
@@ -80,7 +80,7 @@ public sealed class AuthenticationSecurityCoordinatorTests
         var close = await coordinator.CloseAsync(Budget());
 
         Assert.Equal(AuthenticationSecurityAuthorityResultStatus.Available, close.Status);
-        Assert.Equal(T0.AddSeconds(10), authority.State!.LastPossibleIssuanceUtc);
+        Assert.Equal(T0.AddSeconds(11), authority.State!.LastPossibleIssuanceUtc);
     }
 
     [Fact]
@@ -89,7 +89,7 @@ public sealed class AuthenticationSecurityCoordinatorTests
         var time = new ManualTimeProvider(T0);
         var authority = new AuthenticationSecurityAuthorityFake(Open());
         var coordinator = Coordinator(authority, time);
-        var lease = await coordinator.BeginEmissionAsync(Budget());
+        var lease = await coordinator.BeginEmissionAsync(Budget(time, 1_000));
         Assert.NotNull(lease);
         authority.EnqueueReadOutcome(AuthenticationSecurityAuthorityResultStatus.Uncertain);
 
@@ -171,15 +171,31 @@ public sealed class AuthenticationSecurityCoordinatorTests
     }
 
     [Fact]
+    public async Task Potential_issuance_rereads_and_recomputes_once_after_a_conflict()
+    {
+        var time = new ManualTimeProvider(T0);
+        var authority = new AuthenticationSecurityAuthorityFake(Open());
+        authority.EnqueuePotentialIssuanceOutcome(AuthenticationSecurityAuthorityResultStatus.Conflict);
+        var coordinator = Coordinator(authority, time);
+
+        var lease = await coordinator.BeginEmissionAsync(Budget(time, 1_000));
+
+        Assert.NotNull(lease);
+        Assert.Equal(AuthenticationSecurityGlobalState.Open, authority.State!.State);
+        Assert.Equal(1, authority.State.Revision);
+        Assert.Equal(T0.AddSeconds(1), authority.State.LastPossibleIssuanceUtc);
+    }
+
+    [Fact]
     public async Task Quarantine_and_in_flight_emissions_prevent_reopen_then_explicit_CAS_reopens()
     {
         var time = new ManualTimeProvider(T0);
         var authority = new AuthenticationSecurityAuthorityFake(Open());
         var coordinator = Coordinator(authority, time);
-        var lease = await coordinator.BeginEmissionAsync(Budget());
+        var lease = await coordinator.BeginEmissionAsync(Budget(time, 1_000));
         Assert.NotNull(lease);
         _ = await coordinator.CloseAsync(Budget());
-        time.Advance(TimeSpan.FromSeconds(990));
+        time.Advance(TimeSpan.FromSeconds(991));
 
         var withInFlight = await coordinator.TryReopenAfterQuarantineAsync(Budget());
         coordinator.CompleteEmission(lease!);
@@ -220,6 +236,7 @@ public sealed class AuthenticationSecurityCoordinatorTests
         new(AuthenticationSecurityGlobalState.Closed, generation, revision, lastPossible, lastPossible.AddSeconds(lifetime + skew + margin), lifetime, skew, margin);
 
     private static RequestBudget Budget() => new(10_000_000, CancellationToken.None);
+    private static RequestBudget Budget(TimeProvider clock, int milliseconds) => new(milliseconds, CancellationToken.None, clock);
     private static async ValueTask<AuthenticationSecurityDecision> EvaluateAsync(AuthenticationSecurityCoordinator coordinator)
     {
         using var budget = Budget();

@@ -9,6 +9,7 @@ public sealed class AuthenticationSecurityAuthorityFake : IAuthenticationSecurit
     private readonly object sync = new();
     private AuthenticationSecurityAuthorityState? state;
     private readonly Queue<AuthenticationSecurityAuthorityResultStatus> readOutcomes = [];
+    private readonly Queue<AuthenticationSecurityAuthorityResultStatus> potentialIssuanceOutcomes = [];
     private readonly Queue<AuthenticationSecurityAuthorityResultStatus> closeOutcomes = [];
     private readonly Queue<AuthenticationSecurityAuthorityResultStatus> reopenOutcomes = [];
 
@@ -20,6 +21,7 @@ public sealed class AuthenticationSecurityAuthorityFake : IAuthenticationSecurit
     }
 
     public void EnqueueReadOutcome(AuthenticationSecurityAuthorityResultStatus status) => Enqueue(readOutcomes, status);
+    public void EnqueuePotentialIssuanceOutcome(AuthenticationSecurityAuthorityResultStatus status) => Enqueue(potentialIssuanceOutcomes, status);
     public void EnqueueCloseOutcome(AuthenticationSecurityAuthorityResultStatus status) => Enqueue(closeOutcomes, status);
     public void EnqueueReopenOutcome(AuthenticationSecurityAuthorityResultStatus status) => Enqueue(reopenOutcomes, status);
 
@@ -29,6 +31,28 @@ public sealed class AuthenticationSecurityAuthorityFake : IAuthenticationSecurit
         {
             var outcome = Dequeue(readOutcomes);
             return ValueTask.FromResult(new AuthenticationSecurityAuthorityReadResult(outcome, outcome == AuthenticationSecurityAuthorityResultStatus.Available ? state : null));
+        }
+    }
+
+    public ValueTask<AuthenticationSecurityAuthorityPotentialIssuanceResult> RegisterPotentialIssuanceAsync(RegisterPotentialIssuanceRequest request, RequestBudget requestBudget)
+    {
+        lock (sync)
+        {
+            var outcome = Dequeue(potentialIssuanceOutcomes);
+            if (outcome != AuthenticationSecurityAuthorityResultStatus.Available)
+            {
+                return ValueTask.FromResult(new AuthenticationSecurityAuthorityPotentialIssuanceResult(outcome));
+            }
+
+            if (state is not { State: AuthenticationSecurityGlobalState.Open } open || open.Generation != request.ExpectedGeneration || open.Revision != request.ExpectedRevision)
+            {
+                return ValueTask.FromResult(new AuthenticationSecurityAuthorityPotentialIssuanceResult(AuthenticationSecurityAuthorityResultStatus.Conflict));
+            }
+
+            var latest = open.LastPossibleIssuanceUtc is { } existing && existing > request.LatestPossibleIssuanceUtc
+                ? existing : request.LatestPossibleIssuanceUtc;
+            state = new AuthenticationSecurityAuthorityState(AuthenticationSecurityGlobalState.Open, open.Generation, checked(open.Revision + 1), latest, null, null, null, null);
+            return ValueTask.FromResult(new AuthenticationSecurityAuthorityPotentialIssuanceResult(AuthenticationSecurityAuthorityResultStatus.Available, state));
         }
     }
 

@@ -91,10 +91,7 @@ public sealed class AuthenticationSecurityCoordinator : IAuthenticationSecurityS
             : new AuthenticationSecurityDecision(AuthenticationSecurityAdmission.Unavailable);
     }
 
-    /// <summary>
-    /// Registra localmente una emisión que podría completar. La persistencia atómica distribuida de este
-    /// registro exige el adapter de autoridad de 020-B; esta fase jamás reduce el máximo conservado.
-    /// </summary>
+    /// <summary>Registra primero el límite de emisión potencial en la autoridad compartida.</summary>
     public async ValueTask<AuthenticationSecurityEmissionLease?> BeginEmissionAsync(RequestBudget requestBudget)
     {
         ArgumentNullException.ThrowIfNull(requestBudget);
@@ -103,9 +100,34 @@ public sealed class AuthenticationSecurityCoordinator : IAuthenticationSecurityS
             return null;
         }
 
-        var decision = await EvaluateAsync(requestBudget).ConfigureAwait(false);
-        if (!decision.CanContinue)
+        var read = await authority.ReadAsync(requestBudget).ConfigureAwait(false);
+        if (read.Status != AuthenticationSecurityAuthorityResultStatus.Available || read.State is not { State: AuthenticationSecurityGlobalState.Open } state)
         {
+            CloseLocalLatch();
+            return null;
+        }
+
+        DateTimeOffset latestPossibleIssuanceUtc;
+        try
+        {
+            if (requestBudget.Remaining <= TimeSpan.Zero)
+            {
+                CloseLocalLatch();
+                return null;
+            }
+
+            latestPossibleIssuanceUtc = clock.GetUtcNow().Add(requestBudget.Remaining);
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            CloseLocalLatch();
+            return null;
+        }
+
+        var registered = await RegisterPotentialIssuanceWithSingleConflictResolutionAsync(state, latestPossibleIssuanceUtc, requestBudget).ConfigureAwait(false);
+        if (registered.Status != AuthenticationSecurityAuthorityResultStatus.Available || registered.State is not { State: AuthenticationSecurityGlobalState.Open })
+        {
+            CloseLocalLatch();
             return null;
         }
 
@@ -117,10 +139,9 @@ public sealed class AuthenticationSecurityCoordinator : IAuthenticationSecurityS
             }
 
             var id = Guid.NewGuid();
-            var possibleIssuanceUtc = clock.GetUtcNow();
-            emissions.Add(id, possibleIssuanceUtc);
-            localLastPossibleIssuanceUtc = Max(localLastPossibleIssuanceUtc, possibleIssuanceUtc);
-            return new AuthenticationSecurityEmissionLease(this, id);
+            emissions.Add(id, latestPossibleIssuanceUtc);
+            localLastPossibleIssuanceUtc = Max(localLastPossibleIssuanceUtc, latestPossibleIssuanceUtc);
+            return new AuthenticationSecurityEmissionLease(this, id, latestPossibleIssuanceUtc);
         }
     }
 
@@ -168,6 +189,46 @@ public sealed class AuthenticationSecurityCoordinator : IAuthenticationSecurityS
         var second = await authority.MergeClosedAsync(CreateCloseRequest(reread.State), requestBudget).ConfigureAwait(false);
         RememberClosedFromResult(second);
         return second;
+    }
+
+    private async ValueTask<AuthenticationSecurityAuthorityPotentialIssuanceResult> RegisterPotentialIssuanceWithSingleConflictResolutionAsync(
+        AuthenticationSecurityAuthorityState state,
+        DateTimeOffset latestPossibleIssuanceUtc,
+        RequestBudget requestBudget)
+    {
+        var first = await authority.RegisterPotentialIssuanceAsync(
+            new RegisterPotentialIssuanceRequest(state.Generation, state.Revision, latestPossibleIssuanceUtc), requestBudget).ConfigureAwait(false);
+        if (first.Status != AuthenticationSecurityAuthorityResultStatus.Conflict)
+        {
+            return first;
+        }
+
+        var reread = await authority.ReadAsync(requestBudget).ConfigureAwait(false);
+        if (reread.Status != AuthenticationSecurityAuthorityResultStatus.Available || reread.State is not { State: AuthenticationSecurityGlobalState.Open } current)
+        {
+            return new AuthenticationSecurityAuthorityPotentialIssuanceResult(
+                reread.Status == AuthenticationSecurityAuthorityResultStatus.Available
+                    ? AuthenticationSecurityAuthorityResultStatus.Unavailable : reread.Status,
+                null,
+                reread.CancellationCause);
+        }
+
+        try
+        {
+            if (requestBudget.Remaining <= TimeSpan.Zero)
+            {
+                return new AuthenticationSecurityAuthorityPotentialIssuanceResult(AuthenticationSecurityAuthorityResultStatus.Unavailable);
+            }
+
+            latestPossibleIssuanceUtc = clock.GetUtcNow().Add(requestBudget.Remaining);
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            return new AuthenticationSecurityAuthorityPotentialIssuanceResult(AuthenticationSecurityAuthorityResultStatus.Unavailable);
+        }
+
+        return await authority.RegisterPotentialIssuanceAsync(
+            new RegisterPotentialIssuanceRequest(current.Generation, current.Revision, latestPossibleIssuanceUtc), requestBudget).ConfigureAwait(false);
     }
 
     private async ValueTask<AuthenticationSecurityAuthorityReopenResult> ReopenWithSingleConflictResolutionAsync(
@@ -284,12 +345,14 @@ public sealed class AuthenticationSecurityCoordinator : IAuthenticationSecurityS
 /// <summary>Handle opaco para completar o fallar una emisión futura, sin representar JWT alguno.</summary>
 public sealed class AuthenticationSecurityEmissionLease
 {
-    internal AuthenticationSecurityEmissionLease(AuthenticationSecurityCoordinator owner, Guid id)
+    internal AuthenticationSecurityEmissionLease(AuthenticationSecurityCoordinator owner, Guid id, DateTimeOffset latestPossibleIssuanceUtc)
     {
         Owner = owner;
         Id = id;
+        LatestPossibleIssuanceUtc = latestPossibleIssuanceUtc;
     }
 
     internal AuthenticationSecurityCoordinator Owner { get; }
     internal Guid Id { get; }
+    public DateTimeOffset LatestPossibleIssuanceUtc { get; }
 }

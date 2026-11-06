@@ -9,6 +9,10 @@ public interface IAuthenticationSecurityAuthority
 {
     ValueTask<AuthenticationSecurityAuthorityReadResult> ReadAsync(RequestBudget requestBudget);
 
+    ValueTask<AuthenticationSecurityAuthorityPotentialIssuanceResult> RegisterPotentialIssuanceAsync(
+        RegisterPotentialIssuanceRequest request,
+        RequestBudget requestBudget);
+
     ValueTask<AuthenticationSecurityAuthorityCloseResult> MergeClosedAsync(
         CloseAuthenticationSecurityRequest request,
         RequestBudget requestBudget);
@@ -52,7 +56,7 @@ public sealed record AuthenticationSecurityAuthorityState
 
         if (state == AuthenticationSecurityGlobalState.Open)
         {
-            if (lastPossibleIssuanceUtc is not null || quarantineUntilUtc is not null ||
+            if ((lastPossibleIssuanceUtc is not null && lastPossibleIssuanceUtc.Value.Offset != TimeSpan.Zero) || quarantineUntilUtc is not null ||
                 capturedLifetimeSeconds is not null || capturedSkewSeconds is not null ||
                 capturedOperationalMarginSeconds is not null)
             {
@@ -136,6 +140,27 @@ public sealed record CloseAuthenticationSecurityRequest
     public TimeSpan CapturedHorizon => TimeSpan.FromSeconds(checked(CapturedLifetimeSeconds + CapturedSkewSeconds + CapturedOperationalMarginSeconds));
 }
 
+public sealed record RegisterPotentialIssuanceRequest
+{
+    public RegisterPotentialIssuanceRequest(long expectedGeneration, long expectedRevision, DateTimeOffset latestPossibleIssuanceUtc)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(expectedGeneration);
+        ArgumentOutOfRangeException.ThrowIfNegative(expectedRevision);
+        if (latestPossibleIssuanceUtc.Offset != TimeSpan.Zero)
+        {
+            throw new ArgumentException("El límite de emisión potencial debe estar en UTC.", nameof(latestPossibleIssuanceUtc));
+        }
+
+        ExpectedGeneration = expectedGeneration;
+        ExpectedRevision = expectedRevision;
+        LatestPossibleIssuanceUtc = latestPossibleIssuanceUtc;
+    }
+
+    public long ExpectedGeneration { get; }
+    public long ExpectedRevision { get; }
+    public DateTimeOffset LatestPossibleIssuanceUtc { get; }
+}
+
 public sealed record TryReopenAuthenticationSecurityRequest
 {
     public TryReopenAuthenticationSecurityRequest(long expectedGeneration, long expectedRevision, DateTimeOffset observedNowUtc)
@@ -167,6 +192,14 @@ public readonly record struct AuthenticationSecurityAuthorityReadResult(
 }
 
 public readonly record struct AuthenticationSecurityAuthorityCloseResult(
+    AuthenticationSecurityAuthorityResultStatus Status,
+    AuthenticationSecurityAuthorityState? State = null,
+    BudgetCancellationCause CancellationCause = BudgetCancellationCause.None)
+{
+    public bool ResultUncertain => Status == AuthenticationSecurityAuthorityResultStatus.Uncertain;
+}
+
+public readonly record struct AuthenticationSecurityAuthorityPotentialIssuanceResult(
     AuthenticationSecurityAuthorityResultStatus Status,
     AuthenticationSecurityAuthorityState? State = null,
     BudgetCancellationCause CancellationCause = BudgetCancellationCause.None)

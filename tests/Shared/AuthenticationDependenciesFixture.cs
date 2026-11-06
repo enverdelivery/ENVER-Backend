@@ -1,4 +1,10 @@
 using System.Security.Cryptography;
+using Amazon;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.Model;
+using Amazon.Runtime;
+using DotNet.Testcontainers.Builders;
+using DotNet.Testcontainers.Containers;
 using Testcontainers.MongoDb;
 using Testcontainers.Redis;
 using Xunit;
@@ -15,6 +21,7 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
 {
     public const string MongoImage = "docker.io/library/mongo:8.0.34-noble@sha256:3c64937121b9437095921c4bb2569911084c05f7b88e4a263d62a8959d2b2399";
     public const string RedisImage = "docker.io/library/redis:8.2.11-bookworm@sha256:99ffb973380cc2f47bca06bd094f7f8c7138a0879a63cb8939896a22b7a65bba";
+    public const string DynamoDbImage = "amazon/dynamodb-local:3.1.0@sha256:7ef4a2c45b58c2901e70a4f28e0953a422c2c631baaaf5e2c15e0805740c7752";
     public const string RyukImage = "testcontainers/ryuk:0.14.0@sha256:7c1a8a9a47c780ed0f983770a662f80deb115d95cce3e2daa3d12115b8cd28f0";
     public const string ReplicaSetName = "rs0";
     public const long RedisMaxMemoryBytes = 64L * 1024 * 1024;
@@ -26,6 +33,7 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
     private readonly string _rateLimitingKey = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
     private MongoDbContainer? _mongo;
     private RedisContainer? _redis;
+    private IContainer? _dynamoDb;
     private bool _initialized;
     private bool _cleaned;
 
@@ -33,11 +41,13 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
     public string EnvironmentName => $"T015_{RunId}";
     public string MongoDatabase => $"enver_t015_{RunId}";
     public string RedisNamespace => $"enver:t015_{RunId}";
+    public string DynamoDbTableName => $"enver_t020_{RunId}";
     public string MongoConnectionString => Mongo.GetConnectionString();
     public string RedisConnectionString => Redis.GetConnectionString();
 
     private MongoDbContainer Mongo => _mongo ?? throw new InvalidOperationException("MongoDB de pruebas no inicializado.");
     private RedisContainer Redis => _redis ?? throw new InvalidOperationException("Redis de pruebas no inicializado.");
+    private IContainer DynamoDb => _dynamoDb ?? throw new InvalidOperationException("DynamoDB Local de pruebas no inicializado.");
 
     public async Task InitializeAsync()
     {
@@ -50,14 +60,21 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
         _redis = new RedisBuilder(RedisImage)
             .WithCommand("redis-server", "--maxmemory-policy", "noeviction", "--maxmemory", "64mb")
             .Build();
+        _dynamoDb = new ContainerBuilder(DynamoDbImage)
+            .WithPortBinding(8000, true)
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(8000))
+            .Build();
 
         try
         {
             await Mongo.StartAsync(token);
             await Redis.StartAsync(token);
+            await DynamoDb.StartAsync(token);
             _initialized = true;
             await VerifyMongoAsync(token);
             await VerifyRedisAsync(token);
+            await VerifyDynamoDbAsync(token);
+            await CreateDynamoDbTableAsync(token);
         }
         catch
         {
@@ -88,6 +105,8 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
             ["Redis:RevocationOperationalMarginSeconds"] = "30",
             ["Redis:FailClosed"] = "true",
             ["Redis:RequiredRevocationEvictionPolicy"] = "noeviction",
+            ["AuthenticationSecurityAuthority:TableName"] = DynamoDbTableName,
+            ["AuthenticationSecurityAuthority:OperationTimeoutMilliseconds"] = "500",
             ["Jwt:Algorithm"] = "HS256",
             ["Jwt:Issuer"] = "enver-api",
             ["Jwt:Audience"] = "enver-mobile",
@@ -208,6 +227,48 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
         await VerifyRedisAsync(cancellationToken);
     }
 
+    /// <summary>Cliente exclusivo de DynamoDB Local con credenciales sintéticas no secretas.</summary>
+    public IAmazonDynamoDB CreateDynamoDbClient()
+    {
+        EnsureInitialized();
+        return new AmazonDynamoDBClient(new BasicAWSCredentials("fakeAccessKeyId", "fakeSecretAccessKey"), new AmazonDynamoDBConfig
+        {
+            ServiceURL = $"http://localhost:{DynamoDb.GetMappedPublicPort(8000)}",
+            UseHttp = true,
+            AuthenticationRegion = RegionEndpoint.USEast1.SystemName,
+            MaxErrorRetry = 0
+        });
+    }
+
+    public async Task DeleteAuthenticationSecurityAuthorityAsync(IAmazonDynamoDB client, CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        await client.DeleteItemAsync(new DeleteItemRequest
+        {
+            TableName = DynamoDbTableName,
+            Key = AuthenticationSecurityKey()
+        }, cancellationToken);
+    }
+
+    /// <summary>Bootstrap explícito: ausencia no significa Open y el alta no sobrescribe una autoridad existente.</summary>
+    public async Task BootstrapAuthenticationSecurityAuthorityAsync(IAmazonDynamoDB client, CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        await client.PutItemAsync(new PutItemRequest
+        {
+            TableName = DynamoDbTableName,
+            Item = new Dictionary<string, AttributeValue>(StringComparer.Ordinal)
+            {
+                ["Id"] = new() { S = "authentication" },
+                ["State"] = new() { S = "Open" },
+                ["Generation"] = new() { N = "0" },
+                ["Revision"] = new() { N = "0" }
+            },
+            ConditionExpression = "attribute_not_exists(#id)",
+            ExpressionAttributeNames = new Dictionary<string, string>(StringComparer.Ordinal) { ["#id"] = "Id" }
+        }, cancellationToken);
+    }
+
     public async Task WriteRedisAsync(string marker, CancellationToken cancellationToken = default)
     {
         EnsureInitialized();
@@ -240,6 +301,19 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
 
         var mongoResult = await Mongo.ExecScriptAsync($"db.getSiblingDB('{MongoDatabase}').dropDatabase();", cancellationToken);
         EnsureSuccess(mongoResult.ExitCode, "No se pudo eliminar la base MongoDB propia.");
+
+        if (_dynamoDb is not null)
+        {
+            using var dynamo = CreateDynamoDbClient();
+            try
+            {
+                await dynamo.DeleteTableAsync(new DeleteTableRequest { TableName = DynamoDbTableName }, cancellationToken);
+            }
+            catch (ResourceNotFoundException)
+            {
+                // Otra prueba de la misma colección ya limpió la tabla aislada.
+            }
+        }
 
         string[] keys;
         lock (_ownedRedisKeys)
@@ -306,6 +380,12 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
             _redis = null;
         }
 
+        if (_dynamoDb is not null)
+        {
+            await _dynamoDb.DisposeAsync();
+            _dynamoDb = null;
+        }
+
         if (_mongo is not null)
         {
             await _mongo.DisposeAsync();
@@ -319,6 +399,45 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
         command.AddRange(arguments);
         return await Redis.ExecAsync(command, cancellationToken);
     }
+
+    private async Task VerifyDynamoDbAsync(CancellationToken cancellationToken)
+    {
+        EnsureInitialized();
+        using var client = CreateDynamoDbClient();
+        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        timeout.CancelAfter(TimeSpan.FromSeconds(30));
+        _ = await client.ListTablesAsync(new ListTablesRequest(), timeout.Token);
+    }
+
+    private async Task CreateDynamoDbTableAsync(CancellationToken cancellationToken)
+    {
+        using var client = CreateDynamoDbClient();
+        await client.CreateTableAsync(new CreateTableRequest
+        {
+            TableName = DynamoDbTableName,
+            AttributeDefinitions = [new AttributeDefinition("Id", ScalarAttributeType.S)],
+            KeySchema = [new KeySchemaElement("Id", KeyType.HASH)],
+            ProvisionedThroughput = new ProvisionedThroughput(1, 1)
+        }, cancellationToken);
+
+        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        timeout.CancelAfter(TimeSpan.FromSeconds(30));
+        while (true)
+        {
+            var description = await client.DescribeTableAsync(new DescribeTableRequest { TableName = DynamoDbTableName }, timeout.Token);
+            if (description.Table.TableStatus == TableStatus.ACTIVE)
+            {
+                return;
+            }
+
+            await Task.Delay(TimeSpan.FromMilliseconds(50), timeout.Token);
+        }
+    }
+
+    private static Dictionary<string, AttributeValue> AuthenticationSecurityKey() => new(StringComparer.Ordinal)
+    {
+        ["Id"] = new AttributeValue { S = "authentication" }
+    };
 
     private static string ConfigValue(string output, string expectedName)
     {

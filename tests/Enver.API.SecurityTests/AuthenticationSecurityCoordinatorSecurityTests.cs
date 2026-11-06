@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using Enver.API.Configuration;
 using Enver.API.Features.Authentication.Application.Ports;
 using Enver.API.Http;
+using Enver.API.Infrastructure.Aws;
 using Enver.API.Infrastructure.Redis;
 using Enver.API.Infrastructure.Security;
 using Enver.Testing;
@@ -85,6 +86,38 @@ public sealed class AuthenticationSecurityCoordinatorSecurityTests(Authenticatio
         Assert.Equal(AuthenticationSecurityAuthorityResultStatus.Unavailable, incomplete.Status);
     }
 
+    [Fact]
+    public async Task Missing_or_unavailable_DynamoDb_authority_never_opens_admission()
+    {
+        using var client = dependencies.CreateDynamoDbClient();
+        await dependencies.DeleteAuthenticationSecurityAuthorityAsync(client);
+        var missing = Coordinator(new DynamoDbAuthenticationSecurityAuthority(client, AuthorityOptions(dependencies.DynamoDbTableName)), new ManualTimeProvider(T0));
+        var unavailable = Coordinator(new DynamoDbAuthenticationSecurityAuthority(client, AuthorityOptions($"missing_{Guid.NewGuid():N}")), new ManualTimeProvider(T0));
+        using var missingBudget = Budget();
+        using var unavailableBudget = Budget();
+
+        Assert.Null(await missing.BeginEmissionAsync(missingBudget));
+        Assert.Null(await unavailable.BeginEmissionAsync(unavailableBudget));
+    }
+
+    [Fact]
+    public async Task Conflict_or_uncertain_potential_issuance_never_bypasses_admission()
+    {
+        var conflictAuthority = new AuthenticationSecurityAuthorityFake(Open());
+        conflictAuthority.EnqueuePotentialIssuanceOutcome(AuthenticationSecurityAuthorityResultStatus.Conflict);
+        conflictAuthority.EnqueuePotentialIssuanceOutcome(AuthenticationSecurityAuthorityResultStatus.Conflict);
+        var uncertainAuthority = new AuthenticationSecurityAuthorityFake(Open());
+        uncertainAuthority.EnqueuePotentialIssuanceOutcome(AuthenticationSecurityAuthorityResultStatus.Uncertain);
+        var time = new ManualTimeProvider(T0);
+        var conflict = Coordinator(conflictAuthority, time);
+        var uncertain = Coordinator(uncertainAuthority, time);
+        using var conflictBudget = Budget();
+        using var uncertainBudget = Budget();
+
+        Assert.Null(await conflict.BeginEmissionAsync(conflictBudget));
+        Assert.Null(await uncertain.BeginEmissionAsync(uncertainBudget));
+    }
+
     private RedisOptions Options() => new()
     {
         ConnectionString = dependencies.RedisConnectionString,
@@ -94,7 +127,7 @@ public sealed class AuthenticationSecurityCoordinatorSecurityTests(Authenticatio
         RevocationOperationalMarginSeconds = 60
     };
 
-    private static AuthenticationSecurityCoordinator Coordinator(AuthenticationSecurityAuthorityFake authority, TimeProvider time) =>
+    private static AuthenticationSecurityCoordinator Coordinator(IAuthenticationSecurityAuthority authority, TimeProvider time) =>
         new(authority, new JwtOptions { LifetimeSeconds = 900, ClockSkewSeconds = 30 }, new RedisOptions { RevocationOperationalMarginSeconds = 60 }, time);
 
     private static AuthenticationSecurityAuthorityState Open() =>
@@ -104,6 +137,7 @@ public sealed class AuthenticationSecurityCoordinatorSecurityTests(Authenticatio
         new(AuthenticationSecurityGlobalState.Closed, generation, revision, lastPossible, lastPossible.AddSeconds(990), 900, 30, 60);
 
     private static RequestBudget Budget() => new(10_000_000, CancellationToken.None);
+    private static AuthenticationSecurityAuthorityOptions AuthorityOptions(string tableName) => new() { TableName = tableName, OperationTimeoutMilliseconds = 500 };
     private static string Jti() => Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)).TrimEnd('=').Replace('+', '-').Replace('/', '_');
     private static readonly DateTimeOffset T0 = new(2026, 11, 6, 12, 0, 0, TimeSpan.Zero);
 
