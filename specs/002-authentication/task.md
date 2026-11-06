@@ -398,7 +398,7 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **Salida verificable:** Lectura primaria sin caché negativa; crear/verificar marca atómicamente conservando mayor expiración absoluta. Retención exp+skew+margen, candidato 60 s configurable, redondeo conservador; sin marcas eternas ni extensión de JWT.
 - **Pruebas/evidencia requerida:** E(T-AUTH-017): primera/repetida/concurrente, respuesta perdida, fronteras/reloj y resultado incierto; solo entradas autenticadas en uso final.
 - **Riesgos/notas:** ACK/lecturas aprobados en 019 antes de construir; ACK/read-back/WAIT no prueban durabilidad universal ni autorizan 204 incierto.
-- **Estado:** COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA (§28).
+- **Estado:** PENDIENTE / NO EJECUTADA.
 
 #### T-AUTH-018
 
@@ -428,7 +428,7 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **Salida verificable:** Entrada obligatoria: modelo/topología de pruebas, ACK/lecturas, fuentes de confianza, límites/propagación aprobados. Detectores implementados para señales reales disponibles, sin ignorarlas para clasificar un fallo como no observable.
 - **Pruebas/evidencia requerida:** E(T-AUTH-019): evento provocado, componente/momento de detección, latencia/propagación y limitaciones; contraste integral en 062/068.
 - **Riesgos/notas:** AUTH-027 NO IMPLEMENTADO / NO SATISFECHO; ping, persistencia o único marcador colocalizado no acreditan integridad. No detección universal ni ledger MongoDB.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA (§28).
 
 #### T-AUTH-020
 
@@ -2633,7 +2633,7 @@ Autorización BUILD CONTROLADO limitada a F3/T-AUTH-018. **Trazabilidad oficial:
 | Pruebas UT | 9 casos nuevos, sin Moq ni sleeps: admisión verificable; Redis no verificable sin fallback; señal `ConnectionFailed`; `ConnectionRestored` sin reapertura; timeout antes/después de despacho; cancelación cliente; agotamiento de presupuesto y límite de dependencia. Comprueban ausencia de retry mediante un único verificador controlado. |
 | Pruebas IT / Redis real | Redis Testcontainer acredita disponibilidad, dos consumidores independientes fallando cerrados durante parada controlada, no reapertura automática tras `Start`, timeout real de operación despachada mediante `CLIENT PAUSE`, resultado incierto y cancelación del caller sin disponer la conexión. No se crean claves de revocación ni se ejecutan `SET`/`GET`/`DEL` productivos, `FLUSHALL`, `FLUSHDB` o `docker system prune`. Dos consumidores no sustituyen integración productiva de hosts, reservada a 057 y verificaciones posteriores. |
 | Restore, build y suites | `dotnet restore Enver.Backend.slnx --locked-mode` correcto y sin cambios de lockfiles. Build **0 advertencias / 0 errores**. UnitTests **65/65**, IntegrationTests **39/39** y SecurityTests **32/32**, sin fallidas ni omitidas. |
-| Estado | **T-AUTH-018 COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA.** T-AUTH-017 y T-AUTH-019 permanecen PENDIENTES / NO EJECUTADAS. **GATE-B** permanece PENDIENTE / NO SATISFECHO. **AUTH-027** permanece NO IMPLEMENTADO / NO SATISFECHO. |
+| Estado al cierre de T-AUTH-018 | **T-AUTH-018 COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA.** T-AUTH-017 y T-AUTH-019 permanecían PENDIENTES / NO EJECUTADAS en ese cierre. **GATE-B** permanece PENDIENTE / NO SATISFECHO. **AUTH-027** permanece NO IMPLEMENTADO / NO SATISFECHO. |
 
 ## 28. Evidencia técnica de T-AUTH-019
 
