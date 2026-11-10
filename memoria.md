@@ -671,3 +671,47 @@ El **10 de noviembre de 2026** se registra el [cierre formal de GATE-B en task.m
 **Límites residuales:** AUTH-027 permanece **NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE**, no bloquea GATE-B y no se certifica por este checkpoint. La pérdida completamente silenciosa/no observable sigue como riesgo residual de infraestructura, no eliminada ni detectada universalmente; su tratamiento corresponde a tareas/gates/infraestructura posteriores. T-AUTH-008 mantiene **IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN PRODUCTIVA DE STARTUP PENDIENTE** y no fue entrada de GATE-B. T-AUTH-023, T-AUTH-056, T-AUTH-057 y T-AUTH-058 siguen **NO INICIADAS**. GATE-C y posteriores permanecen **PENDIENTES / NO SATISFECHOS**. GATE-B no acredita TLS/ACL productivos, AWS, Terraform, LB, hosts físicos independientes, failover cloud, sizing definitivo, deployment productivo, forwarding/LB productivo ni operación del servicio administrado.
 
 El estado **GATE-B PENDIENTE / NO SATISFECHO** de §44 se conserva como historial del cierre de T-AUTH-022; este §45 fija el estado vigente. El cierre no inicia automáticamente tareas posteriores ni autoriza 023/056/057/058. Sin stage, commit ni push.
+
+## 46. Cierre de T-AUTH-023 y sanitización del harness
+
+El **10 de noviembre de 2026**, tras BUILD CONTROLADO y dos reanudaciones focalizadas expresamente autorizadas, se registra [E(T-AUTH-023)](specs/002-authentication/task.md#e-t-auth-023), task.md §39. Rama `feature/authentication`, HEAD base y conservado `833abf362f3c534b3417c2f724a769153dc633ac`. El BUILD original partió de árbol limpio; las reanudaciones conservaron su implementación parcial sin descartarla. No se hizo stage, commit ni push.
+
+### Decisiones e implementación acreditadas
+
+- **Driver:** única referencia directa MongoDB.Driver **3.13.0**, estable; MongoDB.Bson **3.13.0** transitivo, sin referencia redundante. Grafo añadido efectivo: DnsClient **1.6.1**, SharpCompress **0.48.1**, Snappier **1.3.1**, ZstdSharp.Port **0.7.3**. Sin downgrade/cambio de paquetes ajenos; licencias Apache-2.0, MIT y BSD-3-Clause según tabla de E023. La auditoría NuGet del BUILD original no reportó paquetes vulnerables; no es garantía universal ni análisis de imágenes.
+- **Archivos de producto del incremento:** `Enver.API/Features/Authentication/Core/User.cs`, `UserStatus.cs`, `Enver.API/Infrastructure/MongoDB/UserDocument.cs`, `MongoClientFactory.cs` y referencia de paquete en csproj. Restore normal autorizado actualizó solo los cuatro lockfiles API/UT/IT/ST; restore locked posterior correcto. Las correcciones test-only no cambiaron producto/grafo.
+- **BSON mínimo:** exactamente `_id/fullName/normalizedEmail/passwordHash/status/createdAt/updatedAt`; UUIDv4 backend, Standard/subtype 4, status String Active o Disabled, Active inicial, timestamps UTC BSON DateTime con precisión de milisegundos e iguales al crear. Valores desconocidos/números, faltantes y campos extra se rechazan sin fallback. Sin roles, tokens, campos auxiliares o validación funcional anticipada de 028+.
+- **Cliente:** propietario aislable con snapshot congelado, composición singleton por proceso/destino y reutilización concurrente acreditada; sin DI productiva ni cambios en `Program.cs`. ReadConcern Majority, ReadPreference Primary, RetryWrites=false y WriteConcern majority+j:true. WTimeout deriva de OperationTimeoutMilliseconds: **2000 ms base** en UT y **500 ms fixture** en UT/comando real. Timeouts de conexión/selección/socket/pool finitos; sin activar CSOT interno de 3.13.0 ni admitir timeoutMS por URI que retiraría wtimeout. Presupuesto total del flujo y resultados del store quedan en 024+.
+- **MongoDB real:** imagen/digest existentes de MongoDB **8.0.34-noble**, rs0 de **un nodo**, primary escribible, WiredTiger persistente y versión 8.0.34 acreditados en runtime. Insert con majority+j:true+wtimeout=500, ACK sin errores y lecturas majority desde primary; BSON bruto y round-trip tipado equivalentes. Esto acredita soporte local de escritura con journaling, no supervivencia física/failover.
+- **Aislamiento:** RunId/ambiente/base verificados, dos bases propias por prueba, sin contaminación cruzada y limpieza selectiva conservando la otra base. Datos enteramente sintéticos. Sin store, índice unique, CAS, hasher ni endpoints.
+
+### Incidencias y correcciones autorizadas
+
+El primer BUILD tuvo una referencia a `MongoClientSettings.Timeout`, miembro interno del driver; se corrigió antes del focal, sin cambiar versión ni contrato. El primer focal UT obtuvo 31/38: siete faltantes BSON rechazados correctamente con **MongoDB.Bson.BsonSerializationException**, mientras la teoría esperaba FormatException. Se detuvo y, con autorización TEST-ONLY, se corrigió únicamente la expectativa exacta en `MongoBsonModelTests.cs`; 38/38 verdes, sin modificar producto.
+
+Las primeras IT pasaron 3/3 pero expusieron una credencial efímera de MongoDB en logging automático de Testcontainers. Se detuvo antes de regresiones/cierre; no se transcribe el secreto y los contenedores de dependencias terminaron eliminados. La fuente exacta fue `DockerContainerOperations.ExecAsync` → logging del comando mongosh completo → ConsoleLogger; no un output helper propio. La corrección no reescribe los logs históricos.
+
+La autorización de seguridad modifica solo `tests/Shared/AuthenticationDependenciesFixture.cs` y crea `tests/Enver.API.IntegrationTests/TestcontainersLoggingPrivacyTests.cs` antes del cierre documental. `SensitiveTestcontainersLogger`, conectado por WithLogger a los tres contenedores, redacta secretos conocidos/raw/URI-encoded, URIs MongoDB/Redis completas, patrones de credenciales, argumentos/campos sensibles y Bearer como `[REDACTED]`. No reenvía objetos originales de estado/excepción al sink. Conserva niveles, EventId, scopes saneados, tipos/mensajes/stack de errores y eventos de readiness/lifecycle/cleanup. No deshabilita logging global, no traga errores ni cambia funcionamiento/topología de la fixture.
+
+La prueba de privacidad sin Docker comprueba mensajes, comandos, URIs, estado estructurado, scopes y excepciones con secretos sintéticos conocidos; aserciones booleanas no imprimen los valores en fallos. También acredita que warnings/errores y diagnóstico de healthcheck siguen visibles. Se corrigió un aviso xUnit2008 únicamente en esa prueba; reejecución y build final sin warnings. Capturas locales de IT focal y regresiones IT/ST bajo `%LOCALAPPDATA%/Temp/opencode/`, nombres `t-auth-023-it-focal-sanitized.log`, `t-auth-023-it-regression-sanitized.log` y `t-auth-023-st-regression-sanitized.log`, inspeccionadas antes de publicarlas: sin URIs/patrones de credencial y sin argumento de password no redactado. La captura focal muestra `[REDACTED]` y conserva evidencia útil; garantía acotada a esos canales/valores/patrones ensayados, no certificación de todos los loggers o de producción.
+
+### Validación final ejecutada
+
+| Verificación | Resultado |
+| --- | --- |
+| Regresión de privacidad `~TestcontainersLoggingPrivacyTests`, sin Docker | **1/1**, sin warnings en reejecución. |
+| UT focales `~MongoBsonModelTests` o `~MongoClientFactoryTests` | **38/38**. |
+| IT focales `~MongoBsonIntegrationTests` | **3/3**, BSON/topología/concerns/journaling/aislamiento reales y captura saneada. |
+| `dotnet restore Enver.Backend.slnx --locked-mode` | Correcto; sin cambios nuevos de lockfiles. |
+| `dotnet build Enver.Backend.slnx --no-restore` | **0 advertencias / 0 errores**. |
+| UnitTests `--no-build` | **371/371**, 0 fallidas/omitidas. |
+| IntegrationTests `--no-build` | **104/104**, 0 fallidas/omitidas; captura comprobada. |
+| SecurityTests `--no-build` | **71/71**, 0 fallidas/omitidas; captura comprobada. |
+
+Comandos/rutas exactos y grafo/licencias en E023. No hay nueva ST focal; se ejecutó la suite existente. El incremento añade 38 UT y 4 IT, incluida la prueba sin Docker de privacidad.
+
+### Estado formal y no-claims
+
+**T-AUTH-023: COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA. GATE-C: PENDIENTE / NO SATISFECHO. T-AUTH-024/025/026/027: NO INICIADAS.** GATE-A/B conservan SATISFECHO / CERRADO; GATE-D–H pendientes. AUTH-027 continúa NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE; 008 mantiene IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN PRODUCTIVA DE STARTUP PENDIENTE; 056/057/058 NO INICIADAS. El estado previo de 023 en §§44–45 se conserva como historial; este §46 fija su cierre posterior autorizado.
+
+`Program.cs`, Options/appsettings, spec/plan, constituciones, foundation, AGENTS/README, solución y proyectos de tests intactos; fuera de 023 solo se interviene la frontera de logging test-only expresamente autorizada. Funcionalidad de fixture, imágenes/digests, rs0, credenciales, puertos, readiness, timeouts y cleanup conservados. No se implementan 024+, register/login/logout, Orders, AWS o Terraform. No se acredita quorum multinodo, failover, HA, Atlas, cloud, TLS/ACL productivos, dos instancias desplegadas ni producción; contraste de infraestructura/topología productiva y 068 pendientes. Se detiene sin stage, commit ni push ni iniciar otra tarea.

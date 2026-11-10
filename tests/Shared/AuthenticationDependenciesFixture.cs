@@ -1,10 +1,13 @@
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Amazon.Runtime;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
+using DotNet.Testcontainers;
+using Microsoft.Extensions.Logging;
 using Testcontainers.MongoDb;
 using Testcontainers.Redis;
 using Xunit;
@@ -54,15 +57,20 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
     public async Task InitializeAsync()
     {
         var token = _lifetimeCancellation.Token;
+        var logger = new SensitiveTestcontainersLogger(ConsoleLogger.Instance,
+            [_mongoPassword, _jwtKey, _rateLimitingKey, "fakeSecretAccessKey"]);
         _mongo = new MongoDbBuilder(MongoImage)
+            .WithLogger(logger)
             .WithUsername("t015")
             .WithPassword(_mongoPassword)
             .WithReplicaSet(ReplicaSetName)
             .Build();
         _redis = new RedisBuilder(RedisImage)
+            .WithLogger(logger)
             .WithCommand("redis-server", "--maxmemory-policy", "noeviction", "--maxmemory", "64mb")
             .Build();
         _dynamoDb = new ContainerBuilder(DynamoDbImage)
+            .WithLogger(logger)
             .WithPortBinding(8000, true)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(8000))
             .Build();
@@ -475,4 +483,71 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
 
     private string MongoKey(string marker) => $"t015-{RunId}-{marker}";
     private string RedisKey(string marker) => $"{RedisNamespace}:probe:{marker}";
+}
+
+/// <summary>Frontera de diagnóstico exclusiva del harness; no cambia niveles ni el logger global.</summary>
+internal sealed class SensitiveTestcontainersLogger : ILogger
+{
+    private const string Redacted = "[REDACTED]";
+    private static readonly Regex ConnectionUri = new(
+        @"\b(?:mongodb(?:\+srv)?|rediss?)://[^\s""'<>]+|\b[a-z][a-z0-9+.-]*://[^\s""'<>]*:[^\s""'<>]*@[^\s""'<>]+",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1));
+    private static readonly Regex CredentialPair = new(@"\b[^\s:@/]+:[^\s@/]+@",
+        RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1));
+    private static readonly Regex SensitiveArgument = new(
+        @"(?<label>(?:--(?:password|token|secret|jwt|hmac-key)|-p|[\w.:-]*(?:password|secret|token|jwt|hmacKey|keyBase64|connectionString))[""']?\s*(?:=|:|\s)\s*)(?:""[^""]*""|'[^']*'|[^\s,;}]+)",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1));
+    private static readonly Regex Bearer = new(@"\bBearer\s+[^\s""',;}]+",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1));
+    private readonly ILogger sink;
+    private readonly string[] secrets;
+
+    public SensitiveTestcontainersLogger(ILogger sink, IEnumerable<string> secrets)
+    {
+        this.sink = sink;
+        this.secrets = secrets.Where(value => !string.IsNullOrEmpty(value))
+            .SelectMany(value => new[] { value, Uri.EscapeDataString(value) }).Distinct()
+            .OrderByDescending(value => value.Length).ToArray();
+    }
+
+    public bool IsEnabled(LogLevel logLevel) => sink.IsEnabled(logLevel);
+
+    public IDisposable? BeginScope<TState>(TState state) where TState : notnull
+    {
+        var text = state is IEnumerable<KeyValuePair<string, object?>> values
+            ? string.Join(" ", values.Select(pair => $"{pair.Key}={pair.Value}"))
+            : state.ToString() ?? string.Empty;
+        return sink.BeginScope(Redact(text));
+    }
+
+    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,
+        Func<TState, Exception?, string> formatter)
+    {
+        if (!IsEnabled(logLevel))
+        {
+            return;
+        }
+
+        var message = formatter(state, exception);
+        if (exception is not null)
+        {
+            // Conservar tipo, mensaje, inner exceptions y stack saneados; nunca reenviar el objeto original.
+            message += Environment.NewLine + exception;
+        }
+
+        sink.Log(logLevel, eventId, Redact(message), null, static (text, _) => text);
+    }
+
+    private string Redact(string text)
+    {
+        foreach (var secret in secrets)
+        {
+            text = text.Replace(secret, Redacted, StringComparison.Ordinal);
+        }
+
+        text = ConnectionUri.Replace(text, Redacted);
+        text = CredentialPair.Replace(text, Redacted);
+        text = SensitiveArgument.Replace(text, "${label}" + Redacted);
+        return Bearer.Replace(text, "Bearer " + Redacted);
+    }
 }
