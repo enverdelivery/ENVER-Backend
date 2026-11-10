@@ -653,3 +653,21 @@ El reporte agregado de privacidad solo contiene estados, booleanos, conteos, mem
 **T-AUTH-022: COMPLETADA / EVIDENCIA OPERATIVA REDIS REGISTRADA. GATE-B: PENDIENTE / NO SATISFECHO. AUTH-027: NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE. T-AUTH-023: NO INICIADA. T-AUTH-056: NO INICIADA. T-AUTH-057: NO INICIADA. T-AUTH-058: NO INICIADA.** 008 mantiene verificación productiva de startup pendiente.
 
 La evidencia acredita el alcance operativo local de 022, no la aceptación integral de GATE-B. No se cierra GATE-B automáticamente, no se satisface AUTH-027 y no se autoriza 023/056/057/058. No se acreditan endpoints, composición productiva, pipeline, hosts físicos, AWS/Terraform, LB, TLS/ACL productivos, dimensionamiento definitivo ni operación del servicio administrado. Cierre exclusivamente documental; sin stage, commit ni push y sin iniciar otra tarea. Trabajo detenido.
+
+## 45. Cierre formal de GATE-B — Redis
+
+El **10 de noviembre de 2026** se registra el [cierre formal de GATE-B en task.md §38](specs/002-authentication/task.md#cierre-gate-b). **GATE-B — Redis queda SATISFECHO / CERRADO** como checkpoint local de componentes Redis para el entorno declarado de test, con hosts lógicos independientes y dependencias reales de Testcontainers.
+
+- **Branch:** `feature/authentication`.
+- **HEAD base del cierre:** `6e3fed42d2813bd8fdd71ab928dbb046339bee4b`.
+- **Working tree al evaluar:** limpio.
+- **Decisión formal:** GATE-B — Redis: **SATISFECHO / CERRADO** en el entorno local declarado.
+- **Evidencias utilizadas:** [E(T-AUTH-016)](specs/002-authentication/task.md#e-t-auth-016) a [E(T-AUTH-022)](specs/002-authentication/task.md#e-t-auth-022) y [E(T-AUTH-052)](specs/002-authentication/task.md#e-t-auth-052) a [E(T-AUTH-055)](specs/002-authentication/task.md#e-t-auth-055); no se duplican sus contenidos.
+- **Regresión vigente:** Build **0 advertencias / 0 errores**; UnitTests **333/333**; IntegrationTests **100/100**; SecurityTests **71/71**; focal IT **3/3** y focal ST **2/2** de T-AUTH-022. No se repitieron pruebas.
+- **Controles satisfechos:** Redis real compartido, dos hosts lógicos con conexiones/stores/guards independientes, revocación A→B, TTL absoluto y retención no decreciente, confirmación/lecturas, fail-closed sin fallback local ni caché negativa permisiva, siete cuotas distribuidas con Redis TIME/Lua/RetryAfter, capacidad global 5000, no partial consumption, cleanup, no reset, fencing/recovery, propagación de estado compartido, `noeviction`, memoria/capacidad, PolicyRevision/snapshot, HMAC/pseudonimización, privacidad y reapertura segura explícita.
+- **Capacidad/memoria:** `MaxActivePartitions=5000`; presupuesto de cuotas **67108864 bytes** (`QUOTA_BUDGET_SCOPE=CUOTAS_ONLY`); medición 021 **24757168 bytes** atribuibles para 5000 particiones/272700 eventos; pico 055 **9376224 bytes**; perfil 022 con `maxmemory` de fixture **67108864 bytes**, `used_memory` **1397640 bytes** y `headroom` **65711224 bytes** (`MAXMEMORY_SCOPE=FIXTURE_TOTAL`). No es dimensionamiento productivo.
+- **Alcance:** checkpoint local de componentes Redis para el entorno declarado de test; no es aceptación productiva.
+
+**Límites residuales:** AUTH-027 permanece **NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE**, no bloquea GATE-B y no se certifica por este checkpoint. La pérdida completamente silenciosa/no observable sigue como riesgo residual de infraestructura, no eliminada ni detectada universalmente; su tratamiento corresponde a tareas/gates/infraestructura posteriores. T-AUTH-008 mantiene **IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN PRODUCTIVA DE STARTUP PENDIENTE** y no fue entrada de GATE-B. T-AUTH-023, T-AUTH-056, T-AUTH-057 y T-AUTH-058 siguen **NO INICIADAS**. GATE-C y posteriores permanecen **PENDIENTES / NO SATISFECHOS**. GATE-B no acredita TLS/ACL productivos, AWS, Terraform, LB, hosts físicos independientes, failover cloud, sizing definitivo, deployment productivo, forwarding/LB productivo ni operación del servicio administrado.
+
+El estado **GATE-B PENDIENTE / NO SATISFECHO** de §44 se conserva como historial del cierre de T-AUTH-022; este §45 fija el estado vigente. El cierre no inicia automáticamente tareas posteriores ni autoriza 023/056/057/058. Sin stage, commit ni push.

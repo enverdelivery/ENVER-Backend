@@ -31,7 +31,7 @@
 | Estado posterior del cierre de 055 | **055 COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA** (§36): presión distribuida P1/P2, capacidad 5000, lazy cleanup, siete cuotas, timeout/Uncertain, OOM real, restart/no-reset/fence/recovery, autoridad 020, revisión/snapshot divergente y ST de seguridad 6/6; suites UT **333/333**, IT **97/97**, ST **69/69**. **054: AMPLIACIÓN DE EVIDENCIA ASIGNADA A T-AUTH-055 SATISFECHA EN EL ALCANCE REGISTRADO** (§34.2). 022–051 y 056–079: 54 tareas no ejecutadas; **022 NO INICIADA**. 008 conserva startup productivo pendiente; cierres anteriores intactos; **GATE-B PENDIENTE / NO SATISFECHO; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE** |
 | Estado posterior del cierre de 022 | **022 COMPLETADA / EVIDENCIA OPERATIVA REDIS REGISTRADA** (§37): dos hosts lógicos de test con Redis real compartido, estado local independiente, revocación A→B, TTL sin reducción, ausencia de caché negativa, `noeviction`, memoria/headroom medidos, separación ambiente/propósito, cierre compartido sin bypass y ST de cierre/privacidad 2/2; suites UT **333/333**, IT **100/100**, ST **71/71**. 023–051 y 056–079: 53 tareas no ejecutadas; **023/056/057/058 NO INICIADAS**. 008 conserva startup productivo pendiente; cierres anteriores intactos; **GATE-B PENDIENTE / NO SATISFECHO; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE** |
 | Cobertura documental prevista | AUTH 48/48; PLD-AUTH 25/25; AC 21/21 |
-| Gates | 8; GATE-A SATISFECHO / CERRADO; GATE-B a GATE-H PENDIENTES / NO SATISFECHOS |
+| Gates | 8; GATE-A y GATE-B SATISFECHOS / CERRADOS; GATE-C a GATE-H PENDIENTES / NO SATISFECHOS |
 | Fuente de aprobación | SOL-TASK-002: aprobación expresa del catálogo compactado y autorización documental del responsable |
 | Estado técnico | Autenticación NO IMPLEMENTADA / NO VERIFICADA por esta entrega; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO |
 
@@ -1384,7 +1384,7 @@ Las pruebas funcionales acompañan a sus capacidades. Esta fase reutiliza esas s
 
 ## 4. Gates de aceptación
 
-El catálogo se creó con todos los gates **PENDIENTE / NO SATISFECHO**. Tras la reevaluación y el registro de §25, el estado vigente es: **GATE-A SATISFECHO / CERRADO**; **GATE-B a GATE-H PENDIENTES / NO SATISFECHOS**. Los gates revisan capacidades; no reemplazan autorización por tarea/incremento. No se impone terminar el gate completo para construir sus propias tareas integrantes: sus entradas y dependencias indican qué parte puede iniciarse.
+El catálogo se creó con todos los gates **PENDIENTE / NO SATISFECHO**. Tras la reevaluación y los cierres formales registrados en §25 y §38, el estado vigente es: **GATE-A y GATE-B SATISFECHOS / CERRADOS**; **GATE-C a GATE-H PENDIENTES / NO SATISFECHOS**. Los gates revisan capacidades; no reemplazan autorización por tarea/incremento. No se impone terminar el gate completo para construir sus propias tareas integrantes: sus entradas y dependencias indican qué parte puede iniciarse.
 
 **Un gate superado localmente no demuestra AWS/Atlas/infraestructura productiva.** Cada aceptación identifica entorno/topología y alcance. Un checkpoint local puede permitir trabajo posterior independiente autorizado, pero no cerrar la aceptación externa pendiente de 068, simularla o afirmar cumplimiento integral. El cierre 079 depende de 068; mientras falte, permanece pendiente aunque existan checkpoints locales.
 
@@ -1401,11 +1401,12 @@ El catálogo se creó con todos los gates **PENDIENTE / NO SATISFECHO**. Tras la
 ### GATE-B
 
 - **Nombre:** Redis.
+- **Estado vigente:** **SATISFECHO / CERRADO** como checkpoint local de componentes Redis para el entorno declarado de test; registro formal, límites y no-claims en §38.
 - **Tareas de entrada:** GATE-A; 016 y condiciones previas de 019/052–054; componentes 017–022 y 055.
 - **Condiciones de entrada:** Versiones/configuración/entorno Redis aprobados; modelo de fallos, ACK/lecturas y señales antes de 017/019; precedencia/cardinalidad/HMAC/recuperación antes de cuotas.
 - **Condiciones de salida:** 016–022 y 052–055 con evidencia: revocación/retención no decreciente, noeviction/capacidad, confirmación/lecturas, cuotas conjuntas y fail-closed distribuidos; detección/cierre/recuperación verificados para entorno declarado. Casos JWT/endpoints finales se complementan en F/G, no se anticipan aquí.
 - **Bloqueos conocidos:** Fuentes de detección/coordinación/ACK/topología, topes y protocolos no resueltos; prueba local no resuelve operación del servicio administrado. Sin prueba de reapertura segura mantener cierre.
-- **Evidencia necesaria:** E(T-AUTH-016) a E(T-AUTH-022), E(T-AUTH-052) a E(T-AUTH-055); dos hosts/dependencias reales, propagación y límites. AUTH-027 sigue NO IMPLEMENTADO / NO SATISFECHO en esta entrega; no certificarlo por checkpoint de componentes.
+- **Evidencia necesaria:** E(T-AUTH-016) a E(T-AUTH-022), E(T-AUTH-052) a E(T-AUTH-055); dos hosts/dependencias reales, propagación y límites. AUTH-027 sigue NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE; este cierre no lo certifica por checkpoint de componentes.
 
 ### GATE-C
 
@@ -3008,3 +3009,119 @@ Registro del **10 de noviembre de 2026** mediante **BUILD CONTROLADO DE VERIFICA
 La evidencia acredita el alcance operativo local declarado de 022, no la aceptación integral de GATE-B. No se cierra GATE-B automáticamente, no se satisface AUTH-027, no se autoriza 023/056/057/058 y no se presentan TLS/ACL productivos, hosts físicos, AWS, LB ni operación del servicio administrado como verificados. Cualquier tarea posterior requiere autorización delimitada propia.
 
 Registro documental exclusivo en este archivo y [memoria §44](../../memoria.md#44-cierre-de-t-auth-022-y-evidencia-operativa-redis); sin stage, commit ni push. Trabajo detenido.
+
+<a id="cierre-gate-b"></a>
+
+## 38. Cierre formal de GATE-B — Redis
+
+El **10 de noviembre de 2026**, tras la evaluación formal de evidencia y la regresión vigente registrada en T-AUTH-022, **GATE-B — Redis queda SATISFECHO / CERRADO** como checkpoint local de componentes Redis para el entorno declarado de test. El cierre no declara aceptación productiva, no certifica AUTH-027 y no autoriza tareas posteriores.
+
+| Campo | Registro de cierre |
+| --- | --- |
+| Fecha | 10 de noviembre de 2026. |
+| Branch | `feature/authentication`. |
+| HEAD base del cierre | `6e3fed42d2813bd8fdd71ab928dbb046339bee4b`. |
+| Working tree al evaluar | Limpio. |
+| Gate | GATE-B — Redis. |
+| Propósito | Verificar el estado compartido Redis, la revocación/retención, las cuotas conjuntas, el fail-closed distribuido, la detección/cierre/recuperación y los límites operativos del entorno declarado. |
+| Decisión formal | **GATE-B — Redis: SATISFECHO / CERRADO** en el entorno local declarado. |
+| Alcance | Checkpoint local de componentes Redis; entorno declarado de test con hosts lógicos independientes y dependencias reales de Testcontainers. No es aceptación productiva. |
+
+### 38.1. Entradas requeridas y satisfechas
+
+Se registran como satisfechas, sin alterar sus estados individuales:
+
+- **GATE-A** como base, ya **SATISFECHO / CERRADO** en §25.
+- **T-AUTH-016:** conexión Redis y namespaces seguros.
+- **T-AUTH-017:** revocación atómica y retención.
+- **T-AUTH-018:** admisión confiable y fail-closed.
+- **T-AUTH-019:** detección según modelo de fallos.
+- **T-AUTH-020:** coordinación de cierre, emisión y recuperación segura.
+- **T-AUTH-021:** almacén distribuido de cuotas.
+- **T-AUTH-022:** verificación Redis distribuido y protección operativa.
+- **T-AUTH-052:** contrato de cuotas, PolicyRevision y Retry-After.
+- **T-AUTH-053:** pseudonimización y origen confiable.
+- **T-AUTH-054:** cardinalidad y recuperación de cuotas.
+- **T-AUTH-055:** verificación completa de cuotas entre hosts.
+
+### 38.2. Evidencias utilizadas
+
+No se duplican contenidos; se referencian las evidencias registradas:
+
+- [E(T-AUTH-016)](#e-t-auth-016): conexión, reutilización y namespace.
+- [E(T-AUTH-017)](#e-t-auth-017): revocación, Lua, TTL y lectura.
+- [E(T-AUTH-018)](#e-t-auth-018): fail-closed, incertidumbre y ausencia de bypass.
+- [E(T-AUTH-019)](#e-t-auth-019): señales reales, detector y cierre local.
+- [E(T-AUTH-020)](#e-t-auth-020): autoridad, CAS, coordinación y reapertura segura.
+- [E(T-AUTH-021)](#e-t-auth-021): Redis/Lua de cuotas, atomicidad, capacidad, memoria y recovery.
+- [E(T-AUTH-022)](#e-t-auth-022): dos hosts lógicos, revocación A→B, `noeviction`, memoria/headroom, cierre sin bypass y privacidad.
+- [E(T-AUTH-052)](#e-t-auth-052): contrato de siete cuotas, Redis TIME, Retry-After y transición.
+- [E(T-AUTH-053)](#e-t-auth-053): HMAC, OpaqueIds, origen canónico y transición.
+- [E(T-AUTH-054)](#e-t-auth-054): MaxActivePartitions, presupuesto de cuotas y distribución de evidencia.
+- [E(T-AUTH-055)](#e-t-auth-055): presión distribuida, siete cuotas, capacidad, limpieza, OOM y recovery.
+
+### 38.3. Matriz de condiciones del gate
+
+| Condición oficial | Evidencia | Estado | Resultado |
+| --- | --- | --- | --- |
+| Entradas GATE-A, 016 y condiciones previas de 019/052–054; componentes 017–022 y 055. | §4, §25 y fichas completadas. | SATISFECHA. | PASA. |
+| Versiones/configuración/entorno Redis aprobados; modelo de fallos, ACK/lecturas y señales antes de 017/019; precedencia/cardinalidad/HMAC/recuperación antes de cuotas. | E016, E017, E019, E052–E054. | SATISFECHA en entorno local declarado. | PASA. |
+| Revocación/retención no decreciente. | E017, E022. | SATISFECHA. | PASA. |
+| `noeviction`, capacidad y memoria. | E021, E022, E055 y E054. | SATISFECHA. | PASA. |
+| Confirmación/lecturas por segundo host. | E017, E022. | SATISFECHA. | PASA. |
+| Cuotas conjuntas entre hosts. | E021, E052, E055. | SATISFECHA. | PASA. |
+| Fail-closed distribuido. | E018–E022, E055. | SATISFECHA. | PASA. |
+| Detección/cierre/recuperación para el entorno declarado. | E019, E020, E021, E055. | SATISFECHA local. | PASA. |
+| Dos hosts/dependencias reales, propagación y límites. | E021, E022, E055. | SATISFECHA como hosts lógicos. | PASA. |
+| Prueba de reapertura segura. | E020, E021, E055. | SATISFECHA. | PASA. |
+| AUTH-027 no certificado por checkpoint de componentes. | Estado de AUTH-027 y tareas relacionadas. | PARCIAL PERMITIDA como residual explícito. | NO BLOQUEA. |
+| Casos JWT/endpoints finales. | §4; F/G posteriores. | NO APLICA a GATE-B. | FUERA DEL GATE. |
+
+### 38.4. Condiciones satisfechas en el entorno local declarado
+
+Quedaron satisfechas, con la evidencia citada:
+
+- Redis real compartido; dos hosts lógicos independientes; conexiones, stores y guards independientes.
+- Revocación A→B, TTL absoluto, retención no decreciente y ausencia de reducción.
+- Confirmación/lecturas, fail-closed, no fallback local y no caché negativa permisiva.
+- Siete cuotas distribuidas, Redis TIME, Lua atómico, RetryAfter, capacidad global 5000, no partial consumption, cleanup y no reset.
+- Fencing/recovery, propagación de estado compartido, reapertura segura explícita y coordinación de cierre.
+- OOM controlado, `noeviction` efectivo y memoria/capacidad medidas.
+- PolicyRevision/snapshot fail-closed, HMAC/pseudonimización y privacidad diagnóstica.
+
+### 38.5. Capacidad y memoria registradas
+
+| Concepto | Valor registrado |
+| --- | --- |
+| `MaxActivePartitions` | **5000**. |
+| Presupuesto de cuotas | **67108864 bytes**; `QUOTA_BUDGET_SCOPE=CUOTAS_ONLY`. |
+| Evidencia medida en 021 | **24757168 bytes** atribuibles para **5000 particiones / 272700 eventos**. |
+| Pico registrado en 055 | **9376224 bytes** atribuibles. |
+| Perfil 022 | `maxmemory` de fixture **67108864 bytes**, `used_memory` **1397640 bytes**, `headroom` **65711224 bytes**; `MAXMEMORY_SCOPE=FIXTURE_TOTAL`. |
+
+`QUOTA_BUDGET_SCOPE=CUOTAS_ONLY` y `MAXMEMORY_SCOPE=FIXTURE_TOTAL` son ámbitos distintos. Estos valores no constituyen dimensionamiento productivo ni garantía de capacidad empresarial.
+
+### 38.6. Regresión vigente registrada
+
+Evidencia de regresión utilizada para esta evaluación documental:
+
+- Build: **0 advertencias / 0 errores**.
+- UnitTests: **333/333**.
+- IntegrationTests: **100/100**.
+- SecurityTests: **71/71**.
+- Focal IT de T-AUTH-022: **3/3**.
+- Focal ST de T-AUTH-022: **2/2**.
+
+No se repitieron pruebas en este cierre documental. La regresión registrada no se convierte en una nueva certificación técnica: se reutiliza la evidencia ya acreditada.
+
+### 38.7. Límites residuales y no-claims
+
+- **AUTH-027:** NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE. **No bloquea GATE-B**, no se certifica mediante este checkpoint y continúa como requisito/riesgo posterior.
+- **Pérdida completamente silenciosa/no observable:** permanece como riesgo residual de infraestructura. No se declara eliminada, detectada universalmente ni resuelta; su tratamiento posterior corresponde a tareas/gates/infraestructura posteriores.
+- **T-AUTH-008:** IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN PRODUCTIVA DE STARTUP PENDIENTE. No fue entrada de GATE-B, no bloquea este cierre y su integración productiva sigue pendiente.
+- **T-AUTH-023, T-AUTH-056, T-AUTH-057 y T-AUTH-058:** NO INICIADAS. GATE-B no las satisface ni las autoriza.
+- **GATE-C y gates posteriores:** permanecen **PENDIENTES / NO SATISFECHOS** sin cambios.
+- **Infraestructura no acreditada:** GATE-B no acredita TLS productivo, ACL productivas, AWS, Terraform, Load Balancer, hosts físicos independientes, failover cloud, sizing definitivo de Redis, deployment productivo, forwarding/LB productivo ni operación del servicio administrado. Son límites aceptados del cierre local, no defectos ocultos.
+- **Alcance:** el cierre es un checkpoint local de componentes Redis para el entorno declarado de test; no es aceptación productiva ni cumplimiento integral de la rúbrica externa.
+
+El estado **GATE-B PENDIENTE / NO SATISFECHO** registrado en §37.2 y en [memoria §44](../../memoria.md#44-cierre-de-t-auth-022-y-evidencia-operativa-redis) corresponde al cierre de T-AUTH-022 y se conserva como historial; este §38 fija el estado vigente del gate. Este cierre no inicia automáticamente T-AUTH-023/056/057/058, no cierra GATE-C ni modifica la evidencia de las tareas de entrada.
