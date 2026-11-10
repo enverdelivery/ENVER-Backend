@@ -157,6 +157,55 @@ public sealed class AuthenticationOptionsValidationTests
         Assert.DoesNotContain(secret, error.ToString(), StringComparison.Ordinal);
     }
 
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("not-base64")]
+    public void Pseudonymization_key_missing_or_invalid_fails_isolated_startup_without_value(string? value)
+    {
+        using var provider = CreateProvider(values =>
+        {
+            // Este caso invoca TODOS los ValidateOnStart, a diferencia de las lecturas Options aisladas previas.
+            values["AuthenticationSecurityAuthority:TableName"] = "t053_synthetic";
+            values["AuthenticationSecurityAuthority:OperationTimeoutMilliseconds"] = "100";
+            values["RateLimiting:PseudonymizationKeyBase64"] = value;
+        });
+        var error = Assert.Throws<OptionsValidationException>(() => provider.GetRequiredService<IStartupValidator>().Validate());
+        if (!string.IsNullOrEmpty(value)) Assert.DoesNotContain(value, error.ToString(), StringComparison.Ordinal);
+    }
+
+    [Theory]
+    [InlineData(0, false)]
+    [InlineData(1, false)]
+    [InlineData(31, false)]
+    [InlineData(32, true)]
+    [InlineData(64, true)]
+    public void Pseudonymization_key_requires_at_least_32_bytes(int length, bool valid)
+    {
+        using var provider = CreateProvider(values => values["RateLimiting:PseudonymizationKeyBase64"] = Key(length, 7));
+        if (valid) Assert.NotNull(provider.GetRequiredService<IOptions<RateLimitingOptions>>().Value);
+        else Assert.Throws<OptionsValidationException>(() => provider.GetRequiredService<IOptions<RateLimitingOptions>>().Value);
+    }
+
+    [Theory]
+    [InlineData("whitespace")]
+    [InlineData("missing-padding")]
+    [InlineData("base64url")]
+    [InlineData("noncanonical-pad-bits")]
+    public void Pseudonymization_key_requires_exact_canonical_standard_base64(string variant)
+    {
+        var canonical = Key(32, 255);
+        var value = variant switch
+        {
+            "whitespace" => " " + canonical + "\n",
+            "missing-padding" => canonical.TrimEnd('='),
+            "base64url" => canonical.Replace('/', '_'),
+            _ => canonical[..^2] + "9="
+        };
+        using var provider = CreateProvider(values => values["RateLimiting:PseudonymizationKeyBase64"] = value);
+        Assert.Throws<OptionsValidationException>(() => provider.GetRequiredService<IOptions<RateLimitingOptions>>().Value);
+    }
+
     private static ServiceProvider CreateProvider(Action<Dictionary<string, string?>>? change = null)
     {
         var values = Values();

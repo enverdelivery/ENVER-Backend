@@ -97,20 +97,42 @@ internal sealed class RateLimitingOptionsValidator(IOptions<JwtOptions> jwt) : I
     public ValidateOptionsResult Validate(string? name, RateLimitingOptions o)
     {
         var quotas = new[] { o.RegisterEmail, o.RegisterOrigin, o.LoginOriginEmail, o.LoginEmail, o.LoginOrigin, o.LogoutAccount, o.LogoutOrigin };
-        var keyValid = Checks.Base64(o.PseudonymizationKeyBase64, 1);
+        var keyValid = Checks.Base64(o.PseudonymizationKeyBase64, 32);
         return Checks.Result(
         [
             (quotas.All(q => q is { PermitLimit: > 0, WindowSeconds: > 0 }), "RateLimiting: las siete cuotas requieren máximo/ventana positivos."),
             (!string.IsNullOrWhiteSpace(o.PolicyRevision), "RateLimiting: revisión de política requerida."),
             (o.MaxActivePartitions is null or > 0, "RateLimiting: cardinalidad positiva si se declara."),
-            (keyValid, "RateLimiting: clave externa HMAC Base64 requerida."),
-            (!keyValid || !jwt.Value.Keys.Any(k => k?.KeyBase64 == o.PseudonymizationKeyBase64), "RateLimiting: no reutilizar clave JWT.")
+            (keyValid, "RateLimiting: clave externa HMAC Base64 canónica de al menos 32 bytes requerida; longitud no acredita entropía."),
+            (!keyValid || !Checks.PseudonymizationKeyMatchesJwt(o.PseudonymizationKeyBase64, jwt.Value), "RateLimiting: no reutilizar clave JWT.")
         ]);
     }
 }
 
 internal static class Checks
 {
+    internal static bool PseudonymizationKeyMatchesJwt(string encodedKey, JwtOptions jwt)
+    {
+        var material = Convert.FromBase64String(encodedKey);
+        try
+        {
+            foreach (var signingKey in jwt.Keys)
+            {
+                byte[]? signingMaterial = null;
+                try
+                {
+                    if (string.IsNullOrWhiteSpace(signingKey?.KeyBase64)) continue;
+                    signingMaterial = Convert.FromBase64String(signingKey.KeyBase64);
+                    if (CryptographicOperations.FixedTimeEquals(material, signingMaterial)) return true;
+                }
+                catch (FormatException) { /* La validez JWT la comprueba su propio validador. */ }
+                finally { if (signingMaterial is not null) CryptographicOperations.ZeroMemory(signingMaterial); }
+            }
+            return false;
+        }
+        finally { CryptographicOperations.ZeroMemory(material); }
+    }
+
     internal static ValidateOptionsResult Result(IEnumerable<(bool Valid, string Message)> checks)
     {
         var errors = checks.Where(c => !c.Valid).Select(c => c.Message).ToArray();
