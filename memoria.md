@@ -585,3 +585,36 @@ Sin fallidas ni omitidas en las suites finales. Comandos focales/filtros y traza
 **T-AUTH-055 PENDIENTE:** presión sostenida, regresión distribuida más amplia entre hosts, siete cuotas bajo carga extendida, perfiles prolongados y convivencia bajo presión ampliada. **T-AUTH-022 NO INICIADA**; no se acreditan sus controles operativos ni se autoriza su ejecución. 008 mantiene verificación productiva de startup pendiente. **GATE-B PENDIENTE / NO SATISFECHO. AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE.**
 
 No hay DI/host/JWT/endpoints productivos nuevos, AWS validada, dimensionamiento definitivo de Redis productivo, failover universal, presión sostenida acreditada ni eliminación del riesgo residual de pérdida catastrófica totalmente silenciosa no observable. Se preservan spec/plan, constituciones/foundation, AGENTS/README y todo trabajo técnico existente. Cierre exclusivamente documental; sin stage, commit ni push y sin iniciar otra tarea. Trabajo detenido.
+
+## 43. Cierre de T-AUTH-055 y evidencia de T-AUTH-054
+
+El **10 de noviembre de 2026**, tras BUILD FOCALIZADO DE TEST autorizado en incrementos delimitados, el responsable autoriza el registro documental de [E(T-AUTH-055)](specs/002-authentication/task.md#e-t-auth-055) y de la ampliación de evidencia de T-AUTH-054. Rama **`feature/authentication`**, HEAD **`d6e764460bf5e163a067f073c937e9b16eb036f0`**; cinco archivos de prueba nuevos sin stage; producto, `Program.cs`, paquetes, lockfiles e imágenes/digests intactos. Esta entrega solo modifica `specs/002-authentication/task.md` y `memoria.md`, sin repetir pruebas ni iniciar 022.
+
+### Evidencia acreditada
+
+Se crean `DistributedQuotaTestScope.cs`, `DistributedQuotaTests.cs`, `DistributedQuotaPressureTests.cs` y `DistributedQuotaFailureTests.cs` en IntegrationTests, y `DistributedQuotaSecurityTests.cs` en SecurityTests, sobre el Redis real de la fixture (`redis:8.2.11-bookworm@sha256:99ffb973380cc2f47bca06bd094f7f8c7138a0879a63cb8939896a22b7a65bba`) con dos consumidores lógicos y `noeviction`.
+
+P1 reparte **1500/1500** intentos REGISTER entre dos hosts, tres tramos de **30 s** a concurrencia 8, con `Unavailable=0` y `Uncertain=0` en las 18 filas de fase, `ACCOUNTED=590→624→624`, `RESIDUES=0` y memoria atribuible máxima **430744 bytes**. P2 sostiene **5000** particiones, **101993** eventos sembrados y **102000** de pico, tres ciclos de 20 s con **256** intentos/ciclo y **768** revocaciones (384 largas preservadas, 384 cortas expiradas), pico atribuible **9376224 bytes** frente a **67108864** aprobados y limpieza selectiva hasta **0** bytes atribuibles. Capacidad acredita tres rondas `4998 → carrera 16 intentos (1 admitido / 15 no disponibles) → 5000`, `two-new=Unavailable`, ámbitos existentes evaluables, expiración real y `ACCOUNTED=2` reasignadas por ronda, con memoria en frontera **1969384 bytes**. Lazy cleanup libera **5** residuos en dos evaluaciones acotadas a 3 candidatos y preserva el candidato renovado.
+
+La matriz de siete cuotas queda **10/10**, timeout real post-dispatch → `Uncertain` sin retry, OOM real de Redis (`USED_MEMORY=34555992 > MAXMEMORY=16777216`) → `Uncertain` con `DIRTY=0` y admisión tras liberar memoria, restart sin reset con fence y recuperación validada, autoridad 020 conservada, revisión forjada `Unavailable` sin despacho y snapshot divergente `Unavailable` tras **1** despacho rechazado antes de mutar. Los ST de seguridad quedan **6/6**: forwarded falsificado no crea cupo, NAT/IPv4-mapped/IPv6 comparten partición física, privacidad de claves/miembros/diagnósticos y estados cerrados sin despacho.
+
+### Correcciones exclusivas del harness
+
+El presupuesto de espera se hizo opcional en `DistributedQuotaTestScope.RunAsync` (P1 180 s, P2 300 s, capacidad 240 s, limpieza 90 s, fallos 180 s) sin reducir perfiles; un timeout falla la prueba. P2 reserva **7** eventos para admitir spares (`SEEDED_EVENTS=101993`, `PEAK_EVENTS=102000`) y genera JTIs Base64url canónicos de 32 bytes (43 caracteres) conforme a `RedisKeyBuilder.ValidateJti`. Capacidad calcula el faltante real hasta 4998, reconociendo que las particiones reasignadas de la ronda anterior siguen vivas. En ST, el spoofing compara identidad opaca de cuota porque el tipo canónico no implementa igualdad por valor, y el snapshot divergente se enlaza realmente al store mediante `NewStore(..., configuration)`; `ITestOutputHelper` solo emite diagnósticos agregados sin identidades ni OpaqueIds. Ninguna corrección alteró producto, cuotas, ventanas, store, Lua, lifecycle, protocolo, `Program.cs`, paquetes ni lockfiles.
+
+### Validación ejecutada
+
+| Verificación | Resultado |
+| --- | --- |
+| `dotnet restore Enver.Backend.slnx --locked-mode` | Correcto; lockfiles conservados. |
+| `dotnet build Enver.Backend.slnx --no-restore` | **0 advertencias / 0 errores**. |
+| UnitTests `--no-build` | **333/333**, sin fallidas ni omitidas. |
+| IntegrationTests `--no-build` | **97/97**, sin fallidas ni omitidas. |
+| SecurityTests `--no-build` | **69/69**, sin fallidas ni omitidas. |
+| Focales previas | P1, P2, capacidad, limpieza, clase pressure **4/4** y ST focal **6/6** verdes. |
+
+### Estado formal y límites
+
+**T-AUTH-055: COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA. T-AUTH-054: AMPLIACIÓN DE EVIDENCIA ASIGNADA A T-AUTH-055 SATISFECHA EN EL ALCANCE REGISTRADO** (task §34.2). **T-AUTH-022: NO INICIADA. GATE-B: PENDIENTE / NO SATISFECHO. AUTH-027: NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE.** 008 mantiene verificación productiva de startup pendiente.
+
+No se acredita red/LB productivos, forwarding productivo, hosts físicos independientes, AWS/Terraform, dimensionamiento definitivo de Redis productivo, failover universal, benchmark empresarial ni eliminación del riesgo residual de pérdida catastrófica totalmente silenciosa no observable. Cierre exclusivamente documental; sin stage, commit ni push y sin iniciar otra tarea. Trabajo detenido.
