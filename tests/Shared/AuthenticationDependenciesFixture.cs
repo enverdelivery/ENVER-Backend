@@ -44,6 +44,8 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
     public string DynamoDbTableName => $"enver_t020_{RunId}";
     public string MongoConnectionString => Mongo.GetConnectionString();
     public string RedisConnectionString => Redis.GetConnectionString();
+    // Diagnóstico de infraestructura: permite distinguir restart de recreación sin exponer credenciales.
+    public string RedisContainerId => Redis.Id;
 
     private MongoDbContainer Mongo => _mongo ?? throw new InvalidOperationException("MongoDB de pruebas no inicializado.");
     private RedisContainer Redis => _redis ?? throw new InvalidOperationException("Redis de pruebas no inicializado.");
