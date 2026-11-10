@@ -618,3 +618,38 @@ El presupuesto de espera se hizo opcional en `DistributedQuotaTestScope.RunAsync
 **T-AUTH-055: COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA. T-AUTH-054: AMPLIACIÓN DE EVIDENCIA ASIGNADA A T-AUTH-055 SATISFECHA EN EL ALCANCE REGISTRADO** (task §34.2). **T-AUTH-022: NO INICIADA. GATE-B: PENDIENTE / NO SATISFECHO. AUTH-027: NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE.** 008 mantiene verificación productiva de startup pendiente.
 
 No se acredita red/LB productivos, forwarding productivo, hosts físicos independientes, AWS/Terraform, dimensionamiento definitivo de Redis productivo, failover universal, benchmark empresarial ni eliminación del riesgo residual de pérdida catastrófica totalmente silenciosa no observable. Cierre exclusivamente documental; sin stage, commit ni push y sin iniciar otra tarea. Trabajo detenido.
+
+## 44. Cierre de T-AUTH-022 y evidencia operativa Redis
+
+El **10 de noviembre de 2026**, tras **BUILD CONTROLADO DE VERIFICACIÓN** expresamente autorizado, se registra [E(T-AUTH-022)](specs/002-authentication/task.md#e-t-auth-022). Rama **`feature/authentication`**, HEAD base **`3ae6114178258f70a749adc304e6b5ba15df942e`**; tres archivos de prueba nuevos sin stage. Producto, `Program.cs`, `Enver.API.csproj`, `Enver.Backend.slnx`, `tests/Shared/**`, lockfiles, paquetes, configuración productiva e imágenes/digests permanecen intactos. Esta entrega solo modifica `specs/002-authentication/task.md` y `memoria.md`.
+
+### Evidencia acreditada
+
+Se crean `RedisOperationalScope.cs` (harness de dos hosts lógicos), `RedisOperationalScopeTests.cs` (3 IT) y `RedisOperationalScopeSecurityTests.cs` (2 ST). Dos `WebApplicationFactory<AuthenticationOptions>` mantienen `ServiceProvider`, `RedisConnections`/multiplexer, `RedisSecurityStateGuard` y `RedisTokenRevocationStore` independientes, sin compartir estado local por referencia, sobre el mismo Redis real de la fixture (`redis:8.2.11-bookworm@sha256:99ffb973380cc2f47bca06bd094f7f8c7138a0879a63cb8939896a22b7a65bba`) y el mismo namespace de ambiente. Se acredita independencia lógica, no hosts físicos, AWS ni LB.
+
+La revocación cruzada usa un JTI sintético Base64url de 32 bytes (43 caracteres, sin padding): B observa `NotRevoked` antes de la escritura, A confirma `Confirmed`, B observa `Revoked` con su propio store/conexión; una segunda revocación desde A con horizonte menor conserva la expiración previa y B continúa observando `Revoked`. Se verifica valor `1`, TTL positivo, expiración absoluta `PEXPIREAT` y no reducción de retención; no se añade `WAIT`, read-back productivo, retry, caché negativa, logout HTTP ni JWT real.
+
+El perfil operativo real confirma `CONFIG GET maxmemory-policy` y `INFO maxmemory_policy` en **`noeviction`**, `MAXMEMORY_TOTAL_BYTES=67108864`, `USED_MEMORY_BYTES=1397640`, `USED_MEMORY_PEAK_BYTES=1397640` y `HEADROOM_BYTES=65711224`. El presupuesto de cuotas **67108864 bytes** se cita por separado (054, `QUOTA_BUDGET_SCOPE=CUOTAS_ONLY`) y no se confunde con el `maxmemory` total de la fixture (`MAXMEMORY_SCOPE=FIXTURE_TOTAL`); no es sizing productivo. `allowAdmin=true` se usa solo en la conexión administrativa del harness para `CONFIG GET`/`INFO`; las conexiones de los hosts no lo reciben.
+
+La separación se verifica con claves de revocación `enver:{environment}:auth:revoked`, namespace conceptual de cuotas `enver:{environment}:auth:ratelimit`, propósitos `auth:revocation`/`auth:ratelimit` y una clave de otro ambiente fuera del namespace actual; no se afirma aislamiento físico. La señal `ConnectionFailed` se inyecta en ambos guards: con una marca de revocación previa y Redis respondiendo a `PING`, ambos hosts deniegan lectura y escritura (`Unavailable`), sin `NotRevoked`, fallback local, caché negativa permisiva ni éxito ficticio. La prueba acredita reacción al cierre inyectado, no detección automática del evento físico; el detector real conserva la evidencia de 019/055.
+
+El reporte agregado de privacidad solo contiene estados, booleanos, conteos, memoria agregada, host lógico A/B y patrones conceptuales. Se verifica ausencia de JTI, OpaqueId, email, IP, `sub`, JWT, clave HMAC, contraseña/connection string Redis y secretos sintéticos de la fixture (`ContainsSyntheticSecret=false`). Testcontainers local no acredita TLS ni ACL productivos; no se implementan localmente ni se marcan como satisfechos, y su aplicabilidad futura queda para infraestructura/tareas correspondientes (AUTH-033/046/AD-11/068).
+
+### Validación ejecutada
+
+| Verificación | Resultado |
+| --- | --- |
+| `dotnet restore Enver.Backend.slnx --locked-mode` | Correcto; lockfiles conservados. |
+| `dotnet build Enver.Backend.slnx --no-restore` | **0 advertencias / 0 errores**. |
+| Focal IntegrationTests `~RedisOperationalScopeTests` | **3/3**, sin fallidas ni omitidas. |
+| Focal SecurityTests `~RedisOperationalScopeSecurityTests` | **2/2**, sin fallidas ni omitidas. |
+| UnitTests `--no-build` | **333/333**, sin fallidas ni omitidas; cero UT nuevas. |
+| IntegrationTests `--no-build` | **100/100**, sin fallidas ni omitidas. |
+| SecurityTests `--no-build` | **71/71**, sin fallidas ni omitidas. |
+| Conservación | Producto, `Program.cs`, csproj/slnx, lockfiles, paquetes, fixture compartida e imágenes/digests intactos; sin stage, commit ni push. |
+
+### Estado formal y límites
+
+**T-AUTH-022: COMPLETADA / EVIDENCIA OPERATIVA REDIS REGISTRADA. GATE-B: PENDIENTE / NO SATISFECHO. AUTH-027: NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE. T-AUTH-023: NO INICIADA. T-AUTH-056: NO INICIADA. T-AUTH-057: NO INICIADA. T-AUTH-058: NO INICIADA.** 008 mantiene verificación productiva de startup pendiente.
+
+La evidencia acredita el alcance operativo local de 022, no la aceptación integral de GATE-B. No se cierra GATE-B automáticamente, no se satisface AUTH-027 y no se autoriza 023/056/057/058. No se acreditan endpoints, composición productiva, pipeline, hosts físicos, AWS/Terraform, LB, TLS/ACL productivos, dimensionamiento definitivo ni operación del servicio administrado. Cierre exclusivamente documental; sin stage, commit ni push y sin iniciar otra tarea. Trabajo detenido.
