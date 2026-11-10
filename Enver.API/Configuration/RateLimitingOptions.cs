@@ -13,6 +13,10 @@ public sealed class RateLimitingOptions
     public RateLimitQuotaOptions? LogoutOrigin { get; set; }
     public string PolicyRevision { get; set; } = string.Empty;
     public string PseudonymizationKeyBase64 { get; set; } = string.Empty;
+    /// <summary>
+    /// null = NO DIMENSIONADO, nunca ilimitado. La validación estructural sigue compatible con 008;
+    /// activar el descriptor académico 054 exige proporcionar 5000 explícitamente, sin default correctivo.
+    /// </summary>
     public int? MaxActivePartitions { get; set; }
 }
 
