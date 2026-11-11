@@ -111,6 +111,65 @@ public sealed class MongoUserStore : IUserStore
         }
     }
 
+    public async ValueTask<UserCredentialUpdateResult> CompareExchangePasswordHashAsync(
+        Guid id,
+        string expectedPasswordHash,
+        UserStatus expectedStatus,
+        string newPasswordHash,
+        DateTime updatedAtUtc,
+        RequestBudget budget)
+    {
+        ArgumentNullException.ThrowIfNull(budget);
+        using var dependency = budget.BeginDependency(operationTimeout);
+        var dispatched = false;
+        try
+        {
+            dependency.ThrowIfCancellationRequested();
+            if (id.Version != 4 || (id.ToByteArray()[8] & 0xc0) != 0x80 ||
+                expectedPasswordHash is null || newPasswordHash is null ||
+                expectedStatus is not (UserStatus.Active or UserStatus.Disabled) || updatedAtUtc.Kind != DateTimeKind.Utc)
+            {
+                return new(UserCredentialUpdateStatus.Unavailable);
+            }
+            var instant = DateTimeOffset.FromUnixTimeMilliseconds(new DateTimeOffset(updatedAtUtc).ToUnixTimeMilliseconds()).UtcDateTime;
+            var filter = Builders<UserDocument>.Filter.Eq(user => user.Id, id) &
+                Builders<UserDocument>.Filter.Eq(user => user.PasswordHash, expectedPasswordHash) &
+                Builders<UserDocument>.Filter.Eq(user => user.Status, expectedStatus);
+            var update = Builders<UserDocument>.Update.Set(user => user.PasswordHash, newPasswordHash)
+                .Set(user => user.UpdatedAt, instant);
+            dependency.ThrowIfCancellationRequested();
+            // Frontera conservadora: invocar puede enviar; no demuestra envío físico.
+            dependency.MarkDispatched();
+            dispatched = true;
+            var result = await users.UpdateOneAsync(filter, update,
+                new UpdateOptions { IsUpsert = false, Collation = Collation.Simple }, dependency.Token)
+                .WaitAsync(dependency.Token).ConfigureAwait(false);
+            dependency.ThrowIfCancellationRequested();
+            if (!result.IsAcknowledged || !result.IsModifiedCountAvailable)
+                return new(UserCredentialUpdateStatus.Uncertain);
+            return new((result.MatchedCount, result.ModifiedCount) switch
+            {
+                (1, 1) => UserCredentialUpdateStatus.Updated,
+                (0, 0) => UserCredentialUpdateStatus.Conflict,
+                (1, 0) => UserCredentialUpdateStatus.Unavailable,
+                _ => UserCredentialUpdateStatus.Uncertain
+            });
+        }
+        catch (MongoWriteException error) when (error.WriteConcernError is null && error.WriteError is not null)
+        {
+            return new(UserCredentialUpdateStatus.Unavailable);
+        }
+        catch (MongoCommandException error) when (error.Code is 2 or 9 or 13 or 18 or 59 or 72)
+        {
+            return new(UserCredentialUpdateStatus.Unavailable);
+        }
+        catch
+        {
+            // No exponer detalles de excepción, filtros ni hashes fuera del adapter.
+            return new(dispatched ? UserCredentialUpdateStatus.Uncertain : UserCredentialUpdateStatus.Unavailable, dependency.Cause);
+        }
+    }
+
     private static UserInsertStatus ClassifyInsertResponse(BsonDocument response)
     {
         if (!response.TryGetValue("ok", out var ok) || !ok.IsNumeric || ok.ToDouble() != 1 ||
