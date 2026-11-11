@@ -75,11 +75,15 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
             .WithWaitStrategy(Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(8000))
             .Build();
 
+        var startupPhase = "mongo-start";
         try
         {
             await Mongo.StartAsync(token);
+            startupPhase = "redis-start";
             await Redis.StartAsync(token);
+            startupPhase = "dynamodb-start";
             await DynamoDb.StartAsync(token);
+            startupPhase = "dependency-verification";
             _initialized = true;
             await VerifyMongoAsync(token);
             await VerifyRedisAsync(token);
@@ -88,8 +92,30 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
         }
         catch
         {
+            await ReportStartupFailureAsync(startupPhase);
             await DisposeContainersAsync();
             throw;
+        }
+    }
+
+    private async Task ReportStartupFailureAsync(string phase)
+    {
+        // Solo categorías calculadas: nunca reenviar logs, argumentos, credenciales o excepciones originales.
+        // Capturar antes del cleanup, que elimina la evidencia del contenedor fallido.
+        if (_mongo is null || phase != "mongo-start") return;
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+        try
+        {
+            var (stdout, stderr) = await _mongo.GetLogsAsync(ct: timeout.Token);
+            var combined = stdout + stderr;
+            var state = _mongo.State;
+            var exitCode = await _mongo.GetExitCodeAsync(timeout.Token).WaitAsync(timeout.Token);
+            Console.WriteLine($"T015_SETUP_FAILURE PHASE={phase} RESOURCE=mongodb STATE={state} EXIT_CODE={exitCode} ADDRESS_IN_USE={combined.Contains("Address already in use", StringComparison.OrdinalIgnoreCase)} LISTEN_ERROR={combined.Contains("Error setting up listener", StringComparison.OrdinalIgnoreCase)} BOOTSTRAP_COMPLETE={combined.Contains("MongoDB init process complete", StringComparison.Ordinal)} PERMISSION_ERROR={combined.Contains("Permission denied", StringComparison.OrdinalIgnoreCase)} NO_SPACE={combined.Contains("No space left on device", StringComparison.OrdinalIgnoreCase)}");
+        }
+        catch (Exception diagnosticFailure)
+        {
+            // El diagnóstico auxiliar no sustituye ni oculta el fallo original de setup.
+            Console.WriteLine($"T015_SETUP_FAILURE PHASE={phase} RESOURCE=mongodb DIAGNOSTIC_UNAVAILABLE_TYPE={diagnosticFailure.GetType().FullName}");
         }
     }
 

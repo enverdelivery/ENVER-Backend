@@ -32,6 +32,7 @@
 | Estado posterior del cierre de 022 | **022 COMPLETADA / EVIDENCIA OPERATIVA REDIS REGISTRADA** (§37): dos hosts lógicos de test con Redis real compartido, estado local independiente, revocación A→B, TTL sin reducción, ausencia de caché negativa, `noeviction`, memoria/headroom medidos, separación ambiente/propósito, cierre compartido sin bypass y ST de cierre/privacidad 2/2; suites UT **333/333**, IT **100/100**, ST **71/71**. 023–051 y 056–079: 53 tareas no ejecutadas; **023/056/057/058 NO INICIADAS**. 008 conserva startup productivo pendiente; cierres anteriores intactos; **GATE-B PENDIENTE / NO SATISFECHO; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE** |
 | Cobertura documental prevista | AUTH 48/48; PLD-AUTH 25/25; AC 21/21 |
 | Estado posterior del cierre de 023 | **023 COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA** ([§39](#e-t-auth-023)): BSON mínimo, cliente aislable, concerns/ACK/journaling locales y privacidad del harness; UT **371/371**, IT **104/104**, ST **71/71**. 024–051 y 056–079: 52 tareas no ejecutadas. 008 conserva startup productivo pendiente; GATE-A/B SATISFECHOS / CERRADOS; GATE-C–H PENDIENTES / NO SATISFECHOS; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE. |
+| Estado posterior del cierre de 024/025 | **024 y 025 COMPLETADAS / EVIDENCIA REGISTRADA** ([§40](#e-t-auth-024), [§41](#e-t-auth-025)): UserStore e inicializador aislables; UT **414/414**, IT **120/120**, ST **71/71**. 026–051 y 056–079: 50 tareas no ejecutadas; **026/027 NO INICIADAS**. 008 conserva startup productivo pendiente; **GATE-A/B SATISFECHOS / CERRADOS; GATE-C–H PENDIENTES / NO SATISFECHOS**; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE. |
 | Gates | 8; GATE-A y GATE-B SATISFECHOS / CERRADOS; GATE-C a GATE-H PENDIENTES / NO SATISFECHOS |
 | Fuente de aprobación | SOL-TASK-002: aprobación expresa del catálogo compactado y autorización documental del responsable |
 | Estado técnico | Autenticación NO IMPLEMENTADA / NO VERIFICADA por esta entrega; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO |
@@ -104,6 +105,8 @@ Convenciones de fichas y matrices:
 **E(T-AUTH-022)** registra la verificación operativa Redis de dos hosts lógicos de test, revocación A→B, TTL sin reducción, `noeviction`, memoria/headroom, separación ambiente/propósito, cierre sin bypass y privacidad diagnóstica en [§37](#e-t-auth-022). No crea componente productivo, no ejecuta endpoints/JWT/logout y no cierra GATE-B ni AUTH-027.
 
 **E(T-AUTH-023)** registra BSON/UUID/status, MongoClient aislable reutilizable, topología local rs0, concerns/ACK/journaling, aislamiento y redacción de diagnósticos del harness en [§39](#e-t-auth-023). No implementa store, índices, CAS ni composición productiva; no cierra GATE-C.
+
+**E(T-AUTH-024)** registra el UserStore, resultados seguros, duplicados específicos, ACK perdido y precondición del índice fuera del presupuesto del store en [§40](#e-t-auth-024). **E(T-AUTH-025)** registra creación/verificación del índice, idempotencia, concurrencia, incompatibilidad, duplicados y preservación en [§41](#e-t-auth-025). Ambos cierres son locales y aislables; no integran autenticación productiva ni cierran GATE-C. Las limitaciones e incidencias históricas se conservan explícitamente.
 
 Cada ficha reserva su identificador **E(T-AUTH-nnn)**. **E(T-AUTH-001)** conserva la inspección de solo lectura y su cierre documental autorizado (§10); **E(T-AUTH-002)** registra la evaluación previa de SDK/dependencias/riesgos y su cierre documental autorizado (§11); **E(T-AUTH-003)** registra la baseline técnica y sus verificaciones reales (§12); **E(T-AUTH-004)** registra la inspección acotada de higiene Git y su cierre documental autorizado (§13); **E(T-AUTH-005)** registra las correcciones de contexto/publish y verificaciones locales sin Docker ni publish real (§14); **E(T-AUTH-006)** registra estructura, ownership y condiciones de confirmación del checkpoint Git único (§15). **E(T-AUTH-007)** registra configuración declarada y verificaciones controladas (§16); **E(T-AUTH-008)** registra implementación preparada con startup real pendiente (§17). **E(T-AUTH-009)** registra presupuestos/cancelación (§18); **E(T-AUTH-010)** errores/correlación/no-store (§19); **E(T-AUTH-011)** frontera HTTP (§20); **E(T-AUTH-012)** decisión aprobada y coordinación aislable (§21); **E(T-AUTH-013/014)** registra proyectos, dependencias, lockfiles, pruebas y auditoría (§22); **E(T-AUTH-015)** registra Docker/Testcontainers, hosts, aislamiento, cleanup y startup real de Options (§23); **E(T-AUTH-016)** registra cliente Redis, key builder, grafo, pruebas y límites (§26); **E(T-AUTH-018)** registra admisión fail-closed, presupuestos, incertidumbre y pruebas Redis (§27); **E(T-AUTH-019)** registra señales reales observables, detector y cierre local (§28); **E(T-AUTH-017)** registra el store de revocación, script Lua, TTL y pruebas Redis reales (§29); **E(T-AUTH-020)** registra la autoridad DynamoDB Local, CAS, emisión potencial y la integración Redis/DynamoDB de dos coordinadores (§31); **E(T-AUTH-052)** registra el contrato aislado de cuotas, PolicyRevision, RetryAfter y UT (§32); **E(T-AUTH-053)** registra pseudonimización/origen aislables, configuración, drenaje y UT/ST focales sin Docker (§33); **E(T-AUTH-054)** registra exclusivamente el incremento contractual de capacidad/recuperación y UT, con evidencia IT distribuida pendiente en 021/055 (§34). **E(T-AUTH-055)** registra la evidencia distribuida ampliada de cuotas, capacidad, limpieza, fallos, OOM y seguridad de origen (§36) y la ampliación de 054 asignada a 055 (§34.2). Los resultados de ejecución de T-AUTH-022 a T-AUTH-051 y T-AUTH-056 a T-AUTH-079 siguen **PENDIENTES / SIN EVIDENCIA TÉCNICA GENERADA**. La definición de una prueba o salida esperada no constituye resultado obtenido; los cierres registrados no acreditan autenticación integrada ni aceptación global de seguridad. El cierre de 006 solo es efectivo si el commit y la verificación Git posterior de §15 son correctos.
 
@@ -531,7 +534,7 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **Salida verificable:** Búsqueda por igualdad construida por backend; inserción confirmada/incierta, duplicate key específico normalizedEmail y timeouts/retryable writes acotados según topología/versión.
 - **Pruebas/evidencia requerida:** E(T-AUTH-024): errores reales/traducidos, lectura tras creación y ACK perdido; fallo operativo no significa usuario inexistente.
 - **Riesgos/notas:** Sin caché de credenciales, consultas del cliente, reintento con otra identidad o borrado compensatorio; no todo duplicate key es conflicto de email.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA REGISTRADA ([E(T-AUTH-024), §40](#e-t-auth-024)); componente aislable, sin composición productiva ni cierre de GATE-C.
 
 #### T-AUTH-025
 
@@ -546,7 +549,7 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **Salida verificable:** Índice normalizedEmail ascendente/único/collation simple binaria, no sparse/partial; comprobar opciones, no solo nombre. Inicialización repetible; incompatibilidad/duplicados/falta de índice bloquean registro.
 - **Pruebas/evidencia requerida:** E(T-AUTH-025): creación/verificación repetida, índice incorrecto y datos incompatibles; no duplicar índice _id.
 - **Riesgos/notas:** No reparar/borrar/reconciliar datos automáticamente; identidad de inicialización de mínimo privilegio a infraestructura.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA REGISTRADA ([E(T-AUTH-025), §41](#e-t-auth-025)); inicialización aislable, sin composición productiva ni cierre de GATE-C.
 
 #### T-AUTH-026
 
@@ -3210,3 +3213,92 @@ Las suites añaden 38 UT de 023, 3 IT MongoDB y 1 regresión de privacidad del h
 El estado de 023 NO INICIADA de §§37–38 y memoria §§44–45 se conserva como antecedente; esta autorización posterior fija el cierre vigente de 023 sin cambiar los cierres anteriores. No se implementan store productivo, índice unique/inicializador, CAS, hasher, endpoints, register/login/logout, Orders, AWS o Terraform. `Program.cs`, configuración productiva existente, spec/plan, constituciones, foundation, AGENTS/README, solución y proyectos de tests permanecen intactos. La fixture conserva funcionalidad, imágenes/digests, topología, credenciales, puertos, readiness, timeouts y cleanup: solo cambia su frontera de logging.
 
 Un replica set de un nodo no acredita quorum multinodo, failover, HA, Atlas, cloud, TLS/ACL productivos, dos instancias desplegadas ni producción. La validación de infraestructura/topología productiva y 068 quedan pendientes. No se cierran GATE-C–H ni se satisface AUTH-027. Sin stage, commit ni push; no se inicia ninguna tarea posterior.
+
+## 40. Evidencia técnica y cierre de T-AUTH-024
+
+<a id="e-t-auth-024"></a>
+
+### E(T-AUTH-024)
+
+Registro del **10 de noviembre de 2026**, tras autorizaciones posteriores de BUILD, ajustes/diagnósticos TEST-ONLY y **REGRESIÓN FINAL DEFINITIVA Y CIERRE** de 024/025. Rama `feature/authentication`, HEAD base y conservado `64db47e347647e76ffb3588663a2a5e4616295ca`. Se conservó el trabajo preexistente, incluida la fixture modificada y los archivos nuevos sin seguimiento. No se hizo stage, commit ni push.
+
+**Trazabilidad de la ficha:** AUTH-004/005/009/010/015/031/038/039; PLD-AUTH-02/05/14/18; AC-01–03/07/08/17; dependencias 009/023; F4/GATE-C. Esta evidencia acredita únicamente el componente y su contribución, no los flujos HTTP completos ni la satisfacción integral de esos requisitos.
+
+### 40.1. Contrato, implementación y pruebas
+
+- `Enver.API/Features/Authentication/Application/Ports/IUserStore.cs`: `FindByNormalizedEmailAsync`, `FindByIdAsync` e `InsertAsync`, con RequestBudget explícito; lecturas **Found / NotFound / Unavailable**, inserciones **Confirmed / Conflict / Unavailable / Uncertain**, consistencia de payload/causa y representación textual sin datos del usuario.
+- `Enver.API/Infrastructure/MongoDB/MongoUserStore.cs`: igualdad construida por backend y collation simple; ID UUID tipado. Solo una consulta completada vacía acredita NotFound; errores, BSON inválido y multiplicidad no se convierten en inexistencia. Se devuelve también Disabled, sin ocultarlo ni anticipar reglas de login.
+- Insert preserva identidad/modelo y especifica WriteConcern en el comando real: majority, j:true y wtimeout=500 en IT. Lecturas majority/primary; `RetryWrites=false`. Confirmed exige ACK concluyente; **Conflict requiere duplicate key 11000 y keyPattern estructurado exclusivo de normalizedEmail ascendente**. Duplicate `_id`, clave compuesta/ausente u otro rechazo no se convierten en conflicto de email. WriteConcern ambiguo, respuesta perdida o cancelación post-dispatch conservan Uncertain; no implican rollback ni ausencia de escritura.
+- Cero retry aplicativo, nueva identidad, read-back automático, borrado compensatorio o caché de credenciales. RequestBudget no se reinicia entre operaciones; límite de dependencia finito mediante las abstracciones existentes.
+- Pruebas: `tests/Enver.API.UnitTests/MongoUserStoreTests.cs` (**22/22** en focal previa, incluidas en UT completas finales); `tests/Enver.API.IntegrationTests/MongoUserStoreIntegrationTests.cs` (**5/5** focal previa y **5/5** dentro de la regresión final). Cubren lectura por email/ID tras insert confirmado, concerns efectivos, duplicados email frente a ID, deserialización real fallida, Disabled, aislamiento de bases y ACK-loss.
+- **Límite de ACK-loss:** inserción real confirmada en MongoDB cuya entrega de ACK se suprime mediante decorador test-only en la frontera del adapter; resultado Uncertain y un solo intento, sin read-back automático ni compensación. No acredita corte TCP, failover ni pérdida física de ACK en una red productiva.
+
+### 40.2. Índice como precondición test-only
+
+Las IT 024 conservan el warm-up existente: ping a admin con ReadPreference.Primary, CTS independiente de **5 s**, respuesta válida y primary obligatorio. Después, `PrepareIndexAsync` crea el índice usando **la misma `MongoUsersInitializer.CreateIndexDefinition()`**, bajo un RequestBudget **test-only independiente de 5000 ms**. Verifica mediante el initializer y exige **Ready**, manteniendo sus **500 ms de dependencia**. Solo después se crea el RequestBudget normal del UserStore de **8000 ms**, con **500 ms por dependencia MongoDB**.
+
+El setup no altera Options, cliente, concerns, RetryWrites ni plazos productivos. No hay retry ni aserción flexibilizada. La creación/verificación repetida, idempotencia y carreras del índice corresponden a **025**, no a las operaciones del store medidas por 024. En esta validación definitiva no se añadieron warm-ups ni instrumentación ni se modificó código.
+
+### 40.3. Validación final conjunta y fuentes de evidencia
+
+Suites ejecutadas **secuencialmente**, sin modificar archivos entre ellas; IntegrationTests **una sola vez**, con límite externo de **900 s**, sin corte ni reejecución:
+
+| Comando / verificación | Resultado real |
+| --- | --- |
+| `docker info` | Docker disponible, Engine **29.6.1**. |
+| `dotnet restore Enver.Backend.slnx --locked-mode` | Correcto; proyectos actualizados, lockfiles intactos. |
+| `dotnet build Enver.Backend.slnx --no-restore` | **0 advertencias / 0 errores**. |
+| `dotnet test tests/Enver.API.UnitTests/Enver.API.UnitTests.csproj --no-build` | **414/414**, 0 fallidas/omitidas. |
+| `dotnet test tests/Enver.API.IntegrationTests/Enver.API.IntegrationTests.csproj --no-build --logger "console;verbosity=detailed"` | **120/120**, 0 fallidas/omitidas; **7.9706 minutos** (478.236 s). Incluye Mongo024 **5/5**, Mongo025 **11/11** y capacidad Redis verde. |
+| `dotnet test tests/Enver.API.SecurityTests/Enver.API.SecurityTests.csproj --no-build` | **71/71**, 0 fallidas/omitidas; ejecutada después de IT verde. |
+
+Fuente primaria: salidas de los comandos de esta sesión. Captura local completa de IT retenida por el harness: `sh_1c8fe724e001giycNqYiAqvgdo.out`, fuera del repositorio; no es artefacto versionado. No se transcriben documentos, comandos completos sensibles, HMACs, claves ni credenciales. Las ST son la suite existente, no nuevas ST específicas de 024/025 ni certificación integral de seguridad.
+
+La regresión final volvió a acreditar **2500 admissions reales / 5000 particiones** Redis, metadata=registry=5000, namespace propio=5002 keys, carrera 1 Admitted/7 Unavailable esperados y ausencia de admisión parcial según las aserciones. Snapshot final: PING disponible, master sin réplicas/cluster, used_memory=4409872 bytes, maxmemory=67108864, noeviction, connected_clients=4, blocked_clients/rejected_connections/evicted_keys=0. No se observó OOM en ese caso de capacidad; la prueba de OOM deliberado usa su contenedor dedicado. **GATE-B permaneció SATISFECHO / CERRADO**, sin reinterpretar esta regresión como reapertura o nueva garantía productiva.
+
+### 40.4. Incidencias históricas y alcance conservado
+
+Se conservan como incidencias de validación **no reproducidas en la ejecución final**, sin presentarlas como defectos productivos demostrados:
+
+1. Una regresión anterior **119/120** falló en la IT positiva Mongo024: initializer Unavailable pese a comandos exitosos. El aislado **1/1** y subconjunto **7/7** posteriores pasaron. Causa histórica no determinada. Se autorizó separar la precondición del índice fuera del presupuesto del store, sin cambiar producto.
+2. Una focal posterior de 025 obtuvo **10/11**: con duplicados, Unavailable/cancelación y un segundo índice listado rompieron la igualdad de índices. El diagnóstico aislado posterior **1/1** observó 11000/DuplicateKey, Incompatible dentro de presupuesto, documentos preservados y solo `_id_`; no identificó el índice histórico ni demostró su estado. Ver §41.
+3. Otra regresión **119/120**, con Mongo024 **5/5** y Mongo025 **11/11**, falló en `RedisAuthenticationQuotaCapacityTests.Exactly_2500_real_admissions_create_5000_and_consumers_race_without_exceeding_limit`: Admitted esperado / Unavailable durante el llenado. Aislado **1/1** y precedentes inmediatos + capacidad **3/3** pasaron, con 2500 admissions/5000 particiones. **Clasificación E: causa no determinada**; no se infiere timeout, OOM, defecto de fixture o producto. No reabrió GATE-B.
+
+La instrumentación test-only existente de Mongo024/Mongo025/capacidad Redis permanece; observa reloj/timers reales, eventos y métricas agregadas y puede influir en tiempos, por lo que no es benchmark. **No se modificó producto, expectativas, timeouts, memoria ni capacidad para forzar verde** durante estos diagnósticos y la validación final. No se ejecutó nuevamente IT tras el verde final.
+
+### 40.5. Estado formal y no-claims
+
+**T-AUTH-024: COMPLETADA / EVIDENCIA REGISTRADA. T-AUTH-025: COMPLETADA / EVIDENCIA REGISTRADA** por su evidencia separada de §41. **T-AUTH-026/027: NO INICIADAS. GATE-C: PENDIENTE / NO SATISFECHO. GATE-B: SATISFECHO / CERRADO**, al igual que GATE-A; GATE-D–H pendientes. AUTH-027 continúa NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE; 008 conserva startup productivo pendiente; 056/057/058 no iniciadas. Los estados de 024/025 no iniciadas de §39 son antecedentes, no el estado vigente tras este cierre autorizado.
+
+Componentes aislables, sin registro DI ni composición productiva de `Program.cs`, endpoints, register/login/logout, CAS, Orders, AWS o Terraform. MongoDB local de un nodo no acredita Atlas, quorum multinodo, failover, HA, TLS/ACL/IAM productivos, dos hosts físicos o sizing productivo. No se cierran requisitos íntegros ni gates posteriores. Solo se actualizan este documento y `memoria.md` tras todas las suites verdes; sin stage, commit ni push ni inicio de otra tarea.
+
+## 41. Evidencia técnica y cierre de T-AUTH-025
+
+<a id="e-t-auth-025"></a>
+
+### E(T-AUTH-025)
+
+Registro separado del **10 de noviembre de 2026**, bajo la misma autorización final, rama y HEAD de §40. **Trazabilidad de la ficha:** AUTH-004/005/009/015/038; PLD-AUTH-05/06/24; AC-03/17; dependencia 023; F4/GATE-C. Acredita índice/inicialización aislables, no admisión de registros productivos ni satisfacción integral de AUTH-009.
+
+### 41.1. Definición y semántica acreditadas
+
+- `Enver.API/Infrastructure/MongoDB/MongoUsersInitializer.cs`: índice propuesto `normalizedEmail_1`, key **normalizedEmail ascending**, **unique=true**, **collation simple/binaria**, sin sparse, partial, hidden ni TTL. La inspección compara clave/unique/collation/opciones, rechaza buildUUID y no confía solo en el nombre. Acepta nombre equivalente distinto sin renombrar/recrear; conserva `_id_` y otros índices independientes.
+- Una dependencia MongoDB de **500 ms** cubre inspección, un único intento de creación cuando procede y reinspección. El RequestBudget total de las IT es **8000 ms**; se conservan RetryWrites=false y concerns aprobados. No hay lock local usado como autoridad distribuida, retry aplicativo, reparación, borrado ni reconciliación automática de datos/índices.
+- **Ready** requiere verificación efectiva dentro de presupuesto. **Incompatible** expresa evidencia concluyente de definición incompatible o duplicados observados y verificación completada dentro del presupuesto. **Unavailable** mantiene fail-closed cuando no puede confirmarse el estado dentro de ese presupuesto; no se convierte retroactivamente en Ready por una observación posterior. Cancelar la espera no garantiza detener el trabajo remoto.
+- Reinspeccionar después de creación/carrera o respuesta perdida no es repetir creación. No se afirma que CommandSucceeded por sí solo pruebe finalización de toda la operación ni unicidad efectiva.
+
+### 41.2. Evidencia de pruebas y preservación
+
+`tests/Enver.API.UnitTests/MongoUsersInitializerTests.cs`: **21/21** en focal previa, incluidas en UT finales; definición exacta, equivalencia semántica, opciones incorrectas (incluidos TTL/building), idempotencia, respuesta perdida, colisión de nombre, ausencia/incompatibilidad y cancelación/fallo de inspección.
+
+`tests/Enver.API.IntegrationTests/MongoUsersInitializerIntegrationTests.cs`: **11/11** focal previa y **11/11** en la regresión final. Creación efectiva y segunda inicialización Ready sin cambios; duplicado rechazado realmente; incompatibilidades reales de key, descending, nonunique, partial, sparse, collation y hidden preservan datos/índices; nombre equivalente aceptado sin mutación. Dos hosts lógicos con clientes independientes inicializaron concurrentemente la misma base: **HostA=Ready / HostB=Ready**, un solo índice compatible, sin retry ni reparación. No son dos hosts físicos desplegados.
+
+En el escenario concluyente con dos documentos duplicados, la ejecución final capturó **createIndexes CommandFailed, Code 11000 / CodeName DuplicateKey**, duración **202.584 ms**, evento a **207.584 ms** del dependency. Retornó **Incompatible** con token no cancelado; documentos originales preservados. Antes, inmediatamente después y tras **300 ms** se observó solo `_id_`, cero índices compatibles, sin build activo observado; `hint normalizedEmail_1` fue rechazado. El tercer duplicado diagnóstico fue aceptado, conservando los dos originales y dejando tres documentos sintéticos: no había unicidad de email efectiva y nunca se declaró Ready. Esta inserción adicional es exclusivamente una sonda de test, no reparación ni comportamiento del initializer.
+
+La incidencia histórica de segundo índice tras Unavailable se conserva en §40.4: **su identidad, estabilidad/usabilidad y causa siguen sin determinarse**, no se afirma que MongoDB construyera indebidamente un índice único. El contrato de task/plan prohíbe reparar/borrar/reconciliar **datos** automáticamente; no se añade por interpretación una prohibición nueva de todo intento de creación con datos duplicados ni se relaja la aserción existente de preservación.
+
+### 41.3. Regresión final, estado y límites
+
+Comparte la ejecución real y los comandos de §40.3, sin ejecutar suites adicionales: restore locked correcto, build **0 advertencias / 0 errores**, **UT 414/414, IT 120/120 en 7.9706 minutos, ST 71/71**, sin fallidas/omitidas. Focales históricas 024 **5/5** y 025 **11/11** confirmadas también por sus clases dentro de la regresión final. No reaparecieron los fallos históricos Redis/MongoDB; no se modificó producto para obtener verde y GATE-B permaneció cerrado.
+
+**T-AUTH-025: COMPLETADA / EVIDENCIA REGISTRADA. T-AUTH-024: COMPLETADA / EVIDENCIA REGISTRADA (§40). T-AUTH-026/027: NO INICIADAS. GATE-C: PENDIENTE / NO SATISFECHO. GATE-A/B: SATISFECHOS / CERRADOS.** Se conservan los no-claims de §40.5: sin startup/DI productivo, register/login/logout, Atlas/HA/failover, AWS/Terraform ni cierre integral de AUTH-027. La identidad de inicialización de mínimo privilegio y el contraste de infraestructura productiva siguen pendientes. Constituciones, spec/plan, foundation, AGENTS/README, producto, tests, fixture, proyectos, paquetes e imágenes no se modifican en esta validación definitiva; solo se registra evidencia en task/memoria. Sin stage, commit ni push; trabajo detenido tras el cierre autorizado.

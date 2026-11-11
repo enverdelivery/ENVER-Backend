@@ -2,6 +2,8 @@
 
 ## 1. Estado actual
 
+- **Actualización posterior vigente del 10 de noviembre de 2026:** T-AUTH-024 y T-AUTH-025 **COMPLETADAS / EVIDENCIA REGISTRADA**, con UT **414/414**, IT **120/120**, ST **71/71**; detalle y límites en [§47](#47-cierre-de-t-auth-024-y-t-auth-025-tras-regresión-final). **026/027 NO INICIADAS; GATE-C PENDIENTE / NO SATISFECHO; GATE-A/B SATISFECHOS / CERRADOS**. Los estados de creación documental y entregas anteriores siguientes se conservan como antecedentes, no como autorización técnica adicional.
+
 - **Fase funcional activa:** `002-authentication`; spec **APROBADO PARA PLANIFICACIÓN**, plan **APROBADO PARA DESCOMPOSICIÓN EN TAREAS**, task v0.1.0 **APROBADO PARA EJECUCIÓN INCREMENTAL**. Catálogo de 79 tareas no ejecutadas, sin implementación; creación documental en §16. Resolución APR-03 en §15 e higiene previa en §14.
 - **Fase 0:** completada en su elaboración documental; no habilitó automáticamente entregas posteriores ni implementación.
 - **Solución:** `Enver.Backend`.
@@ -715,3 +717,46 @@ Comandos/rutas exactos y grafo/licencias en E023. No hay nueva ST focal; se ejec
 **T-AUTH-023: COMPLETADA / EVIDENCIA TÉCNICA REGISTRADA. GATE-C: PENDIENTE / NO SATISFECHO. T-AUTH-024/025/026/027: NO INICIADAS.** GATE-A/B conservan SATISFECHO / CERRADO; GATE-D–H pendientes. AUTH-027 continúa NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE; 008 mantiene IMPLEMENTACIÓN PREPARADA / VERIFICACIÓN PRODUCTIVA DE STARTUP PENDIENTE; 056/057/058 NO INICIADAS. El estado previo de 023 en §§44–45 se conserva como historial; este §46 fija su cierre posterior autorizado.
 
 `Program.cs`, Options/appsettings, spec/plan, constituciones, foundation, AGENTS/README, solución y proyectos de tests intactos; fuera de 023 solo se interviene la frontera de logging test-only expresamente autorizada. Funcionalidad de fixture, imágenes/digests, rs0, credenciales, puertos, readiness, timeouts y cleanup conservados. No se implementan 024+, register/login/logout, Orders, AWS o Terraform. No se acredita quorum multinodo, failover, HA, Atlas, cloud, TLS/ACL productivos, dos instancias desplegadas ni producción; contraste de infraestructura/topología productiva y 068 pendientes. Se detiene sin stage, commit ni push ni iniciar otra tarea.
+
+## 47. Cierre de T-AUTH-024 y T-AUTH-025 tras regresión final
+
+El **10 de noviembre de 2026**, la autorización **REGRESIÓN FINAL DEFINITIVA Y CIERRE** permite validar sin nuevas correcciones previas y, únicamente tras build/UT/IT/ST verdes, actualizar `specs/002-authentication/task.md` y esta memoria. Rama `feature/authentication`, HEAD base y conservado `64db47e347647e76ffb3588663a2a5e4616295ca`; cambios preexistentes conservados, sin stage/commit/push. Se mantuvo la instrumentación test-only ya existente en las tres clases IT Mongo024/Mongo025/capacidad Redis; no se modificaron producto, tests, fixture, expectativas, warm-ups, retries o plazos durante esta validación final.
+
+### E(T-AUTH-024) — UserStore aislable
+
+Registrada separadamente en [task.md §40](specs/002-authentication/task.md#e-t-auth-024): `IUserStore.cs` y `MongoUserStore.cs`, con FindByNormalizedEmailAsync/FindByIdAsync/InsertAsync. Igualdad construida por backend; Found/NotFound/Unavailable y Confirmed/Conflict/Unavailable/Uncertain; lectura fallida nunca es inexistencia. Conflict exige evidencia estructurada de duplicate normalizedEmail; duplicate `_id` distinto no es conflicto de email. Conserva concerns majority/primary, escritura majority+j:true+wtimeout=500 y RetryWrites=false; cero retry, read-back automático, compensación, caché o cambio de identidad. UT focal previa **22/22**, IT focal previa **5/5** y **5/5** en la regresión final: lectura tras confirmación, duplicados específicos, errores BSON, Disabled, aislamiento y ACK-loss. ACK-loss usa escritura real con entrega de confirmación suprimida en frontera de adapter test-only; no prueba corte TCP/failover real.
+
+El índice es **precondición test-only de 024**: warm-up existente ping/admin/Primary con CTS independiente de 5 s y primary obligatorio; preparación mediante la definición exacta de 025 con RequestBudget independiente de **5000 ms** y verificación obligatoria **Ready** por el initializer, que mantiene dependencia de **500 ms**. Solo después se crea el RequestBudget del store de **8000 ms**, dependencia MongoDB **500 ms**. Creación/idempotencia/carreras del índice se acreditan en 025, no se cargan al presupuesto medido del store. Sin Options alternativos ni timeout productivo aumentado.
+
+### E(T-AUTH-025) — Índice e inicialización
+
+Registrada separadamente en [task.md §41](specs/002-authentication/task.md#e-t-auth-025): `MongoUsersInitializer.cs`, normalizedEmail ascending, unique=true, collation simple/binaria, sin sparse/partial/hidden/TTL; inspección semántica y rechazo de buildUUID, no solo nombre. Creación/verificación, idempotencia, índice equivalente con otro nombre sin rename, dos hosts lógicos concurrentes, incompatibilidad y duplicados, fail-closed, preservación y no reparación. Dependencia única **500 ms**, RequestBudget IT **8000 ms**, RetryWrites=false, sin retry aplicativo ni reconciliación/borrado automático. Ready solo con verificación dentro de presupuesto; Incompatible con evidencia concluyente y verificación completada; Unavailable si no hay confirmación dentro del límite, sin conversión retroactiva a Ready.
+
+UT focal previa **21/21**, IT focal previa **11/11** y **11/11** en la regresión final. HostA y HostB retornaron Ready con clientes independientes y un único índice compatible. El caso concluyente de duplicados observó **11000 / DuplicateKey** en createIndexes, duración **202.584 ms**, antes del timeout; resultado Incompatible y token no cancelado. Dos documentos originales preservados; solo `_id_` antes/después/tras 300 ms, sin índice normalizedEmail utilizable. El tercer duplicado diagnóstico fue aceptado, conservando los dos originales y sin declarar unicidad/Ready ni reparar datos. Detalle de pruebas, trazabilidad y límites en E025.
+
+### Validación final ejecutada
+
+| Verificación | Resultado real |
+| --- | --- |
+| `docker info` | Disponible, Engine **29.6.1**. |
+| `dotnet restore Enver.Backend.slnx --locked-mode` | Correcto; lockfiles sin cambios. |
+| `dotnet build Enver.Backend.slnx --no-restore` | **0 advertencias / 0 errores**. |
+| UnitTests completas `--no-build` | **414/414**, 0 fallidas/omitidas. |
+| IntegrationTests completas `--no-build --logger "console;verbosity=detailed"` | **120/120**, 0 fallidas/omitidas, **7.9706 minutos**; una sola ejecución, límite externo 900 s no alcanzado. |
+| SecurityTests completas `--no-build` | **71/71**, 0 fallidas/omitidas; ejecutadas después de IT verde. |
+
+Comandos/rutas completos y captura local de IT en E024 §40.3. Suites secuenciales, sin otra ejecución de IT después del verde. Redis capacity volvió a acreditar **2500 admissions reales / 5000 particiones**, metadata=registry=5000, un ganador y siete Unavailable esperados en carrera, sin admisión parcial según aserciones. Snapshot final de ese caso: PING disponible, used_memory=4409872 bytes, maxmemory=67108864 (64 MiB), policy=noeviction, connected_clients=4 y blocked_clients/rejected_connections/evicted_keys=0. Sin OOM observado en ese caso; la prueba de OOM intencional usa otro contenedor dedicado. **GATE-B permaneció SATISFECHO / CERRADO**, no se reabrió.
+
+### Incidencias históricas conservadas
+
+- Regresión anterior **119/120**: IT positiva Mongo024 retornó initializer Unavailable pese a comandos exitosos; aislado **1/1** y subconjunto **7/7** pasaron. Causa no determinada. Ajuste posterior autorizado exclusivamente test-only separó la precondición del índice del presupuesto del store; no cambió producto.
+- Focal 025 anterior **10/11**: duplicados, Unavailable/cancelación y un segundo índice listado rompieron preservación de índices. Diagnóstico aislado **1/1** observó 11000/DuplicateKey e Incompatible dentro de presupuesto, sin segundo índice. Su identidad/estado histórico no quedó demostrado; no se infiere defecto de initializer ni índice único construido indebidamente.
+- Otra regresión **119/120**, con Mongo024 **5/5** y Mongo025 **11/11**, falló en el llenado de capacidad Redis: Admitted esperado / Unavailable. Aislado **1/1** y subconjunto inmediato memoria+capacidad **3/3** verdes, con 2500 admissions/5000 particiones. **Clasificación E: causa no determinada**, sin atribuir OOM, performance, fixture o defecto productivo.
+
+Estas incidencias de test **no reaparecieron en la ejecución final**; no se ocultan ni se declaran resueltas por una causa raíz no demostrada. Se conserva instrumentación diagnóstica test-only, que puede afectar timings y no constituye benchmark. **No se modificó producto para forzar verde**, no se relajaron aserciones, no se añadieron retries ni se aumentaron timeouts internos.
+
+### Estado formal y límites
+
+**T-AUTH-024: COMPLETADA / EVIDENCIA REGISTRADA. T-AUTH-025: COMPLETADA / EVIDENCIA REGISTRADA. T-AUTH-026: NO INICIADA. T-AUTH-027: NO INICIADA. GATE-C: PENDIENTE / NO SATISFECHO. GATE-A/B: SATISFECHOS / CERRADOS.** Los estados de 024/025 de §46 se conservan como historial; este §47 registra su cierre posterior autorizado. GATE-D–H siguen pendientes; AUTH-027 sigue NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE; 008 mantiene verificación productiva de startup pendiente y 056/057/058 no se inician.
+
+Solo aceptación de componentes aislables locales: sin DI/startup productivo, CAS, register/login/logout, Orders, AWS/Terraform, Atlas/HA/quorum multinodo/failover, TLS/ACL/IAM productivos, dos hosts físicos ni sizing productivo. No se cierran requisitos funcionales íntegros ni GATE-C. Constituciones, spec/plan, foundation y AGENTS/README permanecen intactos; no se añaden paquetes ni cambian configuración, imágenes/digests o topología. Documentación final limitada a task/memoria; sin stage, commit ni push. Trabajo detenido sin iniciar otra tarea.
