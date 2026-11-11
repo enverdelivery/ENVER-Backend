@@ -36,6 +36,7 @@
 | Estado posterior del cierre de 026/027 y revisión de GATE-C | **026 y 027 COMPLETADAS / EVIDENCIA REGISTRADA** ([§42](#e-t-auth-026), [§43](#e-t-auth-027)); UT **436/436**, IT **129/129**, ST **71/71**. 028–051 y 056–079: 48 tareas no ejecutadas. **GATE-C SATISFECHO / CERRADO como checkpoint local** ([§44](#cierre-gate-c)); no integración productiva ni Atlas. 008 mantiene startup productivo pendiente; 056/057/058 NO INICIADAS; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE. |
 | Estado posterior de BUILD-1 | **056/029/028/030/031/033/057 COMPLETADAS / EVIDENCIA REGISTRADA**, separadamente en §§46–52; BUILD-1 aceptado tras la regresión final de §45: build **0/0**, UT **493/493**, IT **154/154**, ST **79/79**, cero fallidas/omitidas. 032, 034–051 y 058–079: 41 tareas no ejecutadas; 008 conserva su estado documental previo. **GATE-A/B/C SATISFECHOS / CERRADOS; GATE-D–H PENDIENTES / NO SATISFECHOS**. Sin Register ni autenticación funcional publicada; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE. |
 | Estado posterior de BUILD-2 | **034/035/036/037 COMPLETADAS / EVIDENCIA REGISTRADA** en §§55–58; **BUILD-2 ACEPTADO** según §54: UT **506/506**, IT **186/186**, revalidación post-limpieza origin **1/1** y Register/composición **39/39**, ST completas **84/84**; cero fallidas/omitidas. **GATE-D SATISFECHO / CERRADO, LOCAL/TEST REPRESENTATIVO** (§59). 032, 038–051 y 058–079: 37 tareas no ejecutadas; 008 conserva su estado documental previo. AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE. |
+| Estado posterior del checkpoint E-JWT | **038–042 COMPLETADAS / EVIDENCIA REGISTRADA**, separadas en §§61–65; regresión actual UT **586/586**, IT **191/191**, ST **120/120**, 0 fallidas/omitidas (§60). **E-JWT SATISFECHO / CERRADO, LOCAL/TEST REPRESENTATIVO** (§66); **GATE-E completo y GATE-F PENDIENTES**. 032, 043–051 y 058–079: 32 tareas no ejecutadas; 008 conserva startup productivo pendiente. Sin Login/Logout ni 058 integral; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE. |
 | Gates | 8; GATE-A, GATE-B, GATE-C y GATE-D SATISFECHOS / CERRADOS en sus alcances registrados; GATE-E a GATE-H PENDIENTES / NO SATISFECHOS |
 | Fuente de aprobación | SOL-TASK-002: aprobación expresa del catálogo compactado y autorización documental del responsable |
 | Estado técnico | Autenticación NO IMPLEMENTADA / NO VERIFICADA por esta entrega; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO |
@@ -116,6 +117,8 @@ Convenciones de fichas y matrices:
 **BUILD-1** registra la autorización y regresión final en [§45](#build-1-validacion-final), y sus evidencias individuales **E(T-AUTH-056), E(T-AUTH-029), E(T-AUTH-028), E(T-AUTH-030), E(T-AUTH-031), E(T-AUTH-033) y E(T-AUTH-057)** en §§46–52. [§53](#build-1-aceptacion) acepta solo ese incremento, sin cerrar GATE-D ni iniciar 034–037. Los estados y límites de entregas anteriores se conservan como antecedentes.
 
 **BUILD-2** registra su validación autorizada e historial en [§54](#build-2-validacion-final), **E(T-AUTH-034), E(T-AUTH-035), E(T-AUTH-036) y E(T-AUTH-037)** separadas en §§55–58 y la revisión formal de **GATE-D LOCAL/TEST REPRESENTATIVO** en [§59](#cierre-gate-d). Este estado posterior no reescribe las entregas históricas ni inicia JWT/Login/Logout u otro gate.
+
+**E-JWT** registra autorización, historial del cleanup y regresión completa en [§60](#e-jwt-validacion-final), **E(T-AUTH-038) a E(T-AUTH-042)** separadas en §§61–65 y cierre exclusivamente del checkpoint local/test en [§66](#cierre-e-jwt). No cierra GATE-E completo ni GATE-F, no publica Login/Logout y no activa JWT en el pipeline productivo de 058.
 
 Cada ficha reserva su identificador **E(T-AUTH-nnn)**. **E(T-AUTH-001)** conserva la inspección de solo lectura y su cierre documental autorizado (§10); **E(T-AUTH-002)** registra la evaluación previa de SDK/dependencias/riesgos y su cierre documental autorizado (§11); **E(T-AUTH-003)** registra la baseline técnica y sus verificaciones reales (§12); **E(T-AUTH-004)** registra la inspección acotada de higiene Git y su cierre documental autorizado (§13); **E(T-AUTH-005)** registra las correcciones de contexto/publish y verificaciones locales sin Docker ni publish real (§14); **E(T-AUTH-006)** registra estructura, ownership y condiciones de confirmación del checkpoint Git único (§15). **E(T-AUTH-007)** registra configuración declarada y verificaciones controladas (§16); **E(T-AUTH-008)** registra implementación preparada con startup real pendiente (§17). **E(T-AUTH-009)** registra presupuestos/cancelación (§18); **E(T-AUTH-010)** errores/correlación/no-store (§19); **E(T-AUTH-011)** frontera HTTP (§20); **E(T-AUTH-012)** decisión aprobada y coordinación aislable (§21); **E(T-AUTH-013/014)** registra proyectos, dependencias, lockfiles, pruebas y auditoría (§22); **E(T-AUTH-015)** registra Docker/Testcontainers, hosts, aislamiento, cleanup y startup real de Options (§23); **E(T-AUTH-016)** registra cliente Redis, key builder, grafo, pruebas y límites (§26); **E(T-AUTH-018)** registra admisión fail-closed, presupuestos, incertidumbre y pruebas Redis (§27); **E(T-AUTH-019)** registra señales reales observables, detector y cierre local (§28); **E(T-AUTH-017)** registra el store de revocación, script Lua, TTL y pruebas Redis reales (§29); **E(T-AUTH-020)** registra la autoridad DynamoDB Local, CAS, emisión potencial y la integración Redis/DynamoDB de dos coordinadores (§31); **E(T-AUTH-052)** registra el contrato aislado de cuotas, PolicyRevision, RetryAfter y UT (§32); **E(T-AUTH-053)** registra pseudonimización/origen aislables, configuración, drenaje y UT/ST focales sin Docker (§33); **E(T-AUTH-054)** registra exclusivamente el incremento contractual de capacidad/recuperación y UT, con evidencia IT distribuida pendiente en 021/055 (§34). **E(T-AUTH-055)** registra la evidencia distribuida ampliada de cuotas, capacidad, limpieza, fallos, OOM y seguridad de origen (§36) y la ampliación de 054 asignada a 055 (§34.2). Los resultados de ejecución de T-AUTH-022 a T-AUTH-051 y T-AUTH-056 a T-AUTH-079 siguen **PENDIENTES / SIN EVIDENCIA TÉCNICA GENERADA**. La definición de una prueba o salida esperada no constituye resultado obtenido; los cierres registrados no acreditan autenticación integrada ni aceptación global de seguridad. El cierre de 006 solo es efectivo si el commit y la verificación Git posterior de §15 son correctos.
 
@@ -759,9 +762,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 06,09,10,20,21.
 - **Archivos esperados:** Proyecto/lockfile, `FA/Application/Ports/IAccessTokenIssuer.cs`, `SEC/JwtTokenIssuer.cs`, `JwtKeyRing.cs`, UT.
 - **Salida verificable:** JwtBearer y stack único compatible; JsonWebTokens directo solo si su API se usa. HS256, una clave activa externa ≥32 bytes aleatorios/kids aprobados; sub UUID, jti RNG 32 bytes Base64url sin padding, iss=enver-api/aud=enver-mobile, iat UTC entero/exp=iat+900, skew ≤30 s.
-- **Pruebas/evidencia requerida:** E(T-AUTH-038): claims mínimos/jti distinto, claves inválidas y frontera temporal explícita antes/en/después de exp+skew coordinada con retención.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-038)](#e-t-auth-038), §61: claims mínimos/jti distinto, claves inválidas y frontera temporal explícita antes/en/después de exp+skew coordinada con retención; validación común en §60.
 - **Riesgos/notas:** Sin PII/roles/refresh ni emisión pública sin controles; precisión/margen requieren revisión, no defaults accidentales ni longitud Base64 como entropía.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA REGISTRADA.
 
 #### T-AUTH-039
 
@@ -774,9 +777,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 09,10,18.
 - **Archivos esperados:** `SEC/JwtBearerConfiguration.cs`, `JwtClaimsValidator.cs`, UT/ST.
 - **Salida verificable:** Firma/HS256 allowlist/issuer/audience/lifetime y tipos/unicidad/canonicalidad/longitud de claims/header; iat/exp válidos, nbf si existe. MapInboundClaims=false, SaveToken=false; rechazar none, kid ausente/desconocido, duplicados/cabeceras críticas no soportadas.
-- **Pruebas/evidencia requerida:** E(T-AUTH-039): firma/algoritmos, claims ambiguos, tiempos y límites; ningún jku/x5u remoto, fallback inseguro o uso confiable de sub/jti antes de validar.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-039)](#e-t-auth-039), §62: firma/algoritmos, claims ambiguos, tiempos y límites; ningún jku/x5u remoto, fallback inseguro o uso confiable de sub/jti antes de validar.
 - **Riesgos/notas:** Parseo temprano acotado no autentica; tolerancia temporal no alarga exp emitido ni deja tokens aceptados sin retención.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA REGISTRADA.
 
 #### T-AUTH-040
 
@@ -789,9 +792,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 09,11–14,19.
 - **Archivos esperados:** `SEC/AuthenticationPolicies.cs`, `RevocationAuthorizationHandler.cs`, `AuthenticationAuthorizationResultHandler.cs`, UT/IT/ST.
 - **Salida verificable:** Default/fallback seguro; política normal exige no revocación/estado confiable. Solo POST logout admite JWT auténtico vigente revocado para confirmar efecto; 401/challenge seguro frente a 503 operativo, sin redirección ni fuga.
-- **Pruebas/evidencia requerida:** E(T-AUTH-040): denegación por defecto, excepción no reutilizable, revocado →401 fuera de logout y Redis incierto →503/no-store.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-040)](#e-t-auth-040), §63: denegación por defecto, excepción no reutilizable, revocado →401 fuera de logout y Redis incierto →503/no-store; historial del cleanup en §60.2.
 - **Riesgos/notas:** JWT válido no concede permisos de negocio; futuros recursos requieren su spec/política y no se crean para probar esta capacidad.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA REGISTRADA.
 
 #### T-AUTH-041
 
@@ -804,9 +807,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 10,20.
 - **Archivos esperados:** Procedimiento aprobado en soporte autorizado, pruebas UT/IT de key ring/política temporal.
 - **Salida verificable:** Distribuir/reconocer nueva clave, cambiar emisión, coexistir solo por ventana válida y retirar; compromiso exige retiro extraordinario/reautenticación. Skew/margen/cambios coordinados sin aceptación desprotegida.
-- **Pruebas/evidencia requerida:** E(T-AUTH-041): claves sintéticas, coexistencia/retiro, configuración incompatible y retención suficiente.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-041)](#e-t-auth-041), §64: claves sintéticas, coexistencia/retiro, configuración incompatible y retención suficiente; procedimiento manual aprobado y reloj controlado.
 - **Riesgos/notas:** Sin automatización/periodicidad o gestor AWS seleccionado; todo poseedor HS256 puede emitir. No nuevo endpoint de cierre global.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA REGISTRADA.
 
 #### T-AUTH-042
 
@@ -819,9 +822,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 06,09–14,20.
 - **Archivos esperados:** `UT/JwtPolicyTests.cs`, `ST/TokenValidationTests.cs`, IT con superficie solo de test.
 - **Salida verificable:** Tokens de pruebas emitidos directamente por componente, claims/firma/algoritmo/kid y fronteras temporales comprobados; sesiones distintas y políticas aisladas.
-- **Pruebas/evidencia requerida:** E(T-AUTH-042): unit/integration/security de JWT con Redis real cuando aplique; sin identidad falsa derivada de claims no autenticados.
+- **Pruebas/evidencia requerida:** [E(T-AUTH-042)](#e-t-auth-042), §65: unit/integration/security de JWT con Redis real cuando aplique; sin identidad falsa derivada de claims no autenticados; checkpoint revisado en §66.
 - **Riesgos/notas:** No depende de login público para producir fixtures JWT; no anticipa aceptación de endpoints ni detección universal Redis.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA REGISTRADA.
 
 ### F9 — Logout
 
@@ -1401,6 +1404,8 @@ Las pruebas funcionales acompañan a sus capacidades. Esta fase reutiliza esas s
 
 El catálogo se creó con todos los gates **PENDIENTE / NO SATISFECHO**. Tras la reevaluación y los cierres formales registrados en §25, §38, §44 y §59, el estado vigente es: **GATE-A, GATE-B, GATE-C y GATE-D SATISFECHOS / CERRADOS en sus alcances registrados**; **GATE-E a GATE-H PENDIENTES / NO SATISFECHOS**. GATE-D corresponde exclusivamente a Register LOCAL/TEST REPRESENTATIVO. Los gates revisan capacidades; no reemplazan autorización por tarea/incremento. No se impone terminar el gate completo para construir sus propias tareas integrantes: sus entradas y dependencias indican qué parte puede iniciarse.
 
+El cierre posterior de [§66](#cierre-e-jwt) satisface únicamente **checkpoint E-JWT, LOCAL/TEST REPRESENTATIVO**. No cambia el número de gates completos cerrados: GATE-E completo y GATE-F siguen pendientes, al igual que G/H.
+
 **Un gate superado localmente no demuestra AWS/Atlas/infraestructura productiva.** Cada aceptación identifica entorno/topología y alcance. Un checkpoint local puede permitir trabajo posterior independiente autorizado, pero no cerrar la aceptación externa pendiente de 068, simularla o afirmar cumplimiento integral. El cierre 079 depende de 068; mientras falte, permanece pendiente aunque existan checkpoints locales.
 
 ### GATE-A
@@ -1446,15 +1451,17 @@ El catálogo se creó con todos los gates **PENDIENTE / NO SATISFECHO**. Tras la
 ### GATE-E
 
 - **Nombre:** JWT/Login.
+- **Estado vigente:** **PENDIENTE / NO SATISFECHO como gate completo**. Checkpoint **E-JWT SATISFECHO / CERRADO, LOCAL/TEST REPRESENTATIVO**, revisión en [§66](#cierre-e-jwt); Login/032/058 pendientes y posteriores a GATE-F.
 - **Tareas de entrada:** GATE-D; 038–042 para checkpoint JWT. Después de GATE-F, 032 y 047–051; integración final 058.
 - **Condiciones de entrada:** Claves/configuración/temporalidad/retención aprobadas y controles Redis confiables; CAS/dummy/coste disponibles antes de Login. Emisión de fixtures de test no requiere login público.
 - **Condiciones de salida:** Checkpoint **E-JWT**: 038–042 probadas habilitan F. Cierre **E completo**: tras F, 047–051 y 058 comprobadas, con dummy previo, Disabled comparable, CAS seguro, 401 uniforme, cuotas y JWT solo con controles válidos.
 - **Bloqueos conocidos:** Precisión/margen/rotación, estado no confiable, dummy no preparado, rehash incierto o cuota no verificable bloquean aceptación/emisión afectada. No cerrar E completo antes de Logout.
-- **Evidencia necesaria:** E(T-AUTH-032), E(T-AUTH-038) a E(T-AUTH-042), E(T-AUTH-047) a E(T-AUTH-051), E(T-AUTH-058); fronteras temporales, claims/algoritmos/políticas y login real. Ninguna evidencia técnica existe todavía.
+- **Evidencia necesaria:** E(T-AUTH-032), E(T-AUTH-038) a E(T-AUTH-042), E(T-AUTH-047) a E(T-AUTH-051), E(T-AUTH-058); fronteras temporales, claims/algoritmos/políticas y login real. E038–E042 registradas en §§61–65; E032, E047–E051 y E058 siguen pendientes. El estado inicial sin evidencia se conserva en el historial de creación.
 
 ### GATE-F
 
 - **Nombre:** Logout.
+- **Estado vigente:** **PENDIENTE / NO SATISFECHO**. E-JWT acredita su prerrequisito local/test, no ejecuta ni autoriza automáticamente 043–046.
 - **Tareas de entrada:** GATE-B y checkpoint E-JWT; componentes 043–046.
 - **Condiciones de entrada:** Firma/claims/tiempo y políticas disponibles, marcas/TTL/confirmación/cuotas y admisión confiable; sin necesidad de login público implementado.
 - **Condiciones de salida:** 043–046 probadas: 204 solo confirmado, repetido vigente idempotente/TTL no decreciente, 401 inválido, 503 no verificable; token A revocado entre hosts sin afectar B, excepción exclusiva y sin consulta MongoDB artificial.
@@ -3800,3 +3807,160 @@ Acto expresamente autorizado por el responsable, posterior a las **84/84 ST** co
 **Límites y riesgos conservados:** no acredita AWS, deployment cloud, Load Balancer, HTTPS público/TLS publicado, Atlas HA, Redis administrado productivo, failover real/productivo ni posesión del correo institucional. El contraste 201/409 mantiene **enumeración residual**; **NAT/origen compartido** conserva limitaciones; el dominio **uttt.edu.mx no prueba titularidad**. Tampoco cierra la seguridad integral, observabilidad/CI/CD o aceptación externa de 068/079.
 
 **Integridad y entrega:** Program.cs mantiene solo composición, sin lógica de negocio; User/BSON de siete campos y contratos Mongo intactos, store/protocolo/Lua Redis intactos; cuotas **3/900 y 20/900**, capacidad **5000** y timeouts (incluidos **250 ms** del harness) intactos; csproj/lockfiles/fixture/imágenes/digests sin cambios, **0 paquetes nuevos**. Huella SHA-256 del árbol productivo fuente **idéntica al inicio y al final** del cierre: `07FE3DB35CC38C8AA02D4A3507D35A66524715109F6E2D5EBA714D65BFF695A5`. La lectura de diferencias confirma intactos Program/Core/Mongo/Redis/Configuration/fixture, spec/plan, csproj y lockfiles respecto a HEAD. En este cierre solo se escriben `task.md` y `memoria.md`, sin modificar spec/plan, constituciones, foundation, AGENTS/README, agentes/skills ni código. Se deja listo para **solicitar** checkpoint posterior, **sin stage/commit/push**; HEAD base conservado y detener sin iniciar otro gate.
+
+## 60. E-JWT — Autorización, historial y validación final
+
+<a id="e-jwt-validacion-final"></a>
+
+### 60.1. Alcance, baseline y entorno
+
+El **11 de noviembre de 2026**, las solicitudes **AUTH — PRE-BUILD JWT 038–042**, **BUILD AGRUPADO JWT 038–042 / CHECKPOINT E-JWT**, **DIAGNÓSTICO DEL CLEANUP IT040 SIN TOCAR PRODUCTO** y **CONTINUACIÓN E-JWT DESDE IT040 VERDE** delimitan y autorizan este incremento. El pre-BUILD aprueba concreciones; el BUILD posterior autoriza sus dos paquetes/versiones, componentes, tests, comandos y registro tras verde. La autorización de diagnóstico amplía expresamente el soporte test-only a `RegistrationTestScope.cs`; la continuación no autoriza cambiar producto ni repetir correcciones sin fallo nuevo demostrado.
+
+Rama **`feature/authentication`**, HEAD base y conservado **`5742c6ea0d24ed44005ac3793104d413b40aa810`**, checkpoint local de BUILD-2/Register. Inicio original limpio; baseline de esta continuación **6 modificados + 11 nuevos / nada staged**. No se interpreta E-JWT como un nuevo commit Git. Entorno .NET 10, runtime previamente observado **10.0.14**, proyectos `net10.0`, Docker Desktop/WSL2 e imágenes/digests existentes; MongoDB/Redis reales locales y autoridad propia en DynamoDB Local. Sin AWS real. Los dos hosts son hosts lógicos/TestServer con rings/clientes propios dentro del proceso de pruebas, no dos máquinas físicas ni un LB publicado.
+
+Secuencia conservada: **038 → 039 → 040 → 041 → 042 → E-JWT → posteriormente 043–046/GATE-F → posteriormente 032 y Login 047–051 → 058**. No se cambia la dependencia **047 → 046**. La emisión de fixtures llama al primitivo directamente sin Login público; no acredita la futura orquestación de credenciales/cuotas/autoridad de emisión de 049.
+
+### 60.2. Historial correctivo conservado
+
+1. El restore inicial locked informó **NU1004** por las dos nuevas referencias y el ProjectReference derivado. `dotnet restore Enver.Backend.slnx --force-evaluate` actualizó solo los cuatro lockfiles autorizados; el segundo `--locked-mode` fue correcto, sin advertencias de grafo. No se sustituyó ninguna versión. No se presenta ese restore como auditoría independiente de dependencias/imágenes.
+2. La primera compilación detectó dos errores de nombres exclusivamente en los nuevos tests: tipo logger `Log` con método homónimo y `AuthenticationOptions` ambiguo. Primera corrección de harness: nombres/alias y hosting genérico en lugar de API obsoleta. Se corrigió también la anotación nullable de `MetadataAddress = null!` en el configurador, sin alterar comportamiento. Build siguiente **0 warnings / 0 errores**. No hubo fallo de focal productivo ni relajación de controles.
+3. Focales iniciales **UT038 16/16, UT039 51/51, ST039 28/28, UT040 12/12** verdes. Primer **IT040 2/3**, 1 fallida/0 omitidas: `Stopped_real_Redis_is_fail_closed_for_a_cryptographically_valid_identity`, error `SCAN / SocketClosed` en `RegistrationTestScope.DisposeAsync`, línea original 153. Segundo ajuste test-only: espera acotada del cliente anterior antes del cleanup. Build **0/0**; segundo **IT040 2/3**, mismo punto reportado. Se detuvo al agotar las dos correcciones autorizadas, sin ejecutar 041/042 completo/regresión ni escribir evidencias.
+4. La solicitud diagnóstica independiente permitió instrumentación mínima saneada y **una corrección estructural**. El diagnóstico reprodujo **1 fallida/1 total**, sin omisión, y separó el resultado funcional del teardown: **200** con el mismo JWT antes del stop; después **503**, **no-store**, Problem Details `temporarily_unavailable`, sin challenge Bearer; todas las aserciones funcionales pasaron. Tras `StartRedisAsync`, la fixture verificó Redis sano: **mismo contenedor, endpoint publicado distinto, cliente anterior desconectado**. La espera terminó con `TaskCanceledException`; después `SCAN` ocultó ese fallo de teardown. **COMPORTAMIENTO PRODUCTIVO: PASÓ; TEARDOWN: FALLÓ. Causa E demostrada: endpoint de cleanup obsoleto**, no "flake" ni fallo de revocación atribuido por intuición. No se traslada esta causa a incidentes históricos de otros incrementos sin prueba.
+5. Ownership: la fixture posee contenedor/Stop/Start; el scope posee hosts, namespace de cuotas, base Mongo y autoridad de prueba; el host JWT posee sus clientes. Orden real: infraestructura → scope → host JWT → 200 → Stop Redis → request 503/no-store → Start/verificación Redis → disposición host JWT → cleanup del scope. Por tanto **Redis no seguía detenido al ejecutar SCAN**: el cliente estaba fijado al endpoint anterior. `KeysAsync(config.Keys.Prefix + "*")` busca metadata/buckets de cuotas propios; su error impedía llegar a `KeyDeleteAsync` y `DropDatabaseAsync`, aunque el `finally` disponía hosts/autoridad.
+6. Corrección estructural final, solo en `JwtCheckpointTests.cs` y `RegistrationTestScope.cs`: conservar Stop/Start en `try/finally`; después crear **conexión exclusiva de cleanup** con el endpoint actual de la fixture y los mismos timeouts. `DisposeWithRedisCleanupAsync` opt-in comparte el mismo SCAN, borrado, DropDatabase y disposición; `DisposeAsync()` habitual conserva el cliente anterior del scope. El llamador dispone la conexión prestada. No se omite limpieza, captura globalmente RedisConnectionException, modifica fixture, reabre admisión ni recrea clientes de seguridad. **Se retiran instrumentación y bucle de reconnect anteriores; cero sleeps/retries añadidos**.
+7. Ya sin diagnóstico: caso aislado **1/1** (13 s), tres repeticiones secuenciales **1/1** cada una (8 s cada una), **IT040 3/3** (12 s), origin quota **1/1** (4 s) y Register/composición **39/39** (35 s), todos con 0 fallidas/omitidas. Son **4/4 ejecuciones aisladas** del caso; el grupo también lo incluye. El grupo de 39 incluye origin; no se suma como caso distinto. No se cambió nuevamente la corrección en esta continuación.
+
+Fuente primaria: salidas reales de comandos y diagnóstico saneado de esta conversación; sin guardar tokens, secretos, endpoints o cuerpos sensibles en este registro. Los intentos rojos son antecedentes reales, no eliminados por los verdes posteriores.
+
+### 60.3. Comandos y resultados de la continuación
+
+Ejecutados secuencialmente, sin corrección técnica ni repetición de suites completas:
+
+```text
+dotnet test tests/Enver.API.UnitTests/Enver.API.UnitTests.csproj --no-build --filter "FullyQualifiedName~JwtPolicyTests&Task=041"
+dotnet test tests/Enver.API.IntegrationTests/Enver.API.IntegrationTests.csproj --no-build --filter "FullyQualifiedName~JwtCheckpointTests&Task=041"
+dotnet test tests/Enver.API.IntegrationTests/Enver.API.IntegrationTests.csproj --no-build --filter "FullyQualifiedName~JwtCheckpointTests"
+dotnet test tests/Enver.API.SecurityTests/Enver.API.SecurityTests.csproj --no-build --filter "FullyQualifiedName~TokenValidationTests"
+dotnet restore Enver.Backend.slnx --locked-mode
+dotnet build Enver.Backend.slnx --no-restore
+dotnet test tests/Enver.API.UnitTests/Enver.API.UnitTests.csproj --no-build
+dotnet test tests/Enver.API.IntegrationTests/Enver.API.IntegrationTests.csproj --no-build
+dotnet test tests/Enver.API.SecurityTests/Enver.API.SecurityTests.csproj --no-build
+```
+
+| Verificación | Total / passed / failed / skipped | Duración informada |
+| --- | --- | --- |
+| UT041, rotación con reloj controlado | **1 / 1 / 0 / 0** | 206 ms |
+| IT041, JwtBearer real/rotación | **1 / 1 / 0 / 0** | 4 s |
+| JwtCheckpointTests completo | **5 / 5 / 0 / 0** | 13 s |
+| TokenValidationTests completo | **36 / 36 / 0 / 0** | 4 s |
+| Restore locked final | Correcto, proyectos actualizados, sin cambiar lockfiles en esta continuación | No se atribuye duración no informada |
+| Build final sin restore | **0 warnings / 0 errores** | **16,58 s** |
+| UnitTests completas | **586 / 586 / 0 / 0** | **4 s** |
+| IntegrationTests completas | **191 / 191 / 0 / 0** | **8 min 57 s** |
+| SecurityTests completas, solo tras IT verdes | **120 / 120 / 0 / 0** | **1 min 11 s** |
+
+IT completas con límite externo **900 s**. Los focales forman parte de las suites, no aumentan sus conteos. Frente al baseline anterior, hay **80 UT + 5 IT + 36 ST** nuevas; las pruebas de configuración incompatible de 038 también soportan 041, sin duplicar su conteo. Esta vez las tres suites completas corresponden al **árbol posterior a la corrección final de cleanup**, no al diagnóstico instrumentado. La clasificación/corrección adicional permitida para una regresión fallida no fue necesaria.
+
+### 60.4. Archivos e integridad
+
+Nuevos: `Enver.API/Features/Authentication/Application/Ports/IAccessTokenIssuer.cs`; en `Enver.API/Security/`, `JwtTokenIssuer.cs`, `JwtKeyRing.cs`, `JwtBearerConfiguration.cs`, `JwtClaimsValidator.cs`, `AuthenticationPolicies.cs`, `RevocationAuthorizationHandler.cs`, `AuthenticationAuthorizationResultHandler.cs`; `tests/Enver.API.UnitTests/JwtPolicyTests.cs`, `tests/Enver.API.IntegrationTests/JwtCheckpointTests.cs`, `tests/Enver.API.SecurityTests/TokenValidationTests.cs`.
+
+Modificados acumulados: `Enver.API/Enver.API.csproj`, `Enver.API/packages.lock.json`, los tres `tests/Enver.API.{UnitTests,IntegrationTests,SecurityTests}/packages.lock.json`, `tests/Enver.API.IntegrationTests/RegistrationTestScope.cs` y, únicamente tras todas las suites verdes, `specs/002-authentication/task.md` y `memoria.md`. **19 archivos acumulados: 8 modificados + 11 nuevos**; el archivo adicional sobre los 18 inicialmente previstos fue autorizado expresamente para el diagnóstico/cleanup.
+
+En esta continuación **solo se editan task/memoria**. Huella SHA-256 agregada de fuentes/configuración/paquetes de `Enver.API` y `tests` (`.cs/.csproj/.json/.lua`, excluyendo bin/obj), idéntica antes y después de las pruebas: **`8466A66EE9006B1BE97706D7E6B4927C3BD0EFB00BEF76A1BFD8D537F941C8A2`**. No se presenta como hash de commit o auditoría de secretos. La lectura de diferencias respecto a HEAD confirma intactos Program, composición productiva, Register/controller/contratos, Core/BSON, Mongo, Redis/protocolo/Lua, Options/Http y `tests/Shared`, spec/plan. Cuotas, capacidad 5000 y timeouts productivos intactos. Claves de fixtures generadas mediante RNG, sin secretos reales hardcoded. Sin stage/commit/push.
+
+## 61. E(T-AUTH-038) — Emisión JWT y key ring
+
+<a id="e-t-auth-038"></a>
+
+**Trazabilidad oficial:** AUTH-016/017/019–021/034; PLD-AUTH-03/04/09/10; AC-06/09/10/20/21; dependencias 008/017/037. 008 conserva su estado de startup productivo pendiente; no se declara completada por esta evidencia. Autorización, entorno, archivos y validación común en §60.
+
+- Dos referencias directas aprobadas: **Microsoft.AspNetCore.Authentication.JwtBearer 10.0.14** y **Microsoft.IdentityModel.JsonWebTokens 8.19.2**; único stack Microsoft, **JsonWebTokenHandler**. Grafo locked: Protocols.OpenIdConnect/Protocols/Tokens/Logging/Abstractions **8.19.2**, System.IdentityModel.Tokens.Jwt **8.19.2** solo transitivo y sin usar su handler legacy; Microsoft.Bcl.Cryptography **10.0.2** transitivo. No nuevas referencias directas en proyectos de pruebas ni alternativa instalada.
+- `IAccessTokenIssuer`: **`AccessTokenIssueResult Issue(Guid subject)`**. Resultado tipado `Issued`/`Unavailable`, token y tiempos solo en éxito, `ToString()` solo nombre de tipo; puerto sin HTTP/MVC/Redis/Mongo. No decide credenciales, cuotas o Login.
+- `JwtKeyRing` captura opciones en snapshot local inmutable, lookup ordinal exacto por kid, sin trim/fallback/discovery/reload; firmas internas `TryGetSigningCredentials`/`TryGetValidationKey`. Bloquea snapshot inválido con error saneado: HS256/issuer/audience/vida/skew, ActiveKid existente, kids no vacíos/únicos, Base64 canónica ≥32 bytes y no reutilización de HMAC de cuotas. Provisión externa aleatoria por ambiente; la longitud no demuestra entropía. Opciones existentes y sus validadores se conservan, sin activar wiring productivo.
+- `JwtTokenIssuer` toma **una lectura UTC** de TimeProvider; **iat=floor Unix seconds**, NumericDate JSON entero; **exp=iat+900**. Firma HS256 con kid activo. Payload emitido **exactamente sub/jti/iss/aud/iat/exp**, issuer `enver-api`, audience `enver-mobile`; sin nbf automático/PII/email/fullName/roles/phone/refresh. No persiste tokens ni JTI, consulta usuarios o almacenes.
+- Subject **UUIDv4 D minúsculo, 36 caracteres**, round-trip exacto/variante RFC; JTI **RNG criptográfico 32 bytes**, Base64url canónica sin padding **43 caracteres**, nuevo por emisión. Unicidad probabilística, sin ledger por token ni garantía anti-replay implícita.
+- **UT038 16/16** acreditadas: claims exactos, jti distinto, una lectura/floor/exp900, rechazo de opciones/material/kid inválidos, HMAC reutilizada y snapshot independiente de mutaciones; incluidas en **586/586 UT** actuales. Fronteras temporales de 039/041 y ST mínimas respaldan el perfil. El primitivo emite fixtures de test: la autorización de emisión pública con controles/lease020 corresponde al futuro flujo049, no está acreditada aquí.
+
+**T-AUTH-038: COMPLETADA / EVIDENCIA REGISTRADA.**
+
+## 62. E(T-AUTH-039) — Validación JWT estricta
+
+<a id="e-t-auth-039"></a>
+
+**Trazabilidad oficial:** AUTH-017–020; PLD-AUTH-10/13; AC-09/10/18; dependencias 011/038. Archivos: `JwtBearerConfiguration.cs`, `JwtClaimsValidator.cs`, `JwtPolicyTests.cs`, `TokenValidationTests.cs`.
+
+- Configurador preparado: **MapInboundClaims=false, SaveToken=false, IncludeErrorDetails=false, UseSecurityTokenValidators=false, RefreshOnIssuerKeyNotFound=false**; una ruta JsonWebTokenHandler, sin Authority/metadata/configuration manager remotos. Firma obligatoria, HS256 allowlist, issuer/audience exactos, expiración obligatoria, resolución local exacta de kid y `TryAllIssuerSigningKeys=false`; no fallback ni búsqueda remota.
+- Compacto ASCII **≤4096 bytes**, sin contar `Bearer `, comprobado antes de decode/criptografía/Redis, tanto en frontera Bearer como validación directa. JSON/UTF-8 estrictos y acotados; se rechazan nombres duplicados incluso equivalentes por escapes, campos adicionales, tipos ambiguos y obligatorios ausentes. Payload allowlist de los seis claims y `nbf` opcional; aud string única exacta, no array. Header solo alg/kid/typ, typ opcional `JWT`; se rechazan none/otro alg, kid ausente/duplicado/tipo incorrecto/desconocido, jku/x5u/crit y otros campos no soportados. UUID/JTI canónicos con round-trip.
+- Preparse **solo rechaza**; no autentica ni consulta Redis. Firma y validaciones completas antes de producir `ValidatedJwtIdentity`, vinculada al mismo principal autenticado. El wrapper devuelve fallo genérico sin token/exception original sensible; `IncludeTokenOnFailedValidation=false`, `LogTokenId=false`, `LogValidationExceptions=false`.
+- **LifetimeValidator explícito**, TimeProvider UTC sin truncar el instante de comparación: `exp > iat`, `exp-iat == 900`, `iat <= now+S`, **`now < exp+S`**; S entero0–30 s, inicial30. Si nbf existe: entero, `nbf <= now+S` y `nbf <= exp`. `now==exp` pasa con skew30 y falla con skew0; `now==exp+S` siempre falla. Frontera a un tick antes/en/después probada, sin defaults accidentales.
+- **UT039 51/51** y **ST039 focal 28/28**, incluidas en regresiones actuales **UT586/ST120**. `TokenValidationTests` completo **36/36** comprueba HTTP401 genérico, challenge seguro, no-store, rechazo antes de trabajo de estado/Redis y ausencia de token/claves/sentinela sensible en body/logs de aplicación/framework capturados. Alcance de los casos probados, no garantía universal de telemetría o vulnerabilidades.
+
+**T-AUTH-039: COMPLETADA / EVIDENCIA REGISTRADA.**
+
+## 63. E(T-AUTH-040) — Políticas, revocación y resultados HTTP
+
+<a id="e-t-auth-040"></a>
+
+**Trazabilidad oficial:** AUTH-003/018/021–023/026/031/032/035; PLD-AUTH-11/14/19; AC-09/11–14/19; dependencias 010/018/020/039. Archivos: `AuthenticationPolicies.cs`, `RevocationAuthorizationHandler.cs`, `AuthenticationAuthorizationResultHandler.cs`; UT/IT/ST JWT y soporte cleanup de §60.2.
+
+- DefaultPolicy y FallbackPolicy exigen esquema Bearer/identidad autenticada y requisito de revocación. El handler exige feature de identidad ya validada del mismo principal, estado verificable y lectura concluyente del store; sin caché negativa ni fallback. **JWT válido por sí solo no concede permisos de negocio**; se conservan los demás requisitos del recurso.
+- NotRevoked con controles aptos puede satisfacer el requisito; **Revoked →401** fuera de la excepción. Estado o lectura **Unavailable/Uncertain →503**, **no-store**, código `temporarily_unavailable`; no convierte un fallo operativo de identidad criptográfica válida en401. JWT ausente/inválido o revocado produce401 genérico con challenge `Bearer` seguro, no redirección. El result handler no deja continuar ante requisito no satisfecho.
+- Excepción futura: solo política y metadata Logout, **POST exacto `/api/v1/auth/logout`**, JWT auténtico vigente y estado verificable; puede admitir Revoked/NotRevoked para la futura confirmación funcional. No se reutiliza por otra ruta/método/política. **No endpoint, escritura nueva, respuesta204 ni servicio Logout**; pertenecerán a043–046. Las UT construyen contexto/metadata, no publican esa ruta.
+- **UT040 12/12**, **IT040 3/3** tras el fix y ahora incluidos en **191/191 IT**. Redis real acredita marca017 escrita solo desde setup, rechazo por dos hosts; Redis detenido da503/no-store y la lectura real ocultada por decorador test-only modela Uncertain→503. No prueba pérdida física de ACK. ST comprueba además autoridad no verificable sin lectura, misuse de excepción, fallback y privacidad. Los dos rojos previos, diagnóstico de endpoint obsoleto y validaciones4/4 del cleanup se conservan en §60.2, sin atribuirlos a producto.
+
+**T-AUTH-040: COMPLETADA / EVIDENCIA REGISTRADA.**
+
+## 64. E(T-AUTH-041) — Rotación manual y retención coordinada
+
+<a id="e-t-auth-041"></a>
+
+**Trazabilidad oficial:** AUTH-019/020/024/034; PLD-AUTH-09/10; AC-10/20; dependencias 017/038. Soporte autorizado: este procedimiento y pruebas `JwtPolicyTests`/`JwtCheckpointTests`; puerta pura `JwtKeyRing.CanRetirePreviousKey`.
+
+**Procedimiento aprobado:** (1) distribuir A+B a todos los validadores; (2) confirmar reconocimiento de B; (3) cambiar ActiveKid a B en emisores; (4) acreditar cese de toda emisión A, incluidas operaciones en vuelo; (5) coexistir validando A+B; (6) retirar A únicamente después del límite seguro. Si no puede establecerse la última emisión posible, no se autoriza retirar. Compromiso requiere retiro extraordinario/reautenticación, no un Logout global nuevo.
+
+**Retención mínima:** última emisión posible A **+900 s de vida +30 s de skew máximo =930 s**, desde el instante conservador de cese real, nunca desde el primer aviso. No se agrega el margen Redis candidato/configurado de60 s ni se transforma en990. Las revocaciones conservan por separado `exp+skew+margen operativo` y sus Options/Lua/TTL intactos. Vida o skew incompatibles bloquean el snapshot; todo cambio futuro que deje aceptación sin retención suficiente exige revisión/aprobación coordinada.
+
+- **UT041 1/1**, 206 ms: A activa; A+B reconocidas; B activa emite token validable por el ring distribuido; A sigue válida durante coexistencia. A **930 s menos un tick** la puerta de retiro devuelve false y A aún valida; **a930 s** devuelve true y A ya está expirada. Tras retirar A, token A rechazado y nueva emisión B válida. Sin sleeps reales930 s.
+- **IT041 1/1**, 4 s: mismo flujo con **JwtBearer real**, hosts lógicos/Redis real y TimeProvider controlado; 401/no-store al borde/tras retiro, B nueva aceptada. Incluida en JwtCheckpointTests5/5 y regresión191/191.
+- ActiveKid inexistente, vida901 y skew fuera0–30/null se rechazan en UT038 (reutilizadas y verificadas dentro de586/586 UT), no se contabilizan como nuevos casos041.
+- La puerta de retiro calcula el horizonte con instantes UTC confiables suministrados; **no acredita por sí sola el cese global ni impide que un operador elimine una clave prematuramente fuera del procedimiento**. No hot reload/rotación runtime, temporizador, periodicidad inventada, AWS manager ni coordinación productiva de despliegue acreditada. Todo poseedor HS256 puede emitir; riesgo conservado.
+
+**T-AUTH-041: COMPLETADA / EVIDENCIA REGISTRADA.**
+
+## 65. E(T-AUTH-042) — Checkpoint integrado JWT sin Login público
+
+<a id="e-t-auth-042"></a>
+
+**Trazabilidad oficial:** AUTH-016–024/026/035/041–043; PLD-AUTH-10/11/20; AC-06/09–14/20; dependencias 015/038–041. Pruebas: `JwtCheckpointTests.cs`, `JwtPolicyTests.cs`, `TokenValidationTests.cs`; comandos/resultados comunes en §60.3.
+
+- **JwtCheckpointTests completo5/5**: emisor real y JwtBearer real, dos hosts con rings/RedisConnections propios y configuración compartida; mismo sub, jti distinto por emisión y validación cruzada. Rotación A→B/coexistencia/retiro con reloj controlado. Marca de revocación por store017 existente desde setup, leída por ambos hosts y rechazada401; Redis real detenido→503/no-store; incertidumbre después de lectura real modelada conservadoramente→503. No nueva escritura funcional Logout.
+- **TokenValidationTests completo36/36**: malformed,4097, firma alterada/tampering, wrong issuer/audience, expired/borde exp+skew, future iat/nbf, missing/unknown/duplicate kid, none/otro alg, claims ausentes/duplicados/equivalentes por escapes/ambiguos/tipos incorrectos, sub/JTI inválidos, jku/x5u/crit, UTF-8 inválido y PII adicional. Positivo del emisor con payload mínimo; revoked401; estado/revocación no verificables503; abuso de excepción rechazado; default/fallback, no-store/challenge seguro y logs capturados sin token/key/sentinela password/hash. Fixtures adversariales usan HMAC BCL solo en tests para preservar JSON malicioso, no un segundo stack JWT productivo.
+- UT038/039/040/041 suman **80 casos** incluidos en586/586: canonicalidad/aleatoriedad/configuración/key ring, precisión/tiempos y reglas estrictas, políticas/aislamiento y rotación. No se finge que cada vector sea una IT separada ni que todos impliquen Redis real.
+- El test integrado verifica Register **201** mediante el host original/Mongo real y ausencia de rutas Login/Logout; regresión191/191 conserva además Register32/composición7 y la suite completa previa. Superficies JWT `/_jwt`, `/_fallback` y `/_misused` existen **solo en hosts de test**; no se publican Login/Logout para generar fixtures.
+- `Program.cs` y composición productiva **intactos**, sin AddAuthentication/JwtBearer o UseAuthentication productivos nuevos. Los hosts de test registran componentes y pipeline real únicamente para verificar042. La selección por endpoint, Bearer opcional anónimo y wiring/controllers/pipeline completo siguen en058; no se acredita seguridad JWT del host productivo por estos tests.
+
+Regresión íntegra del árbol final: restore locked correcto, build **0/0**, **UT 586/586, IT 191/191, ST 120/120**, todas con **0 fallidas / 0 omitidas**. No infraestructura cloud, readiness externa, replay prevention, failover productivo ni eliminación universal de pérdida Redis.
+
+**T-AUTH-042: COMPLETADA / EVIDENCIA REGISTRADA.**
+
+## 66. Revisión y cierre del checkpoint E-JWT
+
+<a id="cierre-e-jwt"></a>
+
+Acto autorizado por **CONTINUACIÓN E-JWT DESDE IT040 VERDE**, realizado únicamente después de focales y las tres suites completas verdes del árbol post-fix. Se revisan separadamente:
+
+| Evidencia | Capacidad acreditada |
+| --- | --- |
+| E038 §61 | Stack/versiones aprobados, emisión mínima, snapshot de claves, UUID/JTI, tiempo y rechazo de claves/configuración inválida. |
+| E039 §62 | Firma/HS256/kid/issuer/audience, perfil estricto/tamaño/duplicados/tiempo exacto, rechazo antes de identidad confiable. |
+| E040 §63 | Default/fallback, revocado401, no verificable503/no-store, excepción Logout aislada, Redis real y cleanup corregido sin ocultar errores. |
+| E041 §64 | Procedimiento manual, distribución/activación/coexistencia/retiro y retención930, reloj controlado/configuración incompatible. |
+| E042 §65 | Emisión/validación real cruzada, dos hosts lógicos, revocación/fail-closed, seguridad y Register sin nuevas rutas productivas. |
+
+**T-AUTH-038, T-AUTH-039, T-AUTH-040, T-AUTH-041 y T-AUTH-042: COMPLETADAS / EVIDENCIA REGISTRADA. CHECKPOINT E-JWT: SATISFECHO / CERRADO — LOCAL/TEST REPRESENTATIVO.** Esto satisface el prerrequisito de capacidad para solicitar043–046, **no autoriza su ejecución automática**.
+
+**GATE-E completo: PENDIENTE / NO SATISFECHO. GATE-F: PENDIENTE / NO SATISFECHO.** GATE-A/B/C/D conservan cierres, G/H pendientes. 032 (incluida su brecha de hashing antiguo/CAS), Login047–051, Logout043–046 y058 integral **no implementados por este incremento**; 008 conserva verificación productiva de startup pendiente. **AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE**, sin confundirlo con T-AUTH-027 Mongo ya completada. No Orders, refresh tokens, AWS/Terraform, CI/CD ni siguiente incremento.
+
+No acredita dos instancias físicas, Load Balancer, TLS público, Atlas HA, Redis administrado, failover/continuidad productivos o titularidad de correo. Los estados anteriores de ausencia JWT en §59 y entregas previas quedan como historial de aquellas autorizaciones, no como estado posterior de este cierre. Solo se actualizan task/memoria tras verde; spec/plan y dependencias intactos, sin stage/commit/push. Detener aquí, sin checkpoint Git nuevo ni trabajo adicional.

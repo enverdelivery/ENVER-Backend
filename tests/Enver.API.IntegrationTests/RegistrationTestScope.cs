@@ -140,14 +140,18 @@ internal sealed class RegistrationTestScope : IAsyncDisposable
             throw new XunitException($"Register: evidencia no acreditada; tipo={error.GetType().Name}; detalles sensibles suprimidos.");
         }
     }
-    public async ValueTask DisposeAsync()
+    public ValueTask DisposeAsync() => DisposeWithRedisCleanupAsync(null);
+
+    // Opt-in solo para escenarios que reinician el contenedor y cambian su endpoint publicado.
+    // El llamador posee esta conexión; no sustituye el cliente/estado de seguridad de la aplicación.
+    internal async ValueTask DisposeWithRedisCleanupAsync(RedisConnections? cleanupConnections)
     {
         try
         {
             if (hosts.Count > 0)
             {
                 var p = Services;
-                var connection = await p.GetRequiredService<RedisConnections>().GetMultiplexerAsync();
+                var connection = await (cleanupConnections ?? p.GetRequiredService<RedisConnections>()).GetMultiplexerAsync();
                 var config = p.GetRequiredService<RedisAuthenticationQuotaConfiguration>();
                 var keys = new List<RedisKey>();
                 await foreach (var key in connection.GetServer(connection.GetEndPoints()[0]).KeysAsync(pattern: config.Keys.Prefix + "*")) keys.Add(key);
