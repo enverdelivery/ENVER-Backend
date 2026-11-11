@@ -35,7 +35,8 @@
 | Estado posterior del cierre de 024/025 | **024 y 025 COMPLETADAS / EVIDENCIA REGISTRADA** ([§40](#e-t-auth-024), [§41](#e-t-auth-025)): UserStore e inicializador aislables; UT **414/414**, IT **120/120**, ST **71/71**. 026–051 y 056–079: 50 tareas no ejecutadas; **026/027 NO INICIADAS**. 008 conserva startup productivo pendiente; **GATE-A/B SATISFECHOS / CERRADOS; GATE-C–H PENDIENTES / NO SATISFECHOS**; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE. |
 | Estado posterior del cierre de 026/027 y revisión de GATE-C | **026 y 027 COMPLETADAS / EVIDENCIA REGISTRADA** ([§42](#e-t-auth-026), [§43](#e-t-auth-027)); UT **436/436**, IT **129/129**, ST **71/71**. 028–051 y 056–079: 48 tareas no ejecutadas. **GATE-C SATISFECHO / CERRADO como checkpoint local** ([§44](#cierre-gate-c)); no integración productiva ni Atlas. 008 mantiene startup productivo pendiente; 056/057/058 NO INICIADAS; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE. |
 | Estado posterior de BUILD-1 | **056/029/028/030/031/033/057 COMPLETADAS / EVIDENCIA REGISTRADA**, separadamente en §§46–52; BUILD-1 aceptado tras la regresión final de §45: build **0/0**, UT **493/493**, IT **154/154**, ST **79/79**, cero fallidas/omitidas. 032, 034–051 y 058–079: 41 tareas no ejecutadas; 008 conserva su estado documental previo. **GATE-A/B/C SATISFECHOS / CERRADOS; GATE-D–H PENDIENTES / NO SATISFECHOS**. Sin Register ni autenticación funcional publicada; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE. |
-| Gates | 8; GATE-A, GATE-B y GATE-C SATISFECHOS / CERRADOS en sus alcances registrados; GATE-D a GATE-H PENDIENTES / NO SATISFECHOS |
+| Estado posterior de BUILD-2 | **034/035/036/037 COMPLETADAS / EVIDENCIA REGISTRADA** en §§55–58; **BUILD-2 ACEPTADO** según §54: UT **506/506**, IT **186/186**, revalidación post-limpieza origin **1/1** y Register/composición **39/39**, ST completas **84/84**; cero fallidas/omitidas. **GATE-D SATISFECHO / CERRADO, LOCAL/TEST REPRESENTATIVO** (§59). 032, 038–051 y 058–079: 37 tareas no ejecutadas; 008 conserva su estado documental previo. AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE. |
+| Gates | 8; GATE-A, GATE-B, GATE-C y GATE-D SATISFECHOS / CERRADOS en sus alcances registrados; GATE-E a GATE-H PENDIENTES / NO SATISFECHOS |
 | Fuente de aprobación | SOL-TASK-002: aprobación expresa del catálogo compactado y autorización documental del responsable |
 | Estado técnico | Autenticación NO IMPLEMENTADA / NO VERIFICADA por esta entrega; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO |
 
@@ -113,6 +114,8 @@ Convenciones de fichas y matrices:
 **E(T-AUTH-026)** registra CAS de tres condiciones/dos campos, resultados, presupuestos, concurrencia y ACK suprimido en [§42](#e-t-auth-026). **E(T-AUTH-027)** registra integración MongoDB real 023–026, dos clientes, unicidad/CAS, lectura, incertidumbre y aislamiento en [§43](#e-t-auth-027). La revisión posterior de E023–E027 cierra formalmente **GATE-C local** en [§44](#cierre-gate-c), sin modificar los estados históricos de cada entrega ni iniciar Register/composición.
 
 **BUILD-1** registra la autorización y regresión final en [§45](#build-1-validacion-final), y sus evidencias individuales **E(T-AUTH-056), E(T-AUTH-029), E(T-AUTH-028), E(T-AUTH-030), E(T-AUTH-031), E(T-AUTH-033) y E(T-AUTH-057)** en §§46–52. [§53](#build-1-aceptacion) acepta solo ese incremento, sin cerrar GATE-D ni iniciar 034–037. Los estados y límites de entregas anteriores se conservan como antecedentes.
+
+**BUILD-2** registra su validación autorizada e historial en [§54](#build-2-validacion-final), **E(T-AUTH-034), E(T-AUTH-035), E(T-AUTH-036) y E(T-AUTH-037)** separadas en §§55–58 y la revisión formal de **GATE-D LOCAL/TEST REPRESENTATIVO** en [§59](#cierre-gate-d). Este estado posterior no reescribe las entregas históricas ni inicia JWT/Login/Logout u otro gate.
 
 Cada ficha reserva su identificador **E(T-AUTH-nnn)**. **E(T-AUTH-001)** conserva la inspección de solo lectura y su cierre documental autorizado (§10); **E(T-AUTH-002)** registra la evaluación previa de SDK/dependencias/riesgos y su cierre documental autorizado (§11); **E(T-AUTH-003)** registra la baseline técnica y sus verificaciones reales (§12); **E(T-AUTH-004)** registra la inspección acotada de higiene Git y su cierre documental autorizado (§13); **E(T-AUTH-005)** registra las correcciones de contexto/publish y verificaciones locales sin Docker ni publish real (§14); **E(T-AUTH-006)** registra estructura, ownership y condiciones de confirmación del checkpoint Git único (§15). **E(T-AUTH-007)** registra configuración declarada y verificaciones controladas (§16); **E(T-AUTH-008)** registra implementación preparada con startup real pendiente (§17). **E(T-AUTH-009)** registra presupuestos/cancelación (§18); **E(T-AUTH-010)** errores/correlación/no-store (§19); **E(T-AUTH-011)** frontera HTTP (§20); **E(T-AUTH-012)** decisión aprobada y coordinación aislable (§21); **E(T-AUTH-013/014)** registra proyectos, dependencias, lockfiles, pruebas y auditoría (§22); **E(T-AUTH-015)** registra Docker/Testcontainers, hosts, aislamiento, cleanup y startup real de Options (§23); **E(T-AUTH-016)** registra cliente Redis, key builder, grafo, pruebas y límites (§26); **E(T-AUTH-018)** registra admisión fail-closed, presupuestos, incertidumbre y pruebas Redis (§27); **E(T-AUTH-019)** registra señales reales observables, detector y cierre local (§28); **E(T-AUTH-017)** registra el store de revocación, script Lua, TTL y pruebas Redis reales (§29); **E(T-AUTH-020)** registra la autoridad DynamoDB Local, CAS, emisión potencial y la integración Redis/DynamoDB de dos coordinadores (§31); **E(T-AUTH-052)** registra el contrato aislado de cuotas, PolicyRevision, RetryAfter y UT (§32); **E(T-AUTH-053)** registra pseudonimización/origen aislables, configuración, drenaje y UT/ST focales sin Docker (§33); **E(T-AUTH-054)** registra exclusivamente el incremento contractual de capacidad/recuperación y UT, con evidencia IT distribuida pendiente en 021/055 (§34). **E(T-AUTH-055)** registra la evidencia distribuida ampliada de cuotas, capacidad, limpieza, fallos, OOM y seguridad de origen (§36) y la ampliación de 054 asignada a 055 (§34.2). Los resultados de ejecución de T-AUTH-022 a T-AUTH-051 y T-AUTH-056 a T-AUTH-079 siguen **PENDIENTES / SIN EVIDENCIA TÉCNICA GENERADA**. La definición de una prueba o salida esperada no constituye resultado obtenido; los cierres registrados no acreditan autenticación integrada ni aceptación global de seguridad. El cierre de 006 solo es efectivo si el commit y la verificación Git posterior de §15 son correctos.
 
@@ -696,7 +699,7 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **Salida verificable:** fullName/email/password y proyección id/fullName/email normalizado; input/result sin MVC/BSON/Redis. Validación/cuota antes de hash, UUIDv4 y Active del servidor; sin token/login automático ni ToString sensible.
 - **Pruebas/evidencia requerida:** E(T-AUTH-034): fakes de puertos verifican orden, ausencia de efectos ante rechazo y timestamps de creación coherentes.
 - **Riesgos/notas:** No teléfono/rol/status/id del cliente, datos de repartidor o interfaz genérica artificial; adaptadores/persistencia en 035.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA REGISTRADA ([E(T-AUTH-034), §55](#e-t-auth-034)); contratos y flujo D012 verificados en el alcance local/test de BUILD-2.
 
 #### T-AUTH-035
 
@@ -711,7 +714,7 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **Salida verificable:** POST /api/v1/auth/register produce 201 solo confirmado, respuesta allowlist sin hash/token/Location ficticio; duplicado específico email →409 genérico; incertidumbre →error operativo sin compensación destructiva.
 - **Pruebas/evidencia requerida:** E(T-AUTH-035): persistencia confirmada, conflicto, respuesta perdida y Problem Details/no-store correctos.
 - **Riesgos/notas:** Índice garantiza unicidad, no consulta previa; contraste 201/409 conserva enumeración residual. Endpoint no se publica antes de controles completos.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA REGISTRADA ([E(T-AUTH-035), §56](#e-t-auth-035)); endpoint/persistencia y errores verificados localmente, sin acreditar publicación externa.
 
 #### T-AUTH-036
 
@@ -726,7 +729,7 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **Salida verificable:** Cuota conjunta email 3/15 min y origen 20/15 min antes del hash; logging estructurado por allowlist y base común para eventos de cuotas/revocación/dependencias/confianza.
 - **Pruebas/evidencia requerida:** E(T-AUTH-036): orden, intentos admitidos consumidos, 429/503 seguros y logs sin cuerpo/email/password/hash/secretos ni etiquetas sensibles.
 - **Riesgos/notas:** No duplicar consumo entre filtro/servicio; métricas finales y revisión integral en 066; NAT residual no desaparece.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA REGISTRADA ([E(T-AUTH-036), §57](#e-t-auth-036)); cuotas conjuntas y observabilidad allowlist verificadas, sin dimensionamiento productivo.
 
 #### T-AUTH-037
 
@@ -739,9 +742,9 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **AC relacionados:** 01–05,17,19.
 - **Archivos esperados:** `UT/AuthenticationServiceTests.cs`, `IT/RegistrationTests.cs`, ST de registro y fixtures compartidas.
 - **Salida verificable:** Contratos/fronteras, dos hosts con duplicados, índice/BSON y creación inspeccionados; sin escrituras por entrada inválida ni token automático/secretos en respuesta.
-- **Pruebas/evidencia requerida:** E(T-AUTH-037): suites unit/integration/security del incremento con Mongo/Redis reales y composición 056/057; resultados aún pendientes.
+- **Pruebas/evidencia requerida:** E(T-AUTH-037): suites unit/integration/security del incremento con Mongo/Redis reales y composición 056/057; resultados registrados en §§54/58.
 - **Riesgos/notas:** Fase numérica no impide adelantar composición; factory no acredita pipeline final ni infraestructura publicada.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA REGISTRADA ([E(T-AUTH-037), §58](#e-t-auth-037)); Register OPERATIVO LOCAL/TEST y revisión formal del gate en §59.
 
 ### F8 — JWT
 
@@ -1396,7 +1399,7 @@ Las pruebas funcionales acompañan a sus capacidades. Esta fase reutiliza esas s
 
 ## 4. Gates de aceptación
 
-El catálogo se creó con todos los gates **PENDIENTE / NO SATISFECHO**. Tras la reevaluación y los cierres formales registrados en §25, §38 y §44, el estado vigente es: **GATE-A, GATE-B y GATE-C SATISFECHOS / CERRADOS en sus alcances registrados**; **GATE-D a GATE-H PENDIENTES / NO SATISFECHOS**. Los gates revisan capacidades; no reemplazan autorización por tarea/incremento. No se impone terminar el gate completo para construir sus propias tareas integrantes: sus entradas y dependencias indican qué parte puede iniciarse.
+El catálogo se creó con todos los gates **PENDIENTE / NO SATISFECHO**. Tras la reevaluación y los cierres formales registrados en §25, §38, §44 y §59, el estado vigente es: **GATE-A, GATE-B, GATE-C y GATE-D SATISFECHOS / CERRADOS en sus alcances registrados**; **GATE-E a GATE-H PENDIENTES / NO SATISFECHOS**. GATE-D corresponde exclusivamente a Register LOCAL/TEST REPRESENTATIVO. Los gates revisan capacidades; no reemplazan autorización por tarea/incremento. No se impone terminar el gate completo para construir sus propias tareas integrantes: sus entradas y dependencias indican qué parte puede iniciarse.
 
 **Un gate superado localmente no demuestra AWS/Atlas/infraestructura productiva.** Cada aceptación identifica entorno/topología y alcance. Un checkpoint local puede permitir trabajo posterior independiente autorizado, pero no cerrar la aceptación externa pendiente de 068, simularla o afirmar cumplimiento integral. El cierre 079 depende de 068; mientras falte, permanece pendiente aunque existan checkpoints locales.
 
@@ -1433,6 +1436,7 @@ El catálogo se creó con todos los gates **PENDIENTE / NO SATISFECHO**. Tras la
 ### GATE-D
 
 - **Nombre:** Register.
+- **Estado vigente:** **SATISFECHO / CERRADO, LOCAL/TEST REPRESENTATIVO**; revisión formal de E028–E031/E033–E037/E056/E057 y límites en [§59](#cierre-gate-d). No acredita despliegue ni titularidad del buzón institucional.
 - **Tareas de entrada:** GATE-B/C; 028–031/033 y composición 056–057; componentes 034–037. 032 se verifica para rehash antes de Login, no es condición funcional de crear una cuenta nueva.
 - **Condiciones de entrada:** Normalización/password/coste y controles compartidos disponibles; factories y adaptadores reales integrables sin publicar rutas incompletas.
 - **Condiciones de salida:** 034–037 verificadas: 201 confirmado, conflicto 409 genérico determinado por índice, sin login/token automático; validación/cuotas antes del coste, no-store/logging seguro y pruebas positivas/negativas/concurrentes.
@@ -3628,3 +3632,171 @@ dotnet test tests/Enver.API.SecurityTests/Enver.API.SecurityTests.csproj --no-bu
 Fuente primaria: salidas reales de esta sesión autorizada. Focal **025 11/11**, 0 fallidas/omitidas, **5 s**; restore locked correcto; build **0 warnings / 0 errores**, **18,44 s**; UT completas **493/493**, **4 s**; IT completas **154/154**, **7 min 44 s**, una sola ejecución con límite externo **900 s**; ST completas **79/79**, **49 s**, solo después de IT verdes. **0 fallidas / 0 omitidas** en todas las suites. No reaparecieron el timeout 025, el fallo prematuro Redis ni `ClassFormatError`. El diagnóstico temporal Redis sigue ausente; se conservan los diagnósticos estables y contratos anteriores.
 
 **ÁRBOL POST-LIMPIEZA ACEPTADO / REVALIDADO**; queda satisfecho el bloqueo de validación del intento de checkpoint anterior, cuyo fallo y límites se conservan arriba sin atribuirle una causa raíz no demostrada. Se mantienen intactas **E056 §46, E029 §47, E028 §48, E030 §49, E031 §50, E033 §51 y E057 §52** y los siete estados COMPLETADA / EVIDENCIA REGISTRADA. La autorización permite ahora stage exclusivo de los **27 archivos revisados** y un commit con mensaje exacto `feat(auth): add validation hashing and dependency composition`, condicionado a la revisión del índice; el hash resultante y estado final se informan en la salida Git de la sesión. Únicas ediciones de esta revalidación: esta nota y memoria §49.5, después del verde. **GATE-A/B/C cerrados; GATE-D PENDIENTE / NO SATISFECHO**, sin iniciar 034–037/BUILD-2. Sin push, pull, fetch, merge o rebase; sin implementar Register/Login/Logout/JWT, Orders o AWS/Terraform. Detener después de verificar el checkpoint local.
+
+## 54. BUILD-2 — Validación final, historial y aceptación de Register
+
+<a id="build-2-validacion-final"></a>
+
+### 54.1. Autorización, baseline y entorno
+
+Registro del **11 de noviembre de 2026**. Las solicitudes posteriores **AUTH BUILD-2** autorizan implementar 034–037, diagnosticar/corregir exclusivamente el harness y, por último, **VALIDACIÓN FINAL, EVIDENCIAS Y CIERRE GATE-D**. Esta última permite solo ST completas y, si pasan sin fallidas/omitidas, actualizar este documento y `memoria.md`; prohíbe repetir UT/IT completas, modificar producto, iniciar otra capacidad o hacer stage/commit/push. Las solicitudes prematuras de checkpoint no produjeron commit: faltaban ST completas y cierre documental. Se conserva esa separación entre implementación, evidencia, aceptación y checkpoint posterior.
+
+Rama **`feature/authentication`**, HEAD base y conservado **`fe7858dc054a21a68fc051f95db6cb2e7383f8a4`**; baseline **2 modificados + 14 nuevos, nada staged**. Ese HEAD corresponde al checkpoint posterior de BUILD-1; no se reescribe su historial de §53.1. Entorno .NET 10, runtime de pruebas **10.0.14**, fixtures/imágenes/digests existentes, Docker Desktop/WSL2, MongoDB local real y Redis local real. Autoridad propia explícita en DynamoDB Local, sin recursos AWS reales. Los dos hosts de la carrera son factories/clientes y estados locales independientes, no dos máquinas físicas ni un balanceador publicado.
+
+### 54.2. Historial correctivo y limpieza, sin borrar intentos rojos
+
+- Primer focal IT agrupado: **7/39** verdes; los **32** casos nuevos no alcanzaron sus aserciones por un nombre de base sintética ajeno al prefijo obligatorio del ambiente. Corrección test-only: derivarlo de `fixture.MongoDatabase`, sin relajar el validador ni tocar producto.
+- Focal posterior: **38/39**, con un `EqualException` en el caso origin 20/900; la captura inicial saneada no identificaba la comparación. No se imputó un defecto productivo sin evidencia. Dos ejecuciones diagnósticas aisladas localizaron el fallo en **setup**, antes del request 1: expected `initialized`, actual `unavailable`, categoría `closed`, causa `DependencyTimeout`; **0 requests, 0 llamadas de cuota, 0 EVAL de inicialización**. La comprobación local observada duró **330,7 ms** frente a **250 ms** de presupuesto de dependencia; no es una medición aislada del tiempo físico de conexión ni prueba de un fallo en Lua/conteo/Retry-After.
+- Corrección autorizada únicamente en `RegistrationTestScope.cs`: abrir su `RedisConnections` real y completar `PING` bajo el token de setup, **antes** del lifecycle. Preparación **TEST-ONLY**, sin cuota, Lua, buckets, mutación de autoridad, retries ni ampliación de los **250 ms**. Tras ella: origin **1/1**, Register/composición **39/39** y ST focales **5/5** verdes.
+- El diagnóstico temporal no era solo logging: agregaba snapshots before/after y un `executeOverride` cuya obtención de conexión ocurría después de `MarkDispatched`, a diferencia de la ruta normal. Se detuvo el cierre al identificar ese cambio de recorrido. La solicitud independiente **LIMPIEZA COORDINADA DEL DIAGNÓSTICO Y REVALIDACIÓN FOCAL** autorizó limpiar ambos archivos IT y revalidar focalmente, sin repetir IT completas.
+- Se retiraron íntegramente `OriginQuotaDiagnostic`, output, snapshots, hooks/`executeOverride`, wrappers de autoridad/seguridad, estructuras y captura temporal de comparaciones/stack; se conservó el saneamiento de fallos. `RegistrationTests.cs` vuelve a `SendAsync`; `QuotaProbe` cuenta/delega al store real resuelto de la composición, sin sustituir su frontera de despacho. Requests, escenarios, aserciones funcionales, cuotas, `Retry-After`, stores reales y pre-warm estable se conservan. **No queda instrumentación diagnóstica temporal de este incremento.**
+
+### 54.3. Comandos y resultados reales
+
+Fuentes primarias: salidas de las ejecuciones autorizadas de esta conversación, incluida la notificación final de IT completas; no estimaciones ni cifras de BUILD-1.
+
+```text
+dotnet test tests/Enver.API.UnitTests/Enver.API.UnitTests.csproj --no-build --filter "FullyQualifiedName~AuthenticationServiceTests"
+dotnet restore Enver.Backend.slnx --locked-mode
+dotnet build Enver.Backend.slnx --no-restore
+dotnet test tests/Enver.API.UnitTests/Enver.API.UnitTests.csproj --no-build
+dotnet test tests/Enver.API.IntegrationTests/Enver.API.IntegrationTests.csproj --no-build
+```
+
+El focal UT pertenece a la implementación inicial, anterior a la regresión. Después, la limpieza autorizada ejecutó, en orden:
+
+```text
+dotnet build Enver.Backend.slnx --no-restore
+dotnet test tests/Enver.API.IntegrationTests/Enver.API.IntegrationTests.csproj --no-build --filter "FullyQualifiedName~RegistrationTests.Origin_20_per_900_joint_with_email_3_per_900_has_one_charge_and_conservative_retry_after"
+dotnet test tests/Enver.API.IntegrationTests/Enver.API.IntegrationTests.csproj --no-build --filter "FullyQualifiedName~RegistrationTests|FullyQualifiedName~AuthenticationDependencyCompositionTests"
+```
+
+Finalmente, y sin repetir UT/IT en este cierre:
+
+```text
+dotnet test tests/Enver.API.SecurityTests/Enver.API.SecurityTests.csproj --no-build
+```
+
+| Verificación | Resultado y relación temporal |
+| --- | --- |
+| Focal `AuthenticationServiceTests` | **13/13 UT**, 0 fallidas/omitidas; incluido en UT completas. |
+| Restore locked | Correcto, sin cambios de dependencias/lockfiles. No repetido en el cierre documental. |
+| Build previo a regresión | **0 warnings / 0 errores**, **18,97 s**. |
+| UT completas | **506/506**, 0 fallidas/omitidas, **4 s**; anteriores a la limpieza exclusivamente IT, producto/UT intactos después. |
+| IT completas | **186/186**, 0 fallidas/omitidas, **8 min 20 s**, una ejecución con límite externo 900 s; anteriores a retirar el diagnóstico del caso origin. |
+| Build post-limpieza | **0 warnings / 0 errores**, **32,41 s**; solución completa y fuentes sin diagnóstico. |
+| Origin post-limpieza | **1/1**, 0 fallidas/omitidas, **5 s**; request 21 →429, `Retry-After` 1–900 s. |
+| Register/composición post-limpieza | **39/39 IT**, 0 fallidas/omitidas, **32 s**: 32 casos Register + 7 de composición. Incluye origin; no se suma como un caso distinto a las 186 IT. |
+| ST focales Register | **5/5**, 0 fallidas/omitidas, evidencia previa conservada: el proyecto/clase ST no referencia el scope IT eliminado; ahora también incluidas en ST completas. |
+| ST completas finales | **84/84**, **0 fallidas / 0 omitidas**, **1 min 14 s**, sin filtro y sin build, sobre los binarios del build post-limpieza. |
+
+**No se presenta 186/186 como una nueva ejecución post-limpieza.** El responsable acepta expresamente para este cierre UT/IT completas ya acreditadas más build y focales post-limpieza, sin repetirlas; el cambio posterior se limita al harness IT y restaura la ruta productiva real. Las ST completas actuales satisfacen la condición restante. No hubo corrección productiva, cambio de aserciones funcionales, límites, presupuestos o paquetes después de esas evidencias. Las pruebas locales no acreditan SLA/rendimiento productivo ni eliminan las incidencias históricas de §45/53.
+
+### 54.4. Archivos y decisión
+
+Archivos nuevos del incremento, bajo `Enver.API/`: `Features/Authentication/Contracts/RegisterRequest.cs`, `RegisterResponse.cs`; `Features/Authentication/Application/AuthenticationInputs.cs`, `AuthenticationResults.cs`, `AuthenticationService.cs`, `Ports/IRegisterControls.cs`; `Controllers/AuthenticationController.cs`; `Composition/RegisterControls.cs`; `Http/RegisterBoundaryContinuation.cs`; `Observability/AuthenticationEvents.cs`. Wiring previo modificado: `Composition/AuthenticationServiceCollectionExtensions.cs`.
+
+Pruebas nuevas: `tests/Enver.API.UnitTests/AuthenticationServiceTests.cs`, `tests/Enver.API.IntegrationTests/RegistrationTests.cs`, `RegistrationTestScope.cs` y `tests/Enver.API.SecurityTests/RegistrationSecurityTests.cs`. Ajuste estable del test histórico `AuthenticationDependencyCompositionTests.cs`: Register ya no espera 404, exige 503 con autoridad no apta; Login/Logout conservan 404. No relaja fail-closed ni inicializa seguridad desde producto.
+
+**BUILD-2 ACEPTADO. T-AUTH-034/035/036/037 COMPLETADAS / EVIDENCIA REGISTRADA**, separadamente en §§55–58; **Register OPERATIVO LOCAL/TEST**. La revisión y decisión del gate se registran como acto explícito en §59, no por mera existencia de clases. Solo después del verde final se modifican este documento y `memoria.md`; **sin stage/commit/push** y sin autorización automática del siguiente incremento.
+
+## 55. E(T-AUTH-034) — Contratos y flujo de Register
+
+<a id="e-t-auth-034"></a>
+
+**Trazabilidad:** AUTH-002–009/012–015/038; PLD-AUTH-02/05/12/13; AC-01–05. Archivos: contratos Register, `AuthenticationInputs.cs`, `AuthenticationResults.cs`, `AuthenticationService.cs`, `Ports/IRegisterControls.cs`; prueba `AuthenticationServiceTests.cs`. Autorización, entorno y comandos en §54.
+
+- Request exacto **`fullName/email/password`**, obligatorios; response exacta **`id/fullName/email`**. JSON camelCase estricto mediante la frontera/serializer existentes: sin desconocidos, duplicados, null, tipos indebidos, coerción ni mass assignment. Inputs/results internos no dependen de MVC/BSON/Redis y sus `ToString` no vuelcan datos sensibles.
+- D012: **413/415 terminales sin cuota**; preflight obligatorio antes del 400; JSON ilegible/identidad inválida no crean buckets. Email institucional ASCII normalizado por `InstitutionalEmailNormalizer`; identidad apta → una cuota conjunta antes de evaluar defectos secundarios y antes de hashing. Se reutilizan `AuthenticationInputValidator`, `PasswordPolicy`, `IPasswordService`, `HashingConcurrencyGate` e `IUserStore`; misma identidad normalizada en cuota, persistencia y response.
+- Nombre/password válidos antes del hash; UUIDv4, **Active**, instante **UTC backend** y **`createdAt == updatedAt`** creados por servidor. El documento final usa el hash obtenido; plaintext no se persiste. No reintento con otra identidad, consulta previa, token, cookie o auto-login.
+- **13/13 UT** verifican orden `admission → quota → hash → insert`, ausencia de hash/escritura en rechazos correspondientes, saturación, identidad/timestamps, proyección y mapeo Confirmed/Conflict/Unavailable/Uncertain. Controles fallidos no se convierten en éxito. Los rechazos posteriores a admisión conservan su consumo legítimo, no se afirma ausencia universal de efectos.
+- Regresión aplicable: **506/506 UT**, focal IT post-limpieza **39/39**, **186/186 IT** acreditadas y **84/84 ST** finales, sin doble conteo; relación temporal en §54.3.
+
+**T-AUTH-034: COMPLETADA / EVIDENCIA REGISTRADA.**
+
+## 56. E(T-AUTH-035) — Endpoint, persistencia y contrato HTTP
+
+<a id="e-t-auth-035"></a>
+
+**Trazabilidad:** AUTH-003/004/009/031/032/038/039; PLD-AUTH-05/14/19; AC-01/03/17/19. Archivos: `Enver.API/Controllers/AuthenticationController.cs`, flujo/proyecciones de 034, wiring y continuación de frontera; `RegistrationTests.cs` y `RegistrationTestScope.cs`.
+
+- **`POST /api/v1/auth/register`**, anónimo (`AllowAnonymous`); sin binding MVC permisivo del cuerpo. Parseo limitado por la frontera existente y extracción sin coerción cuando hay defectos secundarios, conservando la precedencia D012.
+- **201 solo con `UserInsertStatus.Confirmed`**. Mongo real contiene un documento de **siete campos exactos**: `_id/fullName/normalizedEmail/passwordHash/status/createdAt/updatedAt`; UUIDv4, Active y timestamps iguales. Hash verificado con el hasher real del framework. Response únicamente `id/fullName/email`, email normalizado, sin password/hash/status/accessToken/refreshToken ni otro campo, sin `Set-Cookie`, login automático o `Location` ficticio.
+- Índice único de `normalizedEmail` determina **409 genérico `registration_conflict`** para emails equivalentes; no read-before-write. El store previo clasifica el duplicado específico del índice/email, no cualquier error Mongo como conflicto. **Unavailable/Uncertain →503**. Una inserción por intento, sin compensating delete, retry o nuevo UUID tras incertidumbre.
+- La prueba Uncertain usa un decorador **test-only**: ejecuta la inserción real confirmada y oculta el resultado; observa 503 y un documento conservado. Es evidencia del tratamiento del resultado incierto y ausencia de compensación, **no pérdida física de ACK Mongo**. Unavailable sin envío se modela por el decorador y la admisión ante Mongo no disponible se contrasta además con destino real inaccesible. `/health` conserva liveness 200.
+- Problem Details seguro, correlación cabecera/cuerpo y **`Cache-Control: no-store`** verificados en `AssertProblemAsync`; no se exponen dependencias, cuerpos ni valores sensibles.
+
+### Contrato HTTP final de Register
+
+| Elemento | Contrato / evidencia |
+| --- | --- |
+| Request | Objeto con exactamente `fullName: string`, `email: string`, `password: string`; campos obligatorios y validación estricta de 034. |
+| Éxito | **201**; objeto exacto `id: UUID`, `fullName: string`, `email: normalizedEmail`. |
+| Validación | **400 `validation_failed`**. |
+| Conflicto | **409 `registration_conflict`** genérico. |
+| Cuerpo excesivo | **413 `payload_too_large`**, terminal sin cuota. |
+| Media/charset/encoding | **415 `unsupported_media_type`**, terminal sin cuota. |
+| Cuota excedida | **429 `rate_limited`**, `Retry-After` conservador cuando calculable. |
+| Dependencia/confianza/saturación/resultado incierto | **503 `temporarily_unavailable`**, fail-closed. |
+| Inesperado | **500 `internal_error`**, solo manejo transversal de excepción inesperada; soporte de E056/errores existentes y regresiones, no un nuevo escenario de caída física introducido en Register. |
+
+**Sin 422** ni login/JWT implícitos. Casos HTTP/persistencia dentro de los **32 IT Register**, revalidados con composición **39/39** post-limpieza; suites completas y límites en §54.3.
+
+**T-AUTH-035: COMPLETADA / EVIDENCIA REGISTRADA.**
+
+## 57. E(T-AUTH-036) — Cuotas conjuntas y observabilidad segura
+
+<a id="e-t-auth-036"></a>
+
+**Trazabilidad:** AUTH-028–030/032/036–038; PLD-AUTH-15/16/19/23; AC-16/19. Archivos: `Composition/RegisterControls.cs`, `AuthenticationService.cs`, `Http/RegisterBoundaryContinuation.cs`, `Observability/AuthenticationEvents.cs`; UT/IT/ST del incremento.
+
+- Email **3/900 s** y origen **20/900 s**, Redis compartido real. El adapter envía ambos ámbitos en **una evaluación conjunta por request**; no hay consumo adicional en filtro, mapping o error, ni retry/devolución. Se reutiliza sin cambios el store/protocolo/Lua de cuotas y su InternalAttemptId común a los ámbitos; no se declara idempotencia pública ni exactly-once distribuido ante fallos.
+- Caso origin post-limpieza: **20 identidades válidas distintas** reciben cuota admitida y HTTP 400 por nombre inválido; la **21.ª identidad →429**. **21 llamadas para 21 requests**, **21 particiones** (20 emails + un origen), cero inserciones; el email rechazado no crea una partición parcial. Máximo esperado por email admitido en este escenario: un intento, sin alcanzar 3/4; el límite email no bloquea prematuramente el origen. El caso separado de defectos secundarios admite tres consumos del mismo email y rechaza el cuarto.
+- La aserción permanente comprueba `Retry-After` entre **1 y 900 s**, no igualdad fija con 900 ni un reloj local artificial. La fórmula existente usa **Redis TIME**, evento relevante de cada ámbito bloqueante y `ceil(max(reset − now)/1_000_000)`; HTTP conserva el redondeo superior en segundos. El diagnóstico previo observó 900 s para 899124337 µs restantes, sin cargo parcial del rechazo; se conserva como evidencia histórica, **no como snapshot de la ejecución post-limpieza**, que ya no instrumenta Redis. Soporte adicional: pruebas de cuotas/calculador existentes incluidas en las regresiones y lectura del Lua intacto. El rechazo ocurre antes de la fase de escritura, sin extender penalización.
+- Cuota **Unavailable/Uncertain →503 antes de defectos secundarios/hash**, sin retry. El decorador Uncertain test-only ejecuta el consumo real y oculta su admisión confirmada; no representa pérdida física de ACK. Consumo admitido permanece aunque después haya 400 de campos, 409 Mongo o 503 por saturación de hashing; casos específicos lo contrastan con el rechazo del siguiente intento.
+- `AuthenticationEvents` acepta enums cerrados y registra únicamente **Operation/Kind/Outcome** (más el campo técnico de plantilla del logger); sin cuerpo, email, password, hash, tokens, HMAC, claves, BSON o conexiones en los eventos. IT comprueba ausencia de secretos/identidades sintéticas y ST la allowlist/tipos; no es una afirmación universal sobre telemetría futura.
+- **Pre-warm Redis exclusivamente TEST-ONLY**: conecta y PING antes del lifecycle, no consume cuota/Lua ni cambia autoridad. Conserva los **250 ms**, cuotas, capacidad **5000**, configuración real y fail-closed; no es una reparación productiva ni benchmark.
+
+**Evidencia:** origin **1/1** y Register/composición **39/39** post-limpieza; ST focal **5/5** y ST completas **84/84**; UT/IT acreditadas según §54.3. **T-AUTH-036: COMPLETADA / EVIDENCIA REGISTRADA.**
+
+## 58. E(T-AUTH-037) — Register integrado y seguridad
+
+<a id="e-t-auth-037"></a>
+
+**Trazabilidad:** AUTH-002–009/012–015/031/032/039/042/043; PLD-AUTH-05/06/13/14/20; AC-01–05/17/19. Archivos: `tests/Enver.API.UnitTests/AuthenticationServiceTests.cs`, `tests/Enver.API.IntegrationTests/RegistrationTests.cs`, `RegistrationTestScope.cs`, `AuthenticationDependencyCompositionTests.cs`, `tests/Enver.API.SecurityTests/RegistrationSecurityTests.cs`.
+
+- **Composición real 056/057**, controlador/continuación y stores Mongo/Redis reales; setup exclusivo por caso con base/namespace y autoridad propia explícita, cleanup solo de recursos propios. No bootstrap, reapertura ni fallback de seguridad productivos.
+- 201 válido, documento de siete campos, hash real verificable y ausencia de plaintext; no token/JWT/auto-login. En carrera de **dos hosts/clientes independientes**, email equivalente produce **un 201 + un 409 + una cuenta final**, sustentada por índice único, no por consulta de existencia.
+- Entradas inválidas sin escritura, campos secundarios inválidos con consumo legítimo único, JSON malformado, null/tipos incorrectos, duplicados/case indebido, **mass assignment** y **payload NoSQL-like** rechazados sin buckets arbitrarios de identidad. Nombre/email/password y límites puros de E028–E030 se conservan; no se convierte un operador recibido en consulta Mongo.
+- Frontera **413/415**, cuota **429**, dependencia/autoridad no apta/cuota/persistencia inciertas/saturación **503**. No-store, correlación, Problem Details saneado y ausencia de secretos en respuestas/logs; Login y Logout siguen sin implementarse (404 en los casos de ausencia de rutas).
+- **13/13 UT** focales iniciales; **32 IT Register + 7 IT composición =39/39 post-limpieza**; **5 ST focales** verifican contratos/ToString, campos desconocidos/objeto/duplicado y eventos estructurados de allowlist. Regresiones **506/506 UT**, **186/186 IT** acreditadas y **84/84 ST finales**, todas sin fallidas/omitidas; ejecución y representatividad temporal detalladas en §54.3, sin sumar focales como suites adicionales.
+
+**T-AUTH-037: COMPLETADA / EVIDENCIA REGISTRADA. Register OPERATIVO LOCAL/TEST.**
+
+## 59. Revisión formal y cierre local/test de GATE-D
+
+<a id="cierre-gate-d"></a>
+
+Acto expresamente autorizado por el responsable, posterior a las **84/84 ST** completas verdes. Se revisan conjuntamente las evidencias, no se deduce aceptación de un gate por el cierre de una tarea aislada:
+
+| Evidencia revisada | Capacidad / contraste actual |
+| --- | --- |
+| **E028 §48** | Identidad institucional compartida y normalización idempotente, nombre; se usa la misma identidad en cuota/documento/response. |
+| **E029 §47** | Política password/Unicode/bytes y secreto íntegro, sin rebajar seguridad ni inventar composición. |
+| **E030 §49** | Fronteras y entradas maliciosas; ampliación HTTP funcional en E034/E037 sin escritura indebida. |
+| **E031 §50** | PasswordHasher del framework y dummy preinicializado; hash persistido verificable, sin plaintext ni token. No rehash 032. |
+| **E033 §51** | Gate de hashing, saturación y ownership; E036 verifica 503 posterior sin devolución de cuota. |
+| **E034 §55** | Contratos exactos y orden D012, validación/cuota antes del coste, UUIDv4/Active/UTC backend. |
+| **E035 §56** | 201 solo Confirmed; 409 genérico por índice específico; 503 seguro, sin lectura previa/retry/compensación. |
+| **E036 §57** | Cuota Redis conjunta única 3/900 y 20/900, 429/Retry-After, fail-closed y eventos allowlist. |
+| **E037 §58** | Integración positiva, negativa, maliciosa y concurrente: un 201/un 409/una cuenta, sin token/auto-login, no-store y privacidad. |
+| **E056 §46** | Frontera/errores/correlación/presupuestos/transporte conectados; continuación Register mantiene 413/415 terminales y preflight antes del 400. No TLS público. |
+| **E057 §52** | Clientes/stores reales, índice y admisión fail-closed, sin bootstrap de autoridad/cuotas desde host. El estado histórico Register404 de BUILD-1 queda sucedido por Register503 con autoridad no apta y Register201 solo con controles aptos; Login/Logout404 se conserva. |
+
+**Criterios de salida acreditados:** 034–037 verificadas; **201 confirmado**, **409 genérico determinado por índice**, sin login/token automático; validación/cuota antes del coste y hashing seguro; **Mongo/Redis reales**, composición apta y admisión fail-closed; **no-store/logging seguro**, pruebas positivas/negativas/concurrentes y maliciosas. Resultados finales aceptados bajo la secuencia y límites de §54.3, sin afirmar una repetición de las 186 IT post-limpieza.
+
+**GATE-D: SATISFECHO / CERRADO — LOCAL / TEST REPRESENTATIVO. BUILD-2 ACEPTADO.** GATE-A/B/C permanecen SATISFECHOS / CERRADOS en sus alcances; **GATE-E/F/G/H pendientes**. 032, JWT/Login/Logout, integración final 058, Orders y siguientes incrementos no se inician. 008 conserva su pendiente documental de startup productivo; **AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE**, distinto de T-AUTH-027 Mongo.
+
+**Límites y riesgos conservados:** no acredita AWS, deployment cloud, Load Balancer, HTTPS público/TLS publicado, Atlas HA, Redis administrado productivo, failover real/productivo ni posesión del correo institucional. El contraste 201/409 mantiene **enumeración residual**; **NAT/origen compartido** conserva limitaciones; el dominio **uttt.edu.mx no prueba titularidad**. Tampoco cierra la seguridad integral, observabilidad/CI/CD o aceptación externa de 068/079.
+
+**Integridad y entrega:** Program.cs mantiene solo composición, sin lógica de negocio; User/BSON de siete campos y contratos Mongo intactos, store/protocolo/Lua Redis intactos; cuotas **3/900 y 20/900**, capacidad **5000** y timeouts (incluidos **250 ms** del harness) intactos; csproj/lockfiles/fixture/imágenes/digests sin cambios, **0 paquetes nuevos**. Huella SHA-256 del árbol productivo fuente **idéntica al inicio y al final** del cierre: `07FE3DB35CC38C8AA02D4A3507D35A66524715109F6E2D5EBA714D65BFF695A5`. La lectura de diferencias confirma intactos Program/Core/Mongo/Redis/Configuration/fixture, spec/plan, csproj y lockfiles respecto a HEAD. En este cierre solo se escriben `task.md` y `memoria.md`, sin modificar spec/plan, constituciones, foundation, AGENTS/README, agentes/skills ni código. Se deja listo para **solicitar** checkpoint posterior, **sin stage/commit/push**; HEAD base conservado y detener sin iniciar otro gate.

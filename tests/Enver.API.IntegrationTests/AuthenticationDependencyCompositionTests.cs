@@ -32,7 +32,7 @@ public sealed class AuthenticationDependencyCompositionTests(AuthenticationDepen
     };
 
     [Fact]
-    public async Task Real_host_resolves_singletons_and_real_adapters_without_publishing_auth_routes_or_bootstrapping_security()
+    public async Task Real_host_resolves_singletons_and_real_adapters_without_bootstrapping_security_or_publishing_login_logout()
     {
         await using var authority = await OwnedCompositionAuthority.CreateAsync(fixture, open: false);
         var config = Configuration();
@@ -51,8 +51,10 @@ public sealed class AuthenticationDependencyCompositionTests(AuthenticationDepen
         Assert.Equal(2, services.GetRequiredService<HashingConcurrencyGate>().Limit);
         Assert.True(services.GetRequiredService<DummyPasswordHash>().IsInitialized);
         Assert.Equal(HttpStatusCode.OK, (await client.GetAsync("/health")).StatusCode);
-        foreach (var route in new[] { "register", "login", "logout" })
+        foreach (var route in new[] { "login", "logout" })
             Assert.Equal(HttpStatusCode.NotFound, (await client.PostAsync("/api/v1/auth/" + route, null)).StatusCode);
+        using var register = new StringContent("{}", System.Text.Encoding.UTF8, "application/json");
+        Assert.Equal(HttpStatusCode.ServiceUnavailable, (await client.PostAsync("/api/v1/auth/register", register)).StatusCode);
         using var budget = new RequestBudget(8000, default);
         Assert.False((await services.GetRequiredService<IAuthenticationSecurityState>().EvaluateAsync(budget)).CanContinue);
         await services.GetRequiredService<IMongoClient>().DropDatabaseAsync(config["MongoDb:DatabaseName"]!);

@@ -3,6 +3,7 @@ using Enver.API.Http;
 using Amazon;
 using Amazon.DynamoDBv2;
 using Enver.API.Features.Authentication.Application.Ports;
+using Enver.API.Features.Authentication.Application;
 using Enver.API.Features.Authentication.Core;
 using Enver.API.Features.Authentication.Validation;
 using Enver.API.Infrastructure.Aws;
@@ -10,6 +11,7 @@ using Enver.API.Infrastructure.MongoDB;
 using Enver.API.Infrastructure.Redis;
 using Enver.API.Infrastructure.Security;
 using Enver.API.Security;
+using Enver.API.Observability;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
@@ -87,7 +89,12 @@ public static class AuthenticationServiceCollectionExtensions
             p.GetRequiredService<IOptions<RedisOptions>>().Value, p.GetRequiredService<RedisAuthenticationQuotaConfiguration>(),
             p.GetRequiredService<RedisSecurityStateGuard>(), p.GetRequiredService<AuthenticationDependencyAdmission>()));
         services.AddHostedService<AuthenticationInitializationService>();
-        // Sin filtros D012/no-ops: sus colaboradores de request/cuota se activarán al integrar 034–036.
+        services.AddSingleton<IRegisterAdmission, RegisterAdmission>();
+        services.AddSingleton<IRegisterQuota, RegisterQuota>();
+        services.AddSingleton<IAuthenticationEvents, AuthenticationEvents>();
+        services.AddScoped<AuthenticationService>();
+        services.AddScoped<IAuthenticationBoundaryContinuation, RegisterBoundaryContinuation>();
+        services.Configure<Microsoft.AspNetCore.Mvc.MvcOptions>(options => options.Conventions.Add(new RegisterEndpointConvention()));
         return services;
     }
 }
