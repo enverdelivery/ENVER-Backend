@@ -1,4 +1,5 @@
 using Enver.API.Configuration;
+using Amazon.DynamoDBv2;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +16,19 @@ public sealed class AuthenticationApiFactory : WebApplicationFactory<Authenticat
     public AuthenticationApiFactory(AuthenticationDependenciesFixture dependencies, IReadOnlyDictionary<string, string?>? overrides = null)
     {
         _dependencies = dependencies;
-        _configuration = dependencies.CreateConfiguration(overrides);
+        // Wiring sintético de 057; fixture/imágenes/topología intactas, sin recursos AWS reales.
+        var values = new Dictionary<string, string?>
+        {
+            ["AuthenticationComposition:AuthorityRegion"] = "us-east-1",
+            ["AuthenticationComposition:QuotaConfigurationVersion"] = "config-021",
+            ["AuthenticationComposition:QuotaIdentityReference"] = "identity-053",
+            ["AuthenticationComposition:QuotaGeneration"] = dependencies.RunId,
+            ["RateLimiting:MaxActivePartitions"] = "5000",
+            ["AuthenticationTransport:DirectConnectionApproved"] = "true",
+            ["AuthenticationTransport:AllowLocalHttp"] = "true"
+        };
+        if (overrides is not null) foreach (var pair in overrides) values[pair.Key] = pair.Value;
+        _configuration = dependencies.CreateConfiguration(values);
     }
 
     public AuthenticationDependenciesFixture Dependencies => _dependencies;
@@ -26,7 +39,7 @@ public sealed class AuthenticationApiFactory : WebApplicationFactory<Authenticat
         builder.ConfigureAppConfiguration((_, configuration) => configuration.AddInMemoryCollection(_configuration));
         builder.ConfigureServices((context, services) =>
         {
-            services.AddValidatedAuthenticationOptions(context.Configuration, context.HostingEnvironment);
+            services.AddSingleton<IAmazonDynamoDB>(_ => _dependencies.CreateDynamoDbClient());
             services.AddSingleton<TestHostLocalState>();
             services.AddSingleton(new TestHostExternalDependencyProbe(_dependencies));
         });

@@ -371,11 +371,18 @@ internal sealed class RedisOperationalScope : IAsyncDisposable
                 {
                     ["Redis:ConnectionString"] = Options.ConnectionString,
                     ["Redis:NamespacePrefix"] = Options.NamespacePrefix,
-                    ["MongoDb:DatabaseName"] = "enver_" + environment
+                    ["MongoDb:DatabaseName"] = "enver_" + environment,
+                    ["AuthenticationComposition:AuthorityRegion"] = "us-east-1",
+                    ["AuthenticationComposition:QuotaConfigurationVersion"] = "config-021",
+                    ["AuthenticationComposition:QuotaIdentityReference"] = "identity-053",
+                    ["AuthenticationComposition:QuotaGeneration"] = fixture.RunId,
+                    ["RateLimiting:MaxActivePartitions"] = "5000"
                 })));
             builder.ConfigureServices((context, services) =>
             {
-                services.AddValidatedAuthenticationOptions(context.Configuration, context.HostingEnvironment);
+                // Esta factory prueba el store Redis aislado, no la autoridad 020. La composición
+                // transversal sigue validándose; una autoridad ausente test-only permanece cerrada.
+                services.AddSingleton<IAuthenticationSecurityAuthority>(new AuthenticationSecurityAuthorityFake());
                 services.AddSingleton(_ => new RedisConnections(Options));
                 services.AddSingleton(p => new RedisSecurityStateGuard(p.GetRequiredService<RedisConnections>(), Options));
                 services.AddSingleton(p => new RedisTokenRevocationStore(

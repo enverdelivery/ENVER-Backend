@@ -238,11 +238,17 @@ internal sealed class DistributedQuotaTestScope
                 ["Redis:ConnectionString"] = RedisOptions.ConnectionString, ["Redis:NamespacePrefix"] = RedisOptions.NamespacePrefix,
                 ["MongoDb:DatabaseName"] = "enver_" + config.Snapshot.Environment,
                 ["RateLimiting:PseudonymizationKeyBase64"] = hmac, ["RateLimiting:MaxActivePartitions"] = "5000",
-                ["RateLimiting:PolicyRevision"] = config.Snapshot.Policy.Revision
+                ["RateLimiting:PolicyRevision"] = config.Snapshot.Policy.Revision,
+                ["AuthenticationComposition:AuthorityRegion"] = "us-east-1",
+                ["AuthenticationComposition:QuotaConfigurationVersion"] = config.Snapshot.ConfigurationVersion,
+                ["AuthenticationComposition:QuotaIdentityReference"] = config.Snapshot.IdentityConfigurationReference,
+                ["AuthenticationComposition:QuotaGeneration"] = config.Generation
             })));
             builder.ConfigureServices((context, services) =>
             {
-                services.AddValidatedAuthenticationOptions(context.Configuration, context.HostingEnvironment);
+                // No se prueba el cliente de autoridad desde esta factory. El store bajo prueba
+                // conserva exactamente su colaborador global explícito y sus aserciones históricas.
+                services.AddSingleton<IAuthenticationSecurityAuthority>(new AuthenticationSecurityAuthorityFake());
                 services.AddSingleton(_ => new RedisConnections(RedisOptions));
                 services.AddSingleton(p => new RedisSecurityStateGuard(p.GetRequiredService<RedisConnections>(), RedisOptions));
                 services.AddSingleton(p => new RedisSecurityStateDetector(p.GetRequiredService<RedisConnections>(), p.GetRequiredService<RedisSecurityStateGuard>()));

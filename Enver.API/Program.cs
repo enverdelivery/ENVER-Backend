@@ -1,3 +1,5 @@
+using Enver.API.Composition;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,6 +10,8 @@ builder.Services.AddOpenApi();
 
 // Health checks
 builder.Services.AddHealthChecks();
+builder.Services.AddAuthenticationFoundation(builder.Configuration, builder.Environment);
+builder.Services.AddAuthenticationDependencies(builder.Configuration);
 
 var app = builder.Build();
 
@@ -17,7 +21,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+app.UseAuthenticationFoundation();
 
 app.UseAuthorization();
 
