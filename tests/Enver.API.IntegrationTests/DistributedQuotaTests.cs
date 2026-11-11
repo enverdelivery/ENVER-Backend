@@ -63,10 +63,13 @@ public sealed class DistributedQuotaTests(AuthenticationDependenciesFixture fixt
                 maximumHorizon = Math.Max(maximumHorizon, timestamp + 900_000_000L);
             }
             var invocation = Enver.API.Infrastructure.Redis.RedisAuthenticationQuotaScriptProtocol.Encode(s.Config, "evaluate", request);
+            var previousLast = (long)await s.Db.HashGetAsync(s.Config.Keys.Metadata, "last");
             var reply = Enver.API.Infrastructure.Redis.RedisAuthenticationQuotaScriptProtocol.Parse(await s.Db.ScriptEvaluateAsync(
                 Enver.API.Infrastructure.Redis.RedisAuthenticationQuotaScriptProtocol.ScriptText, invocation.Keys, invocation.Arguments));
             Assert.Equal("rejected", reply.Status);
-            Assert.Equal((maximumHorizon - reply.NowMicroseconds + 999999) / 1000000, reply.RetryAfterSeconds);
+            var logicalRetry = (maximumHorizon - reply.NowMicroseconds + 999999) / 1000000;
+            if (reply.NowMicroseconds > previousLast) Assert.Equal(logicalRetry, reply.RetryAfterSeconds);
+            else Assert.True(reply.RetryAfterSeconds >= logicalRetry);
             await s.AssertAttemptAsync(request, false);
             // El mismo intento, ya rechazado, no se insertó; el horizonte bloqueante se prepara vencido
             // de forma sintética para comprobar que el rechazo no impone una penalización perpetua.

@@ -238,16 +238,17 @@ public sealed class RedisAuthenticationQuotaRecoveryTests(AuthenticationDependen
     private async Task<(long NowUs, SortedSetEntry[][] Buckets)> ObserveAsync(RedisAuthenticationQuotaTestScope scope,
         AuthenticationQuotaConsumeRequest request, string phase)
     {
-        // Script EXCLUSIVAMENTE DE TEST y read-only: TIME + scores observados en una misma ejecución.
+        // Read-only: reloj lógico del namespace + scores, sin asumir TIME de pared monotónico.
         const string observation = "local t = redis.call('TIME'); local now = tonumber(t[1]) * 1000000 + tonumber(t[2]); " +
-            "local result = {string.format('%.0f', now)}; for i = 1, #KEYS do " +
+            "local last = tonumber(redis.call('HGET', KEYS[1], 'last')); if not last then return redis.error_reply('Invalid test metadata') end; now = math.max(now, last); " +
+            "local result = {string.format('%.0f', now)}; for i = 2, #KEYS do " +
             "result[#result + 1] = redis.call('ZRANGE', KEYS[i], 0, -1, 'WITHSCORES'); end; return result";
-        var keys = request.Scopes.Select(s => (RedisKey)scope.Key(request, s)).ToArray();
+        var keys = new[] { (RedisKey)scope.Configuration.Keys.Metadata }.Concat(request.Scopes.Select(s => (RedisKey)scope.Key(request, s))).ToArray();
         var result = (RedisResult[])(await scope.Database.ScriptEvaluateAsync(observation, keys, [], CommandFlags.DemandMaster))!;
-        Assert.Equal(keys.Length + 1, result.Length);
+        Assert.Equal(keys.Length, result.Length);
         var nowUs = (long)result[0];
-        var buckets = new SortedSetEntry[keys.Length][];
-        for (var i = 0; i < keys.Length; i++)
+        var buckets = new SortedSetEntry[keys.Length - 1][];
+        for (var i = 0; i < buckets.Length; i++)
         {
             var row = (RedisResult[])result[i + 1]!;
             Assert.Equal(0, row.Length % 2);

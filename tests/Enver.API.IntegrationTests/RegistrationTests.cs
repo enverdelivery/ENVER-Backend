@@ -44,8 +44,9 @@ public sealed class RegistrationTests(AuthenticationDependenciesFixture fixture)
         Assert.True(!publicText.Contains("synthetic-secret", StringComparison.Ordinal));
         Assert.Equal(1, s.Quotas.Calls); Assert.Equal(1, s.Store.Calls);
         AssertLogsSafe(s, user.PasswordHash);
-        foreach (var route in new[] { "login", "logout" })
-            Assert.Equal(HttpStatusCode.NotFound, (await s.Client.PostAsync("/api/v1/auth/" + route, null)).StatusCode);
+        // Retirar el Bearer sintético inválido usado en Register; comprobar Logout sin autenticación.
+        s.Client.DefaultRequestHeaders.Authorization = null;
+        await AuthenticationDependencyCompositionTests.AssertPreparedLogoutWithoutProductiveJwtAsync(s.Services, s.Client);
     });
 
     [Fact]

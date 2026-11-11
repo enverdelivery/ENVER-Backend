@@ -52,8 +52,9 @@ public sealed class ApiProblemDetails : IProblemDetailsWriter
             fields = Enum.GetValues<ApiErrorField>().Where(f => map.ContainsKey(FieldName(f)));
         http.Items[WrittenKey] = true;
         http.Response.Headers.CacheControl = "no-store";
-        if (http.Response.StatusCode == 401) http.Response.Headers.WWWAuthenticate = "Bearer";
-        await http.Response.WriteAsJsonAsync(Create(http, http.Response.StatusCode, fields), Json, "application/problem+json", http.RequestAborted);
+        var problem = Create(http, http.Response.StatusCode, fields);
+        ApplyAuthenticationChallenge(http, problem);
+        await http.Response.WriteAsJsonAsync(problem, Json, "application/problem+json", http.RequestAborted);
     }
 
     public static async ValueTask<bool> TryWriteAsync(HttpContext context, int status, IEnumerable<ApiErrorField>? fields = null, TimeSpan? retryAfter = null)
@@ -66,7 +67,20 @@ public sealed class ApiProblemDetails : IProblemDetailsWriter
         context.Response.StatusCode = status;
         if (status == 429 && retryAfter is { } wait && wait > TimeSpan.Zero)
             context.Response.Headers.RetryAfter = Math.Ceiling(wait.TotalSeconds).ToString("0", CultureInfo.InvariantCulture);
-        return await context.RequestServices.GetRequiredService<IProblemDetailsService>().TryWriteAsync(new ProblemDetailsContext { HttpContext = context, ProblemDetails = Create(context, status, fields) });
+        var problem = Create(context, status, fields);
+        // Antes de delegar: MVC puede seleccionar su writer nativo en lugar del nuestro.
+        ApplyAuthenticationChallenge(context, problem);
+        return await context.RequestServices.GetRequiredService<IProblemDetailsService>().TryWriteAsync(new ProblemDetailsContext { HttpContext = context, ProblemDetails = problem });
+    }
+
+    private static void ApplyAuthenticationChallenge(HttpContext context, ProblemDetails problem)
+    {
+        if (context.Response.StatusCode != 401 || problem.Status != 401
+            || !problem.Extensions.TryGetValue("code", out var code) || code is not string value || value != "authentication_failed") return;
+        var current = context.Response.Headers.WWWAuthenticate;
+        if (current.Count == 1 && current[0] == "Bearer") return;
+        // Asignación, no Append: contrato único y sin parámetros privados, incluso ante un header previo incorrecto.
+        context.Response.Headers.WWWAuthenticate = "Bearer";
     }
 
     private static string FieldName(ApiErrorField field) => field switch

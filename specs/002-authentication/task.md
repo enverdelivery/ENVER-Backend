@@ -37,7 +37,8 @@
 | Estado posterior de BUILD-1 | **056/029/028/030/031/033/057 COMPLETADAS / EVIDENCIA REGISTRADA**, separadamente en §§46–52; BUILD-1 aceptado tras la regresión final de §45: build **0/0**, UT **493/493**, IT **154/154**, ST **79/79**, cero fallidas/omitidas. 032, 034–051 y 058–079: 41 tareas no ejecutadas; 008 conserva su estado documental previo. **GATE-A/B/C SATISFECHOS / CERRADOS; GATE-D–H PENDIENTES / NO SATISFECHOS**. Sin Register ni autenticación funcional publicada; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE. |
 | Estado posterior de BUILD-2 | **034/035/036/037 COMPLETADAS / EVIDENCIA REGISTRADA** en §§55–58; **BUILD-2 ACEPTADO** según §54: UT **506/506**, IT **186/186**, revalidación post-limpieza origin **1/1** y Register/composición **39/39**, ST completas **84/84**; cero fallidas/omitidas. **GATE-D SATISFECHO / CERRADO, LOCAL/TEST REPRESENTATIVO** (§59). 032, 038–051 y 058–079: 37 tareas no ejecutadas; 008 conserva su estado documental previo. AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE. |
 | Estado posterior del checkpoint E-JWT | **038–042 COMPLETADAS / EVIDENCIA REGISTRADA**, separadas en §§61–65; regresión actual UT **586/586**, IT **191/191**, ST **120/120**, 0 fallidas/omitidas (§60). **E-JWT SATISFECHO / CERRADO, LOCAL/TEST REPRESENTATIVO** (§66); **GATE-E completo y GATE-F PENDIENTES**. 032, 043–051 y 058–079: 32 tareas no ejecutadas; 008 conserva startup productivo pendiente. Sin Login/Logout ni 058 integral; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE. |
-| Gates | 8; GATE-A, GATE-B, GATE-C y GATE-D SATISFECHOS / CERRADOS en sus alcances registrados; GATE-E a GATE-H PENDIENTES / NO SATISFECHOS |
+| Estado posterior de Logout / GATE-F | **043–046 COMPLETADAS / EVIDENCIA REGISTRADA** en §§69–72; **GATE-F SATISFECHO / CERRADO, LOCAL/TEST REPRESENTATIVO** (§73). UT previas **633/633** conservadas; IT actuales **259/259**, ST finales **152/152**, 0 fallidas/omitidas (§67). **GATE-B CERRADO / EVIDENCIA CORRECTIVA CONSOLIDADA** (§68). 032, 047–051 y 058–079: 28 tareas no ejecutadas; 008 conserva su estado previo. Register y JWT conservan aceptación local/test; Logout completo local/test; Login pendiente y autenticación NO TERMINADA. |
+| Gates | 8; GATE-A/B/C/D/F SATISFECHOS / CERRADOS en sus alcances registrados; GATE-E/G/H PENDIENTES / NO SATISFECHOS |
 | Fuente de aprobación | SOL-TASK-002: aprobación expresa del catálogo compactado y autorización documental del responsable |
 | Estado técnico | Autenticación NO IMPLEMENTADA / NO VERIFICADA por esta entrega; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO |
 
@@ -119,6 +120,8 @@ Convenciones de fichas y matrices:
 **BUILD-2** registra su validación autorizada e historial en [§54](#build-2-validacion-final), **E(T-AUTH-034), E(T-AUTH-035), E(T-AUTH-036) y E(T-AUTH-037)** separadas en §§55–58 y la revisión formal de **GATE-D LOCAL/TEST REPRESENTATIVO** en [§59](#cierre-gate-d). Este estado posterior no reescribe las entregas históricas ni inicia JWT/Login/Logout u otro gate.
 
 **E-JWT** registra autorización, historial del cleanup y regresión completa en [§60](#e-jwt-validacion-final), **E(T-AUTH-038) a E(T-AUTH-042)** separadas en §§61–65 y cierre exclusivamente del checkpoint local/test en [§66](#cierre-e-jwt). No cierra GATE-E completo ni GATE-F, no publica Login/Logout y no activa JWT en el pipeline productivo de 058.
+
+**Logout / GATE-F**, autorizado posteriormente, registra validación e incidentes en [§67](#logout-validacion-final), correctivo de GATE-B en [§68](#gate-b-correctivo-logical-clock), **E(T-AUTH-043) a E(T-AUTH-046)** en §§69–72 y revisión formal en [§73](#cierre-gate-f). Solo ese acto posterior cierra F local/test; GATE-E completo, Login/032/058 y aceptación productiva siguen pendientes.
 
 Cada ficha reserva su identificador **E(T-AUTH-nnn)**. **E(T-AUTH-001)** conserva la inspección de solo lectura y su cierre documental autorizado (§10); **E(T-AUTH-002)** registra la evaluación previa de SDK/dependencias/riesgos y su cierre documental autorizado (§11); **E(T-AUTH-003)** registra la baseline técnica y sus verificaciones reales (§12); **E(T-AUTH-004)** registra la inspección acotada de higiene Git y su cierre documental autorizado (§13); **E(T-AUTH-005)** registra las correcciones de contexto/publish y verificaciones locales sin Docker ni publish real (§14); **E(T-AUTH-006)** registra estructura, ownership y condiciones de confirmación del checkpoint Git único (§15). **E(T-AUTH-007)** registra configuración declarada y verificaciones controladas (§16); **E(T-AUTH-008)** registra implementación preparada con startup real pendiente (§17). **E(T-AUTH-009)** registra presupuestos/cancelación (§18); **E(T-AUTH-010)** errores/correlación/no-store (§19); **E(T-AUTH-011)** frontera HTTP (§20); **E(T-AUTH-012)** decisión aprobada y coordinación aislable (§21); **E(T-AUTH-013/014)** registra proyectos, dependencias, lockfiles, pruebas y auditoría (§22); **E(T-AUTH-015)** registra Docker/Testcontainers, hosts, aislamiento, cleanup y startup real de Options (§23); **E(T-AUTH-016)** registra cliente Redis, key builder, grafo, pruebas y límites (§26); **E(T-AUTH-018)** registra admisión fail-closed, presupuestos, incertidumbre y pruebas Redis (§27); **E(T-AUTH-019)** registra señales reales observables, detector y cierre local (§28); **E(T-AUTH-017)** registra el store de revocación, script Lua, TTL y pruebas Redis reales (§29); **E(T-AUTH-020)** registra la autoridad DynamoDB Local, CAS, emisión potencial y la integración Redis/DynamoDB de dos coordinadores (§31); **E(T-AUTH-052)** registra el contrato aislado de cuotas, PolicyRevision, RetryAfter y UT (§32); **E(T-AUTH-053)** registra pseudonimización/origen aislables, configuración, drenaje y UT/ST focales sin Docker (§33); **E(T-AUTH-054)** registra exclusivamente el incremento contractual de capacidad/recuperación y UT, con evidencia IT distribuida pendiente en 021/055 (§34). **E(T-AUTH-055)** registra la evidencia distribuida ampliada de cuotas, capacidad, limpieza, fallos, OOM y seguridad de origen (§36) y la ampliación de 054 asignada a 055 (§34.2). Los resultados de ejecución de T-AUTH-022 a T-AUTH-051 y T-AUTH-056 a T-AUTH-079 siguen **PENDIENTES / SIN EVIDENCIA TÉCNICA GENERADA**. La definición de una prueba o salida esperada no constituye resultado obtenido; los cierres registrados no acreditan autenticación integrada ni aceptación global de seguridad. El cierre de 006 solo es efectivo si el commit y la verificación Git posterior de §15 son correctos.
 
@@ -841,7 +844,7 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **Salida verificable:** Input interno desde JWT autenticado; marca confirmada antes de éxito, repetición vigente conserva mayor expiración; fallo/incierto no produce 204. Sin LogoutRequest/cuerpo ni consulta MongoDB.
 - **Pruebas/evidencia requerida:** E(T-AUTH-043): primera/repetida/concurrente, respuesta perdida y presupuesto; falso/expirado/ausente no escribe marca.
 - **Riesgos/notas:** No revocar otras sesiones, asumir transacción distribuida o cancelar retroactivamente requests que ya superaron autorización.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA REGISTRADA; [E(T-AUTH-043), §69](#e-t-auth-043), alcance local/test.
 
 #### T-AUTH-044
 
@@ -856,7 +859,7 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **Salida verificable:** POST /api/v1/auth/logout solo Authorization Bearer, sin cuerpo funcional; 204 vacío/no-store solo confirmado, 401 inválido y 503 estado no verificable.
 - **Pruebas/evidencia requerida:** E(T-AUTH-044): cuerpo no vacío/whitespace, token ausente/falso/expirado/revocado vigente y challenge sin motivos internos.
 - **Riesgos/notas:** La excepción queda limitada a método/ruta logout; integración final del host en 058 sin publicar incrementos incompletos.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA REGISTRADA; [E(T-AUTH-044), §70](#e-t-auth-044), alcance local/test.
 
 #### T-AUTH-045
 
@@ -871,7 +874,7 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **Salida verificable:** Cuota conjunta cuenta autenticada 30/min/origen 300/min; eventos mínimos de logout/rechazo sin JWT, sub/jti/IP como etiquetas sensibles.
 - **Pruebas/evidencia requerida:** E(T-AUTH-045): ámbitos solo tras autenticar claims, 429/Retry-After y 503 seguros; no doble cargo ni filtración en logs.
 - **Riesgos/notas:** Logout repetido también necesita cuota disponible; no usar sub/jti proporcionados sin firma para particionar cuenta.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA REGISTRADA; [E(T-AUTH-045), §71](#e-t-auth-045), alcance local/test.
 
 #### T-AUTH-046
 
@@ -886,7 +889,7 @@ No se registran credenciales, JWT completos, hashes de contraseña, Authorizatio
 - **Salida verificable:** Revocar A en host 1 rechaza A en 2, B sigue válido; repeticiones/concurrencia no reducen TTL; Redis incierto →503/no 204; MongoDB caído no añade dependencia artificial al logout.
 - **Pruebas/evidencia requerida:** E(T-AUTH-046): JWT de fixtures de 042, respuesta perdida, error escritura/lectura y token revocado rechazado fuera de logout.
 - **Riesgos/notas:** No necesita login público previo ni endpoint nuevo de negocio; continuidad/fallos integrales y recuperación se contrastan en 062/063/068.
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETADA / EVIDENCIA REGISTRADA; [E(T-AUTH-046), §72](#e-t-auth-046), alcance local/test.
 
 ### F10 — Login
 
@@ -1402,9 +1405,9 @@ Las pruebas funcionales acompañan a sus capacidades. Esta fase reutiliza esas s
 
 ## 4. Gates de aceptación
 
-El catálogo se creó con todos los gates **PENDIENTE / NO SATISFECHO**. Tras la reevaluación y los cierres formales registrados en §25, §38, §44 y §59, el estado vigente es: **GATE-A, GATE-B, GATE-C y GATE-D SATISFECHOS / CERRADOS en sus alcances registrados**; **GATE-E a GATE-H PENDIENTES / NO SATISFECHOS**. GATE-D corresponde exclusivamente a Register LOCAL/TEST REPRESENTATIVO. Los gates revisan capacidades; no reemplazan autorización por tarea/incremento. No se impone terminar el gate completo para construir sus propias tareas integrantes: sus entradas y dependencias indican qué parte puede iniciarse.
+El catálogo se creó con todos los gates **PENDIENTE / NO SATISFECHO**. Tras los cierres formales de §25, §38, §44, §59 y §73, el estado vigente es: **GATE-A/B/C/D/F SATISFECHOS / CERRADOS en sus alcances registrados**; **GATE-E/G/H PENDIENTES / NO SATISFECHOS**. GATE-D y GATE-F corresponden exclusivamente a Register y Logout LOCAL/TEST REPRESENTATIVO. Los gates revisan capacidades; no reemplazan autorización por tarea/incremento. No se impone terminar el gate completo para construir sus propias tareas integrantes: sus entradas y dependencias indican qué parte puede iniciarse.
 
-El cierre posterior de [§66](#cierre-e-jwt) satisface únicamente **checkpoint E-JWT, LOCAL/TEST REPRESENTATIVO**. No cambia el número de gates completos cerrados: GATE-E completo y GATE-F siguen pendientes, al igual que G/H.
+El cierre de [§66](#cierre-e-jwt) satisfizo únicamente **checkpoint E-JWT, LOCAL/TEST REPRESENTATIVO**, sin cerrar entonces E completo ni F. El acto posterior de [§73](#cierre-gate-f) cierra F tras revisar sus propias evidencias; **GATE-E completo y G/H siguen pendientes**.
 
 **Un gate superado localmente no demuestra AWS/Atlas/infraestructura productiva.** Cada aceptación identifica entorno/topología y alcance. Un checkpoint local puede permitir trabajo posterior independiente autorizado, pero no cerrar la aceptación externa pendiente de 068, simularla o afirmar cumplimiento integral. El cierre 079 depende de 068; mientras falte, permanece pendiente aunque existan checkpoints locales.
 
@@ -1421,7 +1424,7 @@ El cierre posterior de [§66](#cierre-e-jwt) satisface únicamente **checkpoint 
 ### GATE-B
 
 - **Nombre:** Redis.
-- **Estado vigente:** **SATISFECHO / CERRADO** como checkpoint local de componentes Redis para el entorno declarado de test; registro formal, límites y no-claims en §38.
+- **Estado vigente:** **CERRADO / EVIDENCIA CORRECTIVA CONSOLIDADA**, checkpoint local de componentes Redis para el entorno declarado de test; cierre original y límites intactos en §38, correctivo logical clock en [§68](#gate-b-correctivo-logical-clock). No se reabre ni rehace el gate.
 - **Tareas de entrada:** GATE-A; 016 y condiciones previas de 019/052–054; componentes 017–022 y 055.
 - **Condiciones de entrada:** Versiones/configuración/entorno Redis aprobados; modelo de fallos, ACK/lecturas y señales antes de 017/019; precedencia/cardinalidad/HMAC/recuperación antes de cuotas.
 - **Condiciones de salida:** 016–022 y 052–055 con evidencia: revocación/retención no decreciente, noeviction/capacidad, confirmación/lecturas, cuotas conjuntas y fail-closed distribuidos; detección/cierre/recuperación verificados para entorno declarado. Casos JWT/endpoints finales se complementan en F/G, no se anticipan aquí.
@@ -1461,7 +1464,7 @@ El cierre posterior de [§66](#cierre-e-jwt) satisface únicamente **checkpoint 
 ### GATE-F
 
 - **Nombre:** Logout.
-- **Estado vigente:** **PENDIENTE / NO SATISFECHO**. E-JWT acredita su prerrequisito local/test, no ejecuta ni autoriza automáticamente 043–046.
+- **Estado vigente:** **SATISFECHO / CERRADO — LOCAL/TEST REPRESENTATIVO**; revisión formal de E043–E046 en [§73](#cierre-gate-f), tras validación de §67 y correctivo de §68. No acredita 058 integral ni despliegue productivo.
 - **Tareas de entrada:** GATE-B y checkpoint E-JWT; componentes 043–046.
 - **Condiciones de entrada:** Firma/claims/tiempo y políticas disponibles, marcas/TTL/confirmación/cuotas y admisión confiable; sin necesidad de login público implementado.
 - **Condiciones de salida:** 043–046 probadas: 204 solo confirmado, repetido vigente idempotente/TTL no decreciente, 401 inválido, 503 no verificable; token A revocado entre hosts sin afectar B, excepción exclusiva y sin consulta MongoDB artificial.
@@ -3150,6 +3153,8 @@ No se repitieron pruebas en este cierre documental. La regresión registrada no 
 
 El estado **GATE-B PENDIENTE / NO SATISFECHO** registrado en §37.2 y en [memoria §44](../../memoria.md#44-cierre-de-t-auth-022-y-evidencia-operativa-redis) corresponde al cierre de T-AUTH-022 y se conserva como historial; este §38 fija el estado vigente del gate. Este cierre no inicia automáticamente T-AUTH-023/056/057/058, no cierra GATE-C ni modifica la evidencia de las tareas de entrada.
 
+**Adenda posterior del 11 de noviembre de 2026:** [§68](#gate-b-correctivo-logical-clock) consolida el incidente real de retroceso de Redis TIME y su correctivo autorizado. GATE-B permanece **CERRADO / EVIDENCIA CORRECTIVA CONSOLIDADA**, sin reescribir este cierre original ni sus límites.
+
 ## 39. Evidencia técnica y cierre de T-AUTH-023
 
 <a id="e-t-auth-023"></a>
@@ -3964,3 +3969,175 @@ Acto autorizado por **CONTINUACIÓN E-JWT DESDE IT040 VERDE**, realizado únicam
 **GATE-E completo: PENDIENTE / NO SATISFECHO. GATE-F: PENDIENTE / NO SATISFECHO.** GATE-A/B/C/D conservan cierres, G/H pendientes. 032 (incluida su brecha de hashing antiguo/CAS), Login047–051, Logout043–046 y058 integral **no implementados por este incremento**; 008 conserva verificación productiva de startup pendiente. **AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE**, sin confundirlo con T-AUTH-027 Mongo ya completada. No Orders, refresh tokens, AWS/Terraform, CI/CD ni siguiente incremento.
 
 No acredita dos instancias físicas, Load Balancer, TLS público, Atlas HA, Redis administrado, failover/continuidad productivos o titularidad de correo. Los estados anteriores de ausencia JWT en §59 y entregas previas quedan como historial de aquellas autorizaciones, no como estado posterior de este cierre. Solo se actualizan task/memoria tras verde; spec/plan y dependencias intactos, sin stage/commit/push. Detener aquí, sin checkpoint Git nuevo ni trabajo adicional.
+
+## 67. Logout — Autorización, incidentes y validación final
+
+<a id="logout-validacion-final"></a>
+
+### 67.1. Autorización, baseline y fuentes
+
+El **11 de noviembre de 2026**, el responsable autoriza sucesivamente la validación del correctivo Redis logical clock, la terminación individual de capacity R9–R10, **AUTH GATE-F — REGRESIÓN COMPLETA FINAL Y CIERRE**, diagnóstico focal Register Uncertain y **AUTH GATE-F — REINTENTO DE IT COMPLETAS TRAS DIAGNÓSTICO REGISTER UNCERTAIN**. La última autorización conserva UT completas previas, exige build/IT/ST y solo con IT+ST verdes permite consolidar GATE-B, registrar E043–E046 y revisar/cerrar F. Permite cambios de tests únicamente ante una nueva causa demostrada; prohíbe iniciar 032/047–051/058, stage/commit/push.
+
+Baseline comprobada: SDK **10.0.403**, rama **`feature/authentication`**, HEAD **`f2335b0f95bed02edfd2360939fc66954c1a9497`**, **19 modificados + 7 nuevos / 0 staged**, diff tracked **605 inserciones / 47 eliminaciones**. El árbol conserva las implementaciones/focales autorizadas de Logout y el único correctivo productivo Redis; no se rehace ese trabajo. Fuente primaria de este cierre: salidas reales de sesión y TRX; los antecedentes no presentes como capturas en esta sesión se atribuyen expresamente al informe del responsable, no a nuevas ejecuciones.
+
+### 67.2. Incidentes históricos — no son el estado final
+
+1. **CS0104 en UT043 y alias test-only:** incidente previo comunicado por el responsable; el archivo actual usa `ApplicationAuthenticationService` para desambiguar. No se modifica producción por ese error de nombres.
+2. **Dos fallos de setup IT043:** antecedentes informados por el responsable; no se inventan comparaciones o valores no disponibles. Se conservan separados de los resultados funcionales actuales.
+3. **WWW-Authenticate faltante:** el diagnóstico previo informado identificó selección de `DefaultApiProblemDetailsWriter` en MVC, que podía omitir la ruta del writer propio. El fix central preparado en `ApiProblemDetails` aplica el challenge antes de delegar y también en su writer: asignación única `Bearer`, sin append ni parámetros privados. No se altera la validación JWT para forzar el header.
+4. **Logout404 histórico:** las expectativas de ausencia del endpoint de incrementos previos se sustituyeron por el contrato actual de Logout401/Bearer sin autenticación. Composition conserva Register/Login y controles independientes; no afirma integración 058 terminada.
+5. **Origin20/900:** historial de setup de §54 y memoria §50; conectar/PING antes del lifecycle fue preparación test-only, no consumo ni retry funcional. Cuotas y dependencia Redis de 250 ms permanecen intactas.
+6. **Mongo025 y metadata transitoria:** la cancelación local no demuestra desaparición instantánea de un build remoto ni un índice utilizable. El test preexistente acredita `Incompatible` con rechazo concluyente 11000 o `Unavailable` exclusivamente con cancelación del presupuesto observada; nunca Ready retroactivo. La preservación estable exige ausencia de índice compatible/build activo y originales íntegros. Polling test-only condicionado: máximo 2 s, condición quieta de al menos 100 ms y muestras de 25 ms; la carrera tiene observación separada acotada a 5 s. No es sleep productivo, retry del initializer o ampliación de su dependencia de 500 ms. La segunda inicialización del caso de duplicados es verificación independiente explícita, no recuperación automática.
+7. **Redis capacity `Unavailable/state`:** incidente real, captura de retroceso **−7887 µs**, condición anterior `now < meta.last`, fix y pruebas conservados en §68. No se atribuye esta causa retrospectivamente a todos los fallos Redis históricos sin captura.
+8. **Capacity agrupada:** R1–R8 terminaron verdes; el límite externo de 900 s interrumpió R9 sin TRX, sin resultado clasificable Redis. R9 y R10 se ejecutaron después individualmente y pasaron. El intento interrumpido no cuenta entre las diez rondas completas ni altera RequestBudget/timeouts del producto.
+9. **Primera regresión final:** restore locked correcto, cuatro lockfiles intactos, build 0/0 en 23,17 s, UT **633/633** en 5 s; IT **258/259**, una fallida/0 omitidas, 10 min 16 s. Falló `Persistence_outcomes_map_to_503_without_retry_or_compensating_delete(Uncertain,1)` con `EqualException` saneada. Se detuvo sin ST ni documentación de cierre. El wrapper impidió identificar la comparación exacta; la causa histórica sigue **NO DETERMINADA**.
+10. **Diagnóstico Register Uncertain:** solo se seleccionó ese caso mediante `FullyQualifiedName` y `DisplayName~Uncertain`. Primer intento bloqueado antes del cuerpo por startup Mongo (exit code 48/ADDRESS_IN_USE; Docker indicó contenedor no ejecutándose), incidencia separada, sin atribución al fallo histórico. Siguiente ejecución instrumentada **1/1**, 0 fallidas/omitidas: HTTP503, `temporarily_unavailable`, no-store, documentos 0→1, una llamada al puerto y una inserción interna; inner Confirmed → probe Uncertain. Documento coincidente con el ID de esa única solicitud. Retry aplicativo=0; ausencia de delete acreditada por puerto/call-sites, no captura wire. Todas las aserciones etiquetadas pasaron; no se demostró expectativa obsoleta ni defecto productivo. Observaciones pueden alterar tiempos: el verde instrumentado no explica retrospectivamente el rojo. Instrumentación retirada, 206/206 hashes restaurados y build IT 0/0 en 13,47 s; no fix permanente en Register/Scope.
+11. **Primera ST de este reintento:** **145/146**, una fallida/0 omitidas, 1 min 51 s. `RegistrationSecurityTests.Structured_events_only_accept_closed_enums_and_emit_no_request_labels` recorría el producto cartesiano de enums, incluyendo Logout/Admitted, y exigía el formato de Register. Logout admite solo Confirmed/Rejected/RateLimited/Unavailable/Uncertain y emite esquema propio; el rechazo `ArgumentOutOfRangeException(outcome)` era correcto. Causa test-only demostrada por código, enum/diff y stack, distinta de Register Uncertain. Bajo la excepción autorizada se modifica **solo `tests/Enver.API.SecurityTests/RegistrationSecurityTests.cs`**: conserva todas las combinaciones de Register, valida sus claves/tipos y enums inválidos; añade cinco casos de etiquetas Logout exactas y uno de rechazo de otros resultados/enums sin emitir eventos. Mantiene formato/Operation/Outcome/EventId/mensaje cerrados y ausencia de campos de solicitud. No se relaja producto ni se elimina cobertura. Build ST 0/0 en 17,44 s; focal posterior **11/11** y ST completas posteriores **152/152**. Se conservan ambos resultados, sin presentar 145/146 como verde.
+
+### 67.3. Resultado final y representatividad
+
+| Validación | Total / passed / failed / skipped | Duración informada |
+| --- | --- | --- |
+| SDK seleccionado | **10.0.403** | No aplica. |
+| Restore locked previo del mismo árbol de paquetes | Correcto, cuatro lockfiles intactos; no repetido en el reintento. | No se inventa duración. |
+| Build de solución `--no-restore` del reintento | **0 warnings / 0 errores** | **19,37 s**. |
+| UT completas previas, conservadas y no repetidas | **633 / 633 / 0 / 0**, incluidos 37 casos UT Logout y 10 logical clock. | **5 s**. |
+| IT completas de este reintento, sin filtro/StopOnFail | **259 / 259 / 0 / 0** | **10 min 30 s**; TRX start→finish **636,779 s**. |
+| Build del único fix ST test-only | **0 warnings / 0 errores** | **17,44 s**. |
+| Focal `RegistrationSecurityTests` post-fix | **11 / 11 / 0 / 0** | **172 ms**. |
+| ST completas post-fix, sin filtro | **152 / 152 / 0 / 0** | **1 min 44 s**; TRX start→finish **113,546 s**. |
+
+Orden real: build solución → IT completas verdes → ST completas rojas → causa nueva demostrada/fix exclusivamente ST → build ST → focal ST → ST completas verdes. **No se repiten IT, UT completas ni rondas focales de capacidad en este reintento**. IT y UT corresponden al mismo producto/UT/IT final; el único cambio posterior es el archivo ST, cuya suite final se ejecuta completa. No se presenta todo como una única corrida íntegra verde inicial. xUnit2031 se conserva como warning histórico no corregido; estos builds incrementales informaron 0 warnings.
+
+| Caso/grupo vigilado en IT completas | Resultado |
+| --- | --- |
+| Persistence `Unavailable/0` | **Passed**, 1,383684 s. |
+| Persistence `Uncertain/1` | **Passed**, 1,292674 s; no reaparece la EqualException histórica. |
+| `RedisAuthenticationQuotaCapacityTests` | **2/2**; Exactly_2500... **Passed**, 11,745811 s. |
+| `MongoUsersInitializerIntegrationTests` | **11/11**; Existing_duplicate_data... **Passed**, 0,907639 s. Resultado original Incompatible, dependencia no cancelada; segunda verificación Incompatible/11000, originales preservados. |
+| Origin20/900 | **Passed**, 4,724051 s. |
+| Register201/proyección/documento/hash/sin auto-login | **Passed**, 1,430343 s. |
+| `AuthenticationDependencyCompositionTests` | **7/7**, incluye Logout401/Bearer corregido. |
+| `LogoutTests` | **42/42**. |
+| `RedisAuthenticationQuotaClockTests` | **26/26**. |
+| `LogoutSecurityTests` en ST finales | **26/26**. |
+
+No se observa `unavailable/state` **inesperado**. Los casos de corrupción estructural que esperan ese resultado siguen siendo positivos de fail-closed; no se confunden con regresión del reloj. Entorno local Windows/.NET10, runner xUnit/VSTest e imágenes/digests/fixture existentes; MongoDB y Redis reales y autoridad DynamoDB Local. Dos hosts son lógicos de TestServer con recursos locales independientes, no máquinas/cloud/LB.
+
+### 67.4. Comandos, capturas e integridad
+
+Comandos ejecutados (cada suite como proceso independiente; opciones TRX no alteran pruebas):
+
+```text
+dotnet --version
+dotnet build Enver.Backend.slnx --no-restore
+dotnet test tests/Enver.API.IntegrationTests/Enver.API.IntegrationTests.csproj --no-build --logger "trx;LogFileName=it-complete.trx" --results-directory "<directorio externo de esta ejecución>"
+dotnet test tests/Enver.API.SecurityTests/Enver.API.SecurityTests.csproj --no-build --logger "trx;LogFileName=st-complete.trx" --results-directory "<directorio externo de esta ejecución>"
+dotnet build tests/Enver.API.SecurityTests/Enver.API.SecurityTests.csproj --no-restore
+dotnet test tests/Enver.API.SecurityTests/Enver.API.SecurityTests.csproj --no-build --filter "FullyQualifiedName~RegistrationSecurityTests" --logger "trx;LogFileName=st-registration-focal-post-fix.trx" --results-directory "<directorio externo de esta ejecución>"
+dotnet test tests/Enver.API.SecurityTests/Enver.API.SecurityTests.csproj --no-build --logger "trx;LogFileName=st-complete-post-test-fix.trx" --results-directory "<directorio externo de esta ejecución>"
+```
+
+Directorio externo real: `%LOCALAPPDATA%\Temp\opencode\gate-f-it-retry-20261111-153827`, con logs, cuatro TRX y manifiestos `source-before.sha256`/`source-before-docs.sha256`. Fuentes previas retenidas: `gate-f-final-20261111-150706` (UT633/IT258), `register-uncertain-diagnostic-20261111-153017` (setup rojo y caso instrumentado verde) y `redis-clock-validation-20261111-141608` (focales y diez rondas). Son capturas locales, no artefactos de CI ni garantía de retención externa.
+
+Antes de documentar se comparan **206 archivos fuente/configuración/documentación no ignorados** contra baseline: solo cambia el archivo ST autorizado. Producto, Register, JWT038–042, Mongo/BSON, `Program.cs`, protocolo/store Redis, Lua logical clock ya preparado, capacidad5000, timeouts, RequestBudget, connection policy, global.json/rollForward, csproj y cuatro lockfiles permanecen intactos durante el reintento; **0 paquetes nuevos**. El diff Redis contra HEAD se limita al correctivo autorizado de §68; no se modifica otra vez. `tests/Shared` y demás cambios de Logout son trabajo previo conservado, no nuevos cambios de este reintento. Después del verde solo se actualizan este documento y `memoria.md`, además del único fix ST ya validado. No stage/commit/push.
+
+## 68. GATE-B — Evidencia correctiva consolidada de Redis logical clock
+
+<a id="gate-b-correctivo-logical-clock"></a>
+
+**GATE-B: CERRADO / EVIDENCIA CORRECTIVA CONSOLIDADA.** Adenda al cierre histórico de §38, sin reabrirlo ni rehacer su evaluación desde cero. El responsable acreditó previamente captura real Lua `['enver.auth.quota','1','unavailable','state','0','0']`, retroceso **−7887 microsegundos** y rama anterior `now < meta.last`. Redis TIME es una **fuente temporal distribuida de pared, no estrictamente monotónica**. No se inventan valores absolutos de la captura que no están disponibles en esta sesión.
+
+Único fix productivo Redis preparado: `Enver.API/Infrastructure/Redis/Scripts/ConsumeAuthenticationQuota.lua`. Tras validar Redis TIME y metadata: **effectiveNow = max(redisNow, meta.last)**; sin metadata, **effectiveNow = redisNow**. El Lua conserva nombre local `now` para ese instante efectivo, un TIME por evaluación y protocolo de seis campos/versionado existente. Valida rango exacto/overflow y corrupción antes de mutar. Eventos, actividad, horizontes y expiraciones usan effectiveNow; Retry-After convierte el horizonte lógico a espera de pared con `relevantScore + window - redisNow`, incluyendo el rollback pendiente, sin intermedio fuera de rango. No cambia cuota, capacity5000, timeout, presupuesto, conexión, store o protocolo C#.
+
+| Evidencia focal ya ejecutada | Passed / failed / skipped |
+| --- | --- |
+| UT Redis | **90 / 0 / 0**, incluye 10 logical clock. |
+| IT Redis | **51 / 0 / 0**. |
+| IT rollback determinista | **26 / 0 / 0**. |
+| IT distribuida GATE-B | **19 / 0 / 0**. |
+| ST focal Redis/distribuida GATE-B | **46 / 0 / 0**. |
+| Register quota focal | **6 / 0 / 0**. |
+| Logout quota focal | **8 / 0 / 0**. |
+| Capacidad R1–R10 completas | **10/10 rondas**, dos pruebas por ronda, **20 / 0 / 0**. |
+
+R9 individual: runner **36 s**, TRX **106,610 s**; R10 individual: runner **29 s**, TRX **94,368 s**. No se repitieron R1–R8 para completarlas. `capacity-09-continuation.trx` y `capacity-10.trx` mantienen separado el intento R9 interrumpido. Las dos capacity incluidas ahora en IT259 son regresión ordinaria, no otra ronda focal ni aumento artificial del conteo 10/10.
+
+Propiedades acreditadas dentro del modelo ensayado: **meta.last no decrece**, horizon no se reduce **por rollback**, TTL no se acorta, cuota no se abre por retroceso, Retry-After conservador, rechazo conjunto sin mutación, capacidad5000 intacta y corrupción estructural fail-closed. Las IT deterministas concatenan el cuerpo Lua productivo con un shim test-only de TIME y traslación de época de expiraciones, sin reemplazar condiciones del cuerpo ni cambiar el reloj del servidor; incluyen −1 µs, −7887 µs, retrocesos grandes, concurrencia/capacidad y 16 corrupciones. No prueban todas las patologías temporales ni disponibilidad/continuidad productiva. No se añaden retries/sleeps productivos ni se cambian infraestructura o garantías residuales de AUTH-027.
+
+La regresión final de §67 conserva **26/26 clock y 2/2 capacity**, sin `state` inesperado; las ST finales son verdes. Los incidentes Redis anteriores sin raw response permanecen con su clasificación histórica, sin extrapolarles esta causa demostrada.
+
+## 69. E(T-AUTH-043) — Logout confirmado e idempotente
+
+<a id="e-t-auth-043"></a>
+
+**Estado: COMPLETADA / EVIDENCIA REGISTRADA — LOCAL/TEST.** Trazabilidad: AUTH-018/022–024/026/038/039; PLD-AUTH-02/08/09/11; AC-11–14; dependencias017/020/040, conservadas.
+
+- Archivos del incremento previo: `AuthenticationInputs.cs`, `AuthenticationResults.cs`, `AuthenticationService.cs`, `Ports/ILogoutControls.cs` y `Composition/LogoutControls.cs`; pruebas `tests/Enver.API.UnitTests/LogoutTests.cs`, `tests/Enver.API.IntegrationTests/LogoutTests.cs` y soporte de `tests/Shared/AuthenticationApiFactory.cs`.
+- `LogoutInput` solo desde principal/feature JWT autenticados y coincidentes; sub/jti canónicos, issuer único y **exp autenticado único entero UTC**, nunca binding de cuerpo/query. No JWT completo en resultado/ToString.
+- `LogoutAsync`: admisión confiable → cuota conjunta → cuerpo vacío → **una escritura de revocación por intento**, con el mismo RequestBudget, exp/skew30/margen60 efectivos; **Confirmed es el único éxito** y requiere presupuesto vigente. NoOperation/Unavailable/Uncertain →Unavailable/HTTP503; nunca success supuesto. Sin consulta MongoDB, lectura de confirmación, read-back, retry o compensación.
+- Repeat y concurrencia requieren confirmación propia, preservan valor Redis **"1"**, TTL positivo y expiración absoluta no decreciente hasta exp+skew+margen. Cancelación previa/presupuesto agotado no despachan; cancelación posterior al ACK no se convierte en éxito. JWT falso/expirado/ausente se rechaza antes de escribir.
+- Evidencia final compartida §67: **10 UT de trait043 y 6 IT de trait043** incluidas en UT633/IT259; primera/repetida/concurrente, no-confirmación, presupuesto y Mongo inaccesible. E046 añade rechazo cross-host. La respuesta perdida se modela ocultando una confirmación real en probe y exigiendo otro intento independiente; no se prueba pérdida física TCP/ACK ni exactly-once.
+
+## 70. E(T-AUTH-044) — Endpoint, política y challenge seguro
+
+<a id="e-t-auth-044"></a>
+
+**Estado: COMPLETADA / EVIDENCIA REGISTRADA — LOCAL/TEST.** Trazabilidad: AUTH-003/023/031/032/035; PLD-AUTH-11/13/14/19; AC-12/13/19; dependencias011/040/043.
+
+- `AuthenticationController.Logout`, convención/metadata Logout y puerto/input internos. **POST /api/v1/auth/logout**, política exacta **Authentication.Logout**, token exclusivamente desde **Authorization: Bearer único**. El JWT de fixtures usa emisor/validador reales de E038–E042.
+- **204 vacío/no-store**, sin content-type, token/cookie/auto-login y solo Confirmed. Cuerpo vacío permitido incluso con content-type; cualquier cuerpo no vacío, incluido whitespace/JSON/bytes inválidos, **400 validation_failed** tras cuota; **>16384 bytes →413 payload_too_large** antes de identidad/cuota. No existe LogoutRequest funcional ni coerción del cuerpo.
+- Missing/malformed/firma/claims/vigencia inválidos →**401 authentication_failed**, header **WWW-Authenticate exactamente Bearer**, sin error_description/error_uri/detalles internos y con Problem Details seguro/correlación/no-store. Lectura/admisión no verificable →**503 temporarily_unavailable**, no challenge401.
+- Excepción de revocado aún vigente solo para metadata+política+método+ruta Logout exactos. GET, ruta copiada o recurso protegido conservan401; token expirado nunca obtiene excepción. No se relaja política default/fallback.
+- Fix central `Enver.API/Http/ApiProblemDetails.cs` aplica challenge idempotente antes de delegar al servicio y en writer, saneando duplicados/parámetros previos. Revalida 400/409/413/415/429/500/503 sin Bearer y evita doble escritura. No cambia algoritmo/claims/tiempo JWT ni guarda token.
+- Evidencia: **8 UT trait044**, **13 IT trait044**, más **15 UT y 5 IT de regresión Challenge401** en las suites de §67; E046 aporta ST adversariales. La integración JWT completa se compone en hosts de test; **058/pipeline productivo final sigue pendiente**. La ruta/controller implementados no acreditan publicación cloud.
+
+## 71. E(T-AUTH-045) — Cuotas conjuntas y eventos allowlist
+
+<a id="e-t-auth-045"></a>
+
+**Estado: COMPLETADA / EVIDENCIA REGISTRADA — LOCAL/TEST.** Trazabilidad: AUTH-028–030/032/036/037; PLD-AUTH-15/16/19/23; AC-16/19; dependencias021/036/044/053.
+
+- `LogoutControls` consume el store real de cuotas con HMAC/identidades tipadas desde **cuenta previamente autenticada y origen confiable**. Descriptor existente: **account 30/60 s**, **origin 300/60 s**. Una evaluación conjunta y un cargo por scope; cambiar jti no crea otra cuenta, un sub de cuerpo no es fuente de identidad.
+- Intento31/cuenta e intento301/origen →**429 rate_limited**, Retry-After entero positivo y conservador (máximo entre ámbitos, no promesa de éxito). Rechazo no agrega cargo parcial ni crea bucket de cuenta nueva; snapshots y expiraciones conservados. Unavailable/Uncertain →**503**, sin revocación ni devolución ficticia del consumo ocultado.
+- Fallos posteriores de cuerpo/revocación conservan el único cargo ya realizado. No rollback, refund, retry o cuotas locales alternativas. `NoOperation` posterior no produce204.
+- `AuthenticationEvents`: allowlist Logout **confirmed/rejected/rate_limited/dependency_unavailable/uncertain**, EventId2045/Logout, campos Operation/Outcome/{OriginalFormat}, sin JWT/sub/jti/IP raw, clave Redis, identidades, excepción o cuerpo. Captura de seguridad comprueba ausencia de sentinelas/secretos dentro de los canales ensayados; no certifica todos los proveedores productivos.
+- Evidencia: **4 UT trait045 y 8 IT trait045**, incluidos en §67, más abuso/logs de ST Logout. Único fix nuevo del cierre: RegistrationSecurityTests distingue esquema Register y Logout sin reducir cobertura; **11/11 focal y 152/152 ST finales**, incluidos seis casos nuevos de contrato/rechazo de eventos. El producto de eventos no se modifica para aceptar combinaciones inválidas.
+
+## 72. E(T-AUTH-046) — Logout distribuido, fallos y seguridad
+
+<a id="e-t-auth-046"></a>
+
+**Estado: COMPLETADA / EVIDENCIA REGISTRADA — LOCAL/TEST.** Trazabilidad: AUTH-018/021–024/026/035/038/039/042/043; PLD-AUTH-08/09/11/20/24; AC-11–14/17; dependencias015/042–045.
+
+- Dos hosts lógicos con DI/conexiones/stores locales independientes y Redis/autoridad externa de test compartidos. JWT A y B del mismo subject con jti distintos: A válido en host2 antes; Logout A en host1 →204; A rechazado401 en host2, B sigue válido y sin marca.
+- Repeat desde host2 y dos logout concurrentes →confirmaciones propias, valor Redis **"1"**, cuatro escrituras totales y expiración absoluta no decreciente. Excepción de política no reutilizable en otras rutas/métodos; no afecta B.
+- Escritura NoOperation/Unavailable/Uncertain →503, jamás204 supuesto; lectura no verificable→503. Probe Uncertain oculta confirmación real, no pérdida física de red; nuevo intento independiente puede confirmar sin retry aplicativo automático ni read-back.
+- Autoridad closed/missing/unavailable/uncertain mantiene503 y latch cerrado aun con PING. Parada real Redis bloquea logout; Start en finally y endpoint actual solo para cleanup, sin reabrir estado de seguridad. Mongo inaccesible no impide identidad/política/cuota/revocación confirmada cuando sus controles están aptos.
+- **10 IT trait046**, **26 ST LogoutSecurityTests**, incluidas en **42/42 IT Logout** y suites finales de §67. ST cubren firma/alg/iss/aud/kid/claims/duplicados/tamaño/vigencia, Authorization ambiguo y fuentes falsas query/cookie/body/header, cuerpos adversariales, >16KiB, policy isolation, no-store, challenge mínimo, abuso de cuenta y logs seguros.
+- Límites: dos hosts **lógicos**, no físicos; Redis/Mongo/DynamoDB Local, no AWS real. No acredita TLS público, Atlas HA, failover/continuidad productiva, detector universal de pérdida silenciosa, IAM/ACL cloud o dimensionamiento empresarial. Recuperación integral/aceptación externa y AUTH-027 permanecen pendientes en su alcance posterior; 046 no cierra GATE-G/H ni la autenticación completa.
+
+## 73. Revisión formal y cierre de GATE-F — Logout
+
+<a id="cierre-gate-f"></a>
+
+Acto posterior explícitamente autorizado, realizado **solo tras IT259/259 y ST152/152 finales verdes**, con UT633/633 previas conservadas. Revisión de las cuatro evidencias, no aceptación por presencia de archivos ni por focales aisladas:
+
+| Criterio | Evidencia revisada | Dictamen local/test |
+| --- | --- | --- |
+| Entrada GATE-B y checkpoint E-JWT | §38/§68, E038–E042/§66 | Satisfecho; E completo no es prerrequisito circular de F. |
+| 204 exclusivamente Confirmed, sin read-back/retry | E043/E044, pruebas de no-confirmación/presupuesto | Satisfecho. |
+| Repetición/concurrencia y TTL no decreciente | E043/E046, Redis real/value1/PEXPIRETIME | Satisfecho. |
+| JWT inválido401 + Bearer único; dependencia incierta503 | E044/E046 y fix central de challenge | Satisfecho. |
+| A revocado cross-host, B intacto y excepción exclusiva | E044/E046, hosts independientes/política adversarial | Satisfecho. |
+| Mongo no requerido para Logout | E043/E046, índice no Ready/Mongo inaccesible | Satisfecho. |
+| account30/60, origin300/60, joint/no partial/Retry-After | E045, ocho IT focales incluidas en IT259 | Satisfecho. |
+| Eventos/logs seguros y esquema cerrado | E045/E046, ST Logout y fix test-only demostrado | Satisfecho en canales/perfil ensayados. |
+| Redis logical clock y capacidad | §68, 26/26 clock, 10/10 rondas previas y capacity2/2 en IT | Satisfecho; sin state inesperado. |
+| Regresión exigida | §67: UT633 previas, IT259 actuales, ST152 finales; 0 fallidas/omitidas finales | Satisfecho con relación temporal explícita y rojos históricos conservados. |
+
+**T-AUTH-043/044/045/046: COMPLETADAS / EVIDENCIA REGISTRADA. GATE-F: SATISFECHO / CERRADO — LOCAL/TEST REPRESENTATIVO. GATE-B: CERRADO / EVIDENCIA CORRECTIVA CONSOLIDADA.** GATE-A/C/D y checkpoint E-JWT conservan sus cierres. **GATE-E completo PENDIENTE / NO SATISFECHO:** faltan032/047/048/049/050/051/058. GATE-G/H pendientes; 008 conserva su estado documental previo, sin cierre automático.
+
+**Register completo en su aceptación local/test previa; JWT038–042 completo como checkpoint local/test; Logout completo local/test; Login pendiente; Authentication NO TERMINADA.** AUTH-027 sigue **NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE**; pérdida catastrófica silenciosa no observable es residual no eliminado. No se certifican despliegue, dos máquinas/LB, TLS público, AWS/Atlas/Redis administrado, HA/failover, titularidad de correo, seguridad universal ni 058 integral.
+
+La preparación para checkpoint Git no es un commit: conservar todo trabajo anterior y el único fix ST adicional; **sin stage/commit/push** y HEAD base intacto. Solo task/memoria se actualizan después del verde. **Detener sin iniciar032/047–051/058, otro bloque o checkpoint Git automático.**

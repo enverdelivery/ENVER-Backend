@@ -2,6 +2,7 @@ using System.Text.Json;
 using Enver.API.Features.Authentication.Application;
 using Enver.API.Features.Authentication.Contracts;
 using Enver.API.Http;
+using Enver.API.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,27 @@ namespace Enver.API.Controllers;
 [Route("api/v1/auth")]
 public sealed class AuthenticationController(AuthenticationService authentication, IAuthenticationOriginProvider origins) : ControllerBase
 {
+    [Authorize(Policy = AuthenticationPolicies.Logout)]
+    [HttpPost("logout")]
+    public async Task Logout()
+    {
+        var boundary = HttpContext.Features.Get<AuthenticationBoundaryResult>();
+        var budget = HttpContext.Features.Get<RequestBudget>();
+        if (boundary?.Operation != AuthenticationOperation.Logout || budget is null)
+        { await ApiProblemDetails.TryWriteAsync(HttpContext, 503); return; }
+        if (!LogoutInput.TryFromAuthenticatedContext(HttpContext, out var input))
+        { await ApiProblemDetails.TryWriteAsync(HttpContext, 401); return; }
+        var result = await authentication.LogoutAsync(input!, origins.Resolve(HttpContext).Origin,
+            boundary.ErrorStatus is null, budget);
+        var status = result.Status switch
+        {
+            LogoutStatus.Confirmed => 204, LogoutStatus.ValidationFailed => 400,
+            LogoutStatus.RateLimited => 429, _ => 503
+        };
+        await ApiProblemDetails.TryWriteAsync(HttpContext, status,
+            status == 400 ? new[] { ApiErrorField.Body } : null, result.RetryAfter);
+    }
+
     [AllowAnonymous]
     [HttpPost("register")]
     public async Task Register()

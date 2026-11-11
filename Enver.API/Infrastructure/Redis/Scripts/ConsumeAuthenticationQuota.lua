@@ -93,10 +93,13 @@ elseif mode ~= 'fence' and not meta then return unavailable('closed') end
 if mode == 'evaluate' and (meta.state ~= 'ready' or meta.dirty ~= '0') then return unavailable('closed') end
 if (mode == 'maintain' or mode == 'activate') and (meta.state ~= 'closed' or meta.dirty ~= '0') then return unavailable('closed') end
 
--- ÚNICA autoridad temporal de esta ejecución válida. Nunca se reciben timestamps del request.
+-- ÚNICA lectura de la fuente temporal distribuida. TIME es reloj de pared, no monotónico.
 local time = redis.call('TIME')
-local now = tonumber(time[1]) * 1000000 + tonumber(time[2])
-if now < 0 or now > MAX or maximumWindow > MAX - now or (meta and now < meta.last) then return unavailable('state') end
+local redisNow = tonumber(time[1]) * 1000000 + tonumber(time[2])
+if redisNow < 0 or redisNow > MAX then return unavailable('state') end
+-- Reloj lógico por namespace: un retroceso no avanza ventanas ni reduce retención.
+local now = meta and math.max(redisNow, meta.last) or redisNow
+if maximumWindow > MAX - now then return unavailable('state') end
 local count = redis.call('ZCARD', KEYS[2])
 if count > 5000 then return unavailable('state', now) end
 local top = redis.call('ZRANGE', KEYS[2], -1, -1, 'WITHSCORES')
@@ -148,7 +151,9 @@ for i = 3, #KEYS do
             local relevant = redis.call('ZRANGE', key, expired + live - limit, expired + live - limit, 'WITHSCORES')
             local delay = tonumber(relevant[2]) + window - now
             if delay <= 0 or delay > MAX then return unavailable('state', now) end
-            blockingDelay = math.max(blockingDelay, delay)
+            -- Convertir el horizonte lógico a espera de pared incluye el rollback pendiente.
+            -- No sumar delay + now: ese intermedio podría exceder MAX aunque el horizonte sea válido.
+            blockingDelay = math.max(blockingDelay, tonumber(relevant[2]) + window - redisNow)
         end
         if not active then newCount = newCount + 1 end
         requiredStates[i] = {key = key, member = identity.member, window = window}

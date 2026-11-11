@@ -91,10 +91,14 @@ public static class AuthenticationServiceCollectionExtensions
         services.AddHostedService<AuthenticationInitializationService>();
         services.AddSingleton<IRegisterAdmission, RegisterAdmission>();
         services.AddSingleton<IRegisterQuota, RegisterQuota>();
+        services.AddSingleton<ILogoutControls, LogoutControls>();
+        services.AddSingleton<ITokenRevocationStore>(p => new RedisTokenRevocationStore(p.GetRequiredService<RedisConnections>(),
+            p.GetRequiredService<IAuthenticationSecurityState>(), p.GetRequiredService<IOptions<RedisOptions>>().Value));
         services.AddSingleton<IAuthenticationEvents, AuthenticationEvents>();
         services.AddScoped<AuthenticationService>();
         services.AddScoped<IAuthenticationBoundaryContinuation, RegisterBoundaryContinuation>();
         services.Configure<Microsoft.AspNetCore.Mvc.MvcOptions>(options => options.Conventions.Add(new RegisterEndpointConvention()));
+        services.Configure<Microsoft.AspNetCore.Mvc.MvcOptions>(options => options.Conventions.Add(new LogoutEndpointConvention()));
         return services;
     }
 }

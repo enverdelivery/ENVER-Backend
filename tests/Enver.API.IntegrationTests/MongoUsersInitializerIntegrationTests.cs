@@ -275,16 +275,12 @@ public sealed class MongoUsersInitializerIntegrationTests(AuthenticationDependen
             audit.Mark($"DOCUMENTS_AFTER={docsAfter.Count} ORIGINAL_DOCUMENTS_PRESERVED={docs.SequenceEqual(docsAfter)}");
             await audit.ProbeUsabilityAsync("immediately-after");
             await audit.ObserveServerBuildAsync("immediately-after");
-            // Una sola pausa finita de observación, sin retry de Initialize/CreateIndexes.
-            using (var observation = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
-                await Task.Delay(300, observation.Token);
-            var indexesLater = await IndexesAsync(scope);
-            audit.ReportIndexes("after-300ms", indexesLater);
+            // listIndexes puede mostrar metadata de un build cancelado, no un índice utilizable.
+            // Exigir preservación estable, no ausencia instantánea tras la cancelación local.
+            var indexesLater = await ObserveStableDuplicateIndexesAsync(scope, before, "first");
+            audit.ReportIndexes("stable-after-first", indexesLater);
             audit.Mark($"INDEX_LIST_STABLE={indexesAfter.SequenceEqual(indexesLater)} ORIGINAL_INDEXES_PRESERVED_LATER={before.SequenceEqual(indexesLater)}");
-            await audit.ProbeUsabilityAsync("after-300ms");
-            await audit.ObserveServerBuildAsync("after-300ms");
-            await audit.ProbeThirdDuplicateAsync(docs);
-            audit.Mark($"FROZEN_INITIALIZER_RESULT={result} INITIALIZER_RETRY=false REPAIR=false DELETE=false");
+            await AssertDuplicateStateAsync(scope, docs, "after-first");
             scope.RecordDiagnostic($"DUPLICATE_DOCUMENT_COUNT={docs.Count} INDEXES_BEFORE={before.Count} INDEXES_AFTER={indexesAfter.Count} COMPATIBLE_INDEXES={indexesAfter.Count(MongoUsersInitializer.IsCompatible)} INDEXES_PRESERVED={before.SequenceEqual(indexesAfter)} DOCUMENTS_PRESERVED={docs.SequenceEqual(docsAfter)}");
             // AUTH-009, plan §§6–7 y T-AUTH-025 exigen no admisión; no una clasificación
             // Incompatible obligatoria si vence el presupuesto antes de terminar la reinspección.
@@ -306,11 +302,31 @@ public sealed class MongoUsersInitializerIntegrationTests(AuthenticationDependen
             Assert.Equal(1, observed.CreateCalls);
             Assert.Equal(0, observed.ForbiddenCalls);
             Assert.Equal(2, docs.Count);
-            Assert.Equal(0, indexesAfter.Count(MongoUsersInitializer.IsCompatible));
-            Assert.True(before.SequenceEqual(indexesAfter));
+            Assert.Equal(0, indexesLater.Count(MongoUsersInitializer.IsCompatible));
+            Assert.True(before.SequenceEqual(indexesLater));
             Assert.True(docs.SequenceEqual(docsAfter));
             Assert.Equal(observed.Status, result); // La inspección posterior solo acredita preservación.
-            output.WriteLine($"T025 EXISTING_DUPLICATES=2 RESULT={result} FAIL_CLOSED=true SERVER_REJECTION_CODE={rejectionEvidence} DATA_PRESERVED=true INDEXES_PRESERVED=true RECONCILE=false RETROACTIVE_READY=false");
+
+            // Verificación independiente y explícita, SOLO tras estabilizar: no es retry de recuperación.
+            // Mismos duplicados, cliente/settings, 500 ms y contrato; ninguna eliminación o reparación.
+            var secondObserver = new Mongo025ConcurrentObservation(scope.Database);
+            var secondInitializer = new MongoUsersInitializer(secondObserver.Database, scope.Options);
+            using var secondBudget = new RequestBudget(8000, default);
+            var secondResult = await secondInitializer.InitializeAsync(secondBudget);
+            var secondObserved = secondObserver.Snapshot(secondResult);
+            output.WriteLine($"T025 SECOND_INITIALIZATION={secondResult} DEPENDENCY_CANCELLED={secondObserved.DependencyCancelled} CREATE_CALLS={secondObserved.CreateCalls} SERVER_REJECTION_CODE={secondObserver.CreateRejectionCode} REQUEST_REMAINING_MS={secondBudget.Remaining.TotalMilliseconds:F3} INDEPENDENT_VERIFICATION=true AUTOMATIC_RETRY=false");
+            Assert.True(secondResult is MongoUsersInitializationStatus.Incompatible or MongoUsersInitializationStatus.Unavailable);
+            Assert.True(secondObserved.TokenObserved && secondObserved.SameDependencyToken);
+            if (secondResult == MongoUsersInitializationStatus.Unavailable) Assert.True(secondObserved.DependencyCancelled);
+            else Assert.Equal(11000, secondObserver.CreateRejectionCode);
+            Assert.NotEqual(MongoUsersInitializationStatus.Ready, secondResult);
+            Assert.Equal(1, secondObserved.CreateCalls); Assert.Equal(0, secondObserved.ForbiddenCalls);
+            var secondIndexes = await ObserveStableDuplicateIndexesAsync(scope, before, "second");
+            Assert.Equal(0, secondIndexes.Count(MongoUsersInitializer.IsCompatible));
+            Assert.True(before.SequenceEqual(secondIndexes));
+            await AssertDuplicateStateAsync(scope, docs, "after-second");
+            Assert.Equal(observed.Status, result);
+            output.WriteLine($"T025 EXISTING_DUPLICATES=2 RESULT={result} SECOND_RESULT={secondResult} FAIL_CLOSED=true SERVER_REJECTION_CODE={rejectionEvidence} DATA_PRESERVED=true INDEXES_PRESERVED=true RECONCILE=false RETROACTIVE_READY=false");
             }
             catch (Exception exception)
             {
@@ -323,6 +339,84 @@ public sealed class MongoUsersInitializerIntegrationTests(AuthenticationDependen
                 scope.Client.Dispose();
             }
         });
+
+    private async Task<List<BsonDocument>> ObserveStableDuplicateIndexesAsync(Mongo024IntegrationScope scope,
+        IReadOnlyList<BsonDocument> originals, string phase)
+    {
+        // Control test-only: solo lectura, máximo 2 s, condición sostenida durante >=100 ms.
+        // Sin retry del SUT. Un índice persistente, build activo o error de lectura hace fallar la prueba.
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+        var elapsed = Stopwatch.StartNew(); var samples = 0; var converged = false;
+        TimeSpan? quietSince = null;
+        try
+        {
+            while (true)
+            {
+                timeout.Token.ThrowIfCancellationRequested(); samples++;
+                using var cursor = await scope.Users.Indexes.ListAsync(timeout.Token).WaitAsync(timeout.Token);
+                var indexes = await cursor.ToListAsync(timeout.Token).WaitAsync(timeout.Token);
+                var operations = await scope.Client.GetDatabase("admin").RunCommandAsync<BsonDocument>(new BsonDocument
+                {
+                    { "aggregate", 1 },
+                    { "pipeline", new BsonArray
+                        {
+                            new BsonDocument("$currentOp", new BsonDocument { { "allUsers", true }, { "localOps", true } }),
+                            new BsonDocument("$match", new BsonDocument
+                                {
+                                    { "command.createIndexes", "users" },
+                                    { "command.$db", scope.Options.DatabaseName }
+                                }),
+                            new BsonDocument("$project", new BsonDocument { { "_id", 0 }, { "active", 1 } })
+                        }
+                    },
+                    { "cursor", new BsonDocument("batchSize", 100) }
+                }, ReadPreference.Primary, timeout.Token).WaitAsync(timeout.Token);
+                Assert.Equal(0, operations["cursor"]["id"].ToInt64());
+                var active = operations["cursor"]["firstBatch"].AsBsonArray.Count;
+                if (indexes.Count(MongoUsersInitializer.IsCompatible) == 0 && originals.SequenceEqual(indexes) && active == 0)
+                {
+                    quietSince ??= elapsed.Elapsed;
+                    if (elapsed.Elapsed - quietSince.Value >= TimeSpan.FromMilliseconds(100))
+                    {
+                        converged = true;
+                        return indexes;
+                    }
+                }
+                else quietSince = null;
+                await Task.Delay(25, timeout.Token);
+            }
+        }
+        finally
+        {
+            output.WriteLine($"T025 STABILIZATION_PHASE={phase} CONVERGED={converged} ELAPSED_MS={elapsed.Elapsed.TotalMilliseconds:F3} SAMPLES={samples} LIMIT_MS=2000 QUIET_CONDITION_MS=100 POLL_MS=25 READ_ONLY=true INITIALIZER_RETRY=false");
+        }
+    }
+
+    private async Task AssertDuplicateStateAsync(Mongo024IntegrationScope scope, IReadOnlyList<BsonDocument> originals, string phase)
+    {
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+        var documents = await scope.Database.GetCollection<BsonDocument>("users").Find(FilterDefinition<BsonDocument>.Empty)
+            .ToListAsync(timeout.Token).WaitAsync(timeout.Token);
+        var preserved = documents.Count == 2 && originals.Count == 2 &&
+            originals.All(original => documents.Any(document => document.Equals(original)));
+        var duplicateEmail = documents.Count == 2 && documents[0]["normalizedEmail"].Equals(documents[1]["normalizedEmail"]);
+        output.WriteLine($"T025 DOCUMENT_STATE={phase} COUNT={documents.Count} ORIGINAL_IDS_AND_ALL_FIELDS_PRESERVED={preserved} DUPLICATE_EMAIL_PRESERVED={duplicateEmail} DELETE=false UPDATE=false MERGE=false");
+        Assert.True(preserved); Assert.True(duplicateEmail);
+        // No basta ausencia de metadata: el servidor también debe rechazar el hint de ese índice.
+        var error = await Record.ExceptionAsync(async () =>
+            await scope.Database.RunCommandAsync<BsonDocument>(new BsonDocument
+            {
+                { "explain", new BsonDocument
+                    {
+                        { "find", "users" }, { "filter", new BsonDocument() }, { "hint", MongoUsersInitializer.IndexName }
+                    }
+                },
+                { "verbosity", "queryPlanner" }
+            }, ReadPreference.Primary, timeout.Token).WaitAsync(timeout.Token));
+        var command = Assert.IsType<MongoCommandException>(error);
+        Assert.Equal(2, command.Code);
+        output.WriteLine($"T025 USABILITY_PHASE={phase} HINT_REJECTED=true SERVER_CODE=2 UNIQUE_INDEX_NOT_USABLE=true");
+    }
 
     private static void ReportScenarioFailure(Mongo024IntegrationScope scope, Exception exception)
     {

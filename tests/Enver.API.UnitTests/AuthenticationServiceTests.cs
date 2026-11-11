@@ -95,7 +95,7 @@ public sealed class AuthenticationServiceTests
         Assert.Equal(new[] { "admission", "quota" }, s.Calls); Assert.Empty(s.Written);
     }
 
-    private sealed class Scenario : IRegisterAdmission, IRegisterQuota, IUserStore, IAuthenticationEvents, IPasswordHasher<User>
+    private sealed class Scenario : IRegisterAdmission, IRegisterQuota, IUserStore, IAuthenticationEvents, IPasswordHasher<User>, ILogoutControls, ITokenRevocationStore
     {
         public List<string> Calls { get; } = [];
         public List<User> Written { get; } = [];
@@ -111,7 +111,7 @@ public sealed class AuthenticationServiceTests
             var options = Options.Create(policy);
             Gate = new(options);
             Service = new(this, this, new(options), new(new(options), new(options), options),
-                new PasswordService(this, new(options), new(this), Gate), this, this);
+                new PasswordService(this, new(options), new(this), Gate), this, this, this, this);
         }
         public async Task<RegistrationResult> Send(RegisterInput input)
         {
@@ -130,5 +130,10 @@ public sealed class AuthenticationServiceTests
         public ValueTask<UserReadResult> FindByIdAsync(Guid id, RequestBudget budget) => throw new InvalidOperationException("Read-before-write forbidden.");
         public ValueTask<UserCredentialUpdateResult> CompareExchangePasswordHashAsync(Guid id, string expected, UserStatus status, string next, DateTime at, RequestBudget budget) => throw new InvalidOperationException("CAS forbidden.");
         public void Record(AuthenticationEventKind kind, AuthenticationEventOutcome outcome) { }
+        public TimeSpan EffectiveClockSkew => TimeSpan.FromSeconds(30);
+        public TimeSpan OperationalMargin => TimeSpan.FromSeconds(60);
+        public ValueTask<AuthenticationQuotaConsumeResult> ConsumeAsync(AuthenticationAuthenticatedAccount account, AuthenticationCanonicalOrigin origin, RequestBudget budget) => throw new InvalidOperationException("Register cannot consume Logout quota.");
+        public ValueTask<TokenRevocationWriteResult> RevokeAsync(TokenRevocationWriteRequest request, RequestBudget budget) => throw new InvalidOperationException("Register cannot revoke.");
+        public ValueTask<TokenRevocationReadResult> CheckAsync(TokenRevocationReadRequest request, RequestBudget budget) => throw new InvalidOperationException("Register cannot check revocation.");
     }
 }

@@ -38,8 +38,13 @@ public sealed class JwtCheckpointTests(AuthenticationDependenciesFixture depende
         Assert.Equal(HttpStatusCode.OK, (await a.SendAsync(second.AccessToken!)).StatusCode);
         Assert.Equal(HttpStatusCode.OK, (await b.SendAsync(first.AccessToken!)).StatusCode);
         Assert.Equal(HttpStatusCode.Created, (await scope.SendAsync()).StatusCode);
-        var routes = scope.Services.GetRequiredService<EndpointDataSource>().Endpoints.OfType<RouteEndpoint>().Select(e => e.RoutePattern.RawText).ToArray();
-        Assert.DoesNotContain(routes, r => r?.Contains("login", StringComparison.OrdinalIgnoreCase) == true || r?.Contains("logout", StringComparison.OrdinalIgnoreCase) == true);
+        var endpoints = scope.Services.GetRequiredService<EndpointDataSource>().Endpoints.OfType<RouteEndpoint>().ToArray();
+        Assert.DoesNotContain(endpoints, e => e.RoutePattern.RawText?.Contains("login", StringComparison.OrdinalIgnoreCase) == true);
+        var logout = Assert.Single(endpoints, e => e.RoutePattern.RawText == "api/v1/auth/logout");
+        Assert.Equal(AuthenticationPolicies.Logout, Assert.Single(logout.Metadata.GetOrderedMetadata<IAuthorizeData>()).Policy);
+        Assert.Equal(AuthenticationOperation.Logout, logout.Metadata.GetMetadata<AuthenticationRequestMetadata>()!.Operation);
+        var schemes = scope.Services.GetService<Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider>();
+        if (schemes is not null) Assert.DoesNotContain(await schemes.GetAllSchemesAsync(), s => s.Name == AuthenticationPolicies.Scheme);
         Assert.All(a.Server.Services.GetRequiredService<EndpointDataSource>().Endpoints.OfType<RouteEndpoint>(),
             e => Assert.DoesNotContain("/api/v1/auth/", e.RoutePattern.RawText!));
     }

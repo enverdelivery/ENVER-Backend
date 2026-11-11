@@ -14,11 +14,11 @@ public sealed class RedisAuthenticationQuotaStoreTests(AuthenticationDependencie
     {
         await using var s = await RedisAuthenticationQuotaTestScope.CreateAsync(fixture);
         var request = s.Request(operation: AuthenticationOperation.Login);
-        var before = await s.NowAsync();
+        var previousLast = (long)await s.Database.HashGetAsync(s.Configuration.Keys.Metadata, "last");
         var result = await s.RawAsync(request);
-        var after = await s.NowAsync();
         Assert.Equal("admitted", result.Status);
-        Assert.InRange(result.NowMicroseconds, before, after);
+        Assert.True(result.NowMicroseconds >= previousLast);
+        Assert.Equal(result.NowMicroseconds, (long)await s.Database.HashGetAsync(s.Configuration.Keys.Metadata, "last"));
         foreach (var scope in request.Scopes)
         {
             var events = await s.Database.SortedSetRangeByRankWithScoresAsync(s.Key(request, scope));
@@ -62,11 +62,14 @@ public sealed class RedisAuthenticationQuotaStoreTests(AuthenticationDependencie
         var originTimes = Enumerable.Range(0, 20).Select(i => now - 500000000 + i * 1000000L).ToArray();
         await s.SeedAsync(request, email, emailTimes);
         await s.SeedAsync(request, origin, originTimes);
+        var previousLast = (long)await s.Database.HashGetAsync(s.Configuration.Keys.Metadata, "last");
         var result = await s.RawAsync(request);
         Assert.Equal("rejected", result.Status);
         var expected = Math.Max(emailTimes[count - 3] + 900000000 - result.NowMicroseconds,
             originTimes[0] + 900000000 - result.NowMicroseconds);
-        Assert.Equal((expected + 999999) / 1000000, result.RetryAfterSeconds);
+        var logicalRetry = (expected + 999999) / 1000000;
+        if (result.NowMicroseconds > previousLast) Assert.Equal(logicalRetry, result.RetryAfterSeconds);
+        else Assert.True(result.RetryAfterSeconds >= logicalRetry); // Conversión conservadora a espera de pared en rollback.
         Assert.Null(await s.Database.SortedSetScoreAsync(s.Key(request, email), request.InternalAttemptId));
     }
 

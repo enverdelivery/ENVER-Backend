@@ -51,13 +51,39 @@ public sealed class AuthenticationDependencyCompositionTests(AuthenticationDepen
         Assert.Equal(2, services.GetRequiredService<HashingConcurrencyGate>().Limit);
         Assert.True(services.GetRequiredService<DummyPasswordHash>().IsInitialized);
         Assert.Equal(HttpStatusCode.OK, (await client.GetAsync("/health")).StatusCode);
-        foreach (var route in new[] { "login", "logout" })
-            Assert.Equal(HttpStatusCode.NotFound, (await client.PostAsync("/api/v1/auth/" + route, null)).StatusCode);
+        await AssertPreparedLogoutWithoutProductiveJwtAsync(services, client);
         using var register = new StringContent("{}", System.Text.Encoding.UTF8, "application/json");
         Assert.Equal(HttpStatusCode.ServiceUnavailable, (await client.PostAsync("/api/v1/auth/register", register)).StatusCode);
         using var budget = new RequestBudget(8000, default);
         Assert.False((await services.GetRequiredService<IAuthenticationSecurityState>().EvaluateAsync(budget)).CanContinue);
         await services.GetRequiredService<IMongoClient>().DropDatabaseAsync(config["MongoDb:DatabaseName"]!);
+    }
+
+    internal static async Task AssertPreparedLogoutWithoutProductiveJwtAsync(IServiceProvider services, HttpClient client)
+    {
+        var endpoints = services.GetRequiredService<Microsoft.AspNetCore.Routing.EndpointDataSource>().Endpoints
+            .OfType<Microsoft.AspNetCore.Routing.RouteEndpoint>().ToArray();
+        Assert.DoesNotContain(endpoints, e => e.RoutePattern.RawText == "api/v1/auth/login");
+        var logout = Assert.Single(endpoints, e => e.RoutePattern.RawText == "api/v1/auth/logout");
+        Assert.Equal(AuthenticationPolicies.Logout, Assert.Single(logout.Metadata.GetOrderedMetadata<Microsoft.AspNetCore.Authorization.IAuthorizeData>()).Policy);
+        Assert.Equal(new[] { "POST" }, logout.Metadata.GetMetadata<Microsoft.AspNetCore.Routing.HttpMethodMetadata>()!.HttpMethods);
+        Assert.Equal(AuthenticationOperation.Logout, logout.Metadata.GetMetadata<AuthenticationRequestMetadata>()!.Operation);
+        // La ruta preparada no acredita 058: el host habitual aún no registra el scheme JWT productivo.
+        var schemes = services.GetService<Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider>();
+        if (schemes is not null) Assert.DoesNotContain(await schemes.GetAllSchemesAsync(), s => s.Name == AuthenticationPolicies.Scheme);
+        Assert.Null(client.DefaultRequestHeaders.Authorization);
+        using var missingLogin = await client.PostAsync("/api/v1/auth/login", null);
+        Assert.Equal(HttpStatusCode.NotFound, missingLogin.StatusCode);
+        using var missingBearer = await client.PostAsync("/api/v1/auth/logout", null);
+        Assert.Equal(HttpStatusCode.Unauthorized, missingBearer.StatusCode);
+        Assert.Equal("Bearer", Assert.Single(missingBearer.Headers.GetValues("WWW-Authenticate")));
+        Assert.Equal("no-store", missingBearer.Headers.CacheControl?.ToString());
+        Assert.Equal("application/problem+json", missingBearer.Content.Headers.ContentType?.MediaType);
+        using var problem = System.Text.Json.JsonDocument.Parse(await missingBearer.Content.ReadAsStringAsync());
+        Assert.Equal(401, problem.RootElement.GetProperty("status").GetInt32());
+        Assert.Equal("authentication_failed", problem.RootElement.GetProperty("code").GetString());
+        Assert.Equal("No fue posible autenticar la solicitud.", problem.RootElement.GetProperty("detail").GetString());
+        Assert.Equal(missingBearer.Headers.GetValues("X-Correlation-ID").Single(), problem.RootElement.GetProperty("traceId").GetString());
     }
 
     [Theory]

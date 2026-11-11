@@ -9,8 +9,41 @@ namespace Enver.API.Features.Authentication.Application;
 /// <summary>Un intento, una cuota conjunta, una inserción; sin lectura previa, retry, token o compensación.</summary>
 public sealed class AuthenticationService(IRegisterAdmission admission, IRegisterQuota quotas,
     InstitutionalEmailNormalizer email, AuthenticationInputValidator validator, IPasswordService passwords,
-    IUserStore users, IAuthenticationEvents events)
+    IUserStore users, IAuthenticationEvents events, ILogoutControls logout, ITokenRevocationStore revocations)
 {
+    public async ValueTask<LogoutResult> LogoutAsync(LogoutInput input, AuthenticationCanonicalOrigin? origin,
+        bool emptyBody, RequestBudget budget)
+    {
+        ArgumentNullException.ThrowIfNull(input);
+        if (budget.Cause != BudgetCancellationCause.None) return FinishLogout(new(LogoutStatus.Unavailable));
+        var security = await logout.CheckAsync(budget).ConfigureAwait(false);
+        if (!security.CanContinue || origin is null || budget.Cause != BudgetCancellationCause.None)
+            return FinishLogout(new(LogoutStatus.Unavailable), security.Admission == AuthenticationSecurityAdmission.Uncertain);
+        var quota = await logout.ConsumeAsync(input.Account, origin, budget).ConfigureAwait(false);
+        if (budget.Cause != BudgetCancellationCause.None) return FinishLogout(new(LogoutStatus.Unavailable));
+        if (quota.Status == AuthenticationQuotaStoreStatus.Rejected) return FinishLogout(new(LogoutStatus.RateLimited, quota.RetryAfter));
+        if (quota.Status != AuthenticationQuotaStoreStatus.Admitted)
+            return FinishLogout(new(LogoutStatus.Unavailable), quota.Status == AuthenticationQuotaStoreStatus.Uncertain);
+        // D012: el defecto de cuerpo no evita el cargo conjunto con identidad autenticada.
+        if (!emptyBody) return FinishLogout(new(LogoutStatus.ValidationFailed));
+        var result = await revocations.RevokeAsync(new(input.Issuer, input.Jti, input.ExpiresAtUtc,
+            logout.EffectiveClockSkew, logout.OperationalMargin), budget).ConfigureAwait(false);
+        return FinishLogout(new(result.Status == TokenRevocationWriteStatus.Confirmed && budget.Cause == BudgetCancellationCause.None
+            ? LogoutStatus.Confirmed : LogoutStatus.Unavailable), result.Status == TokenRevocationWriteStatus.Uncertain);
+    }
+
+    private LogoutResult FinishLogout(LogoutResult result, bool uncertain = false)
+    {
+        events.Record(AuthenticationEventKind.Logout, result.Status switch
+        {
+            LogoutStatus.Confirmed => AuthenticationEventOutcome.Confirmed,
+            LogoutStatus.ValidationFailed => AuthenticationEventOutcome.Rejected,
+            LogoutStatus.RateLimited => AuthenticationEventOutcome.RateLimited,
+            _ => uncertain ? AuthenticationEventOutcome.Uncertain : AuthenticationEventOutcome.Unavailable
+        });
+        return result;
+    }
+
     public async ValueTask<RegistrationResult> RegisterAsync(RegisterInput input, AuthenticationCanonicalOrigin? origin, RequestBudget budget)
     {
         var security = await admission.CheckAsync(budget).ConfigureAwait(false);
