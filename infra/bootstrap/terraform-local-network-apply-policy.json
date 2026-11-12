@@ -1,0 +1,244 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CreateTaggedVpcAndGateway",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:CreateVpc",
+        "ec2:CreateInternetGateway"
+      ],
+      "Resource": [
+        "arn:aws:ec2:us-east-1:*:vpc/*",
+        "arn:aws:ec2:us-east-1:*:internet-gateway/*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:username": "enver-terraform-local",
+          "aws:ResourceAccount": "${aws:PrincipalAccount}",
+          "aws:RequestTag/Project": "enver",
+          "aws:RequestTag/Environment": "dev",
+          "aws:RequestTag/ManagedBy": "Terraform",
+          "aws:RequestTag/Name": [
+            "enver-dev-vpc",
+            "enver-dev-igw"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "CreateTaggedVpcChildren",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:CreateSubnet",
+        "ec2:CreateRouteTable",
+        "ec2:CreateSecurityGroup"
+      ],
+      "Resource": [
+        "arn:aws:ec2:us-east-1:*:subnet/*",
+        "arn:aws:ec2:us-east-1:*:route-table/*",
+        "arn:aws:ec2:us-east-1:*:security-group/*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:username": "enver-terraform-local",
+          "aws:ResourceAccount": "${aws:PrincipalAccount}",
+          "aws:RequestTag/Project": "enver",
+          "aws:RequestTag/Environment": "dev",
+          "aws:RequestTag/ManagedBy": "Terraform",
+          "aws:RequestTag/Name": [
+            "enver-dev-public-a",
+            "enver-dev-public-b",
+            "enver-dev-public-rt",
+            "enver-dev-alb-sg",
+            "enver-dev-backend-sg"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "UseAndDeleteTaggedVpc",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:CreateSubnet",
+        "ec2:CreateRouteTable",
+        "ec2:CreateSecurityGroup",
+        "ec2:AttachInternetGateway",
+        "ec2:DetachInternetGateway",
+        "ec2:DeleteVpc"
+      ],
+      "Resource": "arn:aws:ec2:us-east-1:*:vpc/*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:username": "enver-terraform-local",
+          "aws:ResourceAccount": "${aws:PrincipalAccount}",
+          "aws:ResourceTag/Project": "enver",
+          "aws:ResourceTag/Environment": "dev",
+          "aws:ResourceTag/ManagedBy": "Terraform",
+          "aws:ResourceTag/Name": "enver-dev-vpc"
+        }
+      }
+    },
+    {
+      "Sid": "SetVpcDnsAttributes",
+      "Effect": "Allow",
+      "Action": "ec2:ModifyVpcAttribute",
+      "Resource": "arn:aws:ec2:us-east-1:*:vpc/*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:username": "enver-terraform-local",
+          "aws:ResourceAccount": "${aws:PrincipalAccount}",
+          "aws:ResourceTag/Project": "enver",
+          "aws:ResourceTag/Environment": "dev",
+          "aws:ResourceTag/ManagedBy": "Terraform",
+          "aws:ResourceTag/Name": "enver-dev-vpc",
+          "ec2:Attribute": [
+            "EnableDnsSupport",
+            "EnableDnsHostnames"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "AttachDetachDeleteTaggedGateway",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:AttachInternetGateway",
+        "ec2:DetachInternetGateway",
+        "ec2:DeleteInternetGateway"
+      ],
+      "Resource": "arn:aws:ec2:us-east-1:*:internet-gateway/*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:username": "enver-terraform-local",
+          "aws:ResourceAccount": "${aws:PrincipalAccount}",
+          "aws:ResourceTag/Project": "enver",
+          "aws:ResourceTag/Environment": "dev",
+          "aws:ResourceTag/ManagedBy": "Terraform",
+          "aws:ResourceTag/Name": "enver-dev-igw"
+        }
+      }
+    },
+    {
+      "Sid": "RoutesAssociationsAndSubnetCleanup",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:CreateRoute",
+        "ec2:DeleteRoute",
+        "ec2:AssociateRouteTable",
+        "ec2:DisassociateRouteTable",
+        "ec2:DeleteRouteTable",
+        "ec2:DeleteSubnet"
+      ],
+      "Resource": [
+        "arn:aws:ec2:us-east-1:*:route-table/*",
+        "arn:aws:ec2:us-east-1:*:subnet/*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:username": "enver-terraform-local",
+          "aws:ResourceAccount": "${aws:PrincipalAccount}",
+          "aws:ResourceTag/Project": "enver",
+          "aws:ResourceTag/Environment": "dev",
+          "aws:ResourceTag/ManagedBy": "Terraform",
+          "aws:ResourceTag/Name": [
+            "enver-dev-public-a",
+            "enver-dev-public-b",
+            "enver-dev-public-rt"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "RulesAndCleanupOnTaggedGroups",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:AuthorizeSecurityGroupEgress",
+        "ec2:RevokeSecurityGroupIngress",
+        "ec2:RevokeSecurityGroupEgress",
+        "ec2:DeleteSecurityGroup"
+      ],
+      "Resource": "arn:aws:ec2:us-east-1:*:security-group/*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:username": "enver-terraform-local",
+          "aws:ResourceAccount": "${aws:PrincipalAccount}",
+          "aws:ResourceTag/Project": "enver",
+          "aws:ResourceTag/Environment": "dev",
+          "aws:ResourceTag/ManagedBy": "Terraform",
+          "aws:ResourceTag/Name": [
+            "enver-dev-alb-sg",
+            "enver-dev-backend-sg"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "CreateTaggedStandaloneRules",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:AuthorizeSecurityGroupEgress"
+      ],
+      "Resource": "arn:aws:ec2:us-east-1:*:security-group-rule/*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:username": "enver-terraform-local",
+          "aws:ResourceAccount": "${aws:PrincipalAccount}",
+          "aws:RequestTag/Project": "enver",
+          "aws:RequestTag/Environment": "dev",
+          "aws:RequestTag/ManagedBy": "Terraform"
+        }
+      }
+    },
+    {
+      "Sid": "TagsOnlyDuringAuthorizedCreation",
+      "Effect": "Allow",
+      "Action": "ec2:CreateTags",
+      "Resource": [
+        "arn:aws:ec2:us-east-1:*:vpc/*",
+        "arn:aws:ec2:us-east-1:*:subnet/*",
+        "arn:aws:ec2:us-east-1:*:internet-gateway/*",
+        "arn:aws:ec2:us-east-1:*:route-table/*",
+        "arn:aws:ec2:us-east-1:*:security-group/*",
+        "arn:aws:ec2:us-east-1:*:security-group-rule/*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:username": "enver-terraform-local",
+          "aws:ResourceAccount": "${aws:PrincipalAccount}",
+          "aws:RequestTag/Project": "enver",
+          "aws:RequestTag/Environment": "dev",
+          "aws:RequestTag/ManagedBy": "Terraform",
+          "ec2:CreateAction": [
+            "CreateVpc",
+            "CreateSubnet",
+            "CreateInternetGateway",
+            "CreateRouteTable",
+            "CreateSecurityGroup",
+            "AuthorizeSecurityGroupIngress",
+            "AuthorizeSecurityGroupEgress"
+          ]
+        },
+        "ForAllValues:StringEquals": {
+          "aws:TagKeys": [
+            "Project",
+            "Environment",
+            "ManagedBy",
+            "Name"
+          ]
+        }
+      }
+    }
+  ]
+}

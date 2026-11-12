@@ -1434,3 +1434,83 @@ Costo directo recurrente estimado **del inventario actual sin workloads/IP: USD 
 Git: **diff --check exit 0**, solo avisos LF→CRLF; status siete modificados/tres nuevos preexistentes y **0 staged**; stat revisado sin añadir archivos al índice. HEAD y baseline protegida conservados; revisión básica de patrones de secretos en task/memoria sin coincidencias, no exhaustiva.
 
 No apply/destroy/import, recursos AWS creados, IAM modificado, CI/CD, pruebas backend o producto/Authentication/004 alterados. Ejemplo tfvars, HCL/provider/lock/spec/plan intactos en este turno. Sin stage/commit/push; HEAD conservado. Detener tras registrar esta validación; autorización de diseño/plan no es autorización de apply o siguiente incremento.
+
+## 62. 003 — Write policy mínima candidata, NO aplicada
+
+### 62.1. Autorización y baseline — 2026-11-12
+
+Solicitud **PREPARAR IAM MÍNIMO PARA PRIMER APPLY INFRA-2/3 / BUILD DOCUMENTAL / IAM POLICY PREPARATION / NO APPLY, NO CAMBIOS AWS**. Baseline verificada **feature/infrastructure**, HEAD **f1a98a01e15c67297287133c27dc23279a649d09**, árbol limpio/0 staged. El checkpoint previo autorizado `feat(infra): define networking and security baseline` conserva diez archivos de INFRA-2/3, no recursos cloud. Se crea únicamente `infra/bootstrap/terraform-local-network-apply-policy.json`, se actualizan [003 task §12](specs/003-infrastructure/task.md) y esta memoria. Read policy, HCL, lock, variables/locals/outputs, README, ejemplo tfvars, spec/plan, producto y 004 **intactos**.
+
+Plan acreditado **14 add / 0 change / 0 destroy** conservado sin repetirlo: la policy JSON no está referenciada por Terraform. Diseño aprobado para plan, **no apply**. Policy de escritura **PREPARADA / NO APLICADA / SIN EFICACIA AWS ACREDITADA**; no llamadas a APIs de la cuenta AWS, asignación IAM o simulación.
+
+### 62.2. Evidencia de fuente y permisos
+
+Revisión de código público del tag **AWS provider v6.73.0**, no de una versión distinta: [directorio EC2](https://github.com/hashicorp/terraform-provider-aws/tree/v6.73.0/internal/service/ec2), archivos vpc_.go, vpc_subnet.go, vpc_internet_gateway.go, vpc_route_table.go, vpc_route.go, vpc_route_table_association.go, vpc_security_group.go, ingress/egress rule y tags_gen.go. Matriz y enlaces por archivo en task §12. Contraste con [SAR EC2](https://docs.aws.amazon.com/service-authorization/latest/reference/list_ec2.html), [tag-on-create](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/supported-iam-actions-tagging.html), [variables IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_variables.html) y [claves globales](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html).
+
+**22 acciones write únicas / 9 statements**, sin Describe: CreateVpc/DeleteVpc/ModifyVpcAttribute (solo **EnableDnsSupport/EnableDnsHostnames**, casing contrastado con [ejemplo oficial AWS](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWS-SSM-RemediationAutomation-ExecutionRolePolicy.html), sin proponer adjuntarlo); CreateSubnet/DeleteSubnet; CreateInternetGateway/AttachInternetGateway/DetachInternetGateway/DeleteInternetGateway; CreateRouteTable/DeleteRouteTable/AssociateRouteTable/DisassociateRouteTable; CreateRoute/DeleteRoute; CreateSecurityGroup/DeleteSecurityGroup; Authorize/Revoke SecurityGroupIngress/Egress; CreateTags solo durante creación.
+
+RevokeSecurityGroupEgress es necesario también en creación del SG: el provider retira egreso predeterminado IPv4/IPv6. ReplaceRoute, ReplaceRouteTableAssociation, ModifySecurityGroupRules y DeleteTags son update de configuración/tags, no create/delete de este plan: excluidos, como CreateTags independiente. ModifySubnetAttribute no concedido con atributos/defaults false de nuevas subnets IPv4 actuales; su helper solo modifica diferencias. No permisos para IPAM/tenancy/IPv6/endpoints, crear/borrar/desadjuntar ENIs o limpiar dependencias ajenas. Cambios de configuración/defaults/camino real exigirían revisión, no ampliación preventiva.
+
+### 62.3. Alcance ARN/tags e IAM pendiente
+
+Sin **Resource literal "*"** en write; ARN por seis tipos: vpc/subnet/internet-gateway/route-table/security-group/security-group-rule, región fija us-east-1, ID /* porque todavía no existen. Cuenta ARN * compensada **en cada statement** por `aws:ResourceAccount=${aws:PrincipalAccount}`; la variable se usa en Condition (no cuenta del ARN, donde IAM no permite interpolarla). Acciones seleccionadas no figuran entre excepciones EC2 de ResourceAccount. Cada statement exige `aws:RequestedRegion=us-east-1`, `aws:username=enver-terraform-local` (IAM user, no roles/root/SSO).
+
+Tags de creación Project=enver, Environment=dev, ManagedBy=Terraform por RequestTag; nombres existentes de HCL acotados para recursos principales. Mutación/eliminación y padres por ResourceTag/Name; RequestTag no se exige a rutas/associations/revokes/delete. Crear hijos verifica VPC padre por separado; attach/detach cubren VPC/IGW; asociaciones tabla/subnet. TagSpecifications atómicas del provider permiten crear recursos/reglas con tags sin inventar fase sin tags. SG rules: autorizar sobre padre etiquetado y ARN nuevo de regla con RequestTag; AWS solo evalúa la segunda autorización si hay TagSpecifications, no garantía universal para API manual sin ellos.
+
+CreateTags restringido por **ec2:CreateAction** a las siete APIs usadas; claves Project/Environment/ManagedBy/Name. No retagging/adopción mediante este documento; reglas HCL sin Name no lo requieren. Tags adicionales futuros fuera de esas cuatro claves necesitan revisión (plan baseline common_tags={}). **No límite duro de 14 recursos o de CIDR/puertos/destinos**, ni prueba de autoría de recursos preexistentes con los mismos tags/nombres. Antes de asignar/apply: revisar colisiones/otras políticas/SCP/boundaries y futura fijación de IDs para cleanup. Allow acotado, no permissions boundary; otros grants/identidades podrían eludir sus condiciones. No se afirma scope exacto por IDs aún desconocidos.
+
+**Read policy conservada sin modificar.** Nuevas necesidades documentadas, NO concedidas: **ec2:DescribeNetworkAcls** en VPC Read (NACL computado; fallo produce warning) y **ec2:DescribeNetworkInterfaces** antes de Delete subnet/SG incluso sin ENIs (fallo bloquea eliminación). Esta última sale de [deleteLingeringENIs](https://github.com/hashicorp/terraform-provider-aws/blob/v6.73.0/internal/service/ec2/vpc_network_interface.go#L1738). Para ambas lecturas SAR exige **Resource "*"**, sin ARN soportado; proponer ampliación read posterior conservando región/usuario, no mezclarlas en write. Mientras falte esa autorización no se declara rollback integral habilitado. No dar permisos GuardDuty/ENI/DescribeVpcEndpoints por componentes ausentes; detener ante dependencias inesperadas. DeleteVpc elimina defaults automáticos en flujo normal sin workloads, sin gestionar defaults como recursos Terraform nuevos.
+
+Permisos delete/detach/disassociate/revoke preparados para el cohort de esta fase, sujetos a límites de tags/nombres; **NO autorización de destroy o rollback**. Sin RunInstances/TerminateInstances, EIP/NAT, ELB/ECR/Redis/ElastiCache/DynamoDB/Secrets/ACM/Route53/CloudWatch/IAM/SSM/KMS/S3/AutoScaling, ec2:* o grants administrativos.
+
+### 62.4. Validación y estados
+
+JSON **sintácticamente válido** por parseo local; assertions de 9 statements/22 acciones exactas, ARN, región/usuario/propietario, tags y CreateAction/Attribute superadas. **5318 caracteres compactados** (<6144 customer-managed policy, >2048 agregados inline IAM user): formato/asignación administrativa pendientes, no pegar como inline del usuario ni crear/adjuntar automáticamente. Sin validación semántica IAM, simulación o aceptación AWS: AWS CLI no incorpora un validador IAM puramente local y Access Analyzer validate-policy es remoto; no se invoca ni se usan create/put/attach-policy.
+
+`terraform fmt -check -recursive infra` y `terraform -chdir=infra validate` **exit 0**, validate **Success! The configuration is valid.** Read policy/HCL/lock idénticos a HEAD; plan 14/0/0 no repetido. Sin recursos/cargos nuevos por preparar JSON. Red básica/SG del inventario sin workloads/IP mantiene USD 0 recurrente directo estimado previo, sin habilitar EC2/ALB/EIP/NAT o aprobar gasto integral.
+
+**T-INFRA-005 PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE**; **T-INFRA-025 PARCIAL / VALIDACIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE**. **GATE-I-A/GATE-I-B PENDIENTE / NO SATISFECHO**, nueve gates pendientes; custodia/state/recuperación, ownership/costo, dependencias, contratos runtime y pruebas cloud no se sustituyen por JSON válido. Ninguna tarea completada. Sin apply/destroy/import/init/plan, AWS/IAM modificado, pruebas backend o workflows. Sin stage/commit/push; HEAD conservado. Detener tras propuesta y evidencia, sin siguiente incremento automático.
+
+## 63. 003 — IAM informada aplicada, lecturas acreditadas y replan pre-apply 14/0/0
+
+### 63.1. Autorización y nuevo estado informado — 2026-11-12
+
+Solicitud **VALIDAR IAM NETWORK APPLY + REPLAN PRE-APPLY / VALIDACIÓN CONTROLADA / NO APPLY**. Baseline verificada **feature/infrastructure**, HEAD **f1a98a01e15c67297287133c27dc23279a649d09**; task/memoria modificados y write JSON sin seguimiento del turno anterior, **0 staged**. Ese trabajo se conserva. Solo se actualizan task/memoria; JSON read/write, HCL/lock/ejemplo/README/spec/plan, producto y 004 intactos. Evidencia detallada en [003 task §13](specs/003-infrastructure/task.md).
+
+**IAM Network Read: APLICADA** manualmente según responsable, inline **ENVER-Terraform-Network-Read**, con DescribeNetworkAcls/DescribeNetworkInterfaces adicionales. **IAM Network Apply: APLICADA** manualmente según responsable, customer-managed **ENVER-Terraform-Network-Apply**, adjunta directamente a enver-terraform-local desde el JSON §62. Responsable declara sin AdministratorAccess/PowerUserAccess/ec2:*. No se enumeran policies remotas/versiones/otros grants/boundaries/SCP ni se certifica su ausencia global. **Terraform apply: TODAVÍA NO AUTORIZADO.** Permiso IAM no equivale a autorización de ejecutar, cerrar gates o aprobar costos/state.
+
+§62 conserva la condición histórica de policy preparada/no aplicada; el pendiente de asignación allí se supera por esta confirmación, no por auditoría remota. El JSON read del repositorio conserva nueve acciones anteriores y no refleja los dos Describe agregados remotamente; **no se sincroniza fuera del alcance task/memoria**. Write JSON intacto, sin evidencia independiente de igualdad con versión remota adjunta.
+
+### 63.2. Ejecución real y límites
+
+Primer prechequeo local **exit 1 antes de AWS/Terraform** por ruta supuesta inexistente de AWS CLI en Program Files. Se localiza instalación existente `%LOCALAPPDATA%/Programs/Amazon/AWSCLIV2/aws.exe`, sin instalar/configurar/PATH. Terraform del directorio WinGet existente; provider lock **6.73.0** intacto, baseline Terraform **1.17.1** conservada. **Una ejecución** de STS/cada Describe/fmt/validate/plan después del prechequeo, sin plan fallido u oculto.
+
+- `aws sts get-caller-identity --profile enver-infra`: **exit 0**, IAM user **enver-terraform-local**, cuenta validada y no publicada; se usa como guard allowed_account_ids.
+- `aws ec2 describe-network-acls --region us-east-1 --profile enver-infra`: **exit 0**, 1 ACL existente devuelta; IDs/reglas suprimidos, no creada aquí.
+- `aws ec2 describe-network-interfaces --region us-east-1 --profile enver-infra`: **exit 0**, 0 interfaces.
+- Write JSON: parseo válido; **9 statements Allow / 22 acciones** exactas de §62, sin NotAction/acciones wildcard/prohibidas. Sin EC2 instances/EIP/NAT ni ELB/IAM/ECR/ElastiCache/DynamoDB/Secrets/ACM/Route53/CloudWatch/SSM/KMS/S3/AutoScaling. No se modifica JSON/read policy o IAM.
+- `terraform fmt -check -recursive infra`: **exit 0**.
+- `terraform -chdir=infra validate -no-color`: **exit 0**, **Success! The configuration is valid.**
+
+Único replan con `AWS_PROFILE=enver-infra`, inputs temporales aprobados **enver/dev/us-east-1, VPC 10.20.0.0/16, newbits=8, network_design_approved=true, common_tags={}**, cuenta del STS. Sin overrides de credenciales/TF_CLI_ARGS/TF_LOG/TF_VAR preexistentes, tfvars reales/autoload ni state de recursos previo; entorno restaurado, sin logs crudos o planfile guardados:
+
+```text
+terraform -chdir=infra plan -input=false -no-color -detailed-exitcode
+Exit: 2 (éxito con cambios previstos)
+data.aws_availability_zones.available: Read complete after 1s [id=us-east-1]
+Plan: 14 to add, 0 to change, 0 to destroy.
+```
+
+Coincidencia de **14 direcciones exactas** contra §61/task §11: **1 VPC, 2 subnets, 1 IGW, 1 route table, 1 ruta default, 2 asociaciones, 2 SG y 4 reglas SG** (2 ingress/2 egress). Ningún recurso distinto, update/destroy o tipo inesperado. AZ **use1-az1/use1-az2**, subnets **10.20.0.0/24 y 10.20.1.0/24**, DNS VPC true, IP automática subnet false, ruta default IGW; SG ALB443/backend8080/egreso sin cambios, backend IPv4 amplio provisional, no SSH/80. No EC2/ALB/EIP/NAT/Redis/ElastiCache u otros workloads. No readiness/SSM/TLS/bypass reales certificados.
+
+**AccessDenied/UnauthorizedOperation: ninguno** en llamadas ejecutadas. **Read suficiente para esas llamadas: sí**; no lectura integral de todos los recursos futuros, inexistentes en el state. **Permiso adicional mínimo observado: ninguno**, sin ampliar IAM preventivamente. Las dos lecturas requeridas en §62 ahora están acreditadas directamente; eso **no demuestra permisos efectivos write/destroy/rollback**. No Create/Delete/Attach/Modify/Authorize/Revoke/CreateTags, simulación o dry-run write. Tampoco se prueba que los Allow locales sean la única fuente de permisos efectivos. Hashes SHA-256 de fuentes infra/policies/lock/README/ejemplo **sin cambios** antes/después.
+
+### 63.3. Costo, estados y detención
+
+**Ningún costo directo nuevo identificado respecto al inventario baseline**. Se mantiene estimación previa **USD 0 recurrente directo de red básica/SG sin workloads/IP**, no costo cero absoluto ni factura/gratuidad verificada; sin nueva consulta precios/Billing. Tráfico/workloads/IP y plataforma futura no cuantificados por este plan. Costos integrales, duración/créditos/reserva/ownership conservan pendientes.
+
+**T-INFRA-003/004/005/006: PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE**. 003 conserva dependencias/solapamientos/aprobaciones; 004 sin EIP/allowlist/conectividad/egreso integral; 005 tiene asignación IAM informada y reads observados, no eficacia write/rollback o separación runtime/004 aceptada; 006 sin pruebas cloud/bypass/SSM/TLS interno/egreso final. **T-INFRA-025 PARCIAL / VALIDACIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE**, faltan custodia/state/backup/recuperación y aceptación de dependencias/E025.
+
+**GATE-I-A PENDIENTE / NO SATISFECHO** por E001/E002/E025, costos/ownership/state; **GATE-I-B PENDIENTE / NO SATISFECHO** por I-A y evidencias cloud E003–006/E019–020/E027–028. Nueve gates pendientes, ninguna tarea completada. HCL **DEFINIDO**, 14 recursos **PLANIFICADOS**, ninguno **CREADO EN AWS por este turno**; IAM manual previo se registra separado de provisión Terraform.
+
+Sin apply/destroy/import/init, recursos AWS manuales, mutación IAM por el agente, backend tests, CI/CD, stage/commit/push. HEAD conservado y 0 staged; solo task/memoria editados, write JSON preexistente sin seguimiento conservado. Sin planfile guardado: el plan no garantiza acciones exactas de un apply futuro. Detener; antes de provisión se requieren autorización explícita, plan vigente, permisos de ciclo de vida revisados, costos/reserva, protección de state y rollback autorizado, sin aceptación implícita por plan verde.
