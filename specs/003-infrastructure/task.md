@@ -4,13 +4,13 @@
 
 | Campo | Valor |
 | --- | --- |
-| Versión / fecha | 0.10.0 / 2026-11-12 |
-| Solicitud inicial / incremento actual | Antecedentes §§6–13; PRIMER APPLY CONTROLADO — NETWORK BASELINE INFRA-2/3 (§14) |
+| Versión / fecha | 0.13.0 / 2026-11-12 |
+| Solicitud inicial / incremento actual | Antecedentes §§6–16; INFRA-4 ECR — IAM VALIDATION + REPLAN PRE-APPLY, VALIDACIÓN CONTROLADA / NO APPLY (§17) |
 | Fuentes | [spec.md](spec.md) y [plan.md](plan.md), propuesta aprobada como base documental |
 | Catálogo | 30 tareas, T-INFRA-001 a T-INFRA-030 |
-| Estado vigente de tareas | 001/002 conservan estado parcial; 003–006 PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE; 025 PARCIAL / VALIDACIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE; otras 23 PENDIENTE / NO EJECUTADA |
+| Estado vigente de tareas | 001/002 conservan estado parcial; 003–007 PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE; 008 PARCIAL / REVISIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE; 025 PARCIAL / VALIDACIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE; otras 21 PENDIENTE / NO EJECUTADA |
 | Estado de todos los gates | **PENDIENTE / NO SATISFECHO** |
-| Evidencia de ejecución de 003 | §14: plan guardado 14/0/0, apply exacto exit 0 (14 añadidos), post-plan exit 0 sin cambios, red/SG contrastados con AWS CLI; state local serial 15/14 instancias gestionadas, ignorado; sin workloads, sin rollback probado ni aceptación integral |
+| Evidencia de ejecución de 003 | §14 conserva apply red 14/0/0 y post-plan sin cambios; §15 build local sin push. §17: ECR policy adjunta manualmente según responsable; STS/scanning BASIC exit 0, listado general denegado y describe por nombre NotFound; fmt-check/validate exit 0, replan exacto 2/0/0 y red14 no-op, sin apply. Escritura/scanning de imagen y aceptación integral pendientes |
 | Baseline documental original | `feature/authentication`, `c58ea86e3eddff4befa8f61398dd58d55c4ef985` |
 | Baseline del BUILD actual | `feature/infrastructure`, creada desde `3b4760ea8387b1cabff56e5f5e0ba5ffe8acb932`, árbol inicialmente limpio |
 | Checkpoint previo a INFRA-2/3 | `feature/infrastructure`, `611071f0ecb0d6cb67993f4e9bffd00d328a2f90`, árbol limpio al iniciar §9 |
@@ -36,6 +36,8 @@ La solicitud posterior **INICIALIZAR BACKEND LOCAL + PLAN INFRA-2/3 / VALIDACIÓ
 **VALIDAR IAM NETWORK APPLY + REPLAN PRE-APPLY** autoriza STS, DescribeNetworkAcls/DescribeNetworkInterfaces, revisión local de write policy, fmt-check/validate y un replan con los mismos inputs aprobados; solo task/memoria se editan (§13). El responsable informa asignación manual de Read/Apply. No se autorizan cambios IAM, dry-run de escritura, simulación/enumeración de políticas, init, apply/destroy/import, recursos manuales o stage/commit/push. La evidencia histórica de §12 conserva su condición de propuesta no aplicada en aquel momento; §13 registra el nuevo estado informado y las llamadas realmente verificadas.
 
 **PRIMER APPLY CONTROLADO — NETWORK BASELINE INFRA-2/3** autoriza posteriormente **solo** generar/revisar un plan guardado de 14 creaciones y aplicar ese mismo archivo, post-plan y lecturas AWS del inventario (§14). Permite materializar red base/SG aunque la aceptación integral de tareas/gates siga pendiente: no aprueba retrospectivamente sus dependencias ni constituye despliegue de aplicación. No workloads, IAM ampliado, destroy/import, cambios de HCL o ejecución integral de 026–028; la evidencia puntual se registra aquí y en 003–006/025, sin declarar completados esos alcances. Únicas ediciones versionables autorizadas: task/memoria; state/plan locales ignorados, sin stage/commit/push. El checkpoint Git previo fue otra autorización completada; las prohibiciones de apply en §§6–13 conservan su alcance histórico.
+
+**INFRA-4 — ECR / CONTAINER REGISTRY** autoriza posteriormente el alcance acotado de §15: registry.tf, tres outputs, propuesta IAM ECR separada, revisión Docker y build local sin push, fmt/check/validate/plan y registro task/memoria. No aplicar/adjuntar políticas, cambiar Dockerfile/producto, crear workloads/OIDC/workflows ni stage/commit/push. Preparación no acepta dependencias ni resuelve DP-I-14 integralmente; spec/plan e historial de red intactos.
 
 Aplican [constitución](../../.specify/memory/constitution.md), [001](../001-backend-foundation/spec.md), [002](../002-authentication/spec.md) y el cierre local de [002 task §§82–84](../002-authentication/task.md). No se cierran GATE-G/H de 002 ni AUTH-027 integralmente.
 
@@ -67,7 +69,7 @@ Todos los gates de esta tabla están **PENDIENTE / NO SATISFECHO**. Los prerrequ
 | GATE-I-H | Infra cloud reproducible: IaC revisada, state protegido, drift/reproducción/rollback y evidencia verificable | E(002), E(008), E(025–030) | GATE-I-A a GATE-I-G | AC-I-12, 13, 15 |
 | GATE-I-I | URL HTTPS pública sirve Register/Login/Logout desde dos instancias, controles distribuidos y negativos verificados; deploy manual trazable | E(027–030) y contrato aprobado 004 | GATE-I-A a GATE-I-H | AC-I-13–15 |
 
-Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las cuatro evidencias. §§6–14 registran solo los resultados y límites efectivamente acreditados; ninguna E parcial satisface por sí sola un gate. I-H/I-I no implican SLA, producción lista ni cierre automático de AUTH-027 o gates de 002.
+Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las cuatro evidencias. §§6–17 registran solo los resultados y límites efectivamente acreditados; ninguna E parcial satisface por sí sola un gate. I-H/I-I no implican SLA, producción lista ni cierre automático de AUTH-027 o gates de 002.
 
 ## 4. Catálogo de tareas
 
@@ -163,7 +165,7 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-007 — Registry ECR
 
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE.
 - **Fase:** INFRA-4 Registry.
 - **Objetivo:** definir repositorio de artefactos inmutables sin introducir pipeline.
 - **Dependencias:** T-INFRA-002, T-INFRA-005, T-INFRA-025; DP-I-14.
@@ -172,12 +174,13 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Acciones futuras:** definir ECR, acceso push/pull, retención compatible con rollback y referencias por digest; distinguir rol build/deploy/runtime.
 - **Aceptación:** configuración revisada y output no secreto; no imágenes publicadas ni registry creado por la preparación.
 - **Evidencia:** E(T-INFRA-007), revisión IaC y contrato de permisos/retención.
+- **Resultado actual:** §§15–17 definen ECR privado enver-dev-api, IMMUTABLE/AES256/scan_on_push=true, lifecycle solo untagged >14 días y tres outputs. §17: policy separada adjunta manualmente según responsable, scanning global BASIC/rules=[] leído exit 0; listado general denegado, describe por nombre RepositoryNotFound. Fmt-check/validate exit 0, replan exacto 2/0/0 y red14 no-op, sin apply. Sin permisos de escritura/destroy ejercitados, repository o scanning de imagen reales. Dependencias 002/005/025 y aceptación de retención/contrato/DP-I-14 pendientes; PARCIAL conservado.
 - **Riesgo:** borrado del digest de rollback, tags mutables o permisos amplios.
 - **Gate asociado:** GATE-I-C, GATE-I-H.
 
 ### T-INFRA-008 — Contrato de imagen y ownership del digest
 
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** PARCIAL / REVISIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE.
 - **Fase:** INFRA-4 Registry.
 - **Objetivo:** garantizar mismo artefacto reproducible y promoverlo manualmente desde 004.
 - **Dependencias:** T-INFRA-007; DP-I-02/14, contrato aprobado con futura 004.
@@ -186,6 +189,7 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Acciones futuras:** revisar Dockerfile existente, .NET 10/non-root/configuración; definir commit→digest→CI verde, writer único del digest y retención previa. Solicitar aparte cualquier cambio Docker necesario.
 - **Aceptación:** contrato aprobado de artefacto inmutable idéntico en A/B y deploy workflow_dispatch tras CI verde; sin build, push o YAML implícitos.
 - **Evidencia:** E(T-INFRA-008), contrato y revisión documental de imagen.
+- **Resultado actual:** §15 registra Dockerfile intacto, build local autorizado exit 0, metadatos linux/amd64, .NET/ASP.NET 10.0.12, USER 1654 non-root, HTTP_PORTS=8080 y ENTRYPOINT dotnet Enver.API.dll. Sin arranque, push/digest ECR ni CI acreditados. Contrato URI@digest y propuesta de escritor único 004 documentados aquí sin modificar plan; aprobación DP-I-02/14/004, bases fijadas por digest, evidencia de seguridad y aceptación pendientes. No COMPLETADA.
 - **Riesgo:** drift Terraform/CD, imagen no rastreable o secretos en capas.
 - **Gate asociado:** GATE-I-C, GATE-I-H, GATE-I-I.
 
@@ -425,6 +429,8 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Aceptación:** baseline validada realmente, state/backup protegidos y versiones acreditadas; validación local no prueba cloud ni toda la IaC futura.
 - **Evidencia:** E(T-INFRA-025), comandos/entorno/versiones/resultados y revisión.
 - **Resultado actual:** §14 acredita fmt-check/validate exit 0, plan guardado 14/0/0 exit 2, apply de ese archivo exit 0 (14 añadidos), post-plan 0/0/0 exit 0 y verificación AWS; hashes infra/HCL/lock/policies intactos. State local ignorado serial 15, sin .backup observado; custodia/backup/recuperación, dependencias 001/002 y aceptación E025 integral pendientes. No COMPLETADA ni gate cerrado.
+- **Extensión actual:** §15 acredita fmt/check/validate exit 0 y plan ECR 2/0/0 exit 2, con 14 recursos de red no-op. Conserva intento CLI previo fallido por argumentos PowerShell; sin init/actualización/apply ni modificación de state persistido. Custodia/backup/recovery y aceptación integral continúan pendientes.
+- **Revalidación posterior:** §17 registra fmt-check/validate exit 0 y un nuevo plan guardado 2/0/0 exit 2, sin AccessDenied de Terraform; networking14 no-op, HCL/policy/lock/state persistido intactos. La lectura CLI de listado general denegada se conserva aparte; no cierre de dependencias/custodia/backup/recovery/E025 integral.
 - **Riesgo:** inicialización con backend equivocado, descarga no aprobada o secretos en salida.
 - **Gate asociado:** GATE-I-A.
 
@@ -1078,3 +1084,201 @@ Reevaluación: **T-INFRA-003/004/005/006 continúan PARCIAL / DEFINICIÓN VALIDA
 **GATE-I-A PENDIENTE / NO SATISFECHO:** 001/002, custodia/backup/recovery, costos/ownership y aceptación completa E025. **GATE-I-B PENDIENTE / NO SATISFECHO:** I-A, IAM runtime/SSM, restricciones Atlas, TLS interno/egreso y otras evidencias E019–020/E027–028 integrales. Nueve gates pendientes; no cierre automático, cumplimiento de dos instancias/producción o AUTH-027 integral. Este incremento no despliega Authentication, no implementa 004 ni ejecuta el alcance integral de 026–028; la operación puntual expresamente autorizada queda trazada en §14.
 
 **DEFINIDO = PLANIFICADO = CREADO EN AWS** para estos 14 recursos, con verificación de propiedades enumeradas; no equivalencia con plataforma lista. Sin otras mutaciones, destroy/import, ampliación IAM, cambio HCL, pruebas backend o CI/CD. Solo task/memoria como cambios versionables; HEAD conservado, sin stage/commit/push. Detener para revisión humana, sin siguiente incremento o cleanup automático.
+
+## 15. INFRA-4 — ECR / contrato de imagen: definición y plan, sin apply
+
+### 15.1. Autorización, baseline y archivos — 2026-11-12
+
+Solicitud expresa **BUILD CONTROLADO / PLAN PRIMERO / NO APPLY AUTOMÁTICO**, T-INFRA-007/008 y registro transversal 025. Lectura de spec/plan/task y Dockerfile/configuración, sin reinterpretar requisitos ni aceptar dependencias pendientes. Baseline verificada: **feature/infrastructure**, HEAD **0abab1a445d7ea76b922971442cd535ad0418233**, `docs(infra): record network baseline deployment`, árbol inicialmente **limpio / 0 staged**. Este checkpoint posterior registra el apply histórico §14; no fue otro apply.
+
+Nuevos [registry.tf](../../infra/registry.tf) y [terraform-local-ecr-policy.json](../../infra/bootstrap/terraform-local-ecr-policy.json); modificados [outputs.tf](../../infra/outputs.tf), este task y [memoria §65](../../memoria.md). Sin nuevas variables/providers ni modificaciones networking/security, policies previas, lock, Dockerfile/producto/tests, spec/plan o 004. STS exit 0, perfil **enver-infra**, IAM user **enver-terraform-local**, región **us-east-1**, cuenta contrastada con owner del VPC en state, sin publicarla. Terraform **1.17.1/windows_amd64**, provider **6.73.0**, backend local inicializado; sin init/instalación/actualización.
+
+Evidencia local: `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra4-ecr-20261112\` (logs build/plan, resúmenes, hashes). El JSON completo de plan contiene state/identificadores internos: no imprimir/versionar/publicar. Carpeta temporal no garantiza conservación ni acredita custodia/backup/recovery del state. Prechecks auxiliares fallidos **Get-FileHash no disponible / AWS CLI no resuelto en PATH heredado**, ambos antes de AWS/Terraform; corregidos mediante SHA256 .NET y binarios existentes del usuario, sin instalar o cambiar PATH persistente.
+
+### 15.2. Contenedor y build local, sin cambiar Dockerfile
+
+- Dockerfile **existe**: runtime `mcr.microsoft.com/dotnet/aspnet:10.0`, SDK `mcr.microsoft.com/dotnet/sdk:10.0.403`; restore **--locked-mode**, build **--no-restore**, publish **--no-restore** con UseAppHost=false. global.json conserva **10.0.403 / rollForward:disable**.
+- Stage **final FROM base**, hereda **USER $APP_UID**, WORKDIR `/app`, ENTRYPOINT **["dotnet", "Enver.API.dll"]**, EXPOSE **8080/8081**. launchSettings configura HTTP_PORTS=8080/HTTPS_PORTS=8081 solo para desarrollo Docker; EXPOSE no prueba listeners/TLS.
+- Docker cliente/servidor **29.6.1**, Linux/amd64 disponible. Una ejecución `docker build --file Enver.API/Dockerfile --tag enver-api:infra-validation .`, **19:24:39.6050132Z–19:28:54.0723541Z**, **exit 0**; build informa **0 Warning(s), 0 Error(s)**. Tag local no existía antes. Sin push/login ECR, arranque de contenedor/aplicación o pruebas. Imagen local conservada, sin cleanup automático.
+- `docker image inspect`: **Config.User=1654 / APP_UID=1654, non-root configurado en imagen final**; **DOTNET_VERSION=10.0.12 / ASPNET_VERSION=10.0.12**, **ASPNETCORE_HTTP_PORTS=8080**, linux/amd64, ENTRYPOINT indicado. **8080 acreditado como configuración/metadatos, no escucha probada ni conectividad cloud**.
+- ID/RepoDigest **local** `sha256:32d2d2a952c4f1c4c9bb51c620a452b8acbee0ee591cc9f1828479f20fd10c33`: **no es digest acreditado de imagen publicada en ECR ni artefacto productivo elegido**. No variable de digest inventado.
+- `.dockerignore` excluye state/backups/tfvars/planes/.terraform, configuración local/credenciales/material sensible usual. No secretos pasados como build args; esto no es auditoría de todas las capas, SBOM, scanning ni CI verde.
+- **Gaps/límites:** bases por tags mutables, sin digest fijado; SDK fijo/locked restore no garantizan reproducción byte a byte. Pinning/revisión de vulnerabilidades/versiones soportadas necesitan evaluación y autorización separadas. .NET10.0.12 es resolución observada, no aprobación del parche cloud. No gap non-root observado en metadatos; endurecimiento runtime/secretos/readiness/forwarding/arquitectura hosts pendientes. Dockerfile intacto; build no extrapolado a UT/IT/ST o Authentication cloud.
+
+### 15.3. ECR, scanning, cifrado y lifecycle propuestos
+
+Un solo `aws_ecr_repository.api`, **enver-dev-api**, derivado de `${local.name_prefix}-api`; privado, tags comunes Project=enver/Environment=dev/ManagedBy=Terraform y Name=enver-dev-api. **IMMUTABLE**, sin excepciones latest; **force_delete=false** evita vaciar/borrar imágenes por el flujo Terraform normal. **AES256 administrado por ECR**, sin custom KMS/recursos o permisos KMS. Outputs no sensibles **ecr_repository_name**, **ecr_repository_url**, **ecr_repository_arn**; URL/ARN calculados, no existencia acreditada.
+
+`image_scanning_configuration.scan_on_push=true` soportado por provider6.73.0 y presente en plan; no recurso de scanning global ni Inspector habilitado. La [documentación actual](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning-basic-enabling.html) describe BASIC por defecto/filtros globales; [AWS](https://aws.amazon.com/blogs/containers/container-scanning-updates-in-amazon-ecr-private-registries-using-amazon-inspector/) explica la transición desde configuración por repositorio. **No afirmar scanning efectivo/BASIC real sin modo/filtros de cuenta y resultado de imagen**.
+
+Lectura `aws ecr get-registry-scanning-configuration --profile enver-infra --region us-east-1 --output json --no-cli-pager`: **exit254 / AccessDeniedException**, acción **ecr:GetRegistryScanningConfiguration**, recurso **`*`**, fase **preflight read-only**; ninguna identity-based policy permite la acción. No IAM ampliado, simulación ni AdministratorAccess/PowerUserAccess. Pendiente **antes de apply/push**: permiso read si responsable lo aprueba, verificar modo/filtros/costo y resolver incompatibilidades en incremento propio, no cambiar toda la cuenta desde registry.tf.
+
+Un `aws_ecr_lifecycle_policy.api`, regla **untagged / sinceImagePushed / days / 14 / expire**. Elección conservadora: expirar solo imágenes sin etiqueta con push de hace **más de14 días**, no versiones etiquetadas antiguas por conteo ciego que podría borrar rollback. Expiración ECR asíncrona, normalmente dentro de24h tras elegibilidad. **Edad desde push, no desde quitar el tag**: retirar último tag de un digest antiguo puede hacerlo elegible inmediatamente.
+
+Contrato para revisión: conservar etiqueta inmutable en **cada digest activo y al menos el previo compatible para rollback**, junto con manifiestos/índices referenciados; no retirar sus tags/borrarlos mientras sean necesarios. **Todas las etiquetadas se conservan** por esta regla. Limpieza adicional requiere inventario de referencias, autorización y preview de lifecycle antes de cambiarlo. No hay máximo global de imágenes/GB ni tope de costo; se acotan residuos untagged antiguos, **no se garantiza número pequeño total**. Retención final/volumen DP-I-14 pendientes; registry aún no creado no prueba retención real de rollback.
+
+### 15.4. IAM mínimo candidato, separado del publisher
+
+Policy nueva **PROPUESTA LOCAL / NO APLICADA**: **4 Allow / 9 acciones exactas / 1631 caracteres compactos**, JSON/allowlist/scope verificados localmente. Ocho acciones limitadas a `arn:aws:ecr:us-east-1:*:repository/enver-dev-api`, **aws:ResourceAccount=${aws:PrincipalAccount}**, región/username exactos. Create/TagResource exigen cuatro request tags; lifecycle/delete cuatro resource tags. Lecturas sin tags para diagnóstico/refresh, conservando nombre/cuenta/región/usuario.
+
+| Acciones | Necesidad y límites |
+| --- | --- |
+| ecr:CreateRepository, ecr:TagResource | Create con tags/settings IMMUTABLE/AES256/scanning en una llamada; TagResource es permiso dependiente de create con tags |
+| ecr:DescribeRepositories, ecr:ListTagsForResource, ecr:GetLifecyclePolicy | Read/refresh de repository y lifecycle |
+| ecr:PutLifecyclePolicy, ecr:DeleteLifecyclePolicy | Crear/retirar policy; provider reemplaza recurso policy al cambiar contenido, no repository |
+| ecr:DeleteRepository | Rollback **solo con autorización futura**, no ejecutado/probado |
+| ecr:GetRegistryScanningConfiguration | Preflight/costo denegado ahora; statement separado **Resource=* para acción sin ARN**, región/username, sin write global |
+
+Derivación fijada al provider [repository.go](https://github.com/hashicorp/terraform-provider-aws/blob/v6.73.0/internal/service/ecr/repository.go), [lifecycle_policy.go](https://github.com/hashicorp/terraform-provider-aws/blob/v6.73.0/internal/service/ecr/lifecycle_policy.go), [tags_gen.go](https://github.com/hashicorp/terraform-provider-aws/blob/v6.73.0/internal/service/ecr/tags_gen.go), y [IAM ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/security_iam_service-with-iam.html). **Sin ecr:***, otras familias de servicios, token/uploads/PutImage/BatchDeleteImage, repository/registry policy, replication o IAM/OIDC. No PutImageScanningConfiguration/PutImageTagMutability/UntagResource: settings iniciales van en CreateRepository; updates no usados en este plan necesitan revisión/autorización adicional.
+
+Allow/condiciones **no son boundary**, auditoría de grants remotos o límite absoluto de settings/lifecycle si hay otros permisos. `force_delete=false` protege el HCL, **no es condición IAM contra borrado forzado por otro cliente**; Sid no impone aprobación humana. Adjuntar concedería capacidad delete, pero no su uso sin permiso. Policies de red intactas; no destroy probado.
+
+**Publisher futuro separado, conceptual/no concedido:** [AWS push IAM](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-push-iam.html): `ecr:GetAuthorizationToken` Resource=*; en ARN exacto `ecr:BatchCheckLayerAvailability`, `ecr:InitiateLayerUpload`, `ecr:UploadLayerPart`, `ecr:CompleteLayerUpload`, `ecr:PutImage`, `ecr:BatchGetImage`. Lectura de evidencia futura DescribeImages/DescribeImageScanFindings requerirá autorización propia. Runtime pull separado: token, BatchCheckLayerAvailability/BatchGetImage/GetDownloadUrlForLayer, sin push/provisión. Futuro **GitHub→AWS OIDC**, credenciales temporales/roles separados, sin access keys persistentes de CI; no trust/OIDC/workflow creados. Ninguno de esos permisos publisher/runtime está en el JSON Terraform.
+
+### 15.5. Contrato digest/CI/escritor único — pendiente de aceptación
+
+Referencia desplegable futura **`<repository-uri>@sha256:<digest>`**, **no latest/tag como identidad**. Vincular SHA Git completo, build/run/attempt/arquitectura, digest registrado por ECR y **CI verde del mismo SHA/artefacto**. Tag inmutable único por publicación (SHA+run+attempt), no reutilizar con rebuild ni reconstruir al promover; distinguir índice OCI/manifiesto de plataforma y conservar dependencias. RepoDigest/ID local no sustituye ECR DescribeImages ni elige artefacto productivo.
+
+Propuesta DP-I-14/004: **Terraform administra registry/lifecycle/outputs, no el digest seleccionado runtime; 004 sería su único escritor**. Sin variable de producción ficticia, dos escritores o ignore_changes para ocultar drift. Mecanismo EC2/ownership/contrato integral pendientes de aprobación; sin modificar spec/plan/compute/workflows.
+
+CI futuro **automático**; CD producción **separado/exclusivamente humano**, GitHub Actions → Deploy → **Run workflow** (`workflow_dispatch`) tras CI verde exacto. Push/PR/merge/release/schedules/dispatch automático no despliegan producción; **terraform apply nunca automático**. API/CLI pueden emitir workflow_dispatch: actor/acceso/auditoría deben diseñarse en004, no asumir que el evento prueba intervención humana. Futuro deploy exige mismo digest A/B, dos instancias sanas, smoke tests y evidencia; rollback manual a imagen/config previas compatibles, sin restaurar state de seguridad antiguo/resetear cuotas/authority o retirar claves vigentes. Ninguna capacidad implementada por este contrato.
+
+### 15.6. Validación/plan sin apply y state intacto
+
+`terraform fmt -recursive infra`, `terraform fmt -check -recursive infra`, `terraform -chdir=infra validate`: **exit0**, **Success! The configuration is valid.** Sin init/actualización; fmt no alteró HCL previo salvo outputs añadidos autorizados.
+
+Primer intento de plan **exit1 / Error: Too many command line arguments**, argumentos con `=`/PowerShell antes de plan/refresh; log conservado, no fallo IAM. Segundo intento con argumentos literales entre comillas, mismos inputs/HCL/permisos:
+
+`terraform -chdir=infra plan -input=false -no-color -out=infra4-ecr.tfplan -detailed-exitcode`
+
+**19:27:34.4802448Z–19:27:55.6869202Z**, **exit2 / Plan: 2 to add, 0 to change, 0 to destroy.** Plan guardado ignorado `infra/infra4-ecr.tfplan`, SHA256 **75c8ac132a58658681605ae6dde02386c362ff16c6d89fc12a675d54b0f8d4e1**. `terraform -chdir=infra show -json infra4-ecr.tfplan` exit0, revisión sin imprimir JSON completo. **No autoriza apply**; revalidar vigencia/plan refrescado ante cambios/permisos antes de pedir autorización. Plan de red consumido no reutilizado.
+
+| Address | Acción prevista |
+| --- | --- |
+| aws_ecr_repository.api | create: enver-dev-api, IMMUTABLE, AES256, scan_on_push=true, force_delete=false, tags aprobados |
+| aws_ecr_lifecycle_policy.api | create: única regla untagged >14 días |
+| Los14 recursos de red/SG existentes | **no-op**, sin update/replace/delete |
+
+Inputs verificados en JSON: enver/dev/us-east-1, VPC10.20.0.0/16, public_subnet_newbits=8, common_tags={}, network_design_approved=true y account guard STS; subnets existentes preservadas. Tres outputs ECR nuevos, no secretos. **Sin AccessDenied de plan**; repository nuevo fuera de state: éxito **no ejercita permisos de create/delete/scanning ni prueba ausencia de colisión con ECR no gestionado**.
+
+JSON conserva **3 entradas resource_drift de refresh** en route table/ambos SG: vistas calculadas route/ingress/egress antes vacías ahora reflejan ruta/reglas de recursos independientes del apply§14. Contrastadas con standalone route/four rules, coinciden; los14 **resource_changes=no-op**, no mutación propuesta. No afirmar ausencia absoluta de drift. Auxiliar asumió inicialmente un address de ruta incorrecto y se detuvo; corregida solo inspección del mismo JSON por tipo/address reales, sin replan/HCL cambiado.
+
+State persistido **serial15 / 14 instancias gestionadas**, **SHA256 idéntico antes/después**, .backup no acreditado. State/backups/planes/tfvars/.terraform ignorados/no versionados. Hashes de HCL previo (salvo outputs autorizado), policies previas, lock, Dockerfile/.dockerignore/global.json iguales. Sin apply/destroy/import, refresh-only apply, mutaciones AWS/IAM o restauración de state.
+
+### 15.7. Costo consultado, sin asumir Free Tier
+
+Consulta **2026-11-12**, [AWS Price List AmazonECR us-east-1](https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonECR/current/us-east-1/index.json), publicationDate **2026-11-11T15:36:26Z**, effectiveDate **2026-11-01T00:00:00Z**, SKU **KJC988R4J65BDMTQ**, TimedStorage-ByteHrs/S3: **USD0.10/GB-mes**, almacenamiento privado estándar. No archivo/replicación/pull-through cache configurados.
+
+[ECR pricing oficial](https://aws.amazon.com/ecr/pricing/): entrada y transferencia a servicios AWS **en la misma región USD0/GB**; Internet/inter-región puede facturarse, con tarifas agregadas por volumen/ruta y cargos del otro extremo. **Tarifa neta exacta de salida/volumen/costo integral pendientes**; no asumir Free Tier/franquicias/créditos. Sin NAT/endpoints nuevos; si se añaden después, sus cargos se suman.
+
+[AWS scanning](https://aws.amazon.com/blogs/containers/container-scanning-updates-in-amazon-ecr-private-registries-using-amazon-inspector/) describe BASIC **sin cargo adicional**, ENHANCED/Inspector **facturable**; fuente no acredita modo/factura actual de esta cuenta: lectura denegada, costo efectivo pendiente. No usar tarifa histórica Inspector como vigente. AES256 evita custom KMS, no implica ECR total gratis.
+
+Estimación futura **0.10×GB-mes almacenados + transferencia facturable + scanning si aplica**; no inferir consumo/compresión/deduplicación o factura desde tamaño Docker local. Lifecycle no es cap; etiquetadas pueden crecer. Presupuesto agregado baseline USD50/reserva≥USD50 de crédito reportado USD100 intacto, no saldo validado/presupuesto mensual/tope duro; T001 costo/duración/ownership abiertos. Sin apply/push no recursos ECR ni bytes subidos por este bloque; red previa permanece.
+
+### 15.8. Estados/gates y detención
+
+- **T-INFRA-007 PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE**: HCL/outputs/plan, no registry creado; IAM solo propuesto, scanning efectivo/retención/costo/contrato/dependencias y aprobación pendientes.
+- **T-INFRA-008 PARCIAL / REVISIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE**: build/non-root/configuración y contrato propuesto; bases reproducibles/seguridad, ECR/digest/CI/ownership aprobado/rollback pendientes. Ausencia de push no elimina criterio contractual propio ni acredita su aprobación.
+- **T-INFRA-025 PARCIAL / VALIDACIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE**: suma extensión fmt/check/validate/plan; custodia/cifrado/backup/recovery, E025 integral y001/002 sin aceptar.
+- **T-INFRA-003/004/005/006 conservan PARCIAL**; no aceptar EIP/Atlas/egreso/SSM/runtime IAM/TLS por plan ECR. **GATE-I-A / GATE-I-B PENDIENTE / NO SATISFECHO**.
+- Gate relacionado registry/container **GATE-I-C PENDIENTE / NO SATISFECHO**: faltan009/010/027/028, dos EC2/AZ/mismo digest/capacidad/recuperación y prerrequisitos A/B. **GATE-I-H / GATE-I-I** pendientes por state/reproducción/rollback/004/aceptación cloud. **Nueve gates pendientes**.
+- Nueve tareas parciales001–008/025; otras **21 PENDIENTE / NO EJECUTADA**. Sin ejecutar compute/026–028, alterar Authentication o cerrar002 GATE-G/H/AUTH-027 integral.
+
+**DEFINIDO/PLANIFICADO:** un repository/una lifecycle policy, tres outputs y candidato IAM separado, build local válido. **CREADO EN AWS EN ESTE BLOQUE: NINGUNO. APPLY/PUSH: NO EJECUTADOS.** Cinco archivos versionables autorizados, sin stage/commit/push. Detener para revisión humana HCL/IAM/plan/costo y nueva autorización delimitada, sin cleanup/permisos/siguiente incremento automático.
+
+## 16. INFRA-4 ECR — revisión pre-apply IAM y cuotas, sin AWS ni checkpoint Git
+
+### 16.1. Alcance y revisión local — 2026-11-12
+
+Autorización **PRE-APPLY IAM + CHECKPOINT / VALIDACIÓN CONTROLADA / NO APPLY**: inspeccionar policy existente, acciones/scope/tamaño, preparar evidencia para aplicación manual posterior, ejecutar solo fmt-check/validate y actualizar task/memoria si hay evidencia nueva. El título no autoriza stage/commit/push: se prohíben expresamente. Baseline confirmada **feature/infrastructure**, HEAD **0abab1a445d7ea76b922971442cd535ad0418233**, cinco archivos pendientes de §15 y **0 staged**. Sin cambios de HCL/JSON/lock, plan repetido, AWS CLI/STS/IAM/Access Analyzer/simulación, Docker/producto o instalación/init/actualización.
+
+JSON [terraform-local-ecr-policy.json](../../infra/bootstrap/terraform-local-ecr-policy.json) **válido por parseo y revisión local**, 4 Allow y nueve acciones exactas, sin duplicados ni comodines de acción:
+
+`ecr:CreateRepository`, `ecr:TagResource`, `ecr:DescribeRepositories`, `ecr:ListTagsForResource`, `ecr:GetLifecyclePolicy`, `ecr:PutLifecyclePolicy`, `ecr:DeleteLifecyclePolicy`, `ecr:DeleteRepository`, `ecr:GetRegistryScanningConfiguration`.
+
+Ausencia confirmada de **ecr:***, AdministratorAccess/PowerUserAccess y cualquier acción de **EC2, ELB, IAM, S3, KMS, DynamoDB, ElastiCache, Secrets Manager, ACM, Route53, CloudWatch o SSM**; también sin permisos publisher. Settings iniciales se transmiten con CreateRepository, no requieren ampliar updates de scanning/mutabilidad para este plan; lecturas/tags/lifecycle/delete corresponden al flujo provider6.73.0 revisado en §15.4. Delete apoya únicamente rollback posterior autorizado, no ejecución actual ni mínimo efectivo global auditado.
+
+Contrastado con [referencia oficial ECR vigente](https://docs.aws.amazon.com/service-authorization/latest/reference/list_ecr.html), consultada 2026-11-12: **ocho acciones admiten resource repository**, y permanecen restringidas a **enver-dev-api/us-east-1**, ARN `arn:aws:ecr:us-east-1:*:repository/enver-dev-api`. El wildcard de cuenta se acota con **aws:ResourceAccount=${aws:PrincipalAccount}**, región/username; create/tag usa request tags, lifecycle/delete resource tags, sin exigir tags aún inexistentes al crear.
+
+**Único Resource="*": ecr:GetRegistryScanningConfiguration**, operación de registry sin resource type ARN en la referencia AWS. No se puede sustituir por ARN repository ni exigir tags de ese repository sin romper esa lectura. Statement separado, región us-east-1/username enver-terraform-local, solo read; no PutRegistryScanningConfiguration, Inspector o administración global concedidos. Permanece por el **AccessDenied observado en §15.3** para inspección de modo/filtros/costo; no porque Terraform repository lo invoque al planificar un create. No se repitió la llamada: acceso efectivo/scanning siguen pendientes.
+
+### 16.2. Tamaño y propuesta de aplicación manual, no ejecutada
+
+Archivo existente **2269 bytes / 2269 caracteres** (ASCII); documento compacto **1631 caracteres sin whitespace**, confirmado tanto por serialización JSON como por conteo sin espacios. SHA256 exacto del archivo **393b731f012d6be6bc285b068793f52dda91099661717f2f3b991c437955cbe9**. No se reformatea ni modifica policy.
+
+[Cuotas oficiales IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html), consultadas 2026-11-12: inline de **usuario: 2048 caracteres agregados entre todas sus inline policies**, no por archivo; customer-managed: **6144 caracteres por policy**, ambos sin contar whitespace. **Cabe aisladamente inline**, pero deja solo417 caracteres para las restantes inline del usuario; su suma remota/cuotas de adjuntos no se consultaron. No afirmar que puede añadirse inline al usuario actual por medir solo este JSON.
+
+**Recomendación pendiente de aprobación: customer-managed policy independiente ENVER-Terraform-ECR**. No exigida por tamaño individual; recomendada por separación clara respecto de networking y para no consumir el agregado inline compartido. Preparación para responsable autorizado: revisar el JSON exacto/hash/nueve acciones/cuatro statements; si aprueba posteriormente, crear la customer-managed con ese nombre y adjuntarla **solo al usuario previsto enver-terraform-local**, comprobando cuenta y cuota disponible. No integrar con networking ni conceder al usuario Terraform permisos IAM para crear/adjuntar policies. Estos son pasos propuestos, **ninguno ejecutado ni acreditado**; no se crea ARN/version remota ficticio.
+
+Al adjuntarse, la policy sí otorgaría capacidad delete; Sid/aprobación humana no son guard IAM y force_delete=false solo protege el flujo HCL. No permissions boundary ni auditoría de otras policies/boundaries/SCP. La validación local **no es IAM Access Analyzer ni prueba efectiva de create/delete/rollback**. Después de cualquier aplicación manual reportada harán falta autorización de las lecturas pertinentes, verificación de identidad/modo/filtros/costo y revisión de vigencia del plan antes de solicitar apply; nada de ello se ejecuta aquí.
+
+### 16.3. Validación local, baseline conservada y estados
+
+Terraform **1.17.1/windows_amd64** / provider **6.73.0** comprobados con `terraform -chdir=infra version -json`. Un auxiliar se detuvo inicialmente al buscar selección provider desde la raíz sin configuración Terraform (`provider_selections={}`); comprobación corregida a infra, sin cambiar versión/archivos o ejecutar plan. **19:43:50.0174285Z–19:44:01.7004193Z**:
+
+- `terraform fmt -check -recursive infra`: **exit0**, sin modificaciones.
+- `terraform -chdir=infra validate -no-color`: **exit0 / Success! The configuration is valid.**
+- **Plan no repetido** porque HCL no cambió. Se conserva como **evidencia previa**, no refresh actual, el plan §15: **2 add / 0 change / 0 destroy**, únicamente aws_ecr_repository.api/aws_ecr_lifecycle_policy.api, networking14 no-op; SHA256 **75c8ac132a58658681605ae6dde02386c362ff16c6d89fc12a675d54b0f8d4e1** comprobado idéntico. No se aplica ni se presume vigencia indefinida.
+
+Evidencia local nueva: `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra4-ecr-preapply-review-20261112-194320\`, resúmenes de parseo/scope/tamaño/hash y validación, hashes de fuentes y state/plan. No contiene una aprobación IAM ni reemplaza custodia/backup/recovery. Hashes previos preservan HCL/policy/lock/state/plan y trabajo existente; state/planes/.terraform/tfvars siguen fuera de Git. Únicas ediciones **de este turno**: task/memoria, sobre los cinco cambios pendientes previos.
+
+**T-INFRA-007 PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE**, **T-INFRA-008 PARCIAL / REVISIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE**, **T-INFRA-025 PARCIAL / VALIDACIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE**. Sin aceptación de dependencias, registry/imagen ECR, scanning efectivo, IAM aplicado, state custody/backup/recovery o contrato004 integral. **T-INFRA-003–006 siguen PARCIAL; los nueve gates PENDIENTE / NO SATISFECHO**, incluidos I-A/I-B/I-C/I-H/I-I. Authentication y estados002 sin cambios.
+
+**AWS MODIFICADO: NO. APPLY/DESTROY/IMPORT/REPLAN: NO. POLICY REMOTA CREADA/ADJUNTADA: NO. STAGE/COMMIT/PUSH: NO.** Detener para revisión humana; no ejecución manual implícita, siguiente incremento o checkpoint Git.
+
+## 17. INFRA-4 ECR — IAM informado aplicado, lecturas y replan pre-apply
+
+### 17.1. Autorización, fuentes y baseline — 2026-11-12
+
+Solicitud expresa **IAM VALIDATION + REPLAN PRE-APPLY / VALIDACIÓN CONTROLADA / NO APPLY**: STS, GetRegistryScanningConfiguration, DescribeRepositories, revisión local de policy, fmt-check/validate y un replan con inputs aprobados; solo task/memoria editados. **Terraform apply: NO AUTORIZADO TODAVÍA**. Sin mutaciones IAM/AWS, repositorio manual, apply/destroy/import, Docker/producto o stage/commit/push. Baseline confirmada **feature/infrastructure**, HEAD **0abab1a445d7ea76b922971442cd535ad0418233**, cinco pendientes previos de INFRA-4 y **0 staged**.
+
+**INFORMADO POR EL RESPONSABLE:** creó y adjuntó manualmente **ENVER-Terraform-ECR**, **customer-managed**, fuente [terraform-local-ecr-policy.json](../../infra/bootstrap/terraform-local-ecr-policy.json), sin AdministratorAccess/PowerUserAccess/ecr:*. Se registra **APLICADA MANUALMENTE SEGÚN RESPONSABLE**, no una mutación del agente. No se enumeran policy remota/versiones/adjuntos/boundaries/SCP; las llamadas verifican únicamente sus respuestas efectivas, no identidad exacta de la policy causante ni ausencia global de otros grants. §§15/16 conservan sus estados históricos de propuesta/no aplicada en aquellos turnos.
+
+JSON local intacto, hash **393b731f012d6be6bc285b068793f52dda91099661717f2f3b991c437955cbe9**, 4 Allow/9 acciones aprobadas/1631 caracteres compactos: CreateRepository, TagResource, DescribeRepositories, ListTagsForResource, GetLifecyclePolicy, PutLifecyclePolicy, DeleteLifecyclePolicy, DeleteRepository y GetRegistryScanningConfiguration, todas **ecr:**. Sin wildcard de acción ni familias prohibidas/publisher. Scope por repository enver-dev-api/us-east-1/misma cuenta/username/tags y único Resource=* para lectura scanning conservados; no ampliación local/remota.
+
+### 17.2. Lecturas efectivas y AccessDenied delimitado
+
+Perfil **enver-infra**, región **us-east-1**, sin pager; salidas capturadas sin credenciales/ID de cuenta completo en documentación. Secuencia terminada **2026-11-12T19:50:50.6800817Z**:
+
+| Llamada AWS CLI | Resultado real / alcance |
+| --- | --- |
+| sts get-caller-identity --profile enver-infra --region us-east-1 | **exit 0**, IAM user **enver-terraform-local**, cuenta coincide con owner VPC del state aprobado |
+| ecr get-registry-scanning-configuration --region us-east-1 --profile enver-infra | **exit 0**, **scanType=BASIC / rules=[]**; lectura antes denegada ahora disponible |
+| ecr describe-repositories --region us-east-1 --profile enver-infra | **exit 254 / AccessDeniedException**; listado general, no lista vacía exit 0 |
+| Misma lectura con --repository-names enver-dev-api | Diagnóstico acotado, **exit 254 / RepositoryNotFoundException**, sin AccessDenied: repository indicado no existe; no lectura exit 0 de un repository existente |
+
+**AccessDenied observado:** acción **ecr:DescribeRepositories**, recurso **arn:aws:ecr:us-east-1:<account>:repository/*** (listado general), fase **AWS CLI/read ECR previa al plan**; ninguna identity-based policy permite ese alcance según respuesta. **Operación Terraform asociada: ninguna**, no es un fallo del replan/provider. La policy permite un nombre exacto, no el inventario de toda la cuenta; NotFound de la consulta acotada no se oculta ni convierte en exit 0. Sin IAM modificado/reintento con privilegios superiores.
+
+**Permiso mínimo si se exigiera ese listado general:** Allow únicamente **ecr:DescribeRepositories** sobre **arn:aws:ecr:us-east-1:<cuenta-aprobada>:repository/***, con región/username/misma cuenta; ampliaría recursos visibles, no acciones ni escritura. **Solo propuesta explicativa, NO aplicada ni necesaria para este plan**. Preferir consulta por nombre, alineada con DescribeRepositories(RepositoryNames=[nombre]) del provider revisado; no ecr:*, AdministratorAccess/PowerUserAccess o falsa condición por tags para una lectura sin repository concreto. No ampliar IAM solo para obtener inventario general innecesario.
+
+**Efectividad acreditada: parcial**, GetRegistryScanningConfiguration exit 0 y respuesta NotFound por nombre sin AccessDenied; **no create/tag/lifecycle/delete efectivos probados**. Plan de repository nuevo tampoco los ejercita. BASIC/rules=[] acredita modo global en ese instante; `scan_on_push=true` sigue siendo solicitud HCL/plan, no prueba de scanning efectivo o findings de imagen inexistente. No se modifican filtros globales/Inspector ni se interpreta ausencia de reglas como imagen ya escaneada.
+
+### 17.3. Terraform y plan exacto conservando networking
+
+Terraform **1.17.1/windows_amd64**, provider **6.73.0**, comprobados desde infra, lock sin cambios. `terraform fmt -check -recursive infra` **exit 0**, `terraform -chdir=infra validate -no-color` **exit 0 / Success! The configuration is valid.** Sin init/instalaciones/actualizaciones.
+
+Una ejecución de `terraform -chdir=infra plan -input=false -no-color -out=infra4-ecr-replan-20261112-195037.tfplan -detailed-exitcode`, **19:51:57.0468069Z–19:52:18.1128719Z**, **exit 2 / Plan: 2 to add, 0 to change, 0 to destroy.** **Sin AccessDenied en Terraform**. Show-json **exit 0** revisado selectivamente, sin publicar JSON/state completo.
+
+| Address / inventario | Acción |
+| --- | --- |
+| aws_ecr_repository.api | **create**, nombre **enver-dev-api**, **IMMUTABLE**, **scan_on_push=true**, **AES256**, **force_delete=false**, tags aprobados |
+| aws_ecr_lifecycle_policy.api | **create**, única regla **untagged/sinceImagePushed/days/14/expire** |
+| Los14 recursos de networking/SG del state | **no-op**, 0 update/replace/delete |
+
+Inputs contrastados en JSON: project_name=enver, environment=dev, aws_region=us-east-1, vpc_cidr=10.20.0.0/16, public_subnet_newbits=8, common_tags={}, network_design_approved=true, account guard igual a cuenta STS/state; subnets existentes preservadas. Tres outputs ECR no sensibles. No recursos fuera de los dos ECR, destrucciones ni replacements. Lifecycle conserva todas las imágenes etiquetadas, incluidas activas/rollback bajo contrato§15; 14 días desde push, no desde retirar tag, sin tope global de almacenamiento.
+
+El nuevo JSON conserva las **tres entradas calculadas de refresh** de route table/SG (route/ingress/egress antes vacíos). Se contrastaron con standalone route/cuatro reglas y coinciden; **14 resource_changes=no-op**. No confundirlas con cambios de red propuestos ni afirmar cero drift absoluto.
+
+Plan nuevo ignorado **infra/infra4-ecr-replan-20261112-195037.tfplan**, SHA256 **669e2550dced81aa3bd1bf3c07aff210305057e61c17d2cb503abe55c72a1640**; plan previo§15/hash intacto, no sobrescrito/reaplicado. State persistido **serial15/14 instancias gestionadas/hash idéntico**, sin backup/recovery nuevo acreditado; HCL/policy/lock y demás fuentes no modificados por lecturas/validación/plan. Plan no autoriza apply y requiere revisión de vigencia antes de una autorización posterior.
+
+### 17.4. Costo, estados y detención
+
+Se conserva evidencia regional previa§15.7 de almacenamiento ECR **USD0.10/GB-mes**, **sin nueva consulta tarifaria/Billing**. Sin Free Tier asumido ni total calculado a partir del tamaño Docker local. La lectura confirma modo BASIC actual, no ejecución/resultados de scan ni factura/ausencia de otros cargos Inspector globales; costo integral/transferencia/volumen/duración y presupuesto/reserva siguen su aceptación pendiente. Ningún repository/imagen/byte ECR creado/subido por este bloque.
+
+**T-INFRA-007 PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE**: aplicación IAM informada y lecturas/replan acreditados, no repository real, escritura/scan de imagen/retención/contrato/dependencias aceptados. **T-INFRA-008 PARCIAL / REVISIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE**: sin nueva imagen/digest ECR/CI/ownership aprobado ni rollback. **T-INFRA-025 PARCIAL / VALIDACIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE**: nueva validación/plan no suple custodia/cifrado/backup/recovery/001/002/E025 integral.
+
+**GATE-I-A PENDIENTE / NO SATISFECHO** según §3/E001/E002/E025: faltan aceptación de baseline/costo/state/ownership y protección/recuperación. **GATE-I-B PENDIENTE / NO SATISFECHO**: I-A, IAM runtime/SSM, Atlas/egreso/TLS, E019–020/E027–028 integrales sin resolver. 003–006 siguen parciales; I-C/H/I y **los nueve gates pendientes**. Authentication/002/004 intactos; no ejecutar integralmente026–028 ni cerrar AUTH-027/002 GATE-G/H.
+
+Evidencia local privada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra4-ecr-iam-replan-20261112-195037\`: lecturas saneadas, logs/JSON de plan y resúmenes/hashes; no publicar JSON completo ni confundir ubicación temporal con custodia/backup. Solo task/memoria editados en este turno; conjunto pendiente conserva cinco archivos/0staged, artefactos Terraform sensibles ignorados/no versionados.
+
+**RECURSOS AWS CREADOS POR EL AGENTE: NINGUNO. IAM REMOTO: APLICACIÓN MANUAL INFORMADA POR RESPONSABLE, NO MODIFICADO POR EL AGENTE. TERRAFORM APPLY: NO AUTORIZADO TODAVÍA / NO EJECUTADO. SIN DESTROY/IMPORT/STAGE/COMMIT/PUSH.** Detener para revisión humana, sin siguiente incremento automático.

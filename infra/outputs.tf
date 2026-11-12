@@ -16,3 +16,18 @@ output "security_group_ids" {
     backend = aws_security_group.sg_backend.id
   }
 }
+
+output "ecr_repository_name" {
+  description = "Nombre del único repositorio API definido; existencia pendiente de apply autorizado."
+  value       = aws_ecr_repository.api.name
+}
+
+output "ecr_repository_url" {
+  description = "URI no secreta para el contrato URI@sha256:digest; no acredita imagen publicada."
+  value       = aws_ecr_repository.api.repository_url
+}
+
+output "ecr_repository_arn" {
+  description = "ARN no secreto para permisos acotados; no credencial ni autorización de publicación."
+  value       = aws_ecr_repository.api.arn
+}
