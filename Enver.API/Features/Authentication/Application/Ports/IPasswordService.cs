@@ -18,6 +18,7 @@ public sealed class PasswordHashResult
 public interface IPasswordService
 {
     PasswordHashResult Hash(User user, string secret, RequestBudget budget);
+    PasswordHashResult Rehash(User user, string secret, RequestBudget budget);
     PasswordVerificationStatus Verify(User user, string secret, RequestBudget budget);
     PasswordVerificationStatus VerifyDummy(string secret, RequestBudget budget);
 }

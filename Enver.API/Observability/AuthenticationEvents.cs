@@ -8,6 +8,31 @@ public sealed class AuthenticationEvents(ILogger<AuthenticationEvents> logger) :
     public void Record(AuthenticationEventKind kind, AuthenticationEventOutcome outcome)
     {
         if (!Enum.IsDefined(kind) || !Enum.IsDefined(outcome)) throw new ArgumentOutOfRangeException(nameof(kind));
+        if (kind == AuthenticationEventKind.Login)
+        {
+            var label = outcome switch
+            {
+                AuthenticationEventOutcome.Success => "success",
+                AuthenticationEventOutcome.Rejected => "rejected",
+                AuthenticationEventOutcome.RateLimited => "rate_limited",
+                AuthenticationEventOutcome.Unavailable => "dependency_unavailable",
+                AuthenticationEventOutcome.Uncertain => "uncertain",
+                _ => throw new ArgumentOutOfRangeException(nameof(outcome))
+            };
+            logger.LogInformation(new EventId(2050, "Login"), "Authentication {Operation} {Outcome}", "login", label);
+            return;
+        }
+        if (kind == AuthenticationEventKind.Rehash)
+        {
+            var label = outcome switch
+            {
+                AuthenticationEventOutcome.RehashUpdated => "rehash_updated",
+                AuthenticationEventOutcome.RehashRaceLost => "rehash_race_lost",
+                _ => throw new ArgumentOutOfRangeException(nameof(outcome))
+            };
+            logger.LogInformation(new EventId(2032, "Rehash"), "Authentication {Operation} {Outcome}", "rehash", label);
+            return;
+        }
         if (kind == AuthenticationEventKind.Logout)
         {
             var label = outcome switch

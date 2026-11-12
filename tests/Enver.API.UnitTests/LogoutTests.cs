@@ -201,7 +201,7 @@ public sealed class LogoutTests
         public Scenario()
         {
             var options = Options.Create(PasswordPolicyTests.PolicyOptions());
-            Service = new(this, this, new(options), new(new(options), new(options), options), null!, this, this, this, this);
+            Service = new(this, this, new(options), new(new(options), new(options), options), null!, this, this, this, this, null!, null!);
         }
         public TimeSpan EffectiveClockSkew => TimeSpan.FromSeconds(30);
         public TimeSpan OperationalMargin => TimeSpan.FromSeconds(60);

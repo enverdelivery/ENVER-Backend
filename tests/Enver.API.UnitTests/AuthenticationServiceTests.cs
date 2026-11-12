@@ -111,7 +111,7 @@ public sealed class AuthenticationServiceTests
             var options = Options.Create(policy);
             Gate = new(options);
             Service = new(this, this, new(options), new(new(options), new(options), options),
-                new PasswordService(this, new(options), new(this), Gate), this, this, this, this);
+                new PasswordService(this, new(options), new(this), Gate), this, this, this, this, null!, null!);
         }
         public async Task<RegistrationResult> Send(RegisterInput input)
         {

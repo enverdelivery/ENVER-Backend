@@ -22,6 +22,7 @@
     <Compile Include="../Shared/AuthenticationDependenciesFixture.cs" Link="Shared/AuthenticationDependenciesFixture.cs" />
     <Compile Include="../Shared/AuthenticationApiFactory.cs" Link="Shared/AuthenticationApiFactory.cs" />
     <Compile Include="../Shared/AuthenticationSecurityAuthorityFake.cs" Link="Shared/AuthenticationSecurityAuthorityFake.cs" />
+    <Compile Include="../Shared/LoginTestScope.cs" Link="Shared/LoginTestScope.cs" />
     <Using Include="Xunit" />
   </ItemGroup>
 

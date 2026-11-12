@@ -13,8 +13,8 @@ public interface IRegisterQuota
     ValueTask<AuthenticationQuotaConsumeResult> ConsumeAsync(string normalizedEmail, AuthenticationCanonicalOrigin origin, RequestBudget budget);
 }
 
-public enum AuthenticationEventKind { Register, SecurityAdmission, Quota, Hashing, Persistence, Dependency, Logout }
-public enum AuthenticationEventOutcome { Admitted, Rejected, Invalid, Confirmed, Conflict, Unavailable, Uncertain, Saturated, RateLimited }
+public enum AuthenticationEventKind { Register, SecurityAdmission, Quota, Hashing, Persistence, Dependency, Logout, Login, Rehash }
+public enum AuthenticationEventOutcome { Admitted, Rejected, Invalid, Confirmed, Conflict, Unavailable, Uncertain, Saturated, RateLimited, Success, RehashUpdated, RehashRaceLost }
 public interface IAuthenticationEvents
 {
     void Record(AuthenticationEventKind kind, AuthenticationEventOutcome outcome);

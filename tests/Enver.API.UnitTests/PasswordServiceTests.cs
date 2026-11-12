@@ -10,6 +10,18 @@ namespace Enver.API.UnitTests;
 
 public sealed class PasswordServiceTests
 {
+    [Fact]
+    public void Uninitialized_dummy_and_saturated_real_KDF_deny_without_creating_per_request_dummy_or_rehash()
+    {
+        var hasher = new PasswordHasher<User>(); var options = PasswordPolicyTests.PolicyOptions(); options.HashingConcurrencyLimit = 1;
+        var o = Options.Create(options); var gate = new HashingConcurrencyGate(o); var dummy = new DummyPasswordHash(hasher);
+        var service = new PasswordService(hasher, new(o), dummy, gate); using var budget = new RequestBudget(8000, default);
+        Assert.Equal(PasswordVerificationStatus.Unavailable, service.VerifyDummy("short", budget)); Assert.False(dummy.IsInitialized);
+        dummy.Initialize(); using var held = gate.TryAcquire(budget); Assert.NotNull(held);
+        Assert.Equal(PasswordVerificationStatus.Unavailable, service.VerifyDummy("short", budget));
+        Assert.Equal(PasswordHashStatus.Unavailable, service.Rehash(Account(), "short", budget).Status);
+    }
+
     private static User Account(string hash = "") => User.Create("Synthetic", "synthetic@uttt.edu.mx", hash, DateTime.UtcNow);
     private static PasswordService Service(IPasswordHasher<User>? hasher = null)
     {

@@ -1041,3 +1041,58 @@ Fuente primaria: salidas de sesión y directorio externo `%LOCALAPPDATA%\Temp\op
 Antes de documentar, comparación de206archivos confirma que durante el reintento solo cambió RegistrationSecurityTests.cs. **Program.cs, JWT038–042, Register productivo, BSON/User/Mongo, Redis protocol/store/Lua ya corregido, capacity5000, timeouts, RequestBudget, connectionpolicy, global.json/rollForward, csproj/cuatro lockfiles intactos;0paquetes nuevos.** El único cambio Redis contraHEAD sigue siendo logicalclock autorizado; no hubo otro fix productivo. Tests/Shared y modificacionesLogout previas se conservan. Tras verde se escriben únicamente task/memoria además del fixST ya validado. Spec/plan, constituciones/foundation, AGENTS/README, agentes/skills intactos; sininstrumentación temporal nueva.
 
 No se acredita058integral/pipelineJWTproductivo final, despliegue, dos máquinas/LB, TLS público, AtlasHA, Redisadministrado, AWS/IAM/ACL/Terraform, failovercontinuidadproductivos ni seguridaduniversal. **AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE**; pérdida totalmente silenciosa no observable residual no eliminada. **Sin stage/commit/push**, HEADbaseconservado. Detener para solicitar checkpointGit posterior, sin iniciarlo ni ejecutar032/Login047–051/058 u otro bloque.
+
+## 53. BUILD autorizado 032 +047–051 — Login y rehash, GATE-E pendiente
+
+### 53.1. Autorización, baseline y decisiones
+
+Solicitud **AUTH FINAL — BUILD 032 +047–051**, secuencia obligatoria032→047→048→049→050→051, focales por fase y regresión completa antes de escribir evidencias. Baseline comprobada: **feature/authentication**, HEAD **597619c0708290dcc749db687905de70171b9555**, árbol limpio, SDK **10.0.403**, Windows local. El checkpointGit de Logout ya existe; el presente bloque no lo modifica ni autoriza otro. **058 excluida, Program.cs intacto, sin stage/commit/push.** Alcance y comandos en [task§74](specs/002-authentication/task.md#login-validacion-final).
+
+Decisiones expresamente aprobadas: PasswordHasher<User> existente, **no BCrypt**; rehash con límites de verificación sin cambiar mínimos Register; **un CAS**, solo Conflict permite **una relectura y una reverificación**, otro SuccessRehashNeeded→503 sin segundo CAS. Disabled verifica hash real,401 genérico, sin rehash/CAS/JWT; NotFound verifica dummy previo una vez, sin segunda lectura. Cuotas conjuntasLogin5/10/60 por60s antes de lookup/KDF segúnD012. Contrato real de IUserStore/MongoUserStore confirmado compatible antes de047, sin modificación productiva silenciosa.
+
+**Excepción explícita posterior:** se pregunta por la inclusión del nuevo archivo Shared en proyectos que enumeran enlaces Compile. El responsable autoriza solo esos enlaces: **una línea en IntegrationTests.csproj y una en SecurityTests.csproj**, sin propiedades, paquetes, versiones o lockfiles; UnitTests.csproj intacto. No se interpreta como permiso general para editar proyectos.
+
+### 53.2. Implementación y evidencias separadas
+
+| Evidencia / estado COMPLETADA LOCAL/TEST | Capacidad acreditada y enlace |
+| --- | --- |
+|**E032**|[Task§75](specs/002-authentication/task.md#e-t-auth-032): PasswordRehashCoordinator, Rehash específico, snapshotActive/proof previo/mismo budget, un CAS _id/hash/status sin upsert y solo hash/updatedAt UTC milisegundos; Conflict acotado, Unavailable/Uncertain503 sin retry/read-back,18UT/10ITRehash y carrerasHTTP.|
+|**E047**|[Task§76](specs/002-authentication/task.md#e-t-auth-047): LoginRequest/Response exactos, LoginInput/Result tipados/LoginAsync, normalizador existente, passwordcorto/Unicode/espacios sin transformaciones, D012 y separación de errores;15UT focales iniciales, ampliadas en32UTLogin.|
+|**E048**|[Task§77](specs/002-authentication/task.md#e-t-auth-048): dummy preinicializado una vez/NotFound jamás autentica, Disabledverificareal sinCAS/JWT,401uniforme/challengeBearerúnico, crypto/readunavailable503 y rehash032;11UTtrait048 y pruebas conKDFreal. No constant-time ni umbral arbitrario.|
+|**E049**|[Task§78](specs/002-authentication/task.md#e-t-auth-049): POST/api/v1/auth/login/AllowAnonymous/metadataLogin,200exacto/no-store, BeginEmissionlease→issuerexistenteuna vez→checksfinales→Complete/Fail; no devuelve token si falla control posterior ni compensa horizonte;6UTemisión yJWT/sesionesA/B reales.050 integrada antes de aceptación.|
+|**E050**|[Task§79](specs/002-authentication/task.md#e-t-auth-050): origin+email5/60,email10/60,origin60/60; evaluación/cargo conjunto único/sinparcial/refund,429yRetryAftermáximo conservador,503si noverificable;6ITy9STesquemas. Un terminalLogin porintento incluidos413/415 sin duplicar aplicación; labels cerrados sin secretos/PII/motivos privados.|
+|**E051**|[Task§80](specs/002-authentication/task.md#e-t-auth-051): LoginTestScope/UT/IT/ST, Mongo/Redis/hasher/dummy/JWT/autoridad existentes reales/locales, contratos/races/dependencias/D012/sesionesLogoutA/Bintacto/seguridad.25ITLogin,62STLogin+9esquemas; regresión completa verde.|
+
+### 53.3. Secuencia, incidencias y regresión
+
+Focales iniciales:032UT25/25 eIT10/10;047UT15/15;048UT36/36;049Login/JWT112/112;050IT5/5 yST20/20.051ITinicial33/33. Se conservan incidencias, sin ocultar runs rojos:
+
+- 049: fallo de compilación del nuevo test por tres argumentos omitidos del estado de autoridad; solo se corrige constructor del test, no el contrato.
+- 051UT57/58: nuevo test descubre inicializaciónLazy por invocación directa de VerifyDummy. Corrección autorizada en PasswordService comprueba IsInitialized antes de acceder; devuelveUnavailable sin generar dummy por request. Preflight ya lo exige. DummyPasswordHash/HashRegister intactos. UTfocal posterior58/58.
+- 051ST65/66: vector surrogateaislado\\uD800 esperaba cargo secundario; JSONestricto no lo materializa y lo declara ilegible. Se corrige solo expectativa a cerocargo, sin relajar Unicode/frontera/producto. STampliada71/71.
+- FocalITampliado34/35: MongoConnectionException en rehashConflict+Success, sin operación original identificada ni defecto productivo acreditado. Se conservan rojo y límites. Marcadores constantes de fase solo en el nuevo test, sin datos sensibles; diagnóstico10/10 y focalITaislado35/35. **Causa histórica no acreditada**; no se atribuye a reloj/carga ni se cambian timeouts/retries/sleeps.
+- xUnit2031histórico de LogoutTests:166 aparece al recompilarUT; no se corrige. Buildfinalincremental0warnings no afirma eliminación de ese warning en rebuild.
+
+| Regresión completa final secuencial | Resultado |
+| --- | --- |
+|Restore solución --locked-mode|Correcto;cuatro lockfiles idénticos a baseline.|
+|Build solución --no-restore|**0warnings/0errores,13,29s**.|
+|UT completas|**684/684,0failed/0skipped,6s**.|
+|IT completas|**294/294,0failed/0skipped,11min6s**.|
+|ST completas|**223/223,0failed/0skipped,2min51s**.|
+
+Fuente primaria: `%LOCALAPPDATA%\Temp\opencode\login-build-20261111-173108`, logs/TRX de todas las etapas y manifiestos. **219/219 archivos idénticos durante restore/build/regresión** (206baseline+13nuevos). Desglose y comandos en task§74.3. Regresiones verdes: Register32IT/13UT/RegistrationSecurity11, Composition7, JWTCheckpoint5/JwtPolicy80/TokenValidation36; **Logout42IT/37UT/26ST; Redisclock26/capacity2IT**. RegisterUnavailable/Uncertain,201yOrigin20/900 pasan; no se explica retrospectivamente el EqualException previo. No se repiten/aumentan las diez rondas históricas de capacidad de§52/task§68.
+
+### 53.4. Integridad, límites y detención
+
+**13 archivos creados,18 técnicos modificados y solo task/memoria documentados tras verde:33 archivos en total**, todos sin staging. Inventario porcomponente en task§74.4 y evidencias. Los dos csproj cambian exclusivamente +1/-0 por enlace autorizado; **0paquetes nuevos**. Tests históricos de composición/JWT reconocen ruta preparada sin acreditar058; RegistrationSecurity mantiene familias cerradas, no un cartesiano universal.
+
+Verificación final: únicamente task/memoria cambian tras regresión, otros217 archivos idénticos; **git diff --check exit0** (solo avisos LF→CRLF), nuevos archivos sin whitespace final. **git status20M/13??,0staged**, rama/HEADconservados; capturas `final-diff-check.log`/`final-git-status.txt` en el directorio externo indicado. Sin commit/push.
+
+**Program.cs, spec.md, plan.md, constituciones/001, AGENTS/README, global.json, solución, Enver.API.csproj/UnitTests.csproj, cuatro lockfiles, opciones/appsettings, timeouts, RequestBudget, hashingconcurrency, capacity5000, MongoUserStore/IUserStore/User/BSON/índices, Redisstore/protocolo/Lua(logicalclockincluido), JWT038–042 productivo, Docker/CI/AWS/Terraform intactos.** No subagentes/skills nuevos/invocados ni cambios fuera del bloque. Un observador de eventos Login en composición cubre rechazos de frontera; no activa autenticación JWT productiva ni modifica Program.
+
+Los hosts de TestServer componen JWT explícitamente solo-test y comparten Mongo/Redis/DynamoDBLocal con estado local independiente. MapControllers descubre Login preparado: no se promete invisibilidad ni despliegue autorizado. Incertidumbre porprobe oculta confirmación real, no pérdida físicaACK; privacidad probada solo en canalescapturados. No dosmáquinas/LB/TLSpúblico/AtlasHA/Redisadministrado/AWS/IAM/ACL/Terraform/failoverproductivo ni garantía universal temporal o de seguridad.
+
+**032/047/048/049/050/051 COMPLETADAS / EVIDENCIA REGISTRADA — LOCAL/TEST REPRESENTATIVO. GATE-E PENDIENTE / NO SATISFECHO por058;058 PENDIENTE / NO EJECUTADA, NO IMPLEMENTADA.** GATE-B **CERRADO / EVIDENCIA CORRECTIVA CONSOLIDADA**; GATE-D/F y checkpointE-JWT conservan cierres; A/C conservados, G/Hpendientes,008mantiene startupproductivopendiente y058–079son22tareasnoejecutadas. **Authentication NO TERMINADA; AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE**, pérdida totalmente silenciosa noobservable residual no eliminada.
+
+**Sin stage/commit/push**, HEAD **597619c0708290dcc749db687905de70171b9555** conservado; árbol con cambios autorizados sin staging. **Detener**, sin058, otro incremento, pipeline productivo final o checkpointGit automático.

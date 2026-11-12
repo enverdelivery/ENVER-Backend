@@ -6,11 +6,71 @@ using Enver.API.Http;
 
 namespace Enver.API.Features.Authentication.Application;
 
-/// <summary>Un intento, una cuota conjunta, una inserción; sin lectura previa, retry, token o compensación.</summary>
+/// <summary>Casos de uso de autenticación. Cuotas conjuntas; sin retries de intentos ni compensación.</summary>
 public sealed class AuthenticationService(IRegisterAdmission admission, IRegisterQuota quotas,
     InstitutionalEmailNormalizer email, AuthenticationInputValidator validator, IPasswordService passwords,
-    IUserStore users, IAuthenticationEvents events, ILogoutControls logout, ITokenRevocationStore revocations)
+    IUserStore users, IAuthenticationEvents events, ILogoutControls logout, ITokenRevocationStore revocations, ILoginControls login,
+    ILoginTokenIssuer tokens)
 {
+    public async ValueTask<LoginResult> LoginAsync(LoginInput input, AuthenticationCanonicalOrigin? origin, RequestBudget budget)
+    {
+        LoginResult? result = null;
+        try { result = await LoginCoreAsync(input, origin, budget).ConfigureAwait(false); return result; }
+        finally
+        {
+            events.Record(AuthenticationEventKind.Login, result?.Status switch
+            {
+                LoginStatus.Issued => AuthenticationEventOutcome.Success,
+                LoginStatus.ValidationFailed or LoginStatus.AuthenticationFailed => AuthenticationEventOutcome.Rejected,
+                LoginStatus.RateLimited => AuthenticationEventOutcome.RateLimited,
+                _ => result?.Uncertain == true ? AuthenticationEventOutcome.Uncertain : AuthenticationEventOutcome.Unavailable
+            });
+        }
+    }
+
+    private async ValueTask<LoginResult> LoginCoreAsync(LoginInput input, AuthenticationCanonicalOrigin? origin, RequestBudget budget)
+    {
+        ArgumentNullException.ThrowIfNull(input);
+        if (budget.Cause != BudgetCancellationCause.None) return new(LoginStatus.Unavailable);
+        var security = await login.CheckAsync(budget).ConfigureAwait(false);
+        if (!security.CanContinue || origin is null || budget.Cause != BudgetCancellationCause.None)
+            return new(LoginStatus.Unavailable, uncertain: security.Admission == AuthenticationSecurityAdmission.Uncertain);
+        if (!input.ReadableBody) return new(LoginStatus.ValidationFailed, invalidFields: [AuthenticationValidationField.Body]);
+        if (!email.TryNormalize(input.Email, out var normalized))
+            return new(LoginStatus.ValidationFailed, invalidFields: [AuthenticationValidationField.Email]);
+        var quota = await login.ConsumeAsync(normalized!, origin, budget).ConfigureAwait(false);
+        if (budget.Cause != BudgetCancellationCause.None) return new(LoginStatus.Unavailable);
+        if (quota.Status == AuthenticationQuotaStoreStatus.Rejected) return new(LoginStatus.RateLimited, retryAfter: quota.RetryAfter);
+        if (quota.Status != AuthenticationQuotaStoreStatus.Admitted)
+            return new(LoginStatus.Unavailable, uncertain: quota.Status == AuthenticationQuotaStoreStatus.Uncertain);
+        var invalid = input.InvalidFields.ToList();
+        if (!validator.IsValidLoginSecret(input.Password)) invalid.Add(AuthenticationValidationField.Password);
+        if (invalid.Count > 0) return new(LoginStatus.ValidationFailed, invalidFields: invalid.Distinct().ToArray());
+        var read = await users.FindByNormalizedEmailAsync(normalized!, budget).ConfigureAwait(false);
+        if (budget.Cause != BudgetCancellationCause.None || read.Status == UserReadStatus.Unavailable) return new(LoginStatus.Unavailable);
+        if (read.Status == UserReadStatus.NotFound)
+        {
+            var dummy = passwords.VerifyDummy(input.Password!, budget);
+            return new(dummy == PasswordVerificationStatus.Unavailable || budget.Cause != BudgetCancellationCause.None
+                ? LoginStatus.Unavailable : LoginStatus.AuthenticationFailed);
+        }
+        var check = passwords.Verify(read.User!, input.Password!, budget);
+        if (budget.Cause != BudgetCancellationCause.None || check == PasswordVerificationStatus.Unavailable) return new(LoginStatus.Unavailable);
+        if (read.User!.Status == UserStatus.Disabled || check == PasswordVerificationStatus.Failed) return new(LoginStatus.AuthenticationFailed);
+        if (check == PasswordVerificationStatus.SuccessRehashNeeded)
+        {
+            var rehash = await new PasswordRehashCoordinator(users, passwords).ResolveAsync(read.User, check, input.Password!, budget).ConfigureAwait(false);
+            if (rehash.Updated) events.Record(AuthenticationEventKind.Rehash, AuthenticationEventOutcome.RehashUpdated);
+            if (rehash.RaceLost) events.Record(AuthenticationEventKind.Rehash, AuthenticationEventOutcome.RehashRaceLost);
+            if (rehash.Status != PasswordRehashStatus.Verified)
+                return new(rehash.Status == PasswordRehashStatus.Rejected ? LoginStatus.AuthenticationFailed : LoginStatus.Unavailable, uncertain: rehash.Uncertain);
+        }
+        if (budget.Cause != BudgetCancellationCause.None) return new(LoginStatus.Unavailable);
+        var issued = await tokens.IssueAsync(read.User.Id, budget).ConfigureAwait(false);
+        return issued?.Status == AccessTokenIssueStatus.Issued && issued.AccessToken is not null && budget.Cause == BudgetCancellationCause.None
+            ? new(LoginStatus.Issued, accessToken: issued.AccessToken) : new(LoginStatus.Unavailable);
+    }
+
     public async ValueTask<LogoutResult> LogoutAsync(LogoutInput input, AuthenticationCanonicalOrigin? origin,
         bool emptyBody, RequestBudget budget)
     {

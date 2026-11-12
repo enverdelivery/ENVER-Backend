@@ -32,7 +32,7 @@ public sealed class AuthenticationDependencyCompositionTests(AuthenticationDepen
     };
 
     [Fact]
-    public async Task Real_host_resolves_singletons_and_real_adapters_without_bootstrapping_security_or_publishing_login_logout()
+    public async Task Real_host_resolves_singletons_real_adapters_and_prepared_routes_without_bootstrapping_or_productive_JWT()
     {
         await using var authority = await OwnedCompositionAuthority.CreateAsync(fixture, open: false);
         var config = Configuration();
@@ -63,7 +63,12 @@ public sealed class AuthenticationDependencyCompositionTests(AuthenticationDepen
     {
         var endpoints = services.GetRequiredService<Microsoft.AspNetCore.Routing.EndpointDataSource>().Endpoints
             .OfType<Microsoft.AspNetCore.Routing.RouteEndpoint>().ToArray();
-        Assert.DoesNotContain(endpoints, e => e.RoutePattern.RawText == "api/v1/auth/login");
+        var login = Assert.Single(endpoints, e => e.RoutePattern.RawText == "api/v1/auth/login");
+        Assert.NotNull(login.Metadata.GetMetadata<Microsoft.AspNetCore.Authorization.IAllowAnonymous>());
+        Assert.Equal(AuthenticationOperation.Login, login.Metadata.GetMetadata<AuthenticationRequestMetadata>()!.Operation);
+        Assert.Equal(new[] { "POST" }, login.Metadata.GetMetadata<Microsoft.AspNetCore.Routing.HttpMethodMetadata>()!.HttpMethods);
+        Assert.NotNull(services.GetRequiredService<ILoginControls>());
+        Assert.NotNull(services.GetRequiredService<ILoginTokenIssuer>());
         var logout = Assert.Single(endpoints, e => e.RoutePattern.RawText == "api/v1/auth/logout");
         Assert.Equal(AuthenticationPolicies.Logout, Assert.Single(logout.Metadata.GetOrderedMetadata<Microsoft.AspNetCore.Authorization.IAuthorizeData>()).Policy);
         Assert.Equal(new[] { "POST" }, logout.Metadata.GetMetadata<Microsoft.AspNetCore.Routing.HttpMethodMetadata>()!.HttpMethods);
@@ -73,7 +78,7 @@ public sealed class AuthenticationDependencyCompositionTests(AuthenticationDepen
         if (schemes is not null) Assert.DoesNotContain(await schemes.GetAllSchemesAsync(), s => s.Name == AuthenticationPolicies.Scheme);
         Assert.Null(client.DefaultRequestHeaders.Authorization);
         using var missingLogin = await client.PostAsync("/api/v1/auth/login", null);
-        Assert.Equal(HttpStatusCode.NotFound, missingLogin.StatusCode);
+        Assert.Equal(HttpStatusCode.UnsupportedMediaType, missingLogin.StatusCode);
         using var missingBearer = await client.PostAsync("/api/v1/auth/logout", null);
         Assert.Equal(HttpStatusCode.Unauthorized, missingBearer.StatusCode);
         Assert.Equal("Bearer", Assert.Single(missingBearer.Headers.GetValues("WWW-Authenticate")));

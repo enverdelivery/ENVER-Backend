@@ -12,6 +12,46 @@ namespace Enver.API.Controllers;
 [Route("api/v1/auth")]
 public sealed class AuthenticationController(AuthenticationService authentication, IAuthenticationOriginProvider origins) : ControllerBase
 {
+    [AllowAnonymous]
+    [HttpPost("login")]
+    public async Task Login()
+    {
+        var boundary = HttpContext.Features.Get<AuthenticationBoundaryResult>();
+        var budget = HttpContext.Features.Get<RequestBudget>();
+        if (boundary?.Operation != AuthenticationOperation.Login || budget is null)
+        { await ApiProblemDetails.TryWriteAsync(HttpContext, 503); return; }
+        LoginInput input;
+        if (!boundary.JsonReadable) input = new(null, null, readableBody: false);
+        else
+        {
+            using var document = await JsonDocument.ParseAsync(Request.Body, cancellationToken: budget.Token);
+            var root = document.RootElement;
+            string? Text(string field) => root.TryGetProperty(field, out var value) && value.ValueKind == JsonValueKind.String ? value.GetString() : null;
+            // No MVC body binding: secundarios inválidos conservan cuota; JSON ilegible nunca crea buckets.
+            input = new(Text("email"), Text("password"), invalidFields: boundary.InvalidFields.Select(field => field switch
+            {
+                ApiErrorField.Email => Enver.API.Features.Authentication.Validation.AuthenticationValidationField.Email,
+                ApiErrorField.Password => Enver.API.Features.Authentication.Validation.AuthenticationValidationField.Password,
+                _ => Enver.API.Features.Authentication.Validation.AuthenticationValidationField.Body
+            }).ToArray());
+        }
+        var origin = origins.Resolve(HttpContext).Origin;
+        if (HttpContext.Features.Get<LoginAttemptEvents>() is { } attempt) attempt.HandedToApplication = true;
+        var result = await authentication.LoginAsync(input, origin, budget);
+        if (result.Status == LoginStatus.Issued)
+        {
+            Response.StatusCode = 200; Response.Headers.CacheControl = "no-store";
+            await Response.WriteAsJsonAsync(new LoginResponse(result.AccessToken!), budget.Token); return;
+        }
+        var status = result.Status switch
+        {
+            LoginStatus.ValidationFailed => 400, LoginStatus.AuthenticationFailed => 401,
+            LoginStatus.RateLimited => 429, _ => 503
+        };
+        await ApiProblemDetails.TryWriteAsync(HttpContext, status,
+            result.InvalidFields.Select(AuthenticationValidationCoordinator.ToApi), result.RetryAfter);
+    }
+
     [Authorize(Policy = AuthenticationPolicies.Logout)]
     [HttpPost("logout")]
     public async Task Logout()

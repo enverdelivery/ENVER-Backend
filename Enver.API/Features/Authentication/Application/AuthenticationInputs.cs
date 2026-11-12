@@ -4,6 +4,18 @@ using Enver.API.Security;
 
 namespace Enver.API.Features.Authentication.Application;
 
+/// <summary>Credencial efímera. No serializar ni conservar fuera del intento.</summary>
+public sealed class LoginInput(string? email, string? password, bool readableBody = true,
+    IReadOnlyList<Enver.API.Features.Authentication.Validation.AuthenticationValidationField>? invalidFields = null)
+{
+    public string? Email { get; } = email;
+    public string? Password { get; } = password;
+    public bool ReadableBody { get; } = readableBody;
+    public IReadOnlyList<Enver.API.Features.Authentication.Validation.AuthenticationValidationField> InvalidFields { get; } =
+        invalidFields?.ToArray() ?? [];
+    public override string ToString() => nameof(LoginInput);
+}
+
 /// <summary>Datos efímeros. Nunca registrar/serializar como evento, ni conservar después de la operación.</summary>
 public sealed class RegisterInput(string? fullName, string? email, string? password, bool readableBody = true)
 {

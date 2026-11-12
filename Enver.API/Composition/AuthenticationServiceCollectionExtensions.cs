@@ -44,6 +44,7 @@ public static class AuthenticationServiceCollectionExtensions
         app.UseExceptionHandler();
         app.UseAuthenticationTransport();
         app.UseRouting();
+        app.Use(LoginAttemptEvents.ObserveAsync);
         app.UseMiddleware<AuthenticationRequestLimitsMiddleware>();
         return app;
     }
@@ -61,6 +62,10 @@ public static class AuthenticationServiceCollectionExtensions
         services.AddSingleton<DummyPasswordHash>();
         services.AddSingleton<HashingConcurrencyGate>();
         services.AddSingleton<IPasswordService, PasswordService>();
+        services.AddSingleton(p => new JwtKeyRing(p.GetRequiredService<IOptions<JwtOptions>>().Value,
+            p.GetRequiredService<IOptions<RateLimitingOptions>>().Value));
+        services.AddSingleton<IAccessTokenIssuer>(p => new JwtTokenIssuer(p.GetRequiredService<JwtKeyRing>(), TimeProvider.System));
+        services.AddSingleton<ILoginTokenIssuer, LoginTokenIssuer>();
 
         services.AddSingleton(p => new MongoClientFactory(p.GetRequiredService<IOptions<MongoDbOptions>>().Value));
         services.AddSingleton<IMongoClient>(p => p.GetRequiredService<MongoClientFactory>().Client);
@@ -92,6 +97,7 @@ public static class AuthenticationServiceCollectionExtensions
         services.AddSingleton<IRegisterAdmission, RegisterAdmission>();
         services.AddSingleton<IRegisterQuota, RegisterQuota>();
         services.AddSingleton<ILogoutControls, LogoutControls>();
+        services.AddSingleton<ILoginControls, LoginControls>();
         services.AddSingleton<ITokenRevocationStore>(p => new RedisTokenRevocationStore(p.GetRequiredService<RedisConnections>(),
             p.GetRequiredService<IAuthenticationSecurityState>(), p.GetRequiredService<IOptions<RedisOptions>>().Value));
         services.AddSingleton<IAuthenticationEvents, AuthenticationEvents>();
@@ -99,6 +105,7 @@ public static class AuthenticationServiceCollectionExtensions
         services.AddScoped<IAuthenticationBoundaryContinuation, RegisterBoundaryContinuation>();
         services.Configure<Microsoft.AspNetCore.Mvc.MvcOptions>(options => options.Conventions.Add(new RegisterEndpointConvention()));
         services.Configure<Microsoft.AspNetCore.Mvc.MvcOptions>(options => options.Conventions.Add(new LogoutEndpointConvention()));
+        services.Configure<Microsoft.AspNetCore.Mvc.MvcOptions>(options => options.Conventions.Add(new LoginEndpointConvention()));
         return services;
     }
 }

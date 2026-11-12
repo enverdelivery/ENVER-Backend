@@ -35,7 +35,8 @@ public sealed class RegistrationSecurityTests
     public void Structured_events_only_accept_closed_enums_and_emit_no_request_labels()
     {
         var logger = new Capture(); var events = new AuthenticationEvents(logger);
-        foreach (var kind in Enum.GetValues<AuthenticationEventKind>().Where(kind => kind != AuthenticationEventKind.Logout))
+        foreach (var kind in new[] { AuthenticationEventKind.Register, AuthenticationEventKind.SecurityAdmission,
+                     AuthenticationEventKind.Quota, AuthenticationEventKind.Hashing, AuthenticationEventKind.Persistence, AuthenticationEventKind.Dependency })
             foreach (var outcome in Enum.GetValues<AuthenticationEventOutcome>()) events.Record(kind, outcome);
         Assert.NotEmpty(logger.Keys);
         Assert.All(logger.Keys, keys => Assert.Equal(new[] { "Kind", "Operation", "Outcome", "{OriginalFormat}" }.Order(), keys.Order()));

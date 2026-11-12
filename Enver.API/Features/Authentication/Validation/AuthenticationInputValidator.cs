@@ -8,6 +8,8 @@ public sealed class AuthenticationInputValidator(InstitutionalEmailNormalizer em
 {
     private readonly int maxName = options.Value.FullNameMaxUnicodeScalars;
 
+    public bool IsValidLoginSecret(string? secret) => password.IsBoundedForVerification(secret);
+
     public bool TryNormalizeFullName(string? input, out string? fullName)
     {
         fullName = null;

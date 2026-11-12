@@ -4,6 +4,22 @@ namespace Enver.API.Features.Authentication.Application;
 
 public enum RegistrationStatus { Confirmed, ValidationFailed, Conflict, RateLimited, Unavailable }
 
+public enum LoginStatus { Issued, ValidationFailed, AuthenticationFailed, RateLimited, Unavailable }
+
+/// <summary>Resultado interno; nunca serializar automáticamente ni registrar el access token.</summary>
+public sealed class LoginResult
+{
+    internal LoginResult(LoginStatus status, string? accessToken = null,
+        IReadOnlyList<AuthenticationValidationField>? invalidFields = null, TimeSpan? retryAfter = null, bool uncertain = false)
+    { Status = status; AccessToken = accessToken; InvalidFields = invalidFields?.ToArray() ?? []; RetryAfter = retryAfter; Uncertain = uncertain; }
+    public LoginStatus Status { get; }
+    public string? AccessToken { get; }
+    public IReadOnlyList<AuthenticationValidationField> InvalidFields { get; }
+    public TimeSpan? RetryAfter { get; }
+    public bool Uncertain { get; }
+    public override string ToString() => nameof(LoginResult);
+}
+
 public enum LogoutStatus { Confirmed, ValidationFailed, RateLimited, Unavailable }
 
 public sealed class LogoutResult
