@@ -4,19 +4,20 @@
 
 | Campo | Valor |
 | --- | --- |
-| Versión / fecha | 0.15.0 / 2026-11-12 |
-| Solicitud inicial / incremento actual | Antecedentes §§6–18; INFRA-4 ECR — VALIDAR LISTIMAGES + CHECKPOINT POST-APPLY / VALIDACIÓN + GIT CHECKPOINT, sin apply ni push (§19) |
+| Versión / fecha | 0.18.0 / 2026-11-12 |
+| Solicitud inicial / incremento actual | Antecedentes §§6–21; CHECKPOINT PRIMERA IMAGEN ECR PUBLICADA / GIT CHECKPOINT CONTROLADO; publicación/pull/scanning informados por responsable, sin nuevas operaciones AWS/Docker/Terraform (§22) |
 | Fuentes | [spec.md](spec.md) y [plan.md](plan.md), propuesta aprobada como base documental |
 | Catálogo | 30 tareas, T-INFRA-001 a T-INFRA-030 |
-| Estado vigente de tareas | 001/002 conservan estado parcial; 003–007 PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE; 008 PARCIAL / REVISIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE; 025 PARCIAL / VALIDACIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE; otras 21 PENDIENTE / NO EJECUTADA |
+| Estado vigente de tareas | 001/002 conservan estado parcial; 003–007 PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE; 008 PARCIAL / publicación, digest y pull acreditados según responsable, scanning final/rollback/aceptación pendientes (§22); 025 PARCIAL / VALIDACIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE; otras 21 PENDIENTE / NO EJECUTADA |
 | Estado de todos los gates | **PENDIENTE / NO SATISFECHO** |
-| Evidencia de ejecución de 003 | §14 red creada; §18 ECR repository/lifecycle creados, apply exit 0 y post-plan 0/0/0, red14+ECR2 no-op. §19 ListImages exit 0 / imageIds=[]: 0 imágenes / ningún digest; repository/lifecycle reconfirmados, fmt/validate exit 0. State serial18/16managed y backup local conservados; aceptación integral pendiente |
+| Evidencia de ejecución de 003 | §§18–21 conservan provisión, build y bloqueo inicial del token. §22 registra publicación posterior informada por responsable: tag git-3312d220e3ff, digest ECR, push/pull exit 0, 1 tag/3 objetos OCI, scanning linux/amd64 IN_PROGRESS y rollback pendiente. Sin nueva verificación cloud en este checkpoint; state/planes conservados y gates abiertos |
 | Baseline documental original | `feature/authentication`, `c58ea86e3eddff4befa8f61398dd58d55c4ef985` |
 | Baseline del BUILD actual | `feature/infrastructure`, creada desde `3b4760ea8387b1cabff56e5f5e0ba5ffe8acb932`, árbol inicialmente limpio |
 | Checkpoint previo a INFRA-2/3 | `feature/infrastructure`, `611071f0ecb0d6cb67993f4e9bffd00d328a2f90`, árbol limpio al iniciar §9 |
 | Checkpoint previo a preparación IAM apply | `feature/infrastructure`, `f1a98a01e15c67297287133c27dc23279a649d09`, árbol limpio al iniciar §12 |
 | Checkpoint pre-apply | `feature/infrastructure`, `0958e83b887a73e1bdae2ff8b25753f5a52d0f0c`, árbol limpio/0 staged al iniciar §14 |
 | Checkpoint pre-apply ECR | `feature/infrastructure`, `2626fb10eb9b7c128c6422e92598ca9f0e78e72c`, árbol limpio/0 staged al iniciar §18 |
+| Checkpoint post-apply ECR / baseline de publicación local | `feature/infrastructure`, `3312d220e3ff68851befc59e9a7cfa516185bdc8`, árbol limpio/0 staged al iniciar §20 |
 
 Crear este catálogo **no autoriza ejecutar tareas**, cambiar código/configuración/Docker/tests, crear `infra/`, recursos AWS/Atlas, workflows o secretos, ni correr Terraform. No stage/commit/push. Los únicos archivos de esta entrega son los tres Markdown de 003. La autorización previa de la propuesta es documental, no habilita cargos ni credenciales.
 
@@ -43,6 +44,12 @@ La solicitud posterior **INICIALIZAR BACKEND LOCAL + PLAN INFRA-2/3 / VALIDACIÓ
 **INFRA-4 ECR — APPLY CONTROLADO** autoriza después generar/revisar un plan fresco guardado de exactamente dos altas ECR y aplicarlo sin regenerar/HCL cambiado, seguido de post-plan y lecturas ECR (§18). Red14 debe ser no-op; solo task/memoria como ediciones versionables, sin push de imagen, IAM modificado, workloads, destroy/import o Git stage/commit/push. Autorización puntual no acepta dependencias/gates ni ejecución integral de026–028. Prohibiciones de apply en §§15–17 conservadas como historial; no se reutilizan sus planes ni se reforma spec/plan.
 
 **VALIDAR LISTIMAGES + CHECKPOINT POST-APPLY** autoriza posteriormente STS/ListImages/DescribeRepositories/GetLifecyclePolicy, fmt-check/validate, sincronizar únicamente ListImages en JSON local, actualizar task/memoria y stage/commit de esos tres archivos (§19). Responsable informa IAM remoto actualizado manualmente; el agente no modifica IAM. Sin nuevo plan/apply, Docker push, push Git, workloads o aceptación automática de tareas/gates.
+
+**PREPARAR PUBLICACIÓN CONTROLADA DE IMAGEN ECR** autoriza después revisar SDD/Dockerfile intacto, build local desde HEAD3312d220 con tag por SHA, crear únicamente publisher JSON separado, documentar flujo futuro y ejecutar fmt-check/validate (§20). No modificar provisioning/HCL/producto, AWS/IAM remoto, Docker credentials ni ejecutar login/push, plan/apply, pruebas, CI/OIDC o stage/commit/push. No acepta contratos/dependencias/gates por inferencia.
+
+**VALIDAR PUBLISHER + PUBLICAR PRIMERA IMAGEN ECR** autoriza posteriormente identidad/ListImages, validar policy e imagen exacta, login/tag/un solo push de git-3312d220e3ff, lecturas digest/scanning y pull de la misma imagen por digest solo si permisos permiten, sin contenedor iniciado (§21). No reconstruir, segundo tag/push, IAM modificado, Terraform apply/destroy/import, workloads, OIDC ni Git stage/commit/push. AccessDenied exige detenerse, no ampliar IAM/reintentar. El intento quedó bloqueado en token antes de cualquier publicación; no se consume autorización para repetir a ciegas o pasar al siguiente paso.
+
+**CHECKPOINT PRIMERA IMAGEN ECR PUBLICADA** autoriza después revisar/sincronizar evidencia comunicada por responsable, seguridad/exclusiones y stage/commit únicamente de publisher JSON/task/memoria (§22). No nuevas operaciones AWS/Docker/Terraform ni cambios IAM; sin push Git, amend/squash/merge/rebase o cierre de gates. No atribuir al agente una publicación posterior que esta sesión no ejecutó/verificó; conservar cronología del bloqueo§21.
 
 Aplican [constitución](../../.specify/memory/constitution.md), [001](../001-backend-foundation/spec.md), [002](../002-authentication/spec.md) y el cierre local de [002 task §§82–84](../002-authentication/task.md). No se cierran GATE-G/H de 002 ni AUTH-027 integralmente.
 
@@ -74,7 +81,7 @@ Todos los gates de esta tabla están **PENDIENTE / NO SATISFECHO**. Los prerrequ
 | GATE-I-H | Infra cloud reproducible: IaC revisada, state protegido, drift/reproducción/rollback y evidencia verificable | E(002), E(008), E(025–030) | GATE-I-A a GATE-I-G | AC-I-12, 13, 15 |
 | GATE-I-I | URL HTTPS pública sirve Register/Login/Logout desde dos instancias, controles distribuidos y negativos verificados; deploy manual trazable | E(027–030) y contrato aprobado 004 | GATE-I-A a GATE-I-H | AC-I-13–15 |
 
-Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las cuatro evidencias. §§6–19 registran solo los resultados y límites efectivamente acreditados; ninguna E parcial satisface por sí sola un gate. I-H/I-I no implican SLA, producción lista ni cierre automático de AUTH-027 o gates de 002.
+Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las cuatro evidencias. §§6–22 registran resultados y límites distinguiendo observación directa/evidencia informada; ninguna E parcial satisface por sí sola un gate. I-H/I-I no implican SLA, producción lista ni cierre automático de AUTH-027 o gates de 002.
 
 ## 4. Catálogo de tareas
 
@@ -180,12 +187,14 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Aceptación:** configuración revisada y output no secreto; no imágenes publicadas ni registry creado por la preparación.
 - **Evidencia:** E(T-INFRA-007), revisión IaC y contrato de permisos/retención.
 - **Resultado actual:** §18 acredita repository real enver-dev-api/lifecycle creados con apply exacto 2/0/0 exit 0 y post-plan 0/0/0; red14+ECR2 no-op. §19 reconfirma URI/ARN, IMMUTABLE/AES256/repository scanOnPush=true y regla solo untagged >14 días; ListImages ahora exit 0 / imageIds=[]: 0 imágenes, ningún digest en ese repository al consultar. Registry BASIC/rules=[] observado en§18, no consultado otra vez ni prueba de scanning de imagen. JSON local sincroniza solo ListImages tras actualización manual remota informada. Avance cloud real, sin probar destroy/rollback o imagen escaneada ni aceptar dependencias002/005/025, retención/contrato/DP-I-14. Estado PARCIAL conservado, no mera definición ni COMPLETADA.
+- **Revalidación pre-push:** §21 ListImages exit 0 confirma otra vez imageIds=[]/0 imágenes antes del intento de token denegado; sin push ni cambios de configuración. Conserva PARCIAL y aceptación pendiente, no se acredita imagen/digest/scanning.
+- **Actualización posterior:** §22 registra primera publicación y pull por digest informados por responsable, 1 tag/3 objetos OCI y scanning linux/amd64 IN_PROGRESS. No verificación cloud nueva de repository/configuración ni aceptación de dependencias/retención/contrato; T-INFRA-007 permanece PARCIAL / aceptación pendiente.
 - **Riesgo:** borrado del digest de rollback, tags mutables o permisos amplios.
 - **Gate asociado:** GATE-I-C, GATE-I-H.
 
 ### T-INFRA-008 — Contrato de imagen y ownership del digest
 
-- **Estado:** PARCIAL / REVISIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE.
+- **Estado:** PARCIAL / PUBLICACIÓN, DIGEST Y PULL ACREDITADOS SEGÚN RESPONSABLE; SCANNING FINAL, ROLLBACK Y ACEPTACIÓN PENDIENTES (§22).
 - **Fase:** INFRA-4 Registry.
 - **Objetivo:** garantizar mismo artefacto reproducible y promoverlo manualmente desde 004.
 - **Dependencias:** T-INFRA-007; DP-I-02/14, contrato aprobado con futura 004.
@@ -194,8 +203,11 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Acciones futuras:** revisar Dockerfile existente, .NET 10/non-root/configuración; definir commit→digest→CI verde, writer único del digest y retención previa. Solicitar aparte cualquier cambio Docker necesario.
 - **Aceptación:** contrato aprobado de artefacto inmutable idéntico en A/B y deploy workflow_dispatch tras CI verde; sin build, push o YAML implícitos.
 - **Evidencia:** E(T-INFRA-008), contrato y revisión documental de imagen.
-- **Resultado actual:** §15 registra Dockerfile intacto, build local autorizado exit 0, metadatos linux/amd64, .NET/ASP.NET 10.0.12, USER 1654 non-root, HTTP_PORTS=8080 y ENTRYPOINT dotnet Enver.API.dll. Sin arranque, push/digest ECR ni CI acreditados. Contrato URI@digest y propuesta de escritor único 004 documentados aquí sin modificar plan; aprobación DP-I-02/14/004, bases fijadas por digest, evidencia de seguridad y aceptación pendientes. No COMPLETADA.
+- **Revisión inicial:** §15 registra Dockerfile intacto, build local autorizado exit 0, metadatos linux/amd64, .NET/ASP.NET 10.0.12, USER 1654 non-root, HTTP_PORTS=8080 y ENTRYPOINT dotnet Enver.API.dll. En aquella entrega sin arranque, push/digest ECR ni CI acreditados. Contrato URI@digest y propuesta de escritor único 004 documentados aquí sin modificar plan; aprobación DP-I-02/14/004, bases fijadas por digest, evidencia de seguridad y aceptación pendientes. No COMPLETADA.
 - **Extensión observada:** §18 crea repository/lifecycle sin publicar imagen/tag; §19 supera la denegación ListImages con exit 0 y acredita repository vacío: 0 imágenes/ningún digest al consultar. Siguen faltando publicación/digest/validación ECR de imagen/CI/rollback por digest y aceptación contractual. T-INFRA-008 permanece PARCIAL, sin repetir build o modificar Dockerfile/004.
+- **Preparación posterior:** §20 acredita otro build local desde HEAD3312d220 limpio, tag **enver-api:git-3312d220e3ff**, exit 0, Linux/amd64/non-root1654/.NET10.0.12, y prepara publisher JSON separado/no aplicado. Flujo futuro login/push/digest/scanning documentado, no ejecutado. Pendientes policy aplicada/login/push/digest/scanning/pull por digest/rollback y contrato/ownership/004; PARCIAL conservado, sin modificar Dockerfile o provisioning.
+- **Intento autorizado posterior:** §21 publisher creada/adjunta manualmente según responsable, JSON/hash intactos y local image ID/plataforma coinciden. STS/ListImages exit 0/0 imágenes, pero **GetAuthorizationToken exit 254/AccessDenied** en Resource=*, sin Docker login/tag/push/reintento/IAM modificado. Adjunción informada no acredita permiso efectivo: publicación/digest/scanning/pull/rollback y aceptación integral siguen pendientes. Conserva PARCIAL con bloqueo operativo explícito; no COMPLETADA.
+- **Resultado vigente:** §22 registra evidencia posterior **informada por responsable**: push/pull por digest exit 0, tag git-3312d220e3ff y digest ECR **sha256:0a0fceb5ab9e71e09db4a1ee7326dc59993d40266f144259f0d02bc6c9802cda**, pushedAt **2026-11-12T21:36:45.185000Z**, tamaño **101033417bytes**; 1 tag y3objetos OCI, no3versiones. Scanning **IN_PROGRESS** para linux/amd64, sin conteos de findings disponibles; rollback pendiente por ausencia de digest anterior. Publicación/digest/pull acreditados según esa fuente, no ejecutados ni revalidados por el agente en el checkpoint. Scanning final/rollback/seguridad/reproducibilidad/contrato004/aceptación integral pendientes; PARCIAL conservado.
 - **Riesgo:** drift Terraform/CD, imagen no rastreable o secretos en capas.
 - **Gate asociado:** GATE-I-C, GATE-I-H, GATE-I-I.
 
@@ -439,6 +451,9 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Revalidación posterior:** §17 registra fmt-check/validate exit 0 y un nuevo plan guardado 2/0/0 exit 2, sin AccessDenied de Terraform; networking14 no-op, HCL/policy/lock/state persistido intactos. La lectura CLI de listado general denegada se conserva aparte; no cierre de dependencias/custodia/backup/recovery/E025 integral.
 - **Apply acotado posterior:** §18 registra fmt-check/validate exit 0, plan fresco guardado 2/0/0 exit 2, apply de ese archivo exit 0 y post-plan 0/0/0 exit 0; 16managed no-op. State serial18 y backup local serial15 observados, no protección/recuperación aceptadas. Denegación ListImages posterior no es fallo Terraform; E025 integral/dependencias/custodia/recovery pendientes, estado PARCIAL conservado.
 - **Revalidación de checkpoint:** §19 fmt-check/validate exit 0; sin repetir plan/apply. Post-plan§18 conservado como evidencia fechada, state/planes/backup sin cambios por hash. ListImages resuelto no satisface custodia/backup protegido/recovery ni E025 integral; PARCIAL conservado.
+- **Preparación de publicación:** §20 fmt-check/validate exit 0, HCL/lock/provisioning/state/planes intactos, sin plan/apply o AWS CLI. Sin aceptación nueva de E025 integral/protección/recovery; estado PARCIAL conservado.
+- **Intento de publicación bloqueado:** §21 fmt-check/validate exit 0, state/backup/planes intactos por hash; sin plan/apply/destroy/import. AccessDenied es de ECR token, ninguna operación Terraform fallida; custodia/recovery/dependencias/E025 integral pendientes, estado PARCIAL conservado.
+- **Checkpoint de imagen:** §22 conserva validaciones y post-plan históricos; no ejecuta Terraform ni aceptación nueva de custodia/recovery/dependencias/E025 integral. Estado PARCIAL conservado.
 - **Riesgo:** inicialización con backend equivocado, descarga no aprobada o secretos en salida.
 - **Gate asociado:** GATE-I-A.
 
@@ -1397,3 +1412,165 @@ Tarifa previa **USD0.10/GB-mes** conservada; inventario vacío observado, no med
 Checkpoint autorizado: stage únicamente **infra/bootstrap/terraform-local-ecr-policy.json**, **specs/003-infrastructure/task.md**, **memoria.md** y commit **docs(infra): record ecr deployment and list permission**. Revisión Git/hash/exclusiones antes de stage y verificación de commit/árbol después; resultado y hash del commit se comunican al cierre, sin autorreferencia del hash dentro de su propio contenido. No push/merge/rebase/amend/squash ni stage de artefactos privados.
 
 Evidencia privada local en `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra4-ecr-list-checkpoint-20261112-202233\`: respuestas/resúmenes de lectura, comparación policy, validación/hashes y revisión Git. Carpeta temporal no acredita retención/custodia. **Sin apply, plan nuevo, Docker push/login/tag/build, IAM remoto modificado, workloads o cleanup; detener tras checkpoint, sin siguiente incremento automático.**
+
+## 20. T-INFRA-008 — primera publicación ECR preparada, build local por SHA, sin push
+
+### 20.1. Autorización, baseline y trazabilidad
+
+**2026-11-12**, solicitud **BUILD DOCUMENTAL + VALIDACIÓN LOCAL / NO DOCKER PUSH / NO TERRAFORM APPLY / NO CAMBIOS AWS AUTOMÁTICOS**. Se revisan spec/plan/task sin reinterpretar criterios. Baseline verificada **feature/infrastructure**, HEAD **3312d220e3ff68851befc59e9a7cfa516185bdc8**, `docs(infra): record ecr deployment and list permission`, árbol **limpio / 0 staged** antes y durante build. Este checkpoint§19 incluyó exactamente provisioning JSON/task/memoria; no push Git. Autorización actual permite solo publisher JSON nuevo y task/memoria editados, build/inspección local y fmt-check/validate; sin stage/commit/push o ejecución AWS CLI/IAM.
+
+**Tag seleccionado: git-3312d220e3ff**, primeros12 hex del SHA completo anterior, identidad primaria determinística por commit, no timestamp/latest. Tag local **enver-api:git-3312d220e3ff**; destino propuesto **926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api:git-3312d220e3ff**. Relación externa de evidencia **SHA Git completo → tag local/ECR por SHA → imageDigest leído en ECR después del push**; actualmente solo primeros dos identificadores locales preparados, destino/tag ECR no creado. No se añade label OCI/archivo productivo ni se declara atestación criptográfica de procedencia por nombrar el tag.
+
+Repository real/configuración e inventario **imageIds=[] / 0 imágenes / ningún digest** corresponden a lectura§19 **20:22:34.9357668Z–20:22:47.1485716Z**, no se consultan otra vez en§20. Antes de publicar se deberá revalidar identidad/región/repository/IMMUTABLE/tag ausente con permiso efectivo y autorización nueva. Si tag ya existe, **DETENER**, incluso si parece mismo digest; no sobrescribir, borrar, volver mutable ni sustituir tag con latest. AccessDenied/error no significa tag ausente. Una segunda construcción del mismo commit puede resolver bases distintas: no reutilizar tag publicado, decidir nueva identidad aprobada con SHA como base y evidencia propia. Verificar SHA completo frente al prefijo corto para evitar colisiones.
+
+### 20.2. Dockerfile intacto y build real desde HEAD limpio
+
+- **Enver.API/Dockerfile intacto**, SHA256 **6a9c69f5b5517129d046997c72a84d80631eb8dce377641afae65e3107e442a0**. Runtime base aspnet:10.0, SDK10.0.403 y global.json10.0.403/rollForward:disable; restore locked-mode/build y publish no-restore. Stage final **FROM base AS final**, hereda **USER $APP_UID**, WORKDIR/app, ENTRYPOINT **["dotnet","Enver.API.dll"]**, EXPOSE8080/8081. Contexto correcto: **raíz del repositorio**, por COPY global.json/Enver.API/…; `.dockerignore` excluye gobierno/specs/.git/secretos locales habituales/state/planes/tfvars/.terraform/bin/obj. No pasar credenciales/build args secretos.
+- Docker cliente/servidor **29.6.1**, disponible. Tag local seleccionado no existía; no se sobrescribe imagen previa. Una invocación real **`docker build --file Enver.API/Dockerfile --tag enver-api:git-3312d220e3ff .`**, **20:31:13.1959806Z–20:32:05.8396958Z**, **exit 0**, build informa **0 Warning(s) / 0 Error(s)**. Se ejecutó antes de crear publisher JSON o editar documentación; HEAD/árbol/hash de todas las fuentes versionadas iguales antes/después. No se reutiliza infra-validation como evidencia suficiente; el builder puede reutilizar caché normal, no se afirma no-cache.
+- `docker image inspect` exit0: **image ID local reportado sha256:0a0fceb5ab9e71e09db4a1ee7326dc59993d40266f144259f0d02bc6c9802cda**, **linux/amd64**, **Size101036277bytes ≈96.36MiB** según Docker, no GB facturados/comprimidos ECR. **Config.User=1654/non-root**, .NET/ASP.NET **10.0.12**, **ASPNETCORE_HTTP_PORTS=8080**, ENTRYPOINT indicado. Puerto8080 acreditado como configuración, no escucha/arranque/red/TLS probado; EXPOSE8081 no certifica TLS.
+- BuildKit exporta manifiesto e índice local; **image ID/manifest/índice locales NO acreditan digest ECR desplegable**. Al publicar, distinguir índice OCI y manifiesto de plataforma, conservar ambos y dependencias cuando corresponda; referencia A/B debe usar el digest elegido/verificado en ECR, no copiar este ID a compute.
+- Bases siguen tags no fijados por digest; reproducibilidad byte a byte, secretos en capas/SBOM/vulnerabilidades/hardening runtime y CI verde no acreditados. Build correcto no declara imagen segura ni app funcional; sin app/container startup, pruebas UT/IT/ST o Docker push/login/tag remoto. Imagen local conservada, sin cleanup. Primer script auxiliar falló por paréntesis en función SHA256 de PowerShell, **ParserError/exit1 antes de ejecutar comandos**; corregido solo lector local, sin fallo/reintento de Docker build ni cambio de fuentes.
+
+### 20.3. Publisher mínimo separado — PROPUESTA LOCAL / NO APLICADA
+
+Nuevo [local-ecr-publisher-policy.json](../../infra/bootstrap/local-ecr-publisher-policy.json), **2Allow / 9 acciones exactas / 827caracteres compactos**, SHA256 **4a4feedc8cdd2057b396a40efcde5fb8e8bcdb42dc37df178e911dc6511ffbcd**. Parseo JSON/allowlist/ARN/condiciones verificados localmente, **no IAM simulation/Access Analyzer ni permisos efectivos probados**. Provisioning [terraform-local-ecr-policy.json](../../infra/bootstrap/terraform-local-ecr-policy.json) **intacto**, separado; no policy remota creada/adjunta ni grants acumulados auditados.
+
+| Acción incluida | Necesidad en el flujo futuro |
+| --- | --- |
+| ecr:GetAuthorizationToken | Autenticación ECR de Docker vía get-login-password; **Resource="*"**, sin resource type ARN según referencia AWS, no puede restringirse al ARN repository |
+| ecr:BatchCheckLayerAvailability | Comprobar capas ya presentes antes de subida |
+| ecr:InitiateLayerUpload / UploadLayerPart / CompleteLayerUpload | Subida de capas |
+| ecr:PutImage | Publicar manifiesto/tag inmutable |
+| ecr:BatchGetImage | Lectura de manifiesto/comprobaciones Docker incluidas en receta oficial AWS de push; no añadir descarga de capas por ello |
+| ecr:DescribeImages | Preflight de colisión por tag y digest/metadata post-push desde ECR |
+| ecr:DescribeImageScanFindings | Verificar estado/findings reales de scanning tras push, no inferirlos de DescribeImages o flag scan_on_push |
+
+**Ocho acciones de repository** limitadas a **arn:aws:ecr:us-east-1:*:repository/enver-dev-api**, región **us-east-1**, username **enver-terraform-local**, **aws:PrincipalAccount=926925605666**, **aws:ResourceAccount=${aws:PrincipalAccount}**. Token solo región/username/PrincipalAccount, no ResourceAccount/tag de un repository inexistente en esa operación. Wildcard de cuenta ARN queda acotado por guard de misma cuenta; wildcard Resource del token no concede por sí mismo push/pull en otros repositories. Estas son Allow, **no permissions boundary** ni límite de otros grants; provisioning y publishing separados en archivos no crean aislamiento efectivo de identidades si se adjuntan ambos al mismo usuario.
+
+**Omitidos tras evaluar:** ListImages no necesario para flujo por tag/digest con DescribeImages y ya disponible en provisioning para inventario; no duplicarlo por comodidad. **GetDownloadUrlForLayer** se necesita para descargar capas/pull completo, no para push/metadata: omitido, futura prueba de pull/uso por digest requiere rol/permiso/alcance propio. Sin DeleteRepository/BatchDeleteImage/PutLifecyclePolicy/CreateRepository/PutImageTagMutability/PutImageScanningConfiguration/StartImageScan/TagResource ni cambios globales. Sin ecr:* o acciones de otros servicios, AdministratorAccess/PowerUserAccess. No KMS/S3 directos por almacenamiento AES256 gestionado de ECR.
+
+Fuentes AWS consultadas **2026-11-12**: [permisos push a repository específico](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-push-iam.html), [acciones/resource types ECR](https://docs.aws.amazon.com/service-authorization/latest/reference/list_ecr.html). GetAuthorizationToken no tiene resource type; las ocho acciones restantes admiten repository. Una primera URL alternativa de referencia no devolvió contenido útil; se usó list_ecr.html, sin APIs de cuenta AWS.
+
+Policy **solo bootstrap/prueba local controlada**, credenciales del perfil externo, no recomendación de identidad productiva. Futuro definitivo **GitHub Actions → AWS OIDC → roles temporales separados de publicación/deployment**, runtime pull distinto; **NO access keys de largo plazo en GitHub**. Condición aws:username de este JSON es para IAM user local, **no reutilizar sin rediseño como policy de role OIDC**. No OIDC/trust/roles/workflows creados. CI futuro automático y CD producción separado/exclusivamente humano por Run workflow/workflow_dispatch, CI verde exacto y digest inmutable; no aplicar Terraform automáticamente.
+
+### 20.4. Flujo FUTURO, NO EJECUTADO — exige nueva autorización
+
+1. Aprobar/aplicar manualmente publisher por responsable y verificar cuenta/región/identidad/permisos; no acción realizada aquí. Revalidar repository/config/costo/retención y preflight de tag con **DescribeImages --image-ids imageTag=git-3312d220e3ff**: éxito con imagen implica **DETENER**; solo ImageNotFound específico bajo identidad/acceso acreditados permite proseguir. Ante AccessDenied/cualquier otro error, detener, no ampliar IAM o reintentar a ciegas. Inventario vacío histórico no reserva el tag.
+2. Vincular exactamente SHA completo3312d220… y **el artefacto local registrado** mediante image inspect; si ID/tag/fuentes cambian o imagen desaparece, detener/revisar. No reconstruir silenciosamente al promover ni atribuir un rebuild posterior al artefacto ya revisado. Cambios documentales actuales no se incluyen retroactivamente en el build anterior.
+3. Solo tras autorización de login/publicación, usar password-stdin sin imprimir/token en logs/argumentos/archivos. Preparación PowerShell con comprobación de ambos exit codes; **NO ejecutada**:
+
+```powershell
+try {
+    $password = aws ecr get-login-password --region us-east-1 --profile enver-infra
+    if ($LASTEXITCODE -ne 0 -or -not $password) { throw 'ECR token falló; detener' }
+    $password | docker login --username AWS --password-stdin 926925605666.dkr.ecr.us-east-1.amazonaws.com
+    if ($LASTEXITCODE -ne 0) { throw 'Docker login falló; detener' }
+} finally {
+    Remove-Variable password -ErrorAction SilentlyContinue
+}
+```
+
+Login puede persistir token en credential helper/config Docker: aprobar custodia antes de ejecutarlo, no hacerlo como mera validación en§20. Sin trazado/transcript que revele password; no loguear token. Token temporal no reemplaza revisión de permisos del principal.
+
+4. Comandos **futuros / NO ejecutados**, detener ante cualquier exit distinto de0 y comprobar ID local antes/después del tag:
+
+```text
+docker tag enver-api:git-3312d220e3ff 926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api:git-3312d220e3ff
+docker push 926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api:git-3312d220e3ff
+aws ecr describe-images --repository-name enver-dev-api --image-ids imageTag=git-3312d220e3ff --region us-east-1 --profile enver-infra
+```
+
+5. Registrar **imageDigest real de ECR**, media type/arquitectura/índice-plataforma, tag, SHA Git completo, fecha/operador y resultado. Solo entonces formar **repository-uri@imageDigest** y contrastar con manifiesto publicado; no inventar sha256. Futuro CI añadirá run/attempt/artefacto/CI verde exacto, no existente en esta preparación local. Mismo digest en A/B, promoción sin rebuild, no latest como identidad de deployment.
+6. Verificar **scanning real** usando `aws ecr describe-image-scan-findings --repository-name enver-dev-api --image-id imageDigest=<DIGEST_REAL_ECR> --region us-east-1 --profile enver-infra` después del push; marcador no ejecutable, sustituir solo por evidencia real. Revisar estado terminal soportado/findings/errores y política de aceptación de vulnerabilidades **antes de declarar apta**. BASIC/rules=[] y scan_on_push=true históricos no prueban scan completado/imagen limpia. Si scan pendiente/no soportado/denegado/falla, registrar y bloquear aceptación; no StartImageScan/Inspector/ENHANCED automático ni nuevos costos sin permiso.
+7. Pull/uso por digest y rollback quedan para otro alcance/identidad autorizado; publisher actual no permite descargar capas. Retener etiquetas inmutables/manifiestos activo y previo compatible, lifecycle solo untagged >14d desde push no protege un digest si pierde último tag. Nunca borrar/reutilizar tag o restaurar state de seguridad antiguo por fallo del primer push; si hay capas/manifiesto parcialmente publicados, inspección autorizada y decisión humana, sin cleanup automático.
+
+### 20.5. Validación, límites y detención
+
+**20:33:01.9841793Z–20:33:15.3162181Z**, `terraform fmt -check -recursive infra` **exit0**, `terraform -chdir=infra validate -no-color` **exit0 / Success! The configuration is valid.** Sin cambios HCL/provider/lock, **sin plan/apply/init**. Post-plan§18 **0/0/0/red14+ECR2no-op** conservado como evidencia fechada, no revalidación cloud actual. State/backup/planes conservados por hash; Docker config preservado, sin login. Ninguna AWS CLI/API de cuenta, recurso/IAM/Atlas modificado, tag ECR creado o byte subido. Build local no incurre almacenamiento ECR por este bloque; tarifa previa USD0.10/GB-mes no es total/factura ni se asume Free Tier.
+
+**T-INFRA-007** conserva **PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE**, evidencia real§§18–19 y dependencias/contrato/retención pendientes. **T-INFRA-008 PARCIAL / REVISIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE**, falta publisher aplicada/permisos efectivos, login, push, digest real ECR, scanning real, pull/uso por digest/rollback y aceptación contractual/ownership004/reproducibilidad/seguridad. **T-INFRA-025 PARCIAL / VALIDACIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE**, custody/cifrado/backup protegido/recovery/E025 integral/dependencias pendientes. **Nueve gates PENDIENTE / NO SATISFECHO**, nueve tareas parciales001–008/025 y otras21 pendientes; Authentication local/002 GATE-G/H/AUTH-027 integral/004 intactos.
+
+Solo **local-ecr-publisher-policy.json nuevo + task/memoria modificados**, sin stage/commit/push, HEAD3312d220 conservado. Evidencia privada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra4-publisher-prep-20261112-203110\` (build/metadata/hashes/validación/revisión local), sin retención/custodia acreditadas por carpeta temporal. **BUILD LOCAL COMPLETO / PUBLISHER PROPUESTO NO APLICADO / LOGIN-PUSH-DIGEST-SCANNING ECR PENDIENTES.** Detener para revisión humana, sin publicación/siguiente incremento/cleanup automático.
+
+## 21. T-INFRA-008 — publicación autorizada bloqueada en token ECR; sin login/tag/push
+
+### 21.1. Autorización, IAM informado y prechecks — 2026-11-12
+
+Solicitud **BUILD CLOUD CONTROLADO / VALIDAR PUBLISHER + PUBLICAR PRIMERA IMAGEN ECR** autoriza solo el artefacto exacto de HEAD **3312d220e3ff68851befc59e9a7cfa516185bdc8**, tag **git-3312d220e3ff**, repository **enver-dev-api**, región **us-east-1**, perfil **enver-infra**; identidad/inventario, login/tag/un push y lecturas digest/scanning, pull por digest condicional a permisos. No build nuevo, latest/segundo tag/push, AWS workloads, IAM modificado, plan/apply/destroy/import, OIDC, arranque de contenedor o Git stage/commit/push.
+
+Rama **feature/infrastructure**, HEAD anterior confirmado, árbol inicial con **task/memoria modificados + publisher JSON sin seguimiento, 0 staged**, trabajo§20 conservado. **INFORMADO POR RESPONSABLE:** creó/adjuntó manualmente **ENVER-Local-ECR-Publisher** desde JSON local, sin AdministratorAccess/PowerUserAccess/ecr:*. No se enumera/audita documento/versión/adjuntos/grants/boundaries/SCP remoto ni se presenta como IAM modificado por el agente. El estado previo de propuesta/no aplicada§20 se conserva como historia.
+
+Validación local del publisher: mismo SHA256 **4a4feedc8cdd2057b396a40efcde5fb8e8bcdb42dc37df178e911dc6511ffbcd**, JSON válido **2Allow/9acciones exactas**, token Resource=* y acciones repository/condiciones/región/cuenta/usuario iguales a§20; provisioning JSON intacto. No simulación IAM, prueba de todos los permisos o auditoría remota por parsear JSON.
+
+Gate pre-login **20:40:30.0861799Z–20:40:36.8246558Z**:
+
+| Comprobación real | Resultado |
+| --- | --- |
+| STS get-caller-identity --profile enver-infra | **exit0**, IAM user **enver-terraform-local**, cuenta926925605666 esperada |
+| ECR list-images --repository-name enver-dev-api --region us-east-1 --profile enver-infra | **exit0 / imageIds=[] / 0 imágenes**, sin tag existente; sin truncar paginación |
+| Docker image inspect enver-api:git-3312d220e3ff | **exit0**, ID **sha256:0a0fceb5ab9e71e09db4a1ee7326dc59993d40266f144259f0d02bc6c9802cda**, **linux/amd64**, coincide exactamente con baseline; no rebuild |
+| Procedencia local | Fuentes versionadas del build§20 iguales por hash salvo task/memoria autorizados; HEAD íntegro, publisher separado; imagen no regenerada |
+| Credenciales Docker | Credential helper existente **desktop** disponible, sin leer/publicar secretos; login aún no ejecutado |
+
+Configuración repository IMMUTABLE/scan_on_push/AES256 y lifecycle de§19 no consultada otra vez en este intento. Vacío anterior acreditado en la hora indicada, no reserva eterna del tag ni permiso para saltar revalidación futura.
+
+### 21.2. AccessDenied antes de Docker login — detención
+
+Una llamada **`aws ecr get-login-password --region us-east-1 --profile enver-infra`**, **20:41:09.7233779Z–20:41:12.6294320Z**, **exit254 / AccessDeniedException**:
+
+- **Acción IAM:** **ecr:GetAuthorizationToken**.
+- **Recurso denegado:** **Resource="*"**.
+- **Principal:** **arn:aws:iam::926925605666:user/enver-terraform-local**.
+- **Fase:** token necesario para login Docker; **Docker login no invocado**, su exit code **NO APLICA**, no fallo de password-stdin/Docker.
+- **Mensaje AWS:** **no identity-based policy allows the ecr:GetAuthorizationToken action**.
+- **Operación/recurso Terraform afectados:** **NINGUNO**, no Terraform cloud ejecutado.
+
+Token stdout capturado únicamente en memoria para password-stdin, nunca impreso/guardado; no token válido obtenido. Al comprobar exit254 se eliminó la variable y no se invocó docker login. `AWS_MAX_ATTEMPTS=1`, mensaje CLI reached max retries:0; **sin reintento** ni token alternativo/login manual. Primer lector de stderr lo detectó como archivo binario por redirección UTF-16 de PowerShell; se leyó solo ese error local con Get-Content, **no se repitió ninguna llamada AWS ni se leyó password/token**.
+
+**Detenidas todas las operaciones AWS/Docker de publicación/verificación.** No local tag con formato registry, **no docker push**, no capas/manifiesto subidos, push exit **NO APLICA**, sin digest Docker de push/imageDigest ECR/imagePushedAt/imageSizeInBytes nuevos. **0 imágenes** corresponde a ListImages **pre-push**; no inventar post-list o digest. Sin consulta scanning/findings, no etiquetar como IN_PROGRESS/imagen limpia; sin pull por digest porque no hay digest publicado acreditado. No se intenta descargar capas para provocar otra denegación. **Referencia repository@digest no construible**, no sha256 ficticio. Ni primer digest ECR ni digest previo de rollback acreditados; rollback real **NO PROBADO / PENDIENTE**.
+
+JSON local incluye la acción token pero adjunción/manual informada no acredita Allow efectivo; el error no prueba por sí solo si causa es documento/versión/adjunto/condición/propagación u otro detalle. Responsable debe revisar **cuenta/user/adjunto/versión activa/condiciones** del permiso exacto ya previsto. **No ampliar permisos ni modificar JSON/IAM automáticamente**, ni asumir que esperar resolverá el fallo; nueva validación/reanudación requiere autorización explícita, nunca reintentar a ciegas. GetAuthorizationToken ya usa Resource=* porque no admite repository ARN; no ensanchar las acciones repository para resolverlo. Separación provisioning/publishing y futuro OIDC/roles temporales§20 conservados, sin access keys de largo plazo en GitHub.
+
+### 21.3. Validación local, estados y cierre
+
+Después del bloqueo, solo validación local/documentación: **20:42:01.9723825Z–20:42:15.2236512Z**, `terraform fmt -check -recursive infra` **exit0**, `terraform -chdir=infra validate -no-color` **exit0 / Success! The configuration is valid.** Sin plan/apply/destroy/import/init. Post-plan§18 **0/0/0**, red14+ECR2no-op, conserva su fecha histórica; no replan actual. State/backup/planes y Docker credentials config idénticos por hash, **242 fuentes existentes/publisher verificadas antes de editar docs**, provisioning/publisher/HCL/lock/Dockerfile/producto/tests/spec/plan/004 intactos.
+
+**T-INFRA-007 conserva PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE**: repository/lifecycle reales previos e inventario vacío revalidado, dependencias/retención/contrato/aceptación pendientes. **T-INFRA-008 conserva PARCIAL / REVISIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE**, con bloqueo operativo **GetAuthorizationToken denegado**; policy adjunta solo informada, permisos efectivos/login/push/digest/scanning/pull/rollback/reproducibilidad/seguridad/ownership004/contrato pendientes. **T-INFRA-025 conserva PARCIAL / VALIDACIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE**, custodia/cifrado/backup protegido/recovery/dependencias/E025 integral pendientes. **Nueve gates PENDIENTE / NO SATISFECHO**, nueve tareas parciales001–008/025 y otras21 pendientes. Sin aceptación nueva002 GATE-G/H/AUTH-027 integral o producción.
+
+Ninguna imagen/byte ECR/recurso/IAM/Atlas modificado por el agente en§21; no cambios de tarifa/Billing o costo mensual inventado, USD0.10/GB-mes previo como referencia, no Free Tier asumido. Solo task/memoria editados ahora; se conserva publisher JSON no rastreado de§20 sin alterarlo, **0staged / sin commit/push**, HEAD3312d220 íntegro. Evidencia local privada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra4-first-push-20261112-204027\` (gate/respuestas pre-push, metadatos/error de token saneado, hashes y validación), sin credenciales/tokens guardados ni retención/custodia garantizadas por carpeta temporal. **PUBLICACIÓN BLOQUEADA ANTES DE LOGIN / SIN TAG-PUSH-DIGEST-SCANNING-PULL.** Detener para revisión humana, sin nuevas llamadas AWS, reintentos, IAM, cleanup o siguiente incremento automático.
+
+## 22. Checkpoint primera imagen ECR publicada — evidencia posterior informada por responsable
+
+**2026-11-12**, solicitud **GIT CHECKPOINT CONTROLADO / NO NUEVAS OPERACIONES AWS**. Baseline local confirmada **feature/infrastructure**, HEAD **3312d220e3ff68851befc59e9a7cfa516185bdc8**, publisher JSON nuevo/task y memoria modificados, **0 staged**, sin otros cambios. Prechecks git status/diff --check/diff --stat/rev-parse HEAD correctos; diff --check exit0. Se conserva íntegro el intento fallido§21 y su fuente de observación directa, no se reescribe como exitoso ni se repite token/login/push/pull.
+
+**Fuente de los resultados siguientes: responsable, prompt CHECKPOINT PRIMERA IMAGEN ECR PUBLICADA.** Los archivos todavía reflejaban el bloqueo§21 al iniciar este checkpoint; se sincronizan con la publicación posterior comunicada. No se aportaron/inspeccionaron aquí logs nativos adicionales de esa publicación ni se ejecutaron nuevas consultas AWS/Docker: registro de evidencia informada por responsable, **no verificación técnica independiente nueva del agente**. No se inventan la corrección IAM que permitió publicar, permisos efectivos de pull, actor/comandos adicionales u horarios de ejecución distintos del pushedAt comunicado.
+
+| Dato informado y registrado | Valor |
+| --- | --- |
+| Git SHA fuente | **3312d220e3ff68851befc59e9a7cfa516185bdc8** |
+| Repository / región | **enver-dev-api / us-east-1** |
+| Tag publicado | **git-3312d220e3ff**; **1 tag publicado**, no latest |
+| Docker push | **exit0**, según responsable; no push nuevo en este checkpoint |
+| Digest ECR | **sha256:0a0fceb5ab9e71e09db4a1ee7326dc59993d40266f144259f0d02bc6c9802cda** |
+| imagePushedAt | **2026-11-12T21:36:45.185000Z** |
+| imageSizeInBytes | **101033417bytes**, valor informado de ECR; no confundir con Size local101036277bytes§20 |
+| Pull de la misma imagen por digest | **exit0**, según responsable; no pull nuevo/arranque de contenedor en este checkpoint |
+| Scanning linux/amd64 | **IN_PROGRESS**, estado informado, no estado final ni imagen limpia |
+| Findings/severidades | **PENDIENTES / NO DISPONIBLES** en la evidencia comunicada; **no findings=0** |
+| Rollback real | **PENDIENTE**, todavía no hay digest/version anterior publicada |
+
+**Referencia desplegable registrada:** `926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api@sha256:0a0fceb5ab9e71e09db4a1ee7326dc59993d40266f144259f0d02bc6c9802cda`.
+
+Los **3 objetos OCI observados según responsable** corresponden a **índice**, **manifiesto linux/amd64** y **atestación** de la misma publicación; **NO son tres versiones distintas** ni tres tags/pushes autorizados. No se inventan digests de los objetos hijos no comunicados. El digest ECR informado coincide numéricamente con image ID local§20, pero su procedencia se registra como resultado ECR comunicado, no se deriva del ID local como prueba. Scanning IN_PROGRESS aplica a linux/amd64, no se adjudica automáticamente al índice/atestación. Resultado final/findings/aceptación requieren evidencia posterior autorizada.
+
+Primer digest conocido de publicación, sin versión previa compatible para rollback real. Retener tag/manifiestos dependientes; no cleanup, retirar etiquetas, nuevo push o mutabilidad relajada. Pull exit0 informado no demuestra descarga desde host limpio/sin caché, uso runtime A/B o permiso GetDownloadUrlForLayer efectivo; el JSON publisher permanece exactamente con nueve acciones, no se añade ese permiso ni se afirma resuelta su ausencia. Runtime/roles/004/reproducibilidad y seguridad siguen pendientes.
+
+**Revisión local publisher:** [local-ecr-publisher-policy.json](../../infra/bootstrap/local-ecr-publisher-policy.json), mismo SHA256 **4a4feedc8cdd2057b396a40efcde5fb8e8bcdb42dc37df178e911dc6511ffbcd**, JSON válido, **2Allow/9acciones exactas**: GetAuthorizationToken; BatchCheckLayerAvailability/InitiateLayerUpload/UploadLayerPart/CompleteLayerUpload/PutImage/BatchGetImage/DescribeImages/DescribeImageScanFindings. Sin secretos detectados en su contenido, AdministratorAccess/PowerUserAccess/ecr:*/ec2:*/iam:* o permisos provisioning/borrado/lifecycle. Token Resource=* justificado por acción sin ARN; acciones repository y guards cuenta/región/user intactos. Provisioning JSON/HCL/lock/Dockerfile/producto/tests/spec/plan/004 no modificados. Esta revisión no audita IAM remoto ni crea roles/OIDC o credenciales de largo plazo en GitHub.
+
+State/sufijos/backups/.terraform/tfplan/tfvars reales/credenciales Docker **no versionados**; exclusiones verificadas y lock/ejemplo siguen versionables. State/planes preservados por hash, no Terraform ejecutado; se conservan fmt/validate§21 exit0 y post-plan§18 0/0/0 como evidencia histórica fechada, no revalidación actual. Tarifa previa USD0.10/GB-mes conservada, bytes informados no son consumo GB-mes/factura total; no costo mensual/Free Tier inventados.
+
+**T-INFRA-007 PARCIAL / aceptación pendiente**: repository/config previos y publicación informada no aceptan dependencias/retención/contrato. **T-INFRA-008 PARCIAL / publicación, digest y pull acreditados según responsable; scanning final, rollback y aceptación pendientes**; no COMPLETADA, no CI verde o deployment por digest demostrado. **T-INFRA-025 PARCIAL / aceptación pendiente**, protección/recovery/state/dependencias/E025 integral no resueltos. **GATE-I-A PENDIENTE / NO SATISFECHO**, **GATE-I-B PENDIENTE / NO SATISFECHO**, nueve gates abiertos, nueve tareas parciales001–008/025 y otras21 pendientes. Authentication local/002 GATE-G/H/AUTH-027 integral/004/producción intactos.
+
+Checkpoint autorizado únicamente de **infra/bootstrap/local-ecr-publisher-policy.json**, **specs/003-infrastructure/task.md**, **memoria.md**, mensaje **feat(infra): publish first ecr image by digest**. Stage de esos3archivos después de revisión, verificar commit/árbol limpio/0staged al terminar; hash final se comunica al cierre sin autorreferencia dentro del commit. No amend/squash/merge/rebase/push Git.
+
+Evidencia privada local de esta revisión documental/Git: `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra4-image-checkpoint-20261112-215724\` (hashes/exclusiones/revisión JSON, resumen de publicación **informada**, revisión Git), no logs nuevos de publicación ni custodia/retención garantizadas por carpeta temporal. **Ninguna operación AWS/Docker/Terraform o cambio IAM por el agente en este checkpoint.** Detener después del commit, sin seguimiento automático de scanning/publicación/workloads/cleanup.
