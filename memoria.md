@@ -1186,3 +1186,119 @@ La revisión explícita de [task§84](specs/002-authentication/task.md#cierre-ga
 **T-AUTH-058: COMPLETADA / EVIDENCIA REGISTRADA. GATE-E: SATISFECHO / CERRADO. Authentication: TERMINADA — exclusivamente LOCAL/TEST REPRESENTATIVO.** A/B/C/D/F conservan cierres ylímites anteriores; **GATE-G/H PENDIENTES / NO SATISFECHOS**,059–079no iniciadas,008conservaestado documental previo. Esto no completa integralmente002ni aprueba despliegue, productionready/cloudready, dosmáquinas/LB/TLS/AtlasHA/Redisadministrado/AWS/IAM/failoverproductivo. **AUTH-027 NO IMPLEMENTADO / NO SATISFECHO INTEGRALMENTE**; pérdida totalmente silenciosa noobservable residual noeliminada.
 
 Solo task/memoria editados en esta entrega después deverde; losotros218archivos y5assembliesconservados. Árbolfinalmantiene12modificados+1nuevoanteriores,0staged; se preserva todoeltrabajopendiente. Spec/plan, constituciones/001, AGENTS/README, agentes/skills intactos, sininvocacionesnuevas. No Orders,Infrastructure/Terraform/AWS/CI-CD,059 ni despliegue. **Sin stage/commit/push**, HEAD **995fa9c1c604f20e2cb941af196829ecbc35c8e4** conservado. Trabajo detenido tras cierre; ningún incremento ocheckpointGit automático.
+
+## 56. 003 — BUILD controlado T-INFRA-001 + T-INFRA-002: baseline Terraform local
+
+### 56.1. Autorización y baseline posterior
+
+El **12 de noviembre de 2026**, el responsable autoriza **ENVER — 003 INFRASTRUCTURE / BUILD T-INFRA-001 + T-INFRA-002 / BASELINE TERRAFORM**. Es un permiso técnico posterior delimitado, no una ejecución implícita de los catálogos. Se leen completamente spec/plan/task de 003 y referencias de 002/004 para conservar sus contratos. No se reescriben 003 spec/plan ni las constituciones; AGENTS/README raíz conservan su historial sin sincronización no autorizada.
+
+Baseline verificada: rama `feature/authentication`, HEAD **3b4760ea8387b1cabff56e5f5e0ba5ffe8acb932**, árbol limpio. Este checkpoint documental autorizado previamente contiene los seis Markdown de 003/004; Authentication mantiene su checkpoint y cierre **TERMINADA — exclusivamente LOCAL/TEST REPRESENTATIVO** (§55). Se crea **feature/infrastructure** desde ese HEAD y se comprueban rama, status limpio y HEAD idéntico. No commit nuevo en este BUILD.
+
+### 56.2. Archivos y decisiones técnicas revisables
+
+Se crean únicamente nueve archivos versionables en `infra/`: `main.tf`, `versions.tf`, `providers.tf`, `variables.tf`, `outputs.tf`, `locals.tf`, `terraform.tfvars.example`, `README.md` y `.terraform.lock.hcl` generado por init. Se actualizan solo [003 task](specs/003-infrastructure/task.md), con E(001)/E(002) en §6, y este archivo. `.gitignore` **no modificado**: ya excluye `.terraform/`, state/backups, tfvars reales, planes, crashes/overrides, conservando lock y ejemplo versionables; se comprueba con `git check-ignore`.
+
+- Terraform ya instalado: **1.17.1 / windows_amd64**. Primera ejecución falla por PATH heredado (exit 1); se localiza el binario existente en PATH persistido del usuario/WinGet y se usa añadiendo su directorio solo al PATH del proceso. Ejecución de versión correcta exit 0. No reinstalación/actualización ni modificación persistente de PATH; no se sigue el aviso de versión nueva.
+- Restricción Terraform `>= 1.17.1, < 1.18.0`: compatible con la instalación observada, parches de la misma minor; ampliación sujeta a revisión. Provider único **hashicorp/aws ~> 6.0**, justificado con consulta a [Registry oficial](https://registry.terraform.io/v1/providers/hashicorp/aws): versión publicada 6.73.0 el 2026-11-11. Init selecciona **6.73.0, signed by HashiCorp**, y genera lock con checksums, sin edición manual. No se atribuye aprobación integral a DP-I-12.
+- Provider sin credenciales: `var.aws_region` y guard `allowed_account_ids` desde `var.aws_account_id`; cadena estándar AWS externa. Cuenta/región/ambiente obligatorios sin defaults; ejemplo contiene placeholders no operativos y no secretos. Inputs tipados/validados, naming/tags comunes ENVER, outputs solo documentado sin inventar endpoints/IDs. Sin recursos/data sources/módulos/provisioners.
+- State **local**, no Git; no backend S3 ni DynamoDB para lock. `init -backend=false` instala provider sin inicializar backend. No se crea state/plan ni se simulan recursos. README registra operador único, custodia, respaldo cifrado, recuperación y migración remota antes de colaboración/GitHub; operador/destino, ACL/cifrado, retención y restauración real quedan pendientes, sin afirmar protección comprobada. La authority DynamoDB de Authentication no es locking Terraform.
+
+### 56.3. Evidencia local, pendientes y estados
+
+`terraform fmt -recursive infra`, `terraform fmt -check -recursive infra`, `terraform -chdir=infra init -backend=false` y `terraform -chdir=infra validate` terminan **exit 0**; validate: **Success! The configuration is valid.** Salidas nativas en la sesión, síntesis saneada en task §6; no se inventa archivo externo de evidencia/retención. Se revisa lock: solo versión/restricción/checksums del provider, sin secretos detectados. Revisión de nueve archivos infra: sin secretos detectados, state/plan, recursos o módulos; lock/ejemplo no ignorados, enlaces relativos válidos y sin espacios finales/conflictos.
+
+AWS CLI **ausente**. Detección solo de presencia de variables habituales de credenciales/perfil/roles/web identity/contenedor, rutas alternativas y archivos estándar `.aws/config`/`.aws/credentials`: no presentes. No se leen/imprimen secretos ni se llama STS; **identidad AWS no acreditada**, no afirmación universal de inexistencia de credenciales. Cuenta, región/AZ/ambiente final, responsables, presupuesto/duración, precios/créditos siguen pendientes. No se seleccionan dominio, tamaños EC2, Redis final o Atlas tier; no se crean usuarios IAM/access keys.
+
+| Elemento | Estado tras este BUILD |
+| --- | --- |
+| T-INFRA-001 | **PARCIAL / BLOQUEADA POR DECISIONES**; preparación sin aprobación de destino, costo y responsables |
+| T-INFRA-002 | **PARCIAL / BASELINE TÉCNICA VALIDADA, ACEPTACIÓN PENDIENTE**; no se rebaja el contrato de dependencia T-INFRA-001 ni la aceptación de versiones/custodia de state |
+| T-INFRA-003–030 | **PENDIENTE / NO EJECUTADA**; T-INFRA-025 no ejecutada ni cerrada por coincidencia de comandos |
+| GATE-I-A | **PENDIENTE / NO SATISFECHO**; faltan aprobaciones y E(025), además de aceptación integral E(001)/E(002) |
+| Otros ocho gates / AC cloud | Pendientes; no infraestructura ni aceptación cloud |
+
+Validación local no configura identidad real, valida inputs concretos de destino ni estima costos. README/task separan selección técnica de aprobación de DP-I-12/13 y custodia efectiva; DP-I-01/02 y demás decisiones no resueltas por inferencia. No se inicia fase posterior por obtener validate verde.
+
+### 56.4. Límites y detención
+
+Sin `plan`, `apply`, destroy, refresh, import, backend remoto ni recursos AWS; sin workflows GitHub, Orders, producto/Authentication/Program.cs, tests, Dockerfile, dependencias de aplicación o SDK. 003 spec/plan, 004 y el resto del trabajo existente se conservan. Primera release Register/Login/Logout y CD exclusivamente manual workflow_dispatch tras CI verde del SHA/digest exactos se mantienen; ningún deploy. AUTH-027 integral y gates pendientes de 002 no cambian.
+
+**Sin stage/commit/push**; HEAD del checkpoint conservado. Los nueve archivos infra quedan nuevos/no rastreados, task/memoria modificados para revisión posterior. El bloque se detiene sin generar tareas adicionales ni checkpoint automático.
+
+Comprobación final: `terraform -version` confirma 1.17.1/windows_amd64; fmt/check y validate nuevamente exit 0. `git diff --check` exit 0 (solo avisos LF/CRLF existentes); `git diff --stat` corresponde únicamente a task/memoria rastreados. Status: esos dos modificados y nueve nuevos infra, 0 staged, sin otros cambios. No se interpreta el working tree como limpio: los cambios quedan pendientes para revisión.
+
+## 57. 003 — Validación AWS + Terraform; cierre formal aún pendiente
+
+### 57.1. Autorización y contexto preservado
+
+El **12 de noviembre de 2026**, **CIERRE BASELINE AWS + TERRAFORM / BUILD-VALIDACIÓN CONTROLADA** autoriza validar identidad/perfil/región, revisar IAM sin cambios, repetir version/fmt-check/validate y actualizar únicamente [003 task](specs/003-infrastructure/task.md) y este archivo. Baseline real: `feature/infrastructure`, HEAD **3b4760ea8387b1cabff56e5f5e0ba5ffe8acb932**, dos documentos modificados y nueve archivos infra nuevos del BUILD anterior, 0 staged. Se preserva ese trabajo, sin exigir árbol limpio ni generar checkpoint.
+
+### 57.2. AWS: evidencia observada y límites
+
+AWS CLI **2.40.1** disponible en instalación del usuario, Windows/AMD64. Sondeo inicial no resuelve PATH heredado/ubicación global; búsqueda acotada localiza binario existente. Sin instalar/actualizar herramientas ni cambiar PATH persistente. Se ejecutan consultas con perfil **enver-infra**, sin pager y con salida capturada/reducida en memoria antes de mostrarse:
+
+- `aws sts get-caller-identity --profile enver-infra`: **exit 0**, autenticación exitosa; ARN coincide con **user/enver-terraform-local**, Account presente. No se publica ID/ARN completo ni contenido de credenciales.
+- `aws configure get region --profile enver-infra`: **exit 0**, **us-east-1 — APROBADA PARA BASELINE** por selección explícita del responsable; no decisión irreversible para toda la infraestructura.
+- `aws configure list --profile enver-infra`: **exit 0**, perfil esperado; access_key/secret_key presentes, origen **shared-credentials-file**; región us-east-1, origen **config-file**. No valores ni sufijos de claves, tokens o archivos de credenciales mostrados/archivados en repo.
+
+El responsable informa creación previa de usuario IAM sin consola y access key local, sin permisos administrativos/amplios; no los crea este bloque. Las lecturas `iam list-attached-user-policies`, `list-user-policies`, `list-groups-for-user` del mismo usuario devuelven las tres **AccessDenied / exit 254**. **No se puede certificar ausencia integral de privilegios amplios** con esa denegación; declaración del responsable y evidencia observada quedan separadas. IAM permissions **PENDIENTES PARA INFRA-3**; no políticas nuevas, no elevación ni intento con otro principal. Auditoría efectiva/consola no acreditadas; T-INFRA-005 no ejecutada.
+
+### 57.3. Terraform, criterios y estados vigentes
+
+`terraform -version`: **1.17.1 / windows_amd64**, exit 0. `terraform fmt -check -recursive infra`: **exit 0**. `terraform -chdir=infra validate`: **exit 0, Success! The configuration is valid.** Lock **hashicorp/aws 6.73.0** observado, sin actualizaciones/init. Provider usa `var.aws_region`, sin claves/tokens en HCL; los nueve archivos infra permanecen byte por byte intactos en este turno. Backend **local**, no Git, no remoto; state/planes excluidos y ninguno rastreado/generado. No S3 ni tabla de locking; authority DynamoDB sigue separada. STS exitoso no equivale a plan/provisión Terraform o custodia/cifrado/backup de state verificados.
+
+| Elemento | Dictamen vigente |
+| --- | --- |
+| T-INFRA-001 | **PARCIAL / BLOQUEADA POR DECISIONES**; identidad/perfil y región de baseline acreditados, **presupuesto DECISIÓN PENDIENTE**. También faltan estimación regional, aprobación de responsables/ownership/duración y ambiente/AZ final; no “solo presupuesto” |
+| T-INFRA-002 | **PARCIAL / BASELINE TÉCNICA VALIDADA, ACEPTACIÓN PENDIENTE**; T-INFRA-001 es dependencia formal sin aceptar; no se infiere aprobación integral de versiones/custodia/state |
+| GATE-I-A | **PENDIENTE / NO SATISFECHO**; exige presupuesto/versiones/ambiente/state aprobados y E(001)/E(002)/E(025); E(025) ausente |
+| Otras 28 tareas / ocho gates | Sin ejecución ni cierre; no continuación automática |
+
+E(001)/E(002) complementarias y trazabilidad detalladas en task §7, conservando §6/§56 como antecedentes: su antigua ausencia de CLI/identidad no es el estado actual. El README infra se conserva por instrucción de editar solo task/memoria; sus observaciones pertenecen al BUILD anterior. No se modifica spec/plan ni se rebajan sus criterios. Los resultados se registran saneados, sin inventar archivo externo/retención duradera de evidencia.
+
+### 57.4. Límites de la entrega
+
+No recursos AWS creados por este bloque, no plan/apply ni IAM policies nuevas; sin cambios de Authentication/Program.cs/tests/Dockerfile/004, configuración infra o credenciales locales. No se estima ni inventa presupuesto. Baseline regional no autoriza cargos. Authentication mantiene cierre exclusivamente LOCAL/TEST REPRESENTATIVO, gates pendientes y AUTH-027 integral sin cambios; sin Orders/despliegues.
+
+**Sin stage/commit/push**, HEAD conservado. Se detiene tras validación documental; el checkpoint y cualquier siguiente incremento requieren autorización propia.
+
+## 58. 003 — Presupuesto aprobado y preparación documental INFRA-2/3
+
+### 58.1. Decisión presupuestaria y alcance — 2026-11-12
+
+Solicitud **CIERRE DE PRESUPUESTO + PREPARACIÓN INFRA-2/3 / BUILD DOCUMENTAL-VALIDACIÓN CONTROLADA**. Rama `feature/infrastructure`, HEAD **3b4760ea8387b1cabff56e5f5e0ba5ffe8acb932**; dos documentos modificados y nueve archivos infra nuevos preexistentes, 0 staged. Solo se actualizan este archivo y [003 task §8](specs/003-infrastructure/task.md); sin nuevos artefactos ni cambios de spec/plan/infra/IAM.
+
+**Decisión explícita del responsable — APROBADO PARA BASELINE:** crédito total disponible informado **USD 100**, **presupuesto operativo inicial ENVER USD 50**, **reserva mínima objetivo USD 50**. Preservar al menos esa reserva; no recursos cuyo costo estimado pueda comprometerla sin revisión previa. El límite es para el conjunto del período de desarrollo/validación/despliegue/entrega, **no USD 50 mensuales ni por componente**; duración/horas pendientes. Crédito informado no es estimación real ni saldo/cobertura verificados por Billing; **estimación regional aún pendiente**. No se crea alarma, AWS Budgets o límite técnico automático; no se autorizan cargos por este turno.
+
+### 58.2. Costos y estrategia inicial conservada
+
+Antes de un bloque facturable: estimación fechada para us-east-1 con cantidades, capacidad, horas/duración, retención/transferencia, cargos acumulados/residuales y margen; comprobar saldo, vigencia/elegibilidad/cobertura del crédito y reserva. Revisar **EC2, EBS/snapshots, IPv4/EIP, ALB/LCU, Redis, CloudWatch, ECR, Secrets/SSM/KMS, transferencia, Atlas si aplica** y dependencias como DynamoDB/endpoints/DNS. No asumir gratuidad/Free Tier. Atlas externo requiere fuente/cobertura separada: no asumir que el crédito AWS paga sus cargos.
+
+Estrategia inicial confirmada, **sin implementar**: dos EC2 pequeñas en dos AZ (sin tipo elegido), ALB por rúbrica, evitar NAT Gateway inicialmente, Atlas externo, evaluar Redis por costo/compatibilidad antes de elegir ElastiCache, logs/retención mínimos necesarios para seguridad/evidencia y parada/eliminación controladas cuando no se use. No se cambia la preferencia/comparación Redis ni su semántica de continuidad/fail-closed. Sin NAT aún hay costos/decisiones de IPv4/EIP, egreso y endpoints/SSM por resolver.
+
+EC2 detenida no implica costo cero: EBS, IP, ALB, Redis, logs y otros persistentes pueden seguir facturando. Limpieza futura exige inventario, autorización delimitada, protección de datos/estado de seguridad y comprobación de residuos/cargos; no destroy, borrado de datos o reset de revocación/authority implícitos.
+
+### 58.3. Reevaluación sin cierre artificial
+
+| Elemento | Estado vigente y pendientes exactos |
+| --- | --- |
+| T-INFRA-001 | **PARCIAL / BLOQUEADA POR DECISIONES**. Monto aprobado; identidad/perfil/región previamente acreditados. Faltan estimación regional fechada/lista cuantificada de cargos y recursos fuera del límite, horas/duración, condiciones/vigencia/cobertura del crédito, responsables/ownership aprobados por escrito y ambiente/AZ/naming-tags aplicables a DP-I-01/13 |
+| T-INFRA-002 | **PARCIAL / BASELINE TÉCNICA VALIDADA, ACEPTACIÓN PENDIENTE**. Versiones/lock y estrategia local reconocidos como baseline; dependencia 001 sin aceptar. “State local protegido” es parte de la baseline declarada por el responsable; no aporta por sí solo evidencia de ACL/cifrado, operador/destino, backup/recuperación y aceptación integral del manejo del state exigido por contrato |
+| GATE-I-A | **PENDIENTE / NO SATISFECHO**. Presupuesto ya aprobado; faltan aceptación completa E(001)/E(002), ambiente/custodia y **E(025)**. T-INFRA-025 es validación **temprana transversal**, aunque figure en INFRA-13: secuencia original `001 → 002 → 025 → 003`; no fase tardía dispensable ni tarea ejecutada por repetir fmt/validate |
+
+DP-I-01 parcialmente resuelta en monto/región/crédito informado, no cerrada integralmente. No se modifican dependencias/criterios, ni se elimina E(025), ni se cierran otros ocho gates o AC. §§56–57/task §§6–7 conservan la ausencia de aprobación presupuestaria como antecedente, no como estado actual. No se inventan resultados de custodia o una estimación para completar tareas.
+
+### 58.4. Próximo bloque recomendado, no ejecutado
+
+Resolver pendientes 001/002 y autorizar explícitamente **T-INFRA-025** antes de extender IaC. Después solicitar preparación de configuración **T-INFRA-003/004/005/006**, no provisión: VPC, dos subnets en distintas AZ, route tables/Internet Gateway, salida estable/allowlist Atlas y DNS, SG backend solo desde SG ALB, administración SSM sin SSH público, roles runtime/Terraform mínimos y separados. Evaluar dos subnets públicas como opción económica sin NAT, sin fijarlas todavía ni confundir SG ALB con creación de un ALB.
+
+Archivos candidatos futuros: networking.tf/security.tf y cambios mínimos variables/locals/outputs, evidencia task/memoria. Aprobar CIDR/AZ/egreso, costos, puertos/TLS y contratos de recursos/acciones IAM aplicables antes de aceptar. No AdministratorAccess/PowerUserAccess, permisos amplios de infraestructura o PassRole irrestricto; justificar acciones que requieran Resource=* con alcance/condiciones compatibles. No autoasignar permisos al usuario local: cualquier otorgamiento requiere autorización/principal propios. **enver-terraform-local autenticado según §57; IAM permissions PENDIENTES PARA INFRA-3**. La denegación de lecturas IAM previa no certifica ausencia integral de privilegios.
+
+No EC2, ALB, Redis, ECR, ACM, DynamoDB o Secrets en ese siguiente bloque delimitado; solo referencias/contratos no secretos cuando procedan. Sin implementación en este turno: 003–006 siguen PENDIENTE / NO EJECUTADA y la recomendación no concede autorización.
+
+### 58.5. Validación y límites
+
+`terraform -version`: **1.17.1/windows_amd64, exit 0**; fmt-check recursivo infra **exit 0**; validate **exit 0 / Success! The configuration is valid.** Provider AWS baseline **6.73.0**, sin actualización/init nuevo. No se repiten STS/config/IAM ni se consulta Billing: identidad/región/CLI 2.40.1 se conservan de §57, diferenciadas de evidencia nueva. Sin plan/apply, recursos AWS, políticas nuevas ni cambios Authentication/Program.cs/tests/Dockerfile/004/spec/plan/infra. No secretos ni IDs de cuenta completos registrados.
+
+**Sin stage/commit/push**, HEAD conservado. Se preserva el trabajo pendiente y se detiene tras esta entrega documental y validación local; sin siguiente incremento automático.

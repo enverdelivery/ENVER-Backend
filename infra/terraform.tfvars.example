@@ -1,0 +1,14 @@
+# Ejemplo NO operativo: no acredita cuenta, región, ambiente ni presupuesto.
+# Los placeholders deliberadamente no superan las validaciones de destino.
+# No copiar como configuración utilizable sin aprobación del responsable.
+project_name   = "enver"
+environment    = "academic-example"
+aws_region     = "REGION_PENDIENTE"
+aws_account_id = "CUENTA_PENDIENTE"
+
+common_tags = {
+  Purpose = "academic-example"
+}
+
+# Presupuesto, dominio, tamaños EC2, Redis y tier Atlas siguen pendientes.
+# No incluir credenciales AWS, conexiones, JWT, passwords ni tokens aquí.
