@@ -1302,3 +1302,135 @@ No EC2, ALB, Redis, ECR, ACM, DynamoDB o Secrets en ese siguiente bloque delimit
 `terraform -version`: **1.17.1/windows_amd64, exit 0**; fmt-check recursivo infra **exit 0**; validate **exit 0 / Success! The configuration is valid.** Provider AWS baseline **6.73.0**, sin actualización/init nuevo. No se repiten STS/config/IAM ni se consulta Billing: identidad/región/CLI 2.40.1 se conservan de §57, diferenciadas de evidencia nueva. Sin plan/apply, recursos AWS, políticas nuevas ni cambios Authentication/Program.cs/tests/Dockerfile/004/spec/plan/infra. No secretos ni IDs de cuenta completos registrados.
 
 **Sin stage/commit/push**, HEAD conservado. Se preserva el trabajo pendiente y se detiene tras esta entrega documental y validación local; sin siguiente incremento automático.
+
+## 59. 003 — INFRA-2/3: definiciones Terraform, bootstrap de lectura y E025 parcial
+
+### 59.1. Autorización y baseline — 2026-11-12
+
+Solicitud **INFRA-2 + INFRA-3 / T-INFRA-003 A T-INFRA-006 / BUILD CONTROLADO NO APPLY** autoriza definiciones candidatas y la porción posible de validación transversal 025. No acepta dependencias incompletas ni permite provisión. Lectura completa de 003 spec/plan/task y revisión de puerto Docker/configuración antes de editar. Baseline verificada **feature/infrastructure**, HEAD **611071f0ecb0d6cb67993f4e9bffd00d328a2f90**, árbol limpio; checkpoint previo autorizado de once archivos. Se conserva HEAD, sin nuevo stage/commit/push.
+
+Confirmados: proyecto **enver**, ambiente **dev**, región **us-east-1**, release inicial Authentication, no Orders; presupuesto inicial USD 50 y reserva objetivo USD 50 sobre crédito informado USD 100, no aprobación de cargos/estimación integral. Se crean `infra/networking.tf`, `security.tf`, `bootstrap/terraform-local-network-policy.json`; se modifican variables/locals/outputs/tfvars.example/README de infra y únicamente task/memoria de gobierno/SDD. No spec/plan, providers/versions/main/backend o lock modificados.
+
+### 59.2. Candidato de red, salida y costo
+
+Spec §6 contempla A (ALB/EC2 en públicas con SG restrictivo) como propuesta económica; DP-I-03 sigue sin aceptación. Se materializa **candidato A**, no elección definitiva: VPC propuesta `10.20.0.0/16`, DNS support/hostnames, dos subnets derivadas (/24 de ejemplo), tabla pública compartida/asociaciones/ruta IPv4 vía IGW. CIDR/newbits obligatorios sin defaults; confirmación explícita `network_design_approved` requerida antes de plan, ejemplo false. Contención/no solapamiento interno por derivación; redes externas y AZ reales aún no acreditadas.
+
+AZ por data source disponible/estándar/opt-in, Zone IDs ordenados y primeras dos con claves a/b; sin inferir us-east-1a/b, precondición dos elegibles. Aptitud/capacidad de futuro EC2 requiere revisión propia. `map_public_ip_on_launch=false`: IGW/subnet pública sin IP pública/EIP no da salida IPv4 a una instancia. **Sin NAT Gateway/instance, endpoints, EIP, EC2 o ALB definidos**; Redis privado se mantiene para otra fase.
+
+Recomendación concreta Atlas: **dos EIP futuras, una por backend**, dos /32 en allowlist, reasociación autorizada por reemplazo y comprobación de ambas salidas/TLS antes de admisión. Sin aprobar costo/asignación ni modificar Atlas. IP automática cambia al detener/reemplazar; NAT añade cargos/GB/IP y alternativas privadas requieren aprobación de red/operación/capacidad/tier. No /0 en Atlas ni asumir que quitar una regla corta inmediatamente conexiones existentes.
+
+Precio público consultado **2026-11-12**, [AWS VPC](https://aws.amazon.com/vpc/pricing/), aplicable us-east-1: **USD 0.005/IP-hora**, activa o inactiva. Dos IP/EIP: **USD 0.01/h, USD 0.24/24 h, USD 7.30/730 h**, solo IP; proyección futura mínima 2 backend + 2 ALB **USD 14.60/730 h solo IP**, escalado puede aumentar IP ALB. VPC/subnets/rutas/IGW/SG sin workloads/IP: **USD 0 recurrente directo estimado**, no factura real ni gratuidad de plataforma. Tarifa exacta actual NAT Virginia/GB pendiente (no usada); no extrapolar ejemplo Ohio. Total EC2/EBS/ALB/LCU/Redis/Atlas/logs/secretos/transferencia, calendario/crédito/cobertura y ownership siguen pendientes antes de apply. EIP retenida sigue costando con EC2 parada. Comparación y runbook en [infra README](infra/README.md).
+
+### 59.3. Security/IAM y puerto acreditado por lectura
+
+SG ALB candidato: ingreso TCP 443 público IPv4, egreso solo SG backend/8080; no 80 hasta redirect aprobado. Backend: ingreso solo SG ALB/8080, sin ingress público general/SSH/Docker remoto. Puerto **declarado 8080** por launchSettings Container HTTP_PORTS, Dockerfile y referencia .NET; no se ejecuta contenedor ni se certifica escucha/mapeo cloud. 8081/EXPOSE/useSSL local no prueban HTTPS; **TLS interno sigue pendiente**. SSM exige rol/profile/agente/conectividad posteriores, no administración funcional acreditada.
+
+Egreso backend **IPv4 amplio provisional** (`0.0.0.0/0`, todos los protocolos), sin ingress público o /0 Atlas: evita romper dependencias con una lista parcial de puertos antes del diseño completo. Mayor superficie de salida/exfiltración reconocida, sin filtro FQDN o segmentación fina prometidos; destinos/endpoints/red, puertos/SG Redis, TLS/OCSP, bootstrap/AMI y DNS deben revisarse para reducirlo antes de aceptación final. Sin IPv6. No adjuntar SG default/permisivos a futuros hosts; pruebas bypass reales reservadas a cloud.
+
+Bootstrap JSON revisable **solo lectura**: nueve Describe de AZ/VPC/atributos/subnets/rutas/IGW/SG/reglas/tags, región us-east-1 y usuario enver-terraform-local; Resource=* para lecturas regionales, sin cuenta hardcodeada. Fuente de operaciones [EC2](https://docs.aws.amazon.com/service-authorization/latest/reference/list_ec2.html). JSON parseado/revisado, no IAM simulado/aplicado. Propuesta para revisión/asignación manual por administrador autorizado; **sin políticas/roles adjuntos por este agente**. Escrituras de tags/red no son necesarias para definir/validar sin apply; provisión exige nueva política lifecycle acotada. Sin AdministratorAccess/PowerUserAccess, RunInstances, EIP, ALB/ECR/ACM/Secrets/Redis/DynamoDB/CloudWatch o IAM/PassRole.
+
+T005 pide separación/diseño, sin crear trust aún: **no runtime role/instance profile en Terraform ahora**. Matriz de roles futuros: Terraform, runtime EC2 sin claves/crear-borrar tabla, operador SSM, publisher/deploy OIDC 004 y bootstrap secretos/authority separados. No adelantar permisos runtime de servicios aún inexistentes; DP-I-08/09/004 sin cerrar.
+
+### 59.4. Preflight real y evidencia parcial E025
+
+STS con perfil externo enver-infra: **exit 0**, usuario esperado y Account presente; región perfil us-east-1. Solo coincidencia/presencia mostradas, no ID/ARN completos o credenciales. Lectura AZ falla **UnauthorizedOperation / exit 254**, acción **ec2:DescribeAvailabilityZones**, recurso conjunto regional AZ (**Resource=* de esa lectura**), INFRA-2/T003 preflight. Sin ampliar permisos, cambiar identidad o llamar apply. Permisos actuales insuficientes para resolver el data source; no prueba de ausencia de otros privilegios.
+
+**Terraform plan NO ejecutado:** faltan permiso y aceptación DP-I-03/inputs críticos; no se usa cuenta falsa, guard true o bypass. Sin planfile, state real, backend reinicializado o outputs efectivos. Recuento estático del HCL expandido: **14 recursos definidos** (8 red, 2 SG, 4 reglas) y un data source; no resultados de plan ni recursos existentes.
+
+Terraform **1.17.1/windows_amd64**, provider/lock **6.73.0** intactos. `fmt -recursive infra` exit 0 (normalizó security.tf), `fmt -check -recursive infra` exit 0 y `validate` **exit 0 / Success! The configuration is valid.** Sin init/actualizaciones/descargas nuevas. State/planes ausentes y no rastreados, exclusiones conservadas; JSON de bootstrap con nueve lecturas/condiciones verificadas localmente.
+
+`git diff --check` **exit 0**, sin errores de whitespace (solo avisos de normalización LF→CRLF existente). `git status` confirma feature/infrastructure, siete archivos modificados sin stage y tres nuevos sin seguimiento; `git diff --stat` revisado, sin contar automáticamente los tres nuevos. No se añaden al índice para obtener estadísticas.
+
+| Tarea/gate | Estado vigente |
+| --- | --- |
+| T-INFRA-001/002 | Conservan parciales/pendientes de aceptación; dev/proyecto confirmados y costos parciales no cierran costo integral/custodia/ownership |
+| T-INFRA-003/004/005/006 | **PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE**; decisiones/dependencias y aceptación real sin satisfacer |
+| T-INFRA-025 | **PARCIAL / VALIDACIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE**; ahora sí porción explícitamente autorizada/ejecutada, no COMPLETADA |
+| GATE-I-A | **PENDIENTE / NO SATISFECHO**, faltan 001/002, custodia/costo/ownership y aceptación completa E025 |
+| GATE-I-B | **PENDIENTE / NO SATISFECHO**; exige I-A, E(003–006), E(019–020), E(027–028) y networking/IAM/SSM/Atlas/bypass reales |
+
+Siete tareas parciales, otras 23 no ejecutadas, nueve gates pendientes. Trazabilidad E003–006/E025 y límites en [task §9](specs/003-infrastructure/task.md); salidas saneadas en sesión/documento, sin afirmar archivo externo/retención duradera. No se extrapola validate a cloud ni se aceptan dependencias por la autorización de preparar candidatos.
+
+### 59.5. Detención
+
+No recursos AWS creados, IAM aplicado, plan/apply/destroy/import, EC2/ALB/EIP/NAT/Redis/ECR/ACM/Secrets/DynamoDB/CloudWatch ni backend remoto. Sin workflows/004, UT/IT/ST, producto/Authentication/Program.cs/Dockerfile, agentes/skills o specs de otras fases modificados. Cierre Authentication exclusivamente LOCAL/TEST REPRESENTATIVO y AUTH-027 integral sin cambios. Sin stage/commit/push; HEAD conservado; detener tras este bloque, sin trabajo posterior automático.
+
+## 60. 003 — Revalidación IAM/AZ e intento de Terraform plan
+
+### 60.1. Autorización y evidencia AWS — 2026-11-12
+
+Solicitud **INFRA-2/3 — REVALIDACIÓN IAM + TERRAFORM PLAN / VALIDACIÓN CONTROLADA / NO APPLY**. Baseline verificada: **feature/infrastructure**, HEAD **611071f0ecb0d6cb67993f4e9bffd00d328a2f90**, siete modificados y tres nuevos de §59, 0 staged. Solo se editan [003 task §10](specs/003-infrastructure/task.md) y esta memoria; se preservan infra/spec/plan/004/Authentication y trabajo pendiente. No se cambia la autorización de provisión ni las decisiones pendientes.
+
+El responsable informa **bootstrap IAM aplicada**. Nueva evidencia real: `aws sts get-caller-identity --profile enver-infra` **exit 0**, usuario esperado `user/enver-terraform-local`, Account válido presente; ID/ARN completos y credenciales no publicados. STS repetido antes del plan. No se enumeran políticas IAM, por lo que no se certifica su contenido/asignación efectivos ni ausencia de privilegios amplios.
+
+`aws ec2 describe-availability-zones --region us-east-1 --profile enver-infra` **exit 0**, seis AZ estándar disponibles/habilitadas. Mapeo observado de cuenta por Zone ID: **use1-az1/us-east-1a**, **use1-az2/us-east-1b**, **use1-az3/us-east-1e**, **use1-az4/us-east-1c**, **use1-az5/us-east-1f**, **use1-az6/us-east-1d**. Candidato del algoritmo existente: primeras dos, use1-az1/use1-az2. No AZ hardcodeadas ni capacidad futura EC2 acreditada. La denegación AZ de §59 queda como antecedente; ninguna nueva denegación IAM observada en estas llamadas. No se equipara AZ exit 0 con permisos suficientes para todo plan.
+
+### 60.2. Validación local e intento de plan fallido
+
+Terraform **1.17.1/windows_amd64**, provider/lock **6.73.0** preservados. `fmt -recursive infra`, `fmt -check -recursive infra`, `validate`: **exit 0**, sin cambios de formato; validate **Success! The configuration is valid.** Sin instalación/actualización/init nuevos.
+
+Plan intentado **una vez**, con perfil externo enver-infra y variables solo en proceso: enver/dev/us-east-1, CIDR propuesto 10.20.0.0/16, newbits=8 (dos /24 propuestas), tags existentes; cuenta real obtenida de STS sin publicarla. **network_design_approved=false**, sin convertir autorización de intento en aceptación DP-I-03. Comprobación previa sin inputs automáticos/state inesperados, resource types limitados a red/SG y data source AZ; sin credenciales ambientales que sustituyan perfil. Variables restauradas, sin tfvars real/planfile/log Terraform guardados.
+
+```text
+terraform -chdir=infra plan -input=false -no-color -detailed-exitcode
+Exit: 1
+Error: Backend initialization required, please run "terraform init"
+Reason: Initial configuration of the requested backend "local"
+```
+
+Falla **antes del provider**, no AccessDenied ni permiso faltante identificado. Baseline inicial usó `init -backend=false`; **no se ejecuta init/reconfigure/migrate-state automáticamente**. No hay conteos add/change/destroy válidos, cambios previstos confirmados ni data source resuelto por Terraform (las AZ las consultó CLI). No se afirma 0 destroy observado. No permiso IAM adicional propuesto sin una denegación real; permisos restantes no acreditados por este intento.
+
+HCL revisado mantiene **14 instancias definidas** (8 red, 2 SG, 4 reglas) y un data source, no resultado de plan. Sin EC2/ALB/ECR/Redis/DynamoDB/ACM/Secrets/CloudWatch/EIP/NAT definidos ni creados en este bloque. Solo costo conocido del diseño actual: **USD 0 recurrente directo estimado** para red básica/SG sin workloads/IP asignadas, conforme a fuentes previas; sin nueva consulta precios/Billing ni estimación integral o gasto autorizado. Presupuesto/reserva conservados.
+
+### 60.3. Reevaluación y límites
+
+T-INFRA-003/004/005/006 conservan **PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE**. T-INFRA-025 conserva **PARCIAL / VALIDACIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE**; se agrega resultado fallido de plan, no cierre por comandos verdes. AZ acreditadas no resuelven dependencias 001/002, custodia/backup, costo/ownership, DP-I-03, Atlas/egreso, SSM, contratos runtime o TLS interno.
+
+**GATE-I-A PENDIENTE / NO SATISFECHO**, sin aceptación completa E001/E002/E025 y state/costo/ownership. **GATE-I-B PENDIENTE / NO SATISFECHO**, requiere I-A, E003–006, E019–020, E027–028 y verificaciones cloud. Nueve gates pendientes; no estados nuevos de tareas completadas.
+
+Comprobación Git: `git diff --check` **exit 0** (solo avisos LF→CRLF); status siete modificados/tres nuevos, **0 staged**; stat revisado. Lock/provider/versiones/backend/spec/plan conservados respecto a HEAD; sin state/planfile/tfvars real o lock de state en infra.
+
+Reintento requiere autorización específica para inicialización local, revisión custodia/state/backup y resolución/alcance de decisiones pendientes; no cambiar guard de aprobación a true por conveniencia. No recursos AWS creados/mutados, IAM aplicado por el agente, apply/destroy/import/init, pruebas backend, workflows, producto/Authentication o 004. Sin stage/commit/push, HEAD conservado. Detener tras documentar los resultados; sin siguiente incremento automático.
+
+## 61. 003 — Backend local inicializado y plan INFRA-2/3 válido
+
+### 61.1. Decisión y autorización — 2026-11-12
+
+Solicitud **INICIALIZAR BACKEND LOCAL + PLAN INFRA-2/3 / VALIDACIÓN CONTROLADA NO APPLY**. Rama **feature/infrastructure**, HEAD **611071f0ecb0d6cb67993f4e9bffd00d328a2f90**, siete modificados/tres nuevos preexistentes y 0 staged. Solo se editan esta memoria y [003 task §11](specs/003-infrastructure/task.md); infra/spec/plan/004/producto permanecen como estaban.
+
+**Network design APROBADO PARA DISEÑO Y PLAN, NO PARA APPLY**: opción A, ALB y dos EC2 futuros en públicas, backend exclusivamente SG ALB, no SSH público, administración futura SSM, sin NAT Gateway, dos EIP futuras para salida estable Atlas (una por EC2), TLS público futuro ALB+ACM. Inputs confirmados enver/dev/us-east-1, VPC **10.20.0.0/16** y subnets **10.20.0.0/24**, **10.20.1.0/24**. `network_design_approved=true` autorizado solo como input del plan; no costos/provisión aprobados, EIP implementadas, TLS interno decidido ni cierre integral DP-I-03/otras decisiones.
+
+### 61.2. Init local, lock y exclusiones
+
+Un prechequeo de hashes no encontró Get-FileHash y terminó antes de llamar Terraform; se sustituyó por SHA-256 .NET en memoria, sin instalar herramientas. Única ejecución de `terraform -chdir=infra init -input=false -lockfile=readonly -no-color`: **exit 0**, **Successfully configured the backend "local"!**, reutilizando **hashicorp/aws 6.73.0** ya instalado y fijado en lock. Sin upgrade, provider nuevo, prompts de migración, reconfigure/migrate-state, S3/backend remoto o DynamoDB locking.
+
+Metadata `infra/.terraform/terraform.tfstate` comprobada: tipo local, path terraform.tfstate; no state de recursos aplicados. Hashes de archivos infra/bootstrap/lock antes/después idénticos. Fmt/check recursivos y validate **exit 0**, validate **Success! The configuration is valid.**, sin cambios de formato. Terraform 1.17.1 preservado.
+
+Exclusiones Git verificadas para state/backup/sufijos, `.terraform/` y tfvars real; lock y tfvars.example siguen versionables. No state/plan/tfvars real rastreados. Tras plan: sin infra/terraform.tfstate de recursos, planfile o tfvars real; metadata local queda bajo `.terraform/` ignorada. Esto no certifica ACL/cifrado, custodia, backup o recuperación: pendientes de 001/002/025 conservados.
+
+### 61.3. Plan observado, inventario y costos
+
+STS previo: **exit 0**, perfil externo enver-infra, usuario esperado/cuenta válida, identificadores completos suprimidos. Inputs de proceso: enver/dev/us-east-1, CIDR /16, newbits=8, common_tags={} default existente y cuenta guard desde STS. CLI `-var=network_design_approved=true`; sin cambiar ejemplo ni escribir tfvars. Variables restauradas, sin credenciales ambientales que sustituyan perfil/log Terraform a archivo. Un solo plan, sin planfile guardado:
+
+```text
+terraform -chdir=infra plan -input=false -no-color -detailed-exitcode -var=network_design_approved=true
+Exit: 2 (éxito con cambios previstos)
+data.aws_availability_zones.available: Read complete after 0s [id=us-east-1]
+Plan: 14 to add, 0 to change, 0 to destroy.
+```
+
+Inventario exacto contrastado: **1 VPC, 2 subnets, 1 IGW, 1 route table, 1 default route, 2 asociaciones, 2 SG, 4 reglas SG**; un data source AZ leído, no recurso a crear. Plan confirma **use1-az1/10.20.0.0/24** y **use1-az2/10.20.1.0/24**; nombres us-east-1a/us-east-1b según mapeo CLI previo §60. DNS support/hostnames true, map_public_ip_on_launch false; ruta default IGW, SG ALB 443 y backend solo SG ALB/8080, egreso ALB a backend y backend IPv4 amplio provisional. Sin 22/80; sin afirmar SSM/puerto/TLS/bypass reales.
+
+**Sin tipos inesperados o prohibidos:** EC2 instances/EIP/ALB/target groups/ECR/ACM/Redis/ElastiCache/DynamoDB/Secrets/CloudWatch/Route53/NAT ausentes del inventario. **Sin AccessDenied, sin permiso adicional requerido observado**, sin mutar IAM; esto acredita llamadas de este plan inicial, no permisos para apply/refresh futuro o auditoría completa de políticas efectivas.
+
+Costo directo recurrente estimado **del inventario actual sin workloads/IP: USD 0** de red básica/SG según fuentes anteriores, no factura medida ni plataforma gratuita. Ningún workload/IP/NAT facturable incluido. **Dos EIP futuras ≈ USD 7.30/730 h (~mes)** a USD 0.005/IP-h previamente acreditado, **fuera del plan y NO autorizadas para apply**, como EC2/ALB futuros. Sin nueva consulta Billing/precios ni aprobación de costo integral; presupuesto/reserva/cobertura/horas pendientes preservados.
+
+### 61.4. Estados y límites
+
+**DEFINIDO** = HCL existente; **PLANIFICADO** = 14 creaciones confirmadas; **CREADO EN AWS** = ninguno por este bloque. T-INFRA-003/004/005/006 conservan **PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE**, ahora con plan real registrado para componentes presentes. Faltan aceptación de dependencias, salida/allowlist Atlas real, contratos IAM/runtime, egreso final, SSM y TLS interno. T-INFRA-025 conserva **PARCIAL / VALIDACIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE** por custodia/backup/recuperación, 001/002 y aceptación integral E025.
+
+**GATE-I-A PENDIENTE / NO SATISFECHO**: 001/002, state/custodia/recuperación, ownership y E025 completa aún pendientes. **GATE-I-B PENDIENTE / NO SATISFECHO**: I-A y verificación cloud E003–006/E019–020/E027–028 faltantes. Nueve gates pendientes; no cierre artificial o inicio de T026 por plan verde.
+
+Git: **diff --check exit 0**, solo avisos LF→CRLF; status siete modificados/tres nuevos preexistentes y **0 staged**; stat revisado sin añadir archivos al índice. HEAD y baseline protegida conservados; revisión básica de patrones de secretos en task/memoria sin coincidencias, no exhaustiva.
+
+No apply/destroy/import, recursos AWS creados, IAM modificado, CI/CD, pruebas backend o producto/Authentication/004 alterados. Ejemplo tfvars, HCL/provider/lock/spec/plan intactos en este turno. Sin stage/commit/push; HEAD conservado. Detener tras registrar esta validación; autorización de diseño/plan no es autorización de apply o siguiente incremento.
