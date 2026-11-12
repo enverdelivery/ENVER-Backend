@@ -32,7 +32,7 @@ public sealed class AuthenticationDependencyCompositionTests(AuthenticationDepen
     };
 
     [Fact]
-    public async Task Real_host_resolves_singletons_real_adapters_and_prepared_routes_without_bootstrapping_or_productive_JWT()
+    public async Task Real_host_resolves_singletons_real_adapters_and_active_JWT_without_bootstrapping()
     {
         await using var authority = await OwnedCompositionAuthority.CreateAsync(fixture, open: false);
         var config = Configuration();
@@ -51,7 +51,7 @@ public sealed class AuthenticationDependencyCompositionTests(AuthenticationDepen
         Assert.Equal(2, services.GetRequiredService<HashingConcurrencyGate>().Limit);
         Assert.True(services.GetRequiredService<DummyPasswordHash>().IsInitialized);
         Assert.Equal(HttpStatusCode.OK, (await client.GetAsync("/health")).StatusCode);
-        await AssertPreparedLogoutWithoutProductiveJwtAsync(services, client);
+        await AssertActiveAuthenticationPipelineAsync(services, client);
         using var register = new StringContent("{}", System.Text.Encoding.UTF8, "application/json");
         Assert.Equal(HttpStatusCode.ServiceUnavailable, (await client.PostAsync("/api/v1/auth/register", register)).StatusCode);
         using var budget = new RequestBudget(8000, default);
@@ -59,7 +59,7 @@ public sealed class AuthenticationDependencyCompositionTests(AuthenticationDepen
         await services.GetRequiredService<IMongoClient>().DropDatabaseAsync(config["MongoDb:DatabaseName"]!);
     }
 
-    internal static async Task AssertPreparedLogoutWithoutProductiveJwtAsync(IServiceProvider services, HttpClient client)
+    internal static async Task AssertActiveAuthenticationPipelineAsync(IServiceProvider services, HttpClient client)
     {
         var endpoints = services.GetRequiredService<Microsoft.AspNetCore.Routing.EndpointDataSource>().Endpoints
             .OfType<Microsoft.AspNetCore.Routing.RouteEndpoint>().ToArray();
@@ -73,9 +73,10 @@ public sealed class AuthenticationDependencyCompositionTests(AuthenticationDepen
         Assert.Equal(AuthenticationPolicies.Logout, Assert.Single(logout.Metadata.GetOrderedMetadata<Microsoft.AspNetCore.Authorization.IAuthorizeData>()).Policy);
         Assert.Equal(new[] { "POST" }, logout.Metadata.GetMetadata<Microsoft.AspNetCore.Routing.HttpMethodMetadata>()!.HttpMethods);
         Assert.Equal(AuthenticationOperation.Logout, logout.Metadata.GetMetadata<AuthenticationRequestMetadata>()!.Operation);
-        // La ruta preparada no acredita 058: el host habitual aún no registra el scheme JWT productivo.
-        var schemes = services.GetService<Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider>();
-        if (schemes is not null) Assert.DoesNotContain(await schemes.GetAllSchemesAsync(), s => s.Name == AuthenticationPolicies.Scheme);
+        var schemes = services.GetRequiredService<Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider>();
+        Assert.Equal(AuthenticationPolicies.Scheme, Assert.Single(await schemes.GetAllSchemesAsync()).Name);
+        var policies = services.GetRequiredService<IOptions<Microsoft.AspNetCore.Authorization.AuthorizationOptions>>().Value;
+        Assert.NotNull(policies.FallbackPolicy); Assert.Same(policies.DefaultPolicy, policies.FallbackPolicy);
         Assert.Null(client.DefaultRequestHeaders.Authorization);
         using var missingLogin = await client.PostAsync("/api/v1/auth/login", null);
         Assert.Equal(HttpStatusCode.UnsupportedMediaType, missingLogin.StatusCode);
@@ -269,6 +270,8 @@ internal sealed class OwnedCompositionAuthority : IAsyncDisposable
 }
 
 // Superficie únicamente del assembly IT y solo incorporada por WithProbe; no implementa Register/Logout.
+// 058: prueba admisión de dependencias, no identidad; la excepción pública es solo del probe IT.
+[Microsoft.AspNetCore.Authorization.AllowAnonymous]
 [ApiController]
 [Route("__test/admission")]
 public sealed class DependencyAdmissionProbeController(AuthenticationDependencyAdmission admission) : ControllerBase

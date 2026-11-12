@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Enver.API.Security;
 
-/// <summary>Definiciones preparadas para 058; no publican recursos ni conceden permisos de negocio.</summary>
+/// <summary>Políticas activadas por 058; no publican recursos ni conceden permisos de negocio.</summary>
 public static class AuthenticationPolicies
 {
     public const string Scheme = "Bearer";

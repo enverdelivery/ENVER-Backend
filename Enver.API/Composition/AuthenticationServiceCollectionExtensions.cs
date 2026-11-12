@@ -13,6 +13,9 @@ using Enver.API.Infrastructure.Security;
 using Enver.API.Security;
 using Enver.API.Observability;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -21,6 +24,18 @@ namespace Enver.API.Composition;
 
 public static class AuthenticationServiceCollectionExtensions
 {
+    // 058: activa los componentes acreditados; issuer, key ring y stores siguen en Dependencies.
+    public static IServiceCollection AddAuthenticationPipeline(this IServiceCollection services)
+    {
+        services.AddSingleton(p => new JwtClaimsValidator(p.GetRequiredService<JwtKeyRing>(), TimeProvider.System));
+        services.AddAuthentication(AuthenticationPolicies.Scheme).AddJwtBearer();
+        services.AddSingleton<IConfigureOptions<JwtBearerOptions>, JwtBearerConfiguration>();
+        services.AddAuthorization(AuthenticationPolicies.Configure);
+        services.AddSingleton<IAuthorizationHandler, RevocationAuthorizationHandler>();
+        services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthenticationAuthorizationResultHandler>();
+        return services;
+    }
+
     public static IServiceCollection AddAuthenticationFoundation(this IServiceCollection services,
         IConfiguration configuration, IHostEnvironment environment)
     {

@@ -42,12 +42,12 @@ public sealed class JwtCheckpointTests(AuthenticationDependenciesFixture depende
         var login = Assert.Single(endpoints, e => e.RoutePattern.RawText == "api/v1/auth/login");
         Assert.NotNull(login.Metadata.GetMetadata<IAllowAnonymous>());
         Assert.Equal(AuthenticationOperation.Login, login.Metadata.GetMetadata<AuthenticationRequestMetadata>()!.Operation);
-        // Ruta preparada por 049/050; no acredita el pipeline JWT productivo de 058.
+        // 058 activa el mismo pipeline en el Program real usado por RegistrationTestScope.
         var logout = Assert.Single(endpoints, e => e.RoutePattern.RawText == "api/v1/auth/logout");
         Assert.Equal(AuthenticationPolicies.Logout, Assert.Single(logout.Metadata.GetOrderedMetadata<IAuthorizeData>()).Policy);
         Assert.Equal(AuthenticationOperation.Logout, logout.Metadata.GetMetadata<AuthenticationRequestMetadata>()!.Operation);
-        var schemes = scope.Services.GetService<Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider>();
-        if (schemes is not null) Assert.DoesNotContain(await schemes.GetAllSchemesAsync(), s => s.Name == AuthenticationPolicies.Scheme);
+        var schemes = scope.Services.GetRequiredService<Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider>();
+        Assert.Equal(AuthenticationPolicies.Scheme, Assert.Single(await schemes.GetAllSchemesAsync()).Name);
         Assert.All(a.Server.Services.GetRequiredService<EndpointDataSource>().Endpoints.OfType<RouteEndpoint>(),
             e => Assert.DoesNotContain("/api/v1/auth/", e.RoutePattern.RawText!));
     }

@@ -46,7 +46,7 @@ public sealed class RegistrationTests(AuthenticationDependenciesFixture fixture)
         AssertLogsSafe(s, user.PasswordHash);
         // Retirar el Bearer sintético inválido usado en Register; comprobar Logout sin autenticación.
         s.Client.DefaultRequestHeaders.Authorization = null;
-        await AuthenticationDependencyCompositionTests.AssertPreparedLogoutWithoutProductiveJwtAsync(s.Services, s.Client);
+        await AuthenticationDependencyCompositionTests.AssertActiveAuthenticationPipelineAsync(s.Services, s.Client);
     });
 
     [Fact]

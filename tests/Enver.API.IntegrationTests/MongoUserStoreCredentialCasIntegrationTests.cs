@@ -113,8 +113,7 @@ internal static class Mongo026Evidence
     {
         await WarmAsync(scope.Client);
         using var setup = new RequestBudget(5000, default);
-        await scope.Users.Indexes.CreateOneAsync(MongoUsersInitializer.CreateIndexDefinition(), cancellationToken: setup.Token)
-            .WaitAsync(setup.Token);
+        await scope.CreateSetupIndexAsync(MongoUsersInitializer.CreateIndexDefinition(), setup.Token);
         Assert.Equal(MongoUsersInitializationStatus.Ready, await scope.Initializer.InitializeAsync(setup));
     }
 

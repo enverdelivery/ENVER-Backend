@@ -12,6 +12,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddHealthChecks();
 builder.Services.AddAuthenticationFoundation(builder.Configuration, builder.Environment);
 builder.Services.AddAuthenticationDependencies(builder.Configuration);
+builder.Services.AddAuthenticationPipeline();
 
 var app = builder.Build();
 
@@ -23,11 +24,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthenticationFoundation();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 // Health endpoint
-app.MapHealthChecks("/health");
+app.MapHealthChecks("/health").AllowAnonymous();
 
 app.Run();

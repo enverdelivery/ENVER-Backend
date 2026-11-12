@@ -86,7 +86,7 @@ public sealed class MongoUsersInitializerIntegrationTests(AuthenticationDependen
             await WarmUpAsync(scope.Client, "equivalent-index");
             var definition = MongoUsersInitializer.CreateIndexDefinition();
             definition.Options.Name = "equivalent_other_name";
-            await scope.Users.Indexes.CreateOneAsync(definition);
+            await scope.CreateSetupIndexAsync(definition);
             var before = await IndexesAsync(scope);
             using var budget = new RequestBudget(8000, default);
             Assert.Equal(MongoUsersInitializationStatus.Ready, await scope.Initializer.InitializeAsync(budget));
@@ -213,10 +213,7 @@ public sealed class MongoUsersInitializerIntegrationTests(AuthenticationDependen
             }
             scope.SetDiagnosticPhase("setup/create-incompatible-index");
             var definition = new CreateIndexModel<UserDocument>(keys, options);
-            if (scenario is "hidden" or "collation")
-                await CreateScenarioIndexAsync(scope, definition);
-            else
-                await scope.Users.Indexes.CreateOneAsync(definition);
+            await scope.CreateSetupIndexAsync(definition);
             scope.SetDiagnosticPhase("setup/insert-synthetic-document");
             await scope.Users.InsertOneAsync(UserDocument.FromUser(Mongo024IntegrationScope.User()));
             scope.SetDiagnosticPhase("setup/capture-state");
@@ -257,14 +254,14 @@ public sealed class MongoUsersInitializerIntegrationTests(AuthenticationDependen
             var docs = await scope.Database.GetCollection<BsonDocument>("users").Find(FilterDefinition<BsonDocument>.Empty).ToListAsync();
             audit.ReportIndexes("before", before);
             audit.Mark($"DOCUMENTS_BEFORE={docs.Count} EXACT_DUPLICATES={docs.Count == 2 && docs[0]["normalizedEmail"].Equals(docs[1]["normalizedEmail"])}");
-            var observer = new Mongo025ConcurrentObservation(audit.Database, audit.ObserveDependency);
+            var observer = new Mongo025ConcurrentObservation(audit.Database, audit.ObserveDependency, audit.Clock);
             var initializer = new MongoUsersInitializer(observer.Database, scope.Options);
-            using var budget = new RequestBudget(8000, default, audit.Clock);
+            using var budget = new RequestBudget(8000, default, observer.Clock);
             scope.SetDiagnosticPhase("initializer/create-index-over-duplicates");
             audit.BeginInitializer();
             var result = await initializer.InitializeAsync(budget);
             var observed = observer.Snapshot(result);
-            audit.Mark($"INITIALIZER_RETURN={result} DEPENDENCY_CANCELLED={observed.DependencyCancelled} REQUEST_REMAINING_MS={budget.Remaining.TotalMilliseconds:F3}");
+            audit.Mark($"INITIALIZER_RETURN={result} DEPENDENCY_CANCELLED={observed.DependencyCancelled} DEPENDENCY_DEADLINE_EXPIRED={observed.DependencyDeadlineExpired} REQUEST_REMAINING_MS={budget.Remaining.TotalMilliseconds:F3}");
             var rejectionCode = observer.CreateRejectionCode;
             var rejectionEvidence = rejectionCode == 0 ? "not-observed" : rejectionCode.ToString(System.Globalization.CultureInfo.InvariantCulture);
             scope.RecordDiagnostic($"DUPLICATES_ASSERT=conclusive-Incompatible-or-cancelled-Unavailable EXPECTED=Incompatible-or-budget-cancelled-Unavailable ACTUAL={result} DEPENDENCY_CANCELLED_AT_RETURN={observed.DependencyCancelled} CREATE_CALLS={observed.CreateCalls} SERVER_REJECTION_CODE_AT_RETURN={rejectionEvidence}");
@@ -289,7 +286,9 @@ public sealed class MongoUsersInitializerIntegrationTests(AuthenticationDependen
             {
                 Assert.True(observed.TokenObserved);
                 Assert.True(observed.SameDependencyToken);
-                Assert.True(observed.DependencyCancelled);
+                // DependencyBudget.Cause también vence por reloj monotónico antes de que
+                // el callback del CTS haya sido despachado. No aceptar Unavailable arbitrario.
+                Assert.True(observed.DependencyCancelled || observed.DependencyDeadlineExpired);
                 // La cancelación no inventa respuesta del servidor ni cambia la clasificación.
             }
             else
@@ -311,13 +310,13 @@ public sealed class MongoUsersInitializerIntegrationTests(AuthenticationDependen
             // Mismos duplicados, cliente/settings, 500 ms y contrato; ninguna eliminación o reparación.
             var secondObserver = new Mongo025ConcurrentObservation(scope.Database);
             var secondInitializer = new MongoUsersInitializer(secondObserver.Database, scope.Options);
-            using var secondBudget = new RequestBudget(8000, default);
+            using var secondBudget = new RequestBudget(8000, default, secondObserver.Clock);
             var secondResult = await secondInitializer.InitializeAsync(secondBudget);
             var secondObserved = secondObserver.Snapshot(secondResult);
-            output.WriteLine($"T025 SECOND_INITIALIZATION={secondResult} DEPENDENCY_CANCELLED={secondObserved.DependencyCancelled} CREATE_CALLS={secondObserved.CreateCalls} SERVER_REJECTION_CODE={secondObserver.CreateRejectionCode} REQUEST_REMAINING_MS={secondBudget.Remaining.TotalMilliseconds:F3} INDEPENDENT_VERIFICATION=true AUTOMATIC_RETRY=false");
+            output.WriteLine($"T025 SECOND_INITIALIZATION={secondResult} DEPENDENCY_CANCELLED={secondObserved.DependencyCancelled} DEPENDENCY_DEADLINE_EXPIRED={secondObserved.DependencyDeadlineExpired} CREATE_CALLS={secondObserved.CreateCalls} SERVER_REJECTION_CODE={secondObserver.CreateRejectionCode} REQUEST_REMAINING_MS={secondBudget.Remaining.TotalMilliseconds:F3} INDEPENDENT_VERIFICATION=true AUTOMATIC_RETRY=false");
             Assert.True(secondResult is MongoUsersInitializationStatus.Incompatible or MongoUsersInitializationStatus.Unavailable);
             Assert.True(secondObserved.TokenObserved && secondObserved.SameDependencyToken);
-            if (secondResult == MongoUsersInitializationStatus.Unavailable) Assert.True(secondObserved.DependencyCancelled);
+            if (secondResult == MongoUsersInitializationStatus.Unavailable) Assert.True(secondObserved.DependencyCancelled || secondObserved.DependencyDeadlineExpired);
             else Assert.Equal(11000, secondObserver.CreateRejectionCode);
             Assert.NotEqual(MongoUsersInitializationStatus.Ready, secondResult);
             Assert.Equal(1, secondObserved.CreateCalls); Assert.Equal(0, secondObserved.ForbiddenCalls);
@@ -425,20 +424,6 @@ public sealed class MongoUsersInitializerIntegrationTests(AuthenticationDependen
             scope.RecordDiagnostic($"SERVER_ROLE={server.Type} SERVER_STATE={server.State} PRIMARY_AVAILABLE={scope.Client.Cluster.Description.Servers.Any(candidate => candidate.Type == MongoDB.Driver.Core.Servers.ServerType.ReplicaSetPrimary)} HEARTBEAT_EXCEPTION_TYPE={server.HeartbeatException?.GetType().FullName ?? "none"}");
     }
 
-    private async Task CreateScenarioIndexAsync(Mongo024IntegrationScope scope, CreateIndexModel<UserDocument> definition)
-    {
-        // Solo prepara el estado incompatible. No se entrega este cliente al initializer.
-        // Conserva concerns/wtimeout=500, RetryWrites=false y todos los plazos del cliente SUT.
-        var settings = scope.Client.Settings.Clone();
-        settings.SocketTimeout = TimeSpan.FromSeconds(5);
-        using var setupClient = new MongoClient(settings);
-        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-        await WarmUpAsync(setupClient, "incompatible-index-setup-only");
-        await setupClient.GetDatabase(scope.Options.DatabaseName).GetCollection<UserDocument>("users")
-            .Indexes.CreateOneAsync(definition, cancellationToken: timeout.Token).WaitAsync(timeout.Token);
-        scope.RecordDiagnostic("SETUP_INDEX_CREATED=true SETUP_SOCKET_TIMEOUT_MS=5000 SUT_OPERATION_TIMEOUT_MS=500 SUT_SOCKET_TIMEOUT_MS=500 CONCERNS_CHANGED=false RETRY_WRITES=false INITIALIZER_CALLED=false");
-    }
-
     private async Task<List<BsonDocument>> ObserveFinalIndexesAsync(Mongo024IntegrationScope scope)
     {
         // Una escritura cancelada puede seguir en curso en el servidor. Muestreo solo de metadatos,
@@ -496,6 +481,7 @@ public sealed class MongoUsersInitializerIntegrationTests(AuthenticationDependen
 // Observación pasiva del token y del cursor real, sin modificar plazos, respuestas ni comandos.
 internal sealed class Mongo025ConcurrentObservation
 {
+    private readonly Mongo025DependencyClock clock;
     private CancellationToken dependencyToken;
     private bool tokenObserved;
     private bool sameDependencyToken = true;
@@ -505,8 +491,9 @@ internal sealed class Mongo025ConcurrentObservation
     private int verifiedInsideBudget;
     private int createRejectionCode;
 
-    public Mongo025ConcurrentObservation(IMongoDatabase database, Action<CancellationToken>? observeDependency = null)
+    public Mongo025ConcurrentObservation(IMongoDatabase database, Action<CancellationToken>? observeDependency = null, TimeProvider? timeProvider = null)
     {
+        clock = new Mongo025DependencyClock(timeProvider ?? TimeProvider.System);
         var users = database.GetCollection<UserDocument>("users");
         var indexes = Mongo024IntegrationProxy.Create<IMongoIndexManager<UserDocument>>((method, args) =>
         {
@@ -534,10 +521,11 @@ internal sealed class Mongo025ConcurrentObservation
     }
 
     public IMongoDatabase Database { get; }
+    public TimeProvider Clock => clock;
     public int CreateRejectionCode => Volatile.Read(ref createRejectionCode);
     public Mongo025ConcurrentResult Snapshot(MongoUsersInitializationStatus status) => new(status, tokenObserved,
         sameDependencyToken, dependencyToken.IsCancellationRequested, Volatile.Read(ref verifiedInsideBudget) != 0,
-        Volatile.Read(ref inspections), Volatile.Read(ref creations), Volatile.Read(ref forbidden));
+        Volatile.Read(ref inspections), Volatile.Read(ref creations), Volatile.Read(ref forbidden), clock.DependencyDeadlineExpired);
 
     private async Task<IAsyncCursor<BsonDocument>> ObserveListAsync(Task<IAsyncCursor<BsonDocument>> operation, CancellationToken token) =>
         new VerificationCursor(await operation.ConfigureAwait(false), token, () => Interlocked.Exchange(ref verifiedInsideBudget, 1));
@@ -775,7 +763,34 @@ internal sealed class Mongo025DuplicateIndexAudit : IDisposable
 }
 
 internal sealed record Mongo025ConcurrentResult(MongoUsersInitializationStatus Status, bool TokenObserved,
-    bool SameDependencyToken, bool DependencyCancelled, bool VerifiedInsideBudget, int InspectionCalls, int CreateCalls, int ForbiddenCalls);
+    bool SameDependencyToken, bool DependencyCancelled, bool VerifiedInsideBudget, int InspectionCalls, int CreateCalls, int ForbiddenCalls,
+    bool DependencyDeadlineExpired);
+
+// Observa el segundo timer (request -> dependency) de UNA inicialización. Delega
+// reloj, timers y callbacks sin alterar tiempos. La cota se mide desde CreateTimer,
+// después del inicio lógico del presupuesto: no puede acreditar vencimiento antes.
+internal sealed class Mongo025DependencyClock(TimeProvider inner) : TimeProvider
+{
+    private int timers;
+    private long dependencyStarted;
+    private TimeSpan dependencyLimit;
+    private bool dependencyObserved;
+    public bool DependencyDeadlineExpired => dependencyObserved && inner.GetElapsedTime(dependencyStarted) >= dependencyLimit;
+    public override long TimestampFrequency => inner.TimestampFrequency;
+    public override DateTimeOffset GetUtcNow() => inner.GetUtcNow();
+    public override TimeZoneInfo LocalTimeZone => inner.LocalTimeZone;
+    public override long GetTimestamp() => inner.GetTimestamp();
+    public override ITimer CreateTimer(TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period)
+    {
+        if (Interlocked.Increment(ref timers) == 2)
+        {
+            dependencyStarted = inner.GetTimestamp();
+            dependencyLimit = dueTime;
+            dependencyObserved = dueTime >= TimeSpan.Zero;
+        }
+        return inner.CreateTimer(callback, state, dueTime, period);
+    }
+}
 
 // Diagnóstico posterior a la operación: no envuelve las APIs dentro del presupuesto bajo prueba.
 internal sealed class Mongo025Diagnostic

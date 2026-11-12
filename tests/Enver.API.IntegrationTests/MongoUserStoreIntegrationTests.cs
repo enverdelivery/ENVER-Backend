@@ -151,11 +151,10 @@ public sealed class MongoUserStoreIntegrationTests(AuthenticationDependenciesFix
         await WarmUpAsync(scope.Client, host);
         // Precondición de infraestructura de 024, no operación del UserStore bajo prueba.
         // La creación/idempotencia dentro del presupuesto del initializer se acredita en 025.
-        // Usar la definición productiva exacta, sin otra Options, cliente, timeout o retry.
+        // Definición exacta; solo DDL sintético usa el cliente de setup separado del SUT.
         using var setupBudget = new RequestBudget(5000, default);
         scope.SetDiagnosticPhase("setup/create-index-precondition");
-        await scope.Users.Indexes.CreateOneAsync(MongoUsersInitializer.CreateIndexDefinition(),
-            cancellationToken: setupBudget.Token).WaitAsync(setupBudget.Token);
+        await scope.CreateSetupIndexAsync(MongoUsersInitializer.CreateIndexDefinition(), setupBudget.Token);
         scope.SetDiagnosticPhase("setup/verify-index-precondition");
         var initialized = await scope.Initializer.InitializeAsync(setupBudget);
         scope.RecordDiagnostic($"INDEX_PRECONDITION_RESULT={initialized}");
@@ -280,6 +279,23 @@ internal sealed class Mongo024IntegrationScope : IAsyncDisposable
     public IMongoCollection<UserDocument> Users { get; }
     public MongoUserStore Store { get; }
     public MongoUsersInitializer Initializer { get; }
+    public async Task CreateSetupIndexAsync(CreateIndexModel<UserDocument> definition, CancellationToken cancellationToken = default)
+    {
+        // Solo precondiciones sintéticas: nunca entregar este cliente al store/initializer.
+        // El socket runtime de 500 ms no debe gobernar el DDL del harness. Conserva
+        // concerns/wtimeout, selección/conexión, RetryWrites y las Options del SUT.
+        var settings = Client.Settings.Clone();
+        settings.SocketTimeout = TimeSpan.FromSeconds(5);
+        using var setupClient = new MongoClient(settings);
+        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        timeout.CancelAfter(TimeSpan.FromSeconds(5));
+        var ping = await setupClient.GetDatabase("admin").RunCommandAsync<BsonDocument>(
+            new BsonDocument("ping", 1), ReadPreference.Primary, timeout.Token).WaitAsync(timeout.Token);
+        Assert.True(ping.GetValue("ok", 0).ToDouble() == 1);
+        await setupClient.GetDatabase(Options.DatabaseName).GetCollection<UserDocument>("users")
+            .Indexes.CreateOneAsync(definition, cancellationToken: timeout.Token).WaitAsync(timeout.Token);
+        RecordDiagnostic("SETUP_INDEX_CREATED=true SETUP_SOCKET_TIMEOUT_MS=5000 SETUP_TOKEN_LIMIT_MS=5000 SUT_OPERATION_TIMEOUT_MS=500 SUT_SOCKET_TIMEOUT_MS=500 CONCERNS_CHANGED=false RETRY_WRITES=false INITIALIZER_CALLED=false");
+    }
     public ConcurrentQueue<bool> Writes { get; } = new();
     public ConcurrentQueue<bool> Reads { get; } = new();
     public void SetDiagnosticPhase(string phase)
