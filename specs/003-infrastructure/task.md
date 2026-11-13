@@ -4,11 +4,11 @@
 
 | Campo | Valor |
 | --- | --- |
-| Versión / fecha | 0.55.0 / 2026-11-13 UTC |
-| Solicitud inicial / incremento actual | CIERRE FORMAL E016 / T-INFRA-016 (§46), ACCEPTANCE / DOCUMENTATION / LOCAL GIT: E016 ACEPTADA / T016 COMPLETA / ACEPTADA para revisión de diseño y contrato Atlas, incluidas matrices ACK/A-B y separación runtime/bootstrap diseñada, no aplicada. Runtime proof E028 pendiente; T019 pendiente; Atlas NO READY / PLANEADO / NO PROVISIONADO. I-A SATISFECHO; E005/E006/E015 aceptadas conservadas; I-B PENDIENTE / NO SATISFECHO. Solo task/memoria, validaciones locales y exactamente UN commit documental autorizado; sin Atlas/AWS/plan/apply/SendCommand/pruebas/push |
+| Versión / fecha | 0.59.0 / 2026-11-13 UTC |
+| Solicitud inicial / incremento actual | T-INFRA-008 — VALIDACIÓN FINAL IT CONTROLADA (§49.8), FINAL VALIDATION / LOCAL COMMIT. Política y pinning de bases conservados; runtime10.0.15/SDK10.0.403; sin APT nuevo. FINAL IT VALIDATION PASS310/310 sin suspensión; UT684/684 y ST223/223 conservados sin recompilar/cambiar C#. Registration no reproducible en retest controlado; P1 histórico ENVIRONMENTAL por suspensión acreditada, no flaky confirmado. UN commit local autorizado tras validaciones finales; solo Dockerfile/task/memoria. T008/T019 PARCIAL, E008/DP14/E019 no aceptadas; imagen histórica no promovible y candidata local no publicada/sin scan nuevo. Sin AWS writes/ECR push/delete/StartImageScan/IAM/Secrets/Atlas/plan/apply/SendCommand/pushGit. I-A y E005/E006/E015/E016 aceptadas conservados; I-B PENDIENTE / NO SATISFECHO |
 | Fuentes | [spec.md](spec.md) y [plan.md](plan.md), propuesta aprobada como base documental |
 | Catálogo | 30 tareas, T-INFRA-001 a T-INFRA-030 |
-| Estado vigente de tareas | 001/002/025 **COMPLETA / ACEPTADA** por aceptación humana explícita (§37); 005 **COMPLETA / ACEPTADA**, E005 **ACEPTADA** para el alcance actual con excepciones operativas temporales, no separación técnica integral (§39); 006 **COMPLETA / ACEPTADA**, E006 **ACEPTADA** para el alcance actual documentado con excepción temporal de egreso (§42); 015 **COMPLETA / ACEPTADA**, E015 **ACEPTADA** para diseño/contrato Atlas (§44), no Atlas operativo; 016 **COMPLETA / ACEPTADA**, E016 **ACEPTADA** para revisión de diseño/contrato y matrices (§46), no runtime; 003/004/007 PARCIAL / aceptación pendiente; 009 PARCIAL / VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA (§32.15), dependencias/decisiones y aceptación integral pendientes; 008 conserva publicación/digest/pull según responsable y pendientes; 010 PARCIAL / recuperación conservadora acreditada, prueba formal pendiente; otras17 PENDIENTE / NO EJECUTADA, incluida026 |
+| Estado vigente de tareas | 001/002/025 **COMPLETA / ACEPTADA** por aceptación humana explícita (§37); 005 **COMPLETA / ACEPTADA**, E005 **ACEPTADA** para el alcance actual con excepciones operativas temporales, no separación técnica integral (§39); 006 **COMPLETA / ACEPTADA**, E006 **ACEPTADA** para el alcance actual documentado con excepción temporal de egreso (§42); 015 **COMPLETA / ACEPTADA**, E015 **ACEPTADA** para diseño/contrato Atlas (§44), no Atlas operativo; 016 **COMPLETA / ACEPTADA**, E016 **ACEPTADA** para revisión de diseño/contrato y matrices (§46), no runtime; 003/004/007 PARCIAL / aceptación pendiente; 009 PARCIAL / VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA (§32.15), dependencias/decisiones y aceptación integral pendientes; 008 conserva publicación/digest/pull según responsable y pendientes; 010 PARCIAL / recuperación conservadora acreditada, prueba formal pendiente; 019 **PARCIAL / INVENTARIO Y DISEÑO REVISADOS**, aceptación/dependencias pendientes (§47); otras16 PENDIENTE / NO EJECUTADA, incluida026 |
 | Estado de todos los gates | I-A **SATISFECHO** por aceptación explícita (§37); B–I **PENDIENTE / NO SATISFECHO** |
 | Evidencia de ejecución de 003 | Historial §§18–37 intacto. §32.15 conserva SSM/Docker A/B, sin contenedores ni servicio Enver.API observados entonces. §38 registra auditoría IAM previa, Compute v5 efectiva tras intervención humana y plan NUEVO post-v5 de 2026-11-13T14:37:09.988Z–14:37:27.758Z: exit2, recursos0/0/0/0replacements y +outputcompute_instances; refresh con discrepancias en8recursos, sin acciones correctivas. No zero drift absoluto, no apply ni reutilización de recovery4; ninguna nueva operación AWS/plan en la entrega documental |
 | Baseline documental original | `feature/authentication`, `c58ea86e3eddff4befa8f61398dd58d55c4ef985` |
@@ -283,7 +283,7 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-008 — Contrato de imagen y ownership del digest
 
-- **Estado:** PARCIAL / PUBLICACIÓN, DIGEST Y PULL ACREDITADOS SEGÚN RESPONSABLE; SCANNING FINAL, ROLLBACK Y ACEPTACIÓN PENDIENTES (§22).
+- **Estado:** PARCIAL / PUBLICACIÓN, DIGEST Y PULL HISTÓRICOS SEGÚN RESPONSABLE (§22); scan histórico COMPLETE verificado por lectura en auditoría posterior, 13HIGH (§49). Política aprobada, pinning/build/paquetes locales acreditados y FINAL IT VALIDATION PASS310/310 (§49.8), sin correcciones C#. Imagen histórica NO APROBADA PARA PROMOCIÓN ACTUAL. Candidato local requiere publicación/digestECR/scan nuevo/evaluación/reproducibilidad final/aceptaciónE008-DP14; sin cierre automático.
 - **Fase:** INFRA-4 Registry.
 - **Objetivo:** garantizar mismo artefacto reproducible y promoverlo manualmente desde 004.
 - **Dependencias:** T-INFRA-007; DP-I-02/14, contrato aprobado con futura 004.
@@ -301,6 +301,8 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Retoma INFRA-5:** §24 tampoco consulta scanning tras AccessDenied del plan. Última evidencia informada IN_PROGRESS, no estado fresco ni findings=0; imagen/digest/pull/rollback/aceptación de§22 conservados, sin nuevo deployment.
 - **Revalidación §25:** tampoco se consulta scanning tras denegación DescribeImages; cero llamadas, última evidencia informada IN_PROGRESS, sin findings=0 o aceptación nueva. PARCIAL conservado.
 - **Consulta §26:** una llamada DescribeImageScanFindings al digest registrado devuelve exit254/ScanNotFoundException; sin findings/estado final. No se atribuye al manifiesto linux/amd64 de digest no comunicado, cuyo IN_PROGRESS sigue histórico/informado. Publicación/rollback/aceptación conservan sus límites; PARCIAL.
+- **Contrato §48:** manifest y config snapshot no secretos, sourcecommit exacto→digest inmutable→ARN+VersionId de cuatro secretos, A/B coordinadas y rollback sujeto a compatibilidad JWT/HMAC/Mongo/Redis/authority. DP-I-14 DISEÑO TÉCNICO COMPLETADO / ACEPTACIÓN EXPLÍCITA PENDIENTE; no satisface E008 integral ni elimina dependencia aceptada de T019. Digest histórico corresponde a3312d220, NO alHEADc2f62ce0; nada de nueva imagen/manifiesto operativo/CI/publicación/runtime por esta revisión.
+- **Remediación §49:** aprobación humana de política, runtime10.0.15 por índice aprobado y SDK10.0.403 por índice verificado públicamente; solo dos FROM, sin APT/paquetes/Perl/chiseled/comportamiento funcional nuevos. Build local amd64/paquetes/non-root/runtime PASS; UT684/684, ITfinal310/310, ST223/223, sin C# cambiado (§49.8). No scan nuevo/promoción/004; E008/DP14 aceptación pendiente; no aceptar CVE-2026-82560 por inferencia.
 - **Riesgo:** drift Terraform/CD, imagen no rastreable o secretos en capas.
 - **Gate asociado:** GATE-I-C, GATE-I-H, GATE-I-I.
 
@@ -493,7 +495,7 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-019 — Secretos externos, entrega y rotación
 
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** PARCIAL / INVENTARIO Y DISEÑO REVISADOS (§47); diseño técnico DP-I-14 completado (§48), NO aceptado. Política/pinning local de T008 (§49) no aceptan E008/DP14 ni E019; dependencia T008 aceptada sigue pendiente. Sin provisión, delivery implementado ni pruebas runtime/rotación.
 - **Fase:** INFRA-10 Configuración.
 - **Objetivo:** mantener secretos runtime fuera de Git/imagen/state y distribuirlos de forma coordinada.
 - **Dependencias:** T-INFRA-005, T-INFRA-008; DP-I-09/14.
@@ -502,6 +504,7 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Acciones futuras:** evaluar Secrets Manager preferido frente a Parameter Store; definir JWT, Atlas, Redis, HMAC y otros secretos, KMS/IAM, entrega segura, actualización/rotación y separación por ambiente. Valores por flujo externo aprobado, nunca Terraform/user-data.
 - **Aceptación:** contrato aprobado sin valores secretos; JWT mantiene verificadoras vigentes y HMAC no resetea ventanas. GitHub solo deployment/OIDC, no fuente runtime.
 - **Evidencia:** E(T-INFRA-019), inventario por finalidad sin valores, revisión IAM/entrega/rotación.
+- **Preparación §47:** cuatro secretos candidatos MongoDB/JWT/HMAC/Redis; configuración authority sin claves AWS estáticas; versiones fijadas por manifiesto A/B, delivery host→tmpfs→mount RO→adaptador .NET propuesto. JWT conserva verificadoras930s desde última emisión posible; HMAC drena max(ventanas anterior/nueva), sin dual-key/reset. Recursos/valores/ARNs, helper/adapter, IAM/KMS y rotación reales NO acreditados. El catálogo admite evidencia de contrato sin recursos, pero §2 exige resultado aceptado de T008: no marcar T019 integralmente acreditada/completa ni saltar DP-I-14/026/027/028.
 - **Riesgo:** secreto en state/logs/disco, clave compartida entre ambientes o rotación inconsistente A/B.
 - **Gate asociado:** GATE-I-B, GATE-I-F, GATE-I-H.
 
@@ -4153,3 +4156,559 @@ Validaciones locales efectivas **2026-11-13 UTC**, sin llamadas cloud ni plan:
 | `git diff --check` | **16:21:41.878Z–16:21:42.057Z** | **0**, solo avisos LF/CRLF de ambos Markdown |
 
 **Ejecutados y revisados `git diff -- specs/003-infrastructure/task.md` y `git diff -- memoria.md`**, incluida documentación acumulada task§45/memoria§104: únicamente contratos/matrices, aceptación, estado y límites documentales. Checkpoint **16:23:41.293Z**: solo ambos Markdown modificados, **0 staged**, sin untracked; historia task§§6–45/memoriahasta§104 preservada por huellas de precheck, otros246tracked/state/nativo intactos por hash. Diff-check se repite tras este registro. La validación Terraform no acredita Atlas/Authentication. Únicamente task/memoria al índice, cached check/stat antes del único commit autorizado. SHA y git status reales post-commit se comunicarán en respuesta de sesión; no amend/segundo commit autorreferencial. **Sin Atlas/AWS/IAM/secretos/plan/apply/SendCommand/pruebas/push; DETENER tras commit local y postcheck.**
+
+## 47. T019 — Inventario integral y contrato propuesto de secretos/configuración
+
+### 47.1. Autorización, baseline y lectura literal
+
+**2026-11-13 UTC — AUDIT / DESIGN / DOCUMENTATION ONLY**, solicitud expresa del responsable **T-INFRA-019 — SECRETS / RUNTIME CONFIG — INVENTARIO INTEGRAL Y CONTRATO FINAL**. Autoriza únicamente actualizar este archivo y [memoria](../../memoria.md) tras completar el diseño, lectura local/documentación pública y fmt-check/validate/diff-check. **No AWS/Atlas, IAM/KMS/Secrets writes, lectura/generación de valores, código/configuración/HCL/units, plan/apply, SendCommand, aplicación/pruebas, stage/commit/push.** No agentes/skills invocados.
+
+Precheck **2026-11-13T17:25:34.930Z**: **feature/infrastructure / c2f62ce09970d84e1c2b40bbc21e4a30423c9fda / clean /0staged**, 248tracked. Huella otros246tracked **0bce43a81746c3a3c315b3b080cd3c3caf6e72a678968056f6f779834ac6feba**; state/nativo conservados por hashes, sin volcar contenido. HEAD es el commit local de aceptación E016, no se crea otro commit.
+
+T019 original conserva literalmente: **dependencias T-INFRA-005, T-INFRA-008; DP-I-09/14**; **aceptación: contrato aprobado sin valores secretos; JWT mantiene verificadoras vigentes y HMAC no resetea ventanas. GitHub solo deployment/OIDC, no fuente runtime**; **evidencia E(T-INFRA-019), inventario por finalidad sin valores, revisión IAM/entrega/rotación**. INFRA-006/022–024/032/033, PLD-INFRA-012/016/018, AC-I-09/12/13 y gates I-B/I-F/I-H. [Spec §12](spec.md) exige gestor externo/ambiente, mínimo privilegio, entrega segura y rotación A/B; [plan](plan.md) separa preparación de contratos y operación autorizada. **DP-I-09** es gestor/entrega/rotación/KMS/IAM concretos; **DP-I-14** es contrato004/ownershipdigest/operaciónmanual/rollback/revisiónIaC. Son propuestas/desarrollo pendiente de aceptación, no decisiones cerradas por este registro.
+
+Fuentes: búsqueda de símbolos/configuración en **todos los archivos tracked** mediante git grep de solo lectura (rutas, no valores de credenciales), revisión de Options/validadores/consumidores y fixtures identificadas como test-only. No se inspeccionan almacenes externos, User Secrets del operador, perfiles AWS ni valores ignorados. La ausencia de coincidencias no es certificación exhaustiva de ausencia de secretos históricos. No builds/tests/scanners.
+
+### 47.2. Inventario y clasificación por consumidor
+
+**SECRET** = material de autenticación/criptográfico; **SENSITIVE CONFIG** = referencia/topología/control no secreto cuya integridad/acceso deben protegerse; **NON-SECRET CONFIG** = política no confidencial. Estado FUTURE/NOT IMPLEMENTED se aplica a recursos/entrega pendientes, no a consumidores existentes. **NO LONGER USED: ninguno demostrado**; comentarios antiguos no acreditan retirada de configuración.
+
+| Nombre lógico / módulo | Clave real o entrada | Clasificación y consumidor | Rotación / coherencia A-B |
+| --- | --- | --- | --- |
+| MongoDB credential | `MongoDb:ConnectionString` (derivada) | SECRET; MongoClientFactory/MongoUserStore | Misma credencial/destino y versión aprobada; recrear clientes/hosts coordinadamente |
+| MongoDB destino | `MongoDb:DatabaseName`, `UsersCollectionName`; username/host del JSON | SENSITIVE CONFIG para host/usuario/DB; colección/política no secretas; MongoClientFactory/DI | No confundir cambio de destino/DB con simple password rotation; ambas instancias al mismo users |
+| MongoDB límites/concerns | `MongoDb:OperationTimeoutMilliseconds`, `ConnectionTimeoutMilliseconds`, `WriteConcernCandidate`, `ReadConcernCandidate`, `ReadPreference` | NON-SECRET CONFIG; defaults2000/2000/majority/majority/primary | Un único contrato aprobado A-B; no relajar ACK/TLS por rotación |
+| JWT key ring | `Jwt:Keys:<i>:KeyBase64` | SECRET; JwtKeyRing/JwtTokenIssuer/JwtClaimsValidator | HS256: también las verificadoras son secretos capaces de firmar; preservar anteriores vigentes |
+| JWT selección | `Jwt:ActiveKid`, `Jwt:Keys:<i>:Kid` | SENSITIVE CONFIG, no material secreto; key ring | Kid único/inmutable por material; activación en fases A-B |
+| JWT política | `Jwt:Algorithm`, `Issuer`, `Audience`, `LifetimeSeconds`, `ClockSkewSeconds` | NON-SECRET CONFIG; validadores/emisor | HS256/enver-api/enver-mobile/900/0–30; defaults skew30; snapshot común |
+| HMAC cuotas | `RateLimiting:PseudonymizationKeyBase64` | SECRET; HmacAuthenticationScopePseudonymizer | Independiente de todas las claves JWT; una sola identidad admite; drenaje global antes de cambiar |
+| Cuotas/política/capacidad | `RateLimiting:RegisterEmail`, `RegisterOrigin`, `LoginOriginEmail`, `LoginEmail`, `LoginOrigin`, `LogoutAccount`, `LogoutOrigin` (`PermitLimit`/`WindowSeconds`), `PolicyRevision`, `MaxActivePartitions` | NON-SECRET CONFIG, seguridad de integridad; descriptor/snapshot Redis | Mismo descriptor y capacidad A-B; cambios de política requieren su protocolo, no reset |
+| Referencias de control | `AuthenticationComposition:QuotaConfigurationVersion`, `QuotaIdentityReference`, `QuotaGeneration` | SENSITIVE CONFIG, NO secretos ni hashes de HMAC; Capture/RedisAuthenticationQuotaConfiguration | Externas, no inventadas al arrancar; manifiesto debe casar con estado/fencing aprobado |
+| Redis autenticación | `Redis:ConnectionString` (derivada); user/password externos | Password/token SECRET; username SENSITIVE CONFIG; RedisConnections/ConnectionMultiplexer | Requiere secreto futuro y mecanismo AUTH aprobado en017; no URI/version/key real obtenidos |
+| Redis red/TLS/DB | Endpoint/puerto/ssl/sslHost/defaultDatabase dentro de ConnectionString actual | SENSITIVE CONFIG; RedisConnections | Sin endpoint/puerto/autenticación cloud configurados; entradas separadas futuras del adaptador, no Options ya existentes |
+| Redis namespace/continuidad | `Redis:NamespacePrefix`, `RevocationPurpose`, `RateLimitingPurpose`, `OperationTimeoutMilliseconds`, `ConnectionTimeoutMilliseconds`, `RevocationOperationalMarginSeconds`, `FailClosed`, `RequiredRevocationEvictionPolicy` | NON-SECRET CONFIG; stores/guard/coordinator | Namespace Development `enver:development`, propósitos auth:revocation/auth:ratelimit,750ms/2000ms/margen60/failclosed/noeviction; no cambiar namespaces al rotar |
+| DynamoDB región/tabla | `AuthenticationComposition:AuthorityRegion`, `AuthenticationSecurityAuthority:TableName`, `OperationTimeoutMilliseconds` | SENSITIVE CONFIG para región/tabla; timeout NON-SECRET; AmazonDynamoDBClient/authority | Misma región/tabla A-B; timeout1–2000; no nombre real inventado |
+| DynamoDB consistencia/estado | `ConsistentRead=true`, GetItem/UpdateItem CAS; Id=authentication | NON-SECRET CONFIG/comportamiento; generations/revisions/horizontes son estado operacional, no secreto | No copiar/resetear/abrir authority por despliegue; coherencia/continuidad vía020 |
+| AWS runtime credentials | Cadena de credenciales AWS SDK / instance profile | SECRET TEMPORAL obtenido por SDK/IMDS, NO secreto persistente a crear | Sin AWS_ACCESS_KEY_ID/AWS_SECRET_ACCESS_KEY/AWS_SESSION_TOKEN estáticos o copiados al contenedor |
+| Transporte/origen | `AuthenticationTransport:DirectConnectionApproved`, `AllowLocalHttp`, `HttpsPort`, `KnownProxies` | SENSITIVE CONFIG por confianza/topología; no secreto; middleware/validador | No aprobar bypass/publicación mediante este diseño |
+| Ambiente/políticas HTTP/log | ASPNETCORE_ENVIRONMENT/DOTNET_ENVIRONMENT; ASPNETCORE_HTTP_PORTS/HTTPS_PORTS; `Authentication:*`, `AllowedHosts`, `Logging:*` | NON-SECRET CONFIG, con integridad protegida; host/validación/limits | Development debe concordar con DB/namespaces; launchSettings es local, no deployment cloud; MapOpenApi no publicado por aprobación de ambiente |
+| Usuario final | Register/Login Password, User.passwordHash; JWT emitidos/Authorization/jti/sub | Password/JWT SECRET, hashes/identificadores SENSITIVE DATA; request/store/respuesta, NO configuración runtime | No crear secretos Secrets Manager por usuario/token; hashes en Mongo, revocaciones Redis, no logs |
+| Material sintético/local | DummyPasswordHash; fixtures/testcontainers; csproj UserSecretsId | Dummy/fixtures TEST-ONLY; UserSecretsId NON-SECRET metadata local, no evidencia de valores reales | Sin secreto runtime extra; no convertir fixtures en valores de dev ni leer User Secrets |
+| Operación fuera de API | Token ECR/SSM/IMDS efímero, credenciales operador/bootstrap, passphrase custodia state | Credenciales de otra finalidad/identidad; fuera del inventario persistente API | No duplicar en cuatro secretos runtime, no leer/generar/cambiar custodia |
+
+**FCM/Firebase/GoogleCredentials, SMTP, API keys/client secrets, webhooks, encryption keys adicionales y pepper de contraseñas: sin integración/configuración demostrada en el backend tracked actual.** No crear secretos, nombres o ARNs para ellos. No claves privadas JWT asimétricas: algoritmo actual simétrico. Ningún paquete/versión extra elegido.
+
+Fuentes principales: [Options/validadores](../../Enver.API/Configuration/AuthenticationOptionsValidation.cs), [appsettings](../../Enver.API/appsettings.json), [Development](../../Enver.API/appsettings.Development.json), [composición](../../Enver.API/Composition/AuthenticationServiceCollectionExtensions.cs), [referencias externas](../../Enver.API/Composition/AuthenticationDependencyOptions.cs), [authority](../../Enver.API/Infrastructure/Aws/DynamoDbAuthenticationSecurityAuthority.cs), [transporte](../../Enver.API/Composition/AuthenticationTransport.cs).
+
+### 47.3. Cuatro secretos separados: naming y esquemas candidatos
+
+Convención propuesta **enver/dev/api/<purpose>**, gestor candidato **AWS Secrets Manager**, cuenta926925605666/us-east-1. Separar finalidades permite diferentes versiones/rotaciones/permisos; no mega-secret. **4 recursos propuestos, 0 creados/verificados en AWS en esta entrega.** Versiones de JWT pueden contener varias claves sin aumentar el número de recursos. **Todos los ARN/VersionId: GENERADOS AL CREAR/PUBLICAR, no inventados.** Placeholders siguientes NO son valores utilizables ni autorización para generarlos.
+
+**enver/dev/api/mongodb** — contrato conservado de la auditoría anterior:
+
+```json
+{
+  "username": "enver_dev_runtime",
+  "password": "<SECRET>",
+  "host": "cluster0.w1hglqm.mongodb.net",
+  "database": "enver_development"
+}
+```
+
+No connectionString duplicada. Cluster real **Cluster0**, ENVER/AWS/us-east-1/M0, usuario readWrite@enver_development restringido a Cluster0 y allowlist **18.210.153.223/32 +44.195.4.217/32** son **información aportada por responsable en la solicitud anterior**, no consulta Atlas de esta entrega. Actualizan el estado informado posterior a§46, sin reescribirlo: no borrar/recrear para renombrar enver-dev. **enverdelivery_db_user atlasAdmin@admin/AllResources EXCLUIDO**. Password ya generado por humano, no solicitado/leído/regenerado ni documentado. Atlas sigue NO READY runtime.
+
+URI construida en memoria, usuario/password percent-encoded individualmente una sola vez:
+
+```text
+mongodb+srv://<encoded-user>:<encoded-password>@cluster0.w1hglqm.mongodb.net/enver_development?authSource=admin&tls=true&retryWrites=false&w=majority
+```
+
+AuthSource admin no concede rol admin. Factory fuerza majority/primary/majority+journaltrue/wtimeout2000ms según options/RetryWritesfalse y rechaza timeoutMS; no suponer RetryReadsfalse/puerto27017 ni TLS inseguro. Enforcement TLS/certificado/hostname/destino debe implementarse antes de runtime; no conexión probada.
+
+**enver/dev/api/jwt** — un ring consistente por versión:
+
+```json
+{
+  "activeKid": "<KID_APROBADO>",
+  "keys": [
+    { "kid": "<KID_APROBADO>", "keyBase64": "<SECRET_BASE64>" }
+  ]
+}
+```
+
+Mapea a `Jwt:ActiveKid` y `Jwt:Keys:<i>:Kid/KeyBase64`. Algoritmo/issuer/audience/lifetime/skew son no secretos; HS256/enver-api/enver-mobile/900s/skew0–30s. Claves Base64 canónica con mínimo32bytes; longitud no demuestra entropía, generación segura futura humana/aprobada. Kid único, activo existente, no reasignar mismo kid a material nuevo. [JwtKeyRing](../../Enver.API/Security/JwtKeyRing.cs) admite múltiples verificadoras por kid y una firmante activa; **todas simétricas/secretas/capaces de firmar**, no aislamiento criptográfico signer/verifier. Resolver no prueba todas las claves ni descubre externas; snapshot singleton sin hot reload. El JSON permite varias entries cuando se rote, sin añadir secretos individuales por key.
+
+**enver/dev/api/hmac** — una sola clave de identidad de cuotas:
+
+```json
+{ "pseudonymizationKeyBase64": "<SECRET_BASE64>" }
+```
+
+Mapea a `RateLimiting:PseudonymizationKeyBase64`; Base64 canónica≥32bytes, distinta por ambiente/finalidad y de **todas** las claves JWT, incluso verificadoras anteriores. [Pseudonymizer](../../Enver.API/Infrastructure/Security/HmacAuthenticationScopePseudonymizer.cs): **HMAC-SHA-256**, dominio enver.auth.quota/versión1/ambiente/operación/scope/componentes con prefijos de longitud UTF8; resultado Base64url43. Identidades email/origen/origen-email/account determinan buckets/registro Redis. Cambiar clave/representación/ambiente cambia esas identidades; no es solo cambiar una credencial de conexión. No afecta por sí mismo claves de revocación jti ni hashes Mongo; no resetearlos.
+
+**enver/dev/api/redis** — contrato futuro mínimo, NO READY:
+
+```json
+{
+  "username": "<USUARIO_AUTH_PENDIENTE_T017>",
+  "password": "<SECRET>"
+}
+```
+
+Username es metadata sensible no material secreto; se incluye para versionar el par AUTH coherentemente. String no vacío para ACL; **null solo si T017 aprueba explícitamente AUTH de usuario default sin nombre**, no fallback automático/guest. `password` almacena password/token AUTH estático aprobado, nunca endpoint ni ConnectionString duplicada. Si T017 seleccionara IAM auth dinámico, certificado cliente u otro mecanismo no implementado, se reabre este contrato antes de crear recursos; no inferir soporte actual.
+
+Endpoint, puerto, `ssl=true`, sslHost/certificado y database son configuración externa **no secreta** separada. Hoy no están definidos en appsettings ni existen Options separadas para ellos: RedisConnections parsea ConnectionString. Propuesta futura del adaptador usa bloque no secreto `redis` con host/port/tls/tlsHost/database aprobado; **sin default de puerto**, DB0 solo candidato explícito sujeto a017 (GetDatabase() utiliza DefaultDatabase de la conexión; no hay DB index propio en RedisOptions). Construir mediante ConfigurationOptions tipadas (EndPoints/User/Password/Ssl/SslHost/DefaultDatabase), serialización segura y validación de roundtrip para el actual Redis:ConnectionString; no concatenar password con comas/igual ni imprimirlo. Enforce TLS/certificados/hostname, sin callbacks permissivos. [RedisConnections](../../Enver.API/Infrastructure/Redis/RedisConnections.cs) no lo fuerza hoy: hereda de entrada; preserva FailFast/timeouts/conexión larga. Namespace no es DB index ni channelPrefix; mantener revocaciones/cuotas en el mismo destino/DB/snapshot y `noeviction`. T017/018 decidirán endpoint/ACL/puerto/capacidad, no esta tarea.
+
+**Restricción de representación Redis comprobada en fuente3.4.31:** ConfigurationOptions serializa texto con password (`ToString()` incluye password) y su parser separa por comas/recorta valores. No asumir escaping arbitrario ni JSON-escaping/percent-encoding como solución. Contrato candidato del password/username futuro: no comas/CRLF/espacios extremos que alteren roundtrip; validar igualdad exacta User/Password/endpoints/TLS/DB tras parsear EN MEMORIA, sin logs. Si la credencial elegida no es representable, **bloquear y autorizar integración tipada de credenciales en RedisConnections** antes de runtime, nunca truncar/modificar/reemplazar silenciosamente el secreto. Esto no afecta al password Mongo existente ni autoriza generar otro. Fuente [ConfigurationOptions3.4.31](https://raw.githubusercontent.com/StackExchange/StackExchange.Redis/3.4.31/src/StackExchange.Redis/ConfigurationOptions.cs); ninguna prueba ni conexión ejecutadas.
+
+### 47.4. Matriz de rotación manual, coexistencia y rollback
+
+| Secreto | Procedimiento/versión anterior/overlap | Restart y orden A-B | Rollback / fail-closed |
+| --- | --- | --- | --- |
+| MongoDB | Mantener procedimiento manual coordinado: cerrar/drenar A-B, preparar nueva versión pendiente por operador, cambiar password Atlas, publicar versión nueva y manifiesto, verificar nuevas conexiones y rechazo anterior. Un solo usuario/password no garantiza overlap ni cero outage; AWSPREVIOUS no restaura Atlas | Recrear A sin tráfico y después B; ambos misma versión antes de reabrir | Solo tras validar credencial realmente vigente; sin fallback a versión vieja, retry ciego o restauración automática |
+| JWT | Fase1 ring antigua+nueva, ActiveKid antigua en ambos; acreditar reconocimiento de nueva. Fase2 ring ambas/ActiveKid nueva en ambos; acreditar cese de TODA emisión antigua incluyendo in-flight. Mantener verificadora antigua **≥930s=900+30** desde última emisión posible. Fase3 retirar antigua de ambos. Anterior requerida como entry del ring actual, no basta AWSPREVIOUS almacenado | Snapshots requieren recreación controlada en cada fase; A y luego B sin admisión del snapshot obsoleto, reapertura tras acuerdo. Sin hot reload ni temporizador productivo existente | Rollback de ActiveKid exige ring que conserve todas las claves necesarias para tokens ya emitidos; si se vuelve a emitir antigua recalcular su horizonte. Nunca volver ciegamente a ring previo que desconozca nueva. Compromiso requiere decisión extraordinaria/reautenticación, no simular continuidad |
+| HMAC | **Sin overlap de claves activas, sin current/previous ni dual-read/consume.** Conservar configuración/estado anterior; cerrar globalmente/fence, resolver in-flight/uncertainty, establecer último consumo posible con tiempo compartido fiable, esperar max(ventanas old/new), reconciliar capacidad/residuos con lifecycle aprobado; activar nueva identidad y reabrir solo con continuidad | Cambiar referencia de identidad y versión lógica coordinadamente, no namespaces para evadir estado. Recrear A/B cerrados; ambos nuevo snapshot antes de apertura | Retorno a identidad anterior es otra transición con drenaje desde consumos nuevos; no reset/FLUSH/DEL indiscriminado. Sin prueba global de cese/in-flight/tiempo/reconciliación, seguir cerrado |
+| Redis AUTH | Si T017 demuestra soporte de dos passwords/credenciales simultáneas sobre el MISMO destino/DB/estado, añadir nueva credencial, consumirla A/B y retirar anterior tras verificar ausencia de uso/sesiones aplicable. Si no, mantenimiento global cerrado y cambio coordinado; no prometer overlap | Multiplexer singleton requiere recreación. A sin tráfico→B→validar nueva autenticación A/B y continuidad→retirar vieja/reabrir según modo aprobado | Solo revertir si credencial aún válida y mismo estado confiable; reconnect/PING no reabre guard/authority. AUTH failure/continuidad incierta→503/admisión cerrada; no vaciar Redis/cambiar namespace o resetear ventanas |
+
+**JWT930s no incluye margenRedis60 ni se convierte en990.** Fuentes [002 task§64](../002-authentication/task.md), JwtKeyRing.CanRetirePreviousKey y [claims validator](../../Enver.API/Security/JwtClaimsValidator.cs). La puerta pura no acredita cese global. HMAC: [AuthenticationPseudonymizationTransition](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationPseudonymizationTransition.cs), [descriptor/transición](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaPolicyDescriptor.cs), [recovery](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaRecoveryContract.cs). Ventanas actuales Register email/origin900s; Login y Logout60s; máximo **900s hoy**, derivado de descriptores old/new, no constante universal. Authority DynamoDB registra emisiones, **no prueba último consumo de cuotas**. [Lifecycle](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaLifecycle.cs) es explícito, no coordinador productivo integrado/autorizado. Ninguna rotación ejecutada, periodicidad automática/Lambda/partner integration seleccionada ni clave generada.
+
+### 47.5. Consistencia A-B y entrega por versión lógica
+
+**Mismo secreto no garantiza misma versión ni atomicidad entre cuatro secretos.** Refinamiento explícito de la auditoría anterior: no consultar AWSCURRENT independientemente en cada host como selección final. Operador/deployment autorizado resuelve y aprueba **un manifiesto NO secreto** con schemaVersion/releaseId/ambiente/digest, mapa de cuatro **ARN completos+VersionId inmutables**, configuración no secreta/refs externas de cuotas/authority y compatibilidad para rollback. Archivo propuesto host `/etc/enver/runtime-manifest.json`, root-only/integridad y aprobación trazables; puede persistir porque no contiene valores ni hashes de claves. No crearlo aquí. No usar labels mutables como versión fijada.
+
+Helper A y helper B leen el mismo manifiesto aprobado, consultan **GetSecretValue(SecretId=ARNexacto, VersionId=versiónaprobada)** y comprueban ARN/VersionId devueltos. No DescribeSecret/ListSecrets/runtime discovery, BatchGet ni lectura automática AWSPREVIOUS. Labels pueden apoyar publicación humana, no sustituir pinning. No IAM condition exclusiva AWSCURRENT que contradiga el pinning durante preparación de fases. Manifest no da permiso para leer otros ARNs ni reactivar versiones retiradas. Publicación de cada release/phase y compatibilidad requieren aprobación; registrar solo manifest/release/VersionId/digest/resultados saneados, nunca comparar/exportar hashes de material secreto.
+
+Default seguro de transición: detener/fence admisiones globales mediante procedimiento autorizado, resolver in-flight, preparar A y luego B fuera de tráfico, comprobar versión/config/dependencias en ambos, abrir solo snapshot aprobado; un host atrasado no atiende. JWT usa tres manifiestos/fases compatibles descritos arriba, HMAC exige además drenaje. No claims de rollout sin outage/mínimo dos targets durante mantenimiento sin revisión de capacidad/gates. No copia de secretos host-to-host ni archivos persistentes compartidos. El protocolo de aprobación/control/admisión es **DISEÑO**, no nuevo coordinador, endpoint público o capacidad ya existente.
+
+Mismo patrón candidato para los cuatro: **instance profile host→Secrets Manager→tmpfs local→bind mount RO→adaptador .NET→IConfiguration/options en memoria**. Sin Secrets Manager SDK dentro de API, env/argv/user-data/imagen/Git/CI/outputs con valores. JSON secretos separados por finalidad; no empaquetar un mega-secret persistente. Cliente AWS host pendiente de implementación/verificación, no asumir awscli instalado.
+
+### 47.6. Adaptador .NET y helper/systemd — cambio mínimo futuro, no implementación
+
+**Paths candidatos:** host `/run/enver/<releaseId>/secrets/{mongodb,jwt,hmac,redis}.json`; mount directory RO dentro del contenedor **`/run/enver/secrets`**, archivos con esos cuatro nombres. Manifiesto y configuración no secreta separada, montados RO. Envelope local de cada archivo: `schemaVersion` entero1, `releaseId`, `versionId` y `value` con el JSON de§47.3; VersionId es metadata comprobada contra manifiesto, no secreto. No ARN/password en nombres de archivo. Helper puede escribir cada envelope de forma atómica dentro de una generación privada y publicar SOLO el conjunto completo; nunca mezclar directorios/releases.
+
+**Adaptador futuro** en composición del único Enver.API, invocado inmediatamente después de CreateBuilder y **antes de AddAuthenticationFoundation/AddAuthenticationDependencies** en Program.cs. Lectura bounded/UTF8/JSON estricta, sin propiedades duplicadas/desconocidas, tipos/versiones esperados, sin symlinks/traversal, path fijo o referencia no secreta aprobada. Validar cuatro envelopes/manifiesto/ambiente/destinos, versión lógica, Base64/kids/activo y separación JWT-HMAC usando también validadores existentes. Si faltan datos/TLS/credenciales o algo incompatible: error genérico/fallo startup, sin defaults ni fallback a env/fixtures. Agregar un proveedor en memoria de máxima precedencia para claves de secretos; arrays JWT deben enlazarse exactamente sin entries residuales de providers anteriores (rechazar configuración secreta paralela o enlazar reemplazo completo verificado). No aceptar env/CLI que reintroduzcan entradas o sobrescriban material. No registrar JSON, Options, Configuration debug view, URI, parser exception ni valores. No seleccionar paquete/capa adicional; parsing/proveedor pueden usar capacidades .NET ya presentes.
+
+Límites candidatos verificables: cuatro archivos exactos, cada SecretString hasta64KiB y envelope hasta128KiB, profundidadJSON≤8; releaseId validado como componente de path sin separadores/traversal. Rechazar exceso antes del binding; estos límites son diseño nuevo por aprobar, no validaciones ya implementadas. El manifiesto no secreto montado en contenedor debe ser legible por su identidad non-root sin otorgar escritura; la copia host del manifiesto sigue protegida.
+
+Mapping mínimo: Mongo JSON→MongoDb:ConnectionString/DatabaseName; JWT→Jwt:ActiveKid/Keys:<i>:Kid/KeyBase64; HMAC→RateLimiting:PseudonymizationKeyBase64; Redis credencial+config no secreta validada→Redis:ConnectionString. Resto de Options queda en configuración no secreta aprobada. Mantener ValidateOnStart; no tocar semánticas de stores/JWT/cuotas. Tests del adaptador/privacy/precedencia/TLS y autorización de cambios Program/composición/factories se pedirán aparte. Options/MongoClient/key ring/HMAC/multiplexer son snapshots largos: **no reloadOnChange**, recrear contenedor para cambios.
+
+**Servicio propuesto `enver-api.service` con helper ExecStartPre** (no unidad creada): depende de Docker, network-online y tmpfs montado/validado; helper host root para IMDS/archivo protegido/socket Docker, identidad AWS EC2 role **enver-dev-api-runtime**, sin perfil/access keys del operador. Umask **0077**; ancestro host `/run/enver` root0700; directorio de release/files restringidos para lectura del UID/GID real non-root del digest aprobado (directorio0750, archivos0440 root:grupo-app candidato). USER1654 fue observado en imagen anterior, **no inferir GID ni reutilizarlo sin verificar el nuevo digest**. Publicar ownership solo tras escritura/validación root; app sin escritura. Verificar tmpfs real, noexec/nosuid/nodev, swap deshabilitado o custodia cifrada aprobada y core dumps restringidos: /run/RuntimeDirectory no prueba por sí solo no persistencia.
+
+Serializar arranques/rotaciones con lock; helper consulta exactamente cuatro refs, con timeouts/reintentos acotados sin loops permanentes/calls por request, y no abre contenedor si falla. Sin shell tracing/debug, stdout de GetSecretValue a memoria/tmpfs, no terminal/journal; errors saneados. Docker sin secreto en --env/--env-file/argumentos/Config.Env; sin privileged/socket montado en API. Solo paths/ref no secretos en unidad/user-data aprobado futuro. Docker restart policy no debe permitir autoarranque con directorio viejo sin helper; cada recreación/reinicio controlado vuelve a validar/reobtener manifest fijado. Política de reinicios systemd acotada y admisión controlada por evidencia, no arranque automático como apertura de authority.
+
+**Lifecycle/cleanup candidato:** conservar generación local mientras contenedor la necesite, no editar archivo de mount activo ni asumir unlink=zeroization. Tras contenedor detenido/eliminado, cleanup acotado de ese release exacto, sin borrar directorios de otros workloads; fallo parcial limpia solo artefactos nuevos propios. Al reboot tmpfs se pierde y se reobtiene desde versión aprobada. No secure-erase/zeroization garantizada en RAM/strings administrados; buffers propios se limpian cuando sea viable. Root/grupo Docker siguen pudiendo acceder a secretos: restringir operadores/socket/proc/dumps, no prometer aislamiento frente a root comprometido. Ningún cleanup real/infra destroy/restore autorizado aquí.
+
+**Startup:** secreto/config inválido→no nueva API; falta de dependencia con config válida mantiene semántica actual de admisión cerrada/503 y liveness posible. /health actual NO es readiness. Prueba positiva/negativa, bootstrap e índices estrictos, aislamiento DDL, redis continuity y readiness ALB siguen para incrementos autorizados/027–028.
+
+### 47.7. DynamoDB, IMDS e IAM/boundary/KMS integrales
+
+DynamoDB **no requiere quinto secreto**. Tabla/región/timeout/ConsistentRead son no secretos; Generation/Revision/Closed/Open/quarantine son estado operacional, nunca resetear por rotación. Código actual AmazonDynamoDBClient usa cadena SDK sin access keys explícitas; destino productivo requiere instance profile/credenciales temporales. SDK exige acceso a credenciales desde el contenedor: **IMDSv2 required/hoplimit1** confirmado en auditoría previa, no reconsultado ahora, puede impedirlo con Docker bridge. Host delivery resuelve solo Secrets Manager, **NO este problema de DynamoDB**. No aumentar hop limit/usar host networking/introducir keys o snapshots de credenciales por este diseño. Decisión de transporte de credenciales AWS y permisos GetItem/UpdateItem/tabla exacta/bootstrap van en020/autoridad y autorización separada; boundary propuesta019 no añade grants DynamoDB ni escrituras AWS. Sin solución aprobada, deployment auth completo bloqueado, no falso READY.
+
+Baseline IAM de auditoría anterior **2026-11-13T17:17:49.626Z** (no nueva lectura AWS): role enver-dev-api-runtime/trustEC2, inline enver-dev-ecr-pull +enver-dev-ssm-session, sin managed attachments; boundary ENVER-Runtime-Permissions-Boundary defaultv1 coincide con [candidata local](../../infra/bootstrap/runtime-permissions-boundary.json). Sin grants Secrets/KMS/DynamoDB; NotAction DenyEveryActionOutsideRuntimeContract deniega esas acciones. Preserva aceptación E005 de su alcance actual, no autoriza ampliación por inferencia.
+
+| Referencia candidata | Runtime futuro | Resource | Operaciones excluidas |
+| --- | --- | --- | --- |
+| enver/dev/api/mongodb | secretsmanager:GetSecretValue | S_mongo = ARN completo real generado | List/Describe/Create/Put/Update/Delete/Rotate |
+| enver/dev/api/jwt | secretsmanager:GetSecretValue | S_jwt = ARN completo real generado | Idem |
+| enver/dev/api/hmac | secretsmanager:GetSecretValue | S_hmac = ARN completo real generado | Idem |
+| enver/dev/api/redis | secretsmanager:GetSecretValue | S_redis = ARN completo real generado cuando017 permita | Idem |
+
+Identity policy futura en role con **lista explícita S de solo ARNs ya creados/autorizados**, regiónus-east-1/cuenta926925605666; mismo techo boundary. Nada de Resource* o enver/dev/api/* para Secrets; no inventar ARNs/sufijos. No otorgar lectura Redis antes de su provisión/autorización por aprobar cuatro nombres. DescribeSecret **NO requerido** por helper que usa ARN+VersionId. Sin secreto/ARN real: cero permisos provisionales, no wildcard temporal. Archivos esperados futuros iam-runtime.tf/refs y boundary local solo bajo otra autorización; boundary remota administrada por humano independiente, no Terraform modificándose su límite.
+
+**Remediación boundary diseñada, NO aplicada:** (1) añadir únicamente GetSecretValue y kms:Decrypt a excepciones NotAction del Deny general; (2) Allow GetSecretValue sobre listaS y Deny de esa acción con NotResourceS; (3) extender deny regional existente a ambas acciones, conservar ECR/SSM y denies/repos/noIAM/noSecretsWrites; (4) techo Allow kms:Decrypt sobre **K = ARN real de aws/secretsmanager en cuenta/región**, condicionado a ViaService=secretsmanager.us-east-1.amazonaws.com, CallerAccount=926925605666 y EncryptionContext:SecretARN en listaS; (5) denies explícitos de Decrypt sobre otras keys, fuera del servicio/cuenta/contexto, statements separados para alternativas y cubriendo contexto ausente. No usar AND multiclave como si fuera OR. Así una grant/key policy de recurso no elude el límite. Ni Encrypt/GenerateDataKey/CreateGrant/administraciónKMS runtime. Debe revisarse policy final y evaluar casos negativos antes de aplicar; agregar Allow sin estrechar NotAction **no funciona**.
+
+**KMS candidata para los cuatro: aws/secretsmanager**, misma cuenta/región. Ningún requisito encontrado exige CMK/cross-account/control de key policy propio, no crear CMK. Con managed key normalmente no se necesita Allow kms:Decrypt adicional en identity policy porque su key policy habilita uso vía Secrets Manager; **el Deny explícito actual SÍ requiere excepción/techo y denies acotados descritos**. Descubrimiento del ARN real K por administrador y lectura metadata autorizada posterior, no inferirlo de alias/secret metadata omitida. Si se eligiera CMK aparte: identity policy Decrypt exactK, keypolicy compatible y mismo techo/contexto, costo y autorización propios. Sin KMS calls ni writes aquí.
+
+Provisioner candidato: **humano administrativo autorizado con MFA/sesión temporal, identidad concreta por aprobar**, sin ampliar enver-terraform-local. Separar operador que publica valores, administrador boundary, deployment que consume solo referencias y runtime de lectura. Password Mongo existente entra directamente en consola por humano; JWT/HMAC/Redis valores futuros por flujo autorizado, no agente/chat/terminal. Consola puede crear metadata+valor en un Store final; no escribir secretos en metadata/tags/screenshot. Terraform futuro solo metadata/referencias, sin secret_version/data source de valor ni sensitive=true como falsa exclusión del state. No rotación automática, integración partner o infraestructura adicional autorizadas.
+
+### 47.8. Costo y evidencia futura separada
+
+**4 secretos×USD0.40=USD1.60/mes** almacenamiento, más **USD0.05/10000 API calls**. Ejemplo4secrets leídos una vez/host/día:240calls/30días→USD0.0012, total≈**USD1.6012/mes**; solo arranque/fases, no por request; extras operativos suman. Versiones/ring con varias keys no son recursos extra. Referencia de48h de almacenamiento de cuatro≈**USD0.1067**, sin reiniciar ventana48h ni autorizar permanencia mensual. Estimación incremental nominal compatible con USD50 agregado/guardrailUSD10, **NO Billing/acumulado/saldo acreditados ni autorización de gasto**; sumar demás servicios/retención/tráfico/llamadas reales. No free tier/créditos garantizados, CMK/Lambda/replicación/endpoints/backup de pago incluidos ni aprobados. Deadline original **2026-11-15T01:57:56.9337244Z** intacto; sin extensión/reinicio/cleanup automático.
+
+| Paquete | Evidencia prevista, SIN valores | Estado |
+| --- | --- | --- |
+| E019 preparación | Inventario/claves/consumidores/clasificación, cuatro nombres/esquemas, rotación930/drenaje, IAM/KMS/delivery/A-B/costo y dependencias de este§47 | Diseño revisado; aceptación explícita pendiente, T008/DP14 pendientes |
+| E027 provisión | Autorización/identidad, existencia/nombre/región/ARN/keymetadata de cada secreto, versiones y policies exactas; sin SecretString/SecretBinary en evidencia | PENDIENTE; ningún recurso por esta entrega; no equivale a E027 integral |
+| E028 consumo y privacidad | A/B obtienen cuatro VersionId aprobados sin staticAWScredentials ni valores/logs/Config.Env/disco inseguro; app startup y configuración inválida failclosed; readiness/dependencias comprobadas | PENDIENTE / NO EJECUTADA |
+| E028 negativos IAM | Acceso otro secreto/ambiente y escritura denegados, KMS fuera contexto denegado | PENDIENTE; evaluación autorizada no mutante/fixture, no intentar Put/Delete reales como supuesto negativo |
+| E028 rotación/continuidad | JWT nueva reconocida antes de emisión, vieja vigente hasta930 desde cese; HMAC ventana/max/últimoconsumo/inflight/fence/reconciliación sin reset; Mongo/Redis auth nueva A/B y credencial vieja rechazada según sesiones | PENDIENTE, sin extrapolar pruebas002 locales |
+
+CloudTrail registra APIs pero no se verificó trail/retención/alarmas ni logging operativo. Prohibido valores/URI/JWT/hashpassword en CloudWatch/journal/dockerinspect completo/CI/GitHuboutputs/task/memoria/screenshots. Evidencia saneada en custodia aprobada, no publicar secretos ni state. State/nativo/custodia cifrada/planes históricos intactos; sin passphrase/restore/recovery/cleanup automático.
+
+### 47.9. T008/DP-I-14: impacto exacto y decisión de estado
+
+**No es bloqueo para leer/inventariar/diseñar T019**, expresamente autorizado. T019 acepta por catálogo **contrato sin valores**; plan§INFRA-10 exige refs/roles/bootstrap definidos y ejecución posterior, por lo que **provisionar secretos, implementar adapter o probar runtime no son prerrequisitos para aceptar la preparación documental**. No exigir cloud antes de diseñar ni fingirlo ejecutado.
+
+**Sí impide declarar T019 integralmente acreditada/aceptable sin reserva:** §2 exige resultado aceptado de dependencias y **T008 no está aceptada**. Falta su contrato aprobado commit→digest inmutable idéntico A/B, ownership único de promoción/manifiesto y rollback de imagen+config+referencias compatibles. El adaptador necesario no existe en la imagen publicada anteriormente; no se puede asumir que ese digest entienda los nuevos archivos. Revertir a un digest/ring/HMAC anteriores a ciegas podría invalidar JWT vigentes o reabrir/resetear cuotas. Se propone vincular manifest+digest+versiones y preservar rings/estado, pero aprobación de ese contrato T008/DP14 sigue pendiente. Scanning final y reproducibilidad/rollback de T008 conservan sus pendientes propios; no son permisos para realizar pruebas/nuevo build ahora ni condición cloud circular para completar este inventario.
+
+**004 CI verde del mismo commit/digest, workflow_dispatch, state remoto protegido y T026/027 son trabajo/prerrequisitos de deployment futuro**, no exigencia de ejecutarlos para preparar T019. Su ausencia bloquea provisión/despliegue integral, no esta documentación; no saltarlos con docker run ad hoc. T005 dependencia aceptada en su alcance; cambios nuevos IAM/credenciales/Secrets requieren autorización aparte, no reapertura/revocación de E005.
+
+**Estado elegido: T-INFRA-019 PARCIAL / INVENTARIO Y DISEÑO REVISADOS; E019 ACEPTACIÓN EXPLÍCITA PENDIENTE Y DEPENDENCIA T008/DP-I-14 NO SATISFECHA.** Paquete de diseño integral candidato completado con diferidos de implementación/selección Redis claramente tipados, **no T019 TÉCNICAMENTE ACREDITADA integral sin dependencias**. No marcar COMPLETA/ACEPTADA ni NO EJECUTADA para la auditoría sí realizada; provisión/delivery/rotación reales siguen NO EJECUTADOS. Resolver/aceptar contrato de artefacto/rollback y revisión humana de este paquete antes del cierre documental; operacionalizar Redis017/018, authority020/IMDS, helper/adapter/TLS/IAM y pruebas requiere futuros incrementos.
+
+**GATE-I-A SATISFECHO; E005/E006/E015/E016 ACEPTADAS y tareas completas en sus alcances conservadas. GATE-I-B PENDIENTE / NO SATISFECHO**, I-F/I-H y demás gates abiertos; E027/E028 pendientes, **T026 PENDIENTE / NO EJECUTADA**. Catálogo **7completas/aceptadas+7parciales(incluida019)+16pendientes=30**, gates1satisfecho+8pendientes. Sin cierre002/AUTH-027 integral/004, Atlas/Redis/runtimeREADY ni continuación automática.
+
+Fuentes públicas de diseño: [GetSecretValue/VersionId](https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html), [encryption/keypolicy/context](https://docs.aws.amazon.com/secretsmanager/latest/userguide/security-encryption.html), [precios Secrets Manager](https://aws.amazon.com/secrets-manager/pricing/), [Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html), [ConfigurationOptions StackExchange.Redis3.4.31](https://raw.githubusercontent.com/StackExchange/StackExchange.Redis/3.4.31/src/StackExchange.Redis/ConfigurationOptions.cs). Las opciones se cotejan con consumidores/versiones del repo; no se seleccionan nuevas versiones.
+
+### 47.10. Validaciones y límites de entrega
+
+Validaciones locales efectivas **2026-11-13 UTC**, sin plan ni llamadas de cuenta:
+
+| Comando | Inicio–fin UTC | Exit / resultado |
+| --- | --- | --- |
+| `terraform fmt -check -recursive infra` | **17:35:23.933Z–17:35:24.478Z** | **0**, sin modificaciones |
+| `terraform -chdir=infra validate` | **17:35:23.848Z–17:35:35.949Z** | **0**, configuración válida |
+| `git diff --check` | **17:35:23.887Z–17:35:24.202Z** | **0**, solo avisos LF/CRLF |
+
+**Ejecutados y revisados los dos git diff por archivo**, incluida revisión posterior de representación Redis3.4.31 por lectura pública, sin tests. Checkpoint **17:37:27.983Z**: misma branch/HEAD, únicamente task/memoria modificados, **0 staged**, sin untracked; **otros246tracked y state/backup nativo intactos**, task§§6–46 y memoriahasta§105 idénticos por comparación con HEAD; **21 enlaces relativos nuevos comprobados**. Diff-check se repite tras registrar estos resultados; resultado final en respuesta de sesión. Validaciones no equivalen a tests de aplicación, grants IAM nuevos ni evidencia cloud. **Sin AWS/Atlas calls, KMS/Secrets/IAMwrites, valores, plan/apply/SendCommand, stage/commit/push. DETENER al entregar diseño/documentos y validaciones.**
+
+## 48. T008 / DP-I-14 — Contrato candidato digest–configuración–versiones–rollback
+
+### 48.1. Alcance, baseline y criterios literales
+
+**2026-11-13 UTC — AUDIT / DESIGN / DOCUMENTATION ONLY.** Solicitud explícita del responsable **T-INFRA-008 / DP-I-14 — CONTRATO DIGEST–CONFIGURACIÓN–SECRET VERSIONS–ROLLBACK**. Solo este archivo y [memoria](../../memoria.md) editables, conservando diseño T019§47/memoria§106. Lecturas locales y fmt-check/validate/diff-check; **sin AWS/ECR/IAM/KMS/Secrets/Atlas calls o writes, lectura/generación de valores, Docker/build/push/pull/scan, aplicación/tests, plan/apply/SendCommand, stage/commit/pushGit**. No agentes/skills ni nuevos artefactos de release/unidades/workflows.
+
+Precheck **2026-11-13T17:45:01.932Z**: **feature/infrastructure / c2f62ce09970d84e1c2b40bbc21e4a30423c9fda**, únicamente task/memoria modificados por T019, **0 staged/sin untracked**. SHA256 inicial task **a01382515840c05feccebb2f4df014f690e99f932e656afaa4cb0b8190a00104**, memoria **295b09d9fd7689c04b7571907c705c71ea473b8fbd45db1c4fe1575215bb5d6f**; huella otros246tracked **0bce43a81746c3a3c315b3b080cd3c3caf6e72a678968056f6f779834ac6feba**, state/nativo conservados por hashes anteriores. No descartar los cambios documentales previos.
+
+T008 literal: **objetivo garantizar mismo artefacto reproducible y promoverlo manualmente desde004**; **dependencias T-INFRA-007; DP-I-02/14, contrato aprobado con futura004**; **aceptación contrato aprobado de artefacto inmutable idéntico en A/B y deploy workflow_dispatch tras CI verde; sin build, push o YAML implícitos**; **evidencia E(T-INFRA-008), contrato y revisión documental de imagen**. Trazabilidad INFRA-005/006/034/035, PLD-INFRA-003/017/018, AC-I-03/13, gates I-C/I-H/I-I. **DP-I-14 literal: contrato con004, ownership del digest, operación manual, rollback y revisión de cambios IaC**. [Spec](spec.md) exige commit/digest rastreable, non-root, secretos externos/startupseguro, rollback compatible sin stateciego y evidencia saneada; [plan§§5–6.3](plan.md) separa003/002/004/operación y exige escritor único. Nada de cambiar estos criterios ni spec/plan en esta entrega.
+
+Baseline ECR **histórica/acreditada según responsable§22**, no nueva verificación:
+
+| Campo | Valor / límite |
+| --- | --- |
+| Repository / región / cuenta | enver-dev-api / us-east-1 /926925605666 |
+| Source commit exacto | **3312d220e3ff68851befc59e9a7cfa516185bdc8** |
+| Image digest publicado | **sha256:0a0fceb5ab9e71e09db4a1ee7326dc59993d40266f144259f0d02bc6c9802cda** |
+| Tag humano histórico | git-3312d220e3ff, nunca selector de deployment |
+| Publicación/pull | exit0 según responsable; no arranque/CI/runtimeA-B acreditados |
+| Objetos OCI | Índice +manifiesto linux/amd64 +atestación, no tres releases; digests hijos no comunicados |
+| Alcance | **NO imagen del HEADc2f62ce0**, NO release operacional aceptado del nuevo adapter T019, NO versión previa de rollback real disponible |
+
+### 48.2. Manifiesto no secreto: esquema y semántica de versión
+
+**Propuesta de esquema1**, no archivo creado ni releaseId operativo generado. Todos los campos siguientes obligatorios en manifest promovible; placeholders/null no se admiten en runtime. Config JSON aparte, misma unidad inmutable de release, hash de sus bytes exactos. No passwords, connection strings credentialed, JWT, hashespassword, materialJWT/HMAC, AWScredentials ni hashes de claves en ninguno.
+
+```json
+{
+  "schemaVersion": 1,
+  "releaseId": "<git12>-<yyyyMMddTHHmmssfffZ>-r<NN>",
+  "gitCommit": "<SOURCE_COMMIT_40_HEX>",
+  "imageRepository": "926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api",
+  "imageDigest": "sha256:<64_HEX_DEL_ARTEFACTO>",
+  "imageTagMetadata": "<TAG_HUMANO_NO_SELECTOR>",
+  "platform": { "os": "linux", "architecture": "amd64" },
+  "platformManifestDigest": "sha256:<64_HEX_DEL_MANIFIESTO_EJECUTABLE>",
+  "environment": "dev",
+  "aspnetEnvironment": "Development",
+  "awsRegion": "us-east-1",
+  "atlasClusterName": "Cluster0",
+  "mongoDatabase": "enver_development",
+  "mongoSecretArn": "<ARN_COMPLETO_REAL_MONGODB>",
+  "mongoSecretVersionId": "<VERSION_ID_REAL_MONGODB>",
+  "jwtSecretArn": "<ARN_COMPLETO_REAL_JWT>",
+  "jwtSecretVersionId": "<VERSION_ID_REAL_JWT>",
+  "hmacSecretArn": "<ARN_COMPLETO_REAL_HMAC>",
+  "hmacSecretVersionId": "<VERSION_ID_REAL_HMAC>",
+  "redisSecretArn": "<ARN_COMPLETO_REAL_REDIS>",
+  "redisSecretVersionId": "<VERSION_ID_REAL_REDIS>",
+  "configVersion": "<VERSION_APROBADA_SNAPSHOT>",
+  "configSchemaVersion": 1,
+  "configArtifact": "config.json",
+  "configSha256": "<SHA256_BYTES_EXACTOS_CONFIG_NO_SECRETA>",
+  "jwtExpectedActiveKid": "<KID_APROBADO>",
+  "jwtRequiredValidationKids": ["<KIDS_AUN_NECESARIOS>"],
+  "quotaIdentityReference": "<REFERENCIA_NO_SECRETA_APROBADA>",
+  "runtimeContractVersion": "<CONTRATO_HELPER_ADAPTER_SOPORTADO_POR_IMAGEN>",
+  "ciEvidenceReference": "<EVIDENCIA_CI_VERDE_SOURCE_DIGEST>",
+  "scanEvidenceReference": "<EVIDENCIA_SCAN_MANIFIESTO_EJECUTABLE>",
+  "approvalReference": "<ACTO_HUMANO_REAL_DE_PROMOCION>",
+  "deploymentTimestamp": "<UTC_ISO8601_INICIO_ORDEN_DE_DEPLOYMENT>"
+}
+```
+
+`releaseId`: **12hex minúsculas del gitCommit +UTC yyyyMMddTHHmmssfffZ +rNN**; secuencia de dos dígitos para fases/config/rollback mismo source. Unicidad comprobada por escritor único; ante colisión no sobrescribir. Solo caracteres hex/dígitos/letrasUTC/guiones, sin slash/traversal. No derivar autorización del nombre. Hash/source completos gobiernan, no shortSHA. `configVersion` identifica snapshot inmutable, no se cambia contenido conservando versión. Cada faseJWT/HMAC/config requiere nuevo releaseId/manifiesto si cambia cualquier miembro.
+
+Manifiesto/snapshot UTF8, esquema estricto, no propiedades duplicadas/desconocidas, rutas relativas permitidas únicamente config.json, referencias externas exactas sin buscar latest. Hash de manifest **fuera del propio JSON** en registro de aprobación protegido, para evitar autorreferencia. SHA256 de metadata no autentica por sí mismo: anclar hash/bytes en evidencia/almacén y aprobación de origen confiable, con permisos independientes. No crear claves de firma adicionales. Tabla/region/refs son sensibles por topología pero no secretos; su acceso no será público.
+
+Restricciones de esquema propuestas: schemaVersion/configSchemaVersion enteros soportados; gitCommit40hex, digests `sha256:`+64hex y configSha25664hex; strings obligatorios no vacíos, VersionId32–64 caracteres según API y ARNcompleto validado por cuenta/región/finalidad contra inventario aprobado; arrays de kids sin duplicados y activeKid incluido. No transformar/truncar VersionIds. Los únicos campos opcionales adicionales de esquema1 serán `rollbackOfReleaseId` y `restoresImageFromReleaseId`, ambos strings con formato releaseId y obligatorios juntos para candidato derivado de rollback; no son extensiones arbitrarias. Límites de tamaño/profundidad/cardinalidad y validadores concretos se aprobarán antes de implementar el parser, sin tolerancia silenciosa.
+
+`deploymentTimestamp` se fija al emitir la **orden manual autorizada de deployment**, antes de distribuir; no afirma finalización/éxito A/B. Un borrador previo puede tenerlo pendiente, pero no es promovible. Recibos separados registrarán intento, actor, inicio/fin A/B/resultado/rollback y hashes; no reescribir timestamp de un manifest histórico al reusarlo. Campos approval/CI/scan requieren evidencia real, no tickets/URLs/runs inventados.
+
+### 48.3. Source, digest y reproducción: no confundir identificadores
+
+**Deploy/pull siempre `imageRepository@imageDigest`, jamás por tag**, incluso si ECR configura IMMUTABLE. Tag solo etiqueta humana/retención. GitCommit es commit exacto del contexto limpio usado por CI/build, no HEAD del operador o commit del manifest. Trazar build context/Dockerfile/global.json/lockfiles/buildargs/plataforma/bases resueltas y ejecuciónCI→digest devuelto por registry. No etiquetar imagen histórica como si contuviera cambiosc2f62ce0. Promover código de otroHEAD exige reconstrucción/publicación autorizadas y evidencia del digest resultante; no basta modificar metadata/retag. Rollback explícito puede seleccionar el source/digest históricos que realmente corresponden, sin atribuirlos alHEADactual ni reconstruir como sustituto de un artefacto aceptado.
+
+Si imageDigest referencia índice OCI, platformManifestDigest debe corresponder al hijo linux/amd64 de **ese índice**, no atestación; si es manifiesto único, ambos son iguales. Antes de promover comprobar pertenencia/mediaType/plataforma/digest y resultados scan del ejecutable. No comparar image config ID local con registry manifest/index digest como si fueran lo mismo; runtime verifica RepoDigests/pullref y plataforma con semántica OCI. Digests hijos y mediaTypes reales faltantes del baseline se obtendrán solo por lectura futura autorizada, no inventados aquí.
+
+**Reproducibilidad de selección** = recuperar mismos bytes de imagen/config/manifest y mismas versiones; **reproducción de build** = entradas/toolchain/bases trazables y dependencias controladas, no igualdad byte a byte supuesta. Dockerfile actual usa FROM tags mcr.aspnet10.0/sdk10.0.403 sin digest fijado; restorelocked no garantiza bytes idénticos. Registrar y proponer fijar bases por digest/inputs aprobados en futuro incremento, sin elegir nuevas versiones ni cambiar Dockerfile aquí. RuntimeContractVersion exige imagen que soporte schema/paths/helperadapterT019: la imagen histórica no se presume compatible y el adapter aún no existe. Retener imagen/config/manifest/refs necesarios para un rollback aceptado, incluido índice/hijos/atestación; [lifecycle actual](../../infra/registry.tf) solo untagged>14días no sustituye revisión de retención/objetos referenciados. No borrar tags/imágenes/versiones ni alterar lifecycle.
+
+### 48.4. Snapshot no secreto completo y pinning
+
+El **config.json de release** archiva toda configuración efectiva no secreta relevante, sin depender de defaults variables de host/imagen/CLI o launchSettings. Valores todavía pendientes NO forman release válido. Snapshot exacto y manifest deben coincidir; ignorar o rechazar overrides no aprobados. No cambiar ambiente/tabla/prefix para volver verde un deployment.
+
+| Área | Snapshot por release / referencia al contrato actual |
+| --- | --- |
+| Ambiente/imagen | environmentdev/aspnetEnvironmentDevelopment coherentes con ASPNETCORE_ENVIRONMENT/DOTNET_ENVIRONMENT, regiónus-east-1, HTTP8080 según contrato autorizado; arquitectura/runtimecontract y confianza/proxy/AllowedHosts/logging/limits aprobados. Development no autoriza publicar MapOpenApi |
+| MongoDB | Cluster0/SRVcluster0.w1hglqm.mongodb.net/enver_development/users (datos Atlas informados por responsable), authSourceadmin/TLSvalidado; timeouts2000/2000ms, majority/primary/readconcernmajority/majority+journaltrue/wtimeout2000ms según factory, RetryWritesfalse, contratoBSON7campos/UUID4subtype4/UTCms/índices_id_+normalizedEmail_1unique/simple/sinTTL/sparse/partial/hidden. Sin password/URIcredentialed |
+| Redis | Endpoint/puerto privado/authmode/TLS/sslHost/certtrust/database explícitos aprobados017 (hoy pendientes), namespaceenver:development, propósitosauth:revocation/auth:ratelimit, prefijos físicos del contrato actual,750/2000ms/margenrevocación60/failclosed/noeviction; formato de buckets/registro/metadata/Lua/topología compatibles; sin password/ConnectionStringsecreta |
+| JWT | HS256/issuerenver-api/audienceenver-mobile/TTL900/skew30actual(max30), formato/kid policy; expectedActiveKid/requiredValidationKids como metadata, nunca keyBase64 en config.json. Ring material solo en secreto fijado |
+| Cuotas/HMAC | Siete cuotas: RegisterEmail3/900,RegisterOrigin20/900,LoginOriginEmail5/60,LoginEmail10/60,LoginOrigin60/60,LogoutAccount30/60,LogoutOrigin300/60; revisiónacademic-initial, capacidad explícita aprobada (MaxActivePartitions actualnull NO READY, no rellenar5000 automáticamente); refs QuotaConfigurationVersion/QuotaIdentityReference/QuotaGeneration externas ya aprobadas y consistentes con metadataRedis, formatoHMACdominio/versión/representación. Sin material/hashHMAC |
+| DynamoDB | AuthenticationComposition:AuthorityRegion, AuthenticationSecurityAuthority:TableName/OperationTimeoutMilliseconds, lecturasConsistentReadtrue y contratoCAS; tabla/timeout reales pendientes020, no inventados. No AWSkeys ni generaciones/horizontes de estado como valores a restaurar |
+| Resto | Authentication:* presupuestos/límites/política, AuthenticationTransport:* confianza/proxy/puertos, Logging/AllowedHosts y referencias de readiness/admisión aprobadas. No incorporar secretos mediante env/CLI/provideroculto |
+
+Secret names de§47 se conservan; helper solicita **GetSecretValue con SecretId=ARNcompleto y VersionId exacto** para las cuatro finalidades y comprueba ambos campos devueltos. No consultar AWSCURRENT independientemente, no fallback AWSPREVIOUS/otraregión/default; publicación de label no modifica un release fijado. Un cambio de credencial/material/versión/config crea manifiesto nuevo aprobado. No acceso a valores desdeCI/manifestbuilder ni secretos enGit/artifacts/state. Mantener IAM exactARN/boundary/KMS del diseño019; pinning no concede permisos ni garantiza que una versión retenida siga siendo válida en Atlas/Redis.
+
+### 48.5. Rollback compatible, no restauración ciega del pasado
+
+**Rollback = seleccionar manifiesto completo previamente aceptado y revalidar su compatibilidad ACTUAL**, no solo imagen anterior. La aceptación histórica no garantiza seguridad tras nuevas emisiones/rotaciones/datos. Comprobar incluso si hay mismo digest. Si manifest anterior falla alguna puerta, **NO ejecutarlo ni editarlo**; preparar candidato derivado usando imagen/source anteriores y refs/config compatibles actuales, con campos adicionales `rollbackOfReleaseId`/`restoresImageFromReleaseId`, nuevo releaseId/aprobación/hash antes de seleccionarlo. Si imagen antigua no soporta contratos actuales, rollback bloqueado; reparación forward autorizada o mantenimiento cerrado, no downgrade de datos/seguridad.
+
+| Puerta | Condición de rollback / bloqueo seguro |
+| --- | --- |
+| JWT K2 emitida / N-1 soloK1 | ManifestN-1 NO válido mientras haya tokensK2 aceptables. Ring del rollback debe mantener todas las verificadoras vigentes (K1/K2/otras necesarias), cada kid ligado al mismo material. Distribuir reconocimiento antes de nuevaemisión; retener cada clave≥930s desde su última emisión posible global incluyendoinflight. Si se vuelve a emitirK1, reiniciar SU horizonte desde nuevo cese. No930desde primeraviso ni+60Redis; falta de tiempo/cese fiable impide retiro. Metadata kids necesaria NO prueba material correcto: validación privada del adapter y pruebas autorizadas de firmas/continuidad, sin tokens/claves en evidencia. Nunca editar ring histórico o confiar en AWSPREVIOUS por nombre |
+| HMAC / cuotas activas | Mantener exactamente tupleARN+VersionId y formato/ambiente/referencia de identidad actuales en rollback ordinario. Si cambia identidad, aplicar transición019: cese/fenceglobal, resolverinflight/incertidumbre, último consumo posible con tiempo compartido, drenar max(old,new) (hoy900s), preservar estado/reconciliarcapacidad y activar una sola configuración. No dual-key, reset/flush, buckets nuevos para evadir cuotas ni generaciones inventadas. Referencias de control antiguas que no coincidan con estadoactual bloquean rollback |
+| MongoDB | Mismo destino/database/users, BSON/serialización/schemaassumptions/índices/concerns compatibles; credencial fijada vigente y autorizada, TLS sin degradación. Password antiguo puede ser inválido aunque SecretVersion exista; **AWSPREVIOUS NO revierte Atlas**. Sin downgrade/repair/dropindex/migración/borrado automáticos; configcompatible nueva requiere manifest derivado aceptado |
+| Redis | Mismo endpoint/TLS/AUTHválida/DB/namespace/prefijos/estructuras/Lua/refs de configuración/generación aprobadas con datos activos. No cambiarDB/prefix para evadir revocaciones/cuotas, no recuperar snapshotviejo ni asumir PING/reconnect=continuidad. AUTH anterior retirada exige versión vigente compatible y manifest derivado; no limpiar/abrir guard por rollback |
+| Authority/operación | Misma región/tabla/semánticaCAS compatible; preservar estado de seguridad vivo. No restaurar generaciones/revisions/horizontes ni reabrir autoridad como efecto del deploy. Revalidar IAM/accesibilidad/imagenretención/scan/health/readiness; falta de compatibilidad/verificación→bloqueo |
+
+La puertaJWT es [JwtKeyRing.CanRetirePreviousKey](../../Enver.API/Security/JwtKeyRing.cs)/002task§64; HMAC usa [AuthenticationPseudonymizationTransition](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationPseudonymizationTransition.cs) y§47.4. Contratos existentes no implementan coordinador/temporizador productivo ni prueban runtimecloud. Rollback puede requerir downtime autorizado; no prometer mínimo dos targets durante mantenimiento sin capacidad adicional aprobada, conservando dos instancias en aceptación final.
+
+### 48.6. Almacenamiento, ownership y separación CI/promoción/IaC
+
+| Alternativa | Evaluación de diseño |
+| --- | --- |
+| Git tracked | Adecuado para schema/plantillas/config no secreta revisada; refs internas deben respetar acceso del repo. Manifest de release generado después del build evita autorreferencia gitCommit/commitquecreamanifest. No modificar sourceSHA ni requerir commit por promoción; aquí NO se crea archivo tracked |
+| S3 artifact protegido | **Recomendación candidata de archivo canónico** para bundlemanifest+config+evidencias no secretas, separado de Terraformstate, versionado/cifrado/privado, clave porrelease sin overwrite, referencia a ObjectVersion ySHA256 aprobados. No bucket/nombre/ARN/KMS/retención operativos elegidos ni recursos nuevos/costo aprobados |
+| CI artifact | Evidencia auxiliar de build/tests/scan/source/digest y copia del bundle; retención/expiración/plataforma no garantizan archivo de rollback. No única fuente salvo política aprobada suficiente |
+| Deployment metadata / copiahost | Recibo por intento/host/hash/release/resultados, no fuente editable de verdad. Copia local `/etc/enver/releases/<releaseId>/manifest.json` y config.json rootprotegidos; `/etc/enver/runtime-manifest.json` de019 puede ser selector/instalación atómica del manifest aceptado, no otra copia modificable divergente |
+
+Recomendación NO crea S3 ni selecciona bucket/KMS: revisar permisos, versionado, protección contra DeleteObjectVersion/overwrite y lifecycle antes de operacionalizar. Versioning solo no es inmutabilidad absoluta. Retener bundles, versionesSecrets e imágenes referenciadas mientras estén activos/elegibles; no expiración/cleanup/restore automático por esta entrega. Falta/retirada/revocación de un componente invalida elegibilidad de rollback; registros de promoción con acceso restringido. SHA256 se calcula sobre bytes de metadata/config, no sobre material secreto. Metadatos protegidos no implican publicación pública.
+
+**Responsabilidades propuestas, no identidades/permisos creados:** CI004 produce/testea/escanea/publica imagen y registra source→digest, sin valoresSecretManager. Responsable humano autorizado acepta la promoción y compatibilidad. **Único escritor de selección activa releaseId+digest+config+refs = mecanismo de deployment manual004**; CI porpush/merge no cambia selección. Operador de valores Secrets separado publica versiones, no despliega por cambiar labels. AdministradorIAM/boundary mantiene límites independientes; runtimehost solo lecturas exactas. Rol/actor concretos y permisos004 se aprobarán en004, sin ampliar enver-terraform-local ni runtime.
+
+Terraform003 administra infraestructura/destinos/policies/refs aprobadas, **NO es segundo escritor de release activo**. Hoy HCL no tiene selector operacional de imagen; no añadir ignore_changes/bypassdrift ni scripts como parche. Si futuraIaC incorporara un atributo de release, definir única autoridad/mirror y plan revisado antes de implementar; referencias deben coincidir con registro de promoción. Cambios de recursos/IAM/backend/versiones/costo requieren revisiónIaC T026/plan autorizado/apply específico; config-only no autoriza infraestructura, y un apply no promueve app. Antes de GitHub/uso compartido exigir stateremoto/versionado/locking/migración autorizada; no state/planes/secretvalues en artifacts de release.
+
+Manual `workflow_dispatch` selecciona bundle/digest aceptados únicamente tras CI verde del **sourcecommit/digest exactos**, evidencia scan y puertas de compatibilidad; no reconstruir durante deploy. Rotación/config-only puede reutilizar digest/source ya acreditados si soportan nuevo contrato, pero requiere release/config/versions nuevos aprobados y revalidar CI/scan vigente aplicable. Cambiar HEAD de origen de imagen exige build/publicación/provenance nuevos, no retag. CI publica candidato, humano promueve, deployment consume; operaciones de provisión/bootstrap/secretentry conservan autorización propia y no se ejecutan por ese flujo automáticamente. Sin YAML/jobs/actions/triggers nuevos en003.
+
+### 48.7. Consumo host, A-B, fallos y flujo de rollback
+
+1. Operador autorizado selecciona manifest aceptado+hash/configexacta y verifica autorización/costo/ventana, CI/source/digest/scan y compatibilidad de secretos/estado actual; serializar un solo cambio por ambiente, sin promociones concurrentes.
+2. Deployment004 entrega a cada host **bundle no secreto** por canal aprobado y conserva recibo/hash de origen. Copia local rootprotegida; no conceder S3lectura alruntime por defecto ni usar clavesAWSestáticas. Transporte/permisos concretos son implementación004 pendiente, no SendCommand aquí.
+3. Helper valida esquema/tipos/duplicados/paths/hash/ambiente/cuenta/región/source-provenance/plataforma/runtimecontract y config. Verifica repositorio@digest autorizado, recupera las cuatro versionesSecrets exactas, compruebaARN/VersionId/envelopes y coherenciaJWT/HMAC/destinos sin imprimir valores.
+4. Preparar tmpfs/mountRO con procedimiento019, detener/fence admisiones según mecanismo aparte aprobado y resolverinflight antes de activar; preparar A luego B fuera de tráfico, **docker por digest**, sin reload/ENVsecretos/fallback. Si falta mecanismo fiable de cierre/apertura, deployment bloqueado; quitar targetsALB no basta por fail-open. No reabrir autoridad automáticamente ni crear endpoints de coordinación/diagnóstico.
+5. Comprobar internamente A/B con **mismo releaseId/digest/plataforma/configVersion+SHA256/manifiestoHash/cuatroVersionId/refscontrol**, options válidas, admisión/readiness/índices/continuidad compatibles. No usar `/health` liveness como prueba; no metadata/secretos en respuesta pública.
+6. Abrir tráfico solo tras evidencia y autorización aplicables, registrar recibos A/B con tiempos/resultados saneados. Sin mezcla parcial por defecto; rolling/mixedrelease solo mediante procedimiento explícito compatible aprobado (incluidas fasesJWT). No declaración de éxito por un host listo o por archivo presente.
+
+**Rollback operativo futuro:** seleccionar manifest previamente aceptado→revalidar puertas§48.5 y disponibilidad/scan→si incompatible bloquear y preparar derivado aceptado→autorizar ventana/targets/ejecución→cierre/drenaje A-B→mismo consumo exacto/arranque por digest→verificarambos/continuidad→apertura controlada/recibos. Fallo parcial: conservar evidencia y cerrar admisión afectada/global según contrato, sin retryciego/restauraciónautomática/segundodeploy/cleanup o rollback a otra versión no autorizada. Mantener último manifest conocido y resultados del intento, no cambiar puntero a medias y fingir acuerdo.
+
+| Fallo | Reacción de diseño |
+| --- | --- |
+| Digest/repo/plataforma/source o hashbundle/config no coinciden | Rechazar antes de arranque, no sustituir por tag/latest ni reconstruir adhoc |
+| ARN incorrecto/otra cuenta-región-finalidad, VersionId ausente/no existe/no accesible | No fallbackAWSCURRENT/AWSPREVIOUS/otroentorno; no nueva API |
+| schemaVersion/runtimeContract no soportado, config inválida/incompleta, overrides no aprobados | Fallo startup genérico/sin defaults; imagen anterior no gana soporte por cambiar metadata |
+| JWT ring sin verificadoras vigentes/kid reasignado o tiempos inciertos | Bloquear rollback/retirada; conservar claves necesarias, sin invalidación silenciosa de tokens |
+| HMAC/refs de cuota incompatibles con estadoactivo | Cierre y transición con drenaje/reconciliación, nunca reset/buckets alternos |
+| Mongo/Redis credencial inválida/TLS incompatible/esquema-índices-formatos incompatibles | Admisión cerrada/503 según código, sin downgrade/repairautomatico |
+| Secretos válidos pero dependencia/authority/continuidad/readiness no verificable | No abrir tráfico; proceso puede mantener liveness según comportamiento existente |
+| A/B distintos, rollout parcial, artifact/secret retirado o scan inconcluso | No declarar release aceptado/rollback elegible; detener y pedir intervención autorizada |
+
+### 48.8. Scan y reevaluación E008/DP-I-14/T019
+
+**Scan último registro:** §22 IN_PROGRESS histórico/informado paralinux/amd64, sin digesthijo/findingsfinales. §26.4 consulta real al digest registrado→**exit254/ScanNotFoundException**, noAccessDenied. No significa imagen inexistente/scan inexistente en hijo/findings0; **NO scan final acreditado**. Ninguna nueva consulta/StartImageScan/polling/cambio de scanning/Inspector aquí.
+
+Para resolverlo faltan, mediante autorización posterior: vínculo índice→manifiesto ejecutable/plataforma/digests reales; modalidad/alcance de scan efectivo; statusfinal aplicable+fechaescaneo/actualizacióndefiniciones+conteos/findings/severidades y cobertura/limitaciones; evaluación humana de hallazgos bajo política/criterios de seguridad aprobados y excepciones explícitas si proceden. No inventar umbral de severidad/antigüedad, estadoPASS/0findings o equivalencia unsupported/notfound=limpio. Config local scan_on_push=true no prueba ejecución/completitud; falta de resultados concluyentes sigue **bloqueo de acreditación de seguridad/aceptación integralE008**, no de diseñar este contrato. No seleccionar nuevo scanner/tier/gasto por iniciativa del agente.
+
+| Dimensión T008 | Estado real al terminar diseño |
+| --- | --- |
+| Publicación/digest/pull | Acreditados según responsable para3312d220/digesthistórico; no revalidados cloud, no relacionados alHEADactual |
+| Contrato digest/config/secretversions/ownership/manual/rollback | **DISEÑO TÉCNICO COMPLETADO COMO CANDIDATO**, E008 aceptación explícita pendiente |
+| Scan | Final/cobertura/findings/aceptación no acreditados, bloqueo integral conservado |
+| Reproducibilidad | Selección inmutable diseñada; bases por tags/entradas/buildprovenance/seguridad necesitan revisión y evidencia; no rebuild reproducible ejecutado |
+| Rollback | Matriz/procedimiento diseñados, sin segundo release compatible aceptado ni rollback real/prueba |
+| CI/promoción004/IaC | Responsabilidades/writer único definidos como propuesta;004nooperativa/CIverdedeesteartefactonoacreditado/deploymanualnoejecutado; stateremotoT026/027 pendientes |
+| Dependencias/actoaceptación | T007PARCIAL/DP-I-02 aplicables y aceptaciónT008 pendientes; no aprobarlas por inferencia |
+
+Separación de aceptación: la condición literal E(T008) es **contrato aprobado y revisión documental de imagen**; no se reforma para exigir un deployment/rollback real de004 antes de poder aceptar un contrato delimitado. La tabla conserva gaps de acreditación técnica/operativa y los bloqueos históricos de seguridad, sin convertir todos ellos en requisitos nuevos de aceptación documental. Un contrato aprobado puede cerrar el hueco de diseño DP14 sin acreditar scan/CI/runtime. T002/baseline ya aceptada no se reabre: las referencias a DP02 aquí solo conservan revisiones de imagen/bases/plataforma que resulten aplicables, no deshacen su aceptación anterior.
+
+**T008 permanece PARCIAL. DP-I-14: DISEÑO TÉCNICO COMPLETADO / ACEPTACIÓN EXPLÍCITA PENDIENTE.** Se responde técnicamente a contrato004/ownership/operaciónmanual/rollback/revisiónIaC a nivel propuesto, sin cerrar formalmente DP ni asumir runtime/CI/recursos operativos. §47 queda como antecedente íntegro; el hueco de diseño que allí motivó el bloqueo está desarrollado, **no aceptado** ni convertido en E008 completa.
+
+**ImpactoT019:** no eliminar dependencia requerida por§2: **T008 sigue sin resultado aceptado**, aun con este contrato candidato. Falta aceptación de DP14/E008 y evidencias/dependencias propias de008 señaladas. **T019 PARCIAL / INVENTARIO Y DISEÑO REVISADOS; E019 ACEPTACIÓN PENDIENTE**, no integralmente acreditada. No exigir secretos reales/004ejecutada para inventariar ni eludir aceptaciónT008; cualquier futura aceptación delimitada por responsable deberá decir exactamente qué contrato/alcance acepta, sin borrar gaps reales. Diferidos de implementación T019 (Redis017/018/authority020/IMDS/helperadapterTLS/IAM), provisiónE027 y runtimeE028 conservan autorizaciones posteriores y no se ejecutan para suplir evidencia faltante ahora.
+
+**GATE-I-A SATISFECHO / E005-E006-E015-E016 ACEPTADAS / tareas completas en su alcance conservadas; GATE-I-B PENDIENTE / NO SATISFECHO**, E027/E028/T026 pendientes, resto de gates abierto. Catálogo sin nuevos cierres: **7completas+7parciales+16pendientes=30**, gates1satisfecho+8pendientes. No cierre002/AUTH-027integral/004 ni continuación automática. Preservar state/nativo/custodia cifrada/planes y presupuestoUSD50agregado/guardrailUSD10/deadlineoriginal2026-11-15T01:57:56.9337244Z, sin extensión/reinicio/cargosnuevos/cleanup/restore/passphrase.
+
+### 48.9. Validaciones y conservación
+
+Validaciones locales efectivas **2026-11-13 UTC**, sin plan/refresh ni llamadas de cuenta:
+
+| Comando | Inicio–fin UTC | Exit / resultado |
+| --- | --- | --- |
+| `terraform fmt -check -recursive infra` | **17:56:22.557Z–17:56:23.117Z** | **0**, sin modificaciones |
+| `terraform -chdir=infra validate` | **17:56:22.557Z–17:56:34.277Z** | **0**, configuración válida |
+| `git diff --check` | **17:56:22.557Z–17:56:22.859Z** | **0**, solo avisos LF/CRLF |
+
+**Ejecutados y revisados ambos git diff por archivo**, incluidos cambios acumulados T019; solo documentación. Checkpoint de integridad **17:58:18.511Z**: misma branch/HEAD, únicamente task/memoria modificados, **0 staged/sin untracked**, otros**246tracked/state/nativo intactos** por hashes. Task§§6–46 idénticos aHEAD; **task§47 y memoriahasta§106 idénticos al precheck de esta entrega**, cambios T019 conservados. **7 enlaces relativos nuevos comprobados**. Se sincronizan únicamente control/estadoT008/T019 fuera de§48; ningún estado aceptado previo se revierte. Diff-check final se repite tras este registro, resultado en respuesta de sesión. La validación HCL no demuestra manifiesto/adaptador operativo, CI, scan o rollback probado. **DETENER tras ambos documentos/verificaciones autorizadas; sin AWS/ECR/Secrets/IAM/KMS/Atlas, plan/apply/SendCommand, stage/commit/push.**
+
+## 49. T008 — Política aprobada y remediación local de bases de contenedor
+
+### 49.1. Autorización y baseline
+
+**2026-11-13 UTC — REMEDIATION / LOCAL CODE / LOCAL COMMIT**, solicitud expresa del responsable **T-INFRA-008 — REMEDIACIÓN DEL ARTEFACTO / POLÍTICA DE VULNERABILIDADES + DOCKERFILE REPRODUCIBLE**. Autoriza editar únicamente [Dockerfile](../../Enver.API/Dockerfile), este task y [memoria](../../memoria.md); build local linux/amd64 sin secretos, verificaciones aisladas, suites reales UT/IT/ST, fmt-check/validate/diff-check y **UN commit local `fix(infra): pin updated dotnet container bases` solo si todas las validaciones pasan**. Sin archivos adicionales versionados por preferencia del responsable. No AWS writes/IAM/Secrets/Atlas/SendCommand/ECR push/delete/StartImageScan/plan/apply/pushGit. Pruebas usan dependencias sintéticas locales y DynamoDB Local, no Atlas/Redis/AWS reales.
+
+Precheck **18:16:20.776Z**, **feature/infrastructure / c2f62ce09970d84e1c2b40bbc21e4a30423c9fda**, únicamente task/memoria modificados por T019/DP14, **0 staged/sin untracked**. SHA256 task **5670b0d39864afb1ac4851039afb4fb3f02188841eab7ceb3651332174778a52**, memoria **0712a2354b40420c5fcf944a4948f6d5d2e96723c30bdd5344129265b2f49753**, Dockerfile original **6a9c69f5b5517129d046997c72a84d80631eb8dce377641afae65e3107e442a0**. Huella otros245tracked **d3db1fbb6d357c61bec70549664255aa279b47d13bcabfa939e79c75daac367e**; state/nativo hashes conservados. Preservar task§§6–48 y memoriahasta§107, sin reescribir sus estados históricos.
+
+### 49.2. Política aprobada por responsable — no aceptación del artefacto
+
+| Clasificación | Regla APROBADA en esta solicitud |
+| --- | --- |
+| CRITICAL | **0 permitidos** |
+| HIGH con fix disponible | **0 permitidos en artefacto promovido**; no sustituir parche por excepción |
+| HIGH sin fix disponible | **NO aprobación automática**; requieren aplicabilidad, exposición, explotabilidad, controles compensatorios, owner, fecha/revisión y **excepción explícita** |
+| MEDIUM/LOW | Registrar y tratar según riesgo/prioridad, sin inventar bloqueo automático adicional |
+| UNDEFINED | **Revisión obligatoria**, no considerar inocuo |
+| Falso positivo | Evidencia y **decisión explícita**; no suprimir por inferencia |
+
+La aprobación solo establece esta política. **NO acepta imagen histórica, CVE-2026-82560, E008, T008, DP-I-14, deployment o push**. No cambiar severidadECR por prioridad distinta de Canonical para eludirla. Una versión local de paquete satisfactoria no demuestra ausencia de otros findings ni reemplaza scan del artefacto nuevo.
+
+### 49.3. Evidencia previa de scan y bases; identificadores separados
+
+Auditoría read-only anterior **2026-11-13T18:03–18:06Z**, sin edición documental entonces: DescribeRepositories confirma enver-dev-api/IMMUTABLE/AES256/scanOnPushtrue; DescribeImages y BatchGetImage identifican índice histórico **sha256:0a0fceb5ab9e71e09db4a1ee7326dc59993d40266f144259f0d02bc6c9802cda**, taggit-3312d220e3ff, source **3312d220e3ff68851befc59e9a7cfa516185bdc8**, pushedAt2026-11-12T21:36:45.185Z. Hijo ejecutable **sha256:8f5f030823bed41bcdb1c3276d810ac1784488f2989fe8547f4307ce886235c9** linux/amd64; hijoatestación **sha256:efa5cf7b23826938a42457aba06a2fd78b627aa7d5d2a7999e1d35a326281564**, unknown/unknown. GetRegistryScanningConfiguration **BASIC/rules=[]**, no inferir Inspector/motorinterno específico.
+
+DescribeImageScanFindings del **hijoamd64** exit0 **18:04:46.107Z**, **COMPLETE**, 23findings sin nextToken; CRITICAL0/HIGH13/MEDIUM4/LOW2/INFORMATIONAL0/UNDEFINED4 (claves0 omitidas, sin entradas). Completed/sourceUpdatedAt **2026-11-12T21:40:01Z** ambos. Cobertura acreditada del hijoamd64, no índice/atestación/seguridad.NET integral. Corrige incertidumbre factual de scan de§48 por nueva evidencia, **no borra ScanNotFound anterior al índice**. Imagen histórica **NO APROBADA PARA PROMOCIÓN ACTUAL**, conservar como evidencia/no borrar.
+
+HIGH anteriores: CVE-2026-85091 zlib1g/zlib1.3.dfsg-3.1ubuntu2.2 (2findings); CVE-2026-86145/89157/103111/89161 pcre2/libpcre2-8-0 10.42-4ubuntu2.1 (8); CVE-2026-109518 apt/libapt-pkg6.0t64 2.8.3 (2); CVE-2026-82560 sourceperl5.38.2-3.2ubuntu0.6 (1). ECR BASIC no informó fix/versioncorregida; fuentes oficiales se consultaron en diseño posterior, sin equiparar 13findings a13CVE únicos.
+
+Diseño read-only anterior18:09–18:13Z: log original de build liga runtimeaspnet10.0 al índice **sha256:222759b391a1aaf241166672c8f99b2d4ada452e7b5319f3c6e8f265a37b5ad4**, hijoamd64 **sha256:0fa044f682cb7d93a5a90401a00c626c66f7b00b86922be9441f869eae039f80**, ASP.NET10.0.12; capasbase coinciden con prefijoRootFS de imagenhistórica. Lectura de capas públicas de esa base y candidata verifica Ubuntu24.04.5LTS/noble y paquetes dpkg heredados, no de SDK/instalaciónENVER. Ningún container/imagebuild/push/AWS en aquel diseño.
+
+**Verificación pública de este incremento antes de editar:** MCR manifests/config **18:16:21.241–18:16:21.597Z**, no credenciales:
+
+| Base | Índice VERIFICADO / fijado en Dockerfile | Hijo linux/amd64 VERIFICADO | Versiones en config |
+| --- | --- | --- | --- |
+| mcr.microsoft.com/dotnet/aspnet | **sha256:bfd912c83295ce66d4b706ebb8541b9f14259b0e76fbb88b2751f58ce2399d2e** aprobado por responsable | **sha256:05acd0ca475e2130832bab441d28a7dd31041129bad28eac7928151fd73cd2c5** | DOTNET/ASPNET10.0.15, APP_UID1654 |
+| mcr.microsoft.com/dotnet/sdk:10.0.403 resuelto | **sha256:212fe4cb74627d5adf9817a4088906ae3edff1bd853bb27565d4b46731efe61e** | **sha256:32ac63f80a3dfe48cf91ec1de80b0f394e37e353ee367c7fa87991c2111d22f4** | DOTNET_SDK_VERSION10.0.403, runtime/ASPNET10.0.14, APP_UID1654 |
+
+Ambos índices son Docker manifestlistv2 y contienen linux/amd64; no son índicesECR. SDK permanece10.0.403/global.jsonintacto, no confundir runtime del builder10.0.14 con runtimefinal10.0.15. Las configs de base no fijan USERnonroot por sí mismas; DockerfileENVER conserva **USER $APP_UID**.
+
+### 49.4. Cambio mínimo, paquetes y Perl
+
+**Solo dos líneas FROM modificadas**: `mcr.microsoft.com/dotnet/aspnet@sha256:bfd912…` y `mcr.microsoft.com/dotnet/sdk@sha256:212fe4…`, con índices completos de tabla. Stagesbase/build/publish/final, USER, WORKDIR/app, COPYlockedrestore/publish, EXPOSE8080/8081 y ENTRYPOINTdotnetEnver.API.dll intactos. Sin APTupdate/upgrade/instalación, eliminación de Perl, chiseled/Alpine/AOT, cambio de UID/GID o comportamiento funcional. Buildfuturo/actual **--platform linux/amd64**, compatibleEC2x86_64; índicesmultiarch no autorizan construir/promover otras arquitecturas.
+
+Mínimos aprobados: zlib1g **≥1:1.3.dfsg-3.1ubuntu2.3** (epoch1 preservado), libpcre2-8-0 **≥10.42-4ubuntu2.2**, apt/libapt-pkg6.0t64 **≥2.8.4ubuntu0.1**. Evidencia postbuild externa alruntime: `dpkg-query -W -f='${binary:Package}\t${source:Package}\t${Version}\n' zlib1g libpcre2-8-0 apt libapt-pkg6.0t64 perl-base` y `dpkg --compare-versions` ge de cada uno de los cuatro binarios frente al mínimo; exigir exit0, nunca comparación lexicográfica/SemVer de versionesDebian. Leer os-release/id/dotnetinfo sin arrancarEnver.API, sin red/credenciales/volúmenesprivados/puertos/privilegios y con rootfsRO. Comandos guardados como evidencia fuera de Git/runtime, no nuevo script empaquetado.
+
+**Perl:** bases inspeccionadas contienen **perl-base5.38.2-3.2ubuntu0.6 / Essentialyes / sourceperl**, no paqueteperlcompleto/perl-modules-5.38; lista de perl-base sinPod/Text.pm. No demuestra noaplicabilidad de todaimagenfinal ni es excepción. [CanonicalCVE](https://ubuntu.com/security/CVE-2026-82560) y [USN-9006-1](https://ubuntu.com/security/notices/USN-9006-1), leídos18:09–18:10Z, ahora publican fix **perl-modules-5.38 5.38.2-3.2ubuntu0.7** para Pod::Text. No trasladar ese fix automáticamente a perl-base. **No modificar/eliminar perl-base ni instalar módulos**; reevaluar CVE-2026-82560 con scan deimagen nueva y evidenciaaplicabilidad/archivos/source→binario; ninguna aceptación/inocuidaddemostrada por este incremento.
+
+### 49.5. Build local, pruebas y procedencia
+
+**Build local completado, NO repetido en reanudación:** `docker build --platform linux/amd64 --file Enver.API/Dockerfile --tag enver-api:local-base-remediation-c2f62ce0-20261113t1816 --progress plain .`, **18:17:25.936Z–18:18:38.220Z / exit0**, compilación0warnings/0errors, restorelocked/cache normal; no afirmar no-cache. Docker29.6.1cliente/servidorlinuxamd64. Tag localtemporal comprobadoausente18:17:07.984Z, NO tagecr/manifiestooperativo. Dockerfilemodificado SHA256 **3d895dbc974af7da97c80e25cdcb438921effec518c476a45578b652147a7314**; solo dosFROM distintos deloriginal.
+
+| Identificador LOCAL exportado / inspeccionado | Valor / límite |
+| --- | --- |
+| Índice/imageID reportado por Docker | **sha256:801ac720d90b3aa0c031ebc55ffa9e0bd24400f70623e8cc60d3297d34e4348d** |
+| Manifest ejecutable linux/amd64 | **sha256:c2888682fd0c3e12760884adf0b3728d5fb4af3cdad393ac8c7984d13a0b0865** |
+| Config de imagen | **sha256:b4e94e863faed6d2fedbde6ee33714a05571ae3cd637908489848c54bea7ab9e** |
+| Atestación local | **sha256:2443038ed2e8d0d3b55841d7441ca7369cd8a08062f7a5128f79c5716545ee2b** |
+| Tamaño local | **102818309bytes**, no tamaño/consumo facturado ECR |
+
+Una invocaciónbuild desde contexto raíz, sin secretos/buildargssecretos; source observado **HEADc2f62ce0+Dockerfilepin sin commit**, los dosMarkdownpreexistentes excluidos por.dockerignore. No afirmar builddesdeárbolGitlimpio/commitnuevo ni atribuir candidatoalsource3312. Sin commitnuevo por el falloIT; futurorelease exige source/inputs/identidad aprobados y trazabilidad, no reconstrucción/publicación implícitas. **Ninguno de los identificadores locales acredita nuevo digestECR**, no reutilizartaghistórico.
+
+**Verificación local faltante ejecutada en reanudación 21:13:17.751Z–21:13:19.851Z / exit0**, tras `docker image inspect` comprobar imageID esperado/arquitectura/USER/ENTRYPOINT. Un contenedor propio efímero por ese ID, `--pull never --platform linux/amd64 --network none --read-only --cap-drop ALL --security-opt no-new-privileges --entrypoint /bin/sh`, sin mounts/puertos/credenciales/arranqueEnver.API. Solo id/os-release/dpkg-query/cuatrocomparacionesge/dotnetinfo; no instalar/modificar nada enruntime.
+
+| Verificación efectiva en imagen FINAL | Resultado |
+| --- | --- |
+| OS / arquitectura | **Ubuntu24.04.5LTS/noble / linuxamd64**, dotnetRIDlinux-x64, sinotrasarquitecturas |
+| Usuario/grupo reales | **uid1654(app) / gid1654(app), groups1654**, non-root; no cambiodeUID/GID |
+| Runtime | **Microsoft.AspNetCore.App10.0.15 +Microsoft.NETCore.App10.0.15**, sinSDK instalado enfinal |
+| zlib1g / sourcezlib | **1:1.3.dfsg-3.1ubuntu2.3**, comparaciónDebiange exit0 |
+| libpcre2-8-0 / sourcepcre2 | **10.42-4ubuntu2.2**, comparaciónge exit0 |
+| apt / sourceapt | **2.8.4ubuntu0.1**, comparaciónge exit0 |
+| libapt-pkg6.0t64 / sourceapt | **2.8.4ubuntu0.1**, comparaciónge exit0 |
+| perl-base / sourceperl | **5.38.2-3.2ubuntu0.6**, solo registrar; CVE-2026-82560NOresuelta/NOaceptada sin scannuevo/evaluación |
+| Configuración de imagen | USER1654/WORKDIR/app/ENTRYPOINTdotnetEnver.API.dll conservados; noAPTlayerañadida |
+
+**Suites reales completadas antes de retomar, NO repetidas:** SDKhost10.0.403; `dotnet test Enver.Backend.slnx --no-restore --configuration Release -m:1 --logger trx --results-directory <evidencia>/TestResults`, **18:20:29.411Z–18:33:58.896Z / exit1**. Las tres suites llegaron a resultado terminal; la interrupción de sesión por usage limit no las convierte en pendientes ni autoriza repetir para ocultar el fallo. Hosttests y Testcontainers sintéticos/Mongo-Redis-DynamoDBLocal, no pruebas de laAPIcontenedor con dependenciasreales; credencialesAWSdeloperador retiradas delchildprocess y AWS_EC2_METADATA_DISABLEDtrue, clienteDynamoDBfixturelocalcredencialesficticias. Thresholds/tests/configuración intactos.
+
+| Suite / resultado TRX reutilizado | Inicio–fin UTC del TRX | SHA256 archivo TRX |
+| --- | --- | --- |
+| **UT684/684 PASS, 0failed/0notexecuted** | **18:33:47.796Z–18:33:58.326Z** | **defc3510fbb20874a6612fcf6086c046c2d9c43b3d47a161f901a5da8cb5fde2** |
+| **IT309/310 PASS, 1FAILED/0notexecuted** | **18:21:07.558Z–18:31:42.261Z** | **e1206efb6fc854c8e1fcbec2ce8a35c9540a65aa3b36ddd486c18b73e0284e65** |
+| **ST223/223 PASS, 0failed/0notexecuted** | **18:31:54.764Z–18:33:40.726Z** | **1cf0eaaf7e39e2e63cbd8a4b1a330f1bb581284bf430a94b9ed4ccea7065bb0a** |
+
+Fallo exacto IT: **Enver.API.IntegrationTests.RegistrationTests.Origin_20_per_900_joint_with_email_3_per_900_has_one_charge_and_conservative_retry_after**, duración9.1299979s. Mensaje saneado **Register: evidencia no acreditada; tipo=EqualException; detalles sensibles suprimidos.**, stackRegistrationTestScope.SafelyAsynclínea140. No esperado/actual disponible en evidencia saneada; **causa NO DETERMINADA**, no atribuirlo a pinning/runtime/latencia ni calificarlo como flake. WarninghostUTexistente xUnit2031 enLogoutTests.cs166 no corregido, no causa del exit1. No tests/thresholds omitidos o relajados, no reintento/fix fuera de alcance.
+
+Evidencia recuperada en **`C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra4-base-remediation-20261113T181707\`**, sin archivosnuevos versionados: docker-build.txt/build-result.json/dotnet-test.txt/test-result.json/TestResults3TRX. SHA256 build-result.json **8d66f7a8801fca95b03e98eca15b39ff427ead66ad00485ce7103f05c58adf29**, test-result.json **c7d44db396f0941d8f7b039daabb1d6e87b048c040836731ae01c41bf2c4236d**; lecturaUTF16LE/JSON y TRX confirma resultados de mismaejecución. Carpeta temporal no acredita custodia/retención durable. Salida de verificación aislada enregistro de sesión, saneada; no secretos/state enGit.
+
+### 49.6. Estados y límites conservados
+
+**T008 PARCIAL**: faltan publicacióncandidata autorizada, digestECRresultante, scannuevo, evaluaciónfindings bajo políticaaprobada, reproducibilidadfinal y aceptaciónE008/DP14. Buildlocalpaquetes/tests no son scanECR/CIverde004 ni acreditacióncloud. **DP-I-14 DISEÑO TÉCNICO COMPLETADO / ACEPTACIÓN EXPLÍCITA PENDIENTE. T019 PARCIAL**, E019sinaceptación/dependenciaT008noaceptada. E027/E028 yT026 pendientes; no helper/adapterT019/JWT-HMACrotación/authorityreadinessimplementados por esta intervención.
+
+**GATE-I-A SATISFECHO y E005/E006/E015/E016 ACEPTADAS** conservados en su alcance; **I-B PENDIENTE / NO SATISFECHO**, catálogo7completas+7parciales+16pendientes=30/gates1+8. No cierre002/AUTH-027integral/004. Preservarstate/nativo/custodiacifrada/planeshistóricos, USD50agregado/guardrailUSD10/deadlineoriginal2026-11-15T01:57:56.9337244Z sinreinicio/extensión/gastosnuevos/cleanup/restore/passphrase. Cleanup de fixtureslocales propias por tests no autoriza limpieza cloud.
+
+### 49.7. Reanudación, validaciones finales y commit BLOQUEADO
+
+Solicitud posterior **CONTINUAR PROCESO INTERRUMPIDO / REANUDAR DESDE ESTADO ACTUAL** conserva alcance y condiciona commit a todas las validaciones satisfactorias. Recuperación efectiva **21:12:39.575Z**: branchfeature/infrastructure/HEADc2f62ce09970d84e1c2b40bbc21e4a30423c9fda, soloDockerfile/task/memoriamodificados, **0staged**, log5sincommitnuevo y búsqueda exacta del mensaje en refs locales sin coincidencias. Dockerfileyaactualizado; otros245tracked/state/nativo idénticos al precheck original. **Último punto válido: build y las tres suites terminados, documentación de resultados/verificaciónfinaldeimagen pendientes**. No nuevobuild ni tests; solo comprobacionesfaltantes y cierre documental.
+
+**Commit solicitado NO existía y NO se crea:** condición de todas las validaciones satisfactorias **NO cumplida por IT1FAILED / dotnettestexit1**. No stage, amend/squash/segundocommit ni eliminación de cambios. Mantener tresarchivosmodificados para revisión; futurodiagnóstico/corrección del caso requiere autorización delimitada, no retryautomático ni aceptarE008porbuildcorrecto. Mensaje previsto conserva `fix(infra): pin updated dotnet container bases`, no ejecutado. No workingtreeclean ficticio ni SHAdecommitnuevo.
+
+Validaciones locales de cierre **2026-11-13 UTC**, sin build/test repetidos:
+
+| Comando | Inicio–fin UTC | Exit / resultado |
+| --- | --- | --- |
+| `terraform fmt -check -recursive infra` | **21:18:15.256Z–21:18:15.760Z** | **0**, sin cambios |
+| `terraform -chdir=infra validate` | **21:18:15.224Z–21:18:25.658Z** | **0**, configuración válida; no plan/apply |
+| `git diff --check` | **21:18:15.295Z–21:18:15.540Z** | **0**, solo avisos LF→CRLF de los tres archivos; se repite tras este registro |
+
+Checkpoint de integridad **21:18:50.754Z**: **245tracked ajenos a los tres permitidos idénticos** a precheck por huella **d3db1fbb6d357c61bec70549664255aa279b47d13bcabfa939e79c75daac367e**; Dockerfile difiere deHEAD únicamente en dosFROM (comparación normalizandoCRLF), hash **3d895dbc974af7da97c80e25cdcb438921effec518c476a45578b652147a7314**. **Memoriahasta§107 coincide byteporbyte con SHA256precheck** (solo línea separadora agregada antesde§108). StateSHA256 **d214e2b172312123f64be213376130cad4e8be25fce36107ebbe258ffd045fff** / nativo **23a74f1556b10ade14f509820a2a225d124201b03d52380fd39b5dc458314ea7** conservados porhash sin imprimircontenido. **0staged/0untracked**. No tocar T019§47/DP14§48 ni sus registros históricos; solo sincronización de control/estados fuera del nuevo§49. Fmt/validate/diff-check no anulan ITfallida ni prueban seguridad/scanECR/readiness.
+
+**DETENER sin stage/commit/push/publicación/cloudwrites**, comunicar falloIT y resultados parciales, sin continuar a otroincremento. Mensaje ySHA del commit nuevo: **NO APLICA / NO CREADO**; HEADc2f62ce0 conservado. Los tresarchivosmodificados quedan intencionalmente sinstage; las modificaciones previas T019/DP14 permanecen incluidas, no descartadas. Postcheck de sesión repetirá HEAD/status y diff--cachedcheck/stat vacíos, sin inferir stagedvalidación decontenidoinexistente.
+
+### 49.8. Validación final IT controlada — PASS; autorización de commit local
+
+**Solicitud expresa posterior: ENVER — VALIDACIÓN FINAL IT CONTROLADA / ÚLTIMA SUITE DE INTEGRACIÓN, FINAL VALIDATION / LOCAL COMMIT.** Autoriza exactamente una última IT completa, prevención temporal de suspensión, actualización de este task y memoria solo si310/310, validaciones locales y UN commit de Dockerfile/task/memoria. No AWS/IAM/Secrets/Atlas writes, ECRpush/delete/StartImageScan, plan/apply/destroy, SendCommand o pushGit. Las condiciones de bloqueo de §49.7 se conservan como historial de aquella entrega; esta solicitud permite reevaluarlas con evidencia nueva, no borrar fallos anteriores ni aceptar E008/DP14/E019.
+
+**Precheck23:28:47.401Z:** branchfeature/infrastructure/HEADc2f62ce09970d84e1c2b40bbc21e4a30423c9fda, solo los tres archivos esperados modificados,0staged, sin commit del mensaje solicitado. Ningún C# productivo/test/lockfile/configuración funcional cambió. Otros245tracked coinciden con huella inicial d3db1fbb6d357c61bec70549664255aa279b47d13bcabfa939e79c75daac367e. Binarios host reutilizados sin build/restore: ITdll SHA256 **cf57812782d3b18cfe89ee5fbcae09280ca4a98b604c897ac0cfc592b55bd2b7**, APIdll **fc95944c06807c0eda9138354988fbe091acd789c5bf05d6f9f4b2687b11f04f**. UT/ST previos mantienen los hashesTRX de §49.5; no se repiten buildDocker, paquetes, UT o ST.
+
+**Diagnósticos previos autorizados, sin cambios de archivos entonces:**
+
+| Evidencia conservada | Resultado y límite |
+| --- | --- |
+| Registration aislado y cinco repeticiones secuenciales | **1/1 y5/5 PASS**, mismo binario/flags/configuración de fixture; identidades y secretos sintéticos aleatorios propios de cada fixture |
+| Clase RegistrationTests | **32/32 PASS**,21:36:56.850Z–21:38:19.912Z; TRX SHA256 **97a72c4ddbdaf9276cb0f21f8d31b6850baacb3aa7333e2a31b22c87032accf6** |
+| IT diagnóstica anterior | **309/310**, Registration original PASS3.76s; falla P1, no Registration. TRX SHA256 **c3c0e91322cd07a4b91b77c1cb035e7e7126aed27b595b4b5efe86a4ceef8356**; no sustituir por PASS retroactivo |
+| P1 aislado posterior | **PASS95.41s**, proceso166.625s;3000intentos/2420Admitted/580Rejected/0Unavailable/0Uncertain. TRX SHA256 **2c3e31050a48b898f759abb64b0bf02db24e3536bc4c5c89d248cfa1b30548a4** |
+| Clase DistributedQuotaPressureTests | **4/4 PASS**, proceso274.238s; P1dentrodeclase91.57s. TRX SHA256 **96f488e685ef193cfd17e54cba771ffc739f53f23d4b5b0601bba865593174e1** |
+
+Rutas temporales de esos diagnósticos: `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra4-it-diagnostic-20261113T2128\` y `infra4-p1-diagnostic-20261113T2316\` bajo el mismo directorio opencode. No modificadas, no custodia durable. El primer EqualException de Registration sigue sin expected/actual recuperables por el saneamiento del wrapper (§49.5); **no fue reproducible bajo retest controlado**, sin causa raíz afirmada y sin etiqueta flaky confirmado.
+
+**P1 histórico: ENVIRONMENTAL acreditado.** Lectura del registro Windows **System / Microsoft-Windows-Power-Troubleshooter / EventID1 / record115936**, creado23:09:10.718Z: SleepTime **2026-11-13T21:43:53.983Z**, WakeTime **23:09:09.565Z**, pausa **5115.581s /85m15.58s**. P1 había empezado21:42:51.349Z, llevaba62.634s al suspenderse y terminó7.249s tras despertar; duración anómala1h26m25s. `ETIMEDOUT` era del wrapperNode `spawnSync(timeout1800000ms)`, no un error de socket registrado en P1; se informó0.344s tras despertar. Contadores originales2311intentos/1930admitidos/373rechazados/8Unavailable/0Uncertain y2303despachosEVAL, coherentes con rechazos previos al despacho; la rama interna exacta de los ocho Unavailable no quedó registrada. No se demuestra bug productivo/test causal/regresiónDocker/fuga de estado. La fase de carga es storeRedis directo, sinHTTP/Mongo/DynamoDB por intento; fixtures preparan dependencias locales. P1 fija Redis2000ms e intento10000ms, no el default250ms; ocho workers, tres ciclos1000/30s, RedisTIME y Stopwatch/TaskDelay reales. No adjudicar85min a una cascada de timeouts: el cuerpo tiene WaitAsync180s, sin cancelación transitiva ni límite de cleanup; la suspensión es evidencia ambiental independiente.
+
+**Preparación final23:29:37.257Z:** Docker29.6.1/linuxamd64 disponible; imágenes pinned Mongo8.0.34/Redis8.2.11/DynamoDBLocal3.1.0/Ryuk0.14.0 presentes y sin cambios. El fixture realiza su arranque y sondas Mongo replica set/Redisnoeviction64MB/DynamoDBLocal antes de los tests; no recursos reales Atlas/AWS. El primer wrapper de prevención de energía falló por EntryPointNotFound al consultar una DLL incorrecta **antes de invocar dotnet**, sin handle/ajustes adquiridos: se corrigió solo la declaración temporal hacia kernel32.dll; **no fue una ejecución IT ni un reintento de suite**.
+
+**Prevención temporal efectiva:** `kernel32 PowerCreateRequest / PowerSetRequest(SystemRequired, DisplayRequired)`, adquirida **23:31:52.288Z**, ambas true. Sin powercfgset/cambios permanentes de política ni modificación de plan de energía. Liberación en finally **23:41:11.137Z**, PowerClearRequestSystem/Displaytrue yCloseHandletrue. No se promete bloquear suspensión forzada por un usuario/política: se verificó además el registro System del intervalo exacto. Monitor de1s, brecha máxima **1043ms**, sin pausa>30s, cancelación ni timeout; deadline del runner20min con cancelación dirigida únicamente al árbol dotnet propio si se invalida el entorno. No tareas pesadas paralelas ni reinicios externos; los restart/fallos sintéticos pertenecen a los tests existentes.
+
+**ÚNICA IT final:** `dotnet test tests/Enver.API.IntegrationTests/Enver.API.IntegrationTests.csproj --no-build --no-restore --configuration Release --logger "trx;LogFileName=final-it.trx" --results-directory <evidencia>`, host/testserver, no APIcontenedor con dependencias reales. CredencialesAWS del operador retiradas del childprocess y AWS_EC2_METADATA_DISABLEDtrue; DynamoDBLocal usa credenciales ficticias. Sin cambios de thresholds, filtros, clocks, paralelismo, código ni configuración de fixtures.
+
+| Campo final | Evidencia efectiva |
+| --- | --- |
+| **FINAL IT VALIDATION** | **PASS /exit0**,310total/310executed/**310passed/0failed/0skipped**, sin retry ni segunda suite |
+| Intervalo proceso | **2026-11-13T23:31:52.551Z–23:41:11.105Z /558.554s** |
+| Intervalo TRX | **23:31:55.212Z–23:41:10.625Z /555.413s**; consolaVSTest9m9s de duración de pruebas, no confundir con proceso/fixture |
+| TRX | **`C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra4-final-it-20261113T2328\final-it.trx`**, SHA256 **a484639b6159e0bfe9365c13c01cdef5d9cb31eef0559d5bfb2c57f40df787db** |
+| RegistrationTests final | **32/32 PASS**, incluido el caso original; no reproducible bajo retest controlado |
+| P1 final | **PASS91.1293144s**,23:37:04.174Z–23:38:35.303Z, sin duración anómala |
+| Entorno | **VÁLIDO**: auditoríawevtutilSystemdel23:31:52.551Z–23:41:11.105Z **0 eventos de suspensión/reanudación**; monitor sin interrupción/timeout, protección liberada |
+| UT/ST | **684/684 y223/223 PASS** de §49.5, evidencia intacta reutilizada; ninguna corrección C# necesaria según estas verificaciones |
+
+En esa carpeta externa quedan final-it.log, final-it-result.json, power-acquired.json ypower-released.json junto alTRX; nada de ese runner/helper/evidencia se incorpora al runtime oGit. Evidencia temporal no garantiza retención/custodia durable ni sustituye CI. **Clasificación histórica final:** Registration no reproducible bajo retest controlado; P1 ENVIRONMENTAL por suspensión acreditada; **última suite PASS en entorno controlado**. No flaky confirmado ni reinterpretación de fallos anteriores como éxitos.
+
+**Candidata Docker local validada en su alcance:** build, OS/arquitectura/non-root/runtime y paquetes de §49.5 conservados, imageIDlocal801ac720…; dos índices de bases inmutables de §49.3, sinAPTlayer/Perlmodificado. Tests corren sobrehost; no afirmar que todos corrieron dentro de la imagen. No nuevobuild/releaseId/manifiestooperativo/tagECR/push/digestECR/scan/deployment. La imagen fue construida desdeHEADc2f62ce0+Dockerfilepin antes del commit; este commit conserva esos inputs efectivos, no inventa una construcción desde árbol limpio ni la atribuye a3312. **CVE-2026-82560 pendiente de scan nuevo/aplicabilidad/decisión**, no resuelta por estos tests. Imagen histórica **NO APROBADA PARA PROMOCIÓN ACTUAL**.
+
+**T008 PARCIAL**, faltan pushECRautorizado/rootnuevo/childamd64nuevo/scanCOMPLETE/evaluaciónfindings/reproducibilidadfinal/aceptaciónE008-DP14. **T019 PARCIAL/E019pendiente**, no aceptación automática. DP14diseñocompletado/aceptaciónpendiente, I-ASATISFECHO yE005/E006/E015/E016ACEPTADAS conservados; I-B–I-I pendientes (8gates en total), catálogo7+7+16sinvariación, no cierre002/AUTH027integral/004. Preservarstate/nativo/custodiacifrada/planes, USD50agregado/guardrailUSD10/deadlineoriginal2026-11-15T01:57:56.9337244Z, sinextensión/gastosnuevos/cleanupcloud/restore/passphrase.
+
+**Validaciones finales efectivas2026-11-13UTC:**
+
+| Comando | Inicio–fin UTC | Resultado |
+| --- | --- | --- |
+| `terraform fmt -check -recursive infra` | **23:45:35.603Z–23:45:36.443Z** | **exit0**, sin modificaciones |
+| `terraform -chdir=infra validate` | **23:45:35.631Z–23:45:47.348Z** | **exit0**, configuración válida; sin plan/apply |
+| `git diff --check` | **23:45:35.612Z–23:45:35.938Z** | **exit0**, solo avisos LF→CRLF; repetir tras este registro |
+
+**Diffs ejecutados por separado y revisados:** Dockerfile solo dosFROM; task control/estadosT008-T019 e historialautorizado acumulado§§47–49; memoria solo adiciones§§106–109, sin líneas eliminadas. Sin archivos inesperados. Diffs completos guardados externamente juntoalTRX, noGit. Checkpoint **23:46:36.063Z**: otros**245tracked intactos** porhuellaprecheck; task§47SHA256 **86e17e96fce0e157783f89732be16ccb86fd42d98a63031e647e258488d89679**, §48 **1cf90eae957996a6051ed5213127f064aff3a34adcb17262e1e62c658f33833b** idénticos aantesdeestaactualización; memoriahasta§108conserva SHA256 **ee2494b2f3e9bfc2e5efee1043420d7ddde0217b9e62868353bcce7bcf29f537**, solo separador antesde§109. DockerfileSHA256 **3d895dbc974af7da97c80e25cdcb438921effec518c476a45578b652147a7314** intacto desdebuild;0staged/0untracked, enlace relativo nuevo comprobado. No código/configuración/lockfiles ni historial de aceptación alterados.
+
+**Cierre autorizado:** solo esos tresarchivos alíndice tras diff-check final, cachedcheck/stat y **UN commit local `fix(infra): pin updated dotnet container bases`** si todos los controles pasan. Condición funcional satisfecha porITfinal310/310/UT-STconservados; no es aceptación de seguridad/artefactoE008. Sinamend/squash/push; SHA ystatusreales se comunican postcommit sin crear commit autorreferente. La revisión conserva los cambios previosT019/DP14 incluidos en los dosMarkdown. **DETENER después del postcheck, sin publicación o continuación automática.**
