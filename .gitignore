@@ -92,6 +92,10 @@ _diag/
 *.tfvars.json
 *.tfplan
 /infra/tfplan-infra5
+/infra/tfplan-infra5-recovery
+/infra/tfplan-infra5-recovery2
+/infra/tfplan-infra5-recovery3
+/infra/tfplan-infra5-recovery4
 crash.log
 crash.*.log
 override.tf

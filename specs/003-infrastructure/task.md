@@ -4,13 +4,13 @@
 
 | Campo | Valor |
 | --- | --- |
-| Versión / fecha | 0.27.0 / 2026-11-13 UTC |
-| Solicitud inicial / incremento actual | INFRA-5 PLAN GUARDADO Y CHECKPOINT PRE-APPLY (§30.5): única regla nueva /infra/tfplan-infra5; fmt-check/validate/bash-n exit0; plan guardado e inspeccionado exit2/12add/0change/0destroy/0replacements, boundary exacta, NETWORK14/ECR2no-op. Checkpoint autorizado solo .gitignore/task/memoria; NO APPLY |
+| Versión / fecha | 0.41.0 / 2026-11-13 UTC |
+| Solicitud inicial / incremento actual | INFRA-5 CHECKPOINT POST-COMPUTE VALIDADO (§32.16): revisión de exactamente cinco archivos, fmt-check/validate/bash-n/diff-check exit0 y matriz de pendientes GATE-I-C. Autorizado un único commit local feat(infra): validate compute baseline; identificación y resultado post-commit en salida de sesión/evidencia privada. Sin push, AWS/IAM, plan/apply o cambios de state/backup/planes |
 | Fuentes | [spec.md](spec.md) y [plan.md](plan.md), propuesta aprobada como base documental |
 | Catálogo | 30 tareas, T-INFRA-001 a T-INFRA-030 |
-| Estado vigente de tareas | 001/002 parciales; 003/004/006/007 PARCIAL / aceptación pendiente; 005 y 009 PARCIAL / PRE-APPLY ACREDITADO (§30.5), runtime/provisión/aceptación pendientes; 008 conserva publicación/digest/pull según responsable y pendientes; 010 PARCIAL / recovery documentado, prueba/aceptación pendientes; 025 PARCIAL / validación local y plan guardado acreditados, aceptación pendiente; otras19 PENDIENTE / NO EJECUTADA |
+| Estado vigente de tareas | 001/002 parciales; 003/004/006/007 PARCIAL / aceptación pendiente; 005 PARCIAL / profile-boundary y SSM funcional acreditados, separación/mínimo privilegio integral pendientes; 009 PARCIAL / VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA (§32.15), dependencias/decisiones y aceptación integral pendientes, no bloqueada por falta de SSM/Docker; 008 conserva publicación/digest/pull según responsable y pendientes; 010 PARCIAL / recuperación conservadora y hosts operativos acreditados, prueba formal pendiente; 025 PARCIAL / recovery4 conservado, custodia/backup/dependencias/aceptación pendientes; otras19 PENDIENTE / NO EJECUTADA |
 | Estado de todos los gates | **PENDIENTE / NO SATISFECHO** |
-| Evidencia de ejecución de 003 | Historial §§18–30.4 intacto; plan§26 sigue PRE-HARDENING. §30.5 agrega binario local ignorado infra/tfplan-infra5 con hash, show humano/JSON exit0,12create/16no-op, boundary exacta y bootstrap cotejado. Sin AccessDenied, escrituras AWS/IAM o apply; permisos de escritura y gates sin aceptación |
+| Evidencia de ejecución de 003 | Historial §§18–32.14 intacto. §32.15 acredita EC2 running, SSM Online y Docker enabled/active A/B mediante CommandId8abf5ba1-a1d6-4ac2-9592-a3200a3b9d81. No contenedores ni servicio Enver.API observados; no auditoría de procesos arbitrarios. Sin nuevos AccessDenied/cambios infra/IAM/app. Recovery4 fechado conserva0/0/0/0replacements y +outputcompute_instances, no nuevo plan/aplicación ni gates cerrados |
 | Baseline documental original | `feature/authentication`, `c58ea86e3eddff4befa8f61398dd58d55c4ef985` |
 | Baseline del BUILD actual | `feature/infrastructure`, creada desde `3b4760ea8387b1cabff56e5f5e0ba5ffe8acb932`, árbol inicialmente limpio |
 | Checkpoint previo a INFRA-2/3 | `feature/infrastructure`, `611071f0ecb0d6cb67993f4e9bffd00d328a2f90`, árbol limpio al iniciar §9 |
@@ -20,6 +20,7 @@
 | Checkpoint post-apply ECR / baseline de publicación local | `feature/infrastructure`, `3312d220e3ff68851befc59e9a7cfa516185bdc8`, árbol limpio/0 staged al iniciar §20 |
 | Checkpoint primera imagen / baseline INFRA-5 | `feature/infrastructure`, `25daa836c0571d4c0c02486e49ce435a108f0558`, árbol limpio/0 staged al iniciar §23; commit de exactamente publisher JSON/task/memoria |
 | Checkpoint compute endurecido / baseline del replan actual | `feature/infrastructure`, `f19ca80ef899436bbe1ad724db950fc0dfa629ae`, padre25daa836, mensaje `feat(infra): prepare hardened compute baseline`, diez archivos; árbol limpio/0 staged al iniciar §30 |
+| Checkpoint PRE-APPLY / baseline del apply autorizado | `feature/infrastructure`, `3730ebe2cd0c7851bcd827b1f73e355a673db61a`, padre f19ca80, mensaje `chore(infra): prepare compute pre-apply`, exactamente .gitignore/task/memoria; árbol limpio/0 staged al iniciar §31 |
 
 Crear este catálogo **no autoriza ejecutar tareas**, cambiar código/configuración/Docker/tests, crear `infra/`, recursos AWS/Atlas, workflows o secretos, ni correr Terraform. No stage/commit/push. Los únicos archivos de esta entrega son los tres Markdown de 003. La autorización previa de la propuesta es documental, no habilita cargos ni credenciales.
 
@@ -71,6 +72,32 @@ La solicitud posterior **INICIALIZAR BACKEND LOCAL + PLAN INFRA-2/3 / VALIDACIÓ
 
 **INFRA-5 — AUTORIZAR EXCLUSIÓN DE TFPLAN Y CONTINUAR PRE-APPLY** autoriza después agregar únicamente `/infra/tfplan-infra5` a .gitignore, comprobar exclusiones/validaciones, generar e inspeccionar el plan guardado y consolidar task/memoria (§30.5). Permite stage/commit exactamente de esos tres archivos, mensaje `chore(infra): prepare compute pre-apply`; no versionar plan/state/tfvars, push, apply/destroy/import, cambios IAM o recursos AWS. Resuelve solo el bloqueo de ignore del intento anterior, no autoriza provisión ni gasto.
 
+**INFRA-5 — APPLY CONTROLADO DEL PLAN GUARDADO** autoriza posteriormente una única ejecución de infra/tfplan-infra5 con SHA256 exacto (§31), dentro de evaluación48h/guardrailUSD10. Solo tras éxito completo permite inventario/lecturasEC2-EBS-ENI-EIP-IAM/SSM/bootstrap y post-plan, sin API/dependencias/aplicación. Fallo parcial/AccessDenied exige detener sin segundoapply, destroy, IAMmanual o nuevos recursos correctivos; solo task/memoria y evidencia local, sin stage/commit/push. No aprueba retrospectivamente dependencias/gates ni convierte la estimación en factura/cap técnico.
+
+**INFRA-5 — RECUPERACIÓN DE APPLY PARCIAL** autoriza posteriormente lecturas de recursos conocidos, state list e inspección selectiva del taint, fmt-check/validate/bash-n y un nuevo plan guardado solo si su ruta ya está excluida por Git (§32). No reutilizar el plan parcialmente consumido, aplicar recuperación, modificar .gitignore automáticamente, untaint/stateedit/import/destroy/liberar EIP, ampliar IAM o stage/commit/push. AccessDenied o recursos ajenos al alcance detienen la operación; no-op y replacements requieren plan real, no inferencia.
+
+**INFRA-5 — AUTORIZAR EXCLUSIÓN DE RECOVERY PLAN Y CONTINUAR RECOVERY PLAN** permite añadir exclusivamente `/infra/tfplan-infra5-recovery` a .gitignore y después generar/inspeccionar ese nuevo plan, conservando todas las demás reglas y la evidencia previa (§32.5). Autoriza sincronizar task/memoria, no aplicar ni aceptar replacements, untaint/stateedit/import/destroy/liberar EIP, IAM o escrituras AWS, stage/commit/push. La planificación no reinicia la ventana de48h ni cierra gates.
+
+**INFRA-5 — RECUPERACIÓN CONSERVADORA DE EIP TAINTED** autoriza posteriormente solo `terraform untaint` para aws_eip.api["a"]/["b"], condicionado a comprobar en AWS identidad/cuenta/región, existencia, domainvpc, allocation/IP, ausencia de asociaciones inesperadas y coincidencia con state (§32.6). Autoriza nuevo recovery2 solo si ya está ignorado y documentar task/memoria. No apply/destroy/import/liberar/recrear EIP, IAM, edición manual de state, cambio automático de .gitignore, stage/commit/push. Autorizar la corrección de marcas no acepta una recuperación completa o un plan futuro por inferencia.
+
+**INFRA-5 — AUTORIZAR EXCLUSIÓN DE RECOVERY2 Y GENERAR PLAN LIMPIO POST-UNTAINT** permite después añadir exclusivamente `/infra/tfplan-infra5-recovery2` a .gitignore, validar, generar/inspeccionar el tercer plan y sincronizar task/memoria (§32.7). No otras reglas, apply/destroy/import/taint/untaint/stateedit/escriturasAWS/IAM/stage/commit/push. Plan real4/0/0 no es autorización para ejecutarlo ni aceptación de hosts, costos acumulados o gates.
+
+**INFRA-5 — APPLY CONTROLADO RECOVERY2** autoriza posteriormente un único apply de `infra/tfplan-infra5-recovery2` con SHA256 exacto, condicionado a baseline y cuatro altas sin reemplazos (§32.8). Solo tras éxito permite inventario AWS/state, SSM/Docker y post-plan no guardado. Ante fallo parcial exige registrar y detener, sin segundo apply/reintento, cambios de tipo/IAM, plan correctivo, destroy/import/taint/untaint o stage/commit/push. No autoriza desplegar Enver.API ni reiniciar la ventana48h.
+
+**INFRA-5 — CORRECCIÓN INSTANCE TYPE DESPUÉS DE RECHAZO FREE TIER** autoriza después cambiar exclusivamente t3a.small→t3.small en compute operativo y condición exacta de candidata Compute, validar y documentar (§32.9). No modifica IAM remoto. Recovery3 solo después de confirmación de actualización manual de ENVER-Terraform-Compute y comprobar exclusión Git exacta; si falta cualquiera, detener sin plan ni modificar .gitignore automáticamente. No apply/destroy/import/liberar EIP/otros atributos/stage/commit/push, ni reescribir planes/evidencia histórica.
+
+**INFRA-5 — RECOVERY3 DESPUÉS DE CAMBIO A t3.small** confirma después actualización manual exclusiva del tipo en policyreal y permite intentar su lectura sin ampliar permisos, continuar con evidencia informada si IAMdenegado, inventariar state/AWS, validar y planear solo si recovery3 ya está ignorado (§32.10). Si falta exclusión, detener y solicitar únicamente /infra/tfplan-infra5-recovery3; no editar .gitignore automáticamente. Ningún apply o escrituraAWS/IAM, destroy/import/taint/untaint/liberar/desasociarEIP/eliminarENI/stage/commit/push.
+
+**INFRA-5 — AUTORIZAR EXCLUSIÓN DE RECOVERY3 Y GENERAR PLAN FINAL CON t3.small** permite después añadir exclusivamente /infra/tfplan-infra5-recovery3, validar, generar e inspeccionar un único nuevo plan y sincronizar task/memoria (§32.11). GetPolicydenegado histórico no bloquea ni autoriza ampliarIAM. No otras reglas/cambiosHCL/IAM/state/apply/destroy/import/taint/untaint/liberarEIP/stage/commit/push; resultado2/0/0 no concede provisión.
+
+**INFRA-5 — APPLY CONTROLADO RECOVERY3 /CREACIÓN FINAL DE LAS2EC2** autoriza después aplicar únicamente elbinario de§32.11 con SHA256exacto (§32.12). InventarioAWS/state, IAM/SSM/Docker y post-plan solo traséxito; fallo parcial exige registrar ydetener sin reintento/segundoapply/correccionesautomáticas/IAM/destroy/import/taint/untaint/liberarEIP/stage/commit/push. No autoriza API/dependencias o reiniciarventana48h.
+
+**INFRA-5 — RECUPERACIÓN POST-RECOVERY3 /VALIDAR EC2 PARCIALMENTE CREADAS** autoriza después lecturas específicas de los dos IDs, state y recursos asociados, validaciones y recovery4 solo si ya está ignorado (§32.13). El responsable informa permiso ModifyInstanceAttribute añadido manualmente con ARN de instancia y tags ENVER; no habilita escrituras IAM ni prueba ese permiso por inferencia. Si falta exclusión, detener y solicitar solo /infra/tfplan-infra5-recovery4. Sin apply/destroy/import/state rm/untaint/edición state/.gitignore automático/reutilizar planes/stage/commit/push.
+
+**INFRA-5 — RECONCILIACIÓN CONSERVADORA DE EC2 TAINTED + RECOVERY4** autoriza después exclusivamente la regla /infra/tfplan-infra5-recovery4 y untaint de aws_instance.api["a"]/["b"] condicionado a coincidencia material AWS/HCL/state (§32.14). Permite validaciones/plan/show y consulta SSM solo sin replacements; comandos de consulta Docker solo si Online. Divergencia material o acciones create/delete/replace/update de recursos detienen; no apply/destroy/import/terminate/IAMmodificado/edición manual de atributos/state o stage/commit/push. Corregir marcas no concede aceptación integral ni ejecución futura del plan.
+
+**INFRA-5 — VALIDACIÓN FINAL SSM/DOCKER POST-RECONCILIACIÓN** autoriza después DescribeInstanceInformation filtrado a los dos IDs y AWS-RunShellScript solo donde SSM esté Online: docker --version, systemctl is-enabled/is-active docker, docker ps con nombres y listado de servicios running (§32.15). La policy de verificación es creada/adjunta manualmente según responsable, no por el agente. Sin modificar IAM/configuración, iniciar/detener contenedores/servicios o desplegar API. Plan final no guardado es opcional y no se ejecuta; no apply/destroy/stage/commit/push. Reevaluar criterios propios de tareas sin confundir baseline de hosts con aceptación de API/ALB/HTTPS o GATE-I-C.
+
 Aplican [constitución](../../.specify/memory/constitution.md), [001](../001-backend-foundation/spec.md), [002](../002-authentication/spec.md) y el cierre local de [002 task §§82–84](../002-authentication/task.md). No se cierran GATE-G/H de 002 ni AUTH-027 integralmente.
 
 Antes de cada ejecución futura: confirmar DP bloqueantes, autorización de alcance/archivos/comandos/entorno/costo, evidencia prevista y reversión. Los **archivos esperados** de cada tarea son destinos futuros sujetos a esa autorización, no archivos creados ahora. Las evidencias se almacenarán en ubicación protegida aprobada, no como secretos/state/logs crudos en Git.
@@ -101,7 +128,7 @@ Todos los gates de esta tabla están **PENDIENTE / NO SATISFECHO**. Los prerrequ
 | GATE-I-H | Infra cloud reproducible: IaC revisada, state protegido, drift/reproducción/rollback y evidencia verificable | E(002), E(008), E(025–030) | GATE-I-A a GATE-I-G | AC-I-12, 13, 15 |
 | GATE-I-I | URL HTTPS pública sirve Register/Login/Logout desde dos instancias, controles distribuidos y negativos verificados; deploy manual trazable | E(027–030) y contrato aprobado 004 | GATE-I-A a GATE-I-H | AC-I-13–15 |
 
-Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las cuatro evidencias. §§6–30 registran resultados y límites distinguiendo observación directa/evidencia informada/propuesta; ninguna E parcial satisface por sí sola un gate. I-H/I-I no implican SLA, producción lista ni cierre automático de AUTH-027 o gates de 002.
+Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las cuatro evidencias. §§6–32 registran resultados y límites distinguiendo observación directa/evidencia informada/propuesta; ninguna E parcial satisface por sí sola un gate. I-H/I-I no implican SLA, producción lista ni cierre automático de AUTH-027 o gates de 002.
 
 ## 4. Catálogo de tareas
 
@@ -134,6 +161,8 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Aceptación:** baseline revisada, versiones y manejo de state aprobados; ningún secreto en tfvars/output; no se crea bucket/tabla automáticamente.
 - **Evidencia:** E(T-INFRA-002), revisión de baseline y procedimiento de respaldo/migración/recuperación.
 - **Resultado actual:** baseline Terraform 1.17.1/provider 6.73.0 conservada; §14 creó state serial15/14managed sin .backup entonces. §18 actualiza state local a serial18/16managed tras apply ECR y observa .backup serial15/14managed; ambos ignorados, no custodia/cifrado/recuperación aprobados por su mera existencia. T-INFRA-001 continúa sin aceptación; DP-I-12/13 y evidencia integral de protección/backup/recovery pendientes. No COMPLETADA.
+- **Apply parcial §31:** state ahora serial27/24managed,2EIPtainted; backup local serial18/16managed. No restaurar backup anterior al incremento ni usar plan parcialmente consumido; custodia/backup protegido/recovery siguen sin aceptar.
+- **Untaint autorizado §32.6:** state serial29/24managed/0tainted; backup nativo serial28/24managed, donde B aún estaba tainted. Son cambios nativos de Terraform, no edición manual; no restaurar un backup que revierta correcciones ni asumir custodia/recuperación integral aceptadas.
 - **Riesgo:** pérdida o filtración state, lock incompatible y confusión con la authority DynamoDB.
 - **Gate asociado:** GATE-I-A, GATE-I-H.
 
@@ -165,12 +194,13 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Evidencia:** E(T-INFRA-004), comparación de costo/red y reglas propuestas saneadas.
 - **Resultado actual:** §14 materializa IGW/ruta y egreso SG provisional sin EIP/NAT/compute. Dos EIP futuras conservan solo aprobación de diseño/plan; EIP y allowlist Atlas /32 no implementadas ni autorizadas para apply. Faltan costo/egreso integral, decisiones restantes DP-I-03/06 y prueba de conectividad externa estable; red creada no acredita Atlas accesible. Estado PARCIAL conservado.
 - **Diseño/plan posterior:** §24 incorpora2EIP y2ENI persistentes/asociaciones al HCL y salida parcial del plan, sin crearlas ni modificar subnets. /32Atlas y conectividad real siguen pendientes; no autorización de apply o aceptación004 integral.
+- **Apply parcial §31:** existen2ENI y2EIP asignadas segúnapply/state, EIPtainted por lectura denegada, sin asociaciones/hosts o egreso probado; Atlas no configurado. No E004 integral ni conectividad aceptada.
 - **Riesgo:** IP cambiante, NAT/IPv4 costosos o dependencia sin conectividad.
 - **Gate asociado:** GATE-I-B, soporte GATE-I-F.
 
 ### T-INFRA-005 — Roles y permisos mínimos
 
-- **Estado:** PARCIAL / PRE-APPLY ACREDITADO; RUNTIME Y VALIDACIÓN EFECTIVA PENDIENTES (§30.5).
+- **Estado:** PARCIAL / PROFILE, BOUNDARY Y SSM FUNCIONAL ACREDITADOS; VALIDACIÓN INTEGRAL PENDIENTE (§32.15).
 - **Fase:** INFRA-3 Security/IAM.
 - **Objetivo:** separar provisión, deployment, runtime, administración y bootstrap.
 - **Dependencias:** T-INFRA-003, T-INFRA-004; DP-I-08/09 y contrato preliminar 004.
@@ -189,6 +219,16 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Plan §29:** boundary real/custodia según responsable, role con ARN exacto en plan POST-HARDENING12/0/0. Candidatas sin adjuntar, sin role creado o evaluación efectiva de mutaciones/IAM agregado. PARCIAL / HARDENING IAM PENDIENTE DE APLICACIÓN; evidencia de plan no cierre de aceptación.
 - **Replan §30:** Compute/IAM-Runtime adjuntas manualmente según responsable, sin boundary en usuario Terraform. STS correcto y nuevo plan12/0/0 con boundary en runtime role; no enumeración remota, prueba de CreateRole/PassRole o aceptación de seguridad efectiva. Runtime todavía no provisionado; PARCIAL conservado, estado de adjunción anterior histórico.
 - **Plan guardado §30.5:** role y boundary exactos inspeccionados en binario, inline9acciones conservadas y hardening operador local sin cambios; no auditoría remota ni prueba de escrituras/runtime. PARCIAL / PRE-APPLY ACREDITADO, no cierre de005.
+- **Apply parcial §31:** role/profile/dosinline policies completaron creación; boundary exacta registrada por provider enstate. Sin EC2/profile asociado a hosts/SSM, prueba de ECRpull, custodia/admin remota o separación004 integral. Acceso denegado operador a ec2:DescribeAddressesAttribute detiene turno, no ampliarIAM. PARCIAL, criterios de005 no cerrados.
+- **Lecturas de recovery §32:** GetRole/GetInstanceProfile/GetRolePolicy confirman role, boundary exacta, profile con role y las dos inline policies existentes. DescribeAddressesAttribute ya termina exit0 tras corrección manual informada por responsable; contenido de policy operadora y custodia de boundary no auditados. Sin EC2/SSM/ECRpull/plan no-op o aceptación integral.
+- **Apply recovery2 §32.8:** IAM4 no-op en plan autorizado; no modificaciones IAM ejecutadas. Ambas EC2 rechazadas por elegibilidad Free Tier, sin perfil asociado a un host ni SSM/Docker acreditados. No se repiten consultas IAM tras fallo parcial; verificación remota previa no es evidencia fresca ni aceptación de separación integral/secrets/authority/004. PARCIAL, no cerrar005.
+- **Corrección §32.9:** candidata Compute limita ahora ec2:InstanceType exactamente a t3.small, sin ampliar acciones/recursos/tipos. ENVER-Terraform-Compute real requiere actualización manual y confirmación; no consultada/modificada por el agente. Runtime/boundary intactos; validación integral/SSM siguen pendientes, PARCIAL.
+- **Retoma §32.10:** responsable confirma actualización manual delSIDexacto a t3.small; GetPolicy exit254/AccessDenied impide verificar versiónactiva. Se conserva fuente informada, sin solicitar permisos. Runtime4/boundary presentes enstate, no nuevo IAMno-op por plan inexistente ni pruebaSSM/permisosefectivos. PARCIAL.
+- **Recovery3 §32.11:** IAMruntime4/boundaryexacta no-op en plan real; policyAWS actualizada según responsable, no verificada independientemente. No repetir GetPolicy/ampliar permisos, sin nuevo AccessDenied. Plan no acredita RunInstances/SSM/aislamiento integral efectivos; PARCIAL.
+- **Apply recovery3 §32.12:** dosIDEC2 asignados; operadorenver-terraform-local recibe UnauthorizedOperation/ec2:ModifyInstanceAttribute al configurar shutdownbehavior. No ampliaciónIAM/cambioHCL/consultaSSM o perfilesefectivos acreditados; runtime4 era no-op, no aceptaciónintegral. PARCIAL, no cerrar005.
+- **Lecturas §32.13:** GetRole/GetInstanceProfile y EC2 confirman runtime role/boundary exacta y profile asociado a ambos hosts; shutdown stop por DescribeInstanceAttribute. Corrección ModifyInstanceAttribute informada, no escritura/simulación/versionado remoto de policy verificado. SSM y separación/aceptación integral pendientes; PARCIAL.
+- **Reconciliación §32.14:** role/profile/boundary nuevamente verificados y IAM4 no-op; ssm:DescribeInstanceInformation denegado al usuario Terraform, no demuestra fallo del role runtime ni ausencia de agentes. Sin nueva ampliación IAM, SSM Online/Docker/ECRpull o mínimo privilegio integral acreditados; PARCIAL.
+- **Validación final §32.15:** DescribeInstanceInformation/SendCommand/GetCommandInvocation exitosos, SSM Online y ejecución de lectura en ambos hosts acreditados tras policy humana informada. Esto resuelve el bloqueo operativo de §32.14, no audita todas las policies/condiciones ni acepta separación deploy/runtime/authority/secretos o mínimo privilegio integral. PARCIAL.
 - **Riesgo:** privilegio excesivo, trust abierto o secretos de cuenta persistentes.
 - **Gate asociado:** GATE-I-B, GATE-I-F.
 
@@ -249,7 +289,7 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-009 — Configuración de dos instancias
 
-- **Estado:** PARCIAL / PRE-APPLY ACREDITADO; PROVISIÓN Y ACEPTACIÓN PENDIENTES (§30.5).
+- **Estado:** PARCIAL / VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA; DEPENDENCIAS, DECISIONES Y ACEPTACIÓN INTEGRAL PENDIENTES (§32.15).
 - **Fase:** INFRA-5 Compute.
 - **Objetivo:** definir dos hosts Linux Docker en AZ distintas con capacidad suficiente.
 - **Dependencias:** T-INFRA-006, T-INFRA-008; DP-I-02/03.
@@ -266,6 +306,19 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Plan §29:** un plan POST-HARDENING real exit2/12/0/0 incluye boundary obligatoria en role, dosEC2/t3a.small/AMI aprobada/dosAZ/raícesgp3cifradas. Superado bloqueo de plan, no provisión ni pruebas de runtime/aceptación.
 - **Replan §30:** exit2/12/0/0 después de adjuntos informados, boundary y compute esperados, NETWORK14/ECR2no-op. Sin dosEC2 reales, bootstrap/SSM/capacidad/aceptación pendientes.
 - **Plan guardado §30.5:** infra/tfplan-infra5 inspeccionado,12/0/0/0replacements; dosEC2/AMI/tipo/AZ/raíces/IMDSv2/user_data esperados. Provisión y aceptación siguen pendientes, sin apply.
+- **Apply parcial §31:**8recursos nuevos enstate,2ENI/2EIPtainted pero0asociaciones/0EC2/0rootEBS delincremento. FallólecturaEIP previa a dependencias deboot. No doshosts reales, SSM/Docker/bootstrap/capacidad; autorización consumida sin retry/segundoapply. Plan binario conserva hash pero NO REAPLICAR.
+- **Lecturas de recovery §32:** EIP2/ENI2 existen en AWS, sin asociación/attachment; EIP siguen tainted enstate. No nuevo plan porque ruta no ignorada, por lo que replacements/conservación de IP, EC2/asociaciones a crear y no-op no están acreditados. Sin recovery apply; no reutilizar plan anterior.
+- **Recovery plan §32.5:** bloqueo de ignore resuelto por regla exacta autorizada. Plan real propone reemplazar2EIP por taint y crear2EC2/2asociaciones; ENI2/IAM4/NETWORK14/ECR2 no-op. Replacements no aceptados ni aplicados, sin hosts reales/SSM/Docker; PARCIAL / RECOVERY PENDIENTE.
+- **Recuperación conservadora §32.6:** EIP/ENI reales válidas, untaint A/B exit0/0 sin modificar allocations/IP/atributos. Recovery2 no creado por ignoreexit1; aún sin EC2/asociaciones o nuevo plan4/0/0 acreditado. PARCIAL / RECOVERY EN CURSO.
+- **Recovery2 §32.7:** nueva exclusión exacta resuelve bloqueo; plan real4/0/0/0replacements crea solo2EC2/2asociaciones sobre EIP/ENI existentes,24no-op. Sin apply/hosts reales o aceptación integral, PARCIAL conservado.
+- **Apply recovery2 §32.8:** único apply exit1; dos asociaciones completadas, RunInstances A/B devuelve InvalidParameterCombination por t3a.small no elegible Free Tier. Ningún ID EC2 obtenido; no dos hosts reales verificados, SSM/Docker/capacidad/digest A/B o aceptación. Detenido sin nuevo plan/cambio de tipo/reintento. PARCIAL, no cerrar009.
+- **Corrección §32.9:** tipo operativo t3.small autorizado por responsable (x86_64/linux-amd64,2vCPU/2GiB), sin migración ARM ni otros atributos modificados. Cuatro validaciones locales exit0; recovery3 no generado por falta de confirmación de policy real. Elegibilidad específica de cuenta informada por responsable, no nueva prueba RunInstances/capacidad. PARCIAL / RECOVERY PENDIENTE.
+- **Retoma §32.10:** HCL/candidata exactos t3.small, state26/0EC2 y AWS0EC2dev más asociaciones/EIP/ENIoriginales verificados. Sin plan nuevo porque ignoreexit1; 2altas siguen conceptuales y no acreditan hosts/capacidad. PARCIAL / RECOVERY3 PENDIENTE.
+- **Recovery3 §32.11:** plan real crea únicamente2EC2 t3.small/AMIaprobada/dosAZ/EBS/IMDSv2 esperados;26existentesno-op,0replacements. Ignore resuelto, hash/show acreditados, sin apply/hosts/SSM/Docker/capacidad. PARCIAL / RECOVERY3 PRE-APPLY.
+- **Apply recovery3 §32.12:** exit1, AWSIDs A i-0a66085b7b2411393/B i-00de11a3f3c1a8aa5 enerroresdeconfiguraciónposterior; no Creation complete ni doshosts verificados/running/SSM/Docker/capacidad/digest. Detenido sin inventario/retry/segundoapply; PARCIAL, no cerrar009.
+- **Lecturas §32.13:** dos EC2 running reales, t3.small/AMI/dosAZ/EBS/IMDSv2/ENI/profile correctos, ambas en state28 pero tainted. Avance de existencia/configuración, no bootstrap Docker/SSM, capacidad, digest o reconciliación aceptados. Recovery4 bloqueado por ignore; PARCIAL.
+- **Reconciliación §32.14:** comparación material completa para atributos autorizados, user-data idéntico al bootstrap HCL, untaint A/B exit0/0; ambos EC2 no-op en recovery4, recursos0/0/0. Docker/SSM no comprobados por denegación de lectura al operador; capacidad/mismo digest/aceptación no satisfechos. PARCIAL, no cierre009.
+- **Validación final §32.15:** dos running/t3.small/dosAZ y seguridad/EBS/ENI/EIP previos correctos; SSM Online y Docker25.0.14 enabled/active reales en A/B. Checks técnicos de baseline de hosts satisfechos; dimensionamiento aprobado y justificado sin cambiar hasher, no carga medida. No se exige API/mismo digest desplegado/ALB/HTTPS para aceptar estos checks de hosts: pertenecen a integración/gates posteriores. Catálogo009 conserva PARCIAL porque T006/T008 y decisiones DP-I-02/03 no tienen aceptación integral, no por falta de Docker/SSM ni por inventar una prueba de deploy como criterio de hosts. E009 técnica disponible para revisión del responsable.
 - **Riesgo:** CPU/memoria insuficientes, una sola máquina disfrazada de dos instancias o bootstrap inseguro.
 - **Gate asociado:** GATE-I-C.
 
@@ -288,6 +341,18 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Plan §29:** dependencia de boundary real incluida en plan; sin reemplazo/falla/recuperación o mantenimiento real probado, PARCIAL conservado.
 - **Replan §30:** inventario de recuperación sin cambios, sin replacements o prueba real; PARCIAL / prueba y aceptación pendientes.
 - **Plan guardado §30.5:** conserva ENI/EIP persistentes y dosAZ, sin ejecutar recuperación/reemplazo/mantenimiento. PARCIAL, prueba y aceptación pendientes.
+- **Apply parcial §31:** recuperación documentada requiere preservar recursos/estado, revisar lectura denegada y2EIPtainted antes de cualquier replan/reconciliación autorizados por separado. No untaint/stateedit/destroy/reemplazo o rollback probados; PARCIAL conservado.
+- **Lecturas de recovery §32:** existencia de ENI/EIP confirmada sin alterar taint/estado. Plan nuevo bloqueado por ignore; no recuperación aplicada ni prueba destructiva. Terraform/AMI/bootstrap/ENI-EIP persistentes/estado externo conservan su carácter de estrategia pendiente de prueba.
+- **Recovery plan §32.5:** muestra delete/create de EIP por taint, con pérdida de sus IP actuales si se aplicara. Persistencia de ENI no equivale a conservar EIP al aceptar este plan. Se requiere revisión humana de conservación/replacement; no se ejecutan alternativas, untaint o recuperación. Prueba y aceptación siguen pendientes.
+- **Recuperación conservadora §32.6:** solo marcas taint eliminadas tras verificar EIP y coincidencia con state, allocations/IP conservadas. No sustitución de hosts, recuperación integral o prueba destructiva ejecutadas; recovery2 bloqueado por ignore. PARCIAL, sin cierre de010.
+- **Recovery2 §32.7:** EIP2/ENI2 no-op y asociaciones usan allocations originales, sin replacement. Acredita planificación conservadora post-untaint, no reprovisión/recuperación de hosts, continuidad o prueba destructiva. PARCIAL, no cerrar010.
+- **Apply recovery2 §32.8:** asociaciones creadas sobre EIP/ENI originales, sin reemplazos ejecutados. Recuperación parcial aún NO completada: ambas EC2 rechazadas. Aporta evidencia de fallo/avance conservador, no prueba destructiva, sustitución real de host, recuperación integral o continuidad. PARCIAL, no cerrar010.
+- **Retoma §32.10:** EIP/asociaciones/ENIoriginales confirmadas en AWS, ENIavailable/sinattachmenthost; EC2dev0. Conservación real no es recuperación dehosts o prueba destructiva/reemplazo, PARCIAL.
+- **Recovery3 §32.11:** EIP/ENI/asociaciones originales no-op y hosts futuros usan ENIexistentes; planificación conservadora no completa recuperación dehosts ni prueba destructiva/reemplazo/continuidad. PARCIAL.
+- **Apply recovery3 §32.12:** tercerapplyparcial deINFRA-5, ahora con dosIDEC2 y falloalconfigurarshutdownbehavior. Historialtaintcorregido/cambiodetipo/conservaciónEIP-ENI aporta trazabilidad, pero recuperaciónintegral NO completada ni pruebadestructiva/reemplazo/continuidadprobados. PARCIAL, no cerrar010.
+- **Lecturas §32.13:** hosts running y EIP/ENI/asociaciones originales conservadas; ambas EC2 siguen tainted. Falta reconciliación autorizada y prueba/aceptación integral; running no equivale a recovery cerrado, PARCIAL.
+- **Reconciliación §32.14:** eliminación controlada de dos marcas, sin sustitución de hosts o pérdida de IP; recovery4 demuestra28no-op/0replacements. Evidencia real de recuperación conservadora del estado, no prueba formal de fallo/reemplazo/drenaje/capacidad/continuidad del runbook. PARCIAL.
+- **Validación final §32.15:** recuperación conservadora llega a hosts SSM/Docker operativos, originales y sin contenedores; cronología completa registrada. No fallo inducido, reemplazo real/drenaje/rollback/continuidad o runbook integral aceptados; PARCIAL.
 - **Riesgo:** quedar con una instancia, nueva IP bloqueada en Atlas o reabrir seguridad por reinicio.
 - **Gate asociado:** GATE-I-C, GATE-I-H.
 
@@ -489,7 +554,7 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-025 — Validación inicial de baseline Terraform
 
-- **Estado:** PARCIAL / VALIDACIÓN LOCAL Y PLAN PRE-APPLY POST-HARDENING ACREDITADOS; ACEPTACIÓN PENDIENTE (§30).
+- **Estado:** PARCIAL / RECOVERY4 INSPECCIONADO, RECURSOS0/0/0; OUTPUT Y ACEPTACIÓN INTEGRAL PENDIENTES (§32.14).
 - **Fase:** INFRA-13 Terraform, intervención temprana transversal.
 - **Objetivo:** acreditar baseline antes de extender IaC.
 - **Dependencias:** T-INFRA-001, T-INFRA-002; autorización explícita de comandos/entorno, DP-I-12.
@@ -514,6 +579,19 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Plan §29:** fmt/check/validate exit0 y plan POST-HARDENING exit2/12/0/0, NETWORK14/ECR2no-op. Plan previo sigue PRE-HARDENING; custodia estatal/backup protegido/recovery/eficaciaIAM/dependencias no aceptadas, PARCIAL / aceptación pendiente.
 - **Replan §30:** STS correcto, fmt-check/validate/bash-n exit0, plan posterior a adjuntos informados12/0/0; sin prueba de permisos deapply o aceptación de state/backup/recovery/dependencias. No cierre de E025 integral.
 - **Plan guardado §30.5:** fmt-check/validate/bash-n exit0, plan guardado/show/show-json y hash acreditados; NETWORK14/ECR2no-op explícitos. Artefactos sensibles ignorados y anteriores preservados porhash; custodia protegida/backup/recovery/aceptación integral pendientes, PARCIAL.
+- **Apply parcial §31:** hash/show revisados, únicoapply exit1/denegaciónEC2,24managed locales/backup16. Sin post-plan ni corrección automática; permisos de lectura incompletos y custodia/recovery/dependencias/aceptación pendientes. Registro de fallo no valida integralmente la baseline.
+- **Lecturas de recovery §32:** fmt-check/validate/bash-n exit0, permiso de lectura EIP corregido observado; ignoreexit1 impide generar el plan. Sin plan/replacements/no-op nuevos o post-plan0/0/0; state/backup/planes preservados y custodia/recuperación integral pendientes.
+- **Recovery plan §32.5:** fmt-check/validate/bash-n exit0, único nuevo plan guardado exit2/6add/0change/2destroy y show humano/JSON exit0, con hash y diferencias de refresh documentadas. Sin apply/untaint, post-plan0/0/0 o aceptación integral; estado local y planes anteriores intactos por hash.
+- **Recuperación conservadora §32.6:** untaint A/B exit0/0, state24/serial29/0tainted y comparación semántica sin cambios de atributos. Check de integridad inicialmente sensible al orden de check_results, resuelto por comparación de contenido sin alterar state ni repetir comandos. Recovery2 bloqueado por ignore; no nueva aceptación de baseline o post-plan.
+- **Recovery2 §32.7:** fmt-check/validate/bash-n exit0; plan guardado exit2/4add/0change/0destroy/0replacements, show humano/JSONexit0 yhash acreditados. Refresh mantiene3diferencias de snapshot, sin updates propuestos; state/backup/planesanteriores preservados. No post-plan0/0/0, apply o aceptación integral.
+- **Apply recovery2 §32.8:** baseline/hash/show humano y JSON correctos, plan4/0/0/0replacements; único apply exit1 con dos asociaciones completadas y ambas EC2 rechazadas. No state list/inventario/post-plan después del fallo, conteo managed actual no verificado. Custodia/backup protegido/recovery/dependencias/E025 integral pendientes; PARCIAL.
+- **Corrección §32.9:** fmt/fmt-check/validate/bash-n exit0; comparación exacta HCL/JSON acredita solo cambio de tipo. Sin plan, refresh o escriturasAWS; state/backup/planes intactos porhash. Recovery3 bloqueado por confirmación de policy real; custodia/recovery/dependencias/aceptación pendientes, PARCIAL.
+- **Retoma §32.10:** state list exit0/26managed+3data y tresvalidaciones exit0. GetPolicydenegado no impide continuar según autorización, pero check-ignoreexit1 bloquea plan. Custodia/backup/recovery/E025integral pendientes; PARCIAL.
+- **Recovery3 §32.11:** ignore/fmt-check/validate/bash-n exit0; único plan exit2/2add/0change/0destroy/0replacements y show/hash reales. State/backup/planesanteriores conservados, dos diferencias de refresh EIP sin acción deupdate. Custodia/backup protegido/recovery/dependencias/aceptación integral pendientes; PARCIAL.
+- **Apply recovery3 §32.12:** baseline/hash/show correctos, únicoapplyexit1/ModifyInstanceAttributedenegado. Sin statelist/post-plantrasfallo ni conteo managed actual; custodia/backup/recovery/dependencias y aceptación siguen pendientes. PARCIAL.
+- **Lecturas §32.13:** state list exit0/28managed+3data/serial37/ambas EC2 tainted y validaciones exit0. Ignoreexit1 impide recovery4; state/backup/planes preservados, sin post-plan o custodia/recuperación integral aceptadas. PARCIAL.
+- **Reconciliación §32.14:** state28/serial39/0tainted, fmt-check/validate/bash-n exit0; final recovery4 exit2 por output compute_instances,28recursosno-op. Dos intentos de plan trazados (primero string null inválido), sin persistir refresh/output mediante apply. Custodia/backup protegido/dependencias/E025 integral pendientes, PARCIAL.
+- **Validación final §32.15:** sin comandos Terraform ni nuevo plan, state28+3/serial39/0tainted y hash recovery4 comprobados por lectura local. SSM/Docker no sustituyen custodia/backup protegido/dependencias/aceptación E025. Output pendiente de §32.14 no se guarda; PARCIAL.
 - **Riesgo:** inicialización con backend equivocado, descarga no aprobada o secretos en salida.
 - **Gate asociado:** GATE-I-A.
 
@@ -2276,3 +2354,607 @@ Costos conservados: **INFRA-5USD2.3915/48h**, **ALBfuturo1.944**, **conjunto4.33
 **Checkpoint autorizado:** stage exclusivamente **.gitignore**, **specs/003-infrastructure/task.md**, **memoria.md**, revisióncached-check/stat de3archivos y commit **`chore(infra): prepare compute pre-apply`**. El hash final se comunica al cierre y en evidencia privada, sin autorreferencia en el commit; **plan/state/backup/tfvars/credenciales nunca stage/tracked**. Plan y state son artefactos privados locales, ignorar no equivale a custodia/cifrado/backup aceptados.
 
 Evidencia privada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-saved-plan-checkpoint-20261113-013805\`: baseline/hashes, ignore/validaciones/version, generación/hash, show/análisis selectivo, revisiónprecommit y finalGit. Carpeta temporal no garantiza retención/custodia. Fuentes no autorizadas/state/backup/planes anteriores preservados porhash; plan nuevo conserva suhash durante revisión/checkpoint. Futuroapply exige autorización separada y vigencia/hash exacto revisados, más costo/seguridad/state según alcance; **no permiso implícito por existir archivo aplicable**. **Sin AccessDenied, apply/destroy/import, escriturasAWS/IAM, recursos creados o push. DETENER tras checkpoint, sin siguiente incremento automático.**
+
+## 31. INFRA-5 — apply autorizado PARCIAL; lectura EIP denegada, sin EC2
+
+### 31.1. Autorización y precheck
+
+**2026-11-13 UTC — APPLY CONTROLADO DEL PLAN GUARDADO.** Responsable autoriza exclusivamente aplicar **infra/tfplan-infra5**, hash **ddb6dd34d027b32ae09046128d0acf2132575dc33737bafb91d654691fb997ed**, evaluación temporal48h/guardrailUSD10/proyectoUSD50agregado. No nuevo plan paraapply, segundoapply, destroy/import, IAMmanual/otros recursos/API o stage/commit/push. Verificaciones cloud/post-plan solo después de éxito completo; fallo parcial exige detener y registrar.
+
+Precheck real **feature/infrastructure /3730ebe2cd0c7851bcd827b1f73e355a673db61a**, árbol limpio/0staged. **SHA256 exacto coincide**, show humano/JSON exit0 del mismo binario: **12create/16no-op/0update/0delete/0replacement**, NETWORK14/ECR2no-op, inventario12 de§30.2, role/boundary/compute/user_data esperados. Terraform1.17.1/windows_amd64/AWS6.73.0. No plan nuevo previo, init/upgrade o cambios HCL/JSON/.gitignore. Perfilenver-infra/regiónus-east-1 mediante entorno temporal restaurado, sin credenciales alternativas; AWS_MAX_ATTEMPTS1/metadatafallbackoff.
+
+### 31.2. Único apply y fallo parcial real
+
+Comando exacto **`terraform -chdir=infra apply tfplan-infra5`**, **2026-11-13T01:57:56.9337244Z–01:58:16.2718969Z**, duración **19.333s**, **exit1**. **NO hubo Apply complete ni resumen 12added/0changed/0destroyed**. Seis líneas Creationcomplete (role/profile/dosinline/dosENI); las dos EIP fueron asignadas pero falló lectura posterior y quedaron **tainted** enstate. **8nuevas entradas managed**, ninguna modificación/baja de existentes observada; no convertir incremento neto de state en resumen nativo exitoso.
+
+| Denegación confirmada | Detalle |
+| --- | --- |
+| Acción | **ec2:DescribeAddressesAttribute**; operación API DescribeAddressesAttribute |
+| Respuesta | **403 / UnauthorizedOperation**, no identity-based Allow según AWS |
+| Principal | arn:aws:iam::926925605666:user/enver-terraform-local |
+| Fase | **apply/create EIP, lectura de atributo domain name después de AllocateAddress** |
+| aws_eip.api["a"] / compute.tf:48 | arn:aws:ec2:us-east-1:926925605666:elastic-ip/eipalloc-0c297551d49ce9416; RequestID d5e176fd-e4e2-4c62-906f-eef6fd8d5d3d |
+| aws_eip.api["b"] / compute.tf:48 | arn:aws:ec2:us-east-1:926925605666:elastic-ip/eipalloc-0b54456ecfc2cdafa; RequestID 91f170b8-7baf-4576-afaf-f3c83638aa96 |
+
+**Detenidas operaciones AWS al retornar el apply fallido**, sin segundoapply, post-plan, inventario CLI, STS/IAM/SSM/Docker o ampliación de permisos. Terraform ya tenía operaciones paralelas en vuelo; no presentarlas como reintentos posteriores del agente. Única propuesta mínima para revisión humana: lectura **ec2:DescribeAddressesAttribute**, conservar límites de cuenta/región/usuario y acotar recursos según soporte IAM verificable antes de redactar/aplicar un Allow. **Sin JSON modificado, policy concedida ni Resource="*" justificado por inferencia**. No otras acciones/ec2:* o bypass de controles. Consultas a referencia pública no acreditaron soporte de recursos; no simulación/APIs adicionales de cuenta.
+
+### 31.3. Inventario local después del fallo — no nueva verificación cloud
+
+Datos derivados únicamente del apply/provider y lectura selectiva del archivo state; **no se ejecutaron state list/output o lecturas AWS de la fase condicionada a éxito**. State **serial27 /24managed /2tainted**, frente a16managed iniciales. Ocho recursos nuevos:
+
+| Dirección | ID / resultado |
+| --- | --- |
+| aws_iam_role.api_runtime | enver-dev-api-runtime, Creationcomplete; boundary ARN exacto enstate |
+| aws_iam_instance_profile.api_runtime | enver-dev-api-runtime, Creationcomplete; role agregado al profile, **sin asociación a EC2** |
+| aws_iam_role_policy.api_ecr_pull | enver-dev-api-runtime:enver-dev-ecr-pull, Creationcomplete |
+| aws_iam_role_policy.api_ssm_session | enver-dev-api-runtime:enver-dev-ssm-session, Creationcomplete |
+| aws_network_interface.api["a"] | **eni-01ecdecf22b187764**, privada **10.20.0.63**, subnet-0120d869dd659e2a1, soloSGbackend |
+| aws_network_interface.api["b"] | **eni-049a982368fb2bca8**, privada **10.20.1.99**, subnet-01934348f5d6985aa, soloSGbackend |
+| aws_eip.api["a"] | **eipalloc-0c297551d49ce9416 /18.210.153.223**, asignada, **tainted**, sin asociación/ENI enstate |
+| aws_eip.api["b"] | **eipalloc-0b54456ecfc2cdafa /44.195.4.217**, asignada, **tainted**, sin asociación/ENI enstate |
+
+**0EC2/0asociacionesEIP/0rootEBS** deesteincremento enstate o logs de creación; no afirmar inexistencia universal en toda la cuenta. No instanceIDs/states/type/AZ/AMI/EBS reales dehosts que no se crearon. Dos t3a.small/AMIaprobada/dosAZ/10GiBgp3/IMDSv2 permanecen **PLANIFICADOS, NO MATERIALIZADOS**. Role/boundary/profile/inline creados segúnprovider/state, no auditoría cloud independiente de IAM o prueba funcional deSSM/ECRpull. **SSM A/B no consultado, Docker A/B no verificado, bootstrap no ejecutado en hosts, Enver.API NO desplegada/iniciada**.
+
+**NETWORK14 y ECR2:** no-op enplan aplicado, mismos16recursos/IDs enstate; estructuras de esos recursos coinciden entre backup ystate actual. Sin operaciones de alteración de red/ECR enlog. **No nueva verificación cloud o post-plan0/0/0 acreditados**. SGbackend enstate conserva únicamente8080desdeSGALB/sinCIDRpúblico/SSH22; no prueba activa de red. No SG/ALB/ACM/Atlas/Redis/DynamoDB/secretos/API configurados por este intento.
+
+### 31.4. State, costos y recuperación pendiente
+
+State ignorado **serial27/24managed**, SHA256 **903066fbe35e43949d96382b2ca00a37760fe98b9671ac0ddc611f8dcd7f7a9c**. Backup nativo actualizado **serial18/16managed** (hash **bb18cf4c99d9e796193330940937c5e8619cc8cc365f83e05c92387dbb1e269f**), no byteidéntico al state previo hashb4497de9…; no custodia cifrada/controlada o recuperación aceptadas. **No restaurar backup de16 para ocultar recursos nuevos**, ni borrar state/plan. Las dosEIPtainted siguen asignadas: tainted **no significa liberadas ni coste0**.
+
+Plan autorizado mantiene suhash, pero está **PARCIALMENTE CONSUMIDO / NO REAPLICAR**: el state ya cambió. La autorización de únicoapply está agotada; no generar ahora plan nuevo o auto-untaint/stateedit/import/reemplazo/destrucción. Las EIPtainted pueden originar propuestas de replacement en un futuro plan: cualquier lectura/reconciliación/recuperación, decisión de conservar/liberar IP y permisos requerirá revisión/autorización separadas; no actuar sobre ello aquí.
+
+Preservar recovery previsto T010: Terraform/AMIcontrolada/bootstrapcomún/ENI-EIPpersistentes/estadocríticoexterno, sin promesa de doshosts durante reemplazo o recuperación ya probada. **No hay API/estado crítico desplegado en estos hosts**, dependencias externas futuras no se dan por operativas. No prueba destructiva ni rollback realizado.
+
+Baseline de evaluación **INFRA-5≈USD2.3915/48h**, ALBfuturo≈1.944/conjunto4.3355/envolvente7.3355/guardrail10/proyecto50AGREGADOS conservada como estimación del incremento completo, **no consumo real tras fallo**. Ahora hay **2IPv4 públicas asignadas sin asociación, potencialmente facturables≈USD0.01/h agregado (≈USD0.48/48h soloIPv4 al precio baseline)**, sin EC2/EBS creados por este intento; Billing/consumo global/crédito no consultados. La ventana de48h iniciada conapply no debería exceder **2026-11-15T01:57:56.9337244Z**; revisión humana pronta de costo/retención/apagado requerida, **sin timer/topeAWS/limpiezaautomática o permiso de liberarIP**.
+
+### 31.5. Estados y cierre por denegación
+
+**T005 PARCIAL / IAM RUNTIME CREADO; VALIDACIÓN Y SSM PENDIENTES**: criterios de separación/minimización/dependencias/SSM no satisfechos integralmente. **T009 PARCIAL / APPLY PARCIAL BLOQUEADO; SIN EC2**. **T010 PARCIAL / RECOVERY DOCUMENTADO; PRUEBA/ACEPTACIÓN PENDIENTES**. **T025 PARCIAL / APPLY PARCIAL REGISTRADO; POST-PLAN/ACEPTACIÓN PENDIENTES**. **GATE-I-C PENDIENTE / NO SATISFECHO**: ni doshosts, mismo digest, capacidad/recuperación o prerrequisitos aceptados; todos9gatesabiertos/11parciales/19pendientes,002/004/AUTH-027integralintactos.
+
+Evidencia privada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-authorized-apply-20261113-015650\`: prechecks/hash/show, únicoapply/resultados/denegación, resumen selectivo de state e integridad local y revisiónfinal. No secretos/state completo publicados; ubicación temporal no acredita retención/custodia. Solo task/memoria editados, **sin stage/commit/push**, HEAD3730ebe conservado. Fuentes HCL/JSON/bootstrap/.gitignore/lock y planes intactosporhash; state/backup cambiaron legítimamente porapplyparcial, no se afirman preservadoscomoantes. **SIN MÁS AWS/APPLY/POST-PLAN/DESTROY/IMPORT/IAMMANUAL, sin app. DETENER para revisión humana.**
+
+## 32. INFRA-5 — lecturas de recovery; plan bloqueado por exclusión Git
+
+### 32.1. Autorización, baseline y permiso corregido
+
+**2026-11-13 UTC — RECUPERACIÓN DE APPLY PARCIAL, SIN APPLY.** Responsable informa que agregó manualmente `ec2:DescribeAddressesAttribute` al usuario `enver-terraform-local`; no autoriza ampliaciones automáticas. Se permiten lecturas, validaciones locales, un nuevo plan condicionado a exclusión Git y actualizar solo task/memoria. No reutilizar `infra/tfplan-infra5`, modificar taint/state, destruir/importar/liberar EIP o stage/commit/push.
+
+Precheck real: **feature/infrastructure /3730ebe2cd0c7851bcd827b1f73e355a673db61a**, únicamente task/memoria modificados por §31, **0staged/diff-check exit0**. State **serial27/24managed/2EIPtainted**, sin EC2/asociaciones gestionadas del incremento. No se revierte la documentación previa ni se modifica HCL/JSON/bootstrap/.gitignore/lock.
+
+Lectura exacta `aws ec2 describe-addresses-attribute --allocation-ids eipalloc-0c297551d49ce9416 eipalloc-0b54456ecfc2cdafa --attribute domain-name --region us-east-1 --profile enver-infra`, **2026-11-13T02:51:41.1114401Z–02:51:44.8447851Z**, **exit0/sin AccessDenied**. Devuelve **Addresses:[]**: acredita que esta llamada ya no está denegada, no atributos presentes ni por sí sola existencia de EIP. DescribeAddresses separado confirma su existencia. La corrección manual es fuente del responsable; no se audita la versión/hash/contenido exacto de la policy operadora o sus permisos agregados. Perfil/región externos temporales restaurados, máximo1intento CLI, sin credenciales alternativas.
+
+### 32.2. Inventario confirmado sin escrituras
+
+`terraform -chdir=infra state list` **exit0**: **24managed +3data**, desglosados en **NETWORK14/ECR2/IAM4/ENI2/EIP2**. Inspección local selectiva confirma **aws_eip.api["a"] y ["b"] siguen tainted**. No `untaint` ni state completo publicado.
+
+Seis lecturas AWS adicionales, todas **exit0**: **DescribeAddresses, DescribeNetworkInterfaces, GetRole, GetInstanceProfile y GetRolePolicy dos veces**. Junto con la lectura de atributo son siete comandos AWS de solo lectura, **sin AccessDenied en este incremento**.
+
+| Recurso | Observación real AWS |
+| --- | --- |
+| EIP A | **eipalloc-0c297551d49ce9416 /18.210.153.223**, domainvpc/us-east-1, sin AssociationId/NetworkInterfaceId |
+| EIP B | **eipalloc-0b54456ecfc2cdafa /44.195.4.217**, domainvpc/us-east-1, sin AssociationId/NetworkInterfaceId |
+| ENI A | **eni-01ecdecf22b187764 /10.20.0.63**, us-east-1a, available/sin attachment, subnet-0120d869dd659e2a1 |
+| ENI B | **eni-049a982368fb2bca8 /10.20.1.99**, us-east-1b, available/sin attachment, subnet-01934348f5d6985aa |
+| SG de ambas ENI | Solo **sg-070d06cfebe866427** (backend); sin cambios realizados |
+| Runtime role | **arn:aws:iam::926925605666:role/enver-dev-api-runtime**, existente |
+| Boundary del role | **arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary**, ARN exacto confirmado por GetRole; custodia/contenido/defaultversion remotos no auditados |
+| Instance profile | **enver-dev-api-runtime**, contiene únicamente role enver-dev-api-runtime; sin EC2 del incremento asociadas |
+| Inline policies | **enver-dev-ecr-pull/enver-dev-ssm-session**, ambas recuperadas por GetRolePolicy; sin validación efectiva de ECRpull/SSM |
+
+### 32.3. Validaciones y detención antes del plan
+
+**`terraform fmt -check -recursive infra`, `terraform -chdir=infra validate -no-color`, `bash -n infra/bootstrap/compute-host.sh`: exit0/0/0.** Bash solo comprueba sintaxis, no ejecuta bootstrap. Sin init/upgrade/instalación/API/SSM/Docker.
+
+**`git check-ignore -v -- infra/tfplan-infra5-recovery`: exit1/sin regla**, ruta inexistente/no tracked. **DETENER antes de crear**, como exige la autorización. No modificación automática de .gitignore, plan alternativo con otro nombre/extensión, ni generación para eludir la condición. **Recovery plan NO creado; comando plan NO ejecutado; exitcode/add/change/destroy/replacements no disponibles.** No show del plan inexistente ni apply de ningún plan.
+
+**No es posible acreditar nuevos no-op IAM/ENI/NETWORK14/ECR2**, acciones de EC2/asociaciones o conservación/replacement de EIP sin el plan real. El taint observado sugiere riesgo de replacement, **no prueba una propuesta concreta ni que su única razón sea taint**. Orden destroy/create, impacto en IP/costos y futuro boot requieren inspección del plan posterior autorizado. Conceptualmente faltan2EC2/2asociaciones, pero **no son un conteo de acciones planificadas acreditado**. HCL conserva2t3a.small/AMIstrategy/dosAZ/10GiBgp3cifrado/IMDSv2/8080soloSGALB/sinSSH; no nueva resoluciónAMI o validación cloud de reglas. El plan consumido §31 sigue **NO REAPLICABLE** aunque conserve el hash.
+
+### 32.4. Costos, estados y límites del cierre
+
+AWS confirma **2IPv4 públicas asignadas sin asociación**, potencialmente facturables **≈USD0.01/h agregado /≈USD0.48por48h soloIPv4** al precio baseline. Billing/costo acumulado/crédito **no consultados**. Estimación de incremento completo≈USD2.3915/48h, guardrailUSD10 y presupuestoUSD50AGREGADOS no son gasto medido ni topes automáticos. No extender por este bloqueo la ventana inicial: máximo registrado **2026-11-15T01:57:56.9337244Z**; responsable debe revisar prontamente retención/costo y continuación. **Sin liberaciónIP/apagado/limpieza automática autorizados**.
+
+**T005 PARCIAL**, IAM existente confirmado, validación integral/SSM pendientes. **T009 PARCIAL / RECOVERY PENDIENTE**, plan bloqueado por ignore. **T010 PARCIAL**, sin recuperación probada. **T025 PARCIAL**, validaciones locales/lecturas acreditadas, recovery plan/post-plan/aceptación pendientes. **GATE-I-C PENDIENTE / NO SATISFECHO**, nueve gates abiertos/11tareasparciales/19pendientes. Sin doshosts/digest/cloudAuth, despliegue API o avances de002/004/AUTH-027integral por inferencia.
+
+Evidencia privada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-recovery-review-20261113-025116\`: precheck/hashes, lecturaatributo/resultados, statelist, lecturasAWS/resumenselectivo, validaciones, ignoreprecheck y revisiónGit final. Ubicación temporal no acredita custodia duradera. **Solo task/memoria actualizados, sin stage/commit/push ni escriturasAWS/IAM**. State/backup/planes previos conservados; sin alteración de taint. **DETENIDO por ignore: para continuar, autorización específica de exclusión/ruta y nuevo plan; no apply implícito.**
+
+### 32.5. Continuación autorizada — exclusión exacta y recovery plan real, SIN APPLY
+
+**2026-11-13 UTC — AUTORIZAR EXCLUSIÓN DE RECOVERY PLAN Y CONTINUAR RECOVERY PLAN.** Se conserva §32.1–32.4 como evidencia del bloqueo anterior. La nueva autorización permite únicamente añadir la regla exacta en .gitignore, validar, generar/inspeccionar un nuevo plan y sincronizar task/memoria. **No acepta replacements ni autoriza apply, destroy/import/untaint/stateedit/liberación EIP, cambios IAM/escrituras AWS o stage/commit/push.**
+
+**Baseline real:** feature/infrastructure / **3730ebe2cd0c7851bcd827b1f73e355a673db61a**, inicialmente solo task/memoria modificados, 0staged/diff-check exit0. State **24managed/serial27/2EIPtainted**. No se sobrescribe un plan recovery previo: la ruta aún no existía.
+
+**Única regla nueva:** **`/infra/tfplan-infra5-recovery`**, línea95; `/infra/tfplan-infra5` y todas las demás reglas intactas. `git check-ignore -v -- infra/tfplan-infra5-recovery` **exit0/.gitignore:95** antes de crear, no tracked. Sin wildcard nuevo o ampliación a otras rutas. Fmt-check/validate-no-color/bash-n **exit0/0/0**, sin init/upgrade o ejecución de bootstrap. `terraform -chdir=infra state list` **exit0/24managed +3data**: NETWORK14/ECR2/IAM4/ENI2/EIP2, 0EC2/0asociaciones gestionadas del incremento.
+
+**Único nuevo plan:**
+
+```text
+terraform -chdir=infra plan -out=tfplan-infra5-recovery -detailed-exitcode -var="runtime_permissions_boundary_arn=arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary"
+```
+
+**2026-11-13T03:01:10.4266796Z–03:01:30.2298220Z**, duración **19.792s**, **exit2 /6add/0change/2destroy**, **2 replacements +4create puros +22no-op**, sin delete puros. Las6altas incluyen las dos recreaciones: incremento neto propuesto4, no seis recursos netos nuevos. **No AccessDenied**. Terraform1.17.1/AWS6.73.0 conservados. Perfil **enver-infra**, región **us-east-1**, entradas aprobadas en entorno temporal restaurado: enver/dev/cuenta926925605666/VPC10.20.0.0/16/newbits8/common_tags{}/network_design_approvedtrue/compute_plan_approvedtrue/compute_ami_idnull, boundary exacta por-var. Sin realtfvars/credenciales alternativas o plan anterior utilizado.
+
+Binario privado **`infra/tfplan-infra5-recovery`**, SHA256 **`f4bfdd7fa8ef316f63cb26b9576c05ce4f67d717ac148fbcd5a2a63c34fa3f7e`**. Show humano y JSON del mismo archivo **exit0/0**; no plan/stdout JSON completo publicados ni stage del binario.
+
+| Recurso | Acción real propuesta | Razón / impacto |
+| --- | --- | --- |
+| aws_eip.api["a"] | **delete → create, replacement SÍ** | **replace_because_tainted**; humano: is tainted, so must be replaced. Se destruiría eipalloc-0c297551d49ce9416 /18.210.153.223; nueva asignación/IP desconocidas |
+| aws_eip.api["b"] | **delete → create, replacement SÍ** | **replace_because_tainted**; mismo texto humano. Se destruiría eipalloc-0b54456ecfc2cdafa /44.195.4.217; nueva asignación/IP desconocidas |
+| aws_instance.api["a"] | **create** | EC2 futura con ENI existente eni-01ecdecf22b187764 |
+| aws_instance.api["b"] | **create** | EC2 futura con ENI existente eni-049a982368fb2bca8 |
+| aws_eip_association.api["a"] | **create** | AllocationId futuro calculado de la EIP reemplazada; ENI existente A |
+| aws_eip_association.api["b"] | **create** | AllocationId futuro calculado de la EIP reemplazada; ENI existente B |
+| Role/profile/inline2 | **4no-op** | Boundary ARN exacta conservada; no cambio IAM propuesto |
+| ENI A/B | **2no-op** | IDs/privadas existentes conservadas |
+| NETWORK14 / ECR2 | **14no-op /2no-op** | Sin cambios de infraestructura red/ECR propuestos |
+
+**Razón EIP:** ambas `action_reason=replace_because_tainted`, `replace_paths` sin rutas; domainvpc/tags sin cambios. Terraform atribuye el replacement al **taint**, no señala otro atributo que fuerce sustitución. Esto no implica que untaint sea apropiado o esté autorizado. Orden por EIP **destroy-then-create**, no create_before_destroy. No se acepta perder las IP por el solo hecho de existir el plan; revisión humana pendiente. Si se aplicara, futuras EC2 arrancarían tras sus asociaciones usando nuevas EIP, no las dos públicas actuales; afectaría referencias/allowlists futuras. No Atlas ni aplicación configurados aquí.
+
+**Diferencias de refresh en JSON, separadas de acciones propuestas:** tres entradas `resource_drift/update`: (1) EIP A `ptr_record: null → ""`; (2) EIP B igual; (3) role `inline_policy: [] → [enver-dev-ecr-pull, enver-dev-ssm-session]`. El role sigue **no-op enresource_changes**; sus inline se gestionan por recursos propios también no-op. Son diferencias entre state previo y lectura del provider, compatibles con atributos incompletos del apply parcial; **no prueban por sí solas modificaciones externas nuevas ni son escrituras IAM ejecutadas/propuestas**. No ocultarlas ni afirmar drift0. Refresh del snapshot del plan no alteró state/backup local: hashes conservados.
+
+**Compute inspeccionado en el plan:** dos **t3a.small**, AMI **ami-096ef200a877f36af**, AZ **us-east-1a/b**, raíz **10GiBgp3cifrado/3000IOPS/125MiB/s**, CPUstandard, **IMDSv2required/hop1**, profile enver-dev-api-runtime, ENI prevista porhost, sin key_name. Ambos user_data coinciden exactamente con bootstrap revisado, solo preparaciónDocker/SSM, sin Enver.API/ECRpull/run/secretos. Backend8080 soloSGALB/sinCIDR públicos, **sin SSH22 o8080 públicos**. Esto es evidencia deplan, no doshosts/SSM/Docker/runtime probados.
+
+**Costo:** las dos IPv4 actuales continúan asignadas/tainted y potencialmente facturables **≈USD0.01/h agregado /≈USD0.48por48h soloIPv4**, no Billing consultado. El replacement propuesto liberaría las anteriores y asignaría otras, con costos/tiempos de transición no medidos; no prometer ahorro, coste0 o conservaciónIP. Tipo/cantidad final previstos no cambian la estimación baseline completa≈USD2.3915/48h/guardrailUSD10/proyectoUSD50AGREGADOS. **No se reinicia la ventana original**, máximo **2026-11-15T01:57:56.9337244Z**; costos acumulados, retención y actuación humana siguen pendientes, sin timer/limpieza automática.
+
+**Estados:** T005 **PARCIAL**, IAMno-op no valida runtime/SSM/custodia integral. T009 **PARCIAL / RECOVERY PENDIENTE**, dos replacements EIP **NO ACEPTADOS**. T010 **PARCIAL**, recovery no aplicado/probado. T025 **PARCIAL / RECOVERY PLAN INSPECCIONADO**, post-plan/aceptación integral pendientes. **GATE-I-C PENDIENTE / NO SATISFECHO**, nueve gates abiertos,11parciales/19pendientes;002/004/AUTH-027integral intactos. State sigue **serial27/24managed/2tainted**, no28managed materializados.
+
+Evidencia privada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-recovery-plan-20261113-025921\`: baseline/hashes, regla/ignore, validaciones/statelist, plan/resultados/show/análisisselectivo/diferenciasrefresh, seguridad/integridad y revisiónGitfinal. Temporal, no custodia duradera aceptada. Fuentes salvo **.gitignore/task/memoria**, state/backup y planes anteriores preservados porhash; binario nuevo ignorado/no tracked. **Sin stage/commit/push, apply/AWS WRITE/IAM modificado/untaint/stateedit o app; HEAD3730ebe intacto. DETENER para revisión humana del plan y sus replacements, sin ejecución implícita.**
+
+### 32.6. Recuperación conservadora autorizada — EIP sin taint; recovery2 bloqueado por ignore
+
+**2026-11-13 UTC — RECUPERACIÓN CONSERVADORA DE EIP TAINTED.** La causa original acreditada fue lectura `ec2:DescribeAddressesAttribute` denegada después de AllocateAddress (§31); el permiso ya funcionaba (§32), y el plan §32.5 proponía replacements por `replace_because_tainted`, sin otra ruta de atributo forzante. La autorización actual permite corregir únicamente esas marcas, tras validar AWS/state. **No autoriza apply ni recreación/liberación de IP, destroy/import, IAM o edición manual de state.**
+
+Precheck real **feature/infrastructure /3730ebe2cd0c7851bcd827b1f73e355a673db61a**, solo.gitignore/task/memoria modificados previamente, **0staged/diff-checkexit0**. State **serial27/24managed/2tainted**, ruta recovery2 inexistente. No se modifica .gitignore en este incremento.
+
+**Cinco lecturas AWS exitosas, sin AccessDenied:** STS GetCallerIdentity, DescribeAddresses de A y de B por separado, DescribeAddressesAttribute de ambas con domain-name, DescribeNetworkInterfaces de ambas ENI. Perfil **enver-infra**, región **us-east-1**, identidad exacta **arn:aws:iam::926925605666:user/enver-terraform-local/cuenta926925605666**. EIP consultadas en la cuenta/región esperadas, NetworkBorderGroupus-east-1; sin credenciales alternativas, entorno temporal restaurado. DescribeAddressesAttribute **exit0/Addresses:[]**, permiso ya no denegado; existencia validada por las consultas separadas, no inferida de la lista vacía.
+
+| EIP | AWS y state antes del untaint | Asociación real observada |
+| --- | --- | --- |
+| A /aws_eip.api["a"] | **eipalloc-0c297551d49ce9416 /18.210.153.223 /domainvpc /tainted enstate** | Sin AssociationId, NetworkInterfaceId, PrivateIpAddress ni InstanceId |
+| B /aws_eip.api["b"] | **eipalloc-0b54456ecfc2cdafa /44.195.4.217 /domainvpc /tainted enstate** | Sin AssociationId, NetworkInterfaceId, PrivateIpAddress ni InstanceId |
+
+Tags AWS: **Name=enver-dev-api-a-eip/b-eip, Project=enver, Environment=dev, ManagedBy=Terraform**, coherentes con state/configuración. Ambas allocations/IP/domain coinciden exactamente con state; sin asociación inesperada. ENI **eni-01ecdecf22b187764/10.20.0.63/us-east-1a** y **eni-049a982368fb2bca8/10.20.1.99/us-east-1b** existen, OwnerId926925605666, **available/sin attachment**, soloSGbackend **sg-070d06cfebe866427**. Verificaciones completadas antes de modificar marcas, sin escritura AWS.
+
+**Dos comandos nativos Terraform, uno por dirección exacta**, quoting adaptado a Windows sin cambiar recursos:
+
+| Comando lógico | Intervalo UTC | Exit / resultado |
+| --- | --- | --- |
+| terraform -chdir=infra untaint 'aws_eip.api["a"]' | **2026-11-13T03:13:00.6595699Z–03:13:05.7015571Z** | **0**, successfully untainted; state **serial28/24managed/1tainted(B)** |
+| terraform -chdir=infra untaint 'aws_eip.api["b"]' | **2026-11-13T03:15:52.9323814Z–03:15:58.0940708Z** | **0**, successfully untainted; state **serial29/24managed/0tainted** |
+
+**Pausa de control después de A:** hash inicial sensible al orden difería, por lo que no se ejecutó B inmediatamente. Inspección local de backup nativo/current identifica reordenación de listas **check_results/objects**, sin cambios semánticos de sus resultados; al ordenar solo esas listas en memoria y excluir serial/dosstatus autorizados, backup/current coinciden. **A exit0 no falló ni se repitió**, no se editó/restauró state para resolver el check. Se continuó B solo tras confirmar que todos los atributos/recursos estaban intactos. La misma comprobación semántica pasó después de B; única diferencia funcional: eliminación de dos marcas taint, más serialización/serial nativos de Terraform. Ningún recurso distinto modificado.
+
+**State final:** **serial29/24managed/0tainted**, allocation/IP/domain sin cambios, **0EC2/0asociaciones gestionadas**. SHA256 **2cb2b851babc4a92397bbf10790c7a29f479ad5d3344773f80b62d7b4921e03a**. Backup nativo ahora **serial28/24managed** (A sin taint/B aún tainted), SHA256 **3d14d3caf9372c64b6eba16328bfe9cff415a922fd1581dd393d94461c8005d6**. State/backup cambian legítimamente por los untaint, no se afirma preservación byteprevia; custodia protegida/backup/recuperación integral siguen pendientes. No restaurar un backup que revierta marcas ni editarlo manualmente.
+
+**Bloqueo antes del nuevo plan:** `git check-ignore -v -- infra/tfplan-infra5-recovery2` **exit1/sin regla**. Archivo inexistente/no tracked. **DETENIDO**, sin modificar .gitignore, elegir otra ruta para eludir la condición o ejecutar plan/show de recovery2. **Recovery2 NO creado, sin SHA256/exitcode/add-change-destroy/replacements disponibles.** No acreditar todavía4/0/0/0replacements o EIP/ENI/IAM/NETWORK/ECR no-op nuevos; las altasEC2/asociaciones siguen conceptuales hasta plan real. Los binarios **tfplan-infra5 y tfplan-infra5-recovery** se conservan por hash como históricos, **NO REUTILIZAR**: el primero parcialmente consumido; el segundo ahora obsoleto respecto al state tras untaint.
+
+**Seguridad y runtime:** ausencia públicaSSH22/8080 y compute esperado constan en el plan histórico §32.5, no en un recovery2 inexistente. ENI existentes conservadas, no nuevos hosts/roots/SSM/Docker/API/secretos. No nueva verificación cloud deSG o resoluciónAMI, no afirmar recuperación completa.
+
+**Costo conservado:** baseline INFRA-5 **≈USD2.3915/48h**, incluye las dosIPv4 existentes; su costo parcial estimado sigue **≈USD0.01/h agregado/≈USD0.48por48h soloIPv4**. GuardrailUSD10/presupuestoUSD50AGREGADOS, no Billing/crédito/consumo real consultados. **No reiniciar la ventana**, máximo original **2026-11-15T01:57:56.9337244Z**; sin timer/apagado/liberación deIP o gasto adicional autorizado por corregir marcas.
+
+**Estados:** T005 **PARCIAL**, IAM/runtimeSSM/custodia integral pendientes; T009 **PARCIAL / RECOVERY EN CURSO**, EIP conservadas sin taint, recovery2 bloqueado por ignore; T010 **PARCIAL**, corrección de marcas no equivale a prueba de recuperación dehosts; T025 **PARCIAL**, AWS/state/untaint acreditados, plan/post-plan/aceptación pendientes. **GATE-I-C PENDIENTE / NO SATISFECHO**, nueve gates abiertos/11parciales/19pendientes,002/004/AUTH-027integral intactos.
+
+Evidencia privada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-conservative-eip-recovery-20261113-031056\`: precheck/hashes, lecturasAWS/comparaciónselectiva, resultadosuntaintA-B/revisiónsemántica/poststate, ignore y revisiónGitfinal. Ubicación temporal no acredita custodia duradera; sin state completo/secretos publicados. En este turno solo task/memoria editados; .gitignore conserva su cambio previo sin ampliación, demás fuentes/planes anteriores intactos porhash. **Sin stage/commit/push, apply/destroy/import/AWS WRITE/IAM modificado o app. DETENER: requiere autorización específica para exclusión de recovery2 y continuación del plan, sin apply implícito.**
+
+### 32.7. Exclusión exacta y recovery2 guardado — 4/0/0, sin replacements ni apply
+
+**2026-11-13 UTC — AUTORIZAR EXCLUSIÓN DE RECOVERY2 Y GENERAR PLAN LIMPIO POST-UNTAINT.** Resuelve únicamente el bloqueo de ignore registrado en §32.6. Autoriza nueva regla exacta, validaciones, plan y evidencia documental. **No apply/destroy/import/taint/untaint adicional, modificación de state/IAM, escrituras AWS o stage/commit/push.** Historial de apply parcial, lectura denegada y untaint conservado; no aprobación retrospectiva de gates.
+
+**Baseline:** feature/infrastructure / **3730ebe2cd0c7851bcd827b1f73e355a673db61a**, cambios previos.gitignore/task/memoria, **0staged/diff-checkexit0**. State **serial29/24managed/0tainted**; allocations conocidas y ruta recovery2 inexistente antes de crear. **Única regla añadida en este turno: `/infra/tfplan-infra5-recovery2`**, línea96; reglas `/infra/tfplan-infra5`, `/infra/tfplan-infra5-recovery` y todas las demás intactas, sin wildcard. `git check-ignore -v -- infra/tfplan-infra5-recovery2` **exit0/.gitignore:96**, antes de generar/no tracked.
+
+**Validaciones reales:** `terraform fmt -check -recursive infra`, `terraform -chdir=infra validate -no-color`, `bash -n infra/bootstrap/compute-host.sh` **exit0/0/0**; sin init/upgrade/instalar/ejecutar bootstrap. `terraform -chdir=infra state list` **exit0/24managed +3data**, NETWORK14/ECR2/IAM4/ENI2/EIP2; no EC2/asociaciones gestionadas aún.
+
+**Único plan nuevo:**
+
+```text
+terraform -chdir=infra plan -out=tfplan-infra5-recovery2 -detailed-exitcode -var="runtime_permissions_boundary_arn=arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary"
+```
+
+**2026-11-13T03:31:24.6692164Z–03:31:45.1417059Z**, duración **20.464s**, **exit2 /4add/0change/0destroy/0replacements**. **4create puros/24no-op**, sin actualización, baja o sustitución propuesta. Sin AccessDenied/reintentos o permisos ampliados. Terraform1.17.1/AWS6.73.0 conservados. Perfil **enver-infra/us-east-1**, entradasbaseline aprobadas en entorno temporal restaurado: enver/dev/cuenta926925605666/VPC10.20.0.0/16/newbits8/common_tags{}/network_design_approvedtrue/compute_plan_approvedtrue/compute_ami_idnull, boundary exacta por-var. Sin realtfvars o credenciales alternativas.
+
+**Binario privado `infra/tfplan-infra5-recovery2`**, SHA256 **`cd2a027af2861692b8eeb90174b021660abdb48a5179a49f38a043604c0e79eb`**, ignorado/untracked. Show humano y JSON del mismo binario **exit0/0**, conteo basado en acciones reales, no expectativa conceptual.
+
+| Recurso | Acción real | Identidad / asociación conservada o propuesta |
+| --- | --- | --- |
+| aws_eip.api["a"] | **no-op** | **eipalloc-0c297551d49ce9416 /18.210.153.223 /vpc**, sin nueva EIP |
+| aws_eip.api["b"] | **no-op** | **eipalloc-0b54456ecfc2cdafa /44.195.4.217 /vpc**, sin nueva EIP |
+| aws_network_interface.api["a"] | **no-op** | **eni-01ecdecf22b187764 /10.20.0.63** |
+| aws_network_interface.api["b"] | **no-op** | **eni-049a982368fb2bca8 /10.20.1.99** |
+| Role/profile/inline2 | **4no-op** | enver-dev-api-runtime, boundaryARNexacta y dosinline conservados |
+| NETWORK14 / ECR2 | **14no-op /2no-op** | Sin cambios de red/ECR |
+| aws_instance.api["a"] /["b"] | **create /create** | Doshosts futuros con ENI A/B existentes |
+| aws_eip_association.api["a"] | **create** | **eipalloc-0c297551d49ce9416 ↔ eni-01ecdecf22b187764** |
+| aws_eip_association.api["b"] | **create** | **eipalloc-0b54456ecfc2cdafa ↔ eni-049a982368fb2bca8** |
+
+Las asociaciones usan allocations **conocidas y originales**, allow_reassociationfalse; **no nuevas EIP, recreación ni sustitución**. La corrección autorizada de taint en §32.6 queda respaldada por este nuevo plan, pero no se repite ningún untaint. Netofuturo4/28managed es solo propuesta: actual sigue24managed y no se han asociado IP o creado hosts.
+
+**Compute inspeccionado:** dos **t3a.small**, AMI resuelta **ami-096ef200a877f36af**, AZ **us-east-1a/b**, raíces **10GiBgp3cifradas/3000IOPS/125MiB/s**, CPUstandard, **IMDSv2required/hop1**, profileenver-dev-api-runtime, sin key_name, ENI prevista porhost/soloSGbackend. Subnets conservan map_public_ip_on_launchfalse. **Backend8080 solo desde SGALB sg-0dacf0df5da30b4f7; sin SSH22 o8080públicos.** Ambos user_data coinciden con bootstrap revisado, sin secretos detectados, ECRlogin/pull/run o autoarranqueEnver.API; solo prepararDocker/SSM. No prueba runtime/bootstrap/health o seguridad efectiva de hosts que aún no existen.
+
+**Refresh separado de acciones:** JSON conserva **3 entradas resource_drift/update**: EIP A/B `ptr_record` y role `inline_policy`, como §32.5 (null→vacío y listado de dosinline existentes). **Los tres recursos son no-op enresource_changes**, no updates a ejecutar. Diferencias entre snapshot previo y lectura de provider no prueban por sí solas una nueva modificación externa; **no afirmar drift0** por el4/0/0. Sin corrección manual ni persistencia del snapshot refrescado sobre state/backup local.
+
+**Integridad y límites:** state **serial29/24managed/0tainted**, SHA256 **2cb2b851babc4a92397bbf10790c7a29f479ad5d3344773f80b62d7b4921e03a**; backup **serial28**, hash **3d14d3caf9372c64b6eba16328bfe9cff415a922fd1581dd393d94461c8005d6**, y planes previos intactos porhash. Los planes **tfplan-infra5** parcialmenteconsumido y **tfplan-infra5-recovery** obsoleto **NO REUTILIZAR**. Recovery2 es candidato PRE-APPLY, **no autorización de apply** ni garantía de permisos de escritura/capacidad/quotas/custodia/aceptación integral.
+
+**Costo:** baseline INFRA-5 **≈USD2.3915/48h** incluye las dosEIP actuales, parcialIPv4≈USD0.01/hagregado/≈USD0.48por48h. **GuardrailUSD10/proyectoUSD50AGREGADOS**, no Billing/crédito/costoacumulado consultados. **Ventana original NO reiniciada**, máximo **2026-11-15T01:57:56.9337244Z**; revisión humana de retención/costos/actuación sigue pendiente, sin timer/apagado/liberaciónIPautomática. Guardar plan no autoriza nuevos cargos deprovisión.
+
+**Estados:** T005 **PARCIAL**, IAMno-op no valida runtimeSSM/ECRpull/custodia integral. T009 **PARCIAL / RECOVERY2 PRE-APPLY ACREDITADO**, sin doshosts ni aceptación. T010 **PARCIAL**, planificación conservadora/marcas recuperadas no son prueba de recuperación dehosts. T025 **PARCIAL / RECOVERY2 INSPECCIONADO**, post-plan/aceptación pendientes. **GATE-I-C PENDIENTE / NO SATISFECHO**, nueve gates abiertos/11parciales/19pendientes;002/004/AUTH-027integral intactos.
+
+Evidencia privada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-recovery2-plan-20261113-033003\`: baseline/hashes, regla/ignore, validaciones/statelist, plan/resultados/show/análisisselectivo/integridad y revisiónGitfinal. Temporal, no custodia duradera aceptada. Solo **.gitignore/task/memoria** modificados, demásfuentes/state/backup/planesanteriores intactosporhash, binario nuevo excluido/no tracked. **HEAD3730ebe intacto/0staged/sincommit/push, sinapply/destroy/import/taint/untaint/IAM changes/AWS WRITE o app. DETENER para revisión humana del nuevo plan, sin siguiente incremento automático.**
+
+### 32.8. Apply controlado recovery2 — fallo parcial, asociaciones creadas y EC2 rechazadas
+
+**2026-11-13 UTC — autorización posterior explícita APPLY CONTROLADO RECOVERY2.** Solo aplicar el binario exacto, sin generar un nuevo plan para aplicar ni reutilizar `tfplan-infra5`/`tfplan-infra5-recovery`. Inventario, SSM/Docker y post-plan estaban condicionados a éxito. El fallo parcial activa la detención; no se amplía el alcance para diagnosticar/corregir la cuenta, cambiar tipo EC2 o permisos.
+
+**Pre-check real:** `git branch --show-current` → **feature/infrastructure**; `git rev-parse HEAD` → **3730ebe2cd0c7851bcd827b1f73e355a673db61a**; `git status --short` → únicamente **.gitignore, memoria.md y specs/003-infrastructure/task.md modificados**, **0 staged**. No modificación del índice. STS exit0 acredita cuenta **926925605666**, usuario **enver-terraform-local**, perfil **enver-infra**, región **us-east-1**; sin credenciales alternativas de entorno.
+
+**Hash y plan:** SHA256 calculado **cd2a027af2861692b8eeb90174b021660abdb48a5179a49f38a043604c0e79eb**, coincide exactamente. `terraform -chdir=infra show tfplan-infra5-recovery2` (presentación sin color) y `show -json` **exit0/0**. Acciones gestionadas: **4 create /24 no-op /0 change /0 destroy /0 replacements**. Únicas altas: `aws_instance.api["a"]`, `aws_instance.api["b"]`, `aws_eip_association.api["a"]`, `aws_eip_association.api["b"]`. IAM4/NETWORK14/ECR2/ENI2/EIP2 **no-op**; allocations y ENI originales exactas. No plan nuevo previo al apply.
+
+**Incidencias locales resueltas antes de apply:** `Get-FileHash` no estaba disponible; ese intento no calculó hash y la guarda detuvo el comando antes de show (no fue una discrepancia real del archivo). El cálculo SHA256 con .NET y luego Node confirmó coincidencia. Python no disponible detuvo otro wrapper antes de cualquier acción Terraform/AWS; Node permitió continuar sin instalar herramientas. No se ejecutó ni repitió apply por estas incidencias.
+
+**Única ejecución:**
+
+```text
+terraform -chdir=infra apply tfplan-infra5-recovery2
+```
+
+**Inicio 2026-11-13T04:28:06.433Z; fin 2026-11-13T04:28:24.409Z; duración17.971s; exit1.** No resumen `Apply complete!`; no declarar4recursos creados ni éxito. Registro nativo confirma **2 altas completadas**, **0 cambios/0 destrucciones registrados**, y **2 errores RunInstances**. **AccessDenied: NO**. No segundo apply ni reintento automático.
+
+| Recurso | Resultado nativo real |
+| --- | --- |
+| aws_eip_association.api["a"] | Creation complete after2s, **eipassoc-0d50801839a9cae11**; plan exacto vincula **eipalloc-0c297551d49ce9416 /18.210.153.223 ↔ eni-01ecdecf22b187764 /10.20.0.63** |
+| aws_eip_association.api["b"] | Creation complete after2s, **eipassoc-0717a47e226e64bda**; plan exacto vincula **eipalloc-0b54456ecfc2cdafa /44.195.4.217 ↔ eni-049a982368fb2bca8 /10.20.1.99** |
+| aws_instance.api["a"] | **EC2 RunInstances HTTP400 /InvalidParameterCombination**, RequestID **d7f7a1b0-b923-42cb-abe9-abc16df99300**; sin InstanceId/creación completada |
+| aws_instance.api["b"] | **EC2 RunInstances HTTP400 /InvalidParameterCombination**, RequestID **d2a48acb-7be7-4cab-9e50-4bf65ae595ac**; sin InstanceId/creación completada |
+
+Mensaje de AWS para ambas: **“The specified instance type is not eligible for Free Tier. For a list of Free Tier instance types, run 'describe-instance-types' with the filter 'free-tier-eligible=true'.”** No ejecutar esa recomendación automáticamente, inferir el tipo alternativo o atribuir el fallo a IAM/cuotas/estado de Billing sin evidencia. Tipo autorizado **t3a.small**, AMI **ami-096ef200a877f36af**, AZ A/B **us-east-1a/us-east-1b**; son atributos del plan, **no de EC2 reales verificadas**.
+
+**Detención efectiva:** no `state list`, consultas post-apply EC2/EBS/ENI/EIP/SG/IAM, SSM, Docker ni post-plan. **Conteo managed actual NO VERIFICADO** (último inventario previo24, no sustituirlo por28esperado o26inferido). **0 creaciones EC2 completadas según Terraform; conteo AWS posterior no consultado**. Estados/InstanceId/volúmenes/perfil efectivo A/B no disponibles. Raíces10GiBgp3cifradas e IMDSv2required solo inspeccionados en plan, no comprobados en hosts. SG sinSSH22/8080públicos y8080soloSGALB constan en plan/evidencia previa, no revalidados tras fallo. IAM role/profile **enver-dev-api-runtime**, boundary **arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary** y inlineECRpull/SSMmínimo son no-op inspeccionados y lecturas previas, no nueva validación remota. SSM A/B y Docker A/B **NO VALIDADOS**.
+
+**Conservación y alcance:** el apply no ejecutó reemplazo/liberación de allocations EIP ni sustitución ENI, y completó las asociaciones sobre las identidades originales. IAM/NETWORK14/ECR2 sin acciones de cambio en el plan ni modificaciones registradas en apply; **sin post-plan no afirmar drift0 o integridad remota revalidada**. State/backup pueden cambiar legítimamente por las altas parciales; no se editan manualmente ni se afirma que conservan hashes anteriores. **Recovery2 quedó parcialmente consumido: NO REAPLICAR**. Tampoco reutilizar los dos planes históricos; una eventual continuación requiere nueva autorización específica y revisión de baseline/evidencia, sin plan correctivo generado aquí.
+
+**Enver.API NO iniciada por esta ejecución**: ningún deployment, docker run, login/pull o configuración runtime de Atlas/Redis/DynamoDB/JWT/Secrets Manager. No SSH, apertura de puertos, ALB, destroy/import/taint/untaint, modificación IAM o limpieza. La recuperación parcial **NO está completada**; solo se acredita avance de asociaciones sin reemplazar EIP/ENI y fallo explícito del cómputo.
+
+**Costo estimado conservado:** INFRA-5 **≈USD2.3915/48h**, guardrail **USD10**, proyecto **USD50 AGREGADOS**; no Billing/costo acumulado real consultados. Las EIP existentes continúan sin liberarse, parcialIPv4 estimado≈USD0.01/hagregado. **Ventana original NO se reinicia**, máximo **2026-11-15T01:57:56.9337244Z**; no nuevo timer/apagado/cleanup ni aceptación de permanencia/costo real.
+
+**Reevaluación estricta:** **T-INFRA-005 PARCIAL**, mínimo privilegio/separación integral, profile en doshosts y SSM no satisfechos; **T-INFRA-009 PARCIAL / APPLY RECOVERY2 FALLIDO**, sin dosEC2reales verificadas/capacidad/digest; **T-INFRA-010 PARCIAL**, recuperación incompleta, sin prueba destructiva/reemplazo real/runbook aceptado; **T-INFRA-025 PARCIAL / APPLY RECOVERY2 FALLIDO**, sin post-plan ni custodia/backup protegido/recovery/dependencias aceptadas. **GATE-I-C PENDIENTE / NO SATISFECHO**: exige dosEC2/dosAZ/mismo digest/capacidad/recuperación, E007–010/E027–028 y gatesI-A/I-B, no cubiertos por asociaciones. **Nueve gates abiertos;11tareas parciales/19pendientes**. Sin cambios002/004/AUTH-027integral o aceptación productiva.
+
+**Evidencia privada:** `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-recovery2-apply-20261113T042722\`: precheck/hash-manifest, identidadSTS, showJSON del plan autorizado, apply-start/result/stdout/stderr. Temporal, no custodia duradera aceptada ni contenido de state/secretos publicados. Solo task/memoria se editan en esta entrega; .gitignore conserva el cambio previo. Revisión Git final registrada en memoria y sesión. **Sin stage/commit/push. DETENER por fallo parcial, sin continuación técnica automática.**
+
+### 32.9. Corrección local a t3.small — policy real y recovery3 pendientes
+
+**2026-11-13 UTC — BUILD/RECOVERY CONTROLADO, NO APPLY.** Baseline real **feature/infrastructure /3730ebe2cd0c7851bcd827b1f73e355a673db61a**, cambios previos únicamente.gitignore/task/memoria, **0staged**. Se conserva íntegro el fallo§32.8: dos asociaciones creadas y dosEC2 rechazadas con InvalidParameterCombination por elegibilidad Free Tier, sin AccessDenied. La decisión nueva del responsable sustituye el tipo por **t3.small**, que informa elegible para la cuenta; **x86_64/linux-amd64,2vCPU/2GiB**, sin migración ARM. Suficiencia para baseline es justificación aprobada, no capacidad/latencia medidas ni garantía de costo cero o éxito RunInstances.
+
+**Búsqueda previa:** **42referencias en42líneas**, clasificadas como **HCL operativo1** (`infra/compute.tf:65`), **condición IAM1** (`infra/bootstrap/terraform-local-compute-policy.json:74`), **documentación26** en este task y **14** en memoria. Sin coincidencias en spec/plan003 u otros fuentesinfra revisados. Las referencias documentales son decisiones/estimaciones/planes/fallos históricos, no se sustituyen globalmente ni se alteran binarios previos.
+
+**Cambios exactos autorizados y comprobados:**
+
+| Archivo | Único cambio operativo |
+| --- | --- |
+| infra/compute.tf | instance_type = **t3.small** en aws_instance.api, antes t3a.small |
+| infra/bootstrap/terraform-local-compute-policy.json | Statement Sid **LaunchOnlyTaggedSmallImdsv2Hosts**, Condition.StringEquals.ec2:InstanceType = **t3.small**, antes t3a.small |
+
+El JSON completo actualizado queda preparado en esa ruta para revisión manual; comparación estructural confirma **ningún otro permiso/condición/recurso cambiado**, sin lista ampliada/t3*/ec2:* nuevos. Comparación del HCL confirma solo ese valor, tolerando únicamente finalesCRLF/LF. **No cambios** de AMI/estrategia de resolución (último ID acreditado **ami-096ef200a877f36af**, sin nueva consulta), filtroarquitectura **x86_64**, CPUstandard, AZus-east-1a/b delbaseline, root10GiBgp3cifrado/3000IOPS/125MiBps, IMDSv2required/hop1, ENI/EIP/asociaciones/SG/runtimeIAM/boundary/user_data/bootstrap/red. SG conserva8080soloSGALB, sinSSH22/8080públicos; evidencia local, no comprobación AWS nueva. No afirmar que el alias dinámico de AMI no podrá variar en un futuro refresh: verificar ID exacto en el plan posterior y detener ante cambio no autorizado.
+
+**Acción humana requerida, NO ejecutada:** actualizar manualmente **ENVER-Terraform-Compute** en cuenta926925605666 para que el mismo statement tenga exactamente:
+
+```json
+"ec2:InstanceType": "t3.small"
+```
+
+Conservar todo lo demás de la policy real, sin agregar tipos/wildcards ni modificar role/profile/boundary. El archivo local contiene la candidata completa, **no una descarga de la policy remota**; comparar antes de aplicar manualmente, preservando cualquier diferencia remota aprobada (por ejemplo la lectura DescribeAddressesAttribute informada en§32), sin sobrescribirla inadvertidamente desde una candidata histórica. **No hay confirmación posterior de actualización real; policy remota no consultada/modificada. Se trata como PENDIENTE, no como cambio AWS acreditado.**
+
+**Validaciones ejecutadas, todas exit0:**
+
+```text
+terraform fmt -recursive infra
+terraform fmt -check -recursive infra
+terraform -chdir=infra validate
+bash -n infra/bootstrap/compute-host.sh
+```
+
+Validación/sintaxis local no prueba permisos efectivos, elegibilidad de cuenta o funcionamiento cloud. Hashes del restoinfra/lock/bootstrap/runtimeIAM/security/state/backup/tresplanes/.gitignore intactos respecto al inicio de este turno. No instalación/init/upgrade/ejecuciónbootstrap/AWS/SSM/Docker/app.
+
+**DETENIDO ANTES DE PLAN por falta de confirmación manual de policy.** Recovery3 **requerido, NO generado**, sin exitcode/SHA256/show/resultados reales. Tras confirmación, comprobar primero `git check-ignore -v -- infra/tfplan-infra5-recovery3`; si no está ignorado, **detener sin modificar .gitignore automáticamente**. Esta segunda puerta no se evalúa todavía, al no superar la primera. Solo entonces podrá generarse nuevo recovery3 para revisión, **nunca aplicar en este bloque**. No reutilizar tfplan-infra5/recovery/recovery2, parcialmente consumidos u obsoletos.
+
+**Resultado futuro solo conceptual:** **2add/0change/0destroy/0replacements**, únicamente aws_instance.api["a"] y["b"]. Exigir en el plan real **no-op** de EIP A/B, asociaciones A/B **eipassoc-0d50801839a9cae11 /eipassoc-0717a47e226e64bda**, ENI A/B, IAMruntime4, NETWORK14 yECR2; detener ante cualquier acción distinta/no autorizada. Identidades originales conservadas por configuración y ausencia de escrituras, **sin nueva revalidación remota ni no-op acreditados por plan**: EIPA **eipalloc-0c297551d49ce9416 /18.210.153.223 /eni-01ecdecf22b187764**, EIPB **eipalloc-0b54456ecfc2cdafa /44.195.4.217 /eni-049a982368fb2bca8**.
+
+**Estados conservados:** T-INFRA-005 **PARCIAL**, T-INFRA-009 **PARCIAL / RECOVERY PENDIENTE**, T-INFRA-010 **PARCIAL**, T-INFRA-025 **PARCIAL**; **GATE-I-C PENDIENTE / NO SATISFECHO**. No doshosts reales/SSM/Docker/capacidad/mismo digest/prueba destructiva o recuperación integral aceptados. Nuevegatesabiertos/11parciales/19pendientes. Estimación≈USD2.3915/48h de apartados previos corresponde al tipo anterior y **no se traslada como nueva cotización t3.small**, sin Billing/FreeTierahorro acreditados; reevaluación de costo pendiente antes de futura provisión, guardrailUSD10/proyectoUSD50AGREGADOS y ventanaoriginalsinreiniciar conservados.
+
+**Evidencia temporal privada:** `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-t3-small-correction-20261113T043410\`, precheck/clasificaciónreferencias/hashes/copiaspreviasdedosfuentes/resultadosvalidaciones/comparaciónexacta. No state/secretos publicados ni custodia duradera aceptada. Solo compute.tf/candidataCompute/task/memoria editados; .gitignore previo intacto. Revisión Git final registrada en memoria y sesión. **Sin cambios IAM/AWS/apply/destroy/import/liberar EIP/stage/commit/push. DETENER para actualización manual y confirmación, sin plan automático.**
+
+### 32.10. Recovery3: lecturas acreditadas y detención antes del plan por ignore
+
+**2026-11-13 UTC — RECOVERY3 DESPUÉS DE CAMBIO A t3.small, NO APPLY.** El responsable confirma que actualizó manualmente únicamente **ENVER-Terraform-Compute /Sid LaunchOnlyTaggedSmallImdsv2Hosts /ec2:InstanceType=t3.small**, antes t3a.small; no autoriza más cambios IAM. Historial de dosapplyparciales, asociaciones y rechazo InvalidParameterCombination por FreeTier se conserva. Baseline real **feature/infrastructure /3730ebe2cd0c7851bcd827b1f73e355a673db61a**, cincoarchivosmodificados esperados (.gitignore/compute/candidataCompute/task/memoria), **0staged**, diff-checkexit0/soloavisosLF→CRLF.
+
+**Operativo:** búsquedaeninfra confirma **t3.small** solo en compute.tf:65 y candidataCompute:74, sin t3a.small en fuentesoperativas inspeccionadas. Referencias históricas no sustituidas. **STS exit0**, cuenta926925605666/usuarioenver-terraform-local/perfilenver-infra/us-east-1, sin credencialesalternativas. **GetPolicy** delARN `arn:aws:iam::926925605666:policy/ENVER-Terraform-Compute` **exit254/AccessDenied: iam:GetPolicy no permitido**. No GetPolicyVersion, simulación ni ampliación/solicitud depermisos. **“actualización informada por responsable, no verificada independientemente”**. Se continúa con lecturas/validaciones conforme a excepción autorizada, no se afirma permisoefectivo ni versiónactiva comprobados.
+
+**State real:** `terraform -chdir=infra state list` **exit0**, **26managed+3data, serial34**. Desglose **NETWORK14/ECR2/IAMruntime4/ENI2/EIP2/asociaciones2/EC2 0**. Ambas direcciones `aws_eip_association.api["a"]` y `aws_eip_association.api["b"]` presentes, además de EIP/ENI A/B y role/profile/dosinline. Inspección selectiva local confirma IDs y boundaryexacta; no state completo publicado ni modificado.
+
+**AWS real, solo lectura y exit0:** DescribeAddresses porlasdosallocations, DescribeNetworkInterfaces porlasdosENI, DescribeInstances filtrado **Project=enver/Environment=dev/us-east-1**, estados pending/running/stopping/stopped/shutting-down → **0EC2** (no conteouniversal ni instanciasterminadas). LasENI están **available/sinattachmenthost**, SGbackend **sg-070d06cfebe866427**.
+
+| Host | Allocation/IP conservadas | Association conservada | ENI / privada / AZ |
+| --- | --- | --- | --- |
+| A | **eipalloc-0c297551d49ce9416 /18.210.153.223**, domainvpc | **eipassoc-0d50801839a9cae11** | **eni-01ecdecf22b187764 /10.20.0.63 /us-east-1a** |
+| B | **eipalloc-0b54456ecfc2cdafa /44.195.4.217**, domainvpc | **eipassoc-0717a47e226e64bda** | **eni-049a982368fb2bca8 /10.20.1.99 /us-east-1b** |
+
+**Validaciones:** `terraform fmt -check -recursive infra`, `terraform -chdir=infra validate`, `bash -n infra/bootstrap/compute-host.sh` → **exit0/0/0**. No fmtreescritor/init/upgrade/ejecuciónbootstrap. LecturaHCL conserva **t3.small/CPUstandard, x86_64/linux-amd64/AL2023**, estrategiaAMIintacta/últimoIDacreditado **ami-096ef200a877f36af**, dosAZ, root10GiBgp3cifrado/3000IOPS/125MiBps, IMDSv2required/hop1 y ENIexistentes. Sin nuevaconsultaAMI ni plan para confirmar elIDresueltoactual. SGHCL sinSSH22/8080públicos,8080soloSGALB; reglasAWS no reconsultadas. Revisión de bootstrap no encuentra literales deAWSkeys/sessiontokens/Mongo/Redis/JWT/passwords/ECRtoken ni login/pull/run/autoarranqueEnver.API; soloDocker/SSM. No certificación de secretscanning universal ni ejecuciónruntime.
+
+**Puerta obligatoria:** `git check-ignore -v infra/tfplan-infra5-recovery3` **exit1/sinsalida/sinregla**, archivoinexistente/no tracked. **DETENIDO ANTES DE PLAN**. No modificar .gitignore automáticamente, elegir otra ruta o reutilizar planesanteriores. Se solicita autorización explícita **exclusivamente para añadir `/infra/tfplan-infra5-recovery3`** antes de continuar. **Recovery3 NO creado, SHA256/planexitcode/add-change-destroy/replacements/actions NO DISPONIBLES.** Elresultado **2add/0change/0destroy/0replacements** y solo2EC2 es conceptual, no acreditado. **NO-OP de EIP/asociaciones/ENI/IAMruntime/NETWORK14/ECR2 tampoco acreditado por nuevo plan**, aunque identidades estén verificadas. Ningún apply/destrucción/replacement realizado.
+
+**Costo nominal actualizado, no Billing/beneficioFreeTier:** [AWS T3](https://aws.amazon.com/ec2/instance-types/t3/) consultado2026-11-13 muestra **t3.small USD0.0209/h Linux/Unix/us-east-1**,2vCPU/2GiB. Doshosts×48h → **USD2.0064**; raíces20GiB×USD0.08/GiB-mes×48/720 → **0.106667** (tarifa/prorrateo previo); dosIPv4×USD0.005/h×48 → **0.48** (tarifa previa); **baseline48h≈USD2.5931**, delta **+USD0.2016** respecto a2.3915histórico. CPUstandard conserva posiblethrottling, sin asumirUnlimited/surplus. PosibleFreeTier/créditos sujeto aelegibilidad/cobertura/consumo, **no costo0**, beneficio/cargosreales no consultados. Excluye transferencia/ECR/logs/dependencias/serviciosfuturos/impuestos; no presupuesto integral/cap técnico. **GuardrailUSD10/proyectoUSD50AGREGADOS**, **ventanaoriginal NO reiniciada**, máximo **2026-11-15T01:57:56.9337244Z**. Sin timer/apagado/cleanup.
+
+**Estados:** T-INFRA-005 **PARCIAL**, T-INFRA-009 **PARCIAL / RECOVERY3 PENDIENTE**, T-INFRA-010 **PARCIAL**, T-INFRA-025 **PARCIAL**, **GATE-I-C PENDIENTE / NO SATISFECHO**. Sin dosEC2reales/SSM/Docker/digest/capacidad/recuperación/prueba destructiva o dependenciaaceptados. Nuevegatesabiertos/11parciales/19pendientes;002/004/AUTH-027integral intactos.
+
+Evidenciaprivada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-recovery3-readiness-20261113T044734\` (precheck/hashes/STS/GetPolicydenegado/statelist/resumenselectivo/AWSlecturas/validaciones/ignore/costo), temporal sincustodiaduraderaaceptada. Solo task/memoriaeditadosenesteturno, HCL/candidata/.gitignore/state/backup/planesconservados; no secretos/statecompleto publicados. RevisiónfinalGit/integridad enmemoriaysesión. **NO APPLY/AWS WRITE/IAMchanges/destroy/import/taint/untaint/liberar o desasociarEIP/eliminarENI/stage/commit/push. DETENER por ignore, sincontinuaciónautomática.**
+
+### 32.11. Recovery3 guardado con t3.small — 2/0/0,26no-op, sin apply
+
+**2026-11-13 UTC — AUTORIZACIÓN POSTERIOR EXPLÍCITA:** agregar solo `/infra/tfplan-infra5-recovery3` y generar/inspeccionar plan, sin apply ni cambios IAM/AWS. Baseline verificada **feature/infrastructure /3730ebe2cd0c7851bcd827b1f73e355a673db61a**, cincoarchivosmodificadosesperados/0staged/diff-checkexit0. HCL y candidataCompute exactos **t3.small**; historialt3a.small/rechazoFreeTier/dosapplyparciales intacto.
+
+**Ignore:** única línea añadida **/infra/tfplan-infra5-recovery3**, .gitignore:97. Reglas originales /infra/tfplan-infra5, /infra/tfplan-infra5-recovery y /infra/tfplan-infra5-recovery2 y todaslasdemás conservadas; comparación contra copia previa confirma solo esa inserción, sinwildcard. **`git check-ignore -v infra/tfplan-infra5-recovery3` exit0**, antes de crear. Plan antes inexistente/no tracked.
+
+**Validaciones:** fmt-check/validate/bash-n **exit0/0/0**. `terraform -chdir=infra state list` **exit0/26managed+3data**, **serial34/0tainted/0EC2**, EIP2/asociaciones2/ENI2/IAM4/NETWORK14/ECR2. Sin init/upgrade/ejecuciónbootstrap. **“policy AWS actualizada según responsable, no verificada independientemente”**; iam:GetPolicydenegado en§32.10 tratado como no bloqueante, no repetido ni ampliadoIAM.
+
+**Único plan nuevo:**
+
+```text
+terraform -chdir=infra plan -out=tfplan-infra5-recovery3 -detailed-exitcode -var="runtime_permissions_boundary_arn=arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary"
+```
+
+**2026-11-13T04:55:35.529Z–04:55:51.321Z /15.786s /exit2**, resultado real **2add/0change/0destroy/0replacements**, **2create puros/26no-op**. Perfilenver-infra/us-east-1, entradasbaselineaprobadas temporales: enver/dev/cuenta926925605666/VPC10.20.0.0/16/newbits8/common_tags{}/network_design_approvedtrue/compute_plan_approvedtrue/compute_ami_idnull(default), boundarypor-var. Sin tfvarsreal/credencialesalternativas o cambiosHCL. **NUEVO AccessDenied: NO**; denegaciónIAMhistórica no equivale a error delplan ni permite inferir escrituras autorizadas.
+
+**Binario privado ignorado:** `infra/tfplan-infra5-recovery3`, SHA256 **`6105cd7c66250f2264a26795e7c6b383882cd9f5a492da3b18e81a83cdc78b5d`**. `terraform show` humano(sincolor) y JSONdelmismobinario **exit0/0**. Revisión inicial local buscó dataAMI enplanned_values, donde no figura; se corrigió lecturaal snapshotrefrescado prior_state delmismoJSON, sin replan ni falloTerraform.
+
+| Dirección / grupo | Acción real | Identidad conservada |
+| --- | --- | --- |
+| aws_instance.api["a"] | **create** | Host futuroA, ENIAexistente |
+| aws_instance.api["b"] | **create** | Host futuroB, ENIBexistente |
+| aws_eip.api["a"] | **no-op** | **eipalloc-0c297551d49ce9416 /18.210.153.223** |
+| aws_eip.api["b"] | **no-op** | **eipalloc-0b54456ecfc2cdafa /44.195.4.217** |
+| aws_eip_association.api["a"] | **no-op** | **eipassoc-0d50801839a9cae11**, allocationA↔ENIA |
+| aws_eip_association.api["b"] | **no-op** | **eipassoc-0717a47e226e64bda**, allocationB↔ENIB |
+| aws_network_interface.api["a"] | **no-op** | **eni-01ecdecf22b187764 /10.20.0.63** |
+| aws_network_interface.api["b"] | **no-op** | **eni-049a982368fb2bca8 /10.20.1.99** |
+| IAMruntime4 | **4no-op** | role/profileenver-dev-api-runtime/dosinline y boundaryexacta |
+| NETWORK14 /ECR2 | **14no-op /2no-op** | Sin altas/cambios/bajas |
+
+IAM4 son aws_iam_role.api_runtime, aws_iam_instance_profile.api_runtime, aws_iam_role_policy.api_ecr_pull y aws_iam_role_policy.api_ssm_session; **boundary arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary**. No crear/reemplazar/liberar EIP, recrear/desasociar asociaciones, eliminarENI ni modificarIAM/red/ECR.
+
+**Compute inspeccionado enplan:** ambos **t3.small**, AMI **ami-096ef200a877f36af**, dataAMIrefrescada **x86_64/AL2023/al2023-ami-2023.12.20261112.0-kernel-6.18-x86_64**, compatiblelinux/amd64. A **us-east-1a**, B **us-east-1b**; raízporhost **10GiBgp3cifrada/3000IOPS/125MiBps/delete_on_terminationtrue**, CPUstandard, **IMDSv2required/hop1**. ENIA/B originales, únicSGbackendsg-070d06cfebe866427, profileenver-dev-api-runtime, sinkey_name. **SSH22públicoNO/backend8080públicoNO**; únicoingressbackendTCP8080 desdeSGALB **sg-0dacf0df5da30b4f7**, sinCIDR público. Son atributos delplan, no hosts/runtime/seguridad activa acreditados.
+
+**User_data:** ambos coinciden con compute-host.sh normalizandoCRLF/LF. Revisión no detecta AWSkeys/secretkeys/sessiontokens/Mongo/Redis/JWT/passwords/ECRtoken literales; no dockerlogin/pull/run o autoarranqueEnver.API, solo preparaciónDocker/SSM. No secret-scanning universal ni SSM/Docker/health efectivos. **Enver.API NO desplegada/iniciada por esta entrega**.
+
+**Refresh separado de acciones:** **2resource_drift/update**, EIP A/B, desdecamposvacíos a asociacionesyaexistentes: association_id→eipassocA/B, network_interface→ENIA/B, private_ip→10.20.0.63/10.20.1.99, private_dns→ip-10-20-0-63.ec2.internal/ip-10-20-1-99.ec2.internal. **Ambas EIP son no-op enresource_changes**; no updates aejecutar, allocations/IP originales sin cambio. No afirmar drift0 o nuevamodificaciónexterna porinferenciadelsnapshot. Sin persistirrefresh sobrestate/backup.
+
+**Costo nominal48h conservado:** t3.smallUSD0.0209/h×2×48=**2.0064**, EBS≈**0.1067**, IPv4≈**0.48**, total **≈USD2.5931/48h**. ReferenciaAWSdocumentada§32.10; FreeTier **NO descontado**, noBilling/créditos/consumo real. Guardrail **USD10**, proyecto **USD50AGREGADOS**, ventanaoriginalsinreiniciar/máximo **2026-11-15T01:57:56.9337244Z**, sincap técnico/timer/cleanupautomático o gastoautorizadoporplanificar.
+
+**Estados:** T005 **PARCIAL**, T009 **PARCIAL / RECOVERY3 PRE-APPLY**, T010 **PARCIAL**, T025 **PARCIAL**, **GATE-I-C PENDIENTE /NO SATISFECHO**. Plan/hash/no-op no prueban2EC2reales/SSM/Docker/digest/capacidad/recuperaciónintegral/pruebadestructiva/custodia/permisosefectivos. Nuevegatesabiertos/11parciales/19pendientes;002/004/AUTH-027integralintactos.
+
+Evidenciaprivada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-recovery3-plan-20261113T045414\` (baseline/hashes/ignore/validaciones/statelist/planresultados/show/análisisselectivo), temporal sincustodiaduraderaaceptada. Solo.gitignore/task/memoriaeditadosenesteturno, compute/candidata conservan cambiospreviosautorizados. State/backup/planesprevios yrestoinfra intactos; binarionuevoignoradono tracked. RevisiónGit/integridad final enmemoria/sesión. **NO APPLY/destroy/import/taint/untaint/IAMchanges/AWS WRITE/liberarEIP/stage/commit/push. DETENER para revisión humana delbinario, sinprovisiónautomática.**
+
+### 32.12. Apply controlado recovery3 — IDs EC2 asignados, fallo en ModifyInstanceAttribute
+
+**2026-11-13 UTC — autorización explícita para aplicar solo recovery3.** Baseline real **feature/infrastructure /3730ebe2cd0c7851bcd827b1f73e355a673db61a**, cincoarchivosmodificadosesperados (.gitignore/candidataCompute/compute/task/memoria), **0staged/diff-checkexit0**. SHA256 **6105cd7c66250f2264a26795e7c6b383882cd9f5a492da3b18e81a83cdc78b5d**, coincidenciaexactaantesdeaplicar. Showhumano/JSONexit0/0: **2create/0change/0destroy/0replacements/26no-op**, únicamente `aws_instance.api["a"]` y `aws_instance.api["b"]`. Ningún nuevo plan previo ni reutilización de planesanteriores.
+
+**Único comando apply:**
+
+```text
+terraform -chdir=infra apply tfplan-infra5-recovery3
+```
+
+**2026-11-13T05:04:11.150Z–05:04:35.647Z /24.491s /exit1**. Perfilenver-infra/us-east-1, sincredencialesalternativas. **FALLO PARCIAL /UnauthorizedOperation /HTTP403**, al configurar **InstanceInitiatedShutdownBehavior**; elHCL ya exigía **stop**. **Acción denegada: ec2:ModifyInstanceAttribute**. Identidad: **arn:aws:iam::926925605666:user/enver-terraform-local**; AWS informa que ningunaidentity-basedpolicy permiteesaacción. No modificarIAM, retiraratributodelHCL, concederwildcards o repetirapply paraeludirlo.
+
+| Host /dirección | ID asignado que aparece en error | Recurso denegado /RequestID |
+| --- | --- | --- |
+| A /aws_instance.api["a"] | **i-0a66085b7b2411393** | **arn:aws:ec2:us-east-1:926925605666:instance/i-0a66085b7b2411393** /6d8093d9-4d9d-47af-ae6d-d32e39900d81 |
+| B /aws_instance.api["b"] | **i-00de11a3f3c1a8aa5** | **arn:aws:ec2:us-east-1:926925605666:instance/i-00de11a3f3c1a8aa5** /480c16b7-368c-489b-98ab-3737a49ab438 |
+
+**Resultado exacto:** dosIDs asignados durante creación, **0 Creation complete**, sinresumenApplycomplete/2added. **No afirmar0EC2existentes ni2recursosTerraformcompletados**: creación/configuración es parcial, conteoAWS/estadofinalnoverificados. **0 cambios/0destrucciones completados registrados**; doserroresModifyInstanceAttribute, AccessDenied/UnauthorizedOperation **SÍ**. Mensajescodificadosdeautorización no se reproducen en documentación ni se intentadecodificar/consultardetallesconAPIsadicionales.
+
+**Detención trasfallo:** no segundointento/apply, state list, EC2/EBS/ENI/EIP/SG/IAM/SSM/Docker, post-plan, correcciónmanualstate/taint o modificacionesIAM. **Conteo managed actual NO VERIFICADO** (últimoprevio26, esperado28 no es inventario real); tampoco serial/taintactuales. State/backup pueden cambiar legítimamente porapplyparcial, no restaurar nipresentarhashesprevioscomoactuales.
+
+**Configuración versus verificación:** t3.small/AMIami-096ef200a877f36af/x86_64/AL2023/us-east-1a-b/10GiBgp3cifrado/IMDSv2required y profileenver-dev-api-runtime constan enplan, **no verificadas enhosts despuésdelapply**. Estadosrunning/LaunchTime/volúmenes/attachmentENI/perfilreal/SG/MetadataOptions **NO DISPONIBLES porinventario**; no completarcamposconvaloresplanificadoscomosifueranreales. EIP A/B allocations/IP/asociaciones y ENI originales permanecían **no-op enplan**, sinreemplazos/liberaciones/desasociacionesregistradas, pero no reconsultadas trasfallo. IAMruntime/NETWORK14/ECR2 sinaccionesdecambioenplan ni modificacionesregistradas; sinpost-plan no afirmar drift0/aceptaciónremotarevalidada.
+
+**SSM A/B y Docker A/B NO VALIDADOS**; ni presenciassm/PingStatus/PlatformName/AgentVersion ni docker--version/is-enabled/is-active obtenidos. NoabrirSSH/8080público, noSSMcorrectivo/IAMautomático. **Enver.API NO iniciada por esta ejecución**, ningún deployment/dockerpull-run/configruntimeAtlas/Redis/DynamoDB/JWT/SecretsManager/ALB. Elbootstrap aprobado no autoarrancaAPI, pero sininspecciónremota noafirmarauditoríadelprocesadoreal.
+
+**Post-plan NO ejecutado**, exitcode/add-change-destroy no disponibles. Laautorizaciónlocondicionabaaléxito, no cumplido. **Recovery3 parcialmente consumido: NO REAPLICAR**; tampocoreutilizarplanesanteriores. Cualquiercontinuación requiere nuevaautorizacióndelimitada y revisión delestado, sin generarnuevoplan o recomendación automática deprivilegios.
+
+**Recuperación aún incompleta:** losdosapplyparcialesprevios, correccióntaintautorizadaanterior y cambiocontroladodetipo quedan trazados; este **tercerapplyparcial** avanzóaIDsEC2sincompletarconfiguración. No destroy/replacement/pruebadestructiva/continuidadreal; **T010 no cerrar**. **T005PARCIAL**, operadorconpermisoinsuficienteparaatributo/SSM/aislamientointegralpendientes; **T009PARCIAL /APPLY RECOVERY3 FALLIDO**, dosIDsnoequivalenadoshostsDockerverificados; **T025PARCIAL**, sinpost-plan/custodia/backup/recovery/dependenciasaceptados. **GATE-I-C PENDIENTE /NO SATISFECHO**: faltanverificaciónhosts/dosAZ/mismodigest/capacidad/recuperación/E007–010/E027–028/prerrequisitosI-A/Baceptados. Nuevegatesabiertos/11parciales/19pendientes,002/004/AUTH-027integralintactos.
+
+**Costo nominal48h≈USD2.5931**, FreeTierNOdescontado, guardrailUSD10/proyectoUSD50AGREGADOS, **ventanaoriginalNOreiniciada/máximo2026-11-15T01:57:56.9337244Z**. NoBillingreal/consumoacumulado/créditosconsultados; laasignacióndeIDs puede implicarEC2activasycargos aunconTerraformfallido, no asumircoste0. No stop/cleanup/liberaciónIP/timerautomáticos.
+
+Evidenciaprivada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-recovery3-apply-20261113T050337\`: precheck/hashmanifiesto/showhumano-JSON/apply-start-result/stdout-stderr, temporal/nocustodiaduraderaaceptada. No secretos/statecompleto/mensajescodificadospublicadosendocumentación. Solo task/memoriaeditadosenesteturno; demásfuentes/planes/.gitignorepreviosconservados, state/backup puedenvariarporapply. **NO reintento/segundoapply/post-plan/IAMchanges/destroy/import/taint/untaint/liberarEIP/stage/commit/push. DETENER porfalloparcial.**
+
+### 32.13. Recuperación post-recovery3: dos EC2 running/tainted; recovery4 bloqueado por ignore
+
+**2026-11-13 UTC — autorización posterior de lecturas y plan condicionado, NO APPLY.** Baseline real **feature/infrastructure /3730ebe2cd0c7851bcd827b1f73e355a673db61a**, cinco archivos modificados esperados/0staged/diff-checkexit0. Se conserva el fallo ModifyInstanceAttribute HTTP403 de §32.12. El responsable informa que añadió manualmente **ec2:ModifyInstanceAttribute**, recurso **arn:aws:ec2:us-east-1:926925605666:instance/*** y tags Project=enver/Environment=dev/ManagedBy=Terraform en ENVER-Terraform-Compute. **Corrección informada, no verificada independientemente ni ejercitada**: no GetPolicy nuevamente, simulación o llamada de escritura para probarla; DescribeInstanceAttribute solo acredita lectura.
+
+**AWS real, solo lecturas exitosas:** STS, DescribeInstances de los dos IDs, DescribeInstanceAttribute shutdown de A/B, DescribeVolumes, DescribeNetworkInterfaces, DescribeAddresses, GetRole, GetInstanceProfile y DescribeSecurityGroups del backend, **sin nuevo AccessDenied**. Perfil enver-infra/us-east-1, cuenta926925605666/usuarioenver-terraform-local, sin credenciales alternativas.
+
+| Campo real | A | B |
+| --- | --- | --- |
+| Existe / InstanceId | **Sí /i-0a66085b7b2411393** | **Sí /i-00de11a3f3c1a8aa5** |
+| State / tipo / arquitectura | **running /t3.small /x86_64** | **running /t3.small /x86_64** |
+| ImageId | **ami-096ef200a877f36af** | **ami-096ef200a877f36af** |
+| AZ / privada | **us-east-1a /10.20.0.63** | **us-east-1b /10.20.1.99** |
+| ENI original, attached al ID correcto | **eni-01ecdecf22b187764** | **eni-049a982368fb2bca8** |
+| LaunchTime devuelto por AWS | **2026-11-13T05:03:37+00:00** | **2026-11-13T05:03:38+00:00** |
+| InstanceInitiatedShutdownBehavior | **stop** | **stop** |
+| Root VolumeId | **vol-0619ef31bdc16c5ff** | **vol-0e3c5b500af45e847** |
+| Root EBS real | **10GiB/gp3/encrypted=true/in-use** | **10GiB/gp3/encrypted=true/in-use** |
+| EIP allocation / PublicIp | **eipalloc-0c297551d49ce9416 /18.210.153.223** | **eipalloc-0b54456ecfc2cdafa /44.195.4.217** |
+| Association original | **eipassoc-0d50801839a9cae11** | **eipassoc-0717a47e226e64bda** |
+
+Ambos perfiles reales: **arn:aws:iam::926925605666:instance-profile/enver-dev-api-runtime**, con runtime role **enver-dev-api-runtime** y boundary remota verificada **arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary**. SecurityGroups de ambos: únicamente **sg-070d06cfebe866427 /enver-dev-backend**. MetadataOptions de ambos: **State=applied/HttpTokens=required/HttpPutResponseHopLimit=1/HttpEndpoint=enabled/HttpProtocolIpv6=disabled/InstanceMetadataTags=disabled**. Attachments ENI correctos, DeleteOnTermination=false. EIP/asociaciones conservadas y vinculadas a ENI/privada A/B exactas; sin nuevas escrituras.
+
+**Seguridad AWS comprobada:** único ingress backend **TCP8080 desde sg-0dacf0df5da30b4f7**, sin IpRanges/Ipv6Ranges públicos. **SSH22público NO /TCP8080público NO**. No prueba activa de bypass/TLS/egreso fino, SSM o Docker en esta entrega.
+
+**Terraform real:** `terraform -chdir=infra state list` **exit0 /28managed+3data /serial37**. Ambas direcciones `aws_instance.api["a"]` y `aws_instance.api["b"]` presentes con los mismos IDs AWS, **ambas status=tainted**; shutdownbehavior registrado stop. No se eliminaron marcas, importaron recursos, editaron atributos/state o restauraron backups. **Falta reconciliación conservadora del estado tras create fallido**, no demostrar existencia solamente. Taint es un riesgo de replacement que debe revisarse; **sin nuevo plan no acreditar acciones concretas ni asumir updates/no-op/replacements**. El shutdown real ya es stop; el rechazo histórico no demuestra que ese valor siga pendiente en AWS ni que el nuevo permiso funcione. No autoriza untaint, retirar atributos HCL o reemplazar hosts.
+
+**Validaciones:** `terraform fmt -check -recursive infra`, `terraform -chdir=infra validate`, `bash -n infra/bootstrap/compute-host.sh` → **exit0/0/0**, sin ejecutar bootstrap. **`git check-ignore -v infra/tfplan-infra5-recovery4` exit1/sin regla**, archivo inexistente/no tracked. **DETENIDO ANTES DE PLAN**. Solicitar autorización explícita para añadir **únicamente `/infra/tfplan-infra5-recovery4`**, sin editar .gitignore automáticamente. **Recovery4 no creado, sin SHA256/planexitcode/add-change-destroy/replacements/actions EC2 A/B ni nuevos no-op EIP/ENI/asociaciones/IAM/NETWORK14/ECR2 acreditados**. No reutilizar los cuatro planes anteriores; sin apply de ningún plan.
+
+**Costo/tiempo:** EC2 running con LaunchTime real arriba; son horas potencialmente facturables aunque Terraform falló. **Nominal INFRA-5≈USD2.5931/48h**, FreeTier no descontado, **guardrailUSD10/proyectoUSD50AGREGADOS**, no Billing/consumo acumulado real. Ventana original **NO reiniciada**, máximo **2026-11-15T01:57:56.9337244Z**; LaunchTime AWS se registra tal como respondió, separado de tiempos del proceso local. Sin apagado/timer/cleanup ni liberación automática de IP.
+
+**Estados:** T005 **PARCIAL**, profile/boundary acreditados pero SSM/separación/mínimo privilegio integral pendientes; T009 **PARCIAL /DOS EC2 RUNNING, STATE TAINTED Y RECOVERY4 PENDIENTE**, sin Docker/SSM/capacidad/mismo digest/aceptación; T010 **PARCIAL**, reconciliación/prueba formal pendientes; T025 **PARCIAL**, state e inventario acreditados sin plan/custodia/backup/recovery aceptados. **GATE-I-C PENDIENTE /NO SATISFECHO**, dos hosts reales solo cumplen una parte: faltan mismo digest/capacidad/recuperación/E007–010/E027–028/prerrequisitosI-A/B/aceptación. Nueve gates abiertos/11parciales/19pendientes,002/004/AUTH-027integral intactos. No SSM/Docker/app deployment o arranque Enver.API ejecutados aquí.
+
+Evidencia privada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-post-recovery3-20261113T051207\`: baseline/hashes/lecturasAWS/statelist/resumen selectivo/validaciones/ignore, temporal sin custodia duradera aceptada. Solo task/memoria editados; fuentes/configuración/state/backup/planes/.gitignore conservados. Revisión Git final en memoria/sesión. **Sin apply/destroy/import/state rm/taint/untaint/IAMmodificado/.gitignoremodificado/liberarEIP/stage/commit/push. DETENER por ignore**, sin continuación automática.
+
+### 32.14. Reconciliación conservadora EC2: untaint A/B y recovery4 sin acciones de recursos
+
+**2026-11-13 UTC — autorización explícita condicionada, NO APPLY.** Baseline real **feature/infrastructure /3730ebe2cd0c7851bcd827b1f73e355a673db61a**, cinco modificados esperados/0staged/diff-checkexit0. Historial de tres applies parciales intacto; causa de los taints EC2: create logró IDs pero provider falló en ModifyInstanceAttribute/shutdown (§32.12). Corrección manual del permiso informada por responsable, **no verificada independientemente ni ejercitada**; no se modifican candidata local o IAM remoto.
+
+**Exclusión exacta:** agregada solo **/infra/tfplan-infra5-recovery4** en .gitignore:98, conservando las reglas anteriores sin wildcard. Check-ignore exit0 antes de verificar y antes del plan; archivo no tracked. No se reutilizan tfplan-infra5/recovery/recovery2/recovery3.
+
+#### Verificación previa a untaint
+
+Lecturas STS/DescribeInstances/DescribeImages/DescribeInstanceCreditSpecifications/DescribeVolumes/DescribeNetworkInterfaces/DescribeAddresses/GetRole/GetInstanceProfile/DescribeSecurityGroups y DescribeInstanceAttribute de shutdown/userData A/B **exit0**, sin denegaciones. `terraform state list` y `state show` de ambas direcciones **exit0**; state inicial **28managed+3data/serial37**, ambas **tainted**. Contenidos user-data/state no impresos íntegramente ni incorporados a Git.
+
+| Atributo real comparado con configuración | A | B |
+| --- | --- | --- |
+| ID / estado | **i-0a66085b7b2411393 /running** | **i-00de11a3f3c1a8aa5 /running** |
+| Tipo / AMI / arquitectura | **t3.small /ami-096ef200a877f36af /x86_64** | **t3.small /ami-096ef200a877f36af /x86_64** |
+| AZ / privada | **us-east-1a /10.20.0.63** | **us-east-1b /10.20.1.99** |
+| LaunchTime AWS | **2026-11-13T05:03:37+00:00** | **2026-11-13T05:03:38+00:00** |
+| Shutdown / monitoring / créditos | **stop /disabled /standard** | **stop /disabled /standard** |
+| Name | **enver-dev-api-a** | **enver-dev-api-b** |
+| ENI original / attached | **eni-01ecdecf22b187764 /al ID correcto** | **eni-049a982368fb2bca8 /al ID correcto** |
+| Root EBS real | **vol-0619ef31bdc16c5ff** | **vol-0e3c5b500af45e847** |
+| EIP allocation / pública | **eipalloc-0c297551d49ce9416 /18.210.153.223** | **eipalloc-0b54456ecfc2cdafa /44.195.4.217** |
+| Association original | **eipassoc-0d50801839a9cae11** | **eipassoc-0717a47e226e64bda** |
+
+AMI disponible, owner Amazon **137112412989**, nombre **al2023-ami-2023.12.20261112.0-kernel-6.18-x86_64**. Ambos roots **10GiB/gp3/encrypted=true/in-use/3000IOPS/125MiBps**, attachment correcto, DeleteOnTermination=true; tags root Project/Environment/ManagedBy y Name enver-dev-api-a/b-root correctos. Tags de hosts **Project=enver/Environment=dev/ManagedBy=Terraform/Name exacto**, sin extras inesperados. SourceDestCheck **true** en hosts/ENI y state (no explícito en HCL, default normal del provider); ENI DeleteOnTermination=false. IMDSv2 **required/endpointenabled/hop1/metadatatagsdisabled/IPv6disabled**. Sin key_name.
+
+Ambas EC2 con profile real **arn:aws:iam::926925605666:instance-profile/enver-dev-api-runtime**, que contiene role **enver-dev-api-runtime** y boundary remota exacta **arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary**. Solo SG **sg-070d06cfebe866427**; único ingress **TCP8080 desde sg-0dacf0df5da30b4f7**, sin IPv4/IPv6 CIDRs públicos. **SSH público NO/8080 público NO**, no prueba activa de bypass. EIP/asociaciones sobre ENI/privadas originales, sin nueva IP.
+
+**User-data AWS decodificado = archivo bootstrap normalizado CRLF→LF de HCL = representación/hash en state**, ambas SHA256 **c088da3514016f17457850eb74b2c60890f4fe0e2965e7869e8c92e9a94aecff**. No se imprime contenido ni ejecuta bootstrap. Comparados atributos HCL de tipo/AMI/AZ/profile/monitoring/shutdown/metadata/créditos/root/tags/ENI/user-data; no divergencia material configurada.
+
+**Salvedad de state parcial:** root volume_id/device_name/kms_key_id y algunos metadatos calculados estaban vacíos, aunque configuración root y AWS coincidían; no son volúmenes distintos o atributos configurados en conflicto. La primera comprobación local estricta se detuvo al exigir volume_id calculado; se diagnosticó por lectura sin editar state, se completó B y la comparación de configuración antes de actuar. El plan posterior refresca esos metadatos y confirma no-op. No presentar state37/39 como snapshot completamente refrescado de AWS.
+
+#### Dos untaint autorizados y ninguna escritura AWS
+
+```text
+terraform -chdir=infra untaint 'aws_instance.api["a"]'
+terraform -chdir=infra untaint 'aws_instance.api["b"]'
+```
+
+Direcciones pasadas como argumentos literales mediante proceso nativo para evitar pérdida de comillas en PowerShell. **A exit0**, 2026-11-13T05:25:12.615Z–05:25:17.349Z; **B exit0**, 05:25:17.352Z–05:25:22.569Z. Sin reintento ni otros untaint. Post-state **28managed+3data/serial39/backupserial38**, A/B **NO tainted**, IDs originales intactos. State show antes/después idéntico salvo cabecera tainted, statelist sin cambios. Comparación backup38→39 normalizada acredita solo serial/taintB, sin cambios de atributos. Primer comparador estricto posterior señaló exclusivamente orden de check_results/objects; lectura semántica resolvió ese falso positivo sin repetir comandos/editar state. El estado y backup cambian legítimamente por untaint; no restaurarlos.
+
+**Validaciones posteriores:** fmt-check-recursive/validate/bash-n **exit0/0/0**; check-ignore **exit0**. Ninguna instalación/init/upgrade/HCL cambiado.
+
+#### Recovery4 real, no aplicado
+
+Comando autorizado con los mismos inputs temporales: enver/dev/us-east-1/cuenta926925605666/VPC10.20.0.0/16/newbits8/network y compute approvaltrue/common_tags{}, **compute_ami_id sin override usa default null**; ARN boundary exacto por -var. Sin tfvars reales/credenciales alternativas.
+
+```text
+terraform -chdir=infra plan -out=tfplan-infra5-recovery4 -detailed-exitcode -var="runtime_permissions_boundary_arn=arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary"
+```
+
+- **Intento inicial:** 05:27:14.393Z–05:27:31.115Z/16.717s/**exit1**, TF_VAR_compute_ami_id='null' se interpretó erróneamente como string. Sin AccessDenied ni acciones reales propuestas; binario errored preservado en evidencia privada como failed-plan-string-null.bin, hash **bac1033cd063fc6ad6ad286e392b9567ae7a771e4ddbb43a5d8201ccbd5aa3f8**, **NO es el recovery4 final**. Error de invocación del agente, no HCL/AWS; se omite esa variable para usar el default, sin alterar configuración o ejecutar apply.
+- **Plan final corregido:** **2026-11-13T05:28:12.034Z–05:28:31.051Z/19.013s/exit2**, sin AccessDenied. **0add/0change/0destroy/0replacements,28no-op**. SHA256 final **bc682c534dfe5a13b267726f3d21744c6a5830654f925ded8c2a0488873d1662**. Show humano/JSON **exit0/0**, errored=false/complete=true.
+- **Exit2 explicado, no exit0:** único cambio propuesto de outputs **+compute_instances**, con IDs/privadas/zone_id use1-az1/use1-az2; faltaba por create parcial. Guardarlo requeriría autorización posterior de escritura de state, **no se aplica**. No equivale a create de EC2 ni modificación AWS.
+- **Acciones de recursos:** aws_instance.api["a"] **no-op**, ["b"] **no-op**; ENI2/EIP2/asociaciones2/IAMruntime4/NETWORK14/ECR2 **todos no-op**. Ningún update in-place/create/delete/replace propuesto.
+- **Refresh separado:** resource_drift incluye EC2A/B (metadatos calculados faltantes: red/IP/estado/root IDs/tags/KMS/CPU/defaults), EIPA/B (instance), asociacionesA/B (instance_id) y ENIA/B (attachment). Son ocho entradas de snapshot actualizado, **no resource_changes/update**. State/backup locales permanecen intactos frente a después de untaint durante ambos planes; refresh/output no persistidos por apply. No afirmar ausencia total de diferencias de snapshot.
+
+#### SSM denegado y detención
+
+Tras plan sin replacements, **una consulta filtrada** `aws ssm describe-instance-information` para ambos IDs, **2026-11-13T05:29:26.515Z–05:29:29.439Z/exit254/AccessDeniedException**. Identidad **arn:aws:iam::926925605666:user/enver-terraform-local**, acción **ssm:DescribeInstanceInformation**, recurso reportado **arn:aws:ssm:us-east-1:926925605666:***, ninguna identity-based policy la permite. **SSM A/B: presencia/PingStatus/PlatformName/AgentVersion NO VERIFICADOS**, no inferir Offline/ausencia del agente o insuficiencia del runtime role. No ampliar IAM/reintentar/abrir SSH ni ejecutar SendCommand. **Docker A/B NO VALIDADO** (sin versión/is-enabled/is-active), condición Online no acreditada.
+
+**Enver.API NO iniciada por el agente**, ningún deploy/dockerpull-run/config runtime/ALB/Redis/Secrets/DynamoDB; sin inspección remota de procesos no afirmar auditoría total del host. **NO APPLY**, ni siquiera para guardar outputs. Planes anteriores no reutilizados, no destroy/import/terminate/taint/state rm/liberar o desasociar EIP/IAMmodificado/stage/commit/push.
+
+**Reevaluación estricta:** **T005PARCIAL**, role/profile/boundary reales, pero SSM/separación y mínimo privilegio integral no aceptados; **T009PARCIAL**, dos hosts correctos/sin taint/recurso no-op, faltan Docker/SSM/capacidad/digest/aceptación; **T010PARCIAL**, reconciliación conservadora real no prueba formal de fallo/reemplazo/drenaje/continuidad; **T025PARCIAL**, validaciones/plan acreditados pero exit2-output/custodia/backup protegido/dependencias/aceptación integral pendientes. **GATE-I-C PENDIENTE /NO SATISFECHO**, definición §3 requiere además mismo digest/capacidad/recuperación/E007–010/E027–028 y prerrequisitosI-A/B, no basta dosrunning/untaint/plan. Once tareas parciales/19pendientes/nueve gates pendientes,002/004/AUTH-027integral intactos.
+
+**Costo nominal≈USD2.5931/48h**, no descuento FreeTier ni Billingreal consultado; EC2 running desde LaunchTime arriba pueden generar consumo. **GuardrailUSD10/proyectoUSD50AGREGADOS**, ventanaoriginalsinreiniciar/máximo **2026-11-15T01:57:56.9337244Z**. Sin timer/apagado/cleanup automático o garantía de coste cero.
+
+Evidencia privada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-recovery4-20261113T052114\`: baseline/hashes/lecturasAWS/statelist-stateshow/resumenconfig/diagnósticos/untaint/resultados/validaciones/dosintentosplan/show/análisis/denegaciónSSM. Temporal no acredita custodia duradera aceptada. Solo **.gitignore/task/memoria editados**; compute/candidata/policies/bootstrap/demás fuentes y cuatro planes previos preservados. State/backup solo modificados por dos untaint; nuevo recovery4 ignorado/no tracked/no aplicado. Revisión final Git/hash en memoria/sesión. **DETENER para revisión humana, sin IAM/correcciónSSM/guardadooutputs/apply automáticos.**
+
+### 32.15. Validación final SSM/Docker post-reconciliación — sin Terraform ni despliegue
+
+**2026-11-13 UTC — verificación controlada explícita.** Baseline real **feature/infrastructure /3730ebe2cd0c7851bcd827b1f73e355a673db61a**, cinco modificados conocidos/0staged/diff-checkexit0. Lectura local state **28managed+3data/serial39/0tainted** y SHA256 recovery4 **bc682c534dfe5a13b267726f3d21744c6a5830654f925ded8c2a0488873d1662** coincidentes. No Terraform ejecutado, nuevo plan, state recovery o cambios de infraestructura.
+
+El responsable informa creación/adjunción manual a **enver-terraform-local** de policy de verificación con DescribeInstanceInformation/SendCommand/GetCommandInvocation/ListCommandInvocations/ListCommands, SendCommand limitado a ambos IDs y AWS-RunShellScript. **Fuente informada, no auditoría independiente del documento/versiones/condiciones IAM.** Se comprueban solo las operaciones efectivamente usadas; no se ejercitan las dos APIs List ni otros targets/documentos. Sin cambios IAM por agente, sin actualización de candidatas locales.
+
+**Lecturas locales/AWS:** STS cuenta926925605666, perfilenver-infra/regiónus-east-1 sin credenciales alternativas; DescribeInstances dirigido a ambos IDs vuelve a confirmar running/t3.small/dosAZ/LaunchTime original. DescribeInstanceInformation filtrado **solo a ambos IDs**, exit0. No nuevo AccessDenied.
+
+| Evidencia real | A | B |
+| --- | --- | --- |
+| ID | **i-0a66085b7b2411393** | **i-00de11a3f3c1a8aa5** |
+| EC2 / AZ | **running /us-east-1a** | **running /us-east-1b** |
+| SSM presente / PingStatus | **Sí /Online** | **Sí /Online** |
+| PlatformName / PlatformVersion | **Amazon Linux /2023** | **Amazon Linux /2023** |
+| AgentVersion | **3.3.5828.0** | **3.3.5828.0** |
+| IPAddress SSM | **10.20.0.63** | **10.20.1.99** |
+| Docker versión | **25.0.14, build0bab007** | **25.0.14, build0bab007** |
+| Docker enabled / active | **enabled /active** | **enabled /active** |
+| Run Command Status / ResponseCode | **Success /0** | **Success /0** |
+| Contenedores running | **0, nombres vacíos** | **0, nombres vacíos** |
+| Servicio Enver.API running detectado | **No** | **No** |
+
+**Un único SendCommand para ambos IDs**, **CommandId `8abf5ba1-a1d6-4ac2-9592-a3200a3b9d81`**, documento **AWS-RunShellScript**, condición Online comprobada antes. Envío local **2026-11-13T05:38:30.577Z–05:38:33.448Z/exit0**, GetCommandInvocation A/B **exit0/0**, consultas terminadas a05:38:51.013Z. Cinco comandos exactos, sin otros comandos remotos:
+
+```text
+docker --version
+systemctl is-enabled docker
+systemctl is-active docker
+docker ps --format '{{.Names}}'
+systemctl list-units --type=service --state=running
+```
+
+Stderr remoto vacío A/B. Las respuestas AWS informan ExecutionStartDateTime **A05:37:46.814Z/B05:37:46.806Z**, elapsedPT0.104S/PT0.1S y End igual al Start; se conservan como metadatos de origen distintos del reloj local de envío, **sin corregirlos, atribuirles orden causal fiable ni certificar sincronización de relojes**. No reenvío/reintento/polling necesario.
+
+**Aplicación:** salida dockerps sin nombres, listas systemd de20servicios sin Enver/dotnet. **Enver.API no detectada como contenedor o servicio running en A/B**, no iniciada por esta intervención. No auditoría de procesos sueltos o todas las formas de ejecución: los comandos autorizados no prueban ausencia absoluta de procesos arbitrarios. Ningún contenedor inesperado. Servicios de sistema registrados en evidencia privada, incluidos **docker/containerd/amazon-ssm-agent y sshd**; sshd activo no equivale a ingress público autorizado, y no se desactiva/modifica. No pull/run/login/stop/rm, instalación, cambio de config o arranque/parada de servicios.
+
+**Seguridad previa conservada como evidencia fechada §32.14**, no nueva reconsulta IAM/SG/user-data: SSH público **NO**, backend8080público **NO**, ingress soloSGALB; runtime role **enver-dev-api-runtime**, boundary exacta aprobada, IMDSv2required, user-data coincidía con bootstrap sin secretos literales detectados/autoarranqueAPI. Fuentes/hash preservados no constituyen nueva auditoría de IAM o garantía exhaustiva de ausencia de secretos. No abrir puertos o SSH para verificar.
+
+**Terraform:** se omite el plan opcional para evitar trabajo innecesario. Evidencia fechada recovery4 conserva **0add/0change/0destroy/0replacements/28no-op** (EC2/EIP/ENI/asociaciones/IAM4/NETWORK14/ECR2); **+outputcompute_instances** es el cambio output-only y explica exit2. Ocho diferencias de refresh descritas en§32.14, no updates propuestos de recursos. **No afirmar nuevo post-plan exit0**, no guardar outputs, aplicar recovery4 o reutilizar planes parcialmente consumidos. State/backup/planes no modificados.
+
+**Recuperación consolidada sin borrar historial:** (1) apply inicial parcial por lecturaEIP denegada; (2) EIP originales conservadas y untaintEIP autorizados; (3) recovery2 crea asociaciones y falla t3a.small/FreeTier; (4) cambio autorizado **t3a.small→t3.small**; (5) recovery3 obtiene dosIDsEC2 pero falla ModifyInstanceAttribute; (6) corrección IAM mínima manual informada, shutdownstop real; (7) comparación AWS/state/HCL y untaintEC2 controlados; (8) recovery4 recurso0/0/0 sinreplacements; (9) nueva policySSM humana informada, **SSMOnline/Dockerfuncional final en ambos**. Son tres applies parciales históricos, **ningún apply en esta validación**. Recuperación conservadora operativa de hosts acreditada, no ensayo de sustitución/HA/fallo de API.
+
+#### Reevaluación por criterios, sin cierres artificiales
+
+- **T-INFRA-005 PARCIAL:** SSMfuncional/operaciones de verificación y profile/boundary previos acreditados. Falta revisión/aceptación integral de mínimo privilegio, separación provisión/deploy/runtime/authority/secretos/contrato004 y dependencias; éxito de un comando no audita todas las policies ni demuestra aislamiento global.
+- **T-INFRA-009 PARCIAL /VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA:** todos los checks técnicos de esta solicitud cubiertos: dosrunning/dosAZ/t3.small/ENI-EIPcorrectas/IMDSv2/EBS cifrado de§32.14 más SSM/Docker reales de esta sección. Dimensionamiento **2vCPU/2GiB por host** justificado y aprobado §§23.3/32.9, hashing no debilitado ni cambiado. **No se exige desplegar API/mismo digest/ALB/HTTPS para acreditar baseline de hosts**, ni se presenta Docker como prueba de carga de .NET/hasher. El catálogo conserva PARCIAL exclusivamente por aceptación de sus dependencias **T006/T008** y decisiones **DP-I-02/03** todavía no integrales, sin autorizar su cierre retrospectivo. E009 técnica queda disponible para revisión/aceptación; pruebas de carga/digest y aceptación cloud integral pertenecen a incrementos/gates posteriores.
+- **T-INFRA-010 PARCIAL:** recuperación conservadora de estado y hosts operativos demostrada, pero faltan runbook/escenarios de fallo, rollback/drenaje/reemplazo, límites de disponibilidad y prueba formal/aceptación. No se ejecuta ensayo destructivo ni se garantiza mantenimiento con doshosts.
+- **T-INFRA-025 PARCIAL:** baseline/readiness y recovery4 previos acreditados, pero custodia/backup protegido/recuperación formal/versiones/dependenciasE001/E002/E025integral no aceptados. SSM/Docker no sustituyen esos criterios. Output-only permanece pendiente sin ser autorización para aplicar.
+- **GATE-I-C PENDIENTE /NO SATISFECHO:** dosEC2/dosAZ comprobadas; faltan **mismo digest desplegado, capacidad y recuperación verificadas, E007–010/E027–028 y cierre de GATE-I-A/B**, además de aceptación explícita del responsable según§3. Estos son criterios del gate, no nuevos bloqueos artificiales del checklist técnico de hosts. No se cierra por Docker o SSM, ni se ejecuta API para intentar satisfacerlo.
+
+**11parciales/19pendientes/9gatespendientes**, sin cambios002/004/AUTH-027integral. **Costo nominal≈USD2.5931/48h**, no FreeTier descontado/Billingconsultado, guardrail **USD10**, proyecto **USD50AGREGADOS**. LaunchTimeAWS original **A2026-11-13T05:03:37Z/B05:03:38Z**, hostsrunning pueden generar cargos. Ventanaoriginalsinreiniciar/máximo **2026-11-15T01:57:56.9337244Z**, sin timer/stop/cleanup automático.
+
+Evidencia privada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-ssm-docker-final-20261113T053800\`: baseline/hashes/state-selectivo/lecturasAWS/SendCommand/GetCommandInvocation/resultados/resumen. Temporal sin custodia duradera aceptada, sin secretos en documentación. Solo **task/memoria editados**, otrasfuentes/infra/.gitignore/state/backup/planes conservados porhash; Git final enmemoria/sesión. **Sin Terraform/plan/apply/destroy/import/IAMmodificado/cambiosconfig/deployment/stage/commit/push. DETENER tras evidencia**, sin siguiente incremento automático.
+
+### 32.16. Checkpoint local post-Compute validado y pendientes exactos de GATE-I-C
+
+**2026-11-13 UTC — autorización posterior de revisión, documentación, stage de cinco archivos y UN commit local**, mensaje exacto **`feat(infra): validate compute baseline`**. Baseline comprobado **feature/infrastructure /3730ebe2cd0c7851bcd827b1f73e355a673db61a**, cinco modificados esperados y **0 staged** al comenzar. No amend/squash/push, nuevas llamadas AWS/IAM/SSM, Docker pull/run, ALB ni nueva provisión. La identificación del checkpoint es el commit que contiene esta sección; SHA y resultado post-commit se entregan en la sesión y evidencia privada, sin segundo commit para autorreferenciarlo.
+
+**Diff revisado de exactamente:** `.gitignore`, `infra/bootstrap/terraform-local-compute-policy.json`, `infra/compute.tf`, `specs/003-infrastructure/task.md`, `memoria.md`. HCL y condición ec2:InstanceType de candidata cambian únicamente **t3a.small→t3.small**; x86_64 y demás configuración conservados. `.gitignore` mantiene plan inicial y recovery/recovery2/recovery3/recovery4; state/backup/planes no se incorporan. La candidata es una **propuesta local, no copia completa de permisos remotos**: no contiene las correcciones informadas DescribeAddressesAttribute/ModifyInstanceAttribute ni la policy separada de verificación SSM. No se sincronizan, amplían ni aplican en este checkpoint. Correcciones humanas documentadas, operaciones realmente acreditadas y revisión IAM integral pendiente permanecen diferenciadas.
+
+**Historia preservada:** primer apply parcial por **ec2:DescribeAddressesAttribute** → conservación/untaint de EIP originales → recovery2/asociaciones y rechazo **t3a.small/Free Tier** → cambio autorizado **t3.small** → recovery3/dos IDs y fallo **ec2:ModifyInstanceAttribute** → corrección IAM mínima manual informada → verificación material AWS/state/HCL y untaint EC2 conservador → recovery4 **0add/0change/0destroy/0replacements/28no-op** → policy SSM manual informada, SSM **Online** y Docker funcional final. Sin borrar fallos, ocultar tres applies parciales o reusar planes consumidos.
+
+**Compute acreditado por evidencia previa fechada §§32.14–32.15, sin nueva consulta cloud:** **28 managed+3 data, serial39, 0 tainted**; A **i-0a66085b7b2411393/us-east-1a**, B **i-00de11a3f3c1a8aa5/us-east-1b**, running/t3.small/AMI **ami-096ef200a877f36af**, AL2023/IMDSv2required/10GiB gp3 cifrado. ENI **eni-01ecdecf22b187764/eni-049a982368fb2bca8**, EIP **18.210.153.223/44.195.4.217** originales; sin SSH/8080 públicos, 8080 solo desde SG ALB. Role **enver-dev-api-runtime**, boundary **ENVER-Runtime-Permissions-Boundary**. SSM A/B Online/agent **3.3.5828.0**, Docker **25.0.14/enabled/active**, CommandId **8abf5ba1-a1d6-4ac2-9592-a3200a3b9d81**, Success/0 ambos. **0 contenedores running y sin servicio Enver.API detectado**; API no desplegada por estos incrementos, no auditoría de procesos arbitrarios. Recovery4 SHA256 **bc682c534dfe5a13b267726f3d21744c6a5830654f925ded8c2a0488873d1662**; exit2 histórico por **+output compute_instances**, no cambios de recursos. No guardar outputs ni nuevo plan.
+
+**Validaciones locales de este checkpoint**, entre **05:46:44.674Z y05:47:08.512Z**, todas **exit0**:
+
+```text
+terraform fmt -check -recursive infra
+terraform -chdir=infra validate
+bash -n infra/bootstrap/compute-host.sh
+git diff --check
+```
+
+Solo avisos LF→CRLF, sin conversión masiva/init/instalación/bootstrap ejecutado. Stage limitado a los cinco archivos enumerados y condicionado a coherencia/diff-check; cached check/stat y post-commit se registran en evidencia privada/salida. No tocar state/backup/planes. El checkpoint no cierra tareas ni gates: **T005/T009/T010/T025 PARCIAL**, **GATE-I-C PENDIENTE /NO SATISFECHO**, 11parciales/19pendientes/9gatespendientes.
+
+#### Matriz de cierre de GATE-I-C — fuentes §3, catálogo y AC-I-03
+
+| Criterio real / relación | Estado | Evidencia existente | Evidencia faltante | Tarea asociada |
+| --- | --- | --- | --- | --- |
+| Dos EC2 reales en dos AZ — directo AC-I-03 | Acreditado técnicamente | Dos running/t3.small/AZ distintas, configuración y SSM/Docker §§32.14–15 | Incorporación/aceptación formal de E009 y E027–028, sin volver a negar existencia real | 009, 027–028 |
+| Mismo digest .NET 10 en ambos hosts — directo AC-I-03 | Pendiente | ECR/digest/pull informados §22; Docker funcional A/B | Deploy autorizado y atribución del mismo digest inmutable ejecutándose en A/B, CI/commit/digest trazables | 007–009, 027–028 |
+| Capacidad sin debilitar hashing — directo AC-I-03 | Parcial | 2vCPU/2GiB por host aprobados/justificados, dos hosts operativos | Capacidad real .NET/hasher demostrada según escenario/ventana aprobados; no sustituirla por docker --version | 009, 028 |
+| Recuperación y límites de mantenimiento — directo AC-I-03 | Parcial | Estrategia ENI/EIP persistentes; recuperación conservadora real y hosts funcionales | Runbook/escenarios/rollback/drenaje/reemplazo y límites aceptados; demostración formal autorizada sin prometer cero downtime | 010, 028 |
+| Registry y contrato de artefacto — E007/E008 requeridas | Parcial | Repository/lifecycle y configuración verificados; push/digest/pull informados; revisión imagen non-root/.NET | Aceptar E007/retención/dependencias; E008/ownership/contrato004/CI verde/manual/seguridad-reproducibilidad; scanning final (último IN_PROGRESS informado y ScanNotFound posterior sin hallazgos disponibles), rollback por digest | 007–008; dependencias 002/005/025; DP-I-14 |
+| Aceptación SG/administración — dependencia de E009 y GATE-I-B | Parcial | Ingress8080 solo SG ALB, no SSH público, SSM funcional | Aceptación T006/matriz acceso directo-denegación, egreso y TLS interno/decisiones pendientes, no exigir ALB desplegado para acreditar hosts | 003–006, 028; DP-I-03/05/09 |
+| Revisión IAM integral — prerrequisito GATE-I-B | Parcial | Role/profile/boundary verificados; SSM runtime funcional y verificaciones acotadas exitosas | Mínimo privilegio/separación integral/contratos de permisos y aceptación, sin equiparar policy humana informada con auditoría efectiva | 005; 019–020 según GATE-I-B |
+| Custodia/backup/state y baseline aceptada — prerrequisito GATE-I-A | Parcial | Validaciones locales exit0, state/backup ignorados y hashes, recovery4 recursos0/0/0 | Protección/custodia/backup-recuperación y versiones/ambiente/presupuesto/dependenciasE001/E002/E025 aceptados; remoto/versionado/locking antes de uso compartido según T002/026, no migración automática | 001–002, 025; 026 para uso compartido |
+| GATE-I-B networking/security completo — prerrequisito expreso | Pendiente | NETWORK14/SG/IAM y SSM acreditados parcialmente | Cierre E003–006, E019–020, E027–028: salidas Atlas, Redis sin acceso público, secretos/authority y pruebas/aceptaciones de ese gate; GATE-I-A previo | 003–006, 019–020, 027–028 |
+| Evidencia cloud y aceptación formal — E027/E028 y §3 | Pendiente | Applies incrementales/recovery/hosts trazados, no aceptación integral de 027/028 | Provisión/deploy manual trazables y matriz de pruebas aplicable a AC-I-03 con autorizaciones/prerrequisitos del catálogo (026/004/CI/state protegido); aceptación explícita del responsable de E007–010/E027–028 y gates A/B/C | 026–028; 007–010 |
+
+**Alcance exacto:** ALB/distribución/health de **GATE-I-D** y HTTPS/DNS/ACM de **GATE-I-E** no son nuevos criterios técnicos directos de Compute o AC-I-03. El catálogo T027 sí conserva sus dependencias de dominio/certificado/integración004; no se resuelven ni se inician aquí. Seguridad de Atlas/Redis/secretos/authority aparece en la matriz **por GATE-I-B**, no por inventar un nuevo criterio directo de I-C. La mera persistencia de +outputcompute_instances **no es un requisito de cierre de I-C** ni autoriza apply. API vacía hoy no satisface mismo digest ni capacidad; no se despliega para cerrar artificialmente el gate.
+
+**Costo y límites conservados:** nominal≈USD2.5931/48h, guardrailUSD10/proyectoUSD50agregados, sin descuentoFreeTier/Billing real, ventana original máximo **2026-11-15T01:57:56.9337244Z** sin reiniciar/stop/timer/cleanup. No cambios002/004/AUTH-027integral. Evidencia privada local `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-compute-checkpoint-20261113T054503\` (diffs/validaciones/hashes/Git); no sustituye custodia duradera aceptada. **Detener tras UN commit local y post-check; NO PUSH/plan/apply/AWS/IAM/ALB/deployment.**

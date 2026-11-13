@@ -71,7 +71,7 @@
           "aws:RequestTag/Environment": "dev",
           "aws:RequestTag/ManagedBy": "Terraform",
           "aws:RequestTag/Name": ["enver-dev-api-a", "enver-dev-api-b"],
-          "ec2:InstanceType": "t3a.small",
+          "ec2:InstanceType": "t3.small",
           "ec2:MetadataHttpTokens": "required"
         }
       }

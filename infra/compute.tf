@@ -62,7 +62,7 @@ resource "aws_eip_association" "api" {
 resource "aws_instance" "api" {
   for_each                             = local.public_subnets
   ami                                  = data.aws_ami.api.id
-  instance_type                        = "t3a.small"
+  instance_type                        = "t3.small"
   availability_zone                    = aws_subnet.public[each.key].availability_zone
   iam_instance_profile                 = aws_iam_instance_profile.api_runtime.name
   user_data                            = replace(file("${path.module}/bootstrap/compute-host.sh"), "\r\n", "\n")
