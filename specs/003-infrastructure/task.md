@@ -4,13 +4,13 @@
 
 | Campo | Valor |
 | --- | --- |
-| Versión / fecha | 0.41.0 / 2026-11-13 UTC |
-| Solicitud inicial / incremento actual | INFRA-5 CHECKPOINT POST-COMPUTE VALIDADO (§32.16): revisión de exactamente cinco archivos, fmt-check/validate/bash-n/diff-check exit0 y matriz de pendientes GATE-I-C. Autorizado un único commit local feat(infra): validate compute baseline; identificación y resultado post-commit en salida de sesión/evidencia privada. Sin push, AWS/IAM, plan/apply o cambios de state/backup/planes |
+| Versión / fecha | 0.46.0 / 2026-11-13 UTC |
+| Solicitud inicial / incremento actual | GATE-I-A ACEPTACIÓN EXPLÍCITA Y CHECKPOINT LOCAL (§37): responsable del proyecto acepta E001/E002/E025 y autoriza GATE-I-A SATISFECHO sobre evidencia acumulada. T001/T002/T025 COMPLETA / ACEPTADA. T026 NO EJECUTADA; I-B pendiente, con dependencia I-A satisfecha. Solo task/memoria, validaciones locales y UN commit de documentación autorizado; sin AWS/IAM/infra/plan/apply/amend/squash/push |
 | Fuentes | [spec.md](spec.md) y [plan.md](plan.md), propuesta aprobada como base documental |
 | Catálogo | 30 tareas, T-INFRA-001 a T-INFRA-030 |
-| Estado vigente de tareas | 001/002 parciales; 003/004/006/007 PARCIAL / aceptación pendiente; 005 PARCIAL / profile-boundary y SSM funcional acreditados, separación/mínimo privilegio integral pendientes; 009 PARCIAL / VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA (§32.15), dependencias/decisiones y aceptación integral pendientes, no bloqueada por falta de SSM/Docker; 008 conserva publicación/digest/pull según responsable y pendientes; 010 PARCIAL / recuperación conservadora y hosts operativos acreditados, prueba formal pendiente; 025 PARCIAL / recovery4 conservado, custodia/backup/dependencias/aceptación pendientes; otras19 PENDIENTE / NO EJECUTADA |
-| Estado de todos los gates | **PENDIENTE / NO SATISFECHO** |
-| Evidencia de ejecución de 003 | Historial §§18–32.14 intacto. §32.15 acredita EC2 running, SSM Online y Docker enabled/active A/B mediante CommandId8abf5ba1-a1d6-4ac2-9592-a3200a3b9d81. No contenedores ni servicio Enver.API observados; no auditoría de procesos arbitrarios. Sin nuevos AccessDenied/cambios infra/IAM/app. Recovery4 fechado conserva0/0/0/0replacements y +outputcompute_instances, no nuevo plan/aplicación ni gates cerrados |
+| Estado vigente de tareas | 001/002/025 **COMPLETA / ACEPTADA** por aceptación humana explícita (§37); 003/004/006/007 PARCIAL / aceptación pendiente; 005 PARCIAL / profile-boundary y SSM funcional acreditados, separación/mínimo privilegio integral pendientes; 009 PARCIAL / VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA (§32.15), dependencias/decisiones y aceptación integral pendientes; 008 conserva publicación/digest/pull según responsable y pendientes; 010 PARCIAL / recuperación conservadora acreditada, prueba formal pendiente; otras19 PENDIENTE / NO EJECUTADA, incluida026 |
+| Estado de todos los gates | I-A **SATISFECHO** por aceptación explícita (§37); B–I **PENDIENTE / NO SATISFECHO** |
+| Evidencia de ejecución de 003 | Historial §§18–32.14 intacto. §32.15 acredita EC2 running, SSM Online y Docker enabled/active A/B mediante CommandId8abf5ba1-a1d6-4ac2-9592-a3200a3b9d81. No contenedores ni servicio Enver.API observados; no auditoría de procesos arbitrarios. Sin nuevos AccessDenied/cambios infra/IAM/app. Recovery4 fechado conserva0/0/0/0replacements y +outputcompute_instances, sin nuevo plan/aplicación; aceptación documental de I-A en §37 |
 | Baseline documental original | `feature/authentication`, `c58ea86e3eddff4befa8f61398dd58d55c4ef985` |
 | Baseline del BUILD actual | `feature/infrastructure`, creada desde `3b4760ea8387b1cabff56e5f5e0ba5ffe8acb932`, árbol inicialmente limpio |
 | Checkpoint previo a INFRA-2/3 | `feature/infrastructure`, `611071f0ecb0d6cb67993f4e9bffd00d328a2f90`, árbol limpio al iniciar §9 |
@@ -114,12 +114,14 @@ Antes de cada ejecución futura: confirmar DP bloqueantes, autorización de alca
 
 ## 3. Gates formales
 
-Todos los gates de esta tabla están **PENDIENTE / NO SATISFECHO**. Los prerrequisitos se exigen para su **cierre**, no autorizan las tareas. Los criterios AC se detallan en spec §18. Un gate solo puede cerrarse con evidencia y aceptación explícita del responsable.
+**GATE-I-A está SATISFECHO por aceptación humana explícita del responsable (§37); GATE-I-B a GATE-I-I permanecen PENDIENTE / NO SATISFECHO.** Los prerrequisitos se exigen para su **cierre**, no autorizan las tareas. Los criterios AC se detallan en spec §18. Un gate solo puede cerrarse con evidencia y aceptación explícita del responsable.
+
+**Estado actualizado de I-A (§37): SATISFECHO. E001/E002/E025 ACEPTADAS.** La aceptación posterior del responsable completa el acto pendiente en §36, cuyo historial se conserva. No se altera el criterio de la tabla, no se acepta B/C ni se autoriza provisión o apply.
 
 | Gate | Objeto / criterio de cierre | Tareas y evidencias necesarias | Prerrequisitos de cierre | AC |
 | --- | --- | --- | --- | --- |
-| GATE-I-A | Baseline Terraform validada: presupuesto, versiones, ambiente y state aprobados; validación inicial real | E(001), E(002), E(025) | Autorización técnica de baseline; sin apply implícito | AC-I-01 |
-| GATE-I-B | Networking/security verificados: VPC/rutas/SG/SSM/IAM, salidas Atlas y no acceso directo público al backend/Redis | E(003–006), E(019–020), E(027–028) | GATE-I-A | AC-I-02, 09 |
+| GATE-I-A — SATISFECHO (§37) | Baseline Terraform validada: presupuesto, versiones, ambiente y state aprobados; validación inicial real | E(001), E(002), E(025) | Autorización técnica de baseline; sin apply implícito | AC-I-01 |
+| GATE-I-B | Networking/security verificados: VPC/rutas/SG/SSM/IAM, salidas Atlas y no acceso directo público al backend/Redis | E(003–006), E(019–020), E(027–028) | GATE-I-A — SATISFECHO (§37) | AC-I-02, 09 |
 | GATE-I-C | Mínimo dos EC2 reales, dos AZ, mismo digest y capacidad/recuperación verificadas | E(007–010), E(027–028) | GATE-I-A, GATE-I-B | AC-I-03 |
 | GATE-I-D | ALB distribuye entre ambas, health/readiness, drenaje y unhealthy/todos-unhealthy seguros | E(011–012), E(023–024), E(027–028) | GATE-I-B, GATE-I-C | AC-I-04, 11 |
 | GATE-I-E | HTTPS público válido, DNS/ACM/listeners y transporte/proxy resueltos sin spoofing | E(013–014), E(023–024), E(027–028) | GATE-I-B, GATE-I-C, GATE-I-D | AC-I-05 |
@@ -134,7 +136,7 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-001 — Cuenta, región, alcance y presupuesto
 
-- **Estado:** PARCIAL / BLOQUEADA POR DECISIONES.
+- **Estado:** COMPLETA / ACEPTADA por el responsable del proyecto (§37).
 - **Fase:** INFRA-1 Baseline.
 - **Objetivo:** fijar límites del ambiente cloud académico y responsables antes de cargos.
 - **Dependencias:** autorización posterior del responsable; DP-I-01 y DP-I-13.
@@ -146,12 +148,17 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Resultado actual:** identidad/perfil/región, crédito informado USD 100, presupuesto USD 50/reserva objetivo USD 50 acreditados (§§7–8); §9 confirma proyecto enver/ambiente dev/us-east-1 y estimaciones parciales de red/IP; §10 acredita seis AZ reales disponibles. Faltan estimación integral por duración/uso, cobertura/vigencia del crédito, responsables/ownership/custodia, calendario y aceptación de decisiones restantes aplicables. No se satisface la aceptación completa ni se vuelve a marcar pendiente el monto aprobado.
 - **Riesgo INFRA-5:** §23 estima compute candidato USD36.348/730h y subtotal futuro con ALB/IPv4 USD60.073/730h, aún sin Redis/demás dependencias. No convierte USD50 agregado en mensual ni autoriza730h; sin duración/estimación integral aprobadas, se detiene antes de HCL/plan. Monto aprobado conservado, aceptación integral pendiente.
 - **Ventana aprobada posteriormente:** §24 máximo48h y guardrail USD10 de ventana, no presupuesto mensual ni autorización de apply; compute≈USD2.3915, con ALB/1LCU promedio≈4.3355, bolsa provisional otros2+contingencia1→7.3355. Hay margen nominal de preparación, no cotización integral/Billing/reserva garantizada; aceptación001 permanece pendiente.
+- **Consolidación §33:** cuenta AWS ENVER, us-east-1/dev/enver, owner operativo Terraform **operador autorizado del proyecto**, USD50 agregados/guardrailUSD10 y ventana original máxima2026-11-15T01:57:56.9337244Z confirmados sin reinicio. Nominal compute vigente≈USD2.5931/48h, sin descuentoFreeTier; lista de exclusiones y costo integral/aceptación restantes explícitos. E001 consolidada **PARCIAL**, no negar presupuesto/owner ya confirmados ni afirmar cotización integral.
+- **Delimitación §34:** estimación separa recursos vigentes (compute/EBS/IPv4, ECR y transferencia aplicable) de servicios futuros no implementados ni cargados por inferencia. Costos variables y aceptación siguen pendientes; no se exige presupuestar como consumo actual ALB/Redis/Atlas/servicios futuros para cerrar la baseline local ni se inventan tarifas/volúmenes.
+- **Reevaluación §35:** owner/presupuesto/guardrail/ventana original confirmados de nuevo por el responsable. El cierre de cifrado no aporta cotas/estimación aceptada de almacenamiento ECR y transferencia del alcance vigente: E001 sigue **PARCIAL**, no íntegramente acreditada ni bloqueada por desplegar servicios futuros. No sumar etapas futuras como consumo actual.
+- **Consolidación posterior §36:** modelo documental comunicado expresamente por el responsable completa ECR storage≈USD0.0007/48h y transferencia ECR→EC2 same-region≈USD0 esperado; total nominal≈USD2.594/48h. Internet VARIABLE/NO ACREDITADO dentro de guardrailUSD10, sin depender de100GBmensuales sin cargo; servicios futuros requieren estimación por etapa. Owner operativo/presupuesto, duración y alcance definidos. Resuelve preparación técnica E001, no aceptación formal ni Billing real.
+- **Aceptación explícita §37:** **E001 ACEPTADA / T001 COMPLETA / ACEPTADA** sobre modelo, alcance, presupuesto, owners y duración documentados, incluidos límites y riesgo variable; no Billing real ni autorización de nuevas etapas por margen nominal. Supera el estado de aceptación pendiente de registros anteriores sin borrar su historial.
 - **Riesgo:** cargos o exposición de datos de cuenta; una alarma no limita gasto.
 - **Gate asociado:** GATE-I-A; soporte de GATE-I-H/GATE-I-I.
 
 ### T-INFRA-002 — Baseline Terraform, versiones y state
 
-- **Estado:** PARCIAL / BASELINE TÉCNICA VALIDADA, ACEPTACIÓN PENDIENTE.
+- **Estado:** COMPLETA / ACEPTADA por el responsable del proyecto (§37), en baseline/custodia local; dependencia001 aceptada.
 - **Fase:** INFRA-1 Baseline.
 - **Objetivo:** definir base IaC reproducible y custodia del state.
 - **Dependencias:** T-INFRA-001; resolver DP-I-02, DP-I-12/13 aplicables.
@@ -163,6 +170,11 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Resultado actual:** baseline Terraform 1.17.1/provider 6.73.0 conservada; §14 creó state serial15/14managed sin .backup entonces. §18 actualiza state local a serial18/16managed tras apply ECR y observa .backup serial15/14managed; ambos ignorados, no custodia/cifrado/recuperación aprobados por su mera existencia. T-INFRA-001 continúa sin aceptación; DP-I-12/13 y evidencia integral de protección/backup/recovery pendientes. No COMPLETADA.
 - **Apply parcial §31:** state ahora serial27/24managed,2EIPtainted; backup local serial18/16managed. No restaurar backup anterior al incremento ni usar plan parcialmente consumido; custodia/backup protegido/recovery siguen sin aceptar.
 - **Untaint autorizado §32.6:** state serial29/24managed/0tainted; backup nativo serial28/24managed, donde B aún estaba tainted. Son cambios nativos de Terraform, no edición manual; no restaurar un backup que revierta correcciones ni asumir custodia/recuperación integral aceptadas.
+- **Custodia local §33:** Terraform1.17.1/AWS6.73.0 y lock/ejemplo versionados verificados; state39/28managed+3data/0tainted y backup38/Btainted conservados. Copia actual serial39 independiente, soloACLoperador/SYSTEM, hash y state-list de copia recuperada válidos. **Sin cifrado acreditado y con ACL amplias del state operativo**, no manejo integral aprobado: PARCIAL. Remoto diferido solo mientras uso local exclusivo; obligatorio antes de compartir/GitHub.
+- **Hardening §34:** corrige únicamente DACL de ambos archivos operativos autorizados: dos Allow explícitos OPERADOR/SYSTEM FullControl, sin herencia/grupos amplios, propietarios y hashes originales intactos. Resuelve ese hallazgo de§33; sigue **PARCIAL** por cifrado y recuperación de backup cifrado no ejecutados ante ausencia de canal interactivo seguro. Retención/owner definidos; no borrar copia plaintext antes de validación del .enc.
+- **Recuperación cifrada §35:** .enc39/hash esperado existente, ACL explícita OPERADOR+SYSTEM/sin herencia. Operador confirma descifrado/state-list31/28managed+3data; agente comprueba hash/JSON/serial/conteos/lineage del restaurado y elimina únicamente los dos plaintext autorizados. Custodia conserva solo .enc; state39/nativo38 intactos. Bloqueadores de cifrado/recuperación **resueltos**, E002 técnicamente acreditada localmente, sin aceptación integral/dependencia001 por inferencia.
+- **Preparación de aceptación §36:** E001 ya preparada técnicamente con el modelo del responsable; E002 mantiene acreditación técnica y aceptación explícita pendiente. No reabrir cifrado/recuperación/ACL resueltos ni repetir operaciones de custodia. Backend remoto sigue diferido hasta antes de compartir/GitHub/runner, sin migración.
+- **Aceptación explícita §37:** **E002 ACEPTADA / T002 COMPLETA / ACEPTADA** sobre baseline y custodia local acreditadas. Se acepta dependencia001, sin eliminar obligación de backend remoto protegido/versionado/con locking antes de colaboración/GitHub/runner; state nunca Git ni publicación de contenido. No nueva prueba de cifrado/restore ni migración.
 - **Riesgo:** pérdida o filtración state, lock incompatible y confusión con la authority DynamoDB.
 - **Gate asociado:** GATE-I-A, GATE-I-H.
 
@@ -554,7 +566,7 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-025 — Validación inicial de baseline Terraform
 
-- **Estado:** PARCIAL / RECOVERY4 INSPECCIONADO, RECURSOS0/0/0; OUTPUT Y ACEPTACIÓN INTEGRAL PENDIENTES (§32.14).
+- **Estado:** COMPLETA / ACEPTADA por el responsable del proyecto (§37), en validación inicial local; dependencias001/002 aceptadas. RECOVERY4/OUTPUT HISTÓRICOS CONSERVADOS, SIN APPLY.
 - **Fase:** INFRA-13 Terraform, intervención temprana transversal.
 - **Objetivo:** acreditar baseline antes de extender IaC.
 - **Dependencias:** T-INFRA-001, T-INFRA-002; autorización explícita de comandos/entorno, DP-I-12.
@@ -592,6 +604,11 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Lecturas §32.13:** state list exit0/28managed+3data/serial37/ambas EC2 tainted y validaciones exit0. Ignoreexit1 impide recovery4; state/backup/planes preservados, sin post-plan o custodia/recuperación integral aceptadas. PARCIAL.
 - **Reconciliación §32.14:** state28/serial39/0tainted, fmt-check/validate/bash-n exit0; final recovery4 exit2 por output compute_instances,28recursosno-op. Dos intentos de plan trazados (primero string null inválido), sin persistir refresh/output mediante apply. Custodia/backup protegido/dependencias/E025 integral pendientes, PARCIAL.
 - **Validación final §32.15:** sin comandos Terraform ni nuevo plan, state28+3/serial39/0tainted y hash recovery4 comprobados por lectura local. SSM/Docker no sustituyen custodia/backup protegido/dependencias/aceptación E025. Output pendiente de §32.14 no se guarda; PARCIAL.
+- **Validaciones §33:** version/state-list/fmt-check/validate/bash-n/diff-check exit0, inventario y recuperación aislada de copia ACL-restringida acreditados sin refresh/plan/AWS. E025 técnica de validaciones acreditada; protección del state/cifrado-backup/retención/aceptación E001-E002-E025 pendientes, **PARCIAL**, sin ejecutar026.
+- **Validaciones §34:** fmt-check/validate/bash-n/diff-check exit0, hashes anteriores/postACL iguales, state/nativo ignorados y no tracked. Técnicamente acreditadas las validaciones, **no** el cifrado/descifrado; aceptación integral/dependencias pendientes, **PARCIAL**, T026 no ejecutada.
+- **Validaciones §35:** fmt-check/validate/bash-n/diff-check exit0 actuales, versiones1.17.1/6.73.0 verificadas, state/nativo y .enc protegidos; recuperación cifrada confirmada por operador y limpieza/hash comprobados. E025 **TÉCNICAMENTE ACREDITADA / ACEPTACIÓN EXPLÍCITA PENDIENTE** en validación inicial local; sin afirmar satisfechas E001/dependencias ni cloud/T026.
+- **Validaciones §36:** fmt-check/validate/bash-n/diff-check exit0 actuales; E001 completada técnicamente con modelo documental y custodia E002 ya acreditada. E025 **TÉCNICAMENTE ACREDITADA / ACEPTACIÓN EXPLÍCITA PENDIENTE**, sin aceptación formal de dependencias, nuevo plan/apply o ejecuciónT026.
+- **Aceptación explícita §37:** **E025 ACEPTADA / T025 COMPLETA / ACEPTADA** para validación inicial local y state/backup protegidos, con dependencias001/002 aceptadas. No revisión final de toda IaC, ejecuciónT026 ni cierre B/C o pruebas runtime; recovery4 histórico recursos0/0/0/0replacements y output pendiente conservados, sin apply para persistirlo.
 - **Riesgo:** inicialización con backend equivocado, descarga no aprobada o secretos en salida.
 - **Gate asociado:** GATE-I-A.
 
@@ -2958,3 +2975,406 @@ Solo avisos LF→CRLF, sin conversión masiva/init/instalación/bootstrap ejecut
 **Alcance exacto:** ALB/distribución/health de **GATE-I-D** y HTTPS/DNS/ACM de **GATE-I-E** no son nuevos criterios técnicos directos de Compute o AC-I-03. El catálogo T027 sí conserva sus dependencias de dominio/certificado/integración004; no se resuelven ni se inician aquí. Seguridad de Atlas/Redis/secretos/authority aparece en la matriz **por GATE-I-B**, no por inventar un nuevo criterio directo de I-C. La mera persistencia de +outputcompute_instances **no es un requisito de cierre de I-C** ni autoriza apply. API vacía hoy no satisface mismo digest ni capacidad; no se despliega para cerrar artificialmente el gate.
 
 **Costo y límites conservados:** nominal≈USD2.5931/48h, guardrailUSD10/proyectoUSD50agregados, sin descuentoFreeTier/Billing real, ventana original máximo **2026-11-15T01:57:56.9337244Z** sin reiniciar/stop/timer/cleanup. No cambios002/004/AUTH-027integral. Evidencia privada local `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-compute-checkpoint-20261113T054503\` (diffs/validaciones/hashes/Git); no sustituye custodia duradera aceptada. **Detener tras UN commit local y post-check; NO PUSH/plan/apply/AWS/IAM/ALB/deployment.**
+
+## 33. GATE-I-A — Baseline local, copia restringida y recuperabilidad sin restore operativo
+
+### 33.1. Autorización, baseline e inventario sin secretos
+
+**2026-11-13 UTC — LOCAL SECURITY / ACCEPTANCE** autoriza inventario/Git/hash, state-list local, detección de protección/cifrado sin instalar, copia independiente y prueba aislada, validaciones y edición exclusiva task/memoria. **No autoriza** AWS/IAM, apply/destroy/import/refresh/taint/untaint/statepush, backend remoto/lockingS3-DynamoDB, T026, stage/commit/push o restore real. Baseline real **feature/infrastructure /0d9fdac009c527a8e3bb98a6b0094ae29607871e**, mensaje feat(infra): validate compute baseline, **árbol limpio/0staged** al comenzar. Pre-hashes incluyen fuentesinfra/.terraform/state/backup/planes/.gitignore/spec/plan para comprobar conservación.
+
+Se ejecutan **git status --ignored --short**, **git ls-files** y **git check-ignore**. Inventario por ruta, existencia, tracked, ignored y clasificación, sin leer/imprimir credenciales ni contenido de state. Todos los siguientes existen, **NO tracked /SÍ ignored**:
+
+| Ruta relativa | Clasificación |
+| --- | --- |
+| infra/.terraform/terraform.tfstate | Metadata sensible del backend local |
+| infra/terraform.tfstate | State operativo sensible |
+| infra/terraform.tfstate.backup | Backup nativo sensible, NO respaldo actual aceptado |
+| infra/enver-network.tfplan | Plan guardado sensible |
+| infra/enver-ecr.tfplan | Plan guardado sensible |
+| infra/enver-ecr-post.tfplan | Plan guardado sensible |
+| infra/infra4-ecr.tfplan | Plan guardado sensible |
+| infra/infra4-ecr-replan-20261112-195037.tfplan | Plan guardado sensible |
+| infra/tfplan-infra5 | Plan inicial parcialmente consumido, NO reutilizar |
+| infra/tfplan-infra5-recovery | Plan histórico de recuperación, NO reutilizar |
+| infra/tfplan-infra5-recovery2 | Plan parcialmente consumido, NO reutilizar |
+| infra/tfplan-infra5-recovery3 | Plan parcialmente consumido, NO reutilizar |
+| infra/tfplan-infra5-recovery4 | Plan histórico output-only, NO aplicar |
+
+**No tfvars operativos/.auto.tfvars detectados.** No archivos nombrados como credenciales/keys/tokens/secretos/PEM/PFX/env detectados eninfra; inventario por nombres no prueba ausencia universal de secretos incrustados. **terraform.tfvars.example y .terraform.lock.hcl SÍ tracked**, apropiadamente versionables; ejemplo no operativo/no secreto y guardfalse, no tfvars real. Ignorar archivos **no cifra ni restringe acceso**.
+
+### 33.2. State real, hashes y detección de protección
+
+Backend **local**, ruta **infra/terraform.tfstate**; sin refresh. **terraform -chdir=infra state list exit0** devuelve **28managed+3data**, serial obtenido de JSON local **39**, **0tainted**. Se registran exclusivamente metadatos/hashes, no valores de recursos ni lineage publicado.
+
+| Archivo | Serial / contenido de inventario | SHA256 |
+| --- | --- | --- |
+| State operativo | **39 /28managed+3data/0tainted** | **d214e2b172312123f64be213376130cad4e8be25fce36107ebbe258ffd045fff** |
+| Backup nativo | **38 /28managed+3data/Btainted** | **23a74f1556b10ade14f509820a2a225d124201b03d52380fd39b5dc458314ea7** |
+
+**ACL de state operativo y backup nativo:** herencia activa, entradas Allow de grupos amplios con lectura detectadas; **NO acceso exclusivo operador/SYSTEM**. No se publican usuarios/SIDs/ACL completas. ACL/contenidos originales no se alteran: los permisos restringidos pedidos para la nueva copia **no corrigen por inferencia los originales**. Requiere acción de custodia delimitada y autorizada antes de afirmar state protegido; no modificar ACL de todo el repositorio silenciosamente.
+
+**Detección de cifrado en orden autorizado:**
+
+1. **A — almacenamiento ya cifrado:** state y destino padre sin atributoEFS; Get-BitLockerVolume disponible, pero consultaC: falla **CimException**, sin certificar VolumeStatus/ProtectionStatus/método. **Cifrado del volumen NO acreditado**, no afirmación de que esté definitivamente sin cifrar. No habilitar/deshabilitarBitLocker/EFS ni administrar claves.
+2. **B — 7-Zip:** no disponible enPATH ni ubicación estándar ProgramFiles revisada; no instalación ni búsqueda exhaustiva de todas las carpetas.
+3. **C — OpenSSL:** binarioGit disponible; **openssl version exit0, OpenSSL3.5.7**. Sin contraseña/canal seguro provisionados; **no ejecutar cifrado**, no inventar clave ni guardarla en script/comando/log/documentación.
+
+**Bloqueo exacto: “Cifrado requiere intervención segura del operador”.** Solo se detiene esa parte; no ZIP sin cifrado, DPAPI alternativo o contraseña por chat. El fallo de autoload de Get-Acl se resolvió por lectura con APIs.NET de ACL, sin instalar módulos o cambiar configuración.
+
+### 33.3. Copia independiente actual con ACL restringida — NO backup cifrado aceptado
+
+Se crea directorio nuevo **fuera del repositorio**, con DACL protegida desde su creación, propietario operador y únicos Allow **operador actual + SYSTEM**; sin gruposUsers/Everyone/AuthenticatedUsers/Administrators autorizados en esa DACL. No reparsepoint. Se copia **el state39 actual**, nunca backup38, con creación exclusiva y herencia del directorio protegido. Lectura posterior verifica ACL de directorio/archivo; DACL del archivo heredada solo de ese padre, sin otros Allow.
+
+**Ruta conservada**, expresada con variable de perfil para no publicar nombre personal:
+
+```text
+%LOCALAPPDATA%\ENVER-State-Custody-20261113T060015-84d56283c2b446bca6c41772ceb4c9b6\terraform-state-serial39.restricted.tfstate
+```
+
+Creación **2026-11-13T06:02:10.458Z**, hash **d214e2b172312123f64be213376130cad4e8be25fce36107ebbe258ffd045fff**, idéntico al state39 original. No tracked/no susceptible de gitadd desde este repositorio; **ignored no aplica a ruta externa**, no afirmar protección por gitignore. No permisos públicos por DACL; no garantía contra SYSTEM/operador/administrador que tome posesión o acceso offline al disco. **Copia ACL-restringida SÍ creada; backup definitivo cifrado/protegido integralmente NO acreditado.** ACL sola no satisface cifrado; ruta no temporal del perfil no acredita automáticamente retención, backup off-device o política de custodia aceptada. No se introduce requisito off-device obligatorio distinto del destino/backup protegido aprobado del contrato vigente.
+
+### 33.4. Prueba de recuperabilidad aislada y limpieza selectiva
+
+Ayuda nativa de Terraform1.17.1 confirma **state list -state=statefile**. Una aserción inicial del agente esperaba el texto literal -state=path y se detuvo; diagnóstico de la misma salida demuestra bandera soportada, sin falloTerraform ni copia/restore previo. Incidente conservado en evidencia privada.
+
+Desde la copia restringida39 se recupera **otro archivo temporal** en subdirectorio recovery-test de la misma custodia ACL, fuera deinfra; se verifica ACL operador/SYSTEM. Prueba concluida **2026-11-13T06:03:50.575Z**:
+
+- Archivo legible, **JSON válido, serial39**, lineage coincide con original comparado en memoria/sin publicarlo.
+- **SHA256 idéntico** al original39 y copia conservada.
+- **terraform -chdir=infra state list -state=<ruta absoluta temporal> exit0**: mismas31direcciones y **28managed+3data** que state-list operativo.
+- No overwrite del state real; no refresh/AWS/plan/statepush/import/apply. Comparación hash original igual antes/después.
+- **Se eliminan únicamente archivo recuperado y su subdirectorio temporal exactos** creados por la prueba, mediante limpiezafinally; ausencia verificada. No eliminación recursiva amplia, ni state/backup nativos/copia conservada.
+
+**Resultado:** recuperabilidad de **copia ACL-restringida no cifrada** acreditada. **NO prueba descifrado de un backup cifrado** ni restauración operativa/reconciliación cloud. Se conservan state39, backup38, diez planes y copia39restringida. Los logs externos no contienen contenido de state, claves o contraseñas.
+
+### 33.5. Runbook de recuperación — procedimiento, NO ejecutado contra state real
+
+1. Detener y excluir operaciones Terraform concurrentes; confirmar operador, cuenta/ambiente, backend y autorización de la intervención. No suponer exclusión distribuida por lock local.
+2. Identificar state operativo y su serial/lineage/versión; registrar hash sin publicar valores. No asumir que39 será siempre el actual.
+3. Localizar copia/backup protegido aprobado, verificar acceso/cifrado/retención y hash/manifiesto. La copia actual soloACL **no sustituye** el pendiente de cifrado.
+4. Recuperar/descifrar a área temporal restringida fuera deinfra por mecanismo seguro del operador, nunca con contraseña en args/logs; **no reemplazar state real**.
+5. Verificar JSON/ambiente/lineage/serial/hash del contenido restaurable y **terraform state list -state=<copia>**. Comparar inventario y antigüedad; rechazar backup38 como si fuera state39 válido equivalente.
+6. Si falla una comprobación, **abortar**, aislar candidato y conservar operativo intacto; retirar solo temporales de la prueba, no forzar restore/import/statepush.
+7. Exigir **autorización humana explícita antes de cualquier reemplazo real**, con reversión, copia íntegra previa y reconciliación prevista. No restore automático por arranque o error.
+8. Después de un restore real autorizado, exigir **terraform plan nuevo con refresh bajo permiso posterior**, revisión de drift/replacements/output-only y coherencia con AWS antes de aceptar o mutar; **no ejecutar ese plan aquí** y no reutilizar recovery4/planes consumidos.
+9. Si la validación post-restore falla, detener mutaciones y preservar ambas evidencias. Reversión al state previo solo con autorización humana y comprobación de coherencia con recursos reales; no sobrescribir automáticamente con otro state antiguo ni cambiar estado de seguridadRedis/authority.
+10. Limpiar solo temporales autorizados; conservar respaldo protegido, hashes, decisiones y revisión, sin subir state/planes aGitHub.
+
+### 33.6. Consolidación E001/E002/E025 y reevaluación estricta
+
+**E001 consolidada /PARCIAL:** cuenta **AWS ENVER**, región **us-east-1**, ambiente **dev**, proyecto **enver**, owner operativo Terraform **operador autorizado del proyecto** (confirmado por esta solicitud, sin datos personales adicionales). Presupuesto **USD50 agregados**, guardrail operativo **USD10** de evaluación, duración máxima original48h/hito **2026-11-15T01:57:56.9337244Z**, **sin reiniciar ventana**. Compute nominal≈**USD2.5931/48h** = EC2t3.small2.0064+EBS≈0.1067+IPv4≈0.48, **sin descuentoFreeTier** ni consultaBilling/créditos reales. Excluye ECR/transferencia/logs/secretos/servicios futuros/impuestos; VPC/IGW/SG sin cargo directo no hacen gratis toda la plataforma. ALB/Atlas/Redis/authority/backendremoto no autorizados por este cierre. Falta aceptación de estimación integral/cargos aplicables por duración y decisionesE001 restantes; no tratar owner o presupuesto ya confirmados como desconocidos. El crédito no se usa para reducir estimación; cobertura no verificada no equivale a descuento.
+
+**E002 consolidada /PARCIAL:** **terraform -chdir=infra version -json exit0**, Terraform **1.17.1**, AWS **6.73.0**; .terraform.lock.hcl versionado/conchecksums, restricciones sin cambiar. Ejemplo tfvars versionado/no operativo, ningún tfvars operativo detectado. Naming **enver-dev**, tags **Project=enver/Environment=dev/ManagedBy=Terraform** porlocals/provider; cuenta guardada por allowed_account_ids e inputs, precondiciones compute exigenbaselinecuenta/regiónus-east-1/ZoneIDs aprobados. No nueva autenticaciónSTS ni prueba universal de que cualquier recurso futuro herede guards equivalentes. State local y operador único definidos; **protección del operativo/cifrado-backup/retención y aceptación integral pendientes**, no basta copiar fuera deGit.
+
+**E025 — TÉCNICAMENTE ACREDITADO en validaciones; aceptación integral PENDIENTE:** fmt-check **06:03:50.580Z–06:03:50.766Z/exit0**, validate **06:03:50.767Z–06:04:00.952Z/exit0**, bash-n **06:04:00.953Z–06:04:11.269Z/exit0**, diff-check previo documentación **06:04:11.270Z–06:04:11.417Z/exit0**. Version/state-list/copialist tambiénexit0; sin init/install/upgrade/plan/refresh/apply. Verificación de outputs/guards es lectura, no acceso cloud ni aceptación de todaIaCfutura. Diff-check posterior ystatus se registran al cierre.
+
+| Tarea / gate | Estado vigente | Pendiente exacto |
+| --- | --- | --- |
+| T-INFRA-001 | **PARCIAL /E001 CONSOLIDADA** | Estimación integral/cargos/decisiones aplicables y aceptación explícita restantes; owner/ventana/presupuesto confirmados |
+| T-INFRA-002 | **PARCIAL /BASELINE Y COPIA RESTRINGIDA RECUPERABLE ACREDITADAS** | Custodia del state operativo sin ACL amplias, cifrado-backup/retención/recuperación cifrada y aceptación E001/E002 |
+| T-INFRA-025 | **PARCIAL /VALIDACIONES TÉCNICAMENTE ACREDITADAS** | Protección/backup integral y dependenciasE001-E002/aceptaciónE025 |
+| T-INFRA-026 | **PENDIENTE /NO EJECUTADA** | T001–025 y decisiones posteriores aceptadas; este incremento no ejecuta026 |
+| GATE-I-A | **PENDIENTE /NO SATISFECHO** | Persisten bloqueadores técnicos reales anteriores; además aceptación explícita E001/E002/E025. **NO meramente firma pendiente** |
+
+**Remoto NO requerido ahora mientras uso local exclusivo**, no porque custodia local esté ya satisfecha. **Remoto protegido/cifrado/versionado/locking obligatorio antes de colaboración/GitHub/runner**, bootstrap/migración/prueba autorizados aparte; sinS3/DynamoDBlock creados. AuthorityDynamoDB deAuthentication no es lockTerraform. No seguir automáticamente aB/C/ALB/API. Onceparciales/19pendientes/9gatespendientes;002/004/AUTH-027integral intactos.
+
+Evidencia externa ` %LOCALAPPDATA%\Temp\opencode\gate-ia-local-20261113T060015\ ` (inventario/Git/hash/ACL-detección/copia-resumen/recuperación-sinstate/validaciones/diagnósticos). No contiene copia de state y no acredita retención duradera por ser temporal. Copia restringida conservada **solo** en la ruta custodia de§33.3. Solo task/memoria editados enrepositorio; fuentesinfra/state/backup/planes/.gitignore/spec/plan preservados porhash. **Sin AWS/IAM/plan/apply/destroy/import/refresh/taint/untaint/statepush/migración/stage/commit/push. DETENER para revisión**, sin cifrado automático ni cambioACLoperativo implícito.
+
+## 34. GATE-I-A — ACL finales del state; cifrado detenido por canal de passphrase no seguro
+
+### 34.1. Autorización y precheck
+
+**2026-11-13 UTC — LOCAL SECURITY / CUSTODY** autoriza exclusivamente ACL de **infra/terraform.tfstate** y **infra/terraform.tfstate.backup**, cifrado OpenSSL de la copia39 y prueba aislada si existe entrada segura, y task/memoria. Baseline comprobada **feature/infrastructure /0d9fdac009c527a8e3bb98a6b0094ae29607871e**, cambios iniciales esperados solo memoria/task de§33, **0staged**; no sobrescribir trabajo previo. No AWS, IAM, contenido state, owner innecesariamente, directorios padres, backend remoto, plan/apply ni stage/commit/push. T026 no se ejecuta.
+
+**Hashes previos obligatorios y posteriores idénticos:**
+
+| Archivo | Serial | SHA256 antes = después |
+| --- | --- | --- |
+| infra/terraform.tfstate | **39**,28managed+3data/0tainted | **d214e2b172312123f64be213376130cad4e8be25fce36107ebbe258ffd045fff** |
+| infra/terraform.tfstate.backup | **38**,Btainted | **23a74f1556b10ade14f509820a2a225d124201b03d52380fd39b5dc458314ea7** |
+
+Copia39 previa en custodia cotejada con hashstate39; destino.enc inexistente al comenzar. No contenido de state publicado. **whoami exit0** resuelve identidad Windows actual; SID de proceso obtenido dinámicamente para ACL, sin hardcodear cuenta. Nombre personal/máquina no se reproduce en documentación; **OPERADOR** designa esa identidad.
+
+### 34.2. ACL antes/después — cambio de metadatos, no contenido
+
+Antes, ambos archivos tenían herencia activa y las siguientes ACE Allow heredadas:
+
+| Principal | Derechos |
+| --- | --- |
+| BUILTIN\Administrators | FullControl |
+| SYSTEM | FullControl |
+| BUILTIN\Users | ReadAndExecute, Synchronize |
+| Authenticated Users | Modify, Synchronize |
+
+No ACE Everyone encontrada; no se inventa su eliminación. Con APIs.NET de seguridad Windows se sustituye **solo DACL de esos dos archivos**, se deshabilita herencia sin conservar ACE heredadas y se dejan exactamente:
+
+| Principal | Derechos | Tipo / herencia |
+| --- | --- | --- |
+| OPERADOR resuelto en ejecución | FullControl | Allow explícita /no heredada |
+| SYSTEM | FullControl | Allow explícita /no heredada |
+
+Verificación **2026-11-13T06:14:08.917Z**: **2ACE por archivo**, DACL protegida, ningún otro Allow ni ACE heredada; Users/AuthenticatedUsers/Administrators retirados de DACL, owners **sin cambio** y hashes exactos conservados. Sin owner/SID personal publicado, sin ampliar permisos a nadie más. State/nativo continúan **NO tracked /SÍ ignored** (reglas*.tfstate/*.tfstate.*); no gitadd. **Se modificaron ACL, NO bytes/serial/contenido**. Esto corrige el hallazgo de ACL de§33, no lo borra del historial.
+
+**Límite de alcance:** no se endurece directorio padre infra ni se certifica aislamiento frente a administrador que tome posesión/operador/SYSTEM/acceso offline. Verificar ACL nuevamente después de futuras escrituras/reemplazos Terraform: un archivo nuevo podría heredar permisos del padre. No cambiar directorios/ACL adicionales automáticamente ni confundir esta verificación puntual con cifrado en reposo.
+
+### 34.3. OpenSSL y bloqueo seguro — NO archivo cifrado creado
+
+**openssl version exit0: OpenSSL3.5.7**, binario existenteGit. Mecanismo autorizado para la operación pendiente: **AES-256-CBC, salt aleatorio, PBKDF2 con200000iteraciones y digestSHA256**. No se ejecuta enc/decrypt porque las herramientas del agente no ofrecen un canal interactivo privado que garantice no registrar la passphrase. **No se pide/captura/genera contraseña**, no -pass pass:, variable de contraseña, archivo, script de secreto ni otro cifrado alternativo.
+
+**“Cifrado requiere intervención segura del operador”.** No se crea .enc vacío o se presenta un ZIP/ACL como cifrado. Algoritmo/iteraciones son **parámetros propuestos, no cifrado acreditado**. Destino previsto, todavía inexistente:
+
+```text
+%LOCALAPPDATA%\ENVER-State-Custody-20261113T060015-84d56283c2b446bca6c41772ceb4c9b6\terraform-state-serial39-20261113.enc
+```
+
+**Comando exacto pendiente para consola PowerShell privada del operador**, fuera del agente y sin transcripción/grabación. Las variables siguientes contienen únicamente rutas, **no passphrase**; OpenSSL debe pedirla directamente con entrada oculta. No ejecutar si la consola registra entradas o si la copia/hash/ACL no coinciden:
+
+```powershell
+$custody = Join-Path $env:LOCALAPPDATA 'ENVER-State-Custody-20261113T060015-84d56283c2b446bca6c41772ceb4c9b6'
+$source = Join-Path $custody 'terraform-state-serial39.restricted.tfstate'
+$encrypted = Join-Path $custody 'terraform-state-serial39-20261113.enc'
+if ([IO.File]::Exists($encrypted)) { throw 'Destino existente: detener y revisar, no sobrescribir' }
+& 'C:\Program Files\Git\mingw64\bin\openssl.exe' enc -aes-256-cbc -salt -pbkdf2 -iter 200000 -md sha256 -in $source -out $encrypted
+if ($LASTEXITCODE -ne 0) { throw 'Cifrado fallido: conservar plaintext y detener' }
+```
+
+El directorio custodia existente tiene ACL operador/SYSTEM, pero tras crear.enc se deben **aplicar/verificar explícitamente solo esas dos ACE** también al archivo cifrado antes de aceptarlo. Registrar ruta/tamaño/fecha/SHA256enc sin contraseña. **AES-CBC no es AEAD**: no afirmar autenticación criptográfica del archivo; preservar hash/manifiesto por canal confiable y comprobar hashplaintext esperado. No inventar hash/tamaño/fecha de un .enc no creado ni cambiar el mecanismo exigido.
+
+### 34.4. Descifrado y limpieza — pendientes condicionados, no ejecutar ni simular
+
+No descifrado, JSON/state-list de copia descifrada o temporal de esta prueba ejecutados; esos campos están **NO DISPONIBLES**, no reciclar la prueba de plaintext de§33 como prueba de cifrado. Ningún plaintext temporal nuevo creado, por lo que no hay temporal nuevo que eliminar.
+
+La copia **terraform-state-serial39.restricted.tfstate** **se conserva** con ACL restringida y hash idéntico; su eliminación está autorizada **solo después** de .enc válido/descifrado/hash/JSON/state-list acreditados. Como esa condición no se cumple, borrarla ahora perdería el único respaldo independiente actual comprobado. No tocar state39/nativo38/planes o borrar archivos recursivamente.
+
+### 34.5. Custodia, retención y runbook consolidado
+
+**Owner:** operador autorizado ENVER. **Fuente:** terraform.tfstate serial39/hash indicado. **Backup objetivo:** AES-256-CBC/PBKDF2/SHA256/salt/200000iteraciones, acceso OPERADOR+SYSTEM. **Estado actual:** plaintext restringido conservado, .enc pendiente; no garantía de cifrado aún. **Retención aprobada para esta etapa:** conservar mientras este state sea baseline operativo vigente y hasta existir sucesor validado/protegido; no considerar backup38 sucesor39. No compartir por Git/correo/chat/repositorio. Passphrase solo bajo custodia segura del operador fuera del agente, no dentro del manifiesto o documentación. Remoto diferido hasta **antes de colaboración/GitHub/runner**, no implementado.
+
+Runbook, **procedimiento futuro NO restore real ejecutado**:
+
+1. Detener y excluir operaciones Terraform; verificar ambiente/backend/operador, state actual y serial/lineage/hash, sin asumir que39 siga siempre vigente.
+2. Identificar .enc autorizado y verificar su SHA256 contra manifiesto confiable; si falla, abortar, no sobrescribir operativo ni aceptar archivo por nombre.
+3. Crear área temporal fuera deinfra con ACL únicamenteOPERADOR+SYSTEM. Descifrar allí en consola privada mediante el mismo OpenSSL y opciones, añadiendo **-d**, invirtiendo -in/-out. Nunca contraseña enargs/archivos/logs.
+4. Verificar exitcode, JSON y hashplaintext **d214e2b172312123f64be213376130cad4e8be25fce36107ebbe258ffd045fff** para este respaldo39; comparar lineage/serial sin publicar valores sensibles.
+5. Ejecutar **terraform -chdir=infra state list -state=<archivo temporal absoluto>**:28managed+3data y mismas31direcciones del inventario autorizado. No refresh/statepush/import/apply.
+6. Solo tras éxito de todas las verificaciones, registrar recuperabilidad/tamaño/hash/fechaenc y eliminar el temporal exacto de descifrado; eliminar copia plaintext custodiada solo con esa evidencia completa y condición de§34.4 satisfecha.
+7. Para restauración real exigir **autorización humana posterior** y respaldar/proteger state operativo actual antes de considerar reemplazo. Nunca restore automático ni tomar backup38 como equivalente39.
+8. Tras restore autorizado, ejecutar **plan fresco posterior con refresh autorizado/revisión de recursos** y detener si aparecen divergencias; no usar planes consumidos ni aplicar automáticamente.
+9. Si falla verificación antes del restore, abortar sin tocar operativo. Si falla validación posterior, detener mutaciones y ejecutar rollback al previo únicamente con autorización/hash/coherenciaAWS comprobados, nunca state antiguo a ciegas ni rollbackRedis/authority/cuotas.
+10. Conservar respaldo cifrado/manifiesto protegido según retención; retirar solo temporales exactos de la prueba, sin borrar state/nativo/planes o sucesores válidos.
+
+### 34.6. E001 — estimación delimitada al alcance vigente, no a servicios inventados
+
+CuentaAWSENVER/us-east-1/dev, owneroperador autorizado, **USD50 agregados/guardrailUSD10**, ventana original máximo **2026-11-15T01:57:56.9337244Z** sin reinicio, sin descuentoFreeTier/créditos/Billing asumidos. Se consolida lo conocido por etapa:
+
+| Componente | Estado/evidencia | Estimación aplicable, NO consumo medido |
+| --- | --- | --- |
+| Dos t3.small | Vigentes según evidencia previa, sin nueva consultaAWS | 2×USD0.0209/h×48h = **USD2.0064** |
+| EBS root total20GiB | Vigente | 20×USD0.08/GiB-mes×48/720 ≈ **USD0.1067** |
+| Dos IPv4 públicas/EIP | Vigentes; detener EC2 no elimina necesariamente este cargo | 2×USD0.005/h×48h = **USD0.48** |
+| VPC/subnets/IGW/rutas/SG e IAM | Baseline existente | Sin cargo recurrente directo previamente identificado; transferencia no incluida |
+| ECR repository/imagen | Vigente;101033417bytes y3objetosOCI informados, no volumen total facturable inventado | Tarifa histórica documentadaUSD0.10/GB-mes; **USD0.10×GB-mes facturables**, volumen/retención real no reconsultados |
+| Transferencia aplicable | Puede generar cargo por uso real | Volumen/origen/destino/tarifa aplicable y reserva aceptada pendientes; no fijar costo0 ni inventar consumo |
+| State/custodia/OpenSSL local | Local, sin nuevo recursoAWS | No nuevo servicioAWS con cargo por este hardening |
+| ALB/HTTPS/DNS, Redis, Atlas, authority, logs/secretos y backendremoto | Etapas futuras no creadas por este incremento | Estimaciones y autorizaciones **por etapa pendientes**, no sumarlos como consumo actual ni seleccionarlos aquí |
+
+**Subtotal fijo conocido≈USD2.5931/48h**, no total de factura. Exposición estimada de alcance vigente = subtotal fijo + almacenamientoECR + transferencia aplicable y cargos/impuestos que correspondan. Falta completar/aceptar cotas de variables aplicables y estimación agregada por duración; margen nominal alguardrail no demuestra factura/tope duro. No condicionar E001 a desplegar servicios futuros ni afirmar cotización integral exacta sin datos. **E001PARCIAL**, presupuesto/owner/ventana definidos, aceptación explícita y estimación variable restantes pendientes.
+
+### 34.7. E002/E025 y decisión del gate
+
+**E002 consolidada:** Terraform1.17.1/AWS6.73.0, lock versionado, ejemplo no operativo, sin tfvarsoperativos, namingenver-dev/tagsProjectenver-Environmentdev-ManagedByTerraform y guards cuenta/región conservados; sin cambios de versiones/config. ACL de state/nativo **ahora restringidas y verificadas**, resuelto ese bloqueador. Remoto diferido localexclusivo, obligatorio antes de compartir. Cifrado y recuperabilidad de.enc pendientes, por tanto **E002/T002PARCIAL**, no todo técnicamenteacreditado.
+
+**E025:** fmt-check **06:14:25.483Z–06:14:25.675Z/exit0**, validate **06:14:25.678Z–06:14:36.253Z/exit0**, bash-n **06:14:36.256Z–06:14:46.865Z/exit0**, diff-checkpredocumentación **06:14:46.867Z–06:14:47.070Z/exit0**. Cotejo de hashes postACL y comprobación gitignore/no tracked exitosos. Validaciones **TÉCNICAMENTE ACREDITADAS /ACEPTACIÓN EXPLÍCITA PENDIENTE en ese alcance**; E025integral/T025 **PARCIAL** por dependencias/cifrado-recuperación faltantes. Sin plan/refresh/init/install/apply.
+
+**T001PARCIAL /T002PARCIAL /T025PARCIAL; T026PENDIENTE /NO EJECUTADA; GATE-I-A PENDIENTE /NO SATISFECHO.** Pendiente exacto: ejecución cifrada segura por operador, ACL/metadatos/hash.enc y descifrado/JSON/hash/state-list/limpieza comprobados; completar estimación E001 de variables aplicables y aceptación explícita E001/E002/E025. **No solo firma pendiente**. Retención ya definida; no mantener como desconocidosowner/retención/ACL actuales. Onceparciales/19pendientes/nuevegatespendientes, resto002/004/AUTH-027integral intactos.
+
+Evidencia privada **%LOCALAPPDATA%\Temp\opencode\gate-ia-acl-final-20261113T061331\**: baseline/hashantes, whoami privado, principals/permisos saneados antes-después, resultadoACL/owner-hash, versión/validaciones/ignorados/integridad final. Sin contenido state ni contraseña. Solo dos DACL autorizadas y task/memoria cambiados; hashes de contenido infra/state/nativo/custodia/planes y fuentesprevias conservados. **Sin AWS/IAM/enc/decrypt/restoreoperativo/plan/apply/migración/stage/commit/push. DETENER tras evidencia y comando manual**, no capturar passphrase por chat.
+
+**Cierre local comprobado:** a **06:22:09.589Z**, las **40 entradas** del manifiesto de contenido siguen idénticas; ningún archivo nuevo en infra, copia plaintext39 intacta y .enc ausente, sin temporales de recuperación nuevos. Branch/HEAD originales, solo memoria/task modificados, **0 staged**, state/nativo ignorados y no tracked, **diff-check exit0**; historial íntegro de §33 y memoria§92 preservado. A **06:23:22.600Z**, relectura confirma las dos DACL operativas explícitas y protegidas. Una aserción adicional inicialmente exigió erróneamente herencia deshabilitada a la copia custodiada preexistente: diagnóstico de solo lectura confirma que sus dos ACE OPERADOR/SYSTEM son heredadas de su padre protegido y siguen restringidas. No fue fallo del hardening operativo ni motivó cambios adicionales de ACL; copia y padre conservados.
+
+## 35. GATE-I-A — Verificación posterior a recuperación cifrada y limpieza autorizada
+
+### 35.1. Alcance, procedencia de evidencia y baseline
+
+**2026-11-13 UTC — LOCAL SECURITY / FINAL VALIDATION**, autorización específica del responsable para verificar el .enc esperado, asegurar únicamente su ACL explícita, eliminar los dos plaintext designados tras comprobar .enc/hash, validar localmente y editar solo task/memoria. **Sin AWS/IAM/plan/apply/backend remoto/stage/commit/push**, sin repetir cifrado/descifrado ni acceder a la passphrase. Precheck **06:35:31.029Z**, branch **feature/infrastructure**, HEAD **0d9fdac009c527a8e3bb98a6b0094ae29607871e**, solo task/memoria previamente modificados, **0 staged**; conservar historial y trabajo anterior.
+
+El operador confirma manualmente: backup cifrado creado, descifrado exitoso, hash plaintext39 correcto, JSON/state-list válidos, **31 direcciones / 28 managed + 3 data**; passphrase no compartida ni registrada. Esto se registra como **evidencia humana confirmada**, no como ejecución OpenSSL/state-list del agente. En esta intervención se agregan comprobaciones directas del archivo cifrado y del plaintext restaurado todavía existente antes de su eliminación.
+
+### 35.2. Backup cifrado: existencia, integridad y ACL
+
+| Campo | Evidencia directa |
+| --- | --- |
+| Ruta | **%LOCALAPPDATA%\ENVER-State-Custody-20261113T060015-84d56283c2b446bca6c41772ceb4c9b6\terraform-state-serial39-20261113.enc** |
+| Existe / tamaño | **Sí / 71696 bytes**, mayor que cero |
+| SHA256 esperado = observado antes/después de ACL y limpieza | **ED36CCC43BC3C93D22B483F1EC05BD3AFFD6DF65F38F435B8A9411BBF6AEE0F2** |
+| Creación UTC informada por filesystem local | **2026-11-13T06:28:38.190Z** |
+| Última escritura UTC | **2026-11-13T06:28:38.408Z** |
+| ACL anterior | Dos Allow OPERADOR/SYSTEM FullControl heredadas del padre protegido |
+| ACL posterior, **06:36:05.087Z** | **Exactamente dos Allow explícitas OPERADOR/SYSTEM FullControl; sin herencia ni otros principals** |
+| Contenido / propietario | Hash intacto / propietario no cambiado |
+
+Operador/SID resueltos dinámicamente. No Users, Authenticated Users, Everyone ni Administrators en la DACL final del .enc; no cambio en ACL padres/copia previa/state/nativo. Mecanismo del **procedimiento acordado de §34.3**: OpenSSL3.5.7, AES-256-CBC/salt/PBKDF2/SHA256/**200000 iteraciones**; no inferir parámetros de KDF/algoritmo únicamente a partir de extensión/hash ni presentar una nueva ejecución del agente. CBC no es AEAD: SHA256/manifiesto deben preservarse por canal confiable, sin afirmar autenticación criptográfica del contenedor ni registrar passphrase.
+
+### 35.3. Recuperación y eliminación exacta de plaintext
+
+Se localizó **%TEMP%\ENVER-State-Restore-Test\terraform-state-serial39-restored.tfstate**, no directamente en la raíz de TEMP. Antes de borrar, se comprobó directamente en ese archivo y en la copia custodiada: **JSON válido, serial39, lineage idéntico al operativo sin publicarlo, 28 instancias managed + 3 data** y SHA256 **d214e2b172312123f64be213376130cad4e8be25fce36107ebbe258ffd045fff**. El hash byte a byte idéntico confirma contenido del state39. La ejecución Terraform state-list válida y sus31direcciones provienen de la confirmación humana; no se repite descifrado/state-list ni se copia state a evidencias.
+
+Solo tras comprobar .enc no vacío/hash esperado y esas precondiciones se eliminaron, a **06:38:27.475Z**, exactamente:
+
+1. **%TEMP%\ENVER-State-Restore-Test\terraform-state-serial39-restored.tfstate**.
+2. **%LOCALAPPDATA%\ENVER-State-Custody-20261113T060015-84d56283c2b446bca6c41772ceb4c9b6\terraform-state-serial39.restricted.tfstate**.
+
+Ambos ausentes después; directorio de custodia contiene **únicamente terraform-state-serial39-20261113.enc**. No eliminación recursiva ni de directorios/otros archivos. Se conserva directorio temporal vacío, no otro plaintext de esta prueba. Es eliminación lógica de los archivos designados, **no borrado físico seguro, barrido de discos ni garantía sobre copias ajenas**. No se guarda plaintext en registros. Se conservan state operativo, backup nativo y todos los planes.
+
+### 35.4. Operativo, histórico, custodia y recuperación futura
+
+| Archivo conservado | SHA256 directo antes/después | ACL observada |
+| --- | --- | --- |
+| **infra/terraform.tfstate**, serial39 | **d214e2b172312123f64be213376130cad4e8be25fce36107ebbe258ffd045fff** | OPERADOR+SYSTEM FullControl explícitos, sin herencia/grupos amplios |
+| **infra/terraform.tfstate.backup**, serial38 histórico/Btainted | **23a74f1556b10ade14f509820a2a225d124201b03d52380fd39b5dc458314ea7** | Mismo criterio, intacto |
+
+**State real nunca reemplazado**; no bytes, ACL ni propietarios operativos cambiados. Backup38 conserva taintB: **NO es backup actual equivalente ni candidato de recuperación automática**. Hash exacto preserva esta evidencia histórica, no hay refresh/plan/persistencia de output recovery4.
+
+Owner **operador autorizado ENVER**; fuente39/hash conocido, respaldo actual cifrado39 recuperable según evidencia descrita, acceso OPERADOR+SYSTEM. Retener mientras39 sea baseline vigente y hasta sucesor validado/protegido; no compartir por Git/correo/chat/repositorio. Passphrase bajo custodia segura del operador, fuera de registros/agente. Backend remoto protegido/cifrado/versionado/locking **diferido hasta antes de colaboración/GitHub/runner**, no implementado. Runbook §34.5 conservado: para pruebas futuras usar .enc a temporal restringido; no recrear permanentemente copia plaintext ya retirada ni volver a ejecutar el comando de §34.3 cuya fuente ya no existe. Restore real exige autorización nueva, respaldo actual, hashes/JSON/state-list y plan posterior autorizado; nunca apply/rollback automático.
+
+### 35.5. E001 — consolidación sin aceptación artificial de costo integral
+
+Responsable reconfirma **USD50 agregados, guardrailUSD10, owner definido, ≈USD2.5931/48h nominal compute/EBS/IPv4**; us-east-1/dev y ventana original **2026-11-15T01:57:56.9337244Z**, **sin reinicio**, sin FreeTier/créditos descontados ni Billing medido. Desglose fijo, fórmulas ECR/transferencia y exclusiones de §34.6 siguen vigentes. No nueva consulta AWS, tarifa ni volumen inventados.
+
+ALB/HTTPS/DNS/Redis/Atlas/authority/logs/secretos/backend remoto futuros se mantienen como **estimaciones/autorizaciones pendientes por etapa**, no consumo actual. Sin embargo, ECR y transferencia **aplicables al alcance ya vigente** no desaparecen por ser variables: T001 pide estimación fechada/regional y lista de cargos, no solo monto máximo. La confirmación humana de recuperación no aporta cotas/volúmenes/reserva aceptada de esas variables. **E001/T001 PARCIAL**, presupuesto/owner/ventana ya definidos; falta completar o aceptar explícitamente la estimación aplicable con sus supuestos/riesgo y aceptación integral. No exigir desplegar servicios futuros ni investigar Billing fuera de autorización; no usar guardrail como tope técnico de factura.
+
+### 35.6. E002/E025 y decisión estricta de GATE-I-A
+
+**E002 / componente técnico de T002: TÉCNICAMENTE ACREDITADO / ACEPTACIÓN EXPLÍCITA PENDIENTE** para baseline/custodia local. Lectura local `terraform -chdir=infra version -json` **exit0** confirma **Terraform1.17.1/providerAWS6.73.0**. Lockfile y terraform.tfvars.example versionados, ejemplo no operativo, **0 tfvars reales**; naming/tags/guards aprobados previamente y sin cambios. State ACL restringida y backup cifrado recuperable acreditados según procedencias anteriores; remoto diferido con límite explícito. La dependencia T001 y aceptación integral mantienen T002 formalmente **PARCIAL**, no nuevamente bloqueada por cifrado resuelto.
+
+**E025 / componente técnico de T025: TÉCNICAMENTE ACREDITADO / ACEPTACIÓN EXPLÍCITA PENDIENTE** para validación inicial local:
+
+| Comando | Inicio–fin UTC, 2026-11-13 | Exit |
+| --- | --- | --- |
+| terraform fmt -check -recursive infra | 06:38:49.648Z–06:38:49.850Z | **0** |
+| terraform -chdir=infra validate | 06:38:49.855Z–06:39:00.364Z | **0**, configuración válida |
+| bash -n infra/bootstrap/compute-host.sh | 06:39:00.368Z–06:39:12.381Z | **0** |
+| git diff --check, antes de actualizar documentos | 06:39:12.383Z–06:39:12.624Z | **0**, solo avisos LF/CRLF |
+
+Protección state/nativo/.enc y recuperación/limpieza ya verificadas; aceptación explícita y dependencias pendientes mantienen T025 formalmente **PARCIAL**. No repetir init/install/upgrade/plan/refresh/apply, ni confundir esta validación con T026, drift cloud o toda IaC futura.
+
+**GATE-I-A: PENDIENTE / NO SATISFECHO; aún NO íntegramente TÉCNICAMENTE ACREDITADO ni LISTO SOLO PARA ACEPTACIÓN EXPLÍCITA.** El requisito real de §3 exige E001/E002/E025 y presupuesto/versiones/ambiente/state aprobados. Ya no faltan cifrado, recuperación o limpieza. **Pendiente exacto:** completar/aceptar estimación E001 de variables aplicables al alcance vigente y aceptación explícita integral E001/E002/E025 y del gate. No meramente una firma, ni desconocimiento de owner/presupuesto/retención. T001/T002/T025 conservan PARCIAL con los subalcances técnicos indicados; **T026 PENDIENTE / NO EJECUTADA**, once tareas parciales/19pendientes/nueve gates pendientes. B/C, 002/004 y AUTH-027 integral no cambian.
+
+Evidencia privada **%LOCALAPPDATA%\Temp\opencode\gate-ia-post-encrypted-20261113T063531\**: precheck/manifiesto40entradas, .enc ruta-tamaño-fechas-hash, ACL antes/después saneadas, precondiciones/limpieza exacta sin state, versiones/validaciones/Git/integridad final. No contenido state ni passphrase. Única modificación técnica de metadatos: ACL del .enc; únicas eliminaciones: los dos plaintext autorizados; únicos documentos editados: task/memoria. **Sin AWS/IAM/descifrado repetido/restore operativo/plan/apply/backend remoto/stage/commit/push. DETENER para revisión.**
+
+**Cierre verificado 06:43:15.669Z:** 40 entradas del manifiesto intactas y ningún archivo nuevo en infra; .enc/hash/tamaño conservados, solo .enc en custodia, ambos plaintext ausentes y búsqueda del nombre restaurado en TEMP sin coincidencias. State39/0tainted y nativo38/1tainted intactos; relectura ACL de los tres archivos a06:43:10.328Z confirma exclusivamente OPERADOR+SYSTEM explícitos/sin herencia. Historial task§34/memoria§93 preservado, branch/HEAD originales, **solo task/memoria modificados / 0 staged / diff-check exit0**, state/nativo ignorados y no tracked. Sin commit/push ni cierre artificial de gate.
+
+## 36. GATE-I-A — E001 técnicamente acreditada y paquete listo para aceptación explícita
+
+### 36.1. Alcance y baseline documental
+
+**2026-11-13 UTC — DOCUMENTATION / ACCEPTANCE ONLY**, solicitud expresa del responsable para completar el modelo E001 y preparar aceptación, **no para aceptarla automáticamente**. Precheck **06:47:08.597Z**: **feature/infrastructure / 0d9fdac009c527a8e3bb98a6b0094ae29607871e**, solo memoria/task previamente modificados, **0 staged**. Únicos documentos editables: task/memoria. Se autorizan expresamente los cuatro comandos locales de §36.4; no AWS, IAM, cambios infra/custodia, plan/apply, stage/commit/push ni T026.
+
+Los precios y supuestos siguientes son **modelo documental aplicable comunicado por el responsable en esta solicitud**, no lectura AWS/Billing ni medición de consumo del agente. La publicación/tamaño de imagen conserva su procedencia humana de §22. Trazabilidad E001: INFRA-001–003/033/038, PLD-INFRA-001/020, AC-I-01/15; E002/E025 y su trazabilidad previa se conservan.
+
+### 36.2. Estimación E001: us-east-1/dev, ventana original de evaluación
+
+| Componente actual modelado | Base / fórmula nominal | USD por48h, aproximado |
+| --- | --- | --- |
+| EC2 | 2t3.small × USD0.0209/h ×48h | **2.0064** |
+| EBS | 20GiB × USD0.08/GiB-mes ×48/720h | **0.1067** |
+| IPv4 | 2IPv4 × USD0.005/h ×48h | **0.48** |
+| Subtotal compute/EBS/IPv4 | Baseline previamente aprobado, sin descontar FreeTier | **2.5931** |
+| ECR privado, storage imagen | **101033417bytes /10⁹ =0.101033417GB**; ×USD0.10/GB-mes ×48/720h | **0.0006736 ≈0.0007** |
+| ECR us-east-1 → EC2 us-east-1 | Pulls misma región, según modelo de pricing comunicado | **0 esperado** |
+| Baseline nominal conocido | 2.5931 +0.0006736 +0 | **2.5937736 ≈2.594** |
+
+Prorrateo documental **mes convencional720h**, no conversión de presupuesto a mensual. ECR es una aproximación proporcional al tamaño de imagen informado, **no medición del total facturable de todas las capas/manifiestos/repositorios o retención**. Los3objetosOCI informados no son3versiones ni3veces ese tamaño por inferencia. Si cambian volumen/retención/artefactos se actualiza la estimación antes de ampliar alcance. Modelo regional fechado, no cotización contractual ni Billing real.
+
+**Transferencia Internet, separada de pulls same-region:** AWS contempla **100GB/mes agregados de DTO a Internet sin cargo para servicios aplicables**, según el modelo comunicado; elegibilidad/cobertura/consumo agregado real **no acreditados aquí**. No descontar esa franquicia ni depender de ella para declarar viable el proyecto. Consumo futuro Internet = **VARIABLE / NO ACREDITADO**, sin inventar GB ni fijar toda transferencia enUSD0. Debe encuadrarse dentro del **guardrail operativoUSD10 de la ventana**, con revisión del responsable antes de nuevas cargas/costos/ampliación; no crear con esta documentación un cap técnico, alarma, timer o apagado automático. Transferencia interregional, Internet u otras rutas/servicios no quedan cubiertos por la afirmación de costo cero de ECR→EC2 same-region.
+
+**Servicios futuros excluidos del consumo actual de este incremento:** ALB, ACM, Redis, DynamoDB, Secrets Manager, CloudWatch adicional, Route53 y Atlas de pago, mientras no estén desplegados/aprobados según evidencia y alcance. Cada uno: **“estimación por etapa pendiente antes de su provisión”**. No inventar despliegue/cargo ni sumarlos arbitrariamente; tampoco afirmar que serían siempre gratuitos. Red/IAM conservan el tratamiento previo de costo recurrente directo, sin ocultar transferencia aplicable.
+
+### 36.3. Presupuesto, duración y ownership
+
+| Control | Valor conservado / interpretación |
+| --- | --- |
+| Proyecto completo | **USD50 agregados**, no mensuales |
+| Guardrail operativo de la ventana | **USD10**, sin enforcement automático acreditado |
+| Baseline nominal conocido | **≈USD2.594/48h**, no factura total ni consumo medido |
+| Margen nominal contra guardrail | 10−2.594 = **≈USD7.406** |
+| Margen nominal contra presupuesto agregado | 50−2.594 = **≈USD47.406** |
+| Deadline operativo | **2026-11-15T01:57:56.9337244Z**, ventana original **NO reiniciada ni extendida** |
+| Owner operativo Terraform | **operador autorizado ENVER** |
+| Owner de presupuesto | **responsable del proyecto** |
+
+Los márgenes son **restas aritméticas del baseline nominal**, no saldo real disponible del proyecto/cuenta: no se han descontado cargos previos/acumulados ni medido variables/impuestos. No garantizan que factura/transferencia se mantengan bajo el umbral. No FreeTier/crédito presumidos, sin nueva bolsa deUSD50/10 ni reinicio de48h. La conservación del deadline no crea timer/stop/cleanup.
+
+**Cada fase nueva con costo exige estimación previa, revisión, autorización y actualización del baseline** antes de provisión. Márgenes, aprobación de una estimación y futura aceptación de I-A **no autorizan automáticamente recursos, duración adicional, apply o deployment**.
+
+### 36.4. E001/E002/E025 preparadas y validaciones locales
+
+**E001 / T-INFRA-001: TÉCNICAMENTE ACREDITADO / ACEPTACIÓN EXPLÍCITA PENDIENTE.** Cuenta/región/ambiente, monto/guardrail, duración/owners y baseline de cargos conocidos están documentados; ECR y transferencia same-region quedan cuantificados según modelo explícito del responsable, Internet queda como variable bajo control presupuestario y etapas futuras separadas. Esta solicitud completa **la estimación y tratamiento del riesgo**, no acredita Billing real ni acepta formalmente E001. El bloqueo técnico indicado en §§34–35 queda superado por información posterior, sin alterar su historial.
+
+**E002 / T-INFRA-002: TÉCNICAMENTE ACREDITADO / ACEPTACIÓN EXPLÍCITA PENDIENTE.** Se mantiene evidencia de §35: Terraform1.17.1/AWSprovider6.73.0, lock/ejemplo versionados, sin tfvars reales, naming/tags/guards y state local protegido, .enc39 recuperable, ACL restringidas y plaintext retirados. No reabrir cifrado/recuperación ni repetirlos; no presentar evidencia previa como prueba nueva de esta intervención. Backend remoto protegido/cifrado/versionado/locking obligatorio **antes de compartir/GitHub/runner**, diferido, sin migración. T001 ya está preparada técnicamente, su aceptación sigue pendiente.
+
+**E025 / T-INFRA-025: TÉCNICAMENTE ACREDITADO / ACEPTACIÓN EXPLÍCITA PENDIENTE**, en validación inicial local. Comandos expresamente autorizados, sin descarga/init/upgrade/refresh/plan/apply:
+
+| Comando | Inicio–fin UTC, 2026-11-13 | Exit |
+| --- | --- | --- |
+| terraform fmt -check -recursive infra | 06:47:34.521Z–06:47:34.721Z | **0** |
+| terraform -chdir=infra validate | 06:47:34.730Z–06:47:45.743Z | **0**, configuración válida |
+| bash -n infra/bootstrap/compute-host.sh | 06:47:45.746Z–06:47:57.533Z | **0** |
+| git diff --check, antes de actualizar documentos | 06:47:57.536Z–06:47:57.759Z | **0**, solo avisos LF/CRLF |
+
+E025 no acredita cloud, toda IaC futura, drift nuevo, output recovery4 persistido ni T026. Evidencia técnica de dependencias preparada; aceptación humana de cada E continúa pendiente.
+
+### 36.5. GATE-I-A — listo para aceptación, sin cierre automático
+
+**GATE-I-A: TÉCNICAMENTE ACREDITADO / LISTO PARA ACEPTACIÓN EXPLÍCITA.** No queda bloqueo técnico en el alcance de baseline local de §3: E001 estimada con modelo/riesgos explícitos, E002/custodia ya acreditadas, E025 validada realmente. **Cierre formal PENDIENTE / NO SATISFECHO** hasta aceptación expresa del responsable de **E001, E002, E025 y GATE-I-A**; no interpretar esta solicitud de preparación como esa aceptación.
+
+Paquete a aceptar: cuenta/ambiente/versiones; presupuesto agregado/guardrail y estimación con sus límites/riesgo variable; ownership/deadline; custodia/backups/runbook y restricción de uso local; resultados E025. No se registra firma, aprobador o acto de aceptación inexistentes. Tampoco se conceden permisos para tareas posteriores al aceptar este paquete.
+
+Estado de catálogo: **3 tareas técnicamente acreditadas con aceptación pendiente (001/002/025), 8 parciales restantes y19 PENDIENTE / NO EJECUTADA**, ninguna completada por esta solicitud. **T-INFRA-026 PENDIENTE / NO EJECUTADA**. Los9gates siguen sin cierre aceptado; I-A listo para aceptación, B–I pendientes con requisitos propios. Historial recovery4/INFRA-5, 002/004 y AUTH-027 integral intactos.
+
+Evidencia privada **%LOCALAPPDATA%\Temp\opencode\gate-ia-e001-acceptance-20261113T064708\**: precheck/modelo aritmético/procedencia documental/manifiesto40entradas/validaciones e integridad/Git. Sin contenido state, secretos o passphrase. Solo task/memoria editados; no cambios a AWS/IAM/infra/custodia/spec/plan ni stage/commit/push. **DETENER para aceptación explícita humana**, sin iniciar otro incremento.
+
+## 37. GATE-I-A — Aceptación explícita humana y checkpoint local de documentación
+
+### 37.1. Acto de aceptación y autorización delimitada
+
+**2026-11-13 UTC — ACCEPTANCE / DOCUMENTATION / LOCAL GIT.** En su mensaje de esta solicitud, el **responsable del proyecto otorga aceptación humana explícita a E001, E002 y E025**, sobre la evidencia acumulada hasta la baseline actual, y **autoriza cerrar GATE-I-A = SATISFECHO**. No es inferencia a partir de validaciones, una firma criptográfica, ticket o aprobación externa; la fuente es la instrucción expresa del responsable en esta conversación. Fecha/contexto registrados aquí; historial de preparación y bloqueos de §§33–36 intacto.
+
+Precheck **06:55:17.069Z**, **feature/infrastructure / 0d9fdac009c527a8e3bb98a6b0094ae29607871e**, solo task/memoria previamente modificados y **0 staged**. Se autoriza actualizar únicamente esos dos documentos y sus estados, las cuatro validaciones locales, revisar sus diffs y crear **UN commit local** con mensaje exacto **docs(infra): accept gate i-a baseline**. Sin amend/squash/push, AWS/IAM, cambios infra/custodia, plan/apply/refresh/import/state push/destroy ni ejecución de tareas posteriores. El checkpoint incorpora también la evidencia documental acumulada y autorizada en §§33–36, no solo las líneas de este acto.
+
+### 37.2. Evidencia aceptada y alcance de las tareas
+
+| Evidencia / tarea | Estado por aceptación explícita | Alcance aceptado y límites conservados |
+| --- | --- | --- |
+| **E001 / T-INFRA-001** | **ACEPTADA / COMPLETA / ACEPTADA** | Cuenta ENVER/us-east-1/dev, proyectoUSD50 agregado, guardrailUSD10, baseline≈USD2.594/48h compute/EBS/IPv4/ECR aproximado; pull ECR→EC2 same-region USD0 esperado según modelo documental, Internet VARIABLE/NO ACREDITADO, sin depender de descuentosFreeTier, owners definidos y ventana original |
+| **E002 / T-INFRA-002** | **ACEPTADA / COMPLETA / ACEPTADA** | Terraform1.17.1/AWSprovider6.73.0, lock/ejemplo versionados/no operativo, ningún tfvars real detectado, naming enver/dev, tagsProject=enver/Environment=dev/ManagedBy=Terraform, state local y nativo con ACL OPERADOR+SYSTEM, backup cifrado39 recuperable y plaintext retirado |
+| **E025 / T-INFRA-025** | **ACEPTADA / COMPLETA / ACEPTADA** | Validación inicial real fmt/validate/bash-n/diff-check exit0 y state/backup protegidos; baseline compute reconciliada y recovery4 histórico recursos0add/0change/0destroy/0replacements. No revisión final de toda IaC/cloud/runtime ni T026 |
+
+Presupuesto y retención no se reinician. **Deadline original 2026-11-15T01:57:56.9337244Z**, sin extensión; cada etapa futura exige estimación/revisión/autorización propia. Márgenes nominales no son saldo real, descuentos ni permiso de gasto adicional. Owner operativo Terraform **operador autorizado ENVER**, owner presupuesto **responsable del proyecto**.
+
+Backup actual aceptado **terraform-state-serial39-20261113.enc**, SHA256 **ED36CCC43BC3C93D22B483F1EC05BD3AFFD6DF65F38F435B8A9411BBF6AEE0F2**; mecanismo aceptado del procedimiento **AES-256-CBC/PBKDF2/200000iteraciones/SHA256/salt**. Recuperabilidad acreditada con fuentes diferenciadas en §35: hashplaintext39 correcto, JSON válido,31direcciones/28managed+3data; copia plaintext de custodia y restaurado temporal eliminados. No contraseña en documentos ni nueva operación de cifrado/descifrado. State39 operativo y nativo38 histórico/Btainted conservados; nativo38 no se convierte en respaldo actual equivalente. Recovery4 mantiene **exit2 por +output compute_instances**, no drift de recursos ni apply para guardar output.
+
+Se acepta custodia local exclusiva con **backend remoto protegido/cifrado/versionado/con locking antes de colaboración/GitHub/runner**, autorización de migración posterior separada. No compartir ni publicar contenido del state por Git, correo, chat o repositorio; la condición previa al uso compartido no autoriza publicar state. La aceptación de T002 no declara backend remoto implementado.
+
+### 37.3. Estados resultantes y siguiente gate
+
+**GATE-I-A = SATISFECHO**, evidencia y aceptación explícita presentes. **E001/E002/E025 ACEPTADAS; T001/T002/T025 COMPLETA / ACEPTADA.** Cierre limitado al criterio real de baseline local, sin relajar otros AC ni aprobar retrospectivamente todos los cambios o dependencias de infraestructura.
+
+**Siguiente gate: GATE-I-B = PENDIENTE / NO SATISFECHO**, con su prerrequisito **GATE-I-A ahora SATISFECHO**. No se ejecuta I-B ni se aceptan E003–006/E019–020/E027–028 por inferencia. Permanecen sus verificaciones/decisiones de seguridad/runtime: Atlas y egreso, TLS interno, revisión IAM integral, Redis privado, secretos/authority y evidencias/aceptación aplicables; el cierre I-A no prueba esas capacidades ni readiness de API.
+
+**T-INFRA-026 = PENDIENTE / NO EJECUTADA**, mantiene dependencias posteriores y revisión final propias. B–I conservan criterios y pendientes; 002/004/AUTH-027 integral intactos. Catálogo: **3 tareas completas/aceptadas, 8 parciales y19 pendientes/no ejecutadas; 1 gate satisfecho y8 pendientes**. No nueva autorización técnica más allá de esta entrega y su commit local.
+
+### 37.4. Validaciones y checkpoint autorizado
+
+Resultados finales de los cuatro comandos autorizados, antes de stage/commit; su éxito no se extrapola a AWS:
+
+| Comando | Inicio–fin UTC, 2026-11-13 | Exit |
+| --- | --- | --- |
+| terraform fmt -check -recursive infra | 06:57:55.998Z–06:57:56.214Z | **0** |
+| terraform -chdir=infra validate | 06:57:56.219Z–06:58:07.900Z | **0**, configuración válida |
+| bash -n infra/bootstrap/compute-host.sh | 06:58:07.902Z–06:58:20.008Z | **0** |
+| git diff --check, tras actualizar estados | 06:58:20.010Z–06:58:20.226Z | **0**, solo avisos LF/CRLF |
+
+**Revisión efectuada** de **git diff -- specs/003-infrastructure/task.md** y **git diff -- memoria.md**, incluidos los cambios documentales acumulados: únicamente documentación de evidencia, aceptación y estados, sin código/HCL/policy/config/state/plan/secret como archivos del commit. Manifiesto de44entradas de contenido protegido intacto e historial task§36/memoria§95 preservado. Stage únicamente esos dos documentos y exigir cached diff-check exit0 y stat exacto de dos archivos.
+
+El único commit autorizado se realizará tras esas comprobaciones. **SHA/resultado y post-check final se informarán en salida de sesión/evidencia privada**, no mediante auto-referencia imposible en el propio commit, amend o segundo commit. Sin push. Evidencia privada **%LOCALAPPDATA%\Temp\opencode\gate-ia-accepted-checkpoint-20261113T065517\**, precheck/manifiesto44entradas/validaciones/diffs/revisión/index/commit/postcheck, sin state ni secretos. **DETENER al terminar el único commit y sus comprobaciones**, sin iniciar GATE-I-B.
