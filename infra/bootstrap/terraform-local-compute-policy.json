@@ -1,0 +1,188 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadComputeInApprovedRegion",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeImages",
+        "ec2:DescribeInstances",
+        "ec2:DescribeInstanceStatus",
+        "ec2:DescribeInstanceAttribute",
+        "ec2:DescribeInstanceCreditSpecifications",
+        "ec2:DescribeInstanceTypes",
+        "ec2:DescribeVolumes",
+        "ec2:DescribeVolumesModifications",
+        "ec2:DescribeAddresses",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:DescribeTags"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:PrincipalAccount": "926925605666",
+          "aws:username": "enver-terraform-local"
+        }
+      }
+    },
+    {
+      "Sid": "ResolveOnlyPublicAl2023Ami",
+      "Effect": "Allow",
+      "Action": "ssm:GetParameter",
+      "Resource": "arn:aws:ssm:us-east-1::parameter/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:PrincipalAccount": "926925605666",
+          "aws:username": "enver-terraform-local"
+        }
+      }
+    },
+    {
+      "Sid": "UseOnlyBaselineSubnetsGroupsAndRegionalAmi",
+      "Effect": "Allow",
+      "Action": ["ec2:RunInstances", "ec2:CreateNetworkInterface"],
+      "Resource": [
+        "arn:aws:ec2:us-east-1::image/ami-*",
+        "arn:aws:ec2:us-east-1:926925605666:subnet/subnet-0120d869dd659e2a1",
+        "arn:aws:ec2:us-east-1:926925605666:subnet/subnet-01934348f5d6985aa",
+        "arn:aws:ec2:us-east-1:926925605666:security-group/sg-070d06cfebe866427"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:PrincipalAccount": "926925605666",
+          "aws:username": "enver-terraform-local"
+        }
+      }
+    },
+    {
+      "Sid": "LaunchOnlyTaggedSmallImdsv2Hosts",
+      "Effect": "Allow",
+      "Action": "ec2:RunInstances",
+      "Resource": "arn:aws:ec2:us-east-1:926925605666:instance/*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:PrincipalAccount": "926925605666",
+          "aws:username": "enver-terraform-local",
+          "aws:RequestTag/Project": "enver",
+          "aws:RequestTag/Environment": "dev",
+          "aws:RequestTag/ManagedBy": "Terraform",
+          "aws:RequestTag/Name": ["enver-dev-api-a", "enver-dev-api-b"],
+          "ec2:InstanceType": "t3a.small",
+          "ec2:MetadataHttpTokens": "required"
+        }
+      }
+    },
+    {
+      "Sid": "LaunchOnlyTaggedEncryptedRootVolumes",
+      "Effect": "Allow",
+      "Action": "ec2:RunInstances",
+      "Resource": "arn:aws:ec2:us-east-1:926925605666:volume/*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:PrincipalAccount": "926925605666",
+          "aws:username": "enver-terraform-local",
+          "aws:RequestTag/Project": "enver",
+          "aws:RequestTag/Environment": "dev",
+          "aws:RequestTag/ManagedBy": "Terraform",
+          "aws:RequestTag/Name": ["enver-dev-api-a-root", "enver-dev-api-b-root"],
+          "ec2:VolumeType": "gp3"
+        },
+        "Bool": {"ec2:Encrypted": "true"},
+        "NumericEquals": {"ec2:VolumeSize": "10"}
+      }
+    },
+    {
+      "Sid": "CreateOnlyTaggedHostEniAndEip",
+      "Effect": "Allow",
+      "Action": ["ec2:CreateNetworkInterface", "ec2:AllocateAddress"],
+      "Resource": [
+        "arn:aws:ec2:us-east-1:926925605666:network-interface/*",
+        "arn:aws:ec2:us-east-1:926925605666:elastic-ip/*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:PrincipalAccount": "926925605666",
+          "aws:username": "enver-terraform-local",
+          "aws:RequestTag/Project": "enver",
+          "aws:RequestTag/Environment": "dev",
+          "aws:RequestTag/ManagedBy": "Terraform",
+          "aws:RequestTag/Name": ["enver-dev-api-a-eni", "enver-dev-api-b-eni", "enver-dev-api-a-eip", "enver-dev-api-b-eip"]
+        }
+      }
+    },
+    {
+      "Sid": "UseOnlyTaggedPersistentHostInterfaces",
+      "Effect": "Allow",
+      "Action": "ec2:RunInstances",
+      "Resource": "arn:aws:ec2:us-east-1:926925605666:network-interface/*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:PrincipalAccount": "926925605666",
+          "aws:username": "enver-terraform-local",
+          "aws:ResourceTag/Project": "enver",
+          "aws:ResourceTag/Environment": "dev",
+          "aws:ResourceTag/ManagedBy": "Terraform",
+          "aws:ResourceTag/Name": ["enver-dev-api-a-eni", "enver-dev-api-b-eni"]
+        }
+      }
+    },
+    {
+      "Sid": "LifecycleOnlyTaggedComputeResources",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:TerminateInstances",
+        "ec2:ModifyInstanceCreditSpecification",
+        "ec2:DeleteNetworkInterface",
+        "ec2:AssociateAddress",
+        "ec2:DisassociateAddress",
+        "ec2:ReleaseAddress"
+      ],
+      "Resource": [
+        "arn:aws:ec2:us-east-1:926925605666:instance/*",
+        "arn:aws:ec2:us-east-1:926925605666:network-interface/*",
+        "arn:aws:ec2:us-east-1:926925605666:elastic-ip/*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:PrincipalAccount": "926925605666",
+          "aws:username": "enver-terraform-local",
+          "aws:ResourceTag/Project": "enver",
+          "aws:ResourceTag/Environment": "dev",
+          "aws:ResourceTag/ManagedBy": "Terraform",
+          "aws:ResourceTag/Name": ["enver-dev-api-a", "enver-dev-api-b", "enver-dev-api-a-eni", "enver-dev-api-b-eni", "enver-dev-api-a-eip", "enver-dev-api-b-eip"]
+        }
+      }
+    },
+    {
+      "Sid": "TagsOnlyDuringComputeCreation",
+      "Effect": "Allow",
+      "Action": "ec2:CreateTags",
+      "Resource": [
+        "arn:aws:ec2:us-east-1:926925605666:instance/*",
+        "arn:aws:ec2:us-east-1:926925605666:volume/*",
+        "arn:aws:ec2:us-east-1:926925605666:network-interface/*",
+        "arn:aws:ec2:us-east-1:926925605666:elastic-ip/*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:PrincipalAccount": "926925605666",
+          "aws:username": "enver-terraform-local",
+          "aws:RequestTag/Project": "enver",
+          "aws:RequestTag/Environment": "dev",
+          "aws:RequestTag/ManagedBy": "Terraform",
+          "ec2:CreateAction": ["RunInstances", "CreateNetworkInterface", "AllocateAddress"]
+        },
+        "ForAllValues:StringEquals": {"aws:TagKeys": ["Project", "Environment", "ManagedBy", "Name"]}
+      }
+    }
+  ]
+}

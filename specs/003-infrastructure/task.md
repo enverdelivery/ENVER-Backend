@@ -4,13 +4,13 @@
 
 | Campo | Valor |
 | --- | --- |
-| Versión / fecha | 0.18.0 / 2026-11-12 |
-| Solicitud inicial / incremento actual | Antecedentes §§6–21; CHECKPOINT PRIMERA IMAGEN ECR PUBLICADA / GIT CHECKPOINT CONTROLADO; publicación/pull/scanning informados por responsable, sin nuevas operaciones AWS/Docker/Terraform (§22) |
+| Versión / fecha | 0.25.1 / 2026-11-13 UTC |
+| Solicitud inicial / incremento actual | INFRA-5 POST-HARDENING PLAN CON PERMISSIONS BOUNDARY REAL (§29), sesión interrumpida recuperada (§29.6): ARN real disponible en evidencia previa; fmt-check/validate/bash-n exit0, nuevo plan exit2/12add/0change/0destroy, boundary exacta, NETWORK14/ECR2no-op. Sin adjuntos/IAM modificado/apply |
 | Fuentes | [spec.md](spec.md) y [plan.md](plan.md), propuesta aprobada como base documental |
 | Catálogo | 30 tareas, T-INFRA-001 a T-INFRA-030 |
-| Estado vigente de tareas | 001/002 conservan estado parcial; 003–007 PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE; 008 PARCIAL / publicación, digest y pull acreditados según responsable, scanning final/rollback/aceptación pendientes (§22); 025 PARCIAL / VALIDACIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE; otras 21 PENDIENTE / NO EJECUTADA |
+| Estado vigente de tareas | 001/002 parciales; 003/004/006/007 PARCIAL / aceptación pendiente; 005 PARCIAL / HARDENING IAM PENDIENTE DE APLICACIÓN, plan acreditado; 008 conserva publicación/digest/pull según responsable y pendientes; 009 PARCIAL / PLAN POST-HARDENING ACREDITADO (§29), provisión/aceptación pendientes; 010 PARCIAL / recovery documentado, prueba/aceptación pendientes; 025 PARCIAL / validación local y plan POST-HARDENING acreditados, aceptación pendiente; otras19 PENDIENTE / NO EJECUTADA |
 | Estado de todos los gates | **PENDIENTE / NO SATISFECHO** |
-| Evidencia de ejecución de 003 | §§18–21 conservan provisión, build y bloqueo inicial del token. §22 registra publicación posterior informada por responsable: tag git-3312d220e3ff, digest ECR, push/pull exit 0, 1 tag/3 objetos OCI, scanning linux/amd64 IN_PROGRESS y rollback pendiente. Sin nueva verificación cloud en este checkpoint; state/planes conservados y gates abiertos |
+| Evidencia de ejecución de 003 | Historial §§18–28 intacto; plan§26 conserva etiqueta PRE-HARDENING. §29 ejecuta plan POST-HARDENING con ARN real informado:12/0/0, boundary exacta en role, NETWORK14/ECR2no-op, sin AccessDenied. Sin GetPolicy/GetPolicyVersion o auditoría efectiva IAM, adjuntos o apply. Gates abiertos |
 | Baseline documental original | `feature/authentication`, `c58ea86e3eddff4befa8f61398dd58d55c4ef985` |
 | Baseline del BUILD actual | `feature/infrastructure`, creada desde `3b4760ea8387b1cabff56e5f5e0ba5ffe8acb932`, árbol inicialmente limpio |
 | Checkpoint previo a INFRA-2/3 | `feature/infrastructure`, `611071f0ecb0d6cb67993f4e9bffd00d328a2f90`, árbol limpio al iniciar §9 |
@@ -18,6 +18,7 @@
 | Checkpoint pre-apply | `feature/infrastructure`, `0958e83b887a73e1bdae2ff8b25753f5a52d0f0c`, árbol limpio/0 staged al iniciar §14 |
 | Checkpoint pre-apply ECR | `feature/infrastructure`, `2626fb10eb9b7c128c6422e92598ca9f0e78e72c`, árbol limpio/0 staged al iniciar §18 |
 | Checkpoint post-apply ECR / baseline de publicación local | `feature/infrastructure`, `3312d220e3ff68851befc59e9a7cfa516185bdc8`, árbol limpio/0 staged al iniciar §20 |
+| Checkpoint primera imagen / baseline INFRA-5 | `feature/infrastructure`, `25daa836c0571d4c0c02486e49ce435a108f0558`, árbol limpio/0 staged al iniciar §23; commit de exactamente publisher JSON/task/memoria |
 
 Crear este catálogo **no autoriza ejecutar tareas**, cambiar código/configuración/Docker/tests, crear `infra/`, recursos AWS/Atlas, workflows o secretos, ni correr Terraform. No stage/commit/push. Los únicos archivos de esta entrega son los tres Markdown de 003. La autorización previa de la propuesta es documental, no habilita cargos ni credenciales.
 
@@ -51,6 +52,20 @@ La solicitud posterior **INICIALIZAR BACKEND LOCAL + PLAN INFRA-2/3 / VALIDACIÓ
 
 **CHECKPOINT PRIMERA IMAGEN ECR PUBLICADA** autoriza después revisar/sincronizar evidencia comunicada por responsable, seguridad/exclusiones y stage/commit únicamente de publisher JSON/task/memoria (§22). No nuevas operaciones AWS/Docker/Terraform ni cambios IAM; sin push Git, amend/squash/merge/rebase o cierre de gates. No atribuir al agente una publicación posterior que esta sesión no ejecutó/verificó; conservar cronología del bloqueo§21.
 
+**INFRA-5 — COMPUTE BASELINE / T-INFRA-009 + T-INFRA-010 y runtime de005** autoriza después preparar HCL/IAM revisables, bootstrap sin API/secretos, fmt/validate y un intento de plan sin apply (§23). EIP solo propuesta, sin NAT ni cambios silenciosos de subnets; IAM no autoasignado, sin otros servicios o Git stage/commit/push. La misma solicitud exige detener/recomendar alternativa si el diseño amenaza USD50. Se activa esa condición en análisis previo: no se crean HCL/policies ni se ejecuta Terraform/plan o AWS CLI. La autorización de preparación no aprueba duración/gasto ni supera el bloqueo para continuar automáticamente.
+
+**INFRA-5 — APROBACIÓN DE VENTANA TEMPORAL + BUILD/PLAN** aprueba después máximo inicial48h, guardrail USD10 acumulado de ventana antes de cualquier apply y mantiene USD50 AGREGADOS/reserva objetivo50. Autoriza retomar HCL de2hosts/2EIP/role/profile/SSM/pull/bootstrap, policies locales revisables, fmt/validate/un plan y una lectura opcional de scanning (§24); **no apply/recursos/IAM remoto/otros servicios/Git stage/commit/push**. Resuelve el bloqueo de preparación§23, no costo integral/aceptación ni autorización de gasto. Plan denegado exige revisión humana, sin ampliación/reintento automático; scanning opcional no ejecutado tras denegación.
+
+**INFRA-5 — REPLAN COMPUTE DESPUÉS DE HABILITAR AMI READ** autoriza STS/GetParameter/DescribeImages, fmt-check/validate y replan con inputs aprobados, revisión local de candidatas y una lectura opcional de scanning (§25). Responsable informa policy mínima ENVER-Terraform-AMI-Read aplicada manualmente; no se enumera IAM. GetParameter ahora exit0, pero DescribeImages denegado activa la detención explícita **antes de plan/scanning**. Solo task/memoria se editan; sin apply, IAM remoto, recursos, cambios HCL/candidatas o Git stage/commit/push.
+
+**INFRA-5 — REPLAN COMPUTE DESPUÉS DE VALIDAR AMI** aporta validación EC2 de la AMI concreta y autoriza STS/fmt-check/validate/un plan completo con inputs anteriores, revisión de candidatas y una consulta scanning (§26). Solo task/memoria como ediciones; sin cambios HCL/IAM, recursos/apply/destroy/import o Git stage/commit/push. Plan completo ahora acreditado, no autorización de provisión/gasto, aceptación de tareas o cierre de gates.
+
+**INFRA-5 — PREPARAR IAM COMPUTE + IAM RUNTIME PARA APPLY** autoriza después revisar las dos candidatas y runtime HCL, preparar instrucciones de aplicación exclusivamente manual, fmt-check/validate y registro de evidencia nueva (§27). **No cambia IAM/AWS/HCL/JSON, no repite plan sin cambios HCL, no apply ni Git stage/commit/push.** Preparación de una futura asignación humana no acredita su realización ni acepta riesgos o gates por inferencia.
+
+**INFRA-5 — HARDENING IAM RUNTIME ANTES DE APPLY / PERMISSIONS BOUNDARY** adopta después límite externo administrado por humano, autoriza crear su JSON y modificar role HCL/variable/candidataIAM, fmt/check/validate y task/memoria (§28). Compute candidata sin cambios. **No acepta riesgo anterior sin límite independiente; guía§27 no habilita adjuntar candidatas todavía.** Sin ARN real aprobado no plan, sinAWS/apply/destroy/import/adjuntos/stage/commit/push. Referencia ARN determinística no acredita existencia de policy.
+
+**INFRA-5 — POST-HARDENING PLAN CON PERMISSIONS BOUNDARY REAL** aporta después ARN real creado por administrador independiente y autoriza usarlo temporalmente, revisar HCL/IAM, fmt/check/validate y un plan (§29). Resuelve bloqueo de input/plan de§28 con fuente informada, no acredita contenido remoto o permisos efectivos por inferencia. Solo task/memoria se editan; prohibidos adjuntos de candidatas, cambios IAM, recursos, apply/destroy/import o Git stage/commit/push.
+
 Aplican [constitución](../../.specify/memory/constitution.md), [001](../001-backend-foundation/spec.md), [002](../002-authentication/spec.md) y el cierre local de [002 task §§82–84](../002-authentication/task.md). No se cierran GATE-G/H de 002 ni AUTH-027 integralmente.
 
 Antes de cada ejecución futura: confirmar DP bloqueantes, autorización de alcance/archivos/comandos/entorno/costo, evidencia prevista y reversión. Los **archivos esperados** de cada tarea son destinos futuros sujetos a esa autorización, no archivos creados ahora. Las evidencias se almacenarán en ubicación protegida aprobada, no como secretos/state/logs crudos en Git.
@@ -81,7 +96,7 @@ Todos los gates de esta tabla están **PENDIENTE / NO SATISFECHO**. Los prerrequ
 | GATE-I-H | Infra cloud reproducible: IaC revisada, state protegido, drift/reproducción/rollback y evidencia verificable | E(002), E(008), E(025–030) | GATE-I-A a GATE-I-G | AC-I-12, 13, 15 |
 | GATE-I-I | URL HTTPS pública sirve Register/Login/Logout desde dos instancias, controles distribuidos y negativos verificados; deploy manual trazable | E(027–030) y contrato aprobado 004 | GATE-I-A a GATE-I-H | AC-I-13–15 |
 
-Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las cuatro evidencias. §§6–22 registran resultados y límites distinguiendo observación directa/evidencia informada; ninguna E parcial satisface por sí sola un gate. I-H/I-I no implican SLA, producción lista ni cierre automático de AUTH-027 o gates de 002.
+Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las cuatro evidencias. §§6–29 registran resultados y límites distinguiendo observación directa/evidencia informada/propuesta; ninguna E parcial satisface por sí sola un gate. I-H/I-I no implican SLA, producción lista ni cierre automático de AUTH-027 o gates de 002.
 
 ## 4. Catálogo de tareas
 
@@ -97,6 +112,8 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Aceptación:** alcance, presupuesto y responsables aprobados por escrito; lista de cargos y recursos fuera de presupuesto, sin secretos.
 - **Evidencia:** E(T-INFRA-001), aprobación y estimación fechada/regional saneada.
 - **Resultado actual:** identidad/perfil/región, crédito informado USD 100, presupuesto USD 50/reserva objetivo USD 50 acreditados (§§7–8); §9 confirma proyecto enver/ambiente dev/us-east-1 y estimaciones parciales de red/IP; §10 acredita seis AZ reales disponibles. Faltan estimación integral por duración/uso, cobertura/vigencia del crédito, responsables/ownership/custodia, calendario y aceptación de decisiones restantes aplicables. No se satisface la aceptación completa ni se vuelve a marcar pendiente el monto aprobado.
+- **Riesgo INFRA-5:** §23 estima compute candidato USD36.348/730h y subtotal futuro con ALB/IPv4 USD60.073/730h, aún sin Redis/demás dependencias. No convierte USD50 agregado en mensual ni autoriza730h; sin duración/estimación integral aprobadas, se detiene antes de HCL/plan. Monto aprobado conservado, aceptación integral pendiente.
+- **Ventana aprobada posteriormente:** §24 máximo48h y guardrail USD10 de ventana, no presupuesto mensual ni autorización de apply; compute≈USD2.3915, con ALB/1LCU promedio≈4.3355, bolsa provisional otros2+contingencia1→7.3355. Hay margen nominal de preparación, no cotización integral/Billing/reserva garantizada; aceptación001 permanece pendiente.
 - **Riesgo:** cargos o exposición de datos de cuenta; una alarma no limita gasto.
 - **Gate asociado:** GATE-I-A; soporte de GATE-I-H/GATE-I-I.
 
@@ -142,12 +159,13 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Aceptación:** perfil aprobado, rutas/salidas y allowlist especificadas sin `0.0.0.0/0` en Atlas; prueba de conectividad real reservada a 028.
 - **Evidencia:** E(T-INFRA-004), comparación de costo/red y reglas propuestas saneadas.
 - **Resultado actual:** §14 materializa IGW/ruta y egreso SG provisional sin EIP/NAT/compute. Dos EIP futuras conservan solo aprobación de diseño/plan; EIP y allowlist Atlas /32 no implementadas ni autorizadas para apply. Faltan costo/egreso integral, decisiones restantes DP-I-03/06 y prueba de conectividad externa estable; red creada no acredita Atlas accesible. Estado PARCIAL conservado.
+- **Diseño/plan posterior:** §24 incorpora2EIP y2ENI persistentes/asociaciones al HCL y salida parcial del plan, sin crearlas ni modificar subnets. /32Atlas y conectividad real siguen pendientes; no autorización de apply o aceptación004 integral.
 - **Riesgo:** IP cambiante, NAT/IPv4 costosos o dependencia sin conectividad.
 - **Gate asociado:** GATE-I-B, soporte GATE-I-F.
 
 ### T-INFRA-005 — Roles y permisos mínimos
 
-- **Estado:** PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE.
+- **Estado:** PARCIAL / HARDENING IAM PENDIENTE DE APLICACIÓN (§28).
 - **Fase:** INFRA-3 Security/IAM.
 - **Objetivo:** separar provisión, deployment, runtime, administración y bootstrap.
 - **Dependencias:** T-INFRA-003, T-INFRA-004; DP-I-08/09 y contrato preliminar 004.
@@ -157,6 +175,13 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Aceptación:** revisión de mínimo privilegio y separación de roles; runtime sin permisos de creación/borrado de tabla ni administración global.
 - **Evidencia:** E(T-INFRA-005), matriz rol→acción→recurso y revisión.
 - **Resultado actual:** §14 acredita apply de red y post-plan sin AccessDenied con IAM Read/Apply configuradas previamente por el responsable; permisos efectivos suficientes para las operaciones ejercitadas, no auditoría global ni prueba de destroy/rollback. Policies locales/remotas no modificadas por el agente. IAM runtime/instance profile/SSM y separación deployment/authority/secretos/004 pendientes. Estado PARCIAL conservado.
+- **Análisis runtime posterior:** §23 propone trust EC2/profile/ECR pull-only y evalúa SSM managed frente a policy reducida, sin definirlos en Terraform/JSON ni adjuntarlos por detención previa de costo. No SSM funcional, IAM mínimo validado o separación integral aceptada. Conserva PARCIAL / aceptación pendiente.
+- **Preparación autorizada posterior:** §24 define role/profile,2inline policies (SSM reducido5acciones/ECR pull4acciones) y JSON Terraform separados; sin attachment managed o IAM remoto. Validación local exit0 no acredita permisos efectivos/SSM funcional/secrets/authority/004. Plan falla en ssm:GetParameter público antes de resolver AMI; PARCIAL / aceptación pendiente.
+- **Revalidación §25:** lectura pública SSM ahora acreditada; ec2:DescribeImages denegado antes del replan. Candidatas sin modificar/adjuntar, mínimo faltante de solo lectura documentado. Runtime y separación integral no acreditados; PARCIAL conservado.
+- **Replan §26:** role/profile/dosinline policies incluidos en plan completo, candidatas revisadas intactas, PassRole exacto/EC2. Sin AccessDenied de plan, pero no prueba de CreateRole/PutRolePolicy/PassRole/SSM o aislamiento efectivo; PARCIAL / aceptación pendiente.
+- **Revisión manual §27:** JSON válidos, scope y acciones concretas inventariados, customer-managed recomendadas por tamaño/separación. Instrucciones manuales condicionadas a revisión humana de escalada PutRolePolicy+PassRole y cuotas; no mínimo privilegio integral certificado, IAM efectivo auditado o políticas adjuntas. PARCIAL / aceptación pendiente.
+- **Hardening §28:** boundary9acciones/denegaciones explícitas preparada fuera deTerraform, role con ARN obligatorio, CreateRole/PutRolePolicy condicionados y anti-retiro/edición boundary en candidata. No límite efectivo aplicado/AWS validado; adjunción de candidatas suspendida, PARCIAL / HARDENING IAM PENDIENTE DE APLICACIÓN.
+- **Plan §29:** boundary real/custodia según responsable, role con ARN exacto en plan POST-HARDENING12/0/0. Candidatas sin adjuntar, sin role creado o evaluación efectiva de mutaciones/IAM agregado. PARCIAL / HARDENING IAM PENDIENTE DE APLICACIÓN; evidencia de plan no cierre de aceptación.
 - **Riesgo:** privilegio excesivo, trust abierto o secretos de cuenta persistentes.
 - **Gate asociado:** GATE-I-B, GATE-I-F.
 
@@ -208,12 +233,16 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Preparación posterior:** §20 acredita otro build local desde HEAD3312d220 limpio, tag **enver-api:git-3312d220e3ff**, exit 0, Linux/amd64/non-root1654/.NET10.0.12, y prepara publisher JSON separado/no aplicado. Flujo futuro login/push/digest/scanning documentado, no ejecutado. Pendientes policy aplicada/login/push/digest/scanning/pull por digest/rollback y contrato/ownership/004; PARCIAL conservado, sin modificar Dockerfile o provisioning.
 - **Intento autorizado posterior:** §21 publisher creada/adjunta manualmente según responsable, JSON/hash intactos y local image ID/plataforma coinciden. STS/ListImages exit 0/0 imágenes, pero **GetAuthorizationToken exit 254/AccessDenied** en Resource=*, sin Docker login/tag/push/reintento/IAM modificado. Adjunción informada no acredita permiso efectivo: publicación/digest/scanning/pull/rollback y aceptación integral siguen pendientes. Conserva PARCIAL con bloqueo operativo explícito; no COMPLETADA.
 - **Resultado vigente:** §22 registra evidencia posterior **informada por responsable**: push/pull por digest exit 0, tag git-3312d220e3ff y digest ECR **sha256:0a0fceb5ab9e71e09db4a1ee7326dc59993d40266f144259f0d02bc6c9802cda**, pushedAt **2026-11-12T21:36:45.185000Z**, tamaño **101033417bytes**; 1 tag y3objetos OCI, no3versiones. Scanning **IN_PROGRESS** para linux/amd64, sin conteos de findings disponibles; rollback pendiente por ausencia de digest anterior. Publicación/digest/pull acreditados según esa fuente, no ejecutados ni revalidados por el agente en el checkpoint. Scanning final/rollback/seguridad/reproducibilidad/contrato004/aceptación integral pendientes; PARCIAL conservado.
+- **INFRA-5:** §23 no consulta scanning; IN_PROGRESS sigue siendo última evidencia informada, no estado actual revalidado. No despliega ni actualiza digest/imagen, no findings=0, conserva pendientes y PARCIAL.
+- **Retoma INFRA-5:** §24 tampoco consulta scanning tras AccessDenied del plan. Última evidencia informada IN_PROGRESS, no estado fresco ni findings=0; imagen/digest/pull/rollback/aceptación de§22 conservados, sin nuevo deployment.
+- **Revalidación §25:** tampoco se consulta scanning tras denegación DescribeImages; cero llamadas, última evidencia informada IN_PROGRESS, sin findings=0 o aceptación nueva. PARCIAL conservado.
+- **Consulta §26:** una llamada DescribeImageScanFindings al digest registrado devuelve exit254/ScanNotFoundException; sin findings/estado final. No se atribuye al manifiesto linux/amd64 de digest no comunicado, cuyo IN_PROGRESS sigue histórico/informado. Publicación/rollback/aceptación conservan sus límites; PARCIAL.
 - **Riesgo:** drift Terraform/CD, imagen no rastreable o secretos en capas.
 - **Gate asociado:** GATE-I-C, GATE-I-H, GATE-I-I.
 
 ### T-INFRA-009 — Configuración de dos instancias
 
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** PARCIAL / PLAN POST-HARDENING ACREDITADO; PROVISIÓN Y ACEPTACIÓN PENDIENTES (§29).
 - **Fase:** INFRA-5 Compute.
 - **Objetivo:** definir dos hosts Linux Docker en AZ distintas con capacidad suficiente.
 - **Dependencias:** T-INFRA-006, T-INFRA-008; DP-I-02/03.
@@ -222,12 +251,18 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Acciones futuras:** configurar cómputo/volúmenes/roles y exposición de contenedor, mismo digest y capacidad mínima dos; bootstrap sin secretos en user-data. No crear instancias hasta 027.
 - **Aceptación:** IaC expresa dos EC2/dos AZ, sin puertos abiertos al público ni secreto; capacidad elegida justificada sin debilitar hasher. Existencia real exigida por gate en 027–028.
 - **Evidencia:** E(T-INFRA-009), revisión topología/capacidad y configuración.
+- **Resultado actual:** §23 analiza dos hosts x86_64 en use1-az1/use1-az2, AL2023 vía parámetro público SSM, candidato t3a.small y gp3 10GiB/host. Salida requiere EIP/propuesta o alternativa aprobada; no NAT/IP automática. Estimación pública identifica riesgo agregado USD50 y detiene antes de compute.tf/role/profile/bootstrap/policies/plan. No EC2 creada, AMI ID resuelto, capacidad/SSM/Docker probados ni E009 aceptada; propuestas no son decisiones finales.
+- **Resultado posterior:** §24 aprueba ventana48h/guardrail10 para preparación y define2t3a.small/2AZ, gp3cifrado10GiB, ENI/EIP estables, host bootstrap sin API. Fmt/validate exit0. Un plan exit1 muestra10altas parciales/0cambios/0bajas; **2EC2 del HCL no llegan a planearse** por ssm:GetParameter denegado, AMI sin resolver. Sin recursos/capacidad/SSM/bootstrap cloud probados, no E009 integral aceptada.
+- **Revalidación §25:** AMI ID **ami-096ef200a877f36af** resuelta realmente por SSM versión202; OS/arquitectura/available no verificados por **ec2:DescribeImages denegado**. Sin nuevo plan ni no-op actual de16existentes. PARCIAL / definición validada, plan completo bloqueado IAM/validación AMI.
+- **Replan §26:** validación concreta AMI aportada por responsable y lectura data.aws_ami.api exitosa; plan completo12/0/0 incluye dosEC2t3a.small, dosAZ y gp3cifrado10GiB/host. Bloqueo previo de plan superado; sin EC2 reales/capacidad/bootstrap/SSM/salida/seguridad runtime probados o aceptación integral.
+- **Hardening §28:** HCL cambia para exigir boundary externa, sin ARN real no plan nuevo;12/0/0 de§26 pasa a evidencia PRE-HARDENING, no finalapply. Sin recursos reales, PARCIAL conservado.
+- **Plan §29:** un plan POST-HARDENING real exit2/12/0/0 incluye boundary obligatoria en role, dosEC2/t3a.small/AMI aprobada/dosAZ/raícesgp3cifradas. Superado bloqueo de plan, no provisión ni pruebas de runtime/aceptación.
 - **Riesgo:** CPU/memoria insuficientes, una sola máquina disfrazada de dos instancias o bootstrap inseguro.
 - **Gate asociado:** GATE-I-C.
 
 ### T-INFRA-010 — Recuperación, mantenimiento y escalado
 
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** PARCIAL / RECOVERY DOCUMENTADO; PRUEBA Y ACEPTACIÓN PENDIENTES (§24).
 - **Fase:** INFRA-5 Compute.
 - **Objetivo:** definir recuperación y escalado sin perder estado de seguridad compartido.
 - **Dependencias:** T-INFRA-009; DP-I-02/07/15.
@@ -236,6 +271,12 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Acciones futuras:** diseñar reemplazo y drenaje, capacidad durante mantenimiento, escalado manual inicial y actualización de salidas Atlas; no reiniciar cuotas por host ni activar autoscaling sin decisión.
 - **Aceptación:** runbook con fallos/rollback y límites de disponibilidad explícitos; escenarios de recuperación definidos para prueba 028, no promesa de cero downtime.
 - **Evidencia:** E(T-INFRA-010), procedimiento y revisión de escenarios/costo.
+- **Resultado actual:** §23 documenta propuesta de reemplazo Terraform con AMI/bootstrap controlados, retención/reasociación de salida estable, artefacto igual en A/B y estado crítico externo; sin Auto Scaling ni despliegue. Sin prueba real de fallo/reemplazo/recuperación, rollback anterior, objetivos/duración/capacidad/egreso aceptados o garantía de dos hosts durante mantenimiento. E010 parcial, aceptación pendiente.
+- **Preparación posterior:** §24 implementa definiciones de ENI/EIP independientes del host y user_data_replace_on_change, AMI mantenible/fijable y bootstrap común; documenta retención ENI/IP y destrucción previa del host si se reemplaza. No Auto Scaling/create_before_destroy, reemplazo ejecutado, garantía2hosts durante mantenimiento o rollback previo probado. PARCIAL conservado.
+- **Revalidación §25:** alias SSM devuelve ID concreto, sin fijarlo/modificar HCL ni verificar atributos. Recovery/reemplazo no ejecutados; PARCIAL / documentación, prueba y aceptación pendientes.
+- **Replan §26:** asociaciones/ENI/EIP/EC2 aparecen en plan completo sin reemplazos existentes; no falla/reemplazo/retención real de ENI o recovery ensayados. PARCIAL / documentación, prueba y aceptación pendientes.
+- **Hardening §28:** reproducción futura exige misma boundary externa aprobada/versionada y custodia independiente, no retirarla para recuperar un host. Recovery no probado, PARCIAL conservado.
+- **Plan §29:** dependencia de boundary real incluida en plan; sin reemplazo/falla/recuperación o mantenimiento real probado, PARCIAL conservado.
 - **Riesgo:** quedar con una instancia, nueva IP bloqueada en Atlas o reabrir seguridad por reinicio.
 - **Gate asociado:** GATE-I-C, GATE-I-H.
 
@@ -454,6 +495,12 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Preparación de publicación:** §20 fmt-check/validate exit 0, HCL/lock/provisioning/state/planes intactos, sin plan/apply o AWS CLI. Sin aceptación nueva de E025 integral/protección/recovery; estado PARCIAL conservado.
 - **Intento de publicación bloqueado:** §21 fmt-check/validate exit 0, state/backup/planes intactos por hash; sin plan/apply/destroy/import. AccessDenied es de ECR token, ninguna operación Terraform fallida; custodia/recovery/dependencias/E025 integral pendientes, estado PARCIAL conservado.
 - **Checkpoint de imagen:** §22 conserva validaciones y post-plan históricos; no ejecuta Terraform ni aceptación nueva de custodia/recovery/dependencias/E025 integral. Estado PARCIAL conservado.
+- **Análisis INFRA-5:** §23 no ejecuta fmt/validate/plan al detenerse antes de HCL por costo; state/backups/planes conservados por hash. Validaciones anteriores siguen históricas, no resultados actuales; PARCIAL / aceptación pendiente.
+- **Retoma INFRA-5:** §24 fmt/check/validate exit0 y plan exit1/AccessDenied público SSM; sin apply o plan completo acreditado. State/backup/planes consumidos conservados; validación local no acepta custodia/backup/recovery ni dependencias, PARCIAL permanece.
+- **Revalidación §25:** fmt-check/validate exit0; replan no ejecutado por denegación EC2 previa, sin nuevo resultado add/change/destroy. Hashes de HCL/candidatas/state/backup/planes y demás fuentes preservados; PARCIAL / aceptación pendiente.
+- **Replan §26:** fmt-check/validate exit0 y plan completo exit2/12add/0change/0destroy, NETWORK14/ECR2no-op. Validación/plan acreditados no resuelven custodia/cifrado/backup protegido/recovery/dependencias; aceptación integral pendiente.
+- **Hardening §28:** fmt/check/validate exit0 del HCL actualizado; plan anterior PRE-HARDENING, nuevo plan bloqueado por ARN real deboundary. Sin prueba de permisos efectivos/custodia/recovery, PARCIAL / aceptación pendiente.
+- **Plan §29:** fmt/check/validate exit0 y plan POST-HARDENING exit2/12/0/0, NETWORK14/ECR2no-op. Plan previo sigue PRE-HARDENING; custodia estatal/backup protegido/recovery/eficaciaIAM/dependencias no aceptadas, PARCIAL / aceptación pendiente.
 - **Riesgo:** inicialización con backend equivocado, descarga no aprobada o secretos en salida.
 - **Gate asociado:** GATE-I-A.
 
@@ -1574,3 +1621,555 @@ State/sufijos/backups/.terraform/tfplan/tfvars reales/credenciales Docker **no v
 Checkpoint autorizado únicamente de **infra/bootstrap/local-ecr-publisher-policy.json**, **specs/003-infrastructure/task.md**, **memoria.md**, mensaje **feat(infra): publish first ecr image by digest**. Stage de esos3archivos después de revisión, verificar commit/árbol limpio/0staged al terminar; hash final se comunica al cierre sin autorreferencia dentro del commit. No amend/squash/merge/rebase/push Git.
 
 Evidencia privada local de esta revisión documental/Git: `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra4-image-checkpoint-20261112-215724\` (hashes/exclusiones/revisión JSON, resumen de publicación **informada**, revisión Git), no logs nuevos de publicación ni custodia/retención garantizadas por carpeta temporal. **Ninguna operación AWS/Docker/Terraform o cambio IAM por el agente en este checkpoint.** Detener después del commit, sin seguimiento automático de scanning/publicación/workloads/cleanup.
+
+## 23. INFRA-5 — análisis compute/recuperación y detención previa por presupuesto
+
+### 23.1. Autorización, baseline y resultado del precheck
+
+**2026-11-12**, solicitud **INFRA-5 — COMPUTE BASELINE / T-INFRA-009 + T-INFRA-010 / IAM RUNTIME + 2 EC2 + SSM**, BUILD CONTROLADO, PLAN PRIMERO, **NO APPLY**. Se consultan spec/plan/task003, en particular005/009/010 y gates I-C/H/I; se conservan contratos y dependencias. Autorizaba preparar compute.tf/iam-runtime.tf, bootstrap/policies revisables, fmt/check/validate y un intento de plan; EIP solo propuesta y sin IAM aplicado. Incluye condición expresa: **si el diseño amenaza el presupuesto USD50, detener y recomendar alternativa**.
+
+Precheck local real: `git status --untracked-files=all`, `git rev-parse HEAD` y verificaciones de branch/porcelain: **feature/infrastructure**, **25daa836c0571d4c0c02486e49ce435a108f0558**, **árbol limpio/0staged**. Este commit tiene padre3312d220 y preserva publisher/task/memoria de§22; no nuevo stage/commit/push. Perfil/cuenta/user y16recursos se toman de baseline/evidencia histórica, **no STS/inventario fresco**. Terraform1.17.1/provider6.73.0 se conservan como versiones del baseline, no se ejecuta version ni actualización.
+
+**Resultado:** solo análisis previo y registro en este task/memoria. **No compute.tf, iam-runtime.tf, scripts/unit, cambios de variables/outputs/ejemplo, policies compute/IAM nuevas, Terraform fmt/validate/plan o consultas AWS CLI**. Condición de costo activada antes de implementar; no se fabrica un plan o una denegación para completar el formato de salida. Consultas HTTPS públicas a documentación/precios AWS no usan credenciales ni modifican la cuenta. Sin apply/destroy/import, recursos/EIP, cambios IAM, Docker, pruebas o despliegue. No lectura opcional de scanning.
+
+### 23.2. Red y comparación de salida — propuesta, no provisión
+
+Lectura local confirma subnets con **map_public_ip_on_launch=false**, ruta default al IGW y SG backend sin ingress público/22, solo TCP8080 desde SG ALB. El IGW/egreso SG por sí solos **no permiten salida IPv4 de EC2 sin IP pública/NAT**. No se modifica subnet, routing, SG ni se presupone SSM funcional. Diseño candidato: una EC2 por clave a/b, Zone IDs **use1-az1/use1-az2**, nombres us-east-1a/b según evidencia previa de la cuenta; aptitud/capacidad EC2 por AZ no consultadas ahora.
+
+| Opción analizada | Funcionalidad/límites | Costo o pendiente |
+| --- | --- | --- |
+| A — dos EIP, una por EC2, sin IP automática | Salida IPv4 con IGW/DNS/egreso; Atlas allowlist futura de ambas /32. IP pública no abre SG ni autoriza API/SSH público. La EIP retenida puede reasociarse tras reemplazo. SSM/ECR requieren además agente/rol/red correctos | **USD0.005/IP-h**, **USD7.30/730h** las dos, in-use o idle. Es dependencia004; **solo propuesta**, no recurso HCL/creación/asociación ahora |
+| B — interface endpoints privados | Ejemplo ssm + ssmmessages + ecr.api + ecr.dkr en2AZ, con private DNS/SG adecuados; S3 gateway para capas ECR, sin hora/procesamiento de gateway. ec2messages según agente/compatibilidad, otros servicios y bootstrap pueden requerir más | **4×2×USD0.01×730=USD58.40/730h**, más procesamiento inicial **USD0.01/GB**; endpoint adicional en2AZ≈USD14.60/730h. **No resuelve Internet/Atlas público ni repos externos**; Atlas privado/otra salida requiere contrato/costo adicionales, no asumidos |
+| C — NAT Gateway | Da salida a hosts privados, puede aportar IP allowlisted, agrega costo/hora/GB y posible inter-AZ; uno es dependencia zonal y dos aumentan costo | **Descartado por prohibición**, no creado ni elegido. Ejemplo público consultado de Ohio USD0.045/h +USD0.045/GB sirve solo como advertencia de orden de costo, **no tarifa us-east-1 acreditada**; cotización regional pendiente si algún día se autoriza reconsiderarlo |
+
+Para el perfil económico vigente se recomienda **A solo si se aprueban ventana/costo/egreso**. Crear hosts sin salida sería preparación inoperante para SSM/Docker, no compute funcional. Futuro bootstrap con EIP debe esperar su asociación antes de instalar/verificar, con espera/reintentos acotados y fallo explícito; evitar ciclo `instance → user_data → EIP → instance`, usando diseño de ENI/asociación o espera aprobado al implementar. No activar API por terminar bootstrap. Sin endpoints, NAT instance, proxy de salida o IPv6 añadidos como atajo.
+
+### 23.3. AMI, capacidad, disco y bootstrap — alternativas revisables, no HCL existente
+
+- **OS/arquitectura propuestos:** Amazon Linux2023 estándar **x86_64** (compatible con linux/amd64 publicada); no ARM, AMI histórica arbitraria o paquete/proveedor añadido. Estrategia mantenible documentada por AWS: `aws_ssm_parameter` sobre **/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64**, después `aws_ami` para verificar owner Amazon, arquitectura, virtualización/EBS y root-device/snapshot. **No AMI ID/version resueltos en la cuenta**. El alias latest/kernel-default cambia; no equivale a reproducibilidad. Antes de aplicar: registrar ID/version/fecha/kernel, revisar y fijar AMI seleccionada para ambos hosts/plan aprobado; actualizaciones por replan/reemplazo autorizado, sin rotación silenciosa. Documentación AWS consultada advierte cambio de kernel-default; no se promete kernel específico sin resolverlo.
+- **Candidato de dimensionamiento:** **t3a.small**, AMD x86_64,2vCPU/2GiB, costo menor que t3.small; margen inicial para OS/SSM/Docker/API frente a1GiB. **No capacidad medida/aceptada** ni garantía de latencia/concurrencia. Config existente conserva hashing concurrency2 y presupuestos Register/Login8000ms, Logout4000ms; no se reducen hashing/seguridad para ajustarlos a máquina. Modo CPU **standard propuesto**, evita cargos por surplus Unlimited pero puede throttlear al agotar créditos: exigir prueba de CPU/RSS/créditos/latencia bajo carga antes de aceptación. Unlimited por defecto tiene posible **USD0.05/vCPU-h** adicional Linux según página T3, por eso no se asume costo fijo si se deja default. Disponibilidad de tipo/AZ no verificada.
+- **Alternativa no aceptada:** t3a.micro2vCPU/1GiB, más barata pero menor margen; solo seleccionable después de prueba autorizada sin debilitar controles. Precio menor no prueba suficiencia, y no se ejecutan benchmark/backend ahora.
+- **EBS candidato:** **gp3 10GiB raíz por host**,2volúmenes, cifrado con clave AWS administrada por defecto, delete_on_termination del root y sin datos críticos; confirmar tamaño mínimo del snapshot AMI antes de fijarlo. 3000IOPS/125MiB/s base sin extras, no snapshots/aprovisionamiento IOPS adicional elegidos. Margen para OS/Docker/imagen≈100MB y logs acotados; no dimensionar usando solo tamaño comprimido ECR. Política futura de rotación/local logs y disco debe impedir llenado, observabilidad central se reserva a INFRA-11.
+- **Hardening candidato:** solo SG backend, sin key pair/puerto22, IMDSv2 obligatorio y alcance host, EBS cifrado, sin Docker socket público ni incorporación indiscriminada de usuarios al grupo docker; revisar entrega de credenciales temporales/IMDS a contenedor cuando INFRA-10 defina contrato. No configuración aplicada o validación de hardening real.
+- **Bootstrap futuro:** instalar Docker desde repositorio AL2023 aprobado, habilitar Docker/SSM, directorio protegido de aplicación y versión de bootstrap controlada; instalación/release de paquetes trazable antes de aceptación, sin afirmar que `dnf install` variable en el tiempo es reproducible por sí sola. Sin credentials/tokens/URI/JWT/passwords en user_data/state. Cloud-init/systemd de host puede registrar errores saneados; no CloudWatch IAM/agent extra ahora. **Script no creado ni probado**.
+- **Systemd futuro de aplicación:** evaluar unidad **no habilitada/no iniciada**, que exija digest/config/secretos runtime válidos antes de cualquier arranque y gestione el contenedor non-root; no escribir unidad ejecutable ficticia ni pull/run en cloud-init. Separar provisioning de selección/despliegue por004, un escritor del digest. El digest real de§22 se conserva como referencia, no como instrucción de autoarranque. No API hasta secrets/Atlas/Redis/authority/readiness/004/CI aprobados.
+
+### 23.4. IAM y responsabilidades — no políticas creadas/adjuntas
+
+| Principal/componente futuro | Propuesta delimitada / pendientes |
+| --- | --- |
+| Runtime EC2 | Rol propuesto **enver-dev-api-runtime**, trust solo `ec2.amazonaws.com`, instance profile propio, credenciales temporales IMDS, no access keys. **Sin role/profile definido en Terraform ni existente acreditado** |
+| ECR consumidor | **ecr:GetAuthorizationToken** Resource=* (acción sin ARN, limitar región/cuenta); **ecr:BatchCheckLayerAvailability**, **ecr:GetDownloadUrlForLayer**, **ecr:BatchGetImage** solo `arn:aws:ecr:us-east-1:926925605666:repository/enver-dev-api`. Sin PutImage/CreateRepository/DeleteRepository ni permisos publisher/provisioning |
+| SSM agente | Evaluada **AmazonSSMManagedInstanceCore**, ARN `arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore`, versión pública v2: acciones SSM/inventario/documentos/parámetros +4ssmmessages +6ec2messages, Resource=*. **Más amplia que solo sesión**, incluye GetParameter/GetParameters globales y AWS puede actualizarla; SDD exige mínimo privilegio, no la aprueba por nombre. Preferir evaluar policy custom session-only (`ssm:UpdateInstanceInformation` y4canales ssmmessages) contra agente elegido y llamadas reales, ampliando solo con revisión explícita. **Sin elección/attachment o SSM funcional acreditados** |
+| Operador Session Manager | Permisos humanos StartSession/ResumeSession/TerminateSession y límites de documentos/destinos requieren revisión separada; no se conceden a EC2 ni se amplía el usuario local por implementar el agente |
+| Terraform compute | Candidato futuro separado `terraform-local-compute-policy.json`: DescribeImages/Instances/InstanceStatus/Volumes y lecturas efectivamente exigidas por provider; RunInstances multirrecurso (AMI/subnet/SG/ENI/volume/instance), TerminateInstances/tagging solo recursos ENVER, región/tags cuando la acción lo soporte. DescribeAddresses solo con EIP en alcance; Allocate/Release/Associate/DisassociateAddress **no se conceden por mera propuesta EIP**. No ec2:* o escritura de networking global. Lista final requiere inspección de llamadas provider y diseño final, **no se presenta policy mínima validada** |
+| Resolución AMI por operador | La estrategia SSM requeriría **ssm:GetParameter solo para el parámetro público AL2023 seleccionado**, no permiso de lectura global de parámetros/secretos; DescribeImages para validar sus atributos. No llamadas ni permiso concedido ahora; incluirlo explícitamente en propuesta posterior, no fingir que DescribeImages por sí solo resuelve el alias SSM |
+| Terraform IAM | Candidato separado `terraform-local-iam-runtime-policy.json`: lifecycle exacto role/profile/attachment; lecturas y tagging requeridos por provider. Si ECR/custom SSM inline: PutRolePolicy/GetRolePolicy/DeleteRolePolicy adicionales a la lista de solicitud, solo role ENVER; no se omiten y luego se amplía a ciegas. Managed attachment solo ARN explícitamente aprobado. ARN/nombres acotados no constituyen permissions boundary ni validan contenido de policy; revisar riesgo de escalada antes de otorgar CreateRole/PutRolePolicy/PassRole |
+| PassRole | Si se autoriza después, **solo `arn:aws:iam::926925605666:role/enver-dev-api-runtime`**, condición **iam:PassedToService=ec2.amazonaws.com**; sin PassRole arbitrario, role existente supuesto o iam:*. Nombre/ARN **propuestos**, no recursos actuales |
+| Authority/secretos/logs | Ningún permiso DynamoDB, Secrets/KMS o CloudWatch inventado. Esperar nombres/ARN/contratos exactos INFRA-10/11; no tabla, inicializador o read global de parámetros para suplir secretos. Runtime solo consume lo aprobado, nunca crea/borra authority ni reabre confianza por arrancar |
+
+Se preservan publisher y provisioning ECR existentes sin ampliarlos ni reutilizarlos como role runtime. Usuario Terraform sin permisos compute/IAM según responsable: declaración, **no auditoría efectiva nueva**. No AccessDenied observado ahora porque no se intenta plan/API; acción/recurso/fase denegados **NO APLICA**, no se inventa. Si un futuro plan autorizado deniega acceso: registrar error exacto y detener, sin IAM/reintento/credenciales alternativas automáticos.
+
+### 23.5. Estimación regional pública y condición de detención
+
+Consulta pública **2026-11-12**, capturas principales **22:10:07–22:10:13Z**. Fuentes sin autenticación: [EC2 T3/T3a, Linux us-east-1](https://aws.amazon.com/ec2/instance-types/t3/), [EBS precios](https://aws.amazon.com/ebs/pricing/) y [tabla regional gp3](https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/ec2/USD/current/ebs.json), [VPC precios](https://aws.amazon.com/vpc/pricing/) y [tabla regional IP/endpoints](https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/vpc/USD/current/vpc.json), [PrivateLink](https://aws.amazon.com/privatelink/pricing/), [ALB ejemplo us-east-1](https://aws.amazon.com/elasticloadbalancing/pricing/). EBS rateCode **JG3KUJMBRGHV3N8G.JRTCKXETXF.6YS6EN2CT7**; IP in-use **4GQUNXTFWVSGPUZK.JRTCKXETXF.6YS6EN2CT7**; endpoint **EN2N5TATXE673A3B.JRTCKXETXF.6YS6EN2CT7**.
+
+**730h es escenario comparativo, NO duración aprobada ni reinterpretación de USD50 como mensual.** On-demand Linux/shared, sin Free Tier/crédito descontado, impuestos, reservas/Savings Plans o spot. EBS es referencia mensual de capacidad facturada por tiempo real; proyección a ventanas cortas aproximada. No se consultan Billing, saldo/vigencia/cobertura del crédito o gasto acumulado.
+
+| Partida candidata us-east-1 | Cálculo | USD referencia730h/mes |
+| --- | --- | --- |
+| Dos EC2 t3a.small | 2 ×0.0188/h ×730h | **27.448** |
+| Dos root gp3 10GiB, base | 2 ×10 ×0.08/GB-mes | **1.600** |
+| Dos EIP/public IPv4 | 2 ×0.005/h ×730h | **7.300** |
+| **Subtotal compute funcional propuesto** | EC2+root+salida EIP | **36.348 ≈36.35**, no total plataforma |
+| ALB futuro — solo base hora | 0.0225/h ×730h | **16.425**; LCU variable0.008/LCU-h aparte |
+| IPv4 mínimas futuras ALB2AZ | 2 ×0.005/h ×730h | **7.300**, puede haber más direcciones |
+| **Subtotal futuro compute + ALB +mínimo IPv4** | Sin LCU ni dependencias restantes | **60.073 ≈60.07** |
+
+No ALB planeado/creado ahora: se incluye **solo para no consumir presupuesto agregado ignorando una obligación posterior de rúbrica**. Falta Redis/tier Atlas, DynamoDB, Secrets/KMS, logs/métricas/alarma, ECR, DNS/dominio, transferencias, actualizaciones, reemplazos solapados y margen. ECR0.10/GB-mes previo es referencia, no consumo/factura medida. Transferencia Internet/inter-AZ/Atlas depende de ruta/volumen; **no se considera gratis ni se inventa USD0**. Servicios AWS misma región pueden tener tratamientos distintos por ruta; estimación integral requiere volumen explícito.
+
+**Detención de seguridad de costo:** compute aislado36.35 es inferior a50, **pero no prueba que se respete el límite total**. En escenario730h el subtotal obligatorio parcial ya excede50, faltan duración y gasto acumulado y no se puede acreditar reserva≥50. No es afirmación de que48h cuesten60 ni de que la arquitectura sea inviable en cualquier ventana; el riesgo es aprobar baseline funcional sin calendario/costo global. Se obedece solicitud§20 y task§8: **DETENER antes de HCL/policies/plan, no continuar porque "no apply" permita ignorar la condición**. USD50 agregado/reserva objetivo conservados.
+
+**Alternativa recomendada, NO aprobada/ejecutada:** demostración acotada, por ejemplo **48h** compute equivalente≈**USD2.39** más plataforma/dependencias/retención/margen, sin escoger duración por el responsable. Planificar/revisar/fijar AMI y bootstrap primero, provisionar justo antes de ventana, evidenciar ambos hosts y shutdown/limpieza separados después de autorización. EBS/EIP/ALB/datos retenidos siguen cobrando aunque EC2 se detenga; no promesa de cero cargos, destroy o reserva garantizada. Alternativa micro: 2t3a.micro≈13.724 EC2 +1.60root +7.30IP =**22.624/730h**, con ALB/IP mínimo **46.349/730h**, deja solo3.651 antes de dependencias/margen y capacidad1GiB sin prueba: **no seleccionada para forzar cumplimiento**. Endpoints4×2AZ ya58.40 sin hosts/Atlas, no alternativa económica aprobada; NAT prohibido. No reducir a una instancia, debilitar hasher o sustituir rúbrica.
+
+Antes de retomar: responsable aprueba ventana/horas y calendario, costo integral/cobertura/consumo acumulado/reserva/margen y responsables de retención/apagado; confirma tamaño/AMI/parches, salida EIP de004 para diseño/plan (sin provisión implícita), contrato SSM y nuevo alcance de preparación/plan. No basta aprobar USD36.35 como "mensual" o asignar políticas por cuenta propia; no auto-reanudación.
+
+### 23.6. Recuperación propuesta T-INFRA-010 — sin ejecución
+
+1. Mantener estado crítico externo (Atlas/Redis/authority), no en root/docker volume de host. Pérdida de host no autoriza vaciar cuotas/revocación, restaurar seguridad antigua, recrear tabla o reabrir authority.
+2. Registrar AMI/bootstrap/versión Docker y **misma referencia ECR por digest** para A/B. Referencia conocida sigue `926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api@sha256:0a0fceb5ab9e71e09db4a1ee7326dc59993d40266f144259f0d02bc6c9802cda`, scan final/004/CI/config dependientes; no ejecutar desde bootstrap. Cambiar AMI/paquetes exige revisión del plan y nueva evidencia, no reemplazo silencioso por alias latest.
+3. Ante fallo: diagnosticar/inventariar y pedir autorización de reemplazo Terraform **solo del host afectado**, plan revisado sin destroy/replacement de red/ECR/datos; no ejecutar replace/apply en este bloque. Conservar EIP como recurso independiente/reasociable en diseño futuro para no cambiar allowlist Atlas. Si cambia salida, aprobar nueva /32 y validar TLS/conectividad antes de admitir tráfico; no Atlas/0.
+4. Esperar salida IPv4/SSM y bootstrap concluido, entregar secretos por mecanismo INFRA-10, verificar fail-closed/readiness y desplegar mismo digest vía004 autorizado. Reintegración/drenaje/targets/health son INFRA-6/12 y requieren evidencia real, no config falsa de API/target group aquí.
+5. Sin Auto Scaling. Reemplazar una de solo2EC2 puede dejar temporalmente1host: **no HA/cero downtime garantizados**. Mantener2durante mantenimiento exige capacidad transitoria/costo nuevo autorizado o ventana aceptada; no usar create_before_destroy como promesa de capacidad/egreso/reserva disponible. Probar pérdida/reemplazo/retorno/capacidad/seguridad en incremento autorizado posterior.
+6. Rollback real aún pendiente, sin digest anterior publicado conocido; recrear mismo host/artefacto no es prueba de rollback a versión previa. No restore de state viejo ni reaplicación de planes consumidos; custodia/backup/recovery Terraform025 pendientes.
+
+### 23.7. Resultados, estados y detención
+
+- **Archivos nuevos en repositorio: ninguno.** Solo modificados task/memoria para registrar análisis/bloqueo; fuente/HCL/policies/producto/tests/Docker/SDK/spec/plan003/004/gobierno intactos. Evidencia privada: `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-cost-review-20261112-221004\` (hashes previos, capturas públicas/precios/cálculos y revisión Git), no logs cloud ni custodia/retención duradera garantizadas.
+- **fmt/fmt-check/validate: NO EJECUTADOS** en este bloque por detención anterior a HCL; éxitos anteriores conservados como historia, no verificación actual. **Plan: NO EJECUTADO**; add/change/destroy **NO DISPONIBLE**, no0/0/0 ni número de altas inventado. Resources conceptuales si se retoma: role/profile/policies y2hosts/2roots, EIP solo propuesta; el número de recursos Terraform depende del diseño final, no es plan acreditado.
+- **NETWORK14/ECR2 no-op: NO REVALIDADO**, configuración intacta por hash, no inventario AWS nuevo. En futuro plan revisado deben permanecer no-op, sin destroy/replacement inesperados. State/backups/planes existentes conservados por hash; nunca versionados, no plan nuevo ni credenciales guardadas. Lock/ejemplo permanecen versionables.
+- **T-INFRA-005 PARCIAL / aceptación pendiente**; sin role/profile/SSM implementados. **T-INFRA-009 y010 PARCIAL / ANÁLISIS PREVIO, BUILD Y PLAN BLOQUEADOS POR COSTO**; no se declaran ejecutados compute/provisión/recovery. **T-INFRA-008 conserva PARCIAL** y evidencia informada de§22, scanning final/rollback/aceptación pendientes. **T-INFRA-025 conserva PARCIAL / aceptación pendiente**, sin validación fresca/aceptación de state.
+- **GATE-I-C PENDIENTE / NO SATISFECHO**: no2EC2reales/digest A/B/capacidad/recuperación probados, dependencias I-A/B abiertas. **GATE-I-H/I-I e I-A/I-B igualmente pendientes**, nueve gates abiertos;11tareas parciales001–010/025,19pendientes011–024/026–030. Sin cierre002 GATE-G/H/AUTH-027 integral ni producción/004.
+- Revisión local final `git diff --check` y `git status` registrada al cierre; esperado exclusivamente task/memoria modificados, **0staged**, branch/HEAD25daa836 intactos. **Sin stage/commit/push, AWS CLI/IAM mutado, Docker o Terraform.** Detener aquí; ningún nuevo plan/lectura scanning/IAM/apply/cleanup/siguiente incremento automático.
+
+Referencias técnicas consultadas: [AL2023/SSM AMI y política de actualización](https://docs.aws.amazon.com/linux/al2023/ug/ec2.html), [contenido público AmazonSSMManagedInstanceCore](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonSSMManagedInstanceCore.html). Su lectura no prueba agente/AMI/permisos efectivos ni acepta decisiones pendientes.
+
+## 24. INFRA-5 — ventana48h aprobada, HCL validado y plan parcial bloqueado por IAM
+
+### 24.1. Autorización y baseline conservada
+
+**2026-11-12**, solicitud **APROBACIÓN DE VENTANA TEMPORAL + BUILD/PLAN / NO APPLY**. Aprueba **máximo inicial48h** de compute para evaluación, no infraestructura permanente; **guardrail USD10 acumulados de la ventana** sin nueva aprobación humana y **USD50 AGREGADOS de proyecto**, reserva objetivo50 sobre crédito100 informado. Permite ahora definir2t3a.small/AL2023x86_64/2gp3cifrados10GiB/2EIP para PLAN, role/profile/SSM/pull/bootstrap/recovery y candidatas IAM, fmt/check/validate y un intento de plan; no recursos AWS, apply/destroy/import, IAM remoto o Git stage/commit/push. Una lectura scanning opcional, no polling. El bloqueo presupuestario de preparación§23 se supera por esta autorización explícita, **no se borra su historia** ni se autoriza gasto/aceptación integral.
+
+Precheck real **feature/infrastructure**, HEAD **25daa836c0571d4c0c02486e49ce435a108f0558**, únicamente task/memoria previamente modificados por§23 y **0staged**; sin archivos inesperados. Se preservan esos cambios. Herramientas existentes fuera de PATH heredado, usadas por ruta absoluta sin instalar/cambiar PATH persistente: Terraform **1.17.1/windows_amd64**, `-chdir=infra version -json` confirma AWS **6.73.0**. Introspección local `providers schema -json` confirma primary_network_interface vigente (network_interface de instancia deprecado), sin nuevos providers/init/upgrade. Un error local inicial por Get-FileHash no disponible se resuelve usando SHA256 .NET antes de editar; no fue intento cloud o plan.
+
+### 24.2. Archivos y diseño definido — no recursos creados
+
+**Nuevos5:** [compute.tf](../../infra/compute.tf), [iam-runtime.tf](../../infra/iam-runtime.tf), [compute-host.sh](../../infra/bootstrap/compute-host.sh), [terraform-local-compute-policy.json](../../infra/bootstrap/terraform-local-compute-policy.json), [terraform-local-iam-runtime-policy.json](../../infra/bootstrap/terraform-local-iam-runtime-policy.json). **Modificados4:** variables.tf/outputs.tf y task/memoria; estos dos Markdown ya estaban pendientes. Networking/security/registry/provider/versiones/lock/ejemplo/main, políticas anteriores, SDK/Dockerfile/producto/tests/spec/plan/004/gobierno intactos.
+
+- **Dos EC2 definidas**, clavesa/b en subnets existentes/use1-az1/use1-az2; instance type **t3a.small fijo**, créditoCPU **standard**, no Unlimited/surplus implícito, sin degradar hashing; capacidad/latencia/créditos necesitan prueba posterior. Cada root **gp3 10GiB, encrypted=true,3000IOPS/125MiB/s, delete_on_termination=true**, tags de volumen al RunInstances. No datos críticos locales, snapshots/KMS custom, monitoring detallado o Auto Scaling.
+- **Dos ENI persistentes**, solo SG backend existente (TCP8080 desde SG ALB), **dos EIP domain=vpc y dos asociaciones EIP→ENI**, allow_reassociation=false. EC2 usa primary_network_interface precreada: no asignación automática de IPv4 ni cambio a map_public_ip_on_launch=false. Depende de ambas asociaciones/ruta/tabla/IAM inline antes de arrancar; sin ciclo que requiera instancia para obtener salida. ENI conserva IP privada/EIP tras reemplazo de host; interfaz/raíz no son estado crítico de Authentication. Sin NAT/endpoints/ALB/targets/SSH/keypair o ingress nuevo. Red/Atlas/SSM funcionales no probados; /32Atlas posterior necesita aprobación.
+- **IMDSv2 obligatorio/hoplimit1**, metadata tags disabled; credenciales temporales para host, no access keys ni credenciales persistentes GitHub. Hop1 impide asumir acceso directo desde contenedor a IMDS; entrega runtime futura debe respetar contrato INFRA-10, no se relaja por conveniencia.
+- **AMI:** data SSM público **/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64**, data aws_ami verifica owner Amazon, nombre estándar AL2023, arquitectura x86_64/HVM/rootEBS/available. `compute_ami_id` opcional permite fijar ID verificado para reproducir; null resuelve alias mantenible. **AMI concreta NO RESUELTA por AccessDenied**, no se hardcodea una histórica. Alias/kernel-default cambia: registrar/fijar AMI/version/kernel antes de apply/reproducción, revisar tamaño snapshot mínimo10GiB y parches; la configuración local no demuestra esos atributos reales.
+- **Bootstrap host-only**, archivo común SHA trazable: instala únicamente Docker/SSM desde repos bloqueados al release AL2023 de AMI (sin upgrade general/latest), timeout300s/intento,3intentos con pausa15s; fallo explícito. Habilita/verifica servicios Docker/SSM, prepara /opt/enver protegido y marcador/registro de versiones OS/RPM local. Log driver local Docker10m×3 por contenedor futuro, no CloudWatch/grant extra. **No docker login/pull/run, unidad/API/health ficticio, digest o secreto en user_data**; non-root de aplicación se conserva para deployment futuro. AMI/release/paquetes/soporte deben conservarse y verificarse para reproducción: dnf sin versiones RPM explícitas no acredita bit-for-bit ni disponibilidad eterna del repositorio. `bash -n` local exit0, **no script/boot/servicios ejecutados**.
+- **Ajuste local posterior al plan fallido:** user_data normaliza CRLF→LF para que autocrlf de Windows no rompa el shebang Linux. Se repiten fmt/check/validate localmente; no nuevo plan ni cambio de candidatas IAM. La salida parcial anterior no es aprobación del HCL final ni autorización de apply.
+- **Inputs/outputs:** compute_plan_approved defaultfalse, usado true solo en entorno temporal del plan autorizado; precondiciones limitan baseline proyecto/ambiente/cuenta/región/Zone IDs. No flag equivale a autorización apply, timer48h o capAWS. Outputs solo AMI/IDs/AZ/IPs/role propuestos, no tokens/secretos o health; no contrato de aplicación/digest escrito por Terraform para competir con004.
+
+### 24.3. IAM runtime y candidatas del operador
+
+**Role/profile HCL:** **enver-dev-api-runtime**, path/, trust **ec2.amazonaws.com → sts:AssumeRole**, sin role asumible por GitHub/usuario o access keys. **Dos inline policies separadas**, no managed attachment:
+
+| Runtime | Permisos definidos | Recurso/límites |
+| --- | --- | --- |
+| enver-dev-ssm-session | **ssm:UpdateInstanceInformation**, **ssmmessages:CreateControlChannel/CreateDataChannel/OpenControlChannel/OpenDataChannel** | Resource=* para registro/canales, RequestedRegion=us-east-1; no lectura parámetros/documentos/inventario, ec2messages o administración global |
+| enver-dev-ecr-pull | **ecr:GetAuthorizationToken**, **BatchCheckLayerAvailability/GetDownloadUrlForLayer/BatchGetImage** | Token Resource=* por acción sin ARN con cuenta/región;3acciones solo ARN repository enver-dev-api/región. Sin PutImage/CreateRepository/DeleteRepository/PutLifecyclePolicy |
+
+**AmazonSSMManagedInstanceCore evaluada y NO utilizada**, no ARN attachment ni AttachRolePolicy/DetachRolePolicy en candidatas por no requerirse; evita GetParameter/GetParameters globales del managed§23. SSM reducido es definición revisable para agente moderno/ssmmessages, **no compatibilidad/registro/sesiones verificados**; probar antes de aceptación y detener/revisar si requiere otra acción. Permisos humanos Start/Resume/TerminateSession no se conceden al host ni se amplía operador por inferencia. Ningún grant CloudWatch/Secrets/KMS/DynamoDB runtime: nombres/contratos INFRA-10/11 pendientes, no bootstrap de authority o reapertura de confianza.
+
+**Candidatas locales, NO aplicadas/adjuntas:** compute **9Allow/22acciones distintas/5130caracteres compactos**; IAM **4Allow/21acciones/1742caracteres compactos**, parse JSON válido/sin acciones wildcard. Compute excede límite inline agregado de usuario2048 si se intentara usar así; revisión/asignación humana customer-managed separada y cuotas efectivas pendientes, no se inventa attachment/cupo libre. Resource=* solo lecturas EC2 y necesidades runtime justificadas, no ecr:*/ec2:*/iam:*, AdministratorAccess/PowerUserAccess, policy remota editada o credenciales.
+
+- **Compute:** DescribeImages/Instances/InstanceStatus/InstanceAttribute/InstanceCreditSpecifications/InstanceTypes/Volumes/VolumesModifications/Addresses/NetworkInterfaces/Tags en región/user/cuenta; **ssm:GetParameter solo parámetro público exacto** con ARN sin segmento account como recurso AWS público. RunInstances multirrecurso: subnets/SGbackend exactos del baseline, AMIregional, ENI tagsENVER, instancia t3a.small/IMDSv2/tags, root10GiBgp3cifrado/tags. CreateNetworkInterface/AllocateAddress y lifecycle Terminate/ModifyInstanceCreditSpecification/DeleteNetworkInterface/Associate/Disassociate/ReleaseAddress limitados por cuenta/región/tags/Name. CreateTags solo create-actions previstas y4tagkeys. **No CreateVolume/DeleteVolume separados**, root forma parte RunInstances/Terminate; no SG/VPC/ruta/keypair/AMIadministración. IAM no impone cardinalidad2 ni48h/costo, AMIregional permitida no es proof de ownerOS; HCL filtra Amazon, cambiar permisos/diseño requiere revisión. Estas son propuestas de mínimo alcance, **no simulación IAM/prueba de apply/destroy**; condiciones multi-recurso y rutas provider pendientes de validación humana/cloud.
+- **IAM:** lifecycle exacto **role/enver-dev-api-runtime** y **instance-profile/enver-dev-api-runtime**: Create/Get/Delete/Tag/Untag y lecturas concretas de tags/inline/adjuntos/profiles requeridas por provider; inline **PutRolePolicy/GetRolePolicy/DeleteRolePolicy**, Add/RemoveRoleToInstanceProfile. No managedpolicy creation/attachments, ListRoles global, UpdateAssumeRolePolicy o permisos no ejercidos por diseño actual. Fuente provider v6.73.0 role.go confirma ListRolePolicies/ListAttachedRolePolicies incluso con inline separada; se revisaron profile/inline/EIP/schema locales y fuentes públicas. Revisión de mutations/cambios futuros no se acepta por estar Create/Get autorizados.
+- **iam:PassRole solo `arn:aws:iam::926925605666:role/enver-dev-api-runtime`**, **iam:PassedToService=ec2.amazonaws.com**, user/cuenta guardados; nunca arbitrario. **PutRolePolicy permite modificar contenido inline de ese role**: limitar ARN no es permissions boundary ni garantía contra escalada al combinar create-policy/passrole/compute; hace falta revisión/custodia del operador antes de asignar. No boundary adicional inventado/creado ni afirmación de aislamiento efectivo de identidades por tener JSON separados.
+
+### 24.4. Validación local y único plan — resultado real
+
+| Comando/acción | Resultado observado |
+| --- | --- |
+| Terraform version/schema local | **1.17.1/windows_amd64**, lock seleccionado **AWS6.73.0**; sin actualización |
+| terraform fmt -recursive infra | **exit0**, formatea compute.tf/outputs.tf |
+| terraform fmt -check -recursive infra | **exit0** |
+| terraform -chdir=infra validate -no-color | **exit0**, Success! The configuration is valid. |
+| JSON parse + revisión acciones | **válidos**,9/22 y4/21, sin acciones wildcard |
+| bash -n infra/bootstrap/compute-host.sh | **exit0**, no ejecución del bootstrap |
+| Único terraform plan -detailed-exitcode | **exit1**, AccessDeniedException SSM; salida **PARCIAL10add/0change/0destroy**, no plan aceptado/guardado/aplicado |
+
+Plan **2026-11-12T22:58:52.2149764Z →22:59:20.6941352Z**. Comando real `terraform -chdir=infra plan -detailed-exitcode -input=false -lock-timeout=30s -parallelism=1 -no-color`. Entorno de proceso restaurado después: **AWS_PROFILE=enver-infra**, regiónus-east-1, AWS_MAX_ATTEMPTS=1, metadata fallbackdisabled y inputs aprobados project=enver/environment=dev/account926925605666/vpc10.20.0.0/16/newbits8/network_design_approved=true/**compute_plan_approved=true**/common_tags={}; compute_ami_id defaultnull. Sin tfvars real nuevo/credenciales impresas, init o cambios provider; guard allowed_account_ids existente conservado. No STS CLI/inventario IAM independiente.
+
+**Error exacto:** data.aws_ssm_parameter.al2023[0], fase **lectura AMI en plan**, **SSM:GetParameter / iam action ssm:GetParameter**, HTTP400/**AccessDeniedException**, principal **arn:aws:iam::926925605666:user/enver-terraform-local**, recurso **arn:aws:ssm:us-east-1::parameter/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64**, razón **no identity-based policy allows the ssm:GetParameter action**, RequestID **67b7699d-db00-4104-b164-a856c98ed03b**. No significa AMI ausente ni autoriza bypass/pin de ID adivinado. **La acción/recurso ya estaban en candidata compute antes del intento**; no ampliación tras fallo. Un plan/invocación, no reintento del agente; IAM intacto, no otras credenciales. La duración Still reading10s no se presenta como múltiples intentos manuales ni inventario de requests internos SDK.
+
+**Inventario de altas efectivamente visibles en plan parcial:**
+
+| Dirección | Cantidad |
+| --- | --- |
+| aws_iam_role.api_runtime | 1 |
+| aws_iam_instance_profile.api_runtime | 1 |
+| aws_iam_role_policy.api_ssm_session / api_ecr_pull | 2 |
+| aws_network_interface.api[a,b] | 2 |
+| aws_eip.api[a,b] | 2 |
+| aws_eip_association.api[a,b] | 2 |
+| **Subtotal parcial mostrado** | **10add /0change /0destroy** |
+| aws_instance.api[a,b] | **2definidas HCL, NO incorporadas al plan parcial**, AMI bloqueada |
+
+HCL define **12nuevos managed resources** (roots inline no recursos independientes); **no decir "plan12/0/0"**. Sin plan binario nuevo, no apply posible acreditado. No interpretar éxito devalidate como2EC2 listas. **NETWORK14/ECR2 refrescados**,16líneas reales deRefresh sin error en sus lecturas; dataAZ completa, **sin acciones de cambio/reemplazo/destrucción para existentes en salida parcial**. Eso conserva su configuración según evidencia parcial, **no certifica un plan completo16no-op con AMI resuelta**; la comprobación final queda para replan autorizado. No Network/ECRrecreados ni cambio remoto por este intento.
+
+**Tras AccessDenied se detienen operaciones cloud:** sin modificar/adjuntar IAM, reintento de plan o alias alternativo. **Cero consultas de scanning en este turno** (la permitida era opcional); última evidencia linux/amd64 **IN_PROGRESS informada por responsable§22**, no status actual revalidado ni findings=0. T008 conserva pendientes. Solo revisión local/documentación después del fallo; sin AWSCLI/Docker/app/tests/push o servicios nuevos.
+
+### 24.5. Costos48h, guardrails y alcance de la aprobación
+
+Tarifas públicas de§23 consultadas el mismo2026-11-12 se reutilizan, sin Billing/saldo/crédito verificados ni Free Tier: t3a.small0.0188/h, gp3 0.08/GB-mes, IPv4in-use/idle0.005/h; ALB0.0225/h, LCU0.008/LCU-h. **48h máximo aprobado, no730h permanentes**. EBS se prorratea aquí por noviembre30días/720h, distinto de proyección730h de referencia; tiempos reales/redondeos/impuestos/capacidadretenida pueden cambiar factura.
+
+| Partida | Cálculo48h | USD |
+| --- | --- | --- |
+| 2EC2t3a.small | 2×0.0188×48 | **1.8048** |
+| 2rootgp310GiB | 2×10×0.08×48/720 | **0.106667** |
+| 2EIP/IPv4 | 2×0.005×48 | **0.4800** |
+| **INFRA-5** | Sin transferencia ni dependencias adicionales | **2.391467≈2.39** |
+| ALBfuturoINFRA-6 base | 0.0225×48 | **1.0800** |
+| Mínimo2IPv4ALB | 2×0.005×48 | **0.4800**, puede haber másIPs |
+| LCUvariable: escenario1LCUpromedio | 1×0.008×48 | **0.3840**; no mínimo obligatorio/cap garantizado |
+| **ALB48h con escenario1LCU** | No recursosALB en HCL/plan actual | **1.9440**; base+IPsinLCU1.56 |
+| **INFRA-5 +ALB escenario1LCU** | Sin otros servicios | **4.335467≈4.34** |
+| Bolsa provisional otros servicios | **Supuesto presupuestario, NO cotización Redis/Atlas/etc.** | **2.00** |
+| Contingencia provisional | Margen no asignado ni gasto autorizado | **1.00** |
+| **Envolvente provisional** | Incluye bolsas anteriores | **7.335467≈7.34** |
+| **Margen nominal guardrailUSD10** | 10−7.335467 | **2.664533≈2.66**; sin bolsas,5.664533 |
+
+Proyección **730h solo referencia** INFRA-5 **USD36.348≈36.35**, no presupuesto mensual ni duración aprobada. Costo0directo adicional de ENI/IAM estándar no es factura de plataforma0; transferencia/egresoInternet/Atlas/inter-AZ, ECR/logs/retención/Secrets/DynamoDB/DNS/Redis/Atlas siguen por cotizar según uso. **1LCU es escenario, no reserva/mínimo ni techo**, carga puede aumentarlo; cantidadIPv4ALB puede crecer. Otras dependencias **no se dan cubiertas por bolsaUSD2**. ALB y todos esos servicios necesitan incrementos/aprobaciones aparte.
+
+**Viabilidad provisional: sí hay margen razonable para continuar DISEÑO/PLAN de48h**, no prueba integral del proyecto≤50 ni autorización de gasto. Nominal50−7.335467=42.664533 antes de consumo previo/noincluido; no saldo consultado o crédito garantizado. Antes de solicitar apply: completar costos/consumo acumulados/cobertura/retención/reemplazo y responsables/calendario efectivo; si acumulado ventana amenazaUSD10 o proyectoUSD50/reserva50, **nueva aprobación humana antes**, no eludir excluyendo servicios futuros/retención. **Esta solicitud NO autoriza ningún apply aunque el cálculo esté debajo de10**.
+
+No temporizador, AWSBudget, apagado automático o cap técnico creado. Contar ventana desde provisión autorizada futura, controlar reloj/retención y pedir acciones separadas de parada/limpieza; dejar EC2stop no elimina EBS/EIP/ALB/datos cobrando. Al llegar48h no se autoriza mantener compute permanente ni destruir automáticamente datos; autorización operativa posterior debe prever cierre/cargosresiduales/evidencia antes del plazo. No cleanup ahora.
+
+### 24.6. Recuperación y aceptación pendientes
+
+Runbook§23.6 conservado y concretado: **AMI ID resuelta y fijada** antes de reproducir, mismo archivo bootstrap/release/versiones y configuración externa autorizada; `user_data_replace_on_change=true` obliga revisar reemplazo si cambia. **ENI/EIP son recursos separados persistentes**: reemplazar solo EC2 conserva salida/privada, sin reabrir Atlas/0; si se reemplaza ENI/EIP, revisar plan/allowlist antes de tráfico. Sin create_before_destroy: ENI primaria no puede estar en2hosts simultáneos, reemplazo normalmente deja1temporalmente; mantener2durante mantenimiento requiere capacidad/costo/ventana adicionales autorizados. Sin AutoScaling/SLA/cero downtime prometido.
+
+Ante fallo, diagnóstico y autorización específica →plan exacto de reemplazo host, no red/ECR/datos→bootstrap/SSM/salida verificados→secretos/configINFRA-10→mismo digest por004 manual tras CIexacto→readiness/drenaje/ALBINFRA-6/12 y prueba de retorno. **Nunca reiniciar cuotas/revocaciones/authority, reabrir confianza al boot o restaurar state viejo**. Referencia ECR de§22 se conserva para cuando corresponda, no escrita como autoarranque. Rollback a versión previa sigue sin digestanterior; reproducir host no lo acredita. No se ejecuta falla/reemplazo/recovery/app o prueba cloud ahora.
+
+**T005 PARCIAL / definición local validada, aceptación pendiente**; runtimeIAMsecrets/authority/operadorSSM/004 y pruebas faltan. **T009 PARCIAL / definición validada, plan completo bloqueado IAM/AMI**, sin2EC2reales. **T010 PARCIAL / recovery documentado, prueba/aceptación pendientes**. **T008 PARCIAL** con publicación/digest/pull informados§22 y scanningfinal/rollback/aceptación pendientes. **T025 PARCIAL / validación local acreditada, aceptación pendiente**: plan fallido no acepta custodia/backup/recovery o dependencias. **GATE-I-C PENDIENTE / NO SATISFECHO**, no2hosts/digestA-B/capacidad/recuperación; **los9gates permanecen abiertos**,11tareasparciales/19pendientes. Sin cierres002GATE-G/H/AUTH-027integral o004/producción.
+
+Evidencia privada local `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-build-plan-20261112-222009\` (hashes previos, esquema/versiones, fmt/check/validate, texto/error único plan/análisis y cálculo48h, revisión final), sin tokens/credenciales ni garantía de custodia duradera en temporal. State/backup/planesanteriores se preservan por hash, no state/plan nuevo versionado; lock/ejemplo versionables. `git diff --check`/status/hashes finales se registran al cierre,5nuevos+4modificados esperados,0staged/HEAD25daa836 intacto. **No recursosAWS/IAMmodificado/apply/destroy/import/Docker/Gitstage-commit-push. Detener para revisión humana de la candidata y denegación SSM; ninguna reanudación automática.**
+
+## 25. INFRA-5 — AMI ID resuelta; DescribeImages denegado antes del replan
+
+### 25.1. Alcance y resultados nuevos
+
+**2026-11-12 — VALIDACIÓN CONTROLADA / NO APPLY.** El responsable informa haber agregado manualmente **ENVER-Terraform-AMI-Read**, solo `ssm:GetParameter` sobre el parámetro público exacto. Se autoriza comprobar identidad/AMI, validación local y replan, con detención ante cualquier AccessDenied o cambios network/ECR. No se enumeran políticas efectivas ni se atribuye al agente la modificación IAM. El éxito de GetParameter acredita esa operación, no todos los permisos del operador.
+
+Precheck real: **feature/infrastructure**, HEAD **25daa836c0571d4c0c02486e49ce435a108f0558**, los mismos **5 archivos nuevos/4 modificados/0 staged** de §24. Se preservan cambios anteriores. AWS CLI usa perfil **enver-infra**, región **us-east-1**, un intento por operación (`AWS_MAX_ATTEMPTS=1`, sin credenciales alternativas); entorno temporal restaurado. Sin secretos o credenciales impresos.
+
+| Operación real | Resultado |
+| --- | --- |
+| aws sts get-caller-identity --profile enver-infra | **exit0**, cuenta926925605666, **arn:aws:iam::926925605666:user/enver-terraform-local** |
+| aws ssm get-parameter sobre alias público AL2023 | **exit0**, versión **202**, AMI ID **ami-096ef200a877f36af** |
+| LastModifiedDate del parámetro | **2026-11-12T13:40:52.359000-06:00**, equivalente **19:40:52.359Z** |
+| ec2 describe-images --image-ids ami-096ef200a877f36af --owners amazon | **exit254 / UnauthorizedOperation**, no atributos devueltos |
+| terraform fmt -check -recursive infra | **exit0**, sin formatear/escribir HCL |
+| terraform -chdir=infra validate -no-color | **exit0**, Success! The configuration is valid. |
+| terraform -chdir=infra version -json | **1.17.1/windows_amd64**, provider seleccionado **6.73.0** |
+| Replan / scanning opcional | **No ejecutados**, detención por denegación previa; sin polling |
+
+Nombre exacto leído: **/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64**. Se registra **solo ID resuelta, no AMI completamente validada**: AL2023/x86_64/available/HVM/EBS/Amazon siguen como filtros del HCL y significado del alias, **no atributos observados de esa imagen**. Compatibilidad linux/amd64 esperada por diseño, no confirmada por DescribeImages. No AMI fijada en input ni HCL modificado, no bypass del filtro.
+
+### 25.2. Denegación y mínimo propuesto — no modificación IAM
+
+**2026-11-12T23:12:55.1306021Z–23:12:58.8387069Z**, **UnauthorizedOperation**, CLI **exit254**, acción **ec2:DescribeImages**, principal **arn:aws:iam::926925605666:user/enver-terraform-local**; razón exacta **no identity-based policy allows the ec2:DescribeImages action**. Fase: **validación AMI por AWS CLI, ANTES de terraform plan**. Recurso solicitado: **ami-096ef200a877f36af**, owners=amazon, regiónus-east-1. Recurso Terraform relacionado: **data.aws_ami.api**, no ejecutado en este turno. No error de RunInstances o prueba de permisos de escritura. No se usa el enlace/GetRequestAuthorizationDetails del error, no reintento o credenciales alternativas.
+
+**Mínimo para revisión humana:** únicamente `ec2:DescribeImages`, **Resource="*"** (la acción de lectura no admite restricción a ARN de imagen), condición **aws:RequestedRegion=us-east-1**, y límites de usuario/cuenta del baseline cuando corresponda. No `ec2:*`, RunInstances o IAM admin. La consulta por ID/owner no reemplaza un scope IAM admitido. Esta acción **ya existe** en ReadComputeInApprovedRegion de la candidata compute; **no se propone adjuntar toda la candidata de escritura para desbloquear una lectura**. Sin crear/editar JSON o policy remota. Habilitarla manualmente y autorizar nueva validación/replan son decisiones futuras del responsable, no reanudación automática.
+
+### 25.3. Inventario y seguridad — diseño conservado, sin plan nuevo
+
+**Terraform plan NO ejecutado**, exit code y **add/change/destroy NO DISPONIBLES**. El10/0/0 de §24 es histórico/parcial, no resultado actual ni plan completo. **Network14/ECR2 no-op NO revalidados** en este turno; sin refresh actual, no se afirma0/0/0 o ausencia de drift cloud. No nuevos recursos AWS ni inventario completo de plan para aceptar.
+
+Lectura del HCL existente conserva **12 recursos nuevos definidos**, no planeados ahora: role1/profile1/inline policies2/ENI2/EIP2/asociaciones2/EC2 2. EC2 t3a.small/CPUstandard, use1-az1/use1-az2, gp3 cifrado10GiB por host; ENI/EIP persistentes y backend SG existente, map_public_ip_on_launch=false, 8080 solo SG ALB, sin SSH22 público/NAT. Atributos de AMI y capacidad/servicios requieren evidencia adicional.
+
+Role/profile **enver-dev-api-runtime**, trust ec2.amazonaws.com; SSM reducido UpdateInstanceInformation +4canales ssmmessages, ECR token +BatchCheckLayerAvailability/GetDownloadUrlForLayer/BatchGetImage limitadas al repositorio para las3acciones. Sin push/admin o managed SSM attachment. Docker/SSM bootstrap definido sin tokens/secretos/API auto-start. Son definiciones locales, no permisos efectivos/SSM funcional/health acreditados. `iam:PassRole` de candidata confirmado **solo arn:aws:iam::926925605666:role/enver-dev-api-runtime**, **iam:PassedToService=ec2.amazonaws.com**; no PassRole arbitrario.
+
+**Revisión nueva de candidatas sin modificarlas/aplicarlas:**
+
+| Archivo | Bytes actuales / caracteres compactos | Statements / acciones distintas | Wildcards y scope |
+| --- | --- | --- | --- |
+| terraform-local-compute-policy.json | **6838 /5130** | **9Allow /22** | **0 acciones wildcard**; Resource=* en lecturasEC2, ARNs imagen/instance/volume/ENI/EIP con sufijos wildcard para provisión revisable; subnets/SGbackend exactos, tags/cuenta/user/región y SSMpublico exacto |
+| terraform-local-iam-runtime-policy.json | **2405 /1742** | **4Allow /21** | **0 acciones wildcard, 0 recursos wildcard**; solo role/profile exactos, PassRole condicionado aEC2 |
+
+Acciones compute: `ec2:AllocateAddress`, `AssociateAddress`, `CreateNetworkInterface`, `CreateTags`, `DeleteNetworkInterface`, `DescribeAddresses`, `DescribeImages`, `DescribeInstanceAttribute`, `DescribeInstanceCreditSpecifications`, `DescribeInstances`, `DescribeInstanceStatus`, `DescribeInstanceTypes`, `DescribeNetworkInterfaces`, `DescribeTags`, `DescribeVolumes`, `DescribeVolumesModifications`, `DisassociateAddress`, `ModifyInstanceCreditSpecification`, `ReleaseAddress`, `RunInstances`, `TerminateInstances`; `ssm:GetParameter`. Prefijo ec2 aplica a cada acción EC2 abreviada. Acciones IAM: `AddRoleToInstanceProfile`, `CreateInstanceProfile`, `CreateRole`, `DeleteInstanceProfile`, `DeleteRole`, `DeleteRolePolicy`, `GetInstanceProfile`, `GetRole`, `GetRolePolicy`, `ListAttachedRolePolicies`, `ListInstanceProfilesForRole`, `ListInstanceProfileTags`, `ListRolePolicies`, `ListRoleTags`, `PassRole`, `PutRolePolicy`, `RemoveRoleFromInstanceProfile`, `TagInstanceProfile`, `TagRole`, `UntagInstanceProfile`, `UntagRole`, todas con prefijo `iam:`.
+
+Sin AdministratorAccess/PowerUserAccess, acciones `ssm:*`/`ec2:*`/`iam:*`, ECR push/provisioning o PassRole arbitrario detectados. **No confundir cero acciones wildcard con cero recursos wildcard en compute.** El tamaño compacto compute excede inline user2048; cuotas/asignación siguen para revisión humana. ARN exacto con PutRolePolicy/CreateRole/PassRole **no es permissions boundary** ni elimina escalada de contenido de policy: conservar advertencia §24.3 y custodia separada. JSON válido/revisión local no simulan IAM ni prueban permisos de apply.
+
+### 25.4. Costos, estados y detención
+
+Sin cambios HCL/recursos adicionales: se conserva ventana **máximo48h**, EC2 **USD1.8048**, EBS **0.106667**, IPv4 **0.48**, **INFRA-5≈2.3915**; futuroALB escenario48h **1.944** (LCU variable, no mínimo garantizado), conjunto **4.3355**. Con bolsaotros2+contingencia1: **envolvente7.3355 /margen nominal2.6645 contra10**. USD50 **AGREGADOS**, no mensual; consumo acumulado/servicios/cobertura/reserva no consultados. Margen provisional no certifica guardrail integral ni autoriza apply/gasto. Sin nuevo presupuesto, cap técnico, timer o limpieza; cargos residuales al detener EC2 no desaparecen.
+
+**T005 PARCIAL / aceptación pendiente**, solo lecturaAMI parcialmente desbloqueada; runtime/separación integral sin aceptar. **T009 PARCIAL / definición validada, plan completo bloqueado por IAM/validaciónAMI**; ID conocida, atributos pendientes. **T010 PARCIAL / recovery documentado, prueba y aceptación pendientes**; nada reemplazado. **T008 PARCIAL**, scanfinal/rollback/aceptación pendientes, **cero consultas de scanning**: último IN_PROGRESS informado§22, no estado actual/findings=0. **T025 PARCIAL / validación local acreditada, aceptación pendiente**, sin plan completo/custodia/recovery aceptados. **GATE-I-C PENDIENTE / NO SATISFECHO**, sin dos EC2 reales; los9gates abiertos y11tareasparciales/19pendientes, sin cierres002/004/AUTH-027integral.
+
+Evidencia privada local: `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-ami-replan-20261112-231243\`, STS/SSM/denegación y tiempos, fmt-check/validate/version, revisión candidatas y hashes antes/después. Temporal no acredita custodia duradera. Solo **task.md y memoria.md editados en este turno**; los5nuevos/4modificados anteriores permanecen sin stage, HEAD intacto. Revisión final local verifica diff-check, exclusiones, hashes de fuentes/HCL/candidatas/state/backup/planes existentes; sin aplicar/restaurar state o plan histórico. **No apply/destroy/import, IAM remoto modificado, nuevos recursos, Docker, replan/scanning tras denegación o Git stage/commit/push. DETENER.**
+
+## 26. INFRA-5 — plan completo12/0/0; red14/ECR2no-op; sin apply
+
+### 26.1. Autorización, fuentes y validación
+
+**2026-11-12 — REPLAN COMPUTE DESPUÉS DE VALIDAR AMI / VALIDACIÓN CONTROLADA / NO APPLY.** Responsable aporta validación EC2 real de **ami-096ef200a877f36af**: **Amazon Linux2023 2023.12.20261112.0, Linux/UNIX, x86_64, available, ImageOwnerAlias=amazon, Public=true, IMDSv2.0, HVM, rootEBS, kernel6.18**. Se conserva como **evidencia comunicada por el responsable**, no se deduce exclusivamente del alias ni se presenta como nueva ejecución CLI independiente. El permiso DescribeImages se informa habilitado; el plan verifica realmente la lectura de esa AMI por `data.aws_ami.api` con filtros ownerAmazon/nombreAL2023/x86_64/HVM/EBS/available. Campos detallados no impresos por plan (release/kernel/Public/IMDS) mantienen su fuente informada. Historial de denegaciones §§24–25 intacto, bloqueo operativo de plan ahora superado.
+
+Precheck real: **feature/infrastructure**, HEAD **25daa836c0571d4c0c02486e49ce435a108f0558**, mismos5nuevos/4modificados/0staged; sin archivos inesperados. HCL/candidatas/bootstrap no se editan. Herramientas existentes por ruta absoluta, sin instalación/init/upgrade: **Terraform1.17.1/windows_amd64 / AWS6.73.0**. `aws sts get-caller-identity --profile enver-infra` (regiónus-east-1) **exit0**, cuenta **926925605666**, ARN **arn:aws:iam::926925605666:user/enver-terraform-local**; no credenciales expuestas.
+
+`terraform fmt -check -recursive infra` **exit0**; `terraform -chdir=infra validate -no-color` **exit0 / Success! The configuration is valid.** No fmt de escritura. Una ejecución de plan, **2026-11-12T23:36:33.4510140Z–23:36:55.7373288Z**:
+
+```text
+terraform -chdir=infra plan -detailed-exitcode -input=false -lock-timeout=30s -parallelism=1 -no-color
+Plan: 12 to add, 0 to change, 0 to destroy.
+exit code: 2
+```
+
+**Exit2 significa plan exitoso con cambios propuestos**, no error ni recursos creados. Sin AccessDenied, replacement o destroy. No archivo binario nuevo guardado, no apply. Logs/resúmenes privados locales, no plan enGit. Un plan exitoso de recursos nuevos **no ejercita permisos IAM/EC2 de creación, PassRole o colisiones con recursos no gestionados**, ni asegura capacidad disponible/costo/futura autorización de apply.
+
+Inputs anteriores conservados mediante entorno temporal restaurado: perfil **enver-infra**, región **us-east-1**, project=enver/environment=dev/account926925605666/vpc10.20.0.0/16/newbits8/common_tags={}/network_design_approved=true/**compute_plan_approved=true**; `compute_ami_id=null` por defecto, mismo comportamiento mantenible anterior, no pin silencioso de input. AWS_MAX_ATTEMPTS=1, metadata credential fallback disabled, sin credenciales alternativas/endpoint custom. DataSSM y dataAMI completan realmente y ambas EC2 usan **ami-096ef200a877f36af**, coincidente con evidencia concreta. Antes de provisión/reproducción, revisar autorización/AMI-ID fijada o plan fresco controlado para que no rote el alias inadvertidamente; este plan no autoriza su aplicación futura.
+
+### 26.2. Inventario REAL de altas y existentes
+
+| Dirección exacta en plan | Alta |
+| --- | --- |
+| aws_iam_role.api_runtime | 1 |
+| aws_iam_instance_profile.api_runtime | 1 |
+| aws_iam_role_policy.api_ecr_pull | 1 |
+| aws_iam_role_policy.api_ssm_session | 1 |
+| aws_network_interface.api["a"] | 1 |
+| aws_network_interface.api["b"] | 1 |
+| aws_eip.api["a"] | 1 |
+| aws_eip.api["b"] | 1 |
+| aws_eip_association.api["a"] | 1 |
+| aws_eip_association.api["b"] | 1 |
+| aws_instance.api["a"] | 1 |
+| aws_instance.api["b"] | 1 |
+| **Total completo** | **12add /0change /0destroy** |
+
+Dos roots son bloques de instancia, no recursos adicionales independientes. No ALB/targetgroup/NAT/Redis/DynamoDB/Secrets/CloudWatchstack u otro recurso facturable fuera de baseline. **NETWORK14 y ECR2 no-op confirmados para este plan completo**: las16direcciones managed del state fueron refrescadas, cotejadas con las12altas nuevas y sin cambios/drift/replacement/destroy en salida. Incluye VPC1/IGW1/subnets2/routeTable1/route1/asociaciones2/SG2/reglas4=14 y repository/lifecycle=2. No nueva auditoría independiente de toda la cuenta ni garantía de ausencia futura de drift.
+
+| EC2 en plan | AMI /tipo | AZ de esta cuenta /ZoneID | Root |
+| --- | --- | --- | --- |
+| api["a"] | ami-096ef200a877f36af /t3a.small | **us-east-1a /use1-az1** | **10GiB gp3 cifrado**,3000IOPS/125MiB/s |
+| api["b"] | ami-096ef200a877f36af /t3a.small | **us-east-1b /use1-az2** | **10GiB gp3 cifrado**,3000IOPS/125MiB/s |
+
+Arquitectura **x86_64**, compatible con linux/amd64, acreditada por evidencia AMI y filtro del data source exitoso. CPUcredits **standard**, no Unlimited/surplus implícito; rendimiento/capacidad/hashing no probados. Dos ENI persistentes se asignan a subnets existentes/solo **sg-070d06cfebe866427**. Dos EIPvpc y asociaciones `allow_reassociation=false`, sin NAT; EIP→ENI antes del boot, conservar IP al reemplazar EC2 según diseño. Outputs ZoneIDs y plan AZs se cotejan con metadata local de subnets, sin asumir mapeo universal de letras entre cuentas.
+
+`map_public_ip_on_launch=false` se conserva; IP estable viene de EIP, no cambia subnet. Backend8080 solo desde **SG ALB sg-0dacf0df5da30b4f7**; sin CIDR público de backend ni ingreso22/keypair. `associate_public_ip_address`/key_name/atributos derivados aparecen known-after-apply: no se inventan valores observados del host; configuración usa ENI preexistente enRunInstances, no asignación automática o keypair definidos. IMDSv2 required/hop1/tagsexposeddisabled. Egreso/Atlas32/SSM/network readiness reales siguen pendientes, no exposición pública del8080 por tener EIP ni afirmación de app accesible.
+
+### 26.3. Runtime y candidatas — definición no aplicada
+
+Plan contiene role **enver-dev-api-runtime**, profile homónimo, trust **ec2.amazonaws.com→sts:AssumeRole**, dos inline policies. **SSM:** UpdateInstanceInformation +CreateControlChannel/CreateDataChannel/OpenControlChannel/OpenDataChannel de ssmmessages, Resource=* por necesidad/región; sin AmazonSSMManagedInstanceCore attachment. **ECRpull:** GetAuthorizationToken Resource=* con cuenta/región y BatchCheckLayerAvailability/GetDownloadUrlForLayer/BatchGetImage solo ARNrepositoryenver-dev-api. Sin ECRpush/provisioning, IAMadmin/EC2admin, secretos o accesskeys en host. Ninguna sesión/registro SSM o permiso runtime efectivo acreditado por el plan.
+
+BootstrapDocker/SSM aparece en ambas EC2; sin ECRlogin/pull/run, URI/conexiónMongo/Redis, JWT/password/token/accesskeys o autoarranqueAPI. API sigue esperando dependencias/secretos/readiness/004manual; no health ficticio. `user_data_replace_on_change=true`, CRLF→LF conservado, logsDockerlocales acotados. Inspección de indicadores no equivale a auditoría exhaustiva de secretos. Recovery§24 conserva AMI/bootstrap/config externa/mismo digest posterior/estado crítico externo; sin AutoScaling/reemplazo real, dos hosts durante mantenimiento no garantizados. Retención ENI/EIP y pérdida temporal de capacidad requieren prueba/autorización de ejecución posterior.
+
+| Candidata intacta | Tamaño bytes /compactchars | Actions /wildcards /scope |
+| --- | --- | --- |
+| terraform-local-compute-policy.json | **6838 /5130** | **22acciones concretas /9Allow**,0acciones wildcard; Resource=* enDescribeEC2, ARNwildcards para imagen/instancia/volumen/ENI/EIP, subnets/SG exactos, tags/user/cuenta/región, SSMpublico exacto |
+| terraform-local-iam-runtime-policy.json | **2405 /1742** | **21acciones concretas /4Allow**,0acciones/recursos wildcard; role/profile exactos |
+
+Listas exactas de acciones de§25.3 revalidadas localmente sin cambios, guardadas en policy-review.json privado; sin `ssm:*`/`ec2:*`/`iam:*`, AdministratorAccess/PowerUserAccess o ECRpush. **PassRole exclusivamente arn:aws:iam::926925605666:role/enver-dev-api-runtime y iam:PassedToService=ec2.amazonaws.com**. No managedpolicy attachments innecesarios. Recursos wildcard de compute no se presentan como cero wildcards globales. Compute5130compactchars excede inlineuser2048; cuotas/asignación humana y posible customer-managed siguen pendientes, no se concede por el agente. PutRolePolicy/CreateRole/PassRole limitados por nombre no son boundary/garantía contra escalada, mantener revisión humana de contenido. **Ninguna candidata aplicada, adjunta, modificada o simulada; permisos de mutación no validados por el plan.**
+
+### 26.4. Única consulta scanning — ScanNotFoundException, no findings
+
+Después del plan exitoso, **una sola llamada** `ecr describe-image-scan-findings`, repository **enver-dev-api**, perfil/regiónbaseline, `--no-paginate` para evitar solicitudes adicionales, `AWS_MAX_ATTEMPTS=1`; se piden solo status/conteos/fechas/ID. Digest registrado de§22: **sha256:0a0fceb5ab9e71e09db4a1ee7326dc59993d40266f144259f0d02bc6c9802cda**. Resultado **exit254 /ScanNotFoundException**: **Image scan does not exist for the image** con ese digest/repository/registry926925605666. **No AccessDenied**, no status/findings devueltos, no polling/reintento/StartImageScan ni lectura adicional de objetosOCI.
+
+Ese digest es el registrado para despliegue; §22 distingue índice/manifiestoamd64/atestación sin dar digests hijos. **ScanNotFound del digest consultado no demuestra imagen inexistente, cero vulnerabilidades o inexistencia de scan del hijo linux/amd64**. No se inventa digest hijo ni se aplica al índice el IN_PROGRESS comunicado paralinux/amd64. Último estado del manifiesto linux/amd64 continúa **IN_PROGRESS histórico/informado, no revalidado**, resultado final y conteos **NO DISPONIBLES**. Se conserva evidencia de publicación/pull según responsable, sin nueva prueba de ambas operaciones. **Sin más operaciones cloud tras esta consulta.**
+
+### 26.5. Presupuesto, estados y detención
+
+Plan no añade tipos/capacidades facturables fuera de estimación previa. **48h máximo**, EC2 **USD1.8048**, gp3 **0.106667**, dosIPv4 **0.48**→**INFRA-5≈2.3915**; futuroALB **1.944** con escenario1LCUpromedio, conjunto **4.3355**, bolsaotros2+contingencia1→**envolvente7.3355 /margen nominal2.6645 contra guardrail10**. LCU/cantidadIPs/transferencia/retención/otrosservicios/consumo acumulado pueden variar; bolsaotros no cotización integral. **USD50 AGREGADOS**, reservaobjetivo50/crédito100informado, no mensual/FreeTier/Billingverificado. Guardrail respetado **solo por estimación provisional**; reevaluar acumulado/calendario/cobertura/responsables y partidas completas antes de pedir apply, sin cap técnico o timer creado. **Este resultado no autoriza apply/gasto, permanencia más48h o cleanup automático**.
+
+**T005 PARCIAL / definición y plan runtime acreditados, aceptación pendiente**; **T009 PARCIAL / PLAN COMPLETO ACREDITADO, PROVISIÓN Y ACEPTACIÓN PENDIENTES**; **T010 PARCIAL / recovery documentado, prueba y aceptación pendientes**; **T008 PARCIAL / publicación-digest-pull según responsable, scanfinal/rollback/aceptación pendientes**, con consultaScanNotFound precisa; **T025 PARCIAL / VALIDACIÓN LOCAL Y PLAN ACREDITADOS, ACEPTACIÓN PENDIENTE**. Plan completo no acepta custodia/statebackup/recovery ni dependencias. **GATE-I-C PENDIENTE / NO SATISFECHO**, no dosEC2 reales/digestA-B/pruebas; todos9gates abiertos/11tareasparciales/19pendientes. Sin cambios de002GATE-G/H/AUTH-027integral/004/producción.
+
+Evidencia local privada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-complete-replan-20261112-233555\`: STS/tiempos/version/fmt-check/validate/plan.txt/plan-result.json/plan-analysis.json/policy-review.json/scanerror y revisiónhashes/Git. No planbinario nuevo, state/backup/planes anteriores no restaurados ni modificados; carpeta temporal no acredita custodia duradera. **Solo task/memoria editados en este turno**, mismos5nuevos/4modificados anteriores,0staged/HEAD25daa836 intacto. Revisión final local verifica hashes de HCL/candidatas/demás fuentes/state/backup/planes, exclusiones/links/diff-check. **No apply/destroy/import, recursosAWS creados, IAM remoto modificado, Docker o Git stage/commit/push. DETENER, sin siguiente incremento automático.**
+
+## 27. INFRA-5 — revisión IAM y preparación de aplicación manual; NO AWS / NO APPLY
+
+### 27.1. Evidencia nueva y alcance de validez
+
+**2026-11-12 — PREPARAR IAM COMPUTE + IAM RUNTIME PARA APPLY / VALIDACIÓN CONTROLADA / NO APPLY.** Se revisan exactamente las dos candidatas existentes contra compute.tf/iam-runtime.tf, sin editarlas; se prepara guía para el responsable humano. Precheck real **feature/infrastructure**, HEAD **25daa836c0571d4c0c02486e49ce435a108f0558**, mismos5archivos nuevos/4modificados/0staged, sin inesperados. Solo task/memoria editados en este turno.
+
+**Ambas válidas como JSON y candidatas de alcance acotado**, no certificación de mínimo privilegio integral, autorización efectiva AWS o capacidad de aplicar. Runtime HCL contiene exclusivamente SSMregistro/canales y ECRpull; no EC2admin/IAMadmin/ECRpush/DeleteRepository/PutImage/AdministratorAccess/PowerUserAccess ni managed attachment extra. Trust EC2, profile y policies inline reales del HCL conservados. Plan previo no prueba llamadas mutantes del provider; no simulación IAM/AccessAnalyzer, inventario IAM efectivo o prueba de permisos de apply en esta entrega.
+
+| Candidata | Tamaño actual bytes /caracteres compactos | Allow /acciones distintas | Tipo/nombre recomendado |
+| --- | --- | --- | --- |
+| terraform-local-compute-policy.json | **6838 /5130** | **9 /22** | **Customer-managed /ENVER-Terraform-Compute** |
+| terraform-local-iam-runtime-policy.json | **2405 /1742** | **4 /21** | **Customer-managed /ENVER-Terraform-IAM-Runtime** |
+
+Compute5130compactchars no cabe en inlineuser2048 agregado; ambas caben individualmente en límite customer-managed6144 sin espacios. IAM1742 podría caber en inline solo si agregado/cuotas lo permiten, pero se recomienda customer-managed por separación, claridad, revisión/versionado/revocación independiente. No se ha verificado cuota libre de attachments o políticas de cuenta/otros grants/boundary/SCP; no declarar disponibilidad o permiso efectivo por tamaño. LímiteIAM excluye whitespace, distinto del tamaño de archivo con formato.
+
+**SHA256 exactos antes de editar documentación:**
+
+- Compute: **e05dd08a4e3505f8dc5e2922e51ee498b99c0feb07d9a1d52634f7e71ad937a0**.
+- IAM: **b36c588317ba63ead7317ea4d1ff3de22599be74e5eb2cf83cbb2bb88b1ac7e9**.
+
+### 27.2. Acciones, scope y límites de mínimo privilegio
+
+**Compute,22acciones:** `ec2:DescribeImages`, `ec2:DescribeInstances`, `ec2:DescribeInstanceStatus`, `ec2:DescribeInstanceAttribute`, `ec2:DescribeInstanceCreditSpecifications`, `ec2:DescribeInstanceTypes`, `ec2:DescribeVolumes`, `ec2:DescribeVolumesModifications`, `ec2:DescribeAddresses`, `ec2:DescribeNetworkInterfaces`, `ec2:DescribeTags`, `ec2:RunInstances`, `ec2:TerminateInstances`, `ec2:CreateNetworkInterface`, `ec2:DeleteNetworkInterface`, `ec2:AllocateAddress`, `ec2:AssociateAddress`, `ec2:DisassociateAddress`, `ec2:ReleaseAddress`, `ec2:ModifyInstanceCreditSpecification`, `ec2:CreateTags`, `ssm:GetParameter`.
+
+LecturasEC2 Resource=* por operaciones de consulta, limitadas a **us-east-1/926925605666/enver-terraform-local**; no lectura de secretosSSM, solo parámetro públicoAMIexacto. EscriturasEC2 limitadas por acción/recurso/cuenta/región/usuario/tags/Name: RunInstances multirrecurso con subnets y SGbackend exactos, instancia t3a.small/IMDSv2, raízgp3cifrada10GiB, ENIetiquetadas; Allocate/CreateENI y lifecycle/tagging acotados. EBSraíz se crea con RunInstances y elimina con Terminate/delete_on_termination, no CreateVolume/DeleteVolume o snapshots amplios. **Cero acciones wildcard**, sí Resource=* de lecturas y ARNs con sufijo wildcard para image/instance/volume/ENI/EIP. No autoriza NATGateway/ALB/AutoScaling/RequestSpot/CreateFleet/CreateImage/snapshots/adminSG por sus acciones; no statement nuevo para Spot. Los permisos efectivos resultan de todas las policies, no puede declararse prohibición global desde estas dos Allow.
+
+**IAM,21acciones:** `iam:CreateRole`, `iam:GetRole`, `iam:DeleteRole`, `iam:TagRole`, `iam:UntagRole`, `iam:ListRoleTags`, `iam:ListRolePolicies`, `iam:GetRolePolicy`, `iam:PutRolePolicy`, `iam:DeleteRolePolicy`, `iam:ListAttachedRolePolicies`, `iam:ListInstanceProfilesForRole`, `iam:CreateInstanceProfile`, `iam:GetInstanceProfile`, `iam:DeleteInstanceProfile`, `iam:TagInstanceProfile`, `iam:UntagInstanceProfile`, `iam:ListInstanceProfileTags`, `iam:AddRoleToInstanceProfile`, `iam:RemoveRoleFromInstanceProfile`, `iam:PassRole`.
+
+Solo ARNs exactos **role/enver-dev-api-runtime** e **instance-profile/enver-dev-api-runtime**, usuario/cuenta baseline, tags requeridas al crear. List/Get/Tag/Untag y Delete apoyan lectura/lifecycle de esos recursos del provider, no administradorIAM. HCL usa inline separadas: Put/Get/DeleteRolePolicy necesarios en esa estrategia, no CreatePolicy/AttachRolePolicy/DetachRolePolicy para runtime. **PassRole exclusivamente arn:aws:iam::926925605666:role/enver-dev-api-runtime**, condición **iam:PassedToService=ec2.amazonaws.com**; no role arbitrario ni grants para el operador humano de creación/adjunción de customer-managed. **Cero acciones y recursos wildcard en candidata IAM**.
+
+**Permisos prohibidos directos no detectados** en candidatas/runtime. **Límites y riesgo residual explícitos antes de asignar:**
+
+1. **CreateRole permite definir trust y PutRolePolicy permite contenido inline no restringido por estos JSON.** Un operador con PutRolePolicy+PassRole+EC2 podría ampliar el runtime y acceder a sus credenciales: **riesgo de escalada**, aunque el role sea exacto. La revisión del HCL actual solo confirma que hoy define SSM/pull. No hay boundary inmutable o validación de contenido de inline en estas candidatas. **No afirmar que el operador solo puede conceder SSM/pull**. El responsable debe revisar/aceptar expresamente este riesgo o autorizar un endurecimiento separado **antes de adjuntar**; no se inventa/aplica boundary ni se cambia arquitectura aquí.
+2. ARNimagen `ami-*` no fija soloAMIactual/Amazon a nivelIAM; son filtrosHCL. Tags/Name no garantizan cardinalidad2, aislamiento absoluto o impedir reutilización de nombres. ModifyInstanceCreditSpecification permite modificar créditos del host acotado, sin imponer standard como boundaryIAM; HCL y plan sí usan standard. Tampoco estas policies imponen48h,USD10 o techo de factura.
+3. Las11lecturasEC2 regionales son familias de inspección/lifecycle candidatas, no auditoría de que cada llamada sea imprescindible en todo camino provider. Compatibilidad exacta/condiciones multirrecurso y lifecycle requieren evidencia adicional; JSONválido no equivale a validación IAM de semántica o simulación exitosa. Sin ampliación preventiva por temor a AccessDenied; detener si aparece en un incremento autorizado.
+
+### 27.3. Guía para aplicación EXCLUSIVAMENTE manual — no ejecutada
+
+**Precondición:** responsable revisa los límites anteriores y decide aceptación o endurecimiento aparte; sin esa decisión, **detener antes de asignar**. Esta guía no afirma que la asignación haya ocurrido ni autoriza recursos/apply.
+
+1. El responsable autorizado entra a consola **cuenta926925605666 →IAM**, con su identidad administrativa humana habitual y MFA donde aplique. No crear accesskeys ni ampliar permisos del usuario Terraform para que se autoadministre. Confirmar destino **usuario enver-terraform-local**, no role runtime, root o grupo genérico.
+2. Revisar cuotas de customer-managed policies/attachments y grants existentes manualmente; no quitar otras políticas para hacer espacio automáticamente. Si hay colisión de nombre/versiones/adjuntos, **detener y comparar**, no sobrescribir política existente ni reemplazar defaultversion a ciegas.
+3. **IAM→Policies→Create policy→JSON:** copiar exactamente `infra/bootstrap/terraform-local-compute-policy.json` (hash§27.1), revisar acciones/condiciones y validación del editor; nombre **ENVER-Terraform-Compute**. Repetir con archivoIAM/hash y nombre **ENVER-Terraform-IAM-Runtime**. No AWSmanaged/Admin/PowerUser, wizard con recursos ampliados o corrección automática de scope; si el editor reporta errores, conservar mensaje y detener para revisión autorizada.
+4. Solo tras decisión humana, **IAM→Users→enver-terraform-local→Permissions→Add permissions→Attach policies directly**: seleccionar exclusivamente las dos customer-managed recién revisadas de esta cuenta, revisar resumen y confirmar manualmente. **NO adjuntar estas policies al runtime role ni crear role/profile/inline runtime manualmente**; esos recursos pertenecen al futuro applyTerraform autorizado. No ejecutar `iam create-policy`, `attach-user-policy` o `put-user-policy` por el agente.
+5. Conservar evidencia no sensible: cuenta/usuario, nombres/ARNs/versiones/defaultversion de policies, fechaUTC, decisión y asignaciones reales. No registrar sesión/tokens/accesskeys o screenshots con secretos. Volver al agente con esa evidencia y autorización delimitada para próxima verificación, **sin apply automático**. La propagación IAM/permiso efectivo no se infiere de una captura de creación; verificación posterior debe ser explícita, sin reintentos ciegos o dry-runs de escritura implícitos.
+6. Reversión de **asignaciónIAM** si se requiere: responsable revisa y retira manualmente **solo estos dos attachments recién autorizados**, preservando grants ajenos y recursos; no borrar runtime/state o revocar seguridad para resolver un fallo. Retirar permisos no revierte infraestructura/cargos y puede impedir gestión posterior; revisar dependencias antes. No rollback/limpieza ejecutados en este turno.
+
+### 27.4. Validaciones, presupuesto y estado conservados
+
+**Nuevos resultados locales:** `terraform fmt -check -recursive infra` **exit0**; `terraform -chdir=infra validate -no-color` **exit0**, configuración válida. **No plan repetido**, HCL sin cambios. **12add/0change/0destroy, NETWORK14/ECR2no-op de§26 se conservan como baseline HISTÓRICA acreditada**, no nueva verificación AWS/drift o garantía para futuroapply. Sin STS/SSM/EC2/IAM/ECRCLI ni otra API de cuenta, scanning o Terraforminit/apply/destroy/import.
+
+Costos sin cambios: **INFRA-5 USD2.3915/48h**, ALBfuturo **1.944**, conjunto **4.3355**, envolvente **7.3355**, guardrail **USD10** de ventana y **USD50 AGREGADOS** de proyecto, no mensual. Margen nominal2.6645, no presupuesto integral/consumo/crédito/reserva verificadas; ninguna asignaciónIAM o guía autoriza gasto/apply. Ventana máxima48h, sin infraestructura permanente/cap técnico o shutdown implícito.
+
+**T005 PARCIAL / revisión y preparación manual acreditadas, aceptación pendiente**; **T009 PARCIAL / plan completo acreditado, provisión y aceptación pendientes**; **T010 PARCIAL / recovery documentado, prueba y aceptación pendientes**; **GATE-I-C PENDIENTE / NO SATISFECHO**, sin dosEC2 reales. Ninguna tarea/gate cerrados, todos9gates abiertos; T008/scanfinal/rollback y T025custodia/recovery/aceptación conservan§26, sin nuevas evidencias cloud.
+
+Evidencia privada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-iam-manual-review-20261112-234436\`: hashes previos/revisiónpolicies/validaciones/revisiónfinal local; temporal no acredita custodia duradera. Solo task/memoria editados, mismos5nuevos/4modificados anteriores,0staged/HEAD25daa836. Hashes finales verifican candidatas/HCL/demás fuentes/state/backup/planes intactos, exclusiones y enlaces/diff-check. **CERO cambios o consultas AWS, CERO plan nuevo/apply, IAMadjunto/editado, recursos/Docker, stage/commit/push. DETENER para revisión/decisión humana, sin reanudación automática.**
+
+## 28. INFRA-5 — permissions boundary externa obligatoria; plan bloqueado
+
+### 28.1. Decisión y cambios autorizados
+
+**2026-11-12 — BUILD/SECURITY HARDENING CONTROLADO, NO APPLY / NO AWS AUTOMÁTICO / NO ADJUNTAR POLICIES TODAVÍA.** Responsable no acepta PutRolePolicy+PassRole sin límite independiente y adopta permissions boundary administrada fuera de facultadesTerraform. No cambio de arquitectura runtime ni ampliación a secretos/authority. Precheck real **feature/infrastructure**, HEAD **25daa836c0571d4c0c02486e49ce435a108f0558**, mismos5nuevos/4modificados/0staged previos, trabajo preservado.
+
+**Nuevo:** [runtime-permissions-boundary.json](../../infra/bootstrap/runtime-permissions-boundary.json). **Editados en este turno:** iam-runtime.tf, variables.tf, terraform-local-iam-runtime-policy.json y task/memoria. Compute.tf, computeJSON, networking/ECR/outputs/provider/lock/bootstrap/producto/tests/spec/plan/004/gobierno intactos. El role referencia boundary mediante `permissions_boundary = var.runtime_permissions_boundary_arn`; no resource/data source/policyversionTerraform de la boundary ni import o gestión de su contenido. CreateRole transmite boundary inicial, no requiere permitir luego PutRolePermissionsBoundary; fuente provider6.73.0 confirma uso de CreateRoleInput.PermissionsBoundary.
+
+Variable **runtime_permissions_boundary_arn**, string no secreta, **nullable=false, SIN default**, validación exige cuenta/nombre/path de la referencia esperada. Ausencia impide plan no interactivo; validación no prueba existencia/contenido/version deAWS. **NO hay ARN real creado/comunicado/aprobado en este turno, no se suministra uno ni se ejecuta plan.** Referencia determinística por cuenta acreditada/nombre recomendado/path/:
+
+```text
+arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary
+```
+
+Es **referencia esperada en artefactos candidatos, NO policy existente acreditada**. No ARN aleatorio o lookup fingido. Si el administrador crea otra ruta/nombre, detener para nueva aprobación/sincronización, no aceptar otra boundary automáticamente. Antes de replan se necesita ARN REAL y aprobación decontenido/version/custodia; antes deapply nueva autorización y plan post-hardening revisado.
+
+### 28.2. Máximo runtime —9acciones,3Allow/3Deny
+
+Boundary **customer-managed recomendada ENVER-Runtime-Permissions-Boundary**, creada/administrada **manualmente por identidad administrativa independiente**, nunca enver-terraform-local. No concede permisos por sí sola: permisos efectivos de identidad se intersectan con boundary; inlinepoliciesruntime siguen necesarias.
+
+| Allow máximo | Recurso/condición | Justificación del contrato actual |
+| --- | --- | --- |
+| ecr:GetAuthorizationToken | Resource=*; us-east-1/cuenta926925605666 | Autenticación ECR del host; no token embebido |
+| ecr:BatchCheckLayerAvailability | Solo ARNrepositoryenver-dev-api/región | Consultar capas de imagen |
+| ecr:GetDownloadUrlForLayer | Mismo repository | Descargar capas |
+| ecr:BatchGetImage | Mismo repository | Leer manifiesto/imagen |
+| ssm:UpdateInstanceInformation | Resource=* /us-east-1 | Registro/información básica del agente |
+| ssmmessages:CreateControlChannel | Resource=* /us-east-1 | Crear canal control |
+| ssmmessages:CreateDataChannel | Resource=* /us-east-1 | Crear canal datos |
+| ssmmessages:OpenControlChannel | Resource=* /us-east-1 | Abrir canal control |
+| ssmmessages:OpenDataChannel | Resource=* /us-east-1 | Abrir canal datos |
+
+Las9Allow coinciden estructuralmente con runtimeHCL, **sin ampliar aAmazonSSMManagedInstanceCore/ec2messages/SSMparámetros/documentos/inventario**. Sin IAM/EC2/S3/KMS/DynamoDB/Secrets/ELB/Route53/ACM/admin/ECRwrite/sts:AssumeRole u otro grant fuera de esas9. Resource=* solo donde no hay ARN de acción apropiado; repositoryexacto para3pull. Uso/compatibilidad real del agenteSSM aún no probados.
+
+**Denegaciones explícitas:** (1) `Deny`+`NotAction` con exactamente9acciones/Resource=* niega cualquier otra operación, incluido administrador/ECRwrite/rolechaining; no es un Allowwildcard. (2) Deny3pull con `NotResource`=repositoryexacto bloquea otrosrepos. (3) Deny9acciones si RequestedRegion no esus-east-1. Evitan depender solo de denyimplícito: AWS advierte grants resource-based directos aroleSESSION pueden eludir límites implícitos; denyexplícito sigue prevaleciendo. No `NotPrincipal`Deny. No se afirma aislamiento global de cuenta por este JSON o pruebascloud; acciones/grants finales requieren revisión efectiva antesdeapply.
+
+Tamaños observados: **boundary2566bytes/1917compactchars**,3Allow/3Deny/9accionesAllow; **candidataIAM4673bytes/3448compactchars**,6Allow/3Deny/21accionesAllow; **compute6838bytes/5130compactchars**,9Allow/22acciones intactas. CadaJSON cabe en customer-managed6144sinwhitespace; IAMahora también excede inlineuser2048. Cuotas/semánticaAWS/adjuntos reales no validados.
+
+### 28.3. Candidata del operador endurecida — no adjunta
+
+- **CreateRole exacto** separado deCreateInstanceProfile: Allowrequiere `ArnEquals iam:PermissionsBoundary`=referenciaexacta, tags/user/cuenta originales. **PutRolePolicy** sigue requerido por dosresourcesaws_iam_role_policy y su Allowtambién exige roleexacto+boundaryexacta. UnaDenyCreateRole/PutRolePolicy con `ArnNotEquals` protege contra ausencia/otra boundary incluso anteAllowadicional mientras esa guard esté aplicada. Se verificó soporte real deambasacciones en referenciaAWS; **no** condición aplicada aCreateInstanceProfile, no soportada ahí.
+- Lifecycleprofile solo **arn:aws:iam::926925605666:instance-profile/enver-dev-api-runtime**, sinwildcard. Get/DeleteRolePolicy ylecturas/tags/lifecycle conservan scopesanteriores. Allowactions no aumentan:21. Alternativa aPutRolePolicy: admin externo mantiene policiesruntime inmutables yTerraform solo adjuntaARNsexactos bajoBoundary; implica cambiar ownership/HCL/permisos/plan y aprobación aparte, **solo propuesta, no implementada**.
+- **Denyexplícito** `iam:PutRolePermissionsBoundary`/`DeleteRolePermissionsBoundary` enroleexacto; noAllow deesasacciones. Terraformpuede crearrole conboundary enCreateRole, **no quitarla/reemplazarla/añadirla posterior para arreglar drift**. Anteboundarymissing/drift, detener yrevisiónadministrativa; noignore_changes/backdoor o ampliaciónIAM.
+- **Denyexplícito** `CreatePolicy`, `CreatePolicyVersion`, `SetDefaultPolicyVersion`, `DeletePolicyVersion`, `DeletePolicy`, `TagPolicy`, `UntagPolicy` sobreARNexacto deboundary. NoAllowdeedición/eliminación/versiones ni administraciónIAMgeneral. Impide crear/recrear eseobjetooalterarlo usando esaidentidad cuando guardestéaplicada; contenido/versiones permanecen custodiadosporadministrador, noTerraform.
+- **PassRole** conserva únicamente el role exacto y **PassedToService=ec2.amazonaws.com**. Añade `ArnLike iam:AssociatedResourceArn=arn:aws:ec2:*:926925605666:instance/*`. AWS documenta este patrón con región/ID comodín para PassRole usado por AddRoleToInstanceProfile: **no fijar us-east-1 o IDs concretos en esa condición**, causaría evaluación incorrecta. Aporta cuenta/tipo de recurso EC2 sin PassRole arbitrario; no restringe a dos instancias desconocidas. La región de compute sigue acotada por policy EC2. Contexto efectivo/comportamiento provider pendientes de validación cloud autorizada.
+
+ComputeJSON **sinmodificar**, hashpreviamenteacreditado **e05dd08a4e3505f8dc5e2922e51ee498b99c0feb07d9a1d52634f7e71ad937a0** conservado; noIAMmutations/securitypolicychanges/NAT/ALB/AMIcreation/snapshotadmin o nuevosgrants. Su lecturaSSMpublica sigue necesaria paraAMI, nolecturasecretos. Nada concede alusuariocapacidadpara autoasignar o editar customer-managed deoperador.
+
+### 28.4. Revisión estática y custodia independiente pendiente
+
+**Revisión local estilo findingsIAM, NO AccessAnalyzeroficial/simulaciónIAM/pruebadeAWS:**
+
+| Riesgo | Resultado de revisión |
+| --- | --- |
+| PassRole Resource=* oiam:*Allow | No detectados; ARNroleexacto |
+| Resourcewildcardinnecesario | IAMAllowsexactos; condiciónAssociatedResourceArn necesita*documentado; boundary*enaccionesglobales/canales yDenyglobal justificados; computelecturas/ARNs anteriores conservados |
+| Permissionsmanagementamplio | PutRolePolicyroleexacto+boundaryrequerida; capruntime9acciones, noAllowadministrativo |
+| Versionmanagementboundary | NingúnAllow, Denyexplícito contraeditar/borrar/defaultversion |
+| Boundarybypassmissing/removal/replacement | CreateRole/PutRolePolicycondicionados+Denysinboundary, retirada/sustituciónnegadas; protección documentada, **aúnnoaplicada** |
+| Resourcepolicy/sessionbypass | BoundaryconDenyfuera9/otrosrepos/otraregión, no soloimplícitos |
+
+Asercionesestructuraleslocales confirman JSONparse,9Allowruntime=9boundary, NotActionexacto,repoDeny, CreateRole/PutRolePolicycondiciones, sinAllowdegestiónboundary yconDeny, PassRole/profileexactos ysinTerraformresourcepolicy. **No certificado formal deIAM o mínimoefectivoglobal.** Crearrole aúnpermiteexpresartrust enrequest; HCLtrustsigueEC2. Boundarylimita permisos, no identidad/custodia deltrust. Revisartrust ypermisosagregados, imposibilidaddeautoadministrarusuariogrupos/policiesguard o asumiradministrador, antesdeasignar. Denydeguard solo protege mientrasasignado: si otrosgrantspermitenretirar/editarlaoguardarcredencialesadmin, elaislamientopuedeeludirse. **Auditoríaefectivadeesosotrosgrants/custodiaindependienterequerida**, no hecha sinAWSautorizado. No seafirma queTerraformyaestélimitado enAWS.
+
+Fuentesoficialesconsultadas públicamente, sincredenciales/APIsdecuenta: [accionesIAM/CreateRole/PutRolePolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_iam.html), [PermissionsBoundary/AssociatedResourceArn y excepciónInstanceProfile](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html), [evaluaciónboundary/grantsdirectossesión](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html), [providerAWS6.73.0 role.go](https://github.com/hashicorp/terraform-provider-aws/blob/v6.73.0/internal/service/iam/role.go). Revisión documental no valida contenidoefectivo delacuentani ejecutaAccessAnalyzer.
+
+**Siguiente paso exclusivamentehumano/autorizaciónposterior:** adminindependiente revisaJSONycustodia, crea manualmente customer-managed **ENVER-Runtime-Permissions-Boundary** path/ usandoarchivocandidato, registraconta/ARNreal/defaultversion/contenido/hash/UTC/identidadadministrativa yverificaqueTerraformnopuedaadministrarla/autoeludirguard. **No attach ahora ENVER-Terraform-Compute o ENVER-Terraform-IAM-Runtime, ni boundary como identitypolicy delusuarioTerraform.** Role/profile siguen deTerraformpara futuroapply; boundary se referenciarácomoboundarydelrole, no resourcegestionado. No seguirautomáticamenteguía§27.3; requiere revisiónactualizada yautorizaciónespecífica. FuturacapacidadSecrets/authority fuera9exigiría nueva revisiónadministrativa deboundary/contratos/aprobación, noampliaciónporTerraform.
+
+### 28.5. Validación, plan bloqueado y estados
+
+**terraform fmt -recursive infra /fmt-check /validate exit0**, configuraciónválida; sininit/upgrade oAWSCLI. **PLAN NOEJECUTADO /BLOQUEADO POR BOUNDARYREAL**, sinvaloresficticios. Elplan§26 **12add/0change/0destroy yNETWORK14/ECR2no-op se rotula PRE-HARDENING**, no plandefinitivoapply ni nuevo no-op. No seafirma elconteodelplanposthardening: boundaryexternanoesresourceTerraform, pero solo unnuevoplanrealauthorizedacreditaráelresultadofinal.
+
+Costo sin cambiocompute: **USD2.3915INFRA-5/48h**, ALBfuturo1.944, conjunto **4.3355**, envolvente **7.3355**, guardrail **USD10**, proyecto **USD50AGREGADOS**/máximo48h, no mensual/capAWS/gastoautorizado. SinBilling/crédito/reserva/consumoacumuladoverificados; hardeninglocalIAMnoaprovisionaservicios.
+
+**T005 PARCIAL / HARDENING IAM PENDIENTE DE APLICACIÓN; T009 PARCIAL / PLAN POST-HARDENING BLOQUEADO POR BOUNDARY; T010 PARCIAL / recoverydocumentado,pruebayaceptaciónpendientes; GATE-I-C PENDIENTE/NOSATISFECHO.** T025PARCIAL/validaciónlocalacreditada,plananteriorPRE-HARDENING/aceptaciónpendiente. Ningúntask/gatecerrado,todos9gatesabiertos/11tareasparciales/19pendientes;T008/scanning/002/004/AUTH-027integralintactos.
+
+Evidencialocalprivada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-boundary-hardening-20261112-235158\` (hashes/revisiónestructural/fmt/check/validate/revisiónfinal), temporalsincustodiaduraderagarantizada. Revisiónfinalpreservafuentesnoautorizadas/compute/state/backup/planesporhash, exclusiones/links/diff-check. Esperado **6nuevos/4modificadosglobales,0staged/HEAD25daa836** (boundaryúniconuevodeesteturno). **SIN AWSconsultadoomodificado/APIsdecuenta/IAMadjunto/plan/apply/destroy/import/Docker/Gitstage-commit-push. DETENER.**
+
+## 29. INFRA-5 — plan POST-HARDENING con ARN real informado;12/0/0, NO APPLY
+
+### 29.1. Fuente de boundary y alcance de autorización
+
+**Ejecución 2026-11-13 UTC**, solicitud **POST-HARDENING PLAN CON PERMISSIONS BOUNDARY REAL / VALIDACIÓN CONTROLADA / NO APPLY**. Responsable confirma creación manual por identidad administrativa independiente, **no enver-terraform-local**, de **ENVER-Runtime-Permissions-Boundary**, ARN real:
+
+```text
+arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary
+```
+
+**Existencia y custodia acreditadas según esa fuente informada**, no nueva consulta GetPolicy/GetPolicyVersion/CloudTrail ni prueba independiente del contenido/defaultversion/hash remoto o de permisos efectivos del usuario. No se atribuye creación al agente. La autorización actual permite usar el ARN real en plan y supera el bloqueo de input anterior; no presenta el valor de un ARN como prueba técnica de existencia. Revisión de contenido/custodia/otros grants antes de cualquier futura provisión conserva sus pendientes. No administrar boundary mediante Terraform o adjuntar candidatas todavía.
+
+Precheck real: **feature/infrastructure**, HEAD **25daa836c0571d4c0c02486e49ce435a108f0558**, mismos **6 nuevos/4 modificados/0 staged** anteriores, sin archivos inesperados. **Solo task/memoria editados ahora**; HCL/JSON/bootstrap sin cambios por esta entrega. Terraform **1.17.1/windows_amd64**, provider **6.73.0**, sin init/upgrade. `fmt -recursive infra`, `fmt -check -recursive infra`, `-chdir=infra validate -no-color`: **exit0/exit0/exit0**, configuración válida; fmt no produjo cambios de fuente.
+
+### 29.2. Plan real y boundary obligatoria
+
+**Una ejecución**, **2026-11-13T00:10:31.3416803Z–00:10:51.8661754Z**:
+
+```text
+terraform -chdir=infra plan -detailed-exitcode -input=false -lock-timeout=30s -parallelism=1 -no-color
+Plan: 12 to add, 0 to change, 0 to destroy.
+exit code: 2
+```
+
+Exit2 es **éxito con altas propuestas**, sin AccessDenied, replacement o destroy. Se pasaron inputs aprobados por entorno de proceso temporal restaurado: **AWS_PROFILE=enver-infra**, regiónus-east-1, project=enver/environment=dev/account926925605666/VPC10.20.0.0/16/newbits8/common_tags={}/network_design_approved=true/compute_plan_approved=true y **TF_VAR_runtime_permissions_boundary_arn=ARN REAL anterior**. `compute_ami_id=null` por defecto, como baseline; dataSSM/dataAMI completan y ambas EC2 usan **ami-096ef200a877f36af**. AWS_MAX_ATTEMPTS=1/fallbackmetadata deshabilitado, sin credenciales alternativas/overrides; no tfvars real nuevo, ARN no secreto ni valor persistido por inventar recurso. No token/connection string/JWT en inputs/logs.
+
+**Verificación directa en el bloque aws_iam_role.api_runtime del plan:** nombre **enver-dev-api-runtime**, trust **ec2.amazonaws.com**, y:
+
+```text
+permissions_boundary = "arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary"
+```
+
+El HCL sigue `permissions_boundary = var.runtime_permissions_boundary_arn`, obligatorio sin default. **Boundary referenciada obligatoriamente EN PLAN, no role/boundary aplicada al role real**. No binario de plan nuevo guardado ni apply; no ARN de instancia/EIP inventado. Plan exitoso no prueba que CreateRole/PassRole/PutRolePolicy/RunInstances estén autorizados, ni capacidad disponible, ausencia de colisión con recursos no gestionados, contenido remoto de boundary o que la identity policy candidata ya esté adjunta. No habilitar apply por exit2. **Plan§26 sigue PRE-HARDENING**, este es el resultado POST-HARDENING, sin autorizar gasto/provisión.
+
+### 29.3. Inventario completo, no-op y seguridad de hosts
+
+| Nuevas direcciones reales | Cantidad |
+| --- | --- |
+| aws_iam_role.api_runtime | 1 |
+| aws_iam_instance_profile.api_runtime | 1 |
+| aws_iam_role_policy.api_ecr_pull | 1 |
+| aws_iam_role_policy.api_ssm_session | 1 |
+| aws_network_interface.api["a"], aws_network_interface.api["b"] | 2 |
+| aws_eip.api["a"], aws_eip.api["b"] | 2 |
+| aws_eip_association.api["a"], aws_eip_association.api["b"] | 2 |
+| aws_instance.api["a"], aws_instance.api["b"] | 2 |
+| **Total POST-HARDENING** | **12 add /0 change /0 destroy** |
+
+Boundary es **externa**, no decimotercer recurso Terraform. Raíces EBS inline, no recursos independientes extra. **NETWORK14 y ECR2 no-op confirmados para este plan completo**:16direcciones managed refrescadas, cotejadas con inventario y sin cambio/drift/replacement/destroy en salida. No prueba de toda la cuenta o no-op futuro. No se repite ninguna API tras plan para inventario cloud adicional.
+
+EC2 **2×t3a.small**, CPUstandard; **a=us-east-1a/use1-az1**, **b=us-east-1b/use1-az2** en esta cuenta, misma AMI aprobada **ami-096ef200a877f36af**. DataAMI filtró Amazon/AL2023/x86_64/HVM/EBS/available; detalles de OS/kernel mantienen evidencia informada previa. Cada root **10GiB gp3 cifrado/3000IOPS/125MiB/s/delete_on_termination=true**; IMDSv2 **http_tokens=required/hoplimit1**, metadata tags deshabilitados. No capacidad/hashlatency/arranque/health reales probados.
+
+**2ENI persistentes,2EIP,2asociaciones** en plan; ENI soloSGbackend **sg-070d06cfebe866427** y subnets existentes, EIP→ENI antes del boot. map_public_ip_on_launch=false conservado. Backend ingress **TCP8080 solo SGALB sg-0dacf0df5da30b4f7**, sinCIDR público a8080/SSH22/keypair definido; valores derivados known-after-apply no son observación de instancia real. BootstrapDocker/SSM leído en plan sin accesskeys/JWT/Mongo/Redis/password/ECRtoken, sin dockerlogin/pull/run o autoarranqueEnver.API. No secretos detectados por inspección/indicadores, no auditoría exhaustiva de capas. Sin ALB/Redis/DynamoDB/Secrets/NAT/servicios adicionales o recursos aplicados.
+
+### 29.4. IAM revisado: diseño limitado, eficacia futura no inferida
+
+- Candidata IAM intacta: **CreateRole solo role exacto**, `ArnEquals iam:PermissionsBoundary` exacta; **Deny explícito CreateRole/PutRolePolicy** sin boundary o con otra. CreateProfile y lifecycle limitados al profile ENVER exacto, sin comodín de profiles. No grants de administración del operador por esta entrega.
+- **PutRolePolicy** sigue requerido por las dos inline y limitado al role exacto **con boundary exacta**. Máximo de permisos identity-based = **identity policy ∩ permissions boundary**, sujeto a **explicit deny** y demás políticas aplicables. Boundary local de9acciones incorpora también Denyfuera9/otrosrepos/otraregión para grants resource-based a sesiones; no ignorar esa salvedad de evaluación ni dar cap efectivo remoto por comprobado sin comparar versión remota. No permisos efectivos por encima del límite según diseño; runtime efectivo sigue sin desplegar/probar.
+- **Sin Allow y con Deny explícito** a PutRolePermissionsBoundary/DeleteRolePermissionsBoundary en role exacto; a CreatePolicy/CreatePolicyVersion/SetDefaultPolicyVersion/DeletePolicyVersion/DeletePolicy/TagPolicy/UntagPolicy sobre boundary exacta. **No poder retirar/editar según candidata**, no certificado de imposibilidad efectiva del usuario actual: candidatas no adjuntas y permisos agregados/custodia independiente no auditados por AWS en este turno. Se conserva revisión de otras vías de auto-administración/retirar guard/usar identidades privilegiadas antes de apply.
+- **PassRole solo arn:aws:iam::926925605666:role/enver-dev-api-runtime**, `iam:PassedToService=ec2.amazonaws.com`, `ArnLike iam:AssociatedResourceArn=arn:aws:ec2:*:926925605666:instance/*`. Se reconfirma [documentación oficial](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html): AddRoleToInstanceProfile exige región/ID comodín en esa condición. Patrón **estáticamente compatible con las EC2 de esta cuenta y ambasAZ**, no se debilita ni sustituye por región fija o IfExists. Ninguna duda técnica pendiente sobre la forma documentada; **plan no evalúa PassRole/AddRoleToInstanceProfile real**, su eficacia requiere ejecución futura autorizada. No IAMsimulator/AccessAnalyzerofficial o grant nuevo.
+- Boundary máxima actual sin ampliar: **ECRGetAuthorizationToken +BatchCheckLayerAvailability/GetDownloadUrlForLayer/BatchGetImage** (3pull solo repositoryenver-dev-api); **SSMUpdateInstanceInformation +ssmmessagesCreateControlChannel/CreateDataChannel/OpenControlChannel/OpenDataChannel**. Inline9Allow coincide con límite local, sin ECRwrite/admin/EC2admin/secretos. NoIammanagedattachment extra.
+
+**Futuro DynamoDB Authentication Authority/secretos/config:** no se añade ninguna acción ahora. Boundary actual es intencionalmente de fase compute inicial, **no defecto deINFRA-5**; ampliarla requiere contrato/alcance/revisión humana, edición por identidad administrativa independiente, evidencia de nueva versión y autorización posterior; **nunca enver-terraform-local** o ampliación silenciosa para arrancarAPI. Custodia/admin de boundary fuera deTerraform preservada.
+
+### 29.5. Presupuesto, estados y cierre
+
+No nuevos recursos/capacidades fuera de estimación: **INFRA-5 USD2.3915/48h** (EC2 1.8048/EBS0.106667/IPv40.48), futuroALB48h **1.944**, conjunto **4.3355**, envolvente **7.3355**, guardrail **USD10**, margen nominal **2.6645**, proyecto **USD50 AGREGADOS**, reservaobjetivo50/crédito100informado. No mensual/FreeTier/cap técnico/Billing o consumo acumulado verificados. Costos LCU/tráfico/retención/dependencias variables y bolsas no cotización integral. **Guardrail respetado solo en estimación provisional; no autoriza apply/gasto/permanencia mayor48h o limpieza automática.**
+
+**T005 PARCIAL / HARDENING IAM PENDIENTE DE APLICACIÓN**, plan acreditado y existencia/custodia según responsable, sin role/grants efectivos aceptados. **T009 PARCIAL / PLAN POST-HARDENING ACREDITADO; PROVISIÓN/ACEPTACIÓN PENDIENTES**. **T010 PARCIAL / RECOVERY DOCUMENTADO; PRUEBA/ACEPTACIÓN PENDIENTES**. **T025 PARCIAL / VALIDACIÓN LOCAL Y PLAN POST-HARDENING ACREDITADOS; ACEPTACIÓN PENDIENTE** (statebackup/custodia/recovery/dependencias sin aceptar). **GATE-I-C PENDIENTE / NO SATISFECHO**, sin2EC2reales/digestA-B/pruebas; todos9gatesabiertos/11tareasparciales/19pendientes, sin cierres002/004/AUTH-027integral.
+
+**Sin AccessDenied, permiso faltante no observado en plan**; no ampliar IAM por prever errores decreate. No consulta scanning autorizada ahora: evidencia§26 ScanNotFound conserva digest/alcance, IN_PROGRESS del hijo histórico/informado, sin findings=0 o resultadofinalnuevo. Solo plan como operacióncloud; sin IAMCLI/GetPolicy, simulación, Docker/tests/app/workflows o mutaciones.
+
+Evidencia privada original `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-post-boundary-plan-20261113-000939\`: hashesprevios, revisiónestática, fmt/check/validate/version, plan.txt/plan-result.json/plan-analysis.json; temporal no garantiza custodia duradera. **El corte dejó la revisión final Git/hashes sin acreditar; se completa en §29.6**, sin atribuirla retroactivamente a esta carpeta. No aplicar/restaurar pre-hardening ni nuevos secretos/tfvars. Solo task/memoria editados; mismos6nuevos/4modificadosglobales/0staged/HEAD25daa836. **Sin apply/destroy/import, IAM modificado/adjuntos o EC2/EIP creados, stage/commit/push.**
+
+### 29.6. Recuperación de sesión interrumpida y validación renovada — NO APPLY
+
+**2026-11-13 UTC — CONTINUAR SESIÓN INTERRUMPIDA.** Se inspeccionó antes de editar: branch/HEAD/status/diff-check/stat y diffs solicitados. **feature/infrastructure / 25daa836c0571d4c0c02486e49ce435a108f0558**; **4 modificados** (outputs.tf, variables.tf, task.md, memoria.md), **6 nuevos sin seguimiento** (compute.tf, iam-runtime.tf, compute-host.sh y las tres candidatas JSON compute/IAM/boundary), **0 staged**. Los diffs vacíos de archivos no seguidos no implican archivos vacíos: se leyeron directamente. Sin archivos truncados o errores sintácticos observados; las secciones **§29 y memoria§79 ya estaban escritas**, pero el cierre/revisión final no estaba acreditado. Cambios recuperables, no regenerados/revertidos ni borrados.
+
+Comparación con hashes previos a la sesión cortada: **solo task/memoria cambiaron**; HCL, candidatas, bootstrap, fuentes restantes, **state/backup y planes históricos coinciden por SHA256**. ARN real disponible tanto en estos documentos como en **plan-result.json** anterior: `arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary`. Fuente de existencia/custodia sigue siendo responsable; **sin verificación independiente de policy/version remota o permisos agregados**. No tfvars reales nuevos; ningún ARN inventado o secreto guardado.
+
+Validaciones renovadas **fmt -check -recursive infra**, **-chdir=infra validate -no-color** y **bash --noprofile --norc -n infra/bootstrap/compute-host.sh**: **exit0/exit0/exit0**, Bash nativo de Git, sin ejecutar bootstrap. Terraform1.17.1/windows_amd64 y provider6.73.0 conservados. Sin correcciones HCL/JSON/shell necesarias; revisión estática reafirma variable obligatoria sin default y boundary en role, CreateRole/PutRolePolicy exactos condicionados con Deny explícito, Deny anti-retiro/sustitución/administración y PassRole limitado según§29.4. [Referencia oficial AssociatedResourceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html) reconfirmada: `arn:aws:ec2:*:926925605666:instance/*`, región/ID comodín necesarios para AddRoleToInstanceProfile, compatible estáticamente; no debilitada, eficacia AWS no probada.
+
+**Un nuevo plan en esta recuperación**, conservando intacto el anterior: **2026-11-13T00:21:46.3476521Z–00:22:11.5023286Z**, mismo comando/inputs temporales restaurados de§29.2, incluido ARN real y perfilenver-infra/us-east-1; **exit2 / 12add / 0change / 0destroy**. Sin AccessDenied, replacements o drift reportado; no permiso faltante observado en plan. **Role incluye boundary exacta**; inventario coincide íntegramente con las12direcciones de§29.3, **NETWORK14 y ECR2 no-op** por reconciliación de16refresh con state y salida completa. No inferir permisos decreate o que las candidatas estén adjuntas. Plan solo texto/evidencia, **sin binario nuevo ni apply**.
+
+Reconfirmado en plan: **2t3a.small/AMI ami-096ef200a877f36af**, **us-east-1a/use1-az1 y us-east-1b/use1-az2**, raíces **10GiB gp3 cifradas**, CPUstandard, IMDSv2required/hop1; **2ENI/2EIP/2asociaciones**. SGbackend solo8080desdeSGALB, sinSSH22/8080públicos, map_public_ip_on_launch=false. BootstrapDocker/SSM sin secretos detectados o APIautostart. Boundary conserva las9accionesECR/SSM y futuros DynamoDB/secretos requieren administración independiente autorizada: **sin ampliar**. Costos§29.5 intactos: **2.3915/48h INFRA-5**, **1.944ALB futuro**, **4.3355conjunto**, **7.3355envolvente**, **USD10guardrail**, **USD50proyecto agregado**; estimaciones, no gasto/credit verification o autorizaciónapply.
+
+**Estados sin cierre:** T005 **PARCIAL / HARDENING IAM PENDIENTE DE APLICACIÓN**; T009 **PARCIAL / PLAN POST-HARDENING ACREDITADO**, provisión/aceptación pendientes; T010 **PARCIAL / RECOVERY DOCUMENTADO**, prueba/aceptación pendientes; T025 **PARCIAL / VALIDACIÓN LOCAL Y PLAN POST-HARDENING ACREDITADOS**, aceptación pendiente. **GATE-I-C y los nueve gates PENDIENTE / NO SATISFECHO**, sin2EC2reales; no aceptación cloud deAUTH.
+
+Consolidación **sin duplicar §29/§79**; solo task/memoria editados. Evidencia privada de recuperación `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-session-recovery-20261113-002038\`: precheck/diff/hashes, validaciones, plan/resultados/análisis y revisiónfinal. Cierre con hashes de fuentes no autorizadas/state/backup/planes preservados, links/exclusiones y **git diff --check exit0**, **4 modificados/6 sin seguimiento/0 staged**, branch/HEAD intactos. Temporal no acredita custodia duradera. **Sin apply/destroy/import, cambios IAM/adjuntos, EC2/EIP u otros recursos creados, stage/commit/push. DETENER.**

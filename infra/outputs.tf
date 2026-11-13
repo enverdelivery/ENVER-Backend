@@ -31,3 +31,27 @@ output "ecr_repository_arn" {
   description = "ARN no secreto para permisos acotados; no credencial ni autorización de publicación."
   value       = aws_ecr_repository.api.arn
 }
+
+output "compute_ami_id" {
+  description = "AMI resuelta para este plan; fijar al reproducir. No acredita instancia ni bootstrap."
+  value       = data.aws_ami.api.id
+}
+
+output "compute_instances" {
+  description = "IDs/AZ futuros de dos hosts, no health, SSM o aplicación acreditados."
+  value = { for key, instance in aws_instance.api : key => {
+    id         = instance.id
+    zone_id    = aws_subnet.public[key].availability_zone_id
+    private_ip = aws_network_interface.api[key].private_ip
+  } }
+}
+
+output "compute_egress_ipv4" {
+  description = "EIP futuras para allowlist Atlas /32 por autorización aparte; no crea reglas Atlas."
+  value       = { for key, address in aws_eip.api : key => address.public_ip }
+}
+
+output "runtime_role_arn" {
+  description = "Role EC2 futuro, sin grants Secrets/authority/CloudWatch ni permisos de deployment."
+  value       = aws_iam_role.api_runtime.arn
+}

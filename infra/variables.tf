@@ -100,3 +100,32 @@ variable "common_tags" {
     error_message = "common_tags debe respetar longitudes de tags y no incluir aws:, Project, Environment o ManagedBy. Nunca incluir secretos."
   }
 }
+
+variable "compute_plan_approved" {
+  description = "Autoriza solo preparación/plan INFRA-5, máximo48h y guardrail USD10 de ventana. No apply, timer o tope técnico AWS."
+  type        = bool
+  default     = false
+  nullable    = false
+}
+
+variable "compute_ami_id" {
+  description = "AMI Amazon Linux2023 x86_64 fijada para reproducción. null resuelve alias público SSM; registrar ID y revisar antes de apply. No secreto."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.compute_ami_id == null ? true : can(regex("^ami-[0-9a-f]{8,17}$", var.compute_ami_id))
+    error_message = "compute_ami_id debe ser null o un AMI ID válido; owner/OS/arquitectura se verifican por data source."
+  }
+}
+
+variable "runtime_permissions_boundary_arn" {
+  description = "ARN real aprobado de boundary externa ENVER, creada por administrador humano y no gestionada por Terraform. Obligatorio; verificar existencia/contenido/version/custodia antes de plan. Sin secreto ni default."
+  type        = string
+  nullable    = false
+
+  validation {
+    # Referencia determinística de cuenta/nombre aprobados, NO prueba de existencia.
+    condition     = var.runtime_permissions_boundary_arn == "arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary"
+    error_message = "Se requiere el ARN real aprobado, path /, de ENVER-Runtime-Permissions-Boundary en la cuenta baseline. No usar placeholder/otra policy; verificar creación manual y custodia independiente."
+  }
+}

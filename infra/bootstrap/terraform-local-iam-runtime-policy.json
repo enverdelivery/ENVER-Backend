@@ -1,0 +1,146 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CreateOnlyTaggedRuntimeRoleWithApprovedBoundary",
+      "Effect": "Allow",
+      "Action": "iam:CreateRole",
+      "Resource": "arn:aws:iam::926925605666:role/enver-dev-api-runtime",
+      "Condition": {
+        "ArnEquals": {
+          "iam:PermissionsBoundary": "arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary"
+        },
+        "StringEquals": {
+          "aws:PrincipalAccount": "926925605666",
+          "aws:username": "enver-terraform-local",
+          "aws:RequestTag/Project": "enver",
+          "aws:RequestTag/Environment": "dev",
+          "aws:RequestTag/ManagedBy": "Terraform"
+        }
+      }
+    },
+    {
+      "Sid": "CreateOnlyTaggedRuntimeProfile",
+      "Effect": "Allow",
+      "Action": "iam:CreateInstanceProfile",
+      "Resource": "arn:aws:iam::926925605666:instance-profile/enver-dev-api-runtime",
+      "Condition": {
+        "StringEquals": {
+          "aws:PrincipalAccount": "926925605666",
+          "aws:username": "enver-terraform-local",
+          "aws:RequestTag/Project": "enver",
+          "aws:RequestTag/Environment": "dev",
+          "aws:RequestTag/ManagedBy": "Terraform"
+        }
+      }
+    },
+    {
+      "Sid": "ExactRuntimeRoleLifecycleAndInlinePolicies",
+      "Effect": "Allow",
+      "Action": [
+        "iam:GetRole",
+        "iam:DeleteRole",
+        "iam:TagRole",
+        "iam:UntagRole",
+        "iam:ListRoleTags",
+        "iam:ListRolePolicies",
+        "iam:GetRolePolicy",
+        "iam:DeleteRolePolicy",
+        "iam:ListAttachedRolePolicies",
+        "iam:ListInstanceProfilesForRole"
+      ],
+      "Resource": "arn:aws:iam::926925605666:role/enver-dev-api-runtime",
+      "Condition": {
+        "StringEquals": {
+          "aws:PrincipalAccount": "926925605666",
+          "aws:username": "enver-terraform-local"
+        }
+      }
+    },
+    {
+      "Sid": "WriteInlineOnlyOnRuntimeRoleWithApprovedBoundary",
+      "Effect": "Allow",
+      "Action": "iam:PutRolePolicy",
+      "Resource": "arn:aws:iam::926925605666:role/enver-dev-api-runtime",
+      "Condition": {
+        "ArnEquals": {
+          "iam:PermissionsBoundary": "arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary"
+        },
+        "StringEquals": {
+          "aws:PrincipalAccount": "926925605666",
+          "aws:username": "enver-terraform-local"
+        }
+      }
+    },
+    {
+      "Sid": "ExactRuntimeProfileLifecycle",
+      "Effect": "Allow",
+      "Action": [
+        "iam:GetInstanceProfile",
+        "iam:DeleteInstanceProfile",
+        "iam:TagInstanceProfile",
+        "iam:UntagInstanceProfile",
+        "iam:ListInstanceProfileTags",
+        "iam:AddRoleToInstanceProfile",
+        "iam:RemoveRoleFromInstanceProfile"
+      ],
+      "Resource": "arn:aws:iam::926925605666:instance-profile/enver-dev-api-runtime",
+      "Condition": {
+        "StringEquals": {
+          "aws:PrincipalAccount": "926925605666",
+          "aws:username": "enver-terraform-local"
+        }
+      }
+    },
+    {
+      "Sid": "PassOnlyRuntimeRoleToEc2",
+      "Effect": "Allow",
+      "Action": "iam:PassRole",
+      "Resource": "arn:aws:iam::926925605666:role/enver-dev-api-runtime",
+      "Condition": {
+        "StringEquals": {
+          "aws:PrincipalAccount": "926925605666",
+          "aws:username": "enver-terraform-local",
+          "iam:PassedToService": "ec2.amazonaws.com"
+        },
+        "ArnLike": {
+          "iam:AssociatedResourceArn": "arn:aws:ec2:*:926925605666:instance/*"
+        }
+      }
+    },
+    {
+      "Sid": "DenyRoleCreationOrInlineWriteWithoutApprovedBoundary",
+      "Effect": "Deny",
+      "Action": ["iam:CreateRole", "iam:PutRolePolicy"],
+      "Resource": "arn:aws:iam::926925605666:role/enver-dev-api-runtime",
+      "Condition": {
+        "ArnNotEquals": {
+          "iam:PermissionsBoundary": "arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary"
+        }
+      }
+    },
+    {
+      "Sid": "DenyRuntimeBoundaryReplacementOrRemoval",
+      "Effect": "Deny",
+      "Action": [
+        "iam:PutRolePermissionsBoundary",
+        "iam:DeleteRolePermissionsBoundary"
+      ],
+      "Resource": "arn:aws:iam::926925605666:role/enver-dev-api-runtime"
+    },
+    {
+      "Sid": "DenyAdministrationOfExternalRuntimeBoundary",
+      "Effect": "Deny",
+      "Action": [
+        "iam:CreatePolicy",
+        "iam:CreatePolicyVersion",
+        "iam:SetDefaultPolicyVersion",
+        "iam:DeletePolicyVersion",
+        "iam:DeletePolicy",
+        "iam:TagPolicy",
+        "iam:UntagPolicy"
+      ],
+      "Resource": "arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary"
+    }
+  ]
+}
