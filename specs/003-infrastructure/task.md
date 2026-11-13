@@ -4,11 +4,11 @@
 
 | Campo | Valor |
 | --- | --- |
-| Versión / fecha | 0.48.0 / 2026-11-13 UTC |
-| Solicitud inicial / incremento actual | CIERRE FORMAL T-INFRA-005 / E005 — ACCEPTANCE / DOCUMENTATION / LOCAL GIT (§39): responsable acepta expresamente E005 y T005 para el alcance actual con excepciones temporales; E005 ACEPTADA / T005 COMPLETA / ACEPTADA. I-A SATISFECHO; I-B PENDIENTE / NO SATISFECHO; T026 NO EJECUTADA. Solo task/memoria, validaciones locales, revisión de diffs y UN commit local autorizado; sin AWS/IAM, plan, apply, SendCommand o push. Siguiente foco T006, sin ejecutarlo |
+| Versión / fecha | 0.51.0 / 2026-11-13 UTC |
+| Solicitud inicial / incremento actual | CIERRE FORMAL E006 / T-INFRA-006 — ACCEPTANCE / DOCUMENTATION / LOCAL GIT (§42): E006 ACEPTADA / T006 COMPLETA / ACEPTADA para el alcance actual documentado, con excepción temporal de egreso y riesgo HTTP interno aceptados, no runtime ready ni mínimo privilegio final. I-A SATISFECHO; E005 ACEPTADA/T005 COMPLETA / ACEPTADA; I-B PENDIENTE / NO SATISFECHO. Solo task/memoria, validaciones locales y exactamente un commit documental autorizado; sin AWS/IAM/SG/rutas/plan/apply/SendCommand/push |
 | Fuentes | [spec.md](spec.md) y [plan.md](plan.md), propuesta aprobada como base documental |
 | Catálogo | 30 tareas, T-INFRA-001 a T-INFRA-030 |
-| Estado vigente de tareas | 001/002/025 **COMPLETA / ACEPTADA** por aceptación humana explícita (§37); 005 **COMPLETA / ACEPTADA**, E005 **ACEPTADA** para el alcance actual con excepciones operativas temporales, no separación técnica integral (§39); 003/004/006/007 PARCIAL / aceptación pendiente; 009 PARCIAL / VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA (§32.15), dependencias/decisiones y aceptación integral pendientes; 008 conserva publicación/digest/pull según responsable y pendientes; 010 PARCIAL / recuperación conservadora acreditada, prueba formal pendiente; otras19 PENDIENTE / NO EJECUTADA, incluida026 |
+| Estado vigente de tareas | 001/002/025 **COMPLETA / ACEPTADA** por aceptación humana explícita (§37); 005 **COMPLETA / ACEPTADA**, E005 **ACEPTADA** para el alcance actual con excepciones operativas temporales, no separación técnica integral (§39); 006 **COMPLETA / ACEPTADA**, E006 **ACEPTADA** para el alcance actual documentado con excepción temporal de egreso (§42); 003/004/007 PARCIAL / aceptación pendiente; 009 PARCIAL / VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA (§32.15), dependencias/decisiones y aceptación integral pendientes; 008 conserva publicación/digest/pull según responsable y pendientes; 010 PARCIAL / recuperación conservadora acreditada, prueba formal pendiente; otras19 PENDIENTE / NO EJECUTADA, incluida026 |
 | Estado de todos los gates | I-A **SATISFECHO** por aceptación explícita (§37); B–I **PENDIENTE / NO SATISFECHO** |
 | Evidencia de ejecución de 003 | Historial §§18–37 intacto. §32.15 conserva SSM/Docker A/B, sin contenedores ni servicio Enver.API observados entonces. §38 registra auditoría IAM previa, Compute v5 efectiva tras intervención humana y plan NUEVO post-v5 de 2026-11-13T14:37:09.988Z–14:37:27.758Z: exit2, recursos0/0/0/0replacements y +outputcompute_instances; refresh con discrepancias en8recursos, sin acciones correctivas. No zero drift absoluto, no apply ni reutilización de recovery4; ninguna nueva operación AWS/plan en la entrega documental |
 | Baseline documental original | `feature/authentication`, `c58ea86e3eddff4befa8f61398dd58d55c4ef985` |
@@ -248,7 +248,7 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-006 — SG, administración y transporte interno
 
-- **Estado:** PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE.
+- **Estado:** COMPLETA / ACEPTADA; E(T-INFRA-006) / E006 ACEPTADA por el responsable para el alcance actual documentado (§42), con excepción temporal de egreso; no egreso final de mínimo privilegio ni GATE-I-B satisfecho.
 - **Fase:** INFRA-3 Security/IAM.
 - **Objetivo:** evitar bypass de ALB y administración pública.
 - **Dependencias:** T-INFRA-004, T-INFRA-005; DP-I-03/05/09.
@@ -258,6 +258,9 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Aceptación:** reglas revisadas sin SSH público ni administración Docker; matriz de pruebas de acceso directo/denegación prevista para 028.
 - **Evidencia:** E(T-INFRA-006), revisión SG/egreso y decisión TLS interno.
 - **Resultado actual:** §14 acredita dos SG y cuatro reglas reales/verificados con AWS CLI: ALB solo ingress TCP443 IPv4 público y egress TCP8080 a SG backend; backend solo ingress TCP8080 desde SG ALB, sin SSH/ingress público de aplicación. Egreso backend IPv4 amplio provisional. Sin hosts/ALB o pruebas activas de bypass, SSM runtime, TLS interno o egreso fino aceptado. DP-I-05/09 y aceptación de dependencias pendientes; estado PARCIAL conservado.
+- **Actualización posterior §40:** auditoría read-only previa confirma ambas EC2/ENI solo con SG backend, denegación de nuevo ingreso público/8080 y lateral8080 por reglas, EIP/rutas y egreso amplio. El responsable aprueba ahora **HTTPS443 externo / HTTP8080 interno**, sin HTTPS interno para este incremento, con riesgo residual aceptado; contratos de destino Atlas y segmentación Redis definidos, matriz T028 prevista. Egreso objetivo propuesto y excepción temporal de egreso **PROPUESTA / NO ACEPTADA**, distinta de las excepciones SSM/separación de E005 ya aceptadas. T004/decisiones aplicables y aceptación E006 no se cierran por inferencia; no se exige desplegar ALB/Atlas/Redis para revisar sus contratos. La línea §14 conserva su estado histórico, no niega la evidencia posterior.
+- **Aceptación posterior §41:** responsable acepta explícitamente mantener temporalmente el egreso actual solo para preparación/integración, con ocho controles, plazo original y endurecimiento previo al runtime final. Resuelto el bloqueo de aprobación de egreso de §40; objetivo futuro definido, no implementado. Segmentación/transporte/contratos/matriz acreditados en alcance actual; falta aceptación explícita integral E(T-INFRA-006), no nuevas pruebas o remediaciones IAM/Compute. Dependencias originales y otros criterios de gate conservados, sin exigir servicios futuros completos para acreditar este diseño.
+- **Cierre formal §42:** aceptación humana explícita integral de E006 y T006 para ese alcance actual; supera la aceptación pendiente de §41 sin reescribir historia. Incluye concordancia AWS/HCL en alcance auditado, contratos definidos y matriz prevista, no pruebas activas ni servicios futuros operativos. T004/DP integrales y obligaciones posteriores conservan sus tareas; no reapertura E005/Compute, extensión de plazo, gasto adicional ni cierre de I-B.
 - **Riesgo:** API directa, Redis público, egress indiscriminado o TLS asumido por EXPOSE.
 - **Gate asociado:** GATE-I-B, GATE-I-E.
 
@@ -3543,3 +3546,249 @@ State/nativo conservan los SHA256 de §38.3 en precheck; huella previa de los ot
 **Revisión efectuada** de los diffs completos **git diff -- specs/003-infrastructure/task.md** y **git diff -- memoria.md**, incluida la documentación acumulada autorizada de §38 y memoria§97: únicamente evidencia documental, aceptación/estado y límites, no código/config/HCL/policies/state/planes como archivos del commit. Stage exclusivamente de esos dos Markdown, exigir **git diff --cached --check** y **git diff --cached --stat** correctos antes de **UN commit local** con mensaje exacto **docs(infra): accept t-infra-005 iam controls**.
 
 SHA y postcheck real se informarán en la respuesta de sesión, no mediante auto-referencia, amend o segundo commit. Comprobar HEAD nuevo y working tree clean; **sin push, AWS/IAM, SendCommand, plan/apply/destroy/import/state push ni inicio de T006 u otro incremento. DETENER al completar ese único commit y sus comprobaciones.**
+
+## 40. T-INFRA-006 — Decisiones de red/transporte y contratos de dependencias; egreso pendiente de aprobación
+
+### 40.1. Alcance, fuentes y auditoría anterior
+
+**2026-11-13 UTC — DESIGN / DOCUMENTATION ONLY**, solicitud del responsable **GATE-I-B — T-INFRA-006 — DECISIONES DE RED, EGRESO Y TRANSPORTE**. Únicas ediciones autorizadas: este archivo y [memoria §99](../../memoria.md); únicas validaciones Terraform: fmt-check y validate, más git diff --check. **No AWS/IAM/SG/rutas/SendCommand, plan/apply, provisión Atlas/Redis/ALB, stage/commit/push**. Se separan decisiones expresamente aprobadas de propuestas y de implementación observada.
+
+Precheck local **2026-11-13T15:13:53.722Z**: **feature/infrastructure / a16f36e9be46cf12012fd9c7873ea99049aad33b**, **clean / 0 staged**, hashes state/nativo idénticos a §38.3. Plazo original aún no alcanzado. **GATE-I-A SATISFECHO / E005 ACEPTADA / T005 COMPLETA / ACEPTADA** conservados; aceptación humana de §39 no se reabre. No nueva auditoría cloud en este bloque.
+
+Fuente técnica: auditoría read-only anterior de esta conversación, **2026-11-13T15:03–15:07Z**, ratificada por la baseline de esta solicitud. VPC **vpc-060f67e600affd569 / 10.20.0.0/16**, DNS support/hostnames true; subnets A **subnet-0120d869dd659e2a1 / 10.20.0.0/24 / us-east-1a** y B **subnet-01934348f5d6985aa / 10.20.1.0/24 / us-east-1b**, ambas map_public_ip_on_launch=false. Tabla común **rtb-0a80f643c062696f9**: ruta local /16 y **0.0.0.0/0 → igw-06e8461bf7317dc7d**, sin ruta NAT. NACL default **acl-00570ca9a70df2b01** permite todo IPv4 en ambas direcciones mediante regla100, denyfinal32767; no añade segmentación.
+
+EC2 A **i-0a66085b7b2411393 / 10.20.0.63 / 18.210.153.223 / eni-01ecdecf22b187764**, B **i-00de11a3f3c1a8aa5 / 10.20.1.99 / 44.195.4.217 / eni-049a982368fb2bca8**, running/t3.small/AMIaprobada en esa auditoría. Ambas ENI tienen **solo sg-070d06cfebe866427**. Backend ingress **TCP8080 exclusivamente desde sg-0dacf0df5da30b4f7**, sin CIDR público/VPC, self-reference u otro ingreso; egress **todos protocolos/puertos a 0.0.0.0/0**. SG ALB ingress **TCP443 desde 0.0.0.0/0**, egress **TCP8080 a SG backend**. Sin ingreso público22/80/443/8080 o Docker2375/2376 a EC2; **bypass directo por EIP NO permitido por esas reglas**. Ruta/EIP no bastan para declarar servicio públicamente accesible.
+
+No prueba activa de sockets/servicio/firewall del host. No ALB operativo acreditado. Las lecturas `DescribeNatGateways`, `DescribeVpcEndpoints`, `DescribeDhcpOptions` y `DescribeLoadBalancers` fueron denegadas en la auditoría: inventarios **NOT VERIFIED**, no inexistencia probada ni bloqueo IAM nuevo. NAT no es utilizado por las rutas actuales; las EC2 salen directamente por EIP/IGW. Atributos de red comparados con **infra/networking.tf**, **security.tf** y **compute.tf** sin divergencia material identificada, no certificación global de cero drift. Plan Compute anterior conserva recursos0/0/0/0replacements y +outputcompute_instances; sus ocho discrepancias de refresh sin acciones correctivas no se reinterpretan como drift de red nuevo.
+
+### 40.2. Decisión aprobada de transporte y riesgo residual aceptado
+
+| Tramo / decisión | Estado documental | Implementación y límites |
+| --- | --- | --- |
+| **Cliente → futuro ALB: HTTPS TCP443** | **DISEÑO APROBADO / TLS EXTERNO OBLIGATORIO** | ALB/certificado/dominio/listeners pendientes T011–T014 y gates posteriores; no servicio HTTPS operativo acreditado |
+| **Futuro ALB → EC2: HTTP TCP8080, NO HTTPS interno** | **DECISIÓN APROBADA por el responsable para esta etapa; TLS interno NO requerido para este incremento** | No target group/listener/contenedor configurados ahora; aprobación documental, no implementación del enlace |
+
+Fuente de aprobación: instrucción explícita del responsable en esta entrega. Justificación: backend8080 sin exposición pública, ingress exclusivamente SG ALB, denegación Internet→8080, ausencia de ingress CIDR VPC/self, sin listener público directo autorizado por la red y simplificación de operación académica con terminación TLS en futuro ALB. **No se afirma haber inspeccionado listeners del host**.
+
+**Riesgo residual ACEPTADO por el responsable:** tráfico ALB→EC2 **no cifrado a nivel HTTP**, con posible material sensible de solicitudes futuras dentro de ese tramo. **Controles compensatorios:** SG-to-SG, VPC dedicada, backend sin ingress público y control de asociaciones futuras del SG ALB. Los SG restringen acceso, **no cifran payloads**; cualquier ENI asociada al SG ALB podría satisfacer la referencia, por lo que no equivale a identidad intrínseca del servicio ALB. No se promete confidencialidad de aplicación en ese tramo ni aceptación para cualquier etapa futura.
+
+Resuelve **TLS interno/puerto de DP-I-05 en el alcance de T006**; no cierra íntegramente DP-I-05 (forwarding confiable, health/timeouts/draining pendientes T011–T014/T023–T024). No se aceptan forwarded headers arbitrarios ni se modifica aplicación. **TLS hacia Atlas y Redis sigue obligatorio**, no afectado por la decisión HTTP interna. Spec/plan y comentarios HCL anteriores se conservan como antecedentes; esta decisión posterior no reforma requisitos ni configura protocolos por inferencia de una regla TCP.
+
+### 40.3. Egreso observado, contrato objetivo propuesto y excepción NO aceptada
+
+**Actual, acreditado en auditoría:** backend **0.0.0.0/0 / todos los protocolos / todos los puertos**. **PROVISIONAL / EXCESIVO respecto a mínimo privilegio**. No se declara mínimo privilegio ni se modifica. La ausencia de ingress público no limita exfiltración o uso arbitrario de ese egress.
+
+**Contrato objetivo DEFINIDO COMO PROPUESTA:** salida exclusivamente para servicios/destinos requeridos por runtime/bootstrap, con revisión y aprobación antes de implementación:
+
+| Categoría | Destino / transporte objetivo | Condición pendiente |
+| --- | --- | --- |
+| **A. DNS** | Resolución mediante resolver aprobado; UDP/TCP53 cuando corresponda | DHCP/resolver efectivo y DNS de dependencias por verificar; no inventar resolver/IP ni prometer filtrado DNS por SG que el servicio no soporte |
+| **B. HTTPS TCP443** | ECR API, ECR registry, S3 requerido por capas, SSM, ssmmessages y repositorios/bootstrap aprobados | Identificar endpoints reales y necesidades efectivas. Otros endpoints AWS solo si se acreditan; ec2messages/STS no se añaden automáticamente |
+| **C. Atlas** | Endpoints y puerto reales del cluster aprobado, TLS y validación de certificado | Aplicar contrato §40.4; no puerto fijo supuesto ni allowlist abierta |
+| **D. Redis privado** | Endpoint/puerto reales por red privada dentro de AWS/VPC | Aplicar contrato §40.5; backend→Redis no debe usar Internet |
+
+Un listado de FQDN no se convierte por sí mismo en restricción SG: el mecanismo de control debe revisarse según capacidades reales, destinos dinámicos y DNS. No se seleccionan ahora NAT, endpoints, proxy, firewall o servicios adicionales. Cambios de red futuros requieren autorización independiente, validación y revisión de riesgo de romper ECR/SSM/bootstrap.
+
+**Excepción temporal de egreso: PROPUESTA / NO ACEPTADA.** El mensaje pide **proponer** mantener temporalmente el permiso amplio y exige que la excepción esté explícitamente aprobada; **no contiene un acto inequívoco de aceptación de esa excepción**. No se convierte una propuesta en aprobación ni se extienden las excepciones SSM/separación de E005 al egress.
+
+Términos de la propuesta para aprobación posterior:
+
+1. Solo EC2 A/B y el alcance académico vigente; conservar transitoriamente el egress actual **sin llamarlo mínimo privilegio**.
+2. Fin como máximo al deadline original **2026-11-15T01:57:56.9337244Z**, o antes al definirse los endpoints reales Atlas/Redis/ECR/SSM/bootstrap aplicables. **Revisión obligatoria antes de runtime final**; definir contrato/mecanismo de egreso y obtener autorización antes de cualquier cambio, sin remediación automática.
+3. **Prohibido añadir usos arbitrarios** o destinos/servicios no autorizados; no permiso de gasto/provisión/continuidad adicional.
+4. Sin reiniciar ventana48h ni extender plazo. En precheck documental aún no se había alcanzado; **cualquier uso posterior al alcance/plazo original requiere nueva autorización explícita**. Registrar esta propuesta no autoriza continuidad operativa nueva ni prueba cumplimiento de INFRA-008.
+5. Mantener USD50 agregados/guardrailUSD10, controles de secretos y autorizaciones por intervención; sin SG/rutas/IAM cambiados o mecanismos automáticos de parada/limpieza.
+
+**Pendiente concreto:** aprobación explícita del tratamiento de egress —contrato objetivo y excepción delimitada si se desea conservar el permiso amplio—. No se eleva T006 a “solo E006 pendiente” mientras esto no ocurra.
+
+### 40.4. Atlas — contrato de destino DEFINIDO; implementación pendiente
+
+**MongoDB Atlas NO READY**. Para T006 queda definido el **CONTRATO DE DESTINO**: EC2 A/B → **endpoint del cluster aprobado**, TLS **OBLIGATORIO**, validación de certificado **OBLIGATORIA**, DNS/SRV según cluster real y usuario de mínimo privilegio por ambiente/DB. **Puerto PENDIENTE DEL ENDPOINT REAL**; no asumir27017 como contrato definitivo.
+
+Allowlist **CANDIDATA / NO APLICADA NI VERIFICADA**: **18.210.153.223/32** y **44.195.4.217/32**. No usar0.0.0.0/0. Cluster/allowlist/conectividad no acreditados; no existencia o ausencia externa inventadas, no credenciales/connection strings en documentos. Implementación y revisión propia **PENDIENTES T015–T016**, coordinadas con T004/T019 para salida y secretos. Definir este contrato no requiere desplegar Atlas para aceptar el diseño T006, ni fija endpoint/puerto desconocidos silenciosamente.
+
+### 40.5. Redis — contrato de segmentación DEFINIDO; dirección privada APROBADA
+
+**Redis NO READY**. El responsable aprueba como dirección **Redis privado dentro de AWS/VPC**, preferencia documentada **ElastiCache basado en nodos** o **servicio equivalente privado expresamente aprobado**. Esto **no selecciona automáticamente un motor/servicio equivalente**, ni presume compatibilidad, topología, versión, capacidad, HA o costo.
+
+**CONTRATO DE SEGMENTACIÓN DEFINIDO para T006:** sin IP pública, subnets privadas/aprobadas, endpoint privado, acceso solo desde backend/clientes expresamente aprobados, **TLS + autenticación obligatorios**, puerto real definido por servicio aprobado y **sin ruta por Internet para backend→Redis**. No suponer6379/6380 definitivos. Las dos subnets públicas actuales no se declaran subnets privadas Redis ni se alteran.
+
+Implementación/selección/compatibilidad/capacidad/noeviction/fail-closed/recovery pendientes **T017–T018**, con secretos/authority coordinados en T019–T020. Conserva noeviction, fail-closed/503 ante pérdida detectada/confianza incierta, recuperación validada/cuarentena y riesgo residual de pérdida silenciosa de 002; sin fallback local ni aprobación por equivalencia nominal. No se exige ejecutar toda esa continuidad para definir la segmentación T006.
+
+### 40.6. DNS y VPC endpoints
+
+- **DNS support=true / hostnames=true** son evidencia previa de VPC. **DHCP options NOT VERIFIED** por limitación de lectura anterior; **DNS efectivo de dependencias PENDIENTE DE PRUEBAS DE RUNTIME**. No bloqueo IAM ni petición de ampliación de permisos.
+- **VPC endpoints NOT VERIFIED**, no definidos en HCL. **FUTURO / OPTIMIZACIÓN DE EGRESO**, posibles para ECR/S3/SSM/ssmmessages si diseño y presupuesto posteriores lo justifican; **no requisito para cerrar T006**, no creados ni seleccionados ahora. La ruta de salida actual sigue EIP/IGW según auditoría, no tráfico medido.
+
+### 40.7. Matriz negativa PREVISTA T028 — NO ejecutada
+
+Fuente de resultados: **expectativas de diseño**, no pruebas activas realizadas. Aplicar las filas EC2 a A y B; conexiones nuevas, no respuestas stateful. Pruebas futuras requieren autorización específica, origen controlado, servicio/escucha conocidos y evidencia que distinga bloqueo de red de servicio ausente o error TLS/auth.
+
+| Origen → destino | Puerto / condición | Resultado esperado | Criterio previsto |
+| --- | --- | --- | --- |
+| Internet → EC2 A/B | TCP22 | **DENIED** | Sin ingress SSH |
+| Internet → EC2 A/B | TCP8080 | **DENIED** | Sin bypass de SG ALB |
+| Internet → EC2 A/B | TCP80 | **DENIED** | Sin ingress público directo |
+| Internet → EC2 A/B | TCP443 | **DENIED** | HTTPS público solo en futuro ALB |
+| ALB SG → backend | HTTP TCP8080 | **ALLOWED** | SG-to-SG; servicio futuro y protocolo aprobados, no ALB operativo actual |
+| EC2 A → EC2 B | TCP8080 | **DENIED** | Sin self-reference/CIDR VPC ingress |
+| EC2 B → EC2 A | TCP8080 | **DENIED** | Sin self-reference/CIDR VPC ingress |
+| Backend → Redis público | Cualquier puerto | **NO DESIGN** | Diseño prohibido/no provisionar destino público; no obligación de crear uno para probar |
+| Backend → Redis privado aprobado | Endpoint/puerto/TLS/auth reales | **ALLOWED** futuro | Verificar ruta privada, clientes aprobados, TLS/auth y conectividad |
+| Backend → Atlas no allowlisted | Endpoint/puerto reales; origen excluido | **DENIED** futuro | Negativo real de allowlist con demás condiciones válidas; no retirar salidas reales ni mutar Atlas sin permiso específico |
+| Backend → Atlas allowlisted/TLS | Endpoint/puerto/usuario reales aprobados | **ALLOWED** futuro | TLS/certificado, DNS, origen permitido y permisos mínimos |
+
+No se ejecuta T028, SendCommand o pruebas de puertos. “NO DESIGN” es prohibición arquitectónica, **no denegación técnica actual acreditada**: egress amplio no bloquea por sí mismo un Redis público arbitrario. La fila ALB usa un emisor autorizado con SG ALB, no habilita asociar ese SG a hosts sin revisión. Un timeout por sí solo no prueba filtrado ni que las cuotas no puedan eludirse a nivel de aplicación.
+
+### 40.8. Reevaluación de T006, dependencias y gates
+
+Contra §4, **ACREDITADOS en alcance auditado:** segmentación SG efectiva, ausencia de ingress público SSH/Docker/backend y bypass directo por controles; E005 y administración SSM previamente aceptadas, sin reabrir IAM. **DECIDIDOS/APROBADOS ahora:** HTTPS443 externo como diseño, HTTP8080 interno con riesgo residual aceptado; dirección Redis privada. **DEFINIDOS:** contrato Atlas, segmentación Redis y matriz prevista T028. Estos contratos no declaran servicios implementados; hostname/puerto finales pendientes de sus tareas.
+
+**T-INFRA-006 conserva PARCIAL / SEGMENTACIÓN ACREDITADA, TLS INTERNO APROBADO; APROBACIÓN DE EGRESO Y E006 PENDIENTES.** No se cumple la condición de que solo reste aceptación humana E006: **egreso objetivo propuesto y excepción temporal NO aceptada**. Se mantiene dependencia original **T004** y resolución/aceptación de aspectos aplicables **DP-I-03/05/09**; T005 ya **COMPLETA / ACEPTADA**, no bloqueo nuevo. No se declara T004 completa, DP-I-05 íntegra o gestor de secretos implementado por estas decisiones; revisar dependencias/alcance al aceptar E006 sin exigir componentes futuros completos para acreditar el diseño.
+
+No son requisitos directos de cierre de diseño T006 **ALB/Atlas/Redis operativos, ACM, DNS público, NACL custom, NAT o VPC endpoints**. Pruebas activas/aceptación cloud corresponden a E027/E028 aplicables y gates posteriores; esta entrega prepara su matriz, no las ejecuta. **E006 aceptación explícita PENDIENTE**, no COMPLETA / ACEPTADA por inferencia de decisiones parciales.
+
+**GATE-I-B PENDIENTE / NO SATISFECHO** por E006 y demás dependencias/evidencias reales, incluidas Atlas/Redis/Secrets/Authority y E019–020/E027–028 aplicables. I-A SATISFECHO, E005 ACEPTADA y T001/T002/T005/T025 COMPLETA / ACEPTADA conservados; T026 PENDIENTE / NO EJECUTADA, B–I pendientes. Catálogo **4 completas/aceptadas + 7 parciales + 19 pendientes = 30**, gates **1 satisfecho + 8 pendientes**. Sin runtime ready, cierre AUTH-027 integral/002/004 o inicio de otro incremento.
+
+### 40.9. Validaciones locales y detención
+
+Resultados locales efectivos, **2026-11-13 UTC**, sin plan ni llamadas AWS:
+
+| Comando | Inicio–fin UTC | Exit / resultado |
+| --- | --- | --- |
+| `terraform fmt -check -recursive infra` | **15:20:05.773Z–15:20:06.551Z** | **0**, sin modificaciones |
+| `terraform -chdir=infra validate` | **15:20:06.551Z–15:20:17.640Z** | **0**, Success! The configuration is valid. |
+| `git diff --check` | **15:20:17.640Z–15:20:17.808Z** | **0**, solo avisos LF/CRLF de ambos Markdown |
+
+Comprobación **15:20:18.985Z**: branch/HEAD baseline sin cambios; solo **memoria.md y specs/003-infrastructure/task.md** modificados, **0 staged**. Otros246tracked intactos por huella de contenido; state/nativo mantienen SHA256 de §38.3. Historial previo de memoria y task§§6–39 comparado con HEAD e intacto; solo campos actuales/catálogo y nuevas secciones40/99 modificados. Diff-check se repite tras incorporar resultados, con salida final en respuesta de sesión. Estas validaciones no prueban cloud/T028 ni aceptan egreso/E006.
+
+**DETENER tras documentación y evidencia; sin stage/commit/push, SG/rutas/IAM mutados, AWS, apply o pruebas activas.**
+
+## 41. T-INFRA-006 — Aceptación explícita de egreso temporal; E006 integral pendiente
+
+### 41.1. Acto humano y baseline documental
+
+**2026-11-13 UTC — ACCEPTANCE / DOCUMENTATION ONLY.** Fuente: mensaje explícito del **responsable del proyecto**, **GATE-I-B — T-INFRA-006 — ACEPTACIÓN EXPLÍCITA DE EGRESO TEMPORAL**, en esta conversación. **Excepción temporal de egreso ACEPTADA** para mantener el permiso actual exclusivamente durante la etapa de preparación e integración, bajo los controles y vigencia de este registro. Este acto supera el estado **PROPUESTA / NO ACEPTADA** de §40, que se conserva íntegro como historial; **no acepta automáticamente E006 integral**.
+
+Precheck real **2026-11-13T15:25:02.785Z**: **feature/infrastructure / a16f36e9be46cf12012fd9c7873ea99049aad33b**, cambios esperados únicamente **memoria.md y specs/003-infrastructure/task.md**, **0 staged**. Se preservan los cambios pendientes de §40 y [memoria §99](../../memoria.md), más todo historial anterior. Solo estos dos documentos y fmt-check/validate/diff-check autorizados; **sin AWS/IAM/SG/rutas, SendCommand, plan/apply, stage/commit/push**. Evidencia técnica anterior de §40.1 reutilizada con su fecha y límites, no nueva verificación cloud.
+
+### 41.2. Egreso aceptado temporalmente, justificación y ocho controles
+
+**Permiso actual:** backend **0.0.0.0/0 / todos los protocolos / todos los puertos**. Clasificación conservada: **PROVISIONAL / EXCESIVO respecto a mínimo privilegio**; **NO least privilege ni estado final aprobado**. Aceptar el riesgo temporal no restringe técnicamente destinos ni modifica reglas, y no elimina el riesgo de exfiltración o uso indebido.
+
+**Justificación aceptada:** restringir definitivamente sin conocer los endpoints/destinos reales necesarios para **ECR API, ECR registry, S3 de capas, SSM, ssmmessages, DNS, bootstrap/repositorios autorizados, Atlas y Redis privado** puede romper bootstrap, SSM, descarga de imagen, resolución DNS y conectividad a dependencias. La excepción no sustituye los contratos de esas dependencias ni autoriza servicios arbitrarios.
+
+Controles aceptados expresamente:
+
+1. **No añadir nuevos usos arbitrarios** al egress abierto; solo alcance de preparación/integración autorizado de A/B.
+2. **No justificar exposición de ingress** por la existencia de egress amplio.
+3. **No habilitar puertos de entrada adicionales**; conservar segmentación SG auditada.
+4. **Antes de runtime final, reevaluar y endurecer egress con endpoints reales**, bajo revisión y autorización de cambios; no declarar runtime final listo mientras falte ese control.
+5. Cambios de **SG/rutas requieren autorización explícita**; sin remediación automática en este bloque o por vencer el plazo.
+6. **Redis privado**, dentro de AWS/VPC, sin dependencia de Internet ni IP pública.
+7. **Atlas con endpoint, allowlist y TLS aprobados**; salidas candidatas no equivalen a allowlist aplicada.
+8. La excepción **NO autoriza terraform apply, deployment de API, SendCommand, crear Atlas/Redis o ampliar IAM**. Tampoco concede gasto adicional ni aceptación de gates.
+
+**Vigencia:** exclusivamente el alcance original, **hasta definir destinos reales y revisar el egreso, y como máximo 2026-11-15T01:57:56.9337244Z**. Plazo aún no alcanzado en el precheck de esta aceptación. Sin reiniciar ventana48h, extensión automática o nuevo presupuesto: **USD50 agregados / guardrailUSD10** conservados. **Cualquier uso posterior requiere nueva autorización explícita.** No se autoriza alterar SG/rutas ni apagar/destruir automáticamente al alcanzar el hito; si no hay endurecimiento autorizado/validado, no inferir continuidad ni runtime final ready.
+
+### 41.3. Contrato objetivo y contratos relacionados mantenidos
+
+**Contrato de egreso objetivo DEFINIDO como objetivo futuro**, no reglas aplicadas:
+
+| Destino | Alcance objetivo | Estado |
+| --- | --- | --- |
+| **DNS** | Solo resolver requerido/aprobado, transporte según su contrato real | DNS efectivo pendiente de pruebas runtime; no resolver/IP inventados |
+| **HTTPS TCP443** | ECR API/registry, S3 requerido por capas, SSM, ssmmessages y bootstrap/repositorios aprobados | Otros endpoints AWS solo si se acreditan; no habilitar ec2messages/STS por inferencia |
+| **Atlas** | Solo endpoint y puerto reales del cluster aprobado, con TLS y validación de certificado | NO READY; implementación T015–T016 pendiente |
+| **Redis** | Solo endpoint privado dentro de AWS/VPC y puerto del servicio aprobado, TLS/auth | NO READY; implementación T017–T018 pendiente; sin Internet |
+
+No confundir lista de nombres de destino con filtrado efectivo SG; mecanismo de endurecimiento, endpoints reales y autorización técnica pendientes antes del runtime final. **No aplicar reglas ahora.** DNS VPC support/hostnames true conservados; DHCP options NOT VERIFIED, DNS efectivo pendiente de pruebas, no bloqueo IAM. VPC endpoints NOT VERIFIED/no definidos en HCL, futuro/optimización, no requisito T006.
+
+**Atlas: CONTRATO DE RED DEFINIDO / NO READY**. Allowlist **CANDIDATA / NO APLICADA NI VERIFICADA**: **18.210.153.223/32 / 44.195.4.217/32**, no0.0.0.0/0. TLS y validación de certificado obligatorios; DNS/SRV según cluster, usuario mínimo por ambiente/DB; **puerto pendiente del endpoint real**, no27017 definitivo. Sin creación de cluster, credenciales o conectividad acreditada.
+
+**Redis: CONTRATO PRIVADO DE SEGMENTACIÓN DEFINIDO / NO READY**. Sin IP pública, subnets privadas/aprobadas, acceso solo desde backend/clientes aprobados, endpoint privado y **TLS/auth obligatorios**; **endpoint/puerto pendientes**, no6379/6380 definitivos. Preferencia de §40 conservada sin seleccionar automáticamente servicio equivalente/motor. Implementación/noeviction/fail-closed/recuperación pendientes T017–T018, sin fallback local ni alterar AUTH-027.
+
+**TLS externo HTTPS TCP443 OBLIGATORIO / DISEÑO APROBADO**, futuro ALB/certificado/dominio pendientes T011–T014. **ALB→EC2 HTTP TCP8080 APROBADO para este incremento**, riesgo de tráfico interno no cifrado aceptado y controles SG-to-SG/VPC dedicada/backend sin ingress público/control asociaciones SG ALB conservados. No HTTPS interno requerido en este alcance, no exención TLS Atlas/Redis. Sin servicio ALB/target group o listener desplegados por aceptación documental.
+
+### 41.4. Reevaluación exacta de T006 y separación de aceptación final
+
+Contra §4, la evidencia E(T-INFRA-006) exige revisión SG/egreso, decisión TLS interno y matriz prevista de acceso directo/denegación para028. Para el **alcance actual con excepción temporal** quedan cubiertos:
+
+- Segmentación efectiva y ausencia de ingress público22/80/443/8080/Docker según auditoría previa; Internet→backend por EIP **no permitido por SG** y A↔B nuevas conexiones8080 **denegadas**.
+- **SG ALB→backend8080 permitido por reglas**, no servicio operativo ni prueba activa afirmados.
+- TLS interno decidido y riesgo aceptado, TLS externo definido, **tratamiento de egreso explícitamente aceptado ahora** y contrato objetivo definido.
+- Contrato de destino Atlas y segmentación privada Redis definidos; **matriz negativa prevista §40.7 preparada, NO ejecutada**.
+
+**T-INFRA-006: TÉCNICAMENTE ACREDITADO / ACEPTACIÓN EXPLÍCITA PENDIENTE**, para ese alcance actual con excepción. No se identifica bloqueo técnico propio adicional en ese alcance; **no mantener aprobación de egreso como bloqueo pendiente**. El catálogo no dispone que aceptar un componente de riesgo equivalga a aceptar integralmente **E006**: **falta acto separado de aceptación explícita de E(T-INFRA-006)/tarea y de su alcance excepcional**. **NO COMPLETA / ACEPTADA todavía**.
+
+Se conservan las dependencias originales **T004/T005 y DP-I-03/05/09** para revisión formal de alcance al aceptar E006: **T005 ya COMPLETA / ACEPTADA**; T004 y decisiones integrales no se marcan completadas por inferencia. Esto no introduce un requisito nuevo de desplegar Atlas/Redis/ALB, ACM, DNS público, NAT, NACL custom o endpoints para acreditar el diseño T006. Aspectos futuros de esas decisiones, forwarding y gestor/entrega de secretos siguen sus tareas; no reabren E005/Compute ni constituyen una remediación nueva de este incremento.
+
+**GATE-I-B PENDIENTE / NO SATISFECHO**: aún faltan aceptación E006 y otras evidencias/criterios reales de Atlas/Redis/Secrets/config/Authority, E019–020/E027–028 aplicables y demás requisitos de §3. **GATE-I-A SATISFECHO / E005 ACEPTADA / T001-T002-T005-T025 COMPLETA / ACEPTADA** intactos. T026 PENDIENTE / NO EJECUTADA, B–I pendientes; no runtime ready ni cierre002/AUTH-027 integral/004.
+
+Catálogo vigente: **4 completas/aceptadas + 1 técnicamente acreditada en alcance actual con aceptación integral pendiente (006) + 6 parciales + 19 pendientes = 30 tareas**; gates **1 satisfecho + 8 pendientes**. Detener; ninguna aceptación o ejecución automática posterior.
+
+### 41.5. Validaciones locales y preservación
+
+Resultados locales efectivos, **2026-11-13 UTC**, sin llamadas AWS ni plan:
+
+| Comando | Inicio–fin UTC | Exit / resultado |
+| --- | --- | --- |
+| `terraform fmt -check -recursive infra` | **15:27:47.629Z–15:27:47.827Z** | **0**, sin modificaciones |
+| `terraform -chdir=infra validate` | **15:27:47.828Z–15:27:59.034Z** | **0**, Success! The configuration is valid. |
+| `git diff --check` | **15:27:59.034Z–15:27:59.212Z** | **0**, solo avisos LF/CRLF de ambos Markdown |
+
+Comprobación **15:28:00.278Z**: branch/HEAD baseline intactos, únicamente **memoria.md y specs/003-infrastructure/task.md** modificados, **0 staged**. Otros246tracked y state/nativo intactos por hash. Huellas de historia previas a esta entrega confirman task§§6–40 y memoria hasta§99 intactos, incluidos cambios pendientes anteriores; no reescribir sus propuestas/pendientes como si ya hubieran estado aceptados. Diff-check se repite tras registrar estos resultados, con salida final en respuesta de sesión; validaciones locales no prueban runtime ni aceptan E006.
+
+**Sin AWS, plan, apply, SendCommand, SG/rutas/IAM, stage/commit/push. DETENER.**
+
+## 42. Cierre formal E006 / T-INFRA-006 — Aceptación del alcance actual
+
+### 42.1. Autorización expresa y evidencia aceptada
+
+**2026-11-13 UTC — ACCEPTANCE / DOCUMENTATION / LOCAL GIT.** Fuente: mensaje del **responsable del proyecto, GATE-I-B — CIERRE FORMAL E006 / T-INFRA-006**, en esta conversación. Acepta formalmente la evidencia técnica acumulada de **E(T-INFRA-006) / E006** para el alcance actual documentado. **E006 ACEPTADA / T-INFRA-006 COMPLETA / ACEPTADA.** Es el acto separado pendiente en §41; no aceptación inferida, ticket o firma inventados. §§40–41 y [memoria §§99–100](../../memoria.md) se conservan como historial previo.
+
+Precheck real **2026-11-13T15:33:59.108Z**: **feature/infrastructure / a16f36e9be46cf12012fd9c7873ea99049aad33b**; únicamente **memoria.md y specs/003-infrastructure/task.md** modificados, **0 staged**, sin untracked. Otros246tracked y state/nativo intactos por hash. Se autoriza integrar los cambios documentales acumulados de ambos archivos en **exactamente un commit local**, mensaje **`docs(infra): accept t-infra-006 network controls`**; no amend/squash/push. Solo esos dos documentos, validaciones locales y Git autorizado; **sin AWS/IAM/SG/rutas/plan/apply/SendCommand**.
+
+Aceptación expresa de la evidencia anterior de auditoría **2026-11-13 15:03–15:07 UTC** y decisiones §§40–41, sin repetir verificaciones cloud ni convertir revisión de reglas en prueba activa:
+
+| Control / evidencia | Alcance aceptado |
+| --- | --- |
+| Internet→EC2 TCP22 / 80 / 443 / 8080 | **DENEGADO** para nuevas conexiones por SG; sin ingress público al backend ni administración Docker pública |
+| Bypass directo por EIP | **NO permitido por SG** |
+| SG ALB→backend TCP8080 | **PERMITIDO por reglas**, no ALB/listener operativo acreditado |
+| A→B TCP8080 / B→A TCP8080 | **DENEGADO** para nuevas conexiones por SG |
+| TLS externo | **HTTPS443 OBLIGATORIO / definido**; implementación posterior T011–T014 pendiente |
+| Transporte interno | **ALB→EC2 HTTP8080 APROBADO para este incremento**, riesgo residual de tráfico interno no cifrado aceptado; SG-to-SG, VPC dedicada, backend sin ingress público y control de asociaciones futuras del SG ALB |
+| Egreso / contratos | Excepción temporal aceptada, contrato objetivo de egreso, Atlas y Redis privado definidos según §41 |
+| Matriz negativa | **Prevista §40.7, NO ejecutada**; T028 conserva su estado |
+| AWS/HCL | Concordancia en atributos de red inspeccionados según §40.1; no certificación universal de drift, conectividad o seguridad |
+
+### 42.2. Límites y obligaciones conservados
+
+**Egreso actual all protocols / all ports / 0.0.0.0/0: PROVISIONAL / EXCESIVO, NO mínimo privilegio.** Excepción temporal **ACEPTADA**, no estado final aprobado. Se mantienen íntegros justificación y ocho controles §41.2: no usos arbitrarios/ingress adicional, revisión y endurecimiento antes de runtime final, SG/rutas solo con autorización, Redis privado, Atlas aprobado y prohibición de actuaciones técnicas por inferencia. Objetivo futuro: DNS requerido; HTTPS443 para ECR API/registry, S3 de capas, SSM, ssmmessages y bootstrap aprobado; Atlas endpoint/puerto reales; Redis endpoint privado. **No aplicado**.
+
+**Deadline original máximo 2026-11-15T01:57:56.9337244Z**, aún no alcanzado en precheck, sin reiniciar ni extender; vigencia limitada además al hito de definición/revisión de destinos de §41.2. **Cualquier uso posterior al plazo requiere nueva autorización explícita.** USD50 agregados/guardrailUSD10 intactos; aceptación documental no concede gasto adicional, continuidad o limpieza automática.
+
+**Atlas NO READY / contrato de red DEFINIDO**: allowlist candidata **18.210.153.223/32 / 44.195.4.217/32**, **NO aplicada**; TLS/validación de certificado obligatorios, puerto pendiente del endpoint real; implementación **T015–T016**. **Redis NO READY / contrato PRIVADO**, sin IP pública ni dependencia de Internet, TLS/auth obligatorios, endpoint/puerto pendientes; implementación **T017–T018**. No infraestructura, credenciales o conectividad implementadas por aceptación.
+
+**DNS support=true / hostnames=true** conservados; **DHCP NOT VERIFIED**, resolución efectiva pendiente; **VPC endpoints NOT VERIFIED / no definidos en HCL**. No bloqueos directos de T006 ni exigencia de NAT/endpoints/NACL custom para aceptar este alcance. Las dependencias originales **T004/T005 y DP-I-03/05/09** se mantienen: T005 aceptada; T004/decisiones integrales no se declaran completas ni aceptadas por inferencia. Obligaciones de servicios reales, forwarding, secretos y controles runtime continúan en sus tareas.
+
+Esta aceptación **NO implica** GATE-I-B satisfecho, Atlas/Redis/Secrets/config/Authority-DynamoDB listos, ALB/ACM/DNS público operativos, T028 ejecutada o egress final endurecido. **NO autoriza apply, despliegue API, SendCommand, AWS/IAM, extensión de plazo o gasto adicional.** No reapertura de E005/Compute, nuevo plan o verificaciones de custodia.
+
+### 42.3. Estado vigente y siguiente foco sin ejecución
+
+**GATE-I-B PENDIENTE / NO SATISFECHO**: E006 ya no es aceptación pendiente; restan Atlas, Redis, Secrets/config, Authority/DynamoDB, E019–020/E027–028 aplicables, runtime readiness y demás criterios reales de §3. **GATE-I-A SATISFECHO / E005 ACEPTADA / T005 COMPLETA / ACEPTADA** conservados. Catálogo: **5 completas/aceptadas (001/002/005/006/025) + 6 parciales + 19 pendientes = 30**; gates **1 satisfecho + 8 pendientes**. T026 **PENDIENTE / NO EJECUTADA**. Sin cierre002/AUTH-027 integral/004.
+
+**Siguiente foco propuesto: Atlas / runtime dependencies**, sujeto a autorización separada con alcance/archivos/comandos/entorno, estimación y límites vigentes. No ejecución automática de T015–T018, pruebas T028, API o CI/CD.
+
+### 42.4. Validaciones y checkpoint local
+
+Validaciones efectivas **2026-11-13 UTC**, sin AWS ni plan:
+
+| Comando | Inicio–fin UTC | Exit / resultado |
+| --- | --- | --- |
+| `terraform fmt -check -recursive infra` | **15:36:01.097Z–15:36:01.329Z** | **0**, sin modificaciones |
+| `terraform -chdir=infra validate` | **15:36:01.330Z–15:36:11.780Z** | **0**, Success! The configuration is valid. |
+| `git diff --check` | **15:36:11.780Z–15:36:11.953Z** | **0**, solo avisos LF/CRLF |
+
+**Revisión efectuada de `git diff -- specs/003-infrastructure/task.md` y `git diff -- memoria.md` completos**, incluida documentación acumulada de §§40–41/memoria§§99–100: únicamente evidencia/decisiones/aceptación/estado/límites documentales, no código/configuración/HCL/policies/state/planes. Diff-check se repite tras registrar resultados. Solo estos dos Markdown pueden incorporarse al índice y al commit autorizado; verificar cached check/stat antes y SHA/estado limpio después. El SHA resultante y estado final se comunicarán en la respuesta de sesión, sin amend ni segundo commit para autorreferenciarlo. **Sin AWS, plan/apply, SendCommand o push; DETENER tras el único commit local.**
