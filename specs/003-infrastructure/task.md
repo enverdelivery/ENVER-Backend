@@ -4,13 +4,13 @@
 
 | Campo | Valor |
 | --- | --- |
-| Versión / fecha | 0.25.1 / 2026-11-13 UTC |
-| Solicitud inicial / incremento actual | INFRA-5 POST-HARDENING PLAN CON PERMISSIONS BOUNDARY REAL (§29), sesión interrumpida recuperada (§29.6): ARN real disponible en evidencia previa; fmt-check/validate/bash-n exit0, nuevo plan exit2/12add/0change/0destroy, boundary exacta, NETWORK14/ECR2no-op. Sin adjuntos/IAM modificado/apply |
+| Versión / fecha | 0.27.0 / 2026-11-13 UTC |
+| Solicitud inicial / incremento actual | INFRA-5 PLAN GUARDADO Y CHECKPOINT PRE-APPLY (§30.5): única regla nueva /infra/tfplan-infra5; fmt-check/validate/bash-n exit0; plan guardado e inspeccionado exit2/12add/0change/0destroy/0replacements, boundary exacta, NETWORK14/ECR2no-op. Checkpoint autorizado solo .gitignore/task/memoria; NO APPLY |
 | Fuentes | [spec.md](spec.md) y [plan.md](plan.md), propuesta aprobada como base documental |
 | Catálogo | 30 tareas, T-INFRA-001 a T-INFRA-030 |
-| Estado vigente de tareas | 001/002 parciales; 003/004/006/007 PARCIAL / aceptación pendiente; 005 PARCIAL / HARDENING IAM PENDIENTE DE APLICACIÓN, plan acreditado; 008 conserva publicación/digest/pull según responsable y pendientes; 009 PARCIAL / PLAN POST-HARDENING ACREDITADO (§29), provisión/aceptación pendientes; 010 PARCIAL / recovery documentado, prueba/aceptación pendientes; 025 PARCIAL / validación local y plan POST-HARDENING acreditados, aceptación pendiente; otras19 PENDIENTE / NO EJECUTADA |
+| Estado vigente de tareas | 001/002 parciales; 003/004/006/007 PARCIAL / aceptación pendiente; 005 y 009 PARCIAL / PRE-APPLY ACREDITADO (§30.5), runtime/provisión/aceptación pendientes; 008 conserva publicación/digest/pull según responsable y pendientes; 010 PARCIAL / recovery documentado, prueba/aceptación pendientes; 025 PARCIAL / validación local y plan guardado acreditados, aceptación pendiente; otras19 PENDIENTE / NO EJECUTADA |
 | Estado de todos los gates | **PENDIENTE / NO SATISFECHO** |
-| Evidencia de ejecución de 003 | Historial §§18–28 intacto; plan§26 conserva etiqueta PRE-HARDENING. §29 ejecuta plan POST-HARDENING con ARN real informado:12/0/0, boundary exacta en role, NETWORK14/ECR2no-op, sin AccessDenied. Sin GetPolicy/GetPolicyVersion o auditoría efectiva IAM, adjuntos o apply. Gates abiertos |
+| Evidencia de ejecución de 003 | Historial §§18–30.4 intacto; plan§26 sigue PRE-HARDENING. §30.5 agrega binario local ignorado infra/tfplan-infra5 con hash, show humano/JSON exit0,12create/16no-op, boundary exacta y bootstrap cotejado. Sin AccessDenied, escrituras AWS/IAM o apply; permisos de escritura y gates sin aceptación |
 | Baseline documental original | `feature/authentication`, `c58ea86e3eddff4befa8f61398dd58d55c4ef985` |
 | Baseline del BUILD actual | `feature/infrastructure`, creada desde `3b4760ea8387b1cabff56e5f5e0ba5ffe8acb932`, árbol inicialmente limpio |
 | Checkpoint previo a INFRA-2/3 | `feature/infrastructure`, `611071f0ecb0d6cb67993f4e9bffd00d328a2f90`, árbol limpio al iniciar §9 |
@@ -19,6 +19,7 @@
 | Checkpoint pre-apply ECR | `feature/infrastructure`, `2626fb10eb9b7c128c6422e92598ca9f0e78e72c`, árbol limpio/0 staged al iniciar §18 |
 | Checkpoint post-apply ECR / baseline de publicación local | `feature/infrastructure`, `3312d220e3ff68851befc59e9a7cfa516185bdc8`, árbol limpio/0 staged al iniciar §20 |
 | Checkpoint primera imagen / baseline INFRA-5 | `feature/infrastructure`, `25daa836c0571d4c0c02486e49ce435a108f0558`, árbol limpio/0 staged al iniciar §23; commit de exactamente publisher JSON/task/memoria |
+| Checkpoint compute endurecido / baseline del replan actual | `feature/infrastructure`, `f19ca80ef899436bbe1ad724db950fc0dfa629ae`, padre25daa836, mensaje `feat(infra): prepare hardened compute baseline`, diez archivos; árbol limpio/0 staged al iniciar §30 |
 
 Crear este catálogo **no autoriza ejecutar tareas**, cambiar código/configuración/Docker/tests, crear `infra/`, recursos AWS/Atlas, workflows o secretos, ni correr Terraform. No stage/commit/push. Los únicos archivos de esta entrega son los tres Markdown de 003. La autorización previa de la propuesta es documental, no habilita cargos ni credenciales.
 
@@ -66,6 +67,10 @@ La solicitud posterior **INICIALIZAR BACKEND LOCAL + PLAN INFRA-2/3 / VALIDACIÓ
 
 **INFRA-5 — POST-HARDENING PLAN CON PERMISSIONS BOUNDARY REAL** aporta después ARN real creado por administrador independiente y autoriza usarlo temporalmente, revisar HCL/IAM, fmt/check/validate y un plan (§29). Resuelve bloqueo de input/plan de§28 con fuente informada, no acredita contenido remoto o permisos efectivos por inferencia. Solo task/memoria se editan; prohibidos adjuntos de candidatas, cambios IAM, recursos, apply/destroy/import o Git stage/commit/push.
 
+**INFRA-5 — REPLAN CON PERMISOS DE APPLY REALES** informa después creación/adjunción manual de Compute/IAM-Runtime exclusivamente a enver-terraform-local desde JSON versionados, boundary no adjunta al usuario. Autoriza STS, fmt-check/validate/bash-n y un plan con ARN real (§30), solo task/memoria como ediciones. El checkpoint Git anterior fue autorización separada completada; aquí no stage/commit/push, cambios IAM/recursos/apply/destroy/import. Adjuntos informados y plan no prueban capacidad efectiva de escrituras ni cierran gates.
+
+**INFRA-5 — AUTORIZAR EXCLUSIÓN DE TFPLAN Y CONTINUAR PRE-APPLY** autoriza después agregar únicamente `/infra/tfplan-infra5` a .gitignore, comprobar exclusiones/validaciones, generar e inspeccionar el plan guardado y consolidar task/memoria (§30.5). Permite stage/commit exactamente de esos tres archivos, mensaje `chore(infra): prepare compute pre-apply`; no versionar plan/state/tfvars, push, apply/destroy/import, cambios IAM o recursos AWS. Resuelve solo el bloqueo de ignore del intento anterior, no autoriza provisión ni gasto.
+
 Aplican [constitución](../../.specify/memory/constitution.md), [001](../001-backend-foundation/spec.md), [002](../002-authentication/spec.md) y el cierre local de [002 task §§82–84](../002-authentication/task.md). No se cierran GATE-G/H de 002 ni AUTH-027 integralmente.
 
 Antes de cada ejecución futura: confirmar DP bloqueantes, autorización de alcance/archivos/comandos/entorno/costo, evidencia prevista y reversión. Los **archivos esperados** de cada tarea son destinos futuros sujetos a esa autorización, no archivos creados ahora. Las evidencias se almacenarán en ubicación protegida aprobada, no como secretos/state/logs crudos en Git.
@@ -96,7 +101,7 @@ Todos los gates de esta tabla están **PENDIENTE / NO SATISFECHO**. Los prerrequ
 | GATE-I-H | Infra cloud reproducible: IaC revisada, state protegido, drift/reproducción/rollback y evidencia verificable | E(002), E(008), E(025–030) | GATE-I-A a GATE-I-G | AC-I-12, 13, 15 |
 | GATE-I-I | URL HTTPS pública sirve Register/Login/Logout desde dos instancias, controles distribuidos y negativos verificados; deploy manual trazable | E(027–030) y contrato aprobado 004 | GATE-I-A a GATE-I-H | AC-I-13–15 |
 
-Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las cuatro evidencias. §§6–29 registran resultados y límites distinguiendo observación directa/evidencia informada/propuesta; ninguna E parcial satisface por sí sola un gate. I-H/I-I no implican SLA, producción lista ni cierre automático de AUTH-027 o gates de 002.
+Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las cuatro evidencias. §§6–30 registran resultados y límites distinguiendo observación directa/evidencia informada/propuesta; ninguna E parcial satisface por sí sola un gate. I-H/I-I no implican SLA, producción lista ni cierre automático de AUTH-027 o gates de 002.
 
 ## 4. Catálogo de tareas
 
@@ -165,7 +170,7 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-005 — Roles y permisos mínimos
 
-- **Estado:** PARCIAL / HARDENING IAM PENDIENTE DE APLICACIÓN (§28).
+- **Estado:** PARCIAL / PRE-APPLY ACREDITADO; RUNTIME Y VALIDACIÓN EFECTIVA PENDIENTES (§30.5).
 - **Fase:** INFRA-3 Security/IAM.
 - **Objetivo:** separar provisión, deployment, runtime, administración y bootstrap.
 - **Dependencias:** T-INFRA-003, T-INFRA-004; DP-I-08/09 y contrato preliminar 004.
@@ -182,6 +187,8 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Revisión manual §27:** JSON válidos, scope y acciones concretas inventariados, customer-managed recomendadas por tamaño/separación. Instrucciones manuales condicionadas a revisión humana de escalada PutRolePolicy+PassRole y cuotas; no mínimo privilegio integral certificado, IAM efectivo auditado o políticas adjuntas. PARCIAL / aceptación pendiente.
 - **Hardening §28:** boundary9acciones/denegaciones explícitas preparada fuera deTerraform, role con ARN obligatorio, CreateRole/PutRolePolicy condicionados y anti-retiro/edición boundary en candidata. No límite efectivo aplicado/AWS validado; adjunción de candidatas suspendida, PARCIAL / HARDENING IAM PENDIENTE DE APLICACIÓN.
 - **Plan §29:** boundary real/custodia según responsable, role con ARN exacto en plan POST-HARDENING12/0/0. Candidatas sin adjuntar, sin role creado o evaluación efectiva de mutaciones/IAM agregado. PARCIAL / HARDENING IAM PENDIENTE DE APLICACIÓN; evidencia de plan no cierre de aceptación.
+- **Replan §30:** Compute/IAM-Runtime adjuntas manualmente según responsable, sin boundary en usuario Terraform. STS correcto y nuevo plan12/0/0 con boundary en runtime role; no enumeración remota, prueba de CreateRole/PassRole o aceptación de seguridad efectiva. Runtime todavía no provisionado; PARCIAL conservado, estado de adjunción anterior histórico.
+- **Plan guardado §30.5:** role y boundary exactos inspeccionados en binario, inline9acciones conservadas y hardening operador local sin cambios; no auditoría remota ni prueba de escrituras/runtime. PARCIAL / PRE-APPLY ACREDITADO, no cierre de005.
 - **Riesgo:** privilegio excesivo, trust abierto o secretos de cuenta persistentes.
 - **Gate asociado:** GATE-I-B, GATE-I-F.
 
@@ -242,7 +249,7 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-009 — Configuración de dos instancias
 
-- **Estado:** PARCIAL / PLAN POST-HARDENING ACREDITADO; PROVISIÓN Y ACEPTACIÓN PENDIENTES (§29).
+- **Estado:** PARCIAL / PRE-APPLY ACREDITADO; PROVISIÓN Y ACEPTACIÓN PENDIENTES (§30.5).
 - **Fase:** INFRA-5 Compute.
 - **Objetivo:** definir dos hosts Linux Docker en AZ distintas con capacidad suficiente.
 - **Dependencias:** T-INFRA-006, T-INFRA-008; DP-I-02/03.
@@ -257,6 +264,8 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Replan §26:** validación concreta AMI aportada por responsable y lectura data.aws_ami.api exitosa; plan completo12/0/0 incluye dosEC2t3a.small, dosAZ y gp3cifrado10GiB/host. Bloqueo previo de plan superado; sin EC2 reales/capacidad/bootstrap/SSM/salida/seguridad runtime probados o aceptación integral.
 - **Hardening §28:** HCL cambia para exigir boundary externa, sin ARN real no plan nuevo;12/0/0 de§26 pasa a evidencia PRE-HARDENING, no finalapply. Sin recursos reales, PARCIAL conservado.
 - **Plan §29:** un plan POST-HARDENING real exit2/12/0/0 incluye boundary obligatoria en role, dosEC2/t3a.small/AMI aprobada/dosAZ/raícesgp3cifradas. Superado bloqueo de plan, no provisión ni pruebas de runtime/aceptación.
+- **Replan §30:** exit2/12/0/0 después de adjuntos informados, boundary y compute esperados, NETWORK14/ECR2no-op. Sin dosEC2 reales, bootstrap/SSM/capacidad/aceptación pendientes.
+- **Plan guardado §30.5:** infra/tfplan-infra5 inspeccionado,12/0/0/0replacements; dosEC2/AMI/tipo/AZ/raíces/IMDSv2/user_data esperados. Provisión y aceptación siguen pendientes, sin apply.
 - **Riesgo:** CPU/memoria insuficientes, una sola máquina disfrazada de dos instancias o bootstrap inseguro.
 - **Gate asociado:** GATE-I-C.
 
@@ -277,6 +286,8 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Replan §26:** asociaciones/ENI/EIP/EC2 aparecen en plan completo sin reemplazos existentes; no falla/reemplazo/retención real de ENI o recovery ensayados. PARCIAL / documentación, prueba y aceptación pendientes.
 - **Hardening §28:** reproducción futura exige misma boundary externa aprobada/versionada y custodia independiente, no retirarla para recuperar un host. Recovery no probado, PARCIAL conservado.
 - **Plan §29:** dependencia de boundary real incluida en plan; sin reemplazo/falla/recuperación o mantenimiento real probado, PARCIAL conservado.
+- **Replan §30:** inventario de recuperación sin cambios, sin replacements o prueba real; PARCIAL / prueba y aceptación pendientes.
+- **Plan guardado §30.5:** conserva ENI/EIP persistentes y dosAZ, sin ejecutar recuperación/reemplazo/mantenimiento. PARCIAL, prueba y aceptación pendientes.
 - **Riesgo:** quedar con una instancia, nueva IP bloqueada en Atlas o reabrir seguridad por reinicio.
 - **Gate asociado:** GATE-I-C, GATE-I-H.
 
@@ -478,7 +489,7 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-025 — Validación inicial de baseline Terraform
 
-- **Estado:** PARCIAL / VALIDACIÓN LOCAL ACREDITADA, ACEPTACIÓN PENDIENTE.
+- **Estado:** PARCIAL / VALIDACIÓN LOCAL Y PLAN PRE-APPLY POST-HARDENING ACREDITADOS; ACEPTACIÓN PENDIENTE (§30).
 - **Fase:** INFRA-13 Terraform, intervención temprana transversal.
 - **Objetivo:** acreditar baseline antes de extender IaC.
 - **Dependencias:** T-INFRA-001, T-INFRA-002; autorización explícita de comandos/entorno, DP-I-12.
@@ -501,6 +512,8 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Replan §26:** fmt-check/validate exit0 y plan completo exit2/12add/0change/0destroy, NETWORK14/ECR2no-op. Validación/plan acreditados no resuelven custodia/cifrado/backup protegido/recovery/dependencias; aceptación integral pendiente.
 - **Hardening §28:** fmt/check/validate exit0 del HCL actualizado; plan anterior PRE-HARDENING, nuevo plan bloqueado por ARN real deboundary. Sin prueba de permisos efectivos/custodia/recovery, PARCIAL / aceptación pendiente.
 - **Plan §29:** fmt/check/validate exit0 y plan POST-HARDENING exit2/12/0/0, NETWORK14/ECR2no-op. Plan previo sigue PRE-HARDENING; custodia estatal/backup protegido/recovery/eficaciaIAM/dependencias no aceptadas, PARCIAL / aceptación pendiente.
+- **Replan §30:** STS correcto, fmt-check/validate/bash-n exit0, plan posterior a adjuntos informados12/0/0; sin prueba de permisos deapply o aceptación de state/backup/recovery/dependencias. No cierre de E025 integral.
+- **Plan guardado §30.5:** fmt-check/validate/bash-n exit0, plan guardado/show/show-json y hash acreditados; NETWORK14/ECR2no-op explícitos. Artefactos sensibles ignorados y anteriores preservados porhash; custodia protegida/backup/recovery/aceptación integral pendientes, PARCIAL.
 - **Riesgo:** inicialización con backend equivocado, descarga no aprobada o secretos en salida.
 - **Gate asociado:** GATE-I-A.
 
@@ -2173,3 +2186,93 @@ Reconfirmado en plan: **2t3a.small/AMI ami-096ef200a877f36af**, **us-east-1a/use
 **Estados sin cierre:** T005 **PARCIAL / HARDENING IAM PENDIENTE DE APLICACIÓN**; T009 **PARCIAL / PLAN POST-HARDENING ACREDITADO**, provisión/aceptación pendientes; T010 **PARCIAL / RECOVERY DOCUMENTADO**, prueba/aceptación pendientes; T025 **PARCIAL / VALIDACIÓN LOCAL Y PLAN POST-HARDENING ACREDITADOS**, aceptación pendiente. **GATE-I-C y los nueve gates PENDIENTE / NO SATISFECHO**, sin2EC2reales; no aceptación cloud deAUTH.
 
 Consolidación **sin duplicar §29/§79**; solo task/memoria editados. Evidencia privada de recuperación `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-session-recovery-20261113-002038\`: precheck/diff/hashes, validaciones, plan/resultados/análisis y revisiónfinal. Cierre con hashes de fuentes no autorizadas/state/backup/planes preservados, links/exclusiones y **git diff --check exit0**, **4 modificados/6 sin seguimiento/0 staged**, branch/HEAD intactos. Temporal no acredita custodia duradera. **Sin apply/destroy/import, cambios IAM/adjuntos, EC2/EIP u otros recursos creados, stage/commit/push. DETENER.**
+
+## 30. INFRA-5 — replan PRE-APPLY tras adjuntos IAM informados;12/0/0, NO APPLY
+
+### 30.1. Autorización, checkpoint e identidad
+
+**2026-11-13 UTC — REPLAN CON PERMISOS DE APPLY REALES / VALIDACIÓN PRE-APPLY / NO APPLY.** Responsable informa que **ENVER-Terraform-Compute** y **ENVER-Terraform-IAM-Runtime** fueron creadas manualmente desde los dos JSON versionados y adjuntadas **únicamente a enver-terraform-local**. Informa también que **ENVER-Runtime-Permissions-Boundary NO se adjuntó al usuario Terraform**. Se registra **APLICADAS MANUALMENTE SEGÚN RESPONSABLE**, no descubrimiento independiente o mutación del agente. No se enumeran adjuntos, versiones remotas, otros grants/boundaries/SCP o custodia; no simulación IAM/Access Analyzer ni dry-run de escrituras.
+
+Baseline real **feature/infrastructure / f19ca80ef899436bbe1ad724db950fc0dfa629ae**, árbol limpio/0 staged antes de lecturas/plan. Checkpoint anterior autorizado: padre25daa836, diez archivos, **feat(infra): prepare hardened compute baseline**; no nuevo commit en esta entrega. Solo task/memoria editados posteriormente; HCL/policies/bootstrap/lock/spec/plan/producto sin cambios.
+
+Un sondeo inicial no encontró `aws` en PATH y terminó localmente **antes de ejecutar AWS CLI o llamar APIs**. Se usa instalación existente `%LOCALAPPDATA%/Programs/Amazon/AWSCLIV2/aws.exe` ya registrada en memoria, sin instalar, cambiar PATH persistente o credenciales. **Una llamada real** `sts get-caller-identity --profile enver-infra --region us-east-1 --output json --no-cli-pager`: **exit0**, identidad **arn:aws:iam::926925605666:user/enver-terraform-local**, cuenta926925605666 esperada. Sin credenciales publicadas. STS confirma identidad, **no permisos deapply ni adjuntos por nombre**.
+
+### 30.2. Validaciones y plan nuevo real
+
+**fmt -check -recursive infra**, **-chdir=infra validate -no-color**, **bash --noprofile --norc -n infra/bootstrap/compute-host.sh**: **exit0/exit0/exit0**. Terraform **1.17.1/windows_amd64**, provider **6.73.0**, sin init/upgrade/cambios técnicos. Bash solo parsea, no ejecuta bootstrap.
+
+**Un plan nuevo**, **2026-11-13T00:38:03.9212751Z–00:38:23.5648046Z**:
+
+```text
+terraform -chdir=infra plan -detailed-exitcode -input=false -lock-timeout=30s -parallelism=1 -no-color
+Plan: 12 to add, 0 to change, 0 to destroy.
+exit code: 2
+```
+
+**Resultado real 12/0/0, 0 replacements, sin AccessDenied o drift reportado.** Perfil enver-infra/regiónus-east-1; inputs temporales restaurados: project=enver/environment=dev/account926925605666/VPC10.20.0.0/16/newbits8/common_tags={}/network_design_approved=true/compute_plan_approved=true/compute_ami_id=null por defecto y **runtime_permissions_boundary_arn=arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary**. Sin tfvars reales nuevos, credenciales alternativas o secretos. AWS_MAX_ATTEMPTS=1/metadatafallback deshabilitado. DataSSM/dataAMI completan con AMI aprobada; no consultas adicionales de scanning/IAM/Billing.
+
+**Inventario de altas observado en plan:**
+
+| Direcciones | Cantidad |
+| --- | --- |
+| aws_iam_role.api_runtime | 1 |
+| aws_iam_instance_profile.api_runtime | 1 |
+| aws_iam_role_policy.api_ecr_pull | 1 |
+| aws_iam_role_policy.api_ssm_session | 1 |
+| aws_network_interface.api["a"], aws_network_interface.api["b"] | 2 |
+| aws_eip.api["a"], aws_eip.api["b"] | 2 |
+| aws_eip_association.api["a"], aws_eip_association.api["b"] | 2 |
+| aws_instance.api["a"], aws_instance.api["b"] | 2 |
+| **Total** | **12** |
+
+**NETWORK14 y ECR2 no-op**, reconciliando16direcciones managed refrescadas con inventario y plan completo sin modificaciones/replacements/destroy. Boundary externa no es recurso13; roots EBS inline. No ARN/ID/IP de recursos futuros inventados. Plan anterior§26 conserva estado **PRE-HARDENING**;§29 es anterior a estos adjuntos informados, no se reutiliza paraapply.
+
+### 30.3. Boundary, permisos y seguridad reconfirmados
+
+Runtime role **enver-dev-api-runtime**, trustEC2 y **permissions_boundary="arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary"** en plan. HCL exige variable obligatoria sin default. Boundary creada/custodiada independientemente según responsable, no contenido/defaultversion/hash remoto verificados en esta entrega. **CreateRole/PutRolePolicy solo role exacto con boundary exacta**, más Deny explícito si falta/difiere. **Put/DeleteRolePermissionsBoundary** y administración/versiones/borrado de boundary **sin Allow y con Deny explícito** en JSON informado adjunto. No afirma imposibilidad global auditada de eludir/retirar la protección: contenido remoto, otros grants y custodia de guard siguen sin revisión efectiva independiente. Si se aplica y conserva el JSON informado, esos Deny prevalecen sobre otros Allow aplicables.
+
+**PassRole solo arn:aws:iam::926925605666:role/enver-dev-api-runtime**, **PassedToService=ec2.amazonaws.com**, `AssociatedResourceArn=arn:aws:ec2:*:926925605666:instance/*`. Patrón documentado§29 compatible estáticamente con AddRoleToInstanceProfile, intacto, sin debilitamiento. **Plan no ejercita CreateRole/PutRolePolicy/PassRole/RunInstances** ni certifica capacidad, cuotas, colisiones con recursos no gestionados o éxito de un futuro apply. Lecturas exitosas prueban solo acceso de las operaciones efectivamente ejecutadas; **permisos efectivos de escritura NO PROBADOS**.
+
+Máximo runtime conserva **nueve acciones ECR/SSM**, pull solo enver-dev-api y regiónus-east-1; identitypolicy∩boundary y explicitDeny prevaleciente según diseño, no grants nuevos DynamoDB/Secrets/config. Ampliación futura requiere revisión humana y administración independiente, nunca Terraform automáticamente.
+
+**2×t3a.small/CPUstandard**, **us-east-1a/use1-az1** y **us-east-1b/use1-az2**, **ami-096ef200a877f36af** filtrada Amazon/AL2023/x86_64/HVM/EBS/available. Cada raíz **10GiB gp3 cifrado/3000IOPS/125MiB/s**, IMDSv2required/hop1. **2ENI/2EIP/2asociaciones**, map_public_ip_on_launch=false, backendSG8080soloSGALB/sinSSH22/8080públicos. User_data Docker/SSM inspeccionado **sin secretos detectados ni autoarranqueEnver.API/login-pull-runECR**. Sin hosts reales o pruebas debootstrap/SSM/egreso/capacidad/health/recovery.
+
+### 30.4. Costo, estados y detención
+
+Estimaciones conservadas **INFRA-5 USD2.3915/48h**, **ALBfuturo1.944**, **conjunto4.3355**, **envolvente7.3355**, **guardrailUSD10** (margennominal2.6645), proyecto **USD50AGREGADOS**, máximo inicial48h/reservaobjetivo50 delcrédito100informado. Sin Billing/créditos/gastoacumulado verificados, FreeTier/mensual/capAWS asumidos o cotización integral nueva. LCU/transferencia/otrosservicios/retención variables. No gasto autorizado por el plan.
+
+**T005 PARCIAL / IAM ADJUNTADO SEGÚN RESPONSABLE; RUNTIME Y VALIDACIÓN EFECTIVA PENDIENTES**; **T009 PARCIAL / PLAN PRE-APPLY POST-HARDENING ACREDITADO; PROVISIÓN/ACEPTACIÓN PENDIENTES**; **T010 PARCIAL / RECOVERY DOCUMENTADO; PRUEBA/ACEPTACIÓN PENDIENTES**; **T025 PARCIAL / VALIDACIÓN LOCAL Y PLAN PRE-APPLY POST-HARDENING ACREDITADOS; ACEPTACIÓN PENDIENTE**. **GATE-I-C PENDIENTE / NO SATISFECHO**, sin2EC2reales, mismo digest/capacidad/recuperación sin verificar. Nueve gates abiertos/11tareasparciales/19pendientes; sin aceptación002/004/AUTH-027integral.
+
+**PRE-APPLY acreditado solo como resultado de planificación tras adjuntos informados**, no aprobación integral de provisión, permisos efectivos de escrituras, seguridad o presupuesto acumulado. No se guardó binario de plan aplicable. Un futuro apply exige autorización humana separada, revisión vigente de plan guardado exacto, contenido/custodia IAM y costos integrales/ventana/retención/responsables de apagado y evidencia de seguridad/state según alcance. **AccessDenied: ninguno; permiso faltante: ninguno observado en plan**, no propuesta de ampliar IAM ni nuevo replan automático.
+
+Evidencia privada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-attached-iam-preapply-20261113-003559\`: baseline/hashes, incidente local dePATH, STS, revisiónestática/validaciones/version, plan/resultados/análisis/noop y revisiónfinal. Temporal sin custodia duradera garantizada. Cierre: fuentes no autorizadas/state/backup/planes históricos preservados porhash, links/exclusiones/diff-check válidos, **solo task/memoria modificados /0staged /HEADf19ca80 intacto**. **SIN apply/destroy/import, IAM modificado por agente, recursos creados, stage/commit/push. DETENER.**
+
+### 30.5. Plan guardado final y checkpoint documental — NO APPLY
+
+**2026-11-13 UTC.** Solicitud **AUTORIZAR EXCLUSIÓN DE TFPLAN Y CONTINUAR PRE-APPLY / BUILD CONTROLADO**. El intento previo se detuvo correctamente porque `git check-ignore -v infra/tfplan-infra5` devolvió exit1; no generó plan, editó documentos o creó commit. Esta autorización permite únicamente la nueva regla exacta **`/infra/tfplan-infra5`**, sin tocar otras reglas, y el checkpoint de .gitignore/task/memoria. Baseline real **feature/infrastructure / f19ca80ef899436bbe1ad724db950fc0dfa629ae**, solo task/memoria modificados y0staged; se conserva esa documentación previa en este checkpoint.
+
+**Ignore verificado antes de plan:** `.gitignore:94:/infra/tfplan-infra5`, **exit0**, ruta no existente entonces y no tracked. Comparación con copia previa confirma una sola regla añadida, resto intacto. State/backup/tfvars reales/.terraform/.aws/credentials/config/.docker/config.json/.env/secrets.json siguen ignorados en sus rutas convencionales; sin artefactos sensibles tracked, lock/ejemplo siguen versionables. No afirmar exclusión universal de cualquier archivo con nombre arbitrario ni leer/publicar credenciales.
+
+**Fmt-check/validate/bash-n exit0/0/0**, Terraform1.17.1/windows_amd64 y provider6.73.0, sin init/upgrade o ejecución debootstrap. **Una generación nueva** entre **2026-11-13T01:39:28.1561780Z y01:39:44.1908175Z**, con perfilenver-infra/us-east-1 y los inputsbaseline de§30.2 por entorno temporal restaurado; boundary pasada explícitamente por `-var`:
+
+```text
+terraform -chdir=infra plan -out=tfplan-infra5 -detailed-exitcode -var="runtime_permissions_boundary_arn=arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary"
+Plan: 12 to add, 0 to change, 0 to destroy.
+exit code: 2
+```
+
+Archivo **`infra/tfplan-infra5`**, nuevo/no sobrescrito, SHA256 **`ddb6dd34d027b32ae09046128d0acf2132575dc33737bafb91d654691fb997ed`**. **Show humano (`show -no-color tfplan-infra5`) y show-json exit0**, del binario exacto, sin nuevo plan ni APIs de cuenta durante la inspección. JSON completo no publicado/versionado; solo resumen saneado. Lectores locales corrigieron colisión PowerShell de array.Address con propiedad address y decodificación nativaibm850 deUTF8; generaban falsos fallos de cotejo, no cambios del plan/HCL. Enumeración por elemento y lectura UTF8 confirman inventario/user_data exactos; **sin reintento cloud o regeneración del plan**.
+
+**Inventario exacto guardado:** las12direcciones de§30.2, **role1/profile1/inline2/ENI2/EIP2/asociaciones2/EC2 2**. JSON contiene **12create/16no-op/0update/0delete/0replacement**, sin drift reportado. **NETWORK14no-op y ECR2no-op explícitos**; ningún recurso existente cambia. Boundary externa no es recurso adicional y raícesEBS son inline.
+
+**Runtime role en binario:** enver-dev-api-runtime/trustEC2, **permissions_boundary=arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary**. InlineSSM/ECR conservan9acciones máximas. Revisión del JSON operador intacto confirma PassRole solo runtimeARN/PassedToServiceec2.amazonaws.com/AssociatedResourceArn`arn:aws:ec2:*:926925605666:instance/*`, sinAllow yconDeny antiPut/DeleteRolePermissionsBoundary y versiones/admin/borradoboundary. Creación/adjuntos/custodia siguen informados por responsable, **no auditoría remota ni prueba de CreateRole/PassRole/RunInstances**, no ampliar boundary ahora.
+
+**Compute guardado:**2t3a.small/CPUstandard/AMI **ami-096ef200a877f36af**, AZ **us-east-1a/use1-az1** y **us-east-1b/use1-az2**, raíces **10GiBgp3cifradas/3000IOPS/125MiB/s**, IMDSv2required/hop1. **2ENI/2EIP/2asociaciones**, ENIsoloSGbackend, map_public_ip_on_launch=false;8080soloSGALBexistente/sinSSH22/8080públicos. Ambos user_data coinciden exactamente con bootstrap revisado normalizandoCRLF: Docker/SSM **sinAWSkeys/sessiontokens/Mongo/Redis/JWT/ECRtokens/passwords detectados ni autoarranqueAPI**, sin dockerlogin/pull/run. No prueba real dehost/health/SSM/egreso/capacidad/recovery.
+
+Costos conservados: **INFRA-5USD2.3915/48h**, **ALBfuturo1.944**, **conjunto4.3355**, **envolvente7.3355**, **guardrailUSD10**, proyecto **USD50AGREGADOS**/máximo48h. Estimaciones no cotización integral/Billing/créditos/acumulados verificados, ni cap técnico o autorización de gasto. Retención/LCU/transferencias/dependencias y responsabilidades de apagado requieren revisión integral previa aapply.
+
+**T005 yT009 PARCIAL / PRE-APPLY ACREDITADO** solo para preparación revisada; runtime/provisión/seguridad efectiva/aceptación pendientes. **T010 PARCIAL**, recovery/prueba/aceptación pendientes; **T025 PARCIAL**, validación local/plan guardado acreditados, custodia/state/backup/recovery/aceptación pendientes. **GATE-I-C PENDIENTE / NO SATISFECHO**, sin dosEC2reales/digest/pruebas; los nueve gates siguen abiertos. Preparación no completa005/009/010/025/027 ni acepta002/004/AUTH-027integral.
+
+**Checkpoint autorizado:** stage exclusivamente **.gitignore**, **specs/003-infrastructure/task.md**, **memoria.md**, revisióncached-check/stat de3archivos y commit **`chore(infra): prepare compute pre-apply`**. El hash final se comunica al cierre y en evidencia privada, sin autorreferencia en el commit; **plan/state/backup/tfvars/credenciales nunca stage/tracked**. Plan y state son artefactos privados locales, ignorar no equivale a custodia/cifrado/backup aceptados.
+
+Evidencia privada `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra5-saved-plan-checkpoint-20261113-013805\`: baseline/hashes, ignore/validaciones/version, generación/hash, show/análisis selectivo, revisiónprecommit y finalGit. Carpeta temporal no garantiza retención/custodia. Fuentes no autorizadas/state/backup/planes anteriores preservados porhash; plan nuevo conserva suhash durante revisión/checkpoint. Futuroapply exige autorización separada y vigencia/hash exacto revisados, más costo/seguridad/state según alcance; **no permiso implícito por existir archivo aplicable**. **Sin AccessDenied, apply/destroy/import, escriturasAWS/IAM, recursos creados o push. DETENER tras checkpoint, sin siguiente incremento automático.**
