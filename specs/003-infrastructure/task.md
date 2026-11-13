@@ -4,11 +4,11 @@
 
 | Campo | Valor |
 | --- | --- |
-| Versión / fecha | 0.51.0 / 2026-11-13 UTC |
-| Solicitud inicial / incremento actual | CIERRE FORMAL E006 / T-INFRA-006 — ACCEPTANCE / DOCUMENTATION / LOCAL GIT (§42): E006 ACEPTADA / T006 COMPLETA / ACEPTADA para el alcance actual documentado, con excepción temporal de egreso y riesgo HTTP interno aceptados, no runtime ready ni mínimo privilegio final. I-A SATISFECHO; E005 ACEPTADA/T005 COMPLETA / ACEPTADA; I-B PENDIENTE / NO SATISFECHO. Solo task/memoria, validaciones locales y exactamente un commit documental autorizado; sin AWS/IAM/SG/rutas/plan/apply/SendCommand/push |
+| Versión / fecha | 0.53.0 / 2026-11-13 UTC |
+| Solicitud inicial / incremento actual | CIERRE FORMAL E015 / T-INFRA-015 (§44), ACCEPTANCE / DOCUMENTATION / LOCAL GIT: E015 ACEPTADA / T015 COMPLETA / ACEPTADA para el diseño y contrato Atlas documentados, no Atlas operativo. Atlas NO READY / cluster PLANEADO / NO PROVISIONADO; T016 PENDIENTE / NO EJECUTADA con dependencia T015 satisfecha, siguiente foco sin ejecución automática. I-A SATISFECHO; E005/E006 ACEPTADAS y T005/T006 COMPLETA / ACEPTADA conservados; I-B PENDIENTE / NO SATISFECHO. Solo task/memoria, validaciones locales y UN commit documental autorizado; sin AWS/Atlas/IAM/usuarios/allowlist/secretos/plan/apply/SendCommand/push |
 | Fuentes | [spec.md](spec.md) y [plan.md](plan.md), propuesta aprobada como base documental |
 | Catálogo | 30 tareas, T-INFRA-001 a T-INFRA-030 |
-| Estado vigente de tareas | 001/002/025 **COMPLETA / ACEPTADA** por aceptación humana explícita (§37); 005 **COMPLETA / ACEPTADA**, E005 **ACEPTADA** para el alcance actual con excepciones operativas temporales, no separación técnica integral (§39); 006 **COMPLETA / ACEPTADA**, E006 **ACEPTADA** para el alcance actual documentado con excepción temporal de egreso (§42); 003/004/007 PARCIAL / aceptación pendiente; 009 PARCIAL / VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA (§32.15), dependencias/decisiones y aceptación integral pendientes; 008 conserva publicación/digest/pull según responsable y pendientes; 010 PARCIAL / recuperación conservadora acreditada, prueba formal pendiente; otras19 PENDIENTE / NO EJECUTADA, incluida026 |
+| Estado vigente de tareas | 001/002/025 **COMPLETA / ACEPTADA** por aceptación humana explícita (§37); 005 **COMPLETA / ACEPTADA**, E005 **ACEPTADA** para el alcance actual con excepciones operativas temporales, no separación técnica integral (§39); 006 **COMPLETA / ACEPTADA**, E006 **ACEPTADA** para el alcance actual documentado con excepción temporal de egreso (§42); 015 **COMPLETA / ACEPTADA**, E015 **ACEPTADA** para diseño/contrato Atlas (§44), no Atlas operativo; 003/004/007 PARCIAL / aceptación pendiente; 009 PARCIAL / VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA (§32.15), dependencias/decisiones y aceptación integral pendientes; 008 conserva publicación/digest/pull según responsable y pendientes; 010 PARCIAL / recuperación conservadora acreditada, prueba formal pendiente; otras18 PENDIENTE / NO EJECUTADA, incluidas016/026 |
 | Estado de todos los gates | I-A **SATISFECHO** por aceptación explícita (§37); B–I **PENDIENTE / NO SATISFECHO** |
 | Evidencia de ejecución de 003 | Historial §§18–37 intacto. §32.15 conserva SSM/Docker A/B, sin contenedores ni servicio Enver.API observados entonces. §38 registra auditoría IAM previa, Compute v5 efectiva tras intervención humana y plan NUEVO post-v5 de 2026-11-13T14:37:09.988Z–14:37:27.758Z: exit2, recursos0/0/0/0replacements y +outputcompute_instances; refresh con discrepancias en8recursos, sin acciones correctivas. No zero drift absoluto, no apply ni reutilización de recovery4; ninguna nueva operación AWS/plan en la entrega documental |
 | Baseline documental original | `feature/authentication`, `c58ea86e3eddff4befa8f61398dd58d55c4ef985` |
@@ -431,7 +431,7 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-015 — Atlas: red, usuario y TLS
 
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado:** COMPLETA / ACEPTADA; E(T-INFRA-015) / E015 ACEPTADA por el responsable para el diseño/contrato Atlas documentados (§44). No provisión, conectividad, secretos entregados o Atlas READY acreditados.
 - **Fase:** INFRA-8 Atlas.
 - **Objetivo:** definir acceso NoSQL seguro por ambiente.
 - **Dependencias:** T-INFRA-004, T-INFRA-005; DP-I-06/09.
@@ -440,6 +440,8 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Acciones futuras:** aprobar cluster/tier/región y ownership, DB/usuario mínimo y salidas permitidas, TLS validado y connection string externa. Provider Atlas adicional solo por autorización explícita.
 - **Aceptación:** contrato/red/permisos/costo revisados sin credenciales ni supuesta gratuidad; creación/ingreso de secretos se reserva a 027 con permiso específico.
 - **Evidencia:** E(T-INFRA-015), revisión Atlas y decisiones de provisión/backup.
+- **Diseño aprobado §43:** proyecto conceptual ENVER, owner nominal responsable autorizado ENVER, cluster planeado enver-dev, AWS/us-east-1/US_EAST_1, M0/Free para Development y DB enver_development, solo users; baseline readWrite sobre esa DB con DDL reconocido, no mínimo absoluto por operación. Allowlist prevista exclusivamente A/B /32 y TLS/certificado/hostname obligatorios; no aplicado. Bootstrap separado pendiente de mecanismo aprobado; secretos externos T019 y respaldo/recuperación verificable futuros, sin habilitar backup de pago. El criterio de aceptación permite revisión de contratos sin cluster operativo; el acto integral E015 se mantiene separado. Dependencias originales T004/T005/DP-I-06/09 conservadas, sin completarlas por inferencia; T005 ya aceptada.
+- **Cierre formal §44:** responsable acepta integralmente E015/T015 en ese alcance de diseño, incluidos límites y diferidos; supera la aceptación pendiente de §43 sin reescribir historia. Atlas NO READY, cluster PLANEADO / NO PROVISIONADO; bootstrap/secretos/respaldo verificable y pruebas cloud siguen pendientes. T015 satisface ahora su dependencia para T016; no cierre de T004/DP integrales/gates, gasto, plazo o provisión autorizados por inferencia.
 - **Riesgo:** tier incompatible, TLS deshabilitado, allowlist abierta o usuario excesivo.
 - **Gate asociado:** GATE-I-F.
 
@@ -454,6 +456,8 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Acciones futuras:** revisar índices/BSON/read-write concerns/ACK e inicialización existente, permisos separados y escenarios duplicado concurrente/lectura A-B. No relajar garantías por tier.
 - **Aceptación:** configuración y matriz de pruebas compatibles con 002 revisadas; prueba runtime se registra en 028, no se infiere de tests locales.
 - **Evidencia:** E(T-INFRA-016), checklist de contratos e inicialización y plan cross-instance.
+- **Identificación previa §43:** users, normalizedEmail_1, BSON, concerns majority/primary, journaling/ACK y escenarios de lectura cruzada/duplicado/CAS identificados en auditoría; no cierre de configuración/matriz E016 ni evidencia cloud. **PENDIENTE / NO EJECUTADA hasta aceptación de T015**, con coordinación T019 original conservada.
+- **Situación posterior §44:** dependencia **T015 satisfecha por aceptación formal de su diseño/contrato**; T016 conserva **PENDIENTE / NO EJECUTADA**, incluida coordinación T019. Siguiente foco propuesto: concerns, ACK, concurrencia, estrategia bootstrap/índices y matriz cross-instance, solo bajo autorización posterior delimitada; no iniciarlo con este cierre.
 - **Riesgo:** admitir antes del índice, duplicados o éxito sin ACK acreditado.
 - **Gate asociado:** GATE-I-F, GATE-I-I.
 
@@ -3792,3 +3796,147 @@ Validaciones efectivas **2026-11-13 UTC**, sin AWS ni plan:
 | `git diff --check` | **15:36:11.780Z–15:36:11.953Z** | **0**, solo avisos LF/CRLF |
 
 **Revisión efectuada de `git diff -- specs/003-infrastructure/task.md` y `git diff -- memoria.md` completos**, incluida documentación acumulada de §§40–41/memoria§§99–100: únicamente evidencia/decisiones/aceptación/estado/límites documentales, no código/configuración/HCL/policies/state/planes. Diff-check se repite tras registrar resultados. Solo estos dos Markdown pueden incorporarse al índice y al commit autorizado; verificar cached check/stat antes y SHA/estado limpio después. El SHA resultante y estado final se comunicarán en la respuesta de sesión, sin amend ni segundo commit para autorreferenciarlo. **Sin AWS, plan/apply, SendCommand o push; DETENER tras el único commit local.**
+
+## 43. T-INFRA-015 — Diseño Atlas y contrato de provisión aprobados; E015 integral pendiente
+
+### 43.1. Alcance y fuente de aprobación
+
+**2026-11-13 UTC — ACCEPTANCE / DOCUMENTATION ONLY.** Fuente: mensaje expreso del **responsable del proyecto, GATE-I-B — MONGODB ATLAS — T-INFRA-015 — APROBACIÓN DE DISEÑO Y CONTRATO DE PROVISIÓN**, en esta conversación. Aprueba las decisiones siguientes, **no la creación de recursos ni la aceptación integral E015 por inferencia**. Auditoría previa de requisitos/código y documentación pública realizada en la misma conversación, sin cambios: T015/T016 identificados, Atlas NO READY, fmt-check/validate exit0 a las15:43UTC. Esta entrega materializa únicamente decisiones aprobadas en este archivo y [memoria §102](../../memoria.md); no modifica spec/plan, código, configuración o HCL.
+
+Precheck real **2026-11-13T15:49:21.598Z**: **feature/infrastructure / c0c594983e79dfecf5a760192162430c42134f5f**, **working tree clean / 0 staged**. Otros246tracked y state/nativo intactos por hash; historia anterior conservada. **Sin AWS/Atlas/IAM, usuarios, allowlist, secretos, plan/apply, SendCommand, stage/commit/push**. Nombres/owner siguientes son contratos conceptuales, no inventario remoto ni IDs/correos/usuarios reales de Atlas.
+
+### 43.2. Proyecto, capacidad y configuración aprobados
+
+| Elemento | Decisión aprobada | Estado y límite |
+| --- | --- | --- |
+| **Atlas Project / owner** | **ENVER / responsable autorizado del proyecto ENVER** | Ownership nominal; no proyecto existente o cuenta/correo/ID inventados |
+| **Cluster** | **enver-dev** | **PLANEADO / NO PROVISIONADO**; no recurso creado ni existencia remota acreditada |
+| **Provider / región** | **AWS / us-east-1 / Atlas US_EAST_1** | Coherencia con EC2 y arquitectura actual; no incorporar provider Terraform Atlas por inferencia |
+| **Tier / destino** | **M0 / Free para ambiente académico Development** | Limitaciones aceptadas para dev, no producción real, HA integral o PITR empresarial |
+| **Entorno ASP.NET** | **ASPNETCORE_ENVIRONMENT=Development** | Aprobado para este despliegue dev futuro; no variable/configuración aplicada ahora |
+| **DatabaseName** | **enver_development** | Ya definida en [appsettings.Development.json](../../Enver.API/appsettings.Development.json); coincide con validador existente; **no enver_dev** con este entorno |
+| **Colección única de aplicación** | **users** | No crear profiles/orders/sessions/revocations u otras no implementadas |
+
+DB/environment/colección son compatibles por lectura con [MongoDbOptions y validación](../../Enver.API/Configuration/AuthenticationOptionsValidation.cs). La clave real de colección es **MongoDb:UsersCollectionName=users**; “CollectionName=users” describe el contrato, no una nueva clave de binding. Se aprueba el destino conceptual, no datos, DB o índices materializados en cloud.
+
+**Responsabilidades conservadas:** MongoDB almacena usuarios (`_id`, `fullName`, `normalizedEmail`, `passwordHash`, `status`, `createdAt`, `updatedAt`) y CAS del rehash; DynamoDB es **authority operacional compartida de seguridad**, no almacén de usuarios/passwords; Redis mantiene **cuotas y revocaciones individuales**. No duplicar authority/revocaciones en MongoDB ni añadir campos/colecciones.
+
+**Capacidad M0 aceptada para dev académico:** recursos compartidos, almacenamiento limitado (aprox.512MB incluyendo índices), conexiones/operaciones limitadas (documentación consultada en auditoría:500conexiones/100ops-s), posible throttling y límites de transferencia. Ajustes/versiones gestionados por Atlas; sin prometer capacidad/SLA/HA/producción. Las cifras son límites documentados, no mediciones de cuenta o carga ENVER. Fuente: [límites Free](https://www.mongodb.com/docs/atlas/reference/free-shared-limitations/), consultados en auditoría previa de esta conversación; no nueva consulta cloud.
+
+**Costo base esperado USD0/h**, sin addons. Precio publicado de Free, **no factura garantizada ni elegibilidad/inventario/facturación verificados**. Addons, backup opcional, transferencia y Secrets pueden generar costo; no asumir otros servicios gratuitos ni cobertura Atlas por crédito AWS. **No habilitar servicios de pago**. Presupuesto **USD50 agregado / guardrailUSD10** intactos; sin gasto adicional autorizado.
+
+### 43.3. Índices, usuario runtime y bootstrap
+
+Índices obligatorios antes de admitir **Register y Login**:
+
+| Colección / índice | Definición | Garantías |
+| --- | --- | --- |
+| **users._id_** | **{ _id: 1 }** | Índice propio único MongoDB; no duplicarlo |
+| **users.normalizedEmail_1** | **{ normalizedEmail: 1 }** | **unique=true / TTL=false / collation simple-binaria**; sin sparse, partial, hidden o expiry |
+
+Conservar verificación de opciones efectivas, no solo nombre. Código de referencia: [MongoUsersInitializer](../../Enver.API/Infrastructure/MongoDB/MongoUsersInitializer.cs), [UserDocument](../../Enver.API/Infrastructure/MongoDB/UserDocument.cs) y [MongoUserStore](../../Enver.API/Infrastructure/MongoDB/MongoUserStore.cs). No se crea índice ni modifica colección; no repair/borrado automático ante datos/índices incompatibles.
+
+**Usuario runtime: baseline inicial APROBADA `readWrite` únicamente sobre `enver_development`**. Prohibidos **atlasAdmin/root/readWriteAnyDatabase**; no usuario real/username elegido o creado. **readWrite también permite DDL/índices**: baseline funcional acotada a una DB, **NO mínimo absoluto por operación** ni separación técnica DDL efectiva. No se afirma satisfacción integral de mínimo privilegio por operación o de INFRA-014 cloud; revisar privilegios efectivos posteriormente sin ampliar roles silenciosamente.
+
+**Dirección bootstrap separado del runtime APROBADA**, antes de admitir tráfico: verificar/crear `users` si procede, verificar/crear `normalizedEmail_1`, validar configuración efectiva. **Mecanismo: PENDIENTE DE IMPLEMENTACIÓN/APROBACIÓN**, no ejecutable independiente acreditado ni usuario bootstrap creado. El código actual intenta inicialización al startup y revalidación por operación; esto no se presenta como bootstrap independiente ya implementado. `readWrite` ya contiene privilegios de creación de índices: separar identidad no elimina por sí solo DDL runtime. Un eventual endurecimiento/rol custom o cambio de aplicación requiere autorización separada.
+
+Para futura T016 se conserva lo identificado en auditoría: BSON UUID estándar, readConcern **majority**, readPreference **primary**, writeConcern **majority + journal=true + wtimeout**, RetryWrites=false; ACK explícito, lectura A→B/B→A, duplicado concurrente y CAS. [MongoClientFactory](../../Enver.API/Infrastructure/MongoDB/MongoClientFactory.cs) aplica esos contratos; no relajar garantías por M0, no prueba Atlas desde tests locales. **No aceptar E016 ahora**.
+
+### 43.4. Red, TLS y contrato externo de secretos
+
+**Allowlist prevista APROBADA exclusivamente:** **18.210.153.223/32 (A)** y **44.195.4.217/32 (B)**. Estado **DISEÑO APROBADO / NO APLICADO**. **Prohibidos 0.0.0.0/0, IP del portátil y runner externo**, salvo autorización futura específica para estos últimos. Ruta conceptual vigente EC2→EIP→IGW→Atlas público; origen real/estabilidad/conectividad quedan por probar en ambos hosts. No puertos destino definitivos hasta endpoint/SRV reales; no asumir27017 ni confundir egress amplio con allowlist Atlas abierta.
+
+**TLS, certificate validation y hostname validation OBLIGATORIOS.** Prohibidos **tls=false, tlsInsecure=true, tlsAllowInvalidCertificates=true** o equivalentes que omitan validación. Formato conceptual **mongodb+srv://…**, **endpoint y puertos reales PENDIENTES DE PROVISIÓN**. SRV activa TLS por defecto salvo override; esto no sustituye handshake/certificado efectivos. El factory hereda TLS de URI; el validador actual no impone por sí solo todas estas prohibiciones. Registrar la brecha, no corregir código/configuración ni afirmar enforcement cloud en esta entrega.
+
+**Secretos:** username, password y URI completa con credenciales. Configuración no secreta: **DatabaseName=enver_development / UsersCollectionName=users**. Sin hardcode, Git, user-data, imagen o logs; no URI real/credenciales introducidas. Claves de binding esperadas **MongoDb__ConnectionString / MongoDb__DatabaseName**, y colección existente **MongoDb__UsersCollectionName** si el canal requiere override. DB configurada debe coincidir con la elegida por el cliente, no depender solo del path URI.
+
+**T-INFRA-019 deberá definir y autorizar el mecanismo de entrega de secretos** y controles de acceso/rotación; no escoger gestor, crear secreto, conceder IAM o entregar credencial ahora. La dependencia explícita y las claves quedan registradas para el contrato T015, no un mecanismo operativo implementado. Conservar DP-I-09 y coordinación original con019 antes de026.
+
+### 43.5. Salud, recuperación y obligaciones diferidas
+
+Estado observado por lectura: **/health existe como liveness, sin comprobación MongoDB / readiness de dependencias NO publicada**. Configuración inválida puede impedir startup; una caída temporal Mongo con configuración válida mantiene liveness y admisión dependiente cerrada. Register/Login **fail-closed/503 ante fallo Mongo o índice incompatible**, no éxito ficticio; Logout no añade dependencia Mongo. **Readiness/ALB pendientes T023–T024 y tareas relacionadas**, sin corregir o ejecutar pruebas ahora.
+
+El entorno **Development** aprobado también activa `MapOpenApi` en [Program.cs](../../Enver.API/Program.cs); no se aplica la variable en esta entrega. Revisar exposición de esa superficie y diagnóstico junto a controles de publicación futuros, sin inferir permiso para publicar API/OpenAPI o introducir secretos. No modifica la aceptación del contrato DB ni inicia otra tarea.
+
+**Backup/recovery:** limitaciones Free aceptadas para este entorno; **NO prometer PITR, HA integral o failover controlado**. **Backup opcional/de pago NO habilitado por esta entrega / NO autorizado**; no backup operativo acreditado. La documentación específica consultada en auditoría describe snapshots M0 opcionales de pago/private preview, disponibilidad no garantizada; no se contratan ni se presupuestan como incluidos. **Requisito futuro conservado: procedimiento verificable de respaldo/recuperación compatible con tier aprobado**, owner/custodia y validación antes de afirmar recuperación; no RTO/RPO inventados, restore o reapertura automática. Fuente previa: [backups Free](https://www.mongodb.com/docs/atlas/backup/cloud-backup/free-cluster-backup/).
+
+**E027/E028 futuras, bajo autorización separada**, deberán demostrar: cluster real/provider-región-tier; usuario/privilegios efectivos; allowlist A/B; endpoint/DNS/SRV/puertos; TLS con certificado/hostname válidos; conectividad A y B; DB correcta; índices; escritura ACK/concerns; lectura cruzada; duplicado concurrente rechazado; CAS; negativos autorizados y evidencia saneada sin secretos. Un timeout solo no acredita rechazo de allowlist. No ejecutar bootstrap, SendCommand, scripts, pruebas T028 o deployment API ahora.
+
+### 43.6. Reevaluación estricta y estado vigente
+
+El criterio literal T015 es **«contrato/red/permisos/costo revisados sin credenciales ni supuesta gratuidad; creación/ingreso de secretos se reserva a 027 con permiso específico»**. Conforme plan§4,003–024 preparan contratos antes del cloud. En ese **alcance de diseño/contrato actual** quedan cubiertos revisión y decisiones de proyecto/owner, cluster, región/tier/capacidad, DB/ambiente, baseline de permisos con límite DDL reconocido, red/TLS, costo, backup y dependencia explícita de secretos. **No exige cluster operativo para esta acreditación de diseño.**
+
+**T-INFRA-015: TÉCNICAMENTE ACREDITADO / ACEPTACIÓN EXPLÍCITA PENDIENTE para diseño/contrato actual. E(T-INFRA-015) / E015 aceptación integral PENDIENTE.** Esta solicitud aprueba decisiones y solicita reservar el acto integral; no se marca COMPLETA / ACEPTADA ni cluster operativo/conectividad/secretos entregados. **Pendiente de cierre en ese alcance: aceptación explícita integral de E015 y de sus límites/diferidos**. La implementación del mecanismo bootstrap/secretos, respaldo verificable y pruebas reales conserva sus tareas antes de readiness/runtime; no se acredita por contrato ni se exige completarla para revisar T015.
+
+Dependencias originales **T004/T005/DP-I-06/09** intactas y sujetas a revisión formal de alcance al aceptar E015; **T005 ya aceptada**, T004 no se completa por inferencia. DP-I-06 avanza en decisiones aprobadas aquí; gestión final de provisión (preprovisión externa frente a eventual provider autorizado), operacionalización del respaldo y verificaciones posteriores siguen explícitas, sin declarar DP-I-06/09 íntegramente cerradas ni seleccionar herramientas por iniciativa del agente. No se exige desplegar servicios para registrar este diseño.
+
+**T-INFRA-016 PENDIENTE / NO EJECUTADA hasta aceptación de T015**, aunque users/índice/concerns/ACK/matriz estén identificados. **Atlas NO READY / cluster PLANEADO / NO PROVISIONADO**; sin inventario externo inspeccionado ni afirmar inexistencia global. **GATE-I-B PENDIENTE / NO SATISFECHO**: Atlas/Redis/Secrets-config/Authority-DynamoDB, E019–020/E027–028 aplicables, runtime readiness y demás criterios reales siguen pendientes. GATE-I-F/I-I no satisfechos.
+
+**I-A SATISFECHO / E005 y E006 ACEPTADAS / T005 y T006 COMPLETA / ACEPTADA** conservados, sin reabrir IAM/Compute/red. Catálogo vigente **5 completas + 1 técnicamente acreditada con aceptación pendiente(015) + 6 parciales + 18 pendientes = 30**; gates **1 satisfecho + 8 pendientes**. T026 PENDIENTE / NO EJECUTADA. Sin cierre002/AUTH-027 integral/004 ni continuación automática.
+
+**Deadline original 2026-11-15T01:57:56.9337244Z**, aún no alcanzado en precheck, sin reinicio/extensión. Excepción de egreso temporal §§41–42 sigue limitada por ese máximo y revisión de destinos antes del runtime final; aprobar diseño no implementa endurecimiento ni autoriza continuidad nueva. **Cualquier uso posterior al plazo requiere nueva autorización explícita**. Preservar USD50/guardrailUSD10 y custodia de state/backups/planes; no limpiar o restaurar automáticamente.
+
+### 43.7. Validaciones locales y detención
+
+Resultados locales efectivos **2026-11-13 UTC**, sin llamadas cloud ni plan:
+
+| Comando | Inicio–fin UTC | Exit / resultado |
+| --- | --- | --- |
+| `terraform fmt -check -recursive infra` | **15:52:53.730Z–15:52:53.932Z** | **0**, sin modificaciones |
+| `terraform -chdir=infra validate` | **15:52:53.932Z–15:53:04.653Z** | **0**, Success! The configuration is valid. |
+| `git diff --check` | **15:53:04.653Z–15:53:04.830Z** | **0**, solo avisos LF/CRLF de ambos Markdown |
+
+Comprobación **15:53:05.937Z**: branch/HEAD baseline intactos; solo **memoria.md y specs/003-infrastructure/task.md** modificados, **0 staged**, sin untracked. Otros246tracked y state/nativo intactos por hash; historial task§§6–42 y memoria hasta§101 preservado por huellas del precheck. Nueve enlaces relativos nuevos comprobados. Diff-check se repite tras registrar resultados; salida final en respuesta de sesión. Estas validaciones locales no prueban Atlas/runtime ni aceptan integralmente E015.
+
+**Sin AWS/Atlas/IAM/usuarios/allowlist/secretos/plan/apply/SendCommand/stage/commit/push. DETENER.**
+
+## 44. Cierre formal E015 / T-INFRA-015 — Diseño Atlas aceptado, no provisión
+
+### 44.1. Acto humano, baseline y alcance
+
+**2026-11-13 UTC — ACCEPTANCE / DOCUMENTATION / LOCAL GIT.** Fuente: mensaje del **responsable del proyecto, GATE-I-B — CIERRE FORMAL E015 / T-INFRA-015**, en esta conversación. **Acepta formalmente la evidencia técnica acumulada de E(T-INFRA-015) / E015 para el diseño y contrato Atlas actualmente documentados. E015 ACEPTADA / T-INFRA-015 COMPLETA / ACEPTADA.** Es el acto integral separado pendiente en §43, no aceptación inferida, ticket o firma inventados. Se conservan íntegros §43 y [memoria §102](../../memoria.md), incluidos sus estados históricos anteriores al acto presente.
+
+Precheck real **2026-11-13T15:56:59.323Z**: **feature/infrastructure / c0c594983e79dfecf5a760192162430c42134f5f**, cambios esperados únicamente **specs/003-infrastructure/task.md y memoria.md**, **0 staged**, sin untracked. Otros246tracked y state/nativo intactos por hash. Autorización para integrar únicamente esos dos Markdown y su documentación acumulada de diseño en **exactamente UN commit local**, mensaje **`docs(infra): accept t-infra-015 atlas design`**; **sin amend/squash/push**. No AWS/Atlas/IAM, usuarios, allowlist, secretos, plan/apply o SendCommand.
+
+### 44.2. Contrato expresamente aceptado y límites
+
+| Elemento | Alcance aceptado | Estado real no sustituido por aceptación |
+| --- | --- | --- |
+| **Atlas Project / owner** | **ENVER / responsable autorizado del proyecto ENVER** | Conceptual/nominal; sin cuenta/correo/ID inventados ni existencia acreditada |
+| **Cluster / provider / región / tier** | **enver-dev / AWS / us-east-1-US_EAST_1 / M0-Free** para dev académico | **PLANEADO / NO PROVISIONADO / Atlas NO READY** |
+| **Entorno / DB / colección** | **ASPNETCORE_ENVIRONMENT=Development / enver_development / users** | Entorno **DISEÑO APROBADO / NO APLICADO TODAVÍA**; DB/colección no creadas en Atlas por esta entrega |
+| **Índices** | **_id_** propio y **normalizedEmail_1 / {normalizedEmail:1} / ascending / unique=true / collation simple-binaria / TTL=false / sparse=false / partial=false / hidden=false**, sin expiry | Deben existir antes de Register/Login; **NO creados en cloud** ni T016 aceptada |
+| **Runtime DB role** | **readWrite exclusivamente sobre enver_development**, sin atlasAdmin/root/readWriteAnyDatabase | No usuario creado; **incluye DDL, NO mínimo absoluto por operación** |
+| **Bootstrap** | Separado del runtime antes de admitir tráfico, verificar/crear users/índice y validar configuración efectiva | **Mecanismo pendiente**; sin usuario bootstrap o ejecutable independiente acreditado; separación de identidad no revoca DDL runtime |
+| **Allowlist exclusiva** | **18.210.153.223/32 (A) / 44.195.4.217/32 (B)** | **NO aplicada**; **0.0.0.0/0 prohibido**, portátil/runner no autorizados |
+| **TLS** | TLS + certificate validation + hostname validation obligatorios; formato conceptual **mongodb+srv://** | Endpoint/puertos **PENDIENTES**; prohibidos **tls=false / tlsInsecure=true / tlsAllowInvalidCertificates=true** y equivalentes; sin handshake real probado |
+| **Secretos** | Contrato coordinado con **T-INFRA-019**, claves **MongoDb__ConnectionString / MongoDb__DatabaseName**, colección real MongoDb:UsersCollectionName=users | Username/password/URI sensible protegidos, **NO entregados**; sin valores en Git/user-data/imagen/logs ni mecanismo escogido por inferencia |
+| **Salud** | /health liveness existe; Register/Login fail-closed503 ante fallo Mongo o índice incompatible | Mongo health **NO implementado**, readiness **NO publicada**, integración ALB posterior; no corregidos ni probados aquí |
+| **Backup/recovery** | Limitaciones Free aceptadas para dev; procedimiento verificable futuro requerido | **PENDIENTE**, no backup operativo ni PITR/HA integral/failover controlado prometidos; backup opcional/de pago **NO autorizado** |
+| **Capacidad/costo** | M0 compartido/limitado/throttling aceptados para dev, **NO producción**; base **USD0/h esperado sin addons** | No factura garantizada, medición o elegibilidad de cuenta acreditadas; no otros servicios gratuitos por inferencia |
+
+La aceptación conserva las responsabilidades: MongoDB usuarios/credenciales hash/estado/timestamps/CAS; DynamoDB authority operacional compartida; Redis cuotas/revocaciones individuales, sin duplicarlas en MongoDB. No se implementa configuración, bootstrap o control TLS por registrar el contrato; brechas de enforcement/exposición Development de §43 quedan pendientes de controles de publicación y sus autorizaciones.
+
+**Límites explícitos del acto:** NO Atlas operativo, cluster/usuario creados, allowlist aplicada, secretos entregados, endpoint obtenido, conectividad real A/B, índices cloud creados, backup operativo, T016 satisfecha, GATE-I-B satisfecho o despliegue API autorizado. E027/E028 siguen debiendo acreditar recursos/privilegios/red/TLS/conectividad/DB/índices/ACK/lectura cruzada/duplicados/CAS/negativos autorizados con evidencia saneada. No convertir revisión local o validaciones Terraform en esa evidencia.
+
+**USD50 agregado / guardrailUSD10** sin modificación; **deadline original 2026-11-15T01:57:56.9337244Z**, aún no alcanzado en precheck, sin reinicio/extensión/gasto adicional. Excepción egress temporal §§41–43 intacta, no mínimo privilegio final ni endurecimiento aplicado. **Cualquier uso posterior al plazo requiere nueva autorización explícita**, sin continuidad/limpieza/restore automático de recursos/state/backups/planes.
+
+### 44.3. Dependencias, gates y siguiente foco
+
+**T-INFRA-016 PENDIENTE / NO EJECUTADA**, con su **dependencia T015 ahora satisfecha** en el alcance de diseño/contrato aceptado; coordinación T019 original conservada. **Siguiente foco T016: concerns / ACK / concurrencia / bootstrap-index strategy / cross-instance matrix**, solo propuesta de trabajo posterior, no inicio o aceptación automática. Sus contratos identificados en §43 no equivalen a configuración/matriz formalmente aceptadas ni a pruebas cloud.
+
+Se conservan las dependencias originales de T015 **T004/T005/DP-I-06/09** y los diferidos de §43: no declarar T004, DP integrales, gestor/entrega de secretos, mecanismo bootstrap o recuperación implementados por aceptar el diseño. T005 ya aceptada; no reabrir E005/E006/Compute. Este acto acepta expresamente el alcance documentado con esas obligaciones posteriores, sin exigir recursos reales para cerrar la tarea de diseño ni seleccionar provider/herramientas adicionales.
+
+**GATE-I-B PENDIENTE / NO SATISFECHO**. Restan T016 y demás criterios/evidencias aplicables de Atlas real/E027-E028, Redis, Secrets/config, Authority/DynamoDB y runtime readiness, además de otras condiciones reales de §3. T015 ya no es aceptación pendiente. T015 tiene gate directo **I-F**, no cierre de I-F/I-I por este acto. **GATE-I-A SATISFECHO / E005-E006 ACEPTADAS / T005-T006 COMPLETA / ACEPTADA** conservados. Catálogo: **6 completas/aceptadas (001/002/005/006/015/025) + 6 parciales + 18 pendientes = 30**; gates **1 satisfecho + 8 pendientes**. **T026 PENDIENTE / NO EJECUTADA**, sin cierre002/AUTH-027 integral/004 ni ejecución siguiente automática.
+
+### 44.4. Validaciones y checkpoint local
+
+Validaciones efectivas **2026-11-13 UTC**, sin llamadas cloud ni plan:
+
+| Comando | Inicio–fin UTC | Exit / resultado |
+| --- | --- | --- |
+| `terraform fmt -check -recursive infra` | **15:59:14.177Z–15:59:14.367Z** | **0**, sin modificaciones |
+| `terraform -chdir=infra validate` | **15:59:14.367Z–15:59:25.197Z** | **0**, configuración válida |
+| `git diff --check` | **15:59:25.197Z–15:59:25.372Z** | **0**, solo avisos LF/CRLF de ambos Markdown |
+
+**Revisión de `git diff -- specs/003-infrastructure/task.md` y `git diff -- memoria.md`**, incluida documentación acumulada §43/memoria§102: únicamente diseño/contrato, evidencia, aceptación, estado y límites documentales; no código/configuración/HCL/policies/state/planes. Historial task§§6–43 y memoria hasta§102 conservado respecto al precheck. Diff-check se repite tras registrar resultados. Solo estos dos Markdown autorizados en stage; cached check/stat antes del único commit. SHA y estado real post-commit se comunicarán en respuesta de sesión, sin amend o segundo commit autorreferencial. **Sin Atlas/AWS/IAM/usuarios/allowlist/secretos/plan/apply/SendCommand/push; DETENER tras el único commit local y postcheck.**
