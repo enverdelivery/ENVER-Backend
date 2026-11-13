@@ -4,13 +4,13 @@
 
 | Campo | Valor |
 | --- | --- |
-| Versión / fecha | 0.46.0 / 2026-11-13 UTC |
-| Solicitud inicial / incremento actual | GATE-I-A ACEPTACIÓN EXPLÍCITA Y CHECKPOINT LOCAL (§37): responsable del proyecto acepta E001/E002/E025 y autoriza GATE-I-A SATISFECHO sobre evidencia acumulada. T001/T002/T025 COMPLETA / ACEPTADA. T026 NO EJECUTADA; I-B pendiente, con dependencia I-A satisfecha. Solo task/memoria, validaciones locales y UN commit de documentación autorizado; sin AWS/IAM/infra/plan/apply/amend/squash/push |
+| Versión / fecha | 0.48.0 / 2026-11-13 UTC |
+| Solicitud inicial / incremento actual | CIERRE FORMAL T-INFRA-005 / E005 — ACCEPTANCE / DOCUMENTATION / LOCAL GIT (§39): responsable acepta expresamente E005 y T005 para el alcance actual con excepciones temporales; E005 ACEPTADA / T005 COMPLETA / ACEPTADA. I-A SATISFECHO; I-B PENDIENTE / NO SATISFECHO; T026 NO EJECUTADA. Solo task/memoria, validaciones locales, revisión de diffs y UN commit local autorizado; sin AWS/IAM, plan, apply, SendCommand o push. Siguiente foco T006, sin ejecutarlo |
 | Fuentes | [spec.md](spec.md) y [plan.md](plan.md), propuesta aprobada como base documental |
 | Catálogo | 30 tareas, T-INFRA-001 a T-INFRA-030 |
-| Estado vigente de tareas | 001/002/025 **COMPLETA / ACEPTADA** por aceptación humana explícita (§37); 003/004/006/007 PARCIAL / aceptación pendiente; 005 PARCIAL / profile-boundary y SSM funcional acreditados, separación/mínimo privilegio integral pendientes; 009 PARCIAL / VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA (§32.15), dependencias/decisiones y aceptación integral pendientes; 008 conserva publicación/digest/pull según responsable y pendientes; 010 PARCIAL / recuperación conservadora acreditada, prueba formal pendiente; otras19 PENDIENTE / NO EJECUTADA, incluida026 |
+| Estado vigente de tareas | 001/002/025 **COMPLETA / ACEPTADA** por aceptación humana explícita (§37); 005 **COMPLETA / ACEPTADA**, E005 **ACEPTADA** para el alcance actual con excepciones operativas temporales, no separación técnica integral (§39); 003/004/006/007 PARCIAL / aceptación pendiente; 009 PARCIAL / VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA (§32.15), dependencias/decisiones y aceptación integral pendientes; 008 conserva publicación/digest/pull según responsable y pendientes; 010 PARCIAL / recuperación conservadora acreditada, prueba formal pendiente; otras19 PENDIENTE / NO EJECUTADA, incluida026 |
 | Estado de todos los gates | I-A **SATISFECHO** por aceptación explícita (§37); B–I **PENDIENTE / NO SATISFECHO** |
-| Evidencia de ejecución de 003 | Historial §§18–32.14 intacto. §32.15 acredita EC2 running, SSM Online y Docker enabled/active A/B mediante CommandId8abf5ba1-a1d6-4ac2-9592-a3200a3b9d81. No contenedores ni servicio Enver.API observados; no auditoría de procesos arbitrarios. Sin nuevos AccessDenied/cambios infra/IAM/app. Recovery4 fechado conserva0/0/0/0replacements y +outputcompute_instances, sin nuevo plan/aplicación; aceptación documental de I-A en §37 |
+| Evidencia de ejecución de 003 | Historial §§18–37 intacto. §32.15 conserva SSM/Docker A/B, sin contenedores ni servicio Enver.API observados entonces. §38 registra auditoría IAM previa, Compute v5 efectiva tras intervención humana y plan NUEVO post-v5 de 2026-11-13T14:37:09.988Z–14:37:27.758Z: exit2, recursos0/0/0/0replacements y +outputcompute_instances; refresh con discrepancias en8recursos, sin acciones correctivas. No zero drift absoluto, no apply ni reutilización de recovery4; ninguna nueva operación AWS/plan en la entrega documental |
 | Baseline documental original | `feature/authentication`, `c58ea86e3eddff4befa8f61398dd58d55c4ef985` |
 | Baseline del BUILD actual | `feature/infrastructure`, creada desde `3b4760ea8387b1cabff56e5f5e0ba5ffe8acb932`, árbol inicialmente limpio |
 | Checkpoint previo a INFRA-2/3 | `feature/infrastructure`, `611071f0ecb0d6cb67993f4e9bffd00d328a2f90`, árbol limpio al iniciar §9 |
@@ -212,7 +212,7 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-005 — Roles y permisos mínimos
 
-- **Estado:** PARCIAL / PROFILE, BOUNDARY Y SSM FUNCIONAL ACREDITADOS; VALIDACIÓN INTEGRAL PENDIENTE (§32.15).
+- **Estado:** COMPLETA / ACEPTADA; E(T-INFRA-005) / E005 ACEPTADA por el responsable para el alcance actual con excepciones operativas temporales (§39), no separación técnica integral ni INFRA-024 integralmente satisfecho.
 - **Fase:** INFRA-3 Security/IAM.
 - **Objetivo:** separar provisión, deployment, runtime, administración y bootstrap.
 - **Dependencias:** T-INFRA-003, T-INFRA-004; DP-I-08/09 y contrato preliminar 004.
@@ -241,6 +241,8 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 - **Lecturas §32.13:** GetRole/GetInstanceProfile y EC2 confirman runtime role/boundary exacta y profile asociado a ambos hosts; shutdown stop por DescribeInstanceAttribute. Corrección ModifyInstanceAttribute informada, no escritura/simulación/versionado remoto de policy verificado. SSM y separación/aceptación integral pendientes; PARCIAL.
 - **Reconciliación §32.14:** role/profile/boundary nuevamente verificados y IAM4 no-op; ssm:DescribeInstanceInformation denegado al usuario Terraform, no demuestra fallo del role runtime ni ausencia de agentes. Sin nueva ampliación IAM, SSM Online/Docker/ECRpull o mínimo privilegio integral acreditados; PARCIAL.
 - **Validación final §32.15:** DescribeInstanceInformation/SendCommand/GetCommandInvocation exitosos, SSM Online y ejecución de lectura en ambos hosts acreditados tras policy humana informada. Esto resuelve el bloqueo operativo de §32.14, no audita todas las policies/condiciones ni acepta separación deploy/runtime/authority/secretos o mínimo privilegio integral. PARCIAL.
+- **Reevaluación posterior §38:** inventario/agregación IAM, boundary efectiva y auditoría de escalada acreditados en evidencia anterior; Compute v5 exacta y nuevo plan post-v5 resource no-op acreditados. El responsable acepta ahora clasificación ADMINISTRACIÓN REMOTA CONTROLADA, excepción SSM y matriz actual; no acepta automáticamente E005 integral. Separación técnica provisioner/publisher/SSM incompleta con excepción temporal aprobada; runtime separado/boundary acreditados. Aceptación final de E005/tarea pendiente; dependencias originales y alcances futuros Secrets/Authority/004 no se declaran satisfechos. Los estados PARCIAL de líneas anteriores son historia, no bloqueadores IAM/Compute vigentes.
+- **Aceptación formal posterior §39:** el responsable acepta explícitamente la evidencia acumulada E005 y el cierre de T005 para el alcance actual, incluidas las excepciones SSM/separación y matriz; **E005 ACEPTADA / T005 COMPLETA / ACEPTADA**. Supera la aceptación pendiente de §38, sin alterar sus fuentes ni aceptar dependencias/alcances futuros por inferencia. GATE-I-B sigue PENDIENTE / NO SATISFECHO; siguiente foco T006, sin ejecución autorizada.
 - **Riesgo:** privilegio excesivo, trust abierto o secretos de cuenta persistentes.
 - **Gate asociado:** GATE-I-B, GATE-I-F.
 
@@ -3378,3 +3380,166 @@ Resultados finales de los cuatro comandos autorizados, antes de stage/commit; su
 **Revisión efectuada** de **git diff -- specs/003-infrastructure/task.md** y **git diff -- memoria.md**, incluidos los cambios documentales acumulados: únicamente documentación de evidencia, aceptación y estados, sin código/HCL/policy/config/state/plan/secret como archivos del commit. Manifiesto de44entradas de contenido protegido intacto e historial task§36/memoria§95 preservado. Stage únicamente esos dos documentos y exigir cached diff-check exit0 y stat exacto de dos archivos.
 
 El único commit autorizado se realizará tras esas comprobaciones. **SHA/resultado y post-check final se informarán en salida de sesión/evidencia privada**, no mediante auto-referencia imposible en el propio commit, amend o segundo commit. Sin push. Evidencia privada **%LOCALAPPDATA%\Temp\opencode\gate-ia-accepted-checkpoint-20261113T065517\**, precheck/manifiesto44entradas/validaciones/diffs/revisión/index/commit/postcheck, sin state ni secretos. **DETENER al terminar el único commit y sus comprobaciones**, sin iniciar GATE-I-B.
+
+## 38. GATE-I-B / T-INFRA-005 — Compute acreditado y aceptación de excepción SSM/matriz actual
+
+### 38.1. Autorización, baseline y procedencia
+
+**2026-11-13 UTC — DOCUMENTATION / ACCEPTANCE ONLY.** El responsable acepta expresamente en esta conversación la **excepción temporal SSM** y la **matriz actual de responsabilidades** descritas abajo. Autoriza editar únicamente este archivo y [memoria §97](../../memoria.md), ejecutar `terraform fmt -check -recursive infra`, `terraform -chdir=infra validate` y `git diff --check`, y dejar ambos documentos **sin stage, sin commit y sin push**. No autoriza nuevas llamadas AWS/IAM/SSM/ECR, plan, apply, cambio de red, reconciliación de refresh, infraestructura o aplicación.
+
+Precheck documental **2026-11-13T14:45:22.728Z**: **feature/infrastructure / 224ea51c9f4cf3bdd10ff937496f4261c416a8eb**, working tree **clean / 0 staged**; hashes operativos coinciden con §38.3. Deadline original aún **no alcanzado** en ese precheck. Fuentes de los resultados técnicos de §§38.2–38.3: verificaciones anteriores de esta conversación y baseline expresamente ratificada por el responsable, **no nuevas ejecuciones cloud en este bloque**. La aceptación de §37 se conserva; no se reabre GATE-I-A ni se atribuyen al agente cambios IAM humanos.
+
+### 38.2. IAM agregado y remediación Compute ya acreditados
+
+- **Inventario y agregación completos revisados anteriormente:** siete managed policies, tres inline del operador, cero grupos/herencia por grupos y sin permissions boundary en `enver-terraform-local`. La ampliación humana previa de Audit-ReadOnly permitió leer las tres managed antes inaccesibles y resolvió el bloqueo de inventario; no es una autorización actual para ampliar IAM.
+- Defaults observados: **Compute v5**, IAM-Runtime v1, SSM-Verification v1, IAM-Audit-ReadOnly v2, Network-Apply v1, Local-ECR-Publisher v1 y Terraform-ECR v2. Revisión agregada **sin escalada IAM identificada fuera del contrato runtime ni bypass de boundary identificado en los grants auditados**; no certificación universal de ausencia de escalada.
+- Runtime **enver-dev-api-runtime**: trust solo `ec2.amazonaws.com`, duración máxima3600s, sin managed attachments, inline `enver-dev-ecr-pull` y `enver-dev-ssm-session`. **ENVER-Runtime-Permissions-Boundary v1** efectiva y semánticamente coincidente con candidata local: nueve acciones SSM/ECR, denegaciones explícitas fuera de ese contrato/repositorio/región. Sin grants runtime de IAM/STS AssumeRole/DynamoDB/Secrets/config/KMS/ECR push.
+- **ENVER-Terraform-Compute v5 DEFAULT**, v4 conservada para rollback; v5 activada **manualmente por el responsable**, UpdateDate **2026-11-13T07:58:14+00:00**. Comparación estructural anterior: **10 statements / 10 Sids únicos**, exactamente la candidata autorizada reconstruida desde v4, sin diferencias adicionales ni `IfExists`.
+- Únicos cambios materiales: AMI limitada a **arn:aws:ec2:us-east-1::image/ami-096ef200a877f36af**; `ModifyOnlyTaggedEnverInstanceAttributes` conserva `instance/*` regional/cuenta, condiciones usuario/región/Project/Environment/ManagedBy y añade **Name=[enver-dev-api-a,enver-dev-api-b]** y **ec2:Attribute/InstanceInitiatedShutdownBehavior=stop**. No IDs de instancia fijados en ese statement; tags/nombres no imponen cardinalidad de dos hosts.
+- El intento anterior autorizado del agente de `CreatePolicyVersion` fue **AccessDenied**: no creó ni activó versiones. Runtime SSM, boundary, SSM Verification, ECR y Network no se modificaron por esta remediación. La candidata local `infra/bootstrap/terraform-local-compute-policy.json` conserva desfase histórico: **no es sustituto autoritativo de v5**, no se sincroniza en esta entrega.
+- **SimulatePrincipalPolicy: NO EJECUTABLE CON IDENTIDAD ACTUAL / AccessDenied histórico.** No se repite ni se pide ampliación de permisos; no se interpreta como denegación demostrada de EC2 ni se exige como nueva remediación para cerrar Compute. El plan no ejercita mutaciones EC2: la evaluación efectiva de la condition key durante un write no se inventa.
+- **Compute remediation: ACREDITADA**, por documento efectivo y plan resource no-op de §38.3. Inventario, agregación, AMI scope, ModifyInstanceAttribute, simulation API y Compute plan **no son bloqueadores pendientes de este incremento**.
+
+### 38.3. Plan nuevo post-v5, refresh y conservación de state
+
+Plan ya ejecutado **2026-11-13T14:37:09.988Z–14:37:27.758Z**, un único plan nuevo con refresh normal, sin `-out`, sin plan binario, sin apply y **sin reutilizar recovery4**. Prechecks anteriores: branch/HEAD actuales, clean/0staged; fmt-check/validate **exit0**; sin tfvars automáticos ni TF_VAR/TF_CLI_ARGS preexistentes. Comando real equivalente registrado (incluida UI JSON para distinguir recursos/outputs):
+
+```text
+terraform -chdir=infra plan -json -detailed-exitcode -input=false
+  -var='environment=dev'
+  -var='aws_region=us-east-1'
+  -var='vpc_cidr=10.20.0.0/16'
+  -var='public_subnet_newbits=8'
+  -var='network_design_approved=true'
+  -var='aws_account_id=926925605666'
+  -var='runtime_permissions_boundary_arn=arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary'
+  -var='compute_ami_id=ami-096ef200a877f36af'
+  -var='compute_plan_approved=true'
+```
+
+**Detailed exit code=2**, diferencias, no error: **add=0 / change=0 / destroy=0 / replacements=0**. Única diferencia de outputs **+compute_instances**, otros nueve outputs sin cambios según reporte anterior. Clasificación **RESOURCE NO-OP / OUTPUT-ONLY DIFFERENCE**. **Terraform compatibility post-v5: ACREDITADA** bajo esos inputs y para ese plan, no garantía de mutaciones futuras.
+
+**El refresh informó discrepancias respecto al state guardado en ocho recursos relacionados con ENI, EIP, asociaciones EIP e instancias, pero NO produjo acciones correctivas en el plan. Por tanto se acredita resource no-op; NO se afirma zero drift absoluto.** No se reconcilian esas discrepancias en este bloque ni se ejecuta apply para persistir outputs.
+
+| Archivo | SHA256 antes = después del plan y en precheck documental |
+| --- | --- |
+| `infra/terraform.tfstate` | **d214e2b172312123f64be213376130cad4e8be25fce36107ebbe258ffd045fff** |
+| `infra/terraform.tfstate.backup` | **23a74f1556b10ade14f509820a2a225d124201b03d52380fd39b5dc458314ea7** |
+
+State **serial39 / 0tainted**, intacto; backup nativo intacto, histórico38/Btainted, no equivalente de recuperación39. Custodia cifrada aceptada en §37 conservada; no restore, edición manual, passphrase o contenido state en documentación. Postcheck anterior **2026-11-13T14:38:20.361Z**: A **i-0a66085b7b2411393** y B **i-00de11a3f3c1a8aa5**, ambas **running / t3.small / ami-096ef200a877f36af**, clean/0staged, sin lock residual. No se reconsultan AWS ahora.
+
+HCL conserva **compute_ami_id default=null** y **compute_plan_approved default=false**. Solo este plan autorizado usó explícitamente AMI aprobada y true mediante `-var`, sin tfvars ni variables persistentes. Antes de cualquier replace futuro: usar **compute_ami_id=ami-096ef200a877f36af** explícito o **revisar y autorizar nueva AMI + actualizar allowlist IAM** bajo autorización independiente; no modificar HCL ahora. Ningún input autoriza apply/gasto/reemplazo o amplía plazo.
+
+### 38.4. Excepción temporal SSM — ACEPTADA por el responsable
+
+Fuente: **aceptación humana explícita del mensaje de esta entrega**, no inferencia de SSM funcional. Para esta etapa académica, **AWS-RunShellScript utilizado por enver-terraform-local se clasifica como ADMINISTRACIÓN REMOTA CONTROLADA, NO verificación read-only**. Únicos destinos permitidos por la excepción: **i-0a66085b7b2411393 / i-00de11a3f3c1a8aa5**; único documento **AWS-RunShellScript** (`arn:aws:ssm:us-east-1::document/AWS-RunShellScript`). Esto no ejecuta ni autoriza una intervención concreta ahora.
+
+Controles aceptados:
+
+1. Solo **operador autorizado ENVER**, sobre esas dos EC2 A/B.
+2. Scripts **revisados y autorizados antes de cada intervención**; no autorización general de comandos.
+3. Prohibido **leer secretos, extraer credenciales, copiar tokens, ampliar IAM, modificar boundary o realizar cambios no autorizados**. Prohibiciones operativas; no se presentan como barreras técnicas intrínsecas de RunShellScript.
+4. Registrar **propósito, comando/script, ejecución y resultado**, sin datos sensibles.
+5. Cambios de red y operaciones destructivas ECR requieren **autorización independiente**; ni este acto ni un script pueden eludirla.
+6. **No autoriza terraform apply** ni habilita DynamoDB, Secrets, KMS, Parameter Store config o IAM en runtime; boundary/contrato runtime sin cambios.
+
+Se conserva temporalmente el **SSM runtime actual de cinco acciones con Resource=***, sin introducir restricciones no probadas. La coincidencia con un ejemplo mínimo AWS no prueba que todos sus wildcards sean obligatorios; no se afirma endurecimiento nuevo ni read-only por esa selección. Los permisos del agente runtime y el SendCommand del operador son capacidades distintas; un script administrativo puede actuar en el host, no se confunde la boundary con un sandbox de comandos.
+
+**Vigencia limitada al alcance temporal original**, como máximo **2026-11-15T01:57:56.9337244Z**; sin reiniciar ventana48h ni extender plazo. En precheck de esta documentación el plazo no había sido alcanzado. **Excepción aprobada para el alcance de evaluación originalmente definido; cualquier uso posterior requiere una nueva autorización explícita.** Mantener **USD50 agregados / guardrailUSD10**, sin nuevo gasto, parada/limpieza automática ni permiso de continuidad permanente.
+
+### 38.5. Matriz ACTUAL — ACEPTADA por el responsable
+
+Aceptación humana expresa de responsabilidades y riesgos actuales; no creación de identidades, policies, roles OIDC o contratos futuros.
+
+| Función | Identidad / policy | Responsabilidad y recurso | Riesgo / control / estado |
+| --- | --- | --- | --- |
+| Terraform provisioning | **enver-terraform-local** | Provisión Terraform autorizada del baseline | Comparte otras funciones operativas; cambios por fase y autorización explícita. Esta aceptación no autoriza provisión nueva |
+| ECR publishing | **enver-terraform-local / ENVER-Local-ECR-Publisher** | Publicar artefactos en **enver-dev-api** | Publisher limitado al repository aprobado; no aislamiento efectivo frente a otros grants agregados |
+| ECR provisioning / lifecycle | **enver-terraform-local / ENVER-Terraform-ECR** | Repository/lifecycle/rollback autorizado de **enver-dev-api** | Capacidad destructiva sobre repository aprobado; operaciones destructivas con autorización independiente; rollback no probado por poder modificar lifecycle |
+| SSM administration | **enver-terraform-local / SSM Verification** | **ADMINISTRACIÓN REMOTA CONTROLADA** A/B mediante documento aprobado | Excepción y controles §38.4; NO read-only, scripts autorizados individualmente |
+| Runtime EC2 | **enver-dev-api-runtime / ENVER-Runtime-Permissions-Boundary** | Runtime application host; SSM reducido/ECR pull en contrato auditado | Separación **TÉCNICA / ACREDITADA** respecto a identidad operadora; no prueba de API ejecutándose ni runtime ready |
+| Secrets/config | **Identidad operativa NO acreditada todavía** | Entrega/configuración/rotación | **PENDIENTE para fases posteriores**; no secretos concedidos ni runtime ready |
+| Authority / DynamoDB | **Identidad/provisión PENDIENTE** | Authority/bootstrap/recuperación futuros | **Runtime DynamoDB DENEGADO actualmente**; no grant/tabla/bootstrap nuevos |
+| CI/CD | **Identidad NO acreditada todavía** | Deployment futuro | **OIDC PENDIENTE / contrato004 PENDIENTE**; no workflows/trust/deployment autorizados |
+
+Auditoría ECR anterior: publisher push/query-only no equivale a permisos agregados del usuario; Terraform-ECR permite borrar repository/modificar lifecycle. `IMMUTABLE` sin exclusiones, scanOnPush y AES256 previamente leídos **no protegen retención frente a delete/recreate ni acreditan findings limpios**. Network y ECR sin grants IAM/STS identificados en los documentos revisados; sus mutaciones siguen fuera de esta autorización.
+
+**La separación técnica completa de provisioner / publisher / SSM administrator NO está implementada.** Se acepta una **EXCEPCIÓN OPERATIVA TEMPORAL** para este incremento académico con la misma vigencia/controles de §38.4. La concentración de autoridad operativa no se presenta como escalada IAM demostrada ni como separación técnica completa. **NO satisface automáticamente requisitos futuros de CI/CD, Secrets, Authority o INFRA-024**; spec/plan permanecen intactos.
+
+### 38.6. Reevaluación estricta T-INFRA-005 y gates
+
+Contra el catálogo de §4, T005 exige revisión de mínimo privilegio/separación de roles y runtime sin creación/borrado de tablas ni administración global. Para el **alcance actual** están acreditados inventario/agregación, boundary efectiva/auditoría de escalada, AMI/ModifyInstanceAttribute y compatibilidad post-v5; clasificación SSM, excepción y matriz están **aceptadas por este acto humano**. No queda un bloqueo técnico adicional IAM/Compute identificado en ese alcance bajo la excepción aceptada. No se reabre inventario, simulation API o plan por falta de permisos de simulación.
+
+**T-INFRA-005: TÉCNICAMENTE ACREDITADO / ACEPTACIÓN EXPLÍCITA PENDIENTE, en el alcance actual con excepción temporal.** **NO COMPLETA / ACEPTADA.** El criterio de aceptación de la tarea no establece que aceptar dos componentes de evidencia constituya automáticamente aceptación final de **E(T-INFRA-005)**: falta acto explícito separado de aceptación final de la tarea/evidencia y su alcance excepcional. Se conserva la regla §2 de dependencias aceptadas: **T003/T004, DP-I-08/09 y contrato preliminar004 no se declaran resueltos por esta matriz**. No se certifica el objetivo integral futuro de separación/Secrets/Authority/CI-CD ni se reforma INFRA-024; no se exige implementarlos en esta entrega documental para volver a acreditar Compute.
+
+**GATE-I-A SATISFECHO**, T001/T002/T025 **COMPLETA / ACEPTADA** sin cambios. **GATE-I-B PENDIENTE / NO SATISFECHO**: faltan evidencia/aceptación aplicables de T006 y networking/security, Atlas/egreso/TLS interno, Redis privado, Secrets/config, Authority, E019–020/E027–028 y demás dependencias reales de §3. No cierre por aceptar la excepción, ni ejecución integral E027/E028 inferida de validaciones puntuales.
+
+**T026 PENDIENTE / NO EJECUTADA**, B–I pendientes. Catálogo: **3 completas/aceptadas + 1 técnicamente acreditada en alcance actual con aceptación final pendiente (005) + 7 parciales + 19 pendientes/no ejecutadas**; gates **1 satisfecho + 8 pendientes**. Sin nuevo incremento de autenticación/infra/004, API readiness, digest A/B/capacidad/recuperación formal o aceptación de GATE-I-C/002/AUTH-027 integral.
+
+### 38.7. Validaciones locales y detención documental
+
+Resultados efectivamente obtenidos en esta entrega, **2026-11-13 UTC**:
+
+| Comando | Inicio–fin UTC | Exit / resultado |
+| --- | --- | --- |
+| `terraform fmt -check -recursive infra` | **14:51:49.526Z–14:51:49.756Z** | **0**, sin modificaciones |
+| `terraform -chdir=infra validate` | **14:51:49.757Z–14:52:00.251Z** | **0**, Success! The configuration is valid. |
+| `git diff --check` | **14:52:00.251Z–14:52:00.398Z** | **0**, solo avisos LF/CRLF de ambos Markdown |
+
+Comprobación **14:52:01.147Z**: branch/HEAD baseline intactos, solo **memoria.md y specs/003-infrastructure/task.md** modificados, **0 staged**; hashes state/nativo coinciden exactamente con §38.3. Comparación directa con HEAD confirma historial previo de memoria intacto y secciones6–37 de task sin cambios; solo campos vigentes y actualización puntual del catálogo antes de nueva§38. Se verifica nuevamente diff-check después de incorporar estos resultados; salida final en respuesta de sesión.
+
+Ningún comando de esta entrega revalida cloud, ejecuta otro plan o satisface T026. **Sin AWS/IAM/SendCommand, cambio de red/ECR destructivo, apply, stage, commit o push. DETENER al entregar evidencia documental; ninguna intervención, reconciliación o ejecución posterior autorizada implícitamente.**
+
+## 39. GATE-I-B — Aceptación formal E005 / T-INFRA-005 y commit local documental
+
+### 39.1. Acto explícito, fecha y alcance de aceptación
+
+**2026-11-13 UTC — ACCEPTANCE / DOCUMENTATION / LOCAL GIT.** Fuente: mensaje del **responsable del proyecto** titulado **GATE-I-B — CIERRE FORMAL T-INFRA-005 / E005** en esta conversación. El responsable **acepta formalmente la evidencia técnica acumulada E(T-INFRA-005) / E005 y T-INFRA-005 para el alcance actual documentado**, incluidas las excepciones temporales. Este es el acto separado de aceptación final que faltaba en §38.6: **E005 ACEPTADA / T-INFRA-005 COMPLETA / ACEPTADA** con la nomenclatura del catálogo. No firma criptográfica, ticket o aprobación externa inventados, ni cierre deducido solo de pruebas.
+
+Precheck real **2026-11-13T14:55:50.467Z**: **feature/infrastructure / 224ea51c9f4cf3bdd10ff937496f4261c416a8eb**, solo **memoria.md y specs/003-infrastructure/task.md** ya modificados por la entrega anterior, **0 staged**, sin archivos untracked inesperados. Se conserva e incorpora esa documentación acumulada; task§38/memoria§97 mantienen su estado histórico previo a este acto. Solo estos dos Markdown son editables y elegibles para el único commit autorizado. No se reejecuta auditoría cloud ni plan.
+
+La aceptación incluye expresamente:
+
+- **Auditoría IAM integral del alcance actual completada y agregación IAM completa**, boundary runtime efectiva y **ausencia de ruta de escalación IAM identificada** en la revisión documentada; no garantía universal de ausencia de vulnerabilidades.
+- **Remediación Compute v5**, AMI exacta aprobada **ami-096ef200a877f36af**, `ModifyInstanceAttribute` restringido y compatibilidad Terraform post-v5 **ACREDITADAS** según §§38.2–38.3. **ENVER-Terraform-Compute v5 DEFAULT / v4 conservada para rollback**, sin nueva modificación o lectura IAM aquí.
+- Plan nuevo anterior: **detailed exit2 / 0 add / 0 change / 0 destroy / 0 replacements**, único cambio de outputs **+compute_instances**: **RESOURCE NO-OP / OUTPUT-ONLY DIFFERENCE**; no apply. **Refresh reportó discrepancias en ocho recursos ENI/EIP/asociaciones EIP/instancias, sin producir acciones correctivas en el plan**. No se afirma **zero drift absoluto**, no se reconcilia ni se reabre Compute sin evidencia material nueva.
+- **Excepción temporal SSM aceptada**, clasificación **ADMINISTRACIÓN REMOTA CONTROLADA**, matriz de responsabilidades aceptada y **excepción temporal de separación aceptada**; controles y restricciones de §§38.4–38.5 permanecen íntegros.
+
+### 39.2. Excepciones y límites que sobreviven al cierre de E005
+
+**AWS-RunShellScript por enver-terraform-local NO es verificación read-only.** Solo destinos **i-0a66085b7b2411393** y **i-00de11a3f3c1a8aa5**, documento **AWS-RunShellScript**; scripts revisados/autorizados antes de cada intervención, operador autorizado ENVER, registro propósito/script/ejecución/resultado sin sensibles. Prohibido leer secretos, extraer credenciales/copiar tokens, ampliar IAM, modificar boundary o hacer cambios no autorizados. Red y ECR destructivo requieren autorización independiente. Este cierre **no autoriza SendCommand general ni una intervención concreta**.
+
+Matriz conservada: **provisioning / ECR publisher / SSM admin = enver-terraform-local**; **runtime = enver-dev-api-runtime**, boundary **ENVER-Runtime-Permissions-Boundary**. Separación técnica del runtime acreditada; **separación técnica completa provisioner/publisher/SSM = NO implementada**, **excepción operativa temporal = ACEPTADA**, no separación técnica completa por aceptación documental.
+
+Vigencia máxima original **2026-11-15T01:57:56.9337244Z**, no alcanzada en el precheck de este acto, **sin reiniciar ventana48h ni extender plazo**. Excepción aprobada para el alcance de evaluación originalmente definido; cualquier uso posterior requiere una nueva autorización explícita. **USD50 agregados / guardrailUSD10** sin gasto adicional ni automatismos de parada/limpieza. HCL mantiene `compute_ami_id=null` y `compute_plan_approved=false` como defaults; reemplazos futuros requieren input explícito de AMI aprobada o nueva AMI revisada/autorizada+allowlist IAM, con autorización técnica específica.
+
+Esta aceptación es **integral de E005 para el alcance actual documentado con excepciones**, no cumplimiento integral futuro de **INFRA-024**, Secrets/config, Authority/DynamoDB o CI/CD/OIDC. No declara runtime ready, API ejecutándose, bootstrap/entrega de credenciales listos ni dependencias T003/T004/DP-I-08/09/contrato004 satisfechas por inferencia. Se conservan los criterios de origen y pendientes futuros; no se reforma spec/plan ni se exige implementarlos retroactivamente para desconocer el cierre expresamente delimitado. No autorización general de apply, SendCommand, nuevos recursos, red o ECR destructivo.
+
+### 39.3. Estados y siguiente foco sin ejecución automática
+
+| Evidencia / tarea / gate | Estado tras este acto | Límite |
+| --- | --- | --- |
+| **E005 / E(T-INFRA-005)** | **ACEPTADA** | Evidencia acumulada y excepciones del alcance actual, no certificación universal |
+| **T-INFRA-005** | **COMPLETA / ACEPTADA** | Aceptación final expresa del responsable, no cierre de servicios futuros ni separación técnica completa |
+| **GATE-I-A / T001 / T002 / T025** | **SATISFECHO / COMPLETA / ACEPTADA** | Aceptación de §37 intacta |
+| **GATE-I-B** | **PENDIENTE / NO SATISFECHO** | Restan T006, networking/security, Atlas/egreso/TLS interno, Redis privado, Secrets/config, Authority, E019–020/E027–028 aplicables y demás dependencias reales de §3 |
+| **T-INFRA-006** | **PARCIAL / DEFINICIÓN VALIDADA, ACEPTACIÓN PENDIENTE** | **Siguiente foco**, requiere autorización posterior delimitada; no ejecutada ni aceptada por este acto |
+| **T-INFRA-026** | **PENDIENTE / NO EJECUTADA** | No se inicia revisión final ni se ejecuta otro incremento |
+
+Catálogo actualizado: **4 completas/aceptadas (001/002/005/025) + 7 parciales + 19 pendientes/no ejecutadas = 30 tareas**; **1 gate satisfecho + 8 pendientes**. Gates B–I, 002/004/AUTH-027 integral y capacidad/recuperación/digest A/B conservan sus condiciones. Secrets/config, Authority/DynamoDB, CI/CD/OIDC, INFRA-024 integral, Atlas/Redis y evidencias aplicables siguen pendientes, no bloqueos IAM/Compute reabiertos.
+
+### 39.4. Validaciones y único commit documental autorizado
+
+Resultados locales efectivos, **2026-11-13 UTC**, sin init/install/upgrade/plan/cloud:
+
+| Comando | Inicio–fin UTC | Exit / resultado |
+| --- | --- | --- |
+| `terraform fmt -check -recursive infra` | **14:57:43.862Z–14:57:44.058Z** | **0**, sin modificaciones |
+| `terraform -chdir=infra validate` | **14:57:44.058Z–14:57:55.272Z** | **0**, Success! The configuration is valid. |
+| `git diff --check` | **14:57:55.272Z–14:57:55.432Z** | **0**, solo avisos LF/CRLF de ambos Markdown |
+
+State/nativo conservan los SHA256 de §38.3 en precheck; huella previa de los otros246archivos tracked **0bce43a81746c3a3c315b3b080cd3c3caf6e72a678968056f6f779834ac6feba**, para comparación local, sin publicar contenido state ni secretos. Repetir diff-check tras incorporar estos resultados antes de stage; evidencia final de revisión y commit en salida de sesión.
+
+**Revisión efectuada** de los diffs completos **git diff -- specs/003-infrastructure/task.md** y **git diff -- memoria.md**, incluida la documentación acumulada autorizada de §38 y memoria§97: únicamente evidencia documental, aceptación/estado y límites, no código/config/HCL/policies/state/planes como archivos del commit. Stage exclusivamente de esos dos Markdown, exigir **git diff --cached --check** y **git diff --cached --stat** correctos antes de **UN commit local** con mensaje exacto **docs(infra): accept t-infra-005 iam controls**.
+
+SHA y postcheck real se informarán en la respuesta de sesión, no mediante auto-referencia, amend o segundo commit. Comprobar HEAD nuevo y working tree clean; **sin push, AWS/IAM, SendCommand, plan/apply/destroy/import/state push ni inicio de T006 u otro incremento. DETENER al completar ese único commit y sus comprobaciones.**
