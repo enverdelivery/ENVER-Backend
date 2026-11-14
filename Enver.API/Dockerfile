@@ -2,6 +2,12 @@
 
 # Esta fase se usa cuando se ejecuta desde VS en modo rápido (valor predeterminado para la configuración de depuración)
 FROM mcr.microsoft.com/dotnet/aspnet@sha256:bfd912c83295ce66d4b706ebb8541b9f14259b0e76fbb88b2751f58ce2399d2e AS base
+USER root
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install --only-upgrade --no-install-recommends -y \
+        libc6=2.39-0ubuntu8.12 \
+        libc-bin=2.39-0ubuntu8.12 \
+    && rm -rf /var/lib/apt/lists/*
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080

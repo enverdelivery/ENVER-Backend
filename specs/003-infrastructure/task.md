@@ -4,11 +4,11 @@
 
 | Campo | Valor |
 | --- | --- |
-| Versión / fecha | 0.59.0 / 2026-11-13 UTC |
-| Solicitud inicial / incremento actual | T-INFRA-008 — VALIDACIÓN FINAL IT CONTROLADA (§49.8), FINAL VALIDATION / LOCAL COMMIT. Política y pinning de bases conservados; runtime10.0.15/SDK10.0.403; sin APT nuevo. FINAL IT VALIDATION PASS310/310 sin suspensión; UT684/684 y ST223/223 conservados sin recompilar/cambiar C#. Registration no reproducible en retest controlado; P1 histórico ENVIRONMENTAL por suspensión acreditada, no flaky confirmado. UN commit local autorizado tras validaciones finales; solo Dockerfile/task/memoria. T008/T019 PARCIAL, E008/DP14/E019 no aceptadas; imagen histórica no promovible y candidata local no publicada/sin scan nuevo. Sin AWS writes/ECR push/delete/StartImageScan/IAM/Secrets/Atlas/plan/apply/SendCommand/pushGit. I-A y E005/E006/E015/E016 aceptadas conservados; I-B PENDIENTE / NO SATISFECHO |
+| Versión / fecha | 0.62.0 / 2026-11-14 UTC |
+| Solicitud inicial / incremento actual | T-INFRA-008 — LOCAL VALIDATION / LOCAL COMMIT (§51.6): cierre local de remediación glibc ya acreditada, UN commit autorizado de Dockerfile/task/memoria tras revisión y validaciones exit0. Runtime10.0.15/SDK10.0.403 por digest y libc6/libc-bin2.39-0ubuntu8.12 conservados; no modificar Dockerfile ni repetir build/suites. Candidata local NO PUBLICADA; scan ECR anterior FAIL§50, Perl pendiente, T008/T019 PARCIAL y E008/DP14/E019 pendientes. El SHA resultante será source obligatorio del siguiente build, que NO se ejecuta aquí. Sin AWS/ECR/IAM/Secrets/Atlas writes, SendCommand, plan/apply, deployment o Git push; I-A y aceptaciones previas conservados, I-B pendiente |
 | Fuentes | [spec.md](spec.md) y [plan.md](plan.md), propuesta aprobada como base documental |
 | Catálogo | 30 tareas, T-INFRA-001 a T-INFRA-030 |
-| Estado vigente de tareas | 001/002/025 **COMPLETA / ACEPTADA** por aceptación humana explícita (§37); 005 **COMPLETA / ACEPTADA**, E005 **ACEPTADA** para el alcance actual con excepciones operativas temporales, no separación técnica integral (§39); 006 **COMPLETA / ACEPTADA**, E006 **ACEPTADA** para el alcance actual documentado con excepción temporal de egreso (§42); 015 **COMPLETA / ACEPTADA**, E015 **ACEPTADA** para diseño/contrato Atlas (§44), no Atlas operativo; 016 **COMPLETA / ACEPTADA**, E016 **ACEPTADA** para revisión de diseño/contrato y matrices (§46), no runtime; 003/004/007 PARCIAL / aceptación pendiente; 009 PARCIAL / VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA (§32.15), dependencias/decisiones y aceptación integral pendientes; 008 conserva publicación/digest/pull según responsable y pendientes; 010 PARCIAL / recuperación conservadora acreditada, prueba formal pendiente; 019 **PARCIAL / INVENTARIO Y DISEÑO REVISADOS**, aceptación/dependencias pendientes (§47); otras16 PENDIENTE / NO EJECUTADA, incluida026 |
+| Estado vigente de tareas | 001/002/025 **COMPLETA / ACEPTADA** por aceptación humana explícita (§37); 005 **COMPLETA / ACEPTADA**, E005 **ACEPTADA** para el alcance actual con excepciones operativas temporales, no separación técnica integral (§39); 006 **COMPLETA / ACEPTADA**, E006 **ACEPTADA** para el alcance actual documentado con excepción temporal de egreso (§42); 015 **COMPLETA / ACEPTADA**, E015 **ACEPTADA** para diseño/contrato Atlas (§44), no Atlas operativo; 016 **COMPLETA / ACEPTADA**, E016 **ACEPTADA** para revisión de diseño/contrato y matrices (§46), no runtime; 003/004/007 PARCIAL / aceptación pendiente; 009 PARCIAL / VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA (§32.15), dependencias/decisiones y aceptación integral pendientes; 008 **PARCIAL / PUBLICACIÓN CON SCAN FAIL** (§50), **REMEDIACIÓN GLIBC LOCAL ACREDITADA / NO PUBLICADA** (§51), sin scan nuevo ni aceptación E008/DP14; 010 PARCIAL / recuperación conservadora acreditada, prueba formal pendiente; 019 **PARCIAL / INVENTARIO Y DISEÑO REVISADOS**, aceptación/dependencias pendientes (§47/50/51); otras16 PENDIENTE / NO EJECUTADA, incluida026 |
 | Estado de todos los gates | I-A **SATISFECHO** por aceptación explícita (§37); B–I **PENDIENTE / NO SATISFECHO** |
 | Evidencia de ejecución de 003 | Historial §§18–37 intacto. §32.15 conserva SSM/Docker A/B, sin contenedores ni servicio Enver.API observados entonces. §38 registra auditoría IAM previa, Compute v5 efectiva tras intervención humana y plan NUEVO post-v5 de 2026-11-13T14:37:09.988Z–14:37:27.758Z: exit2, recursos0/0/0/0replacements y +outputcompute_instances; refresh con discrepancias en8recursos, sin acciones correctivas. No zero drift absoluto, no apply ni reutilización de recovery4; ninguna nueva operación AWS/plan en la entrega documental |
 | Baseline documental original | `feature/authentication`, `c58ea86e3eddff4befa8f61398dd58d55c4ef985` |
@@ -283,7 +283,9 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-008 — Contrato de imagen y ownership del digest
 
-- **Estado:** PARCIAL / PUBLICACIÓN, DIGEST Y PULL HISTÓRICOS SEGÚN RESPONSABLE (§22); scan histórico COMPLETE verificado por lectura en auditoría posterior, 13HIGH (§49). Política aprobada, pinning/build/paquetes locales acreditados y FINAL IT VALIDATION PASS310/310 (§49.8), sin correcciones C#. Imagen histórica NO APROBADA PARA PROMOCIÓN ACTUAL. Candidato local requiere publicación/digestECR/scan nuevo/evaluación/reproducibilidad final/aceptaciónE008-DP14; sin cierre automático.
+- **Estado histórico hasta §49.8:** PARCIAL / PUBLICACIÓN, DIGEST Y PULL HISTÓRICOS SEGÚN RESPONSABLE (§22); scan histórico COMPLETE verificado por lectura en auditoría posterior, 13HIGH (§49). Política aprobada, pinning/build/paquetes locales acreditados y FINAL IT VALIDATION PASS310/310 (§49.8), sin correcciones C#. Imagen histórica NO APROBADA PARA PROMOCIÓN ACTUAL. Candidato local requiere publicación/digestECR/scan nuevo/evaluación/reproducibilidad final/aceptaciónE008-DP14; sin cierre automático.
+- **Estado al cierre de §50:** PARCIAL / NUEVA PUBLICACIÓN Y SCAN ACREDITADOS; **SECURITY CANDIDATE FAIL**. Source c2992127af8f limpio→tag git-c2992127af8f→índice ECR ab40a8ff…→hijo linux/amd64 c2888682…; scan automático BASIC/COMPLETE, 0CRITICAL/4HIGH/12MEDIUM/6LOW/0INFORMATIONAL/0UNDEFINED. HIGH glibc corregible y Perl persistente; no técnicamente acreditado integralmente, E008/DP14 aceptación explícita pendiente. Registro anterior conserva su alcance histórico, no niega esta nueva publicación. Sin pull nuevo, deployment o cierre automático.
+- **Estado vigente §51:** PARCIAL / REMEDIACIÓN LOCAL GLIBC ACREDITADA; libc6/libc-bin2.39-0ubuntu8.12 verificadas, build/smoke-version/inventario final PASS, imageIDlocal56cae8c3…; solo2paquetesactualizados/0nuevos/0eliminados/Perlintacto. NO PUBLICADA / sin scan nuevo/aceptación E008. Perl pendiente; no transferir conteos de§50 a la candidata local ni declarar security PASS.
 - **Fase:** INFRA-4 Registry.
 - **Objetivo:** garantizar mismo artefacto reproducible y promoverlo manualmente desde 004.
 - **Dependencias:** T-INFRA-007; DP-I-02/14, contrato aprobado con futura 004.
@@ -496,6 +498,8 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 ### T-INFRA-019 — Secretos externos, entrega y rotación
 
 - **Estado:** PARCIAL / INVENTARIO Y DISEÑO REVISADOS (§47); diseño técnico DP-I-14 completado (§48), NO aceptado. Política/pinning local de T008 (§49) no aceptan E008/DP14 ni E019; dependencia T008 aceptada sigue pendiente. Sin provisión, delivery implementado ni pruebas runtime/rotación.
+- **Impacto vigente §50:** publicación nueva y scan COMPLETE no eliminan el bloqueo T008/DP-I-14: candidata FAIL, E008 no aceptada. Se mantienen PARCIAL/E019 aceptación pendiente y todos los diferidos propios; no implementación ni provisión de secretos.
+- **Remediación local §51:** no elimina dependencia T008/DP-I-14 aceptada ni cierra E019; sin secretos/IAM/helper/adapter/runtime implementados por el cambio de glibc.
 - **Fase:** INFRA-10 Configuración.
 - **Objetivo:** mantener secretos runtime fuera de Git/imagen/state y distribuirlos de forma coordinada.
 - **Dependencias:** T-INFRA-005, T-INFRA-008; DP-I-09/14.
@@ -4712,3 +4716,211 @@ En esa carpeta externa quedan final-it.log, final-it-result.json, power-acquired
 **Diffs ejecutados por separado y revisados:** Dockerfile solo dosFROM; task control/estadosT008-T019 e historialautorizado acumulado§§47–49; memoria solo adiciones§§106–109, sin líneas eliminadas. Sin archivos inesperados. Diffs completos guardados externamente juntoalTRX, noGit. Checkpoint **23:46:36.063Z**: otros**245tracked intactos** porhuellaprecheck; task§47SHA256 **86e17e96fce0e157783f89732be16ccb86fd42d98a63031e647e258488d89679**, §48 **1cf90eae957996a6051ed5213127f064aff3a34adcb17262e1e62c658f33833b** idénticos aantesdeestaactualización; memoriahasta§108conserva SHA256 **ee2494b2f3e9bfc2e5efee1043420d7ddde0217b9e62868353bcce7bcf29f537**, solo separador antesde§109. DockerfileSHA256 **3d895dbc974af7da97c80e25cdcb438921effec518c476a45578b652147a7314** intacto desdebuild;0staged/0untracked, enlace relativo nuevo comprobado. No código/configuración/lockfiles ni historial de aceptación alterados.
 
 **Cierre autorizado:** solo esos tresarchivos alíndice tras diff-check final, cachedcheck/stat y **UN commit local `fix(infra): pin updated dotnet container bases`** si todos los controles pasan. Condición funcional satisfecha porITfinal310/310/UT-STconservados; no es aceptación de seguridad/artefactoE008. Sinamend/squash/push; SHA ystatusreales se comunican postcommit sin crear commit autorreferente. La revisión conserva los cambios previosT019/DP14 incluidos en los dosMarkdown. **DETENER después del postcheck, sin publicación o continuación automática.**
+
+## 50. T008 — Publicación controlada ECR y auditoría del scan automático
+
+### 50.1. Autorización, identidad y precheck
+
+**2026-11-14 UTC — AUTHORIZED ECR PUBLISH / AUDIT**, solicitud expresa del responsable: build final reproducible linux/amd64 desde commit exacto, verificación aislada de paquetes, autenticación ECR, tag exacto nuevo, **UN push**, lecturas de metadata/manifiestos/scan automático y actualización exclusiva de este task y [memoria §110](../../memoria.md#110-003--publicación-ecr-controlada-y-candidata-security-fail). Validaciones autorizadas: fmt-check/validate/diff-check. **Sin stage/commit/pushGit**, incluso si hubiera sido técnicamente acreditable. No deployment/EC2/docker run remoto/SendCommand/ALB/plan/apply/IAM/Secrets/Atlas, crear repositorios, borrar imágenes, overwrite, latest ni StartImageScan.
+
+Precheck efectivo **00:06:08.384Z**: `git branch --show-current` = **feature/infrastructure**; `git rev-parse HEAD` = **c2992127af8ff2ecabc8655eacc4dab7e2f4bad1**, mensaje `fix(infra): pin updated dotnet container bases`; `git status --short` vacío, **árbol limpio**. Tag requerido **git-c2992127af8f** ausente por `DescribeImages`/ImageNotFoundException **00:06:50.924Z**, nuevamente ausente **00:18:39.340Z** antes del único push. No nombre alternativo ni overwrite.
+
+Cuenta **926925605666**, región **us-east-1**, perfil **enver-infra**, repositorio existente **enver-dev-api**, URI **926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api**. Lectura efectiva: **IMMUTABLE / AES256 / scanOnPush=true**, registro **BASIC / rules=[]**. STS confirmó cuenta/identidad esperadas, sin cambios IAM. La comprobación inicial del perfil no acreditó credenciales temporales y detuvo el flujo antes del build/escrituras. Consultado expresamente, el responsable autorizó **STS en memoria**. Se obtuvieron dos sesiones temporales (publicación y auditoría posterior de lectura), expiraciones **01:17:39Z / 01:23:12Z**; credenciales/token solo en memoria, sin mostrarlos, guardarlos ni modificar perfil/credential-store. Login ECR mediante API local Docker Engine `/auth`, confirmado **Login Succeeded**; sin `docker login` persistente.
+
+### 50.2. Build final y paquetes
+
+`docker build --platform linux/amd64 --file Enver.API/Dockerfile --iidfile <evidencia-local>/final-image-id.txt --progress plain .`, **00:14:33.106Z–00:14:39.709Z / exit0**, sin tag adicional, secretos ni build args sensibles. Contexto desde HEAD exacto limpio; Dockerfile SHA256 **3d895dbc974af7da97c80e25cdcb438921effec518c476a45578b652147a7314**. Sin arranque API ni llamadas runtime a AWS/Atlas. BuildKit reutilizó caché en restore/build/publish; no atribuir compilación sin caché a este comando.
+
+- Runtime aprobado: `mcr.microsoft.com/dotnet/aspnet@sha256:bfd912c83295ce66d4b706ebb8541b9f14259b0e76fbb88b2751f58ce2399d2e`.
+- SDK **10.0.403** aprobado: `mcr.microsoft.com/dotnet/sdk@sha256:212fe4cb74627d5adf9817a4088906ae3edff1bd853bb27565d4b46731efe61e`.
+- **Local image ID / índice:** `sha256:ab40a8ff8ee3ec4a8bd88ea4526a5b343022c397f1bb1770952fcac4cff2dac2`.
+- Config de imagen: `sha256:b4e94e863faed6d2fedbde6ee33714a05571ae3cd637908489848c54bea7ab9e`.
+- `linux/amd64`, Ubuntu **24.04.5 LTS/noble**, .NET/ASP.NET **10.0.15**, UID/GID **1654:1654**, sin SDK final, WORKDIR/ENTRYPOINT intactos.
+
+Recheck **00:18:01.790Z–00:18:03.665Z / exit0**, contenedor **solo local**, `--network none --read-only --cap-drop ALL --security-opt no-new-privileges`, entrypoint `/bin/sh`; no Enver.API iniciada. `dpkg-query` y comparaciones Debian `dpkg --compare-versions` acreditaron:
+
+| Paquete final | Versión instalada | Resultado |
+| --- | --- | --- |
+| zlib1g | **1:1.3.dfsg-3.1ubuntu2.3** | Cumple mínimo |
+| libpcre2-8-0 | **10.42-4ubuntu2.2** | Cumple mínimo |
+| apt | **2.8.4ubuntu0.1** | Cumple mínimo |
+| libapt-pkg6.0t64 | **2.8.4ubuntu0.1** | Cumple mínimo |
+| perl-base | **5.38.2-3.2ubuntu0.6** | Registrado, sin remover/instalar módulos ni afirmar remediación |
+
+No cambio de Dockerfile, capas APT, paquetes, código, tests, lockfiles o configuración funcional. **UT684/684, IT310/310 y ST223/223 PASS previas conservadas**, sin repetir: inputs funcionales intactos; límites host/TestServer frente a imagen/runtime cloud de §49.8 conservados.
+
+### 50.3. Un push e inventario ECR confirmado por lectura
+
+Único tag local asignado: **926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api:git-c2992127af8f**. **UN** POST de push a Docker Engine con autorización ECR en memoria, iniciado **00:18:44.216Z**; la respuesta no reportó error explícito de push, pero el wrapper esperaba `aux.Digest` y terminó **00:19:56.670Z / exit1 / Push digest not reported**. Es fallo de confirmación del wrapper, no evidencia de push fallido ni autorización para repetirlo. **NO segundo push**, ni nuevo login/token ECR para reintentarlo.
+
+Auditoría posterior **00:23:56.010Z–00:24:28.091Z**, solo lecturas AWS con sesión STS temporal: `DescribeImages` confirmó tag presente y **digest remoto idéntico al índice local**; `BatchGetImage` confirmó root/hijo y SHA256 de bytes de ambos manifiestos. Publicación, por tanto, **CONFIRMADA POR LECTURA POSTERIOR**, sin ocultar el exit1 anterior.
+
+| Campo | Evidencia ECR |
+| --- | --- |
+| Tag | **git-c2992127af8f** |
+| Source commit | **c2992127af8ff2ecabc8655eacc4dab7e2f4bad1** |
+| pushedAt UTC | **2026-11-14T00:19:09.677Z** (CLI original `2026-11-13T18:19:09.677000-06:00`) |
+| imageSizeInBytes | **102815449** |
+| Root digest | **sha256:ab40a8ff8ee3ec4a8bd88ea4526a5b343022c397f1bb1770952fcac4cff2dac2** |
+| Root media type | **application/vnd.oci.image.index.v1+json** |
+| Hijo ejecutable linux/amd64 | **sha256:c2888682fd0c3e12760884adf0b3728d5fb4af3cdad393ac8c7984d13a0b0865** |
+| Child media type | **application/vnd.oci.image.manifest.v1+json** |
+| Attestation unknown/unknown | **sha256:3af5f0daa11b007715513362cc7683df43aa9748ea8231246bc467a54f530bf6**; media type de manifiesto OCI, annotation `attestation-manifest`, referencia al hijo anterior |
+
+Un tag nuevo con índice/hijo/attestation **no son tres releases**. No se consultó scan del root o attestation como sustituto del ejecutable. Imagen histórica **git-3312d220e3ff** y root **sha256:0a0fceb5ab9e71e09db4a1ee7326dc59993d40266f144259f0d02bc6c9802cda** preservados, **NO APROBADA PARA PROMOCIÓN ACTUAL**; no retag/borrado ni atribución a source nuevo.
+
+### 50.4. Scan automático, severidades y HIGH/CRITICAL
+
+Solo `DescribeImageScanFindings` sobre hijo **c2888682…**, **BASIC**, automático por scanOnPush. Límite previsto **20 consultas / 5 minutos**, esperando únicamente IN_PROGRESS; **primera consulta terminal COMPLETE a00:24:23.222Z**, sin esperas/reintentos adicionales. ScanCompletedAt y vulnerabilitySourceUpdatedAt **2026-11-14T00:19:22Z**. Una página, **22 findings**, sin nextToken. **COMPLETE no significa security PASS**.
+
+| Severidad | Histórica §49 / releída | Nueva | Delta |
+| --- | --- | --- | --- |
+| CRITICAL | 0 | **0** | **0** |
+| HIGH | 13 | **4** | **−9** |
+| MEDIUM | 4 | **12** | **+8** |
+| LOW | 2 | **6** | **+4** |
+| INFORMATIONAL | 0 | **0** | **0** |
+| UNDEFINED | 4 | **0** | **−4** |
+| Total findings | 23 | **22** | **−1** |
+
+**Ningún CRITICAL. HIGH: 4 entradas / 2 CVEs únicos**, no cuatro CVEs:
+
+| CVE | Paquete informado por scan | Versión instalada informada | Severidad |
+| --- | --- | --- | --- |
+| CVE-2026-84243 | glibc (fuente) | **2.39-0ubuntu8.9** | HIGH |
+| CVE-2026-84243 | libc-bin | **2.39-0ubuntu8.9** | HIGH |
+| CVE-2026-84243 | libc6 | **2.39-0ubuntu8.9** | HIGH |
+| CVE-2026-82560 | perl (fuente) | **5.38.2-3.2ubuntu0.6** | HIGH |
+
+La respuesta BASIC **no informa fix/versiones corregidas**; dato ausente no equivale a fix inexistente. Versiones de fix siguientes provienen de fuentes públicas oficiales, no del scan ni de instalación nueva.
+
+### 50.5. Comparación histórica, Perl y política aprobada
+
+Lectura histórica adicional confirmó hijo **8f5f0308… / COMPLETE /23findings**, sin paginación; scan/sourceUpdatedAt **2026-11-12T21:40:01Z**, conteos anteriores intactos. La comparación usa resultados almacenados con **distinta fecha de definiciones**; desaparición significa ausencia en el scan nuevo, no prueba aislada de causalidad de cada actualización, ni los nuevos findings demuestran regresión C#.
+
+- **HIGH históricos desaparecidos (6 CVEs):** CVE-2026-85091 (zlib), CVE-2026-86145 / CVE-2026-89157 / CVE-2026-103111 / CVE-2026-89161 (PCRE2), CVE-2026-109518 (APT).
+- **Otros CVEs desaparecidos:** CVE-2026-89156 (LOW), CVE-2026-89158 / CVE-2026-89160 (MEDIUM). Ya no aparecen avisos UNDEFINED USN-9001-1 / USN-8945-1 / USN-8944-1; se separan de identificadores CVE.
+- **Persistente:** **CVE-2026-82560**, HIGH/perl/5.38.2-3.2ubuntu0.6; no desapareció ni fue aceptado.
+- **Nuevos respecto al resultado histórico:** glibc CVE-2026-84243 (HIGH); CVE-2026-18374 / CVE-2026-89092 / CVE-2026-8674 / CVE-2026-86805 (MEDIUM); CVE-2026-95818 / CVE-2026-97399 (LOW). Cada uno aparece en fuente glibc y binarios libc-bin/libc6; no multiplicar CVEs por entradas.
+
+**CVE-2026-84243:** [Ubuntu CVE](https://ubuntu.com/security/CVE-2026-84243) y [USN-9065-1](https://ubuntu.com/security/notices/USN-9065-1), consultados en esta auditoría, publican fix noble **2.39-0ubuntu8.12**, mientras esta candidata informa **2.39-0ubuntu8.9**. USN identifica libc6 y el CVE. Hay **HIGH con fix conocido disponible sin remediar**, causa suficiente de FAIL conforme a §49.2. Ubuntu priority Medium no reemplaza ni degrada el HIGH del scan. No excepción, falso positivo o inexplotabilidad declarados; no cambiar paquetes/base por iniciativa del agente.
+
+**CVE-2026-82560:** [Ubuntu CVE](https://ubuntu.com/security/CVE-2026-82560) y [USN-9006-1](https://ubuntu.com/security/notices/USN-9006-1) conservan fix noble **5.38.2-3.2ubuntu0.7** para **Pod::Text / perl-modules-5.38**. El scan informa fuente perl .0.6 y recheck local confirma **perl-base Essential .0.6**; no equivaler automáticamente ese fix de módulos a actualización de perl-base, ni instalar módulos/remover Essential para silenciarlo. **Aplicabilidad/fix exacto y decisión explícita PENDIENTES; HIGH persistente NO ACEPTADO**, sin falso positivo inferido por ausencia de módulos.
+
+**Resultado de política: NO CUMPLE. Clasificación B — SECURITY CANDIDATE FAIL.** CRITICAL0 cumple ese umbral; HIGH corregible glibc persiste, además Perl no resuelto. No clasificar restantes como HIGH sin fix por falta de datos; no excepción automática. MEDIUM/LOW requieren evaluación por riesgo/prioridad, sin aceptación implícita; UNDEFINED0 observado no demuestra ausencia universal de vulnerabilidades. BASIC aquí acredita solo el resultado/cobertura informados, no todos los controles supply-chain/SAST/SCA/secrets ni seguridad runtime.
+
+### 50.6. Reevaluación T008, DP-I-14 y T019
+
+| Dimensión | Resultado delimitado |
+| --- | --- |
+| Repositorio/immutability/scan | Existente, IMMUTABLE/AES256/scanOnPush y BASIC releídos; nuevo hijo COMPLETE con findings y política FAIL |
+| Publicación/commit→digest | Acreditados para **c2992127…→git-c2992127af8f→ab40a8ff…→c2888682…**; no atribución al source histórico |
+| Build/reproducibilidad | Clean committed inputs, bases por digest, global SDK fijo y lock/restore locked conservados; build cacheado y verificaciones locales acreditados. Hijo/config idénticos a build local previo de §49, root distinto por attestation nueva; no afirmar igualdad bit-a-bit de todos los índices, build sin caché o provenance firmada |
+| Pull | No pull ECR nuevo ejecutado/autorizado en este incremento; historial de pull por digest solo para imagen antigua según responsable, no transferirlo a esta candidata |
+| Seguridad | FAIL; glibc corregible, Perl pendiente; tests previos no sustituyen evaluación de artefacto |
+| DP-I-14 / rollback | Diseño §48 intacto, **DISEÑO TÉCNICO COMPLETADO / ACEPTACIÓN EXPLÍCITA PENDIENTE**; no releaseId/manifiesto operativo, CI004, segundo release aceptado ni rollback real acreditados |
+| T008 / E008 | **PARCIAL / PUBLICACIÓN NUEVA ACREDITADA, CANDIDATA FAIL**. No elevar a TÉCNICAMENTE ACREDITADO integral; **E008 ACEPTACIÓN EXPLÍCITA PENDIENTE** |
+| T019 / E019 | **PARCIAL / INVENTARIO Y DISEÑO REVISADOS / ACEPTACIÓN PENDIENTE**. **NO se elimina el bloqueo T008/DP-I-14**; ni secreto/helper/adapter/TLS/IAM/rotación/provisión implementados por esta publicación |
+
+Contrato §48 íntegro: cada release aceptado deberá enlazar source/root/hijo/config no secreta completa+hash/cuatro ARN+VersionId; único selector activo deployment manual004, no CI/Terraform. Rollback revalida compatibilidad actual JWT/HMAC/Mongo/Redis/authority; no reset cuotas, AWSPREVIOUS ciego, PING como continuidad, secreto ENV/argv ni cambio IMDS hoplimit automático. T017/018/020/026/E027/E028 y futuro004 permanecen pendientes en su alcance; sin readiness cloud ni cierre integral de AUTH-027/002.
+
+**GATE-I-B PENDIENTE / NO SATISFECHO**, I-A SATISFECHO y E005/E006/E015/E016 ACEPTADAS conservados. Catálogo **7 completas/aceptadas +7 parciales +16 pendientes=30**, gates **1 satisfecho +8 pendientes**. Sin nueva aceptación ni habilitación de deployment por existir imagen publicada.
+
+### 50.7. Evidencias, preservación y límite de escrituras
+
+Evidencia local saneada externa: **`C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra4-ecr-c2992127-20261114T0006\`**: docker-build.txt, build-result.json, package-verification.json, publication-audit.json (fallo de confirmación preservado), post-push-readonly.json, root-manifest.json, amd64-manifest.json y pre-documentation-integrity.json. Sin credenciales/valores secretos ni archivos extra versionados. SHA256 **post-push-readonly.json 760cea59e5a277cab91753a58fe76f74ffda915e3da7af7479cb65a81e8493c6**; manifiestos con hashes iguales a sus digests anteriores. Evidencia temporal no implica custodia duradera/CI.
+
+Checkpoint **00:25:50.277Z**, después de publicación/auditoría y antes de editar documentos: **árbol aún limpio /248tracked**. Otros**246tracked** (excluidos task/memoria) iguales al precheck, huella **991c993958ef6ee2c89e7e73bc4e0f2988091a86a941f89e7b04a85eeea30664**. State operativo/nativo intactos por SHA256 **d214e2b172312123f64be213376130cad4e8be25fce36107ebbe258ffd045fff /23a74f1556b10ade14f509820a2a225d124201b03d52380fd39b5dc458314ea7**; sin leer valores, editar/restaurar estado ni manipular passphrase. Custodia cifrada/planes históricos conservados, sin limpieza automática.
+
+**Escrituras AWS:** exclusivamente la publicación autorizada en ECR existente (**un intento de push / una candidata / un tag**, con objetos OCI asociados); STS temporal y autenticación sin cambios persistentes de IAM/credenciales. No afirmar cero escrituras cloud ni cero costo de almacenamiento nuevo. Sin otro servicio modificado, ECR delete/overwrite/StartImageScan, Terraform plan/apply/destroy, SendCommand, deployment o cambios Atlas/Secrets. Presupuesto **USD50 agregado / guardrailUSD10 / deadline original2026-11-15T01:57:56.9337244Z** conservados, sin ampliación, reinicio de ventana ni factura/saldo nuevo acreditados.
+
+### 50.8. Validaciones y cierre
+
+Validaciones efectivas **2026-11-14 UTC**, sin plan/refresh/apply:
+
+| Comando | Inicio–fin UTC | Resultado |
+| --- | --- | --- |
+| `terraform fmt -check -recursive infra` | **00:30:28.121Z–00:30:28.488Z** | **exit0**, sin cambios |
+| `terraform -chdir=infra validate` | **00:30:28.146Z–00:30:37.453Z** | **exit0**, configuración válida |
+| `git diff --check` | **00:30:28.164Z–00:30:28.389Z** | **exit0**, solo avisos LF→CRLF; repetir tras este registro |
+
+Diffs de ambos archivos ejecutados y revisados; copias externas junto a evidencia. Checkpoint **00:31:31.746Z**: branch/HEAD/mensaje exactos conservados, solo **task/memoria modificados /0staged/0untracked**. Otros**246tracked** idénticos a huella inicial; **task§§47–49 y memoria anterior íntegros** por comparación de texto normalizado, únicamente nueva entrada de estado y §110 en memoria. Enlaces relativos y cierre final se comprueban después de este registro; sin añadir código/configuración/lockfiles ni alterar constituciones/spec/plan/001/002. Estas validaciones no equivalen a seguridad del artefacto.
+
+**Sin stage/commit/pushGit. DETENER** al terminar documentación y controles; próxima remediación/build/tag/push/scan o aceptación humana requiere autorización separada. Tag publicado inmutable no reutilizable para otra imagen; ningún reemplazo silencioso.
+
+## 51. T008 — Remediación local glibc, sin publicación
+
+### 51.1. Autorización y baseline preservada
+
+**2026-11-14 UTC — REMEDIATION / LOCAL BUILD / NO PUSH**, solicitud expresa del responsable: preferir base ASP.NET oficial actualizada, solo si no resuelve glibc evaluar capa mínima oficial libc6/libc-bin; build linux/amd64 y verificaciones locales, conservar Perl, reutilizar suites previas si no se exige repetición completa y actualizar exclusivamente Dockerfile/task/memoria. **Sin AWS/ECR/IAM/Secrets/Atlas writes, login/push, StartImageScan, SendCommand, deployment, plan/apply/destroy ni stage/commit/pushGit**. Esta autorización condicional permite la capa glibc delimitada, no amplía el alcance a otros paquetes/Perl ni borra la prohibición de APT adicional de la entrega histórica §49.
+
+Precheck **00:35:55.126Z**: branch **feature/infrastructure**, HEAD **c2992127af8ff2ecabc8655eacc4dab7e2f4bad1**, únicamente **memoria.md / specs/003-infrastructure/task.md modificados**, **0staged/0untracked**. Copias exactas externas previas: Dockerfile SHA256 **3d895dbc974af7da97c80e25cdcb438921effec518c476a45578b652147a7314**, task **ac313b96f299aac5e937b4b6b4f1ce83eb5f185ef179d14fca8c778f34c9ccad**, memoria **d79f8b5c8cbca7e99c949dab61345b5af064dd4cbe2a1efb56b095ee0677ae5d**. Evidencia ECR§50/contrato§48/inventario§47 preservados; otros**245tracked** huella **d3db1fbb6d357c61bec70549664255aa279b47d13bcabfa939e79c75daac367e** intactos al inicio.
+
+**Último scan ECR acreditado sigue siendo §50**, no consultado nuevamente: git-c2992127af8f /rootab40a8ff… /hijoc2888682… /BASIC-COMPLETE /0CRITICAL/4HIGH/12MEDIUM/6LOW/0INFORMATIONAL/0UNDEFINED; **SECURITY CANDIDATE FAIL** por glibc2.39-0ubuntu8.9 frente a fixnoble2.39-0ubuntu8.12 y Perl persistente. Conservar ambas imágenes publicadas, sin borrado/retag ni atribuir a ellas esta remediación no comprometida.
+
+### 51.2. Base oficial y vía seleccionada
+
+Consulta pública MCR **00:36:15.078Z**: `aspnet:10.0` y versión real **10.0.15** resuelven el **mismo índice existente sha256:bfd912c83295ce66d4b706ebb8541b9f14259b0e76fbb88b2751f58ce2399d2e**; hijo **linux/amd64 sha256:05acd0ca475e2130832bab441d28a7dd31041129bad28eac7928151fd73cd2c5**. Media types Docker manifest list/v2, no asumir OCI en las bases MCR. Digest de cada respuesta y config verificados por SHA256; config oficial DOTNET_VERSION/ASPNET_VERSION **10.0.15**, APP_UID1654. **NO nueva base disponible bajo los tags consultados**, no afirmar inexistencia universal de otra distribución/arquitectura/tag.
+
+Lectura aislada del artefacto local previo **00:36:41.747Z–00:36:43.623Z/exit0**, networknone/rootfsRO: Ubuntu**24.04.5 LTS/noble**, libc6/libc-bin **2.39-0ubuntu8.9**, perl-base**5.38.2-3.2ubuntu0.6**. Fuentes existentes: **archive.ubuntu.com/ubuntu** (noble/updates/backports) y **security.ubuntu.com/ubuntu** (noble-security), `Signed-By=/usr/share/keyrings/ubuntu-archive-keyring.gpg`; no repositorios terceros.
+
+Primera consulta APT efímera **00:37:20.845Z–00:40:20.896Z** agotó180s descargando índices de todos los componentes, **exitnull/timeout**, antes de policy/simulación/instalación; stderr vacío. No ignorar el fallo ni presentarlo como éxito. Contenedor propio identificado por ID/fecha/command exactos, **6306aec2…**, detenido a**00:41:19.332Z**, AutoRemovetrue; ningún contenedor ajeno/imagen borrados. No instalación ni cambios versionados por la consulta fallida.
+
+Consulta dirigida posterior **00:42:12.544Z–00:42:34.625Z/exit0**, solo **noble-security/main** en source temporal del contenedor, índices en tmpfs, rootfsRO/capdropALL/no-new-privileges. No cambia fuentes del Dockerfile/host. APT verificó InRelease/index oficiales sin errores de firma: `apt-cache policy/madison` ofrece versión exacta **2.39-0ubuntu8.12 para libc6/libc-bin**; simulación `--only-upgrade --no-install-recommends` propone **2upgraded/0newlyinstalled/0remove/1notupgraded**, únicamente los dos paquetes. No interpretar el paquete no actualizado como permiso para upgrade global.
+
+**Estrategia seleccionada y autorizada condicionalmente: una capa runtime mínima APT**, sin cambiar FROM ni SDK/stages. Tras `USER root`, `apt-get update` y `DEBIAN_FRONTEND=noninteractive apt-get install --only-upgrade --no-install-recommends -y libc6=2.39-0ubuntu8.12 libc-bin=2.39-0ubuntu8.12`, eliminar `/var/lib/apt/lists/*` y restaurar **USER $APP_UID** existente. **Sin apt-get upgrade global, módulos Perl, removal Essential, Alpine/chiseled/AOT o cambio funcional**. ENTRYPOINT/workdir/puertos/cuatro stages/SDK10.0.403 por digest permanecen intactos.
+
+Reproducibilidad delimitada: base y versiones solicitadas exactas, paquetes autenticados por índices oficiales; índices de repositorios siguen mutables y disponibilidad futura de estas versiones no está garantizada. No snapshot/mirror nuevo, no checksum de `.deb` versionado ni reproducción bit-a-bit afirmada; fallar si pin desaparece, sin sustituir silenciosamente por candidato posterior. Retener identificación/hashes de artefacto local y evidencia de fuentes/versiones; publicación posterior requiere nuevo commit/identidad/scan y autorización.
+
+### 51.3. Build y verificaciones locales
+
+**UN build local PASS/exit0**, `docker build --platform linux/amd64 --file Enver.API/Dockerfile --iidfile <evidencia>/candidate-image-id.txt --progress plain .`, **00:43:08.869Z–00:49:08.360Z /359.491s**, sin tag ni push. Source **HEADc2992127… más Dockerfile modificado no comprometido**, no árbol limpio ni nuevo source commit; documentación excluida del contexto. Dockerfile SHA256 **409d0618e35c13f29edf2925eca286f96110e18235495bb426f70c7a90b919b4**, solo **6líneas añadidas**, ninguna otra línea cambiada. SDK/build/publish reutilizaron caché, no compilación nueva sin caché.
+
+APT efectivo en build: **2upgraded/0newlyinstalled/0remove/1notupgraded**; libc6/libc-bin exactos **2.39-0ubuntu8.12** descargados desde **archive.ubuntu.com/ubuntu noble-updates/main**, repositorio oficial configurado que ofrece la misma versión verificada en noble-security. No afirmar descarga exclusiva de noble-security. Los `Ign` transitorios de índices se resolvieron dentro de esa única invocación; no segundo build/reintento manual. Aviso debconf por apt-utils ausente no produjo instalación de tooling ni fallo. ListasAPT eliminadas al terminar.
+
+| Identificador LOCAL, no ECR nuevo | Valor |
+| --- | --- |
+| imageID / índice local | **sha256:56cae8c39283fdd2ba529d242854c246afd7870ce460b51bb4ee01023011f40a** |
+| Manifiesto ejecutable local | **sha256:5428cdfe74f4a7795ac521863f284a4d55084fb329ae68efadc79fc58e64497a** |
+| Config local | **sha256:f1f9073d5155f8b2d504ff9c80a7bc09b250c1b98cec2a6ad6d9f7c05d5ab930** |
+| Attestation local | **sha256:6aa5f4bfe50dfa31e7d06950b445b4f351287155b71a7801a0b80431c131f4c3** |
+
+**Verificación final PASS/exit0, 00:49:12.904Z–00:49:17.440Z**: comparación de imagen previa/local nueva mediante contenedores efímeros **networknone/rootfsRO/capdropALL/no-new-privileges**, entrypoint `/bin/sh`, sin API iniciada ni dependencias AWS/Atlas. `dotnet --info` confirma **Microsoft.NETCore.App/Microsoft.AspNetCore.App10.0.15/x64/linux-x64, sinSDKfinal**; Ubuntu**24.04.5noble**, **UID/GID1654:1654**, USERfinal/WORKDIR/ENTRYPOINT intactos. Esta es smoke/version verification, no smokeHTTP ni readiness.
+
+| Paquete final | Versión verificada | Resultado mínimo |
+| --- | --- | --- |
+| libc6 | **2.39-0ubuntu8.12** | PASS |
+| libc-bin | **2.39-0ubuntu8.12** | PASS |
+| zlib1g | **1:1.3.dfsg-3.1ubuntu2.3** | PASS |
+| libpcre2-8-0 | **10.42-4ubuntu2.2** | PASS |
+| apt | **2.8.4ubuntu0.1** | PASS |
+| libapt-pkg6.0t64 | **2.8.4ubuntu0.1** | PASS |
+| perl-base | **5.38.2-3.2ubuntu0.6** | Intacto, no aceptado como remediado |
+
+Comparaciones Debian reales `dpkg --compare-versions` satisfacen los seis mínimos; inventarios completos **97paquetes**, **únicamente libc6/libc-bin actualizados, 0añadidos/0eliminados**, Perl idéntico a imagen previa. `/var/lib/apt/lists` vacío. Hashes de **Enver.API.dll /Enver.API.deps.json /Enver.API.runtimeconfig.json** idénticos entre ambas imágenes; no cambio del artefacto de aplicación por esta capa. Evidencia DLL SHA256 **dfcd5125f65a13ba97352df6e17aad9c92df5cbf50c54c66935910344198f37f**.
+
+**CVE-2026-84243: fix acreditado LOCALMENTE por paquete/versión oficial**, no por scan nuevo. **NO PUBLICADA / NO ESCANEADA EN ECR**, sin nuevo tag/manifest operativo/releaseId/aceptación de artefacto ni SECURITY CANDIDATE PASS. El scan FAIL de la imagen publicada permanece como evidencia de aquella imagen, no se corrige retroactivamente.
+
+### 51.4. Pruebas reutilizadas y estados
+
+Spec003§3 conserva resultados locales sin convertirlos en cloud; plan§4 exige reutilizar evidencia aceptada y autorización aparte para cambios de código/tests. No mandato adicional identificado en T008 para repetir todas las suites por este ajuste aislado Dockerfile; la solicitud actual permite reutilizarlas. **UT684/684, IT310/310, ST223/223 PASS conservadas**, archivosTRX y conteos revalidados por lectura/hash en esta entrega, **0ejecuciones nuevas de suites completas**. SHA256 UT **defc3510fbb20874a6612fcf6086c046c2d9c43b3d47a161f901a5da8cb5fde2**, IT **a484639b6159e0bfe9365c13c01cdef5d9cb31eef0559d5bfb2c57f40df787db**, ST **1cf0eaaf7e39e2e63cbd8a4b1a330f1bb581284bf430a94b9ed4ccea7065bb0a**. Se requieren build y smoke/version/inventario final locales; no afirmar que UT/IT/ST corrieron dentro de esta imagen o tras el cambio glibc.
+
+**Perl no tocado y HIGH CVE-2026-82560 pendiente de aplicabilidad/fix exacto/decisión**, no aceptar por perl-modules ni por ausencia de módulos. **T008 PARCIAL** hasta nueva publicación/scan/evaluación/aceptación explícita; la comprobación local del fix glibc no es scan limpio ni SECURITY CANDIDATE PASS. **DP-I-14 DISEÑO TÉCNICO COMPLETADO / ACEPTACIÓN EXPLÍCITA PENDIENTE; E008 pendiente**. **T019 PARCIAL / INVENTARIO Y DISEÑO REVISADOS / E019 pendiente**, no eliminar bloqueo T008/DP14 ni diferidos Redis/authority/IMDS/helper/adapter/TLS/IAM/rotación.
+
+Contrato§48 digest–config completa/hash–cuatro ARN+VersionId–rollback íntegro; sin manifest/releaseId operativo, CI004/promoción/deploy/rollback ni secretos nuevos. No PING como continuidad, reset cuotas/AWSPREVIOUS ciego o cambio hoplimit. **GATE-I-A SATISFECHO, E005/E006/E015/E016 ACEPTADAS; I-B–I-I PENDIENTE / NO SATISFECHO (8gates en total)**, catálogo7completas+7parciales+16pendientes, sin cierre002/AUTH027integral/T026/E027/E028/004.
+
+### 51.5. Evidencias y validaciones
+
+Carpeta externa **`C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra4-glibc-remediation-20261114T0034\`**, precheck/copiasbefore/MCR/apt-availability-simulation (timeout)/apt-probe-cleanup/apt-security-simulation/build/verificación/testsreutilizados/validaciones, sin secretos ni nuevos archivos versionados. **final-image-verification.json SHA256 c45ac4bb46fbb122cc57321f381503fe0a9c705eb0cad8719332c60b2af56e09**, build-result.json **17b0a98e865719b1e1b549ea326d3a5f523661bb700ab0c45ef23d7f59cdac6a**. Hashes state/nativo conservados al precheck **d214e2b172312123f64be213376130cad4e8be25fce36107ebbe258ffd045fff /23a74f1556b10ade14f509820a2a225d124201b03d52380fd39b5dc458314ea7**; no restore/passphrase, cifrado/planes históricos intactos.
+
+Validaciones efectivas2026-11-14UTC: **fmt-check00:38:37.268Z–00:38:37.555Z/exit0**; **validate00:38:37.298Z–00:38:51.532Z/exit0**, configuración válida/sin plan/refresh/apply; **diff-check00:52:02.595Z–00:52:02.817Z/exit0**, solo avisos LF→CRLF. Diffs de los tres archivos ejecutados y revisados frente a HEAD/copiasbefore; copias externas junto a evidencia. Checkpoint **00:52:03.675Z**, branch/HEAD conservados, exactamente Dockerfile/task/memoria modificados, **0staged/0untracked**; otros**245tracked**, state/nativo intactos. **Task§§47–50 y memoria anterior completos preservados** por comparación textual normalizada, sin borrar evidencia del scan FAIL o contrato T019/DP14; dos enlaces relativos nuevos verificados. Diff-check final se repite tras este registro, resultado en salida de sesión. Sin llamadas AWS ni escrituras ECR/IAM/Secrets/Atlas; USD50agregado/guardrailUSD10/deadlineoriginal2026-11-15T01:57:56.9337244Z intactos, sin extensión/reinicio/gasto cloud nuevo autorizado/cleanupcloud. **Sin stage/commit/push. DETENER tras validaciones para autorización humana de siguiente commit/release.**
+
+### 51.6. Cierre local y autorización de un commit previo a publicación
+
+**2026-11-14 UTC — LOCAL VALIDATION / LOCAL COMMIT**, solicitud posterior expresa del responsable: revisar los tres diffs, fmt-check/validate/diff-check, stage exclusivo de **Enver.API/Dockerfile /specs/003-infrastructure/task.md /memoria.md**, cached-check/stat/Dockerfile y **exactamente UN commit local `fix(infra): remediate glibc container findings`**. Sin amend/squash/segundo commit/Git push, build o publicación tras el commit. Esta autorización sustituye solo la prohibición de stage/commit del incremento anterior; conserva íntegros sus resultados y límites. SHA/status reales se comunicarán en salida de sesión/evidencia externa, sin autorreferencia que obligue a otro commit.
+
+Precheck efectivo **00:58:07.171Z**: branch **feature/infrastructure**, HEAD **c2992127af8ff2ecabc8655eacc4dab7e2f4bad1**, únicamente los tres archivos esperados modificados, **0staged/0untracked**. Diffs ejecutados por separado y revisados: Dockerfile solo las **6líneas glibc** ya verificadas, SHA256 **409d0618e35c13f29edf2925eca286f96110e18235495bb426f70c7a90b919b4**, sin modificación adicional; ambos documentos contienen scan FAIL anterior, remediación local/buildPASS/paquetes exactos, Perl pendiente y candidata no publicada. Restantes245tracked iguales a huella **d3db1fbb6d357c61bec70549664255aa279b47d13bcabfa939e79c75daac367e**, sin cambios funcionales/SDK/stages/ENTRYPOINT/USERfinal, paquetes ajenos o secretos añadidos. Se conservan state/nativo/custodia cifrada/planes e historial§§47–51.5.
+
+Validaciones nuevas: **fmt-check00:58:27.149Z–00:58:27.624Z/exit0; validate00:58:27.178Z–00:58:40.025Z/exit0; diff-check00:58:27.202Z–00:58:27.547Z/exit0**, solo avisos LF→CRLF. Repetir diff-check tras este registro y cached-check antes del commit; detener ante discrepancias. No nuevas suites ni Dockerbuild/run/scan: conservar **UT684/684, IT310/310, ST223/223PASS**, build/smoke previos§51.3 y sus límites. Evidencia externa de cierre **`C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra4-glibc-local-commit-20261114\`**.
+
+**T008 PARCIAL /T019 PARCIAL; E008/DP-I-14/E019 aceptación pendiente**, bloqueo T019 conservado. El **SHA resultante de este único commit será SOURCE COMMIT obligatorio de la próxima imagen**, mediante autorización separada: rebuild desde ese SHA exacto→taggit-nuevoSHA12→UNpush autorizado→root/hijoamd64 nuevos→scanCOMPLETE→evaluarPerl/restantes→aceptaciones explícitas. La imagen local56cae8c3… fue construida antes del commit desde árbol modificado, no retroatribuirla a un build postcommit ni reutilizar el tag publicado git-c2992127af8f. **No ejecutar esa cadena aquí; DETENER tras comprobar SHA/árbol limpio**. Cero operaciones AWS/ECR/IAM/Secrets/Atlas/SendCommand/plan/apply; presupuestoUSD50/guardrailUSD10/deadlineoriginal2026-11-15T01:57:56.9337244Z, gates/aceptaciones previas y contrato digest-config-versiones-rollback intactos.
