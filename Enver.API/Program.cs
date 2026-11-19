@@ -1,29 +1,43 @@
-var builder = WebApplication.CreateBuilder(args);
+using Enver.API.Composition;
+using Enver.API.Observability;
+using Microsoft.Extensions.Options;
 
-// Add services to the container.
-builder.Services.AddControllers();
-
-// OpenAPI
-builder.Services.AddOpenApi();
-
-// Health checks
-builder.Services.AddHealthChecks();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+return await SafeStartup.Run(async startup =>
 {
-    app.MapOpenApi();
-}
+    var builder = WebApplication.CreateBuilder(args);
+    builder.Logging.ClearProviders();
+    builder.Logging.AddProvider(new SafeConsoleLoggerProvider(Console.Out));
+    // Último provider: defaults/Development/env/CLI no reemplazan secretos runtime.
+    // Obligatorio en contenedor; no heredar campos sensibles ni un tail de claves JWT.
+    startup.Phase = StartupPhase.RuntimeConfiguration;
+    builder.Configuration.AddEnverRuntimeConfiguration();
 
-app.UseHttpsRedirection();
+    startup.Phase = StartupPhase.Services;
+    builder.Services.AddControllers();
+    builder.Services.AddOpenApi();
+    builder.Services.AddHealthChecks();
+    builder.Services.AddAuthenticationFoundation(builder.Configuration, builder.Environment);
+    builder.Services.AddAuthenticationDependencies(builder.Configuration);
+    builder.Services.AddAuthenticationPipeline();
 
-app.UseAuthorization();
+    startup.Phase = StartupPhase.HostBuild;
+    await using var app = builder.Build();
+    // Validar antes de resolver IHostedService/clientes, no solo en Host.StartAsync.
+    app.Services.GetRequiredService<IStartupValidator>().Validate();
 
-app.MapControllers();
+    if (app.Environment.IsDevelopment())
+    {
+        app.MapOpenApi();
+    }
 
-// Health endpoint
-app.MapHealthChecks("/health");
+    app.UseAuthenticationFoundation();
+    app.UseAuthentication();
+    app.UseAuthorization();
+    app.MapControllers();
 
-app.Run();
+    // Liveness: sin checks registrados de dependencias. No sustituye readiness.
+    app.MapHealthChecks("/health").AllowAnonymous();
+
+    startup.Phase = StartupPhase.HostRun;
+    await app.RunAsync();
+}, Console.Out);

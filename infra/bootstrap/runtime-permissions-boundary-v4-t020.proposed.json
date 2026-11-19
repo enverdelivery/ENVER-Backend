@@ -1,0 +1,234 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "MaximumSsmRegistrationAndSessionChannels",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:UpdateInstanceInformation",
+        "ssmmessages:CreateControlChannel",
+        "ssmmessages:CreateDataChannel",
+        "ssmmessages:OpenControlChannel",
+        "ssmmessages:OpenDataChannel"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1"
+        }
+      }
+    },
+    {
+      "Sid": "MaximumRegionalEcrAuthentication",
+      "Effect": "Allow",
+      "Action": "ecr:GetAuthorizationToken",
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:PrincipalAccount": "926925605666"
+        }
+      }
+    },
+    {
+      "Sid": "MaximumPullFromOnlyEnverApiRepository",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage"
+      ],
+      "Resource": "arn:aws:ecr:us-east-1:926925605666:repository/enver-dev-api",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1"
+        }
+      }
+    },
+    {
+      "Sid": "DenyEveryActionOutsideRuntimeContract",
+      "Effect": "Deny",
+      "NotAction": [
+        "ssm:UpdateInstanceInformation",
+        "ssmmessages:CreateControlChannel",
+        "ssmmessages:CreateDataChannel",
+        "ssmmessages:OpenControlChannel",
+        "ssmmessages:OpenDataChannel",
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "secretsmanager:GetSecretValue",
+        "kms:Decrypt",
+        "dynamodb:GetItem",
+        "dynamodb:UpdateItem"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "DenyPullFromOtherRepositoriesEvenWithSessionGrants",
+      "Effect": "Deny",
+      "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage"
+      ],
+      "NotResource": "arn:aws:ecr:us-east-1:926925605666:repository/enver-dev-api"
+    },
+    {
+      "Sid": "DenyRuntimeActionsOutsideApprovedRegion",
+      "Effect": "Deny",
+      "Action": [
+        "ssm:UpdateInstanceInformation",
+        "ssmmessages:CreateControlChannel",
+        "ssmmessages:CreateDataChannel",
+        "ssmmessages:OpenControlChannel",
+        "ssmmessages:OpenDataChannel",
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "secretsmanager:GetSecretValue",
+        "kms:Decrypt",
+        "dynamodb:GetItem",
+        "dynamodb:UpdateItem"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:RequestedRegion": "us-east-1"
+        }
+      }
+    },
+    {
+      "Sid": "MaximumReadOfExactCoreSecrets",
+      "Effect": "Allow",
+      "Action": "secretsmanager:GetSecretValue",
+      "Resource": [
+        "arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/mongodb-Iuqeur",
+        "arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/jwt-AweYNs",
+        "arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/hmac-s9TSqb",
+        "arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:PrincipalAccount": "926925605666"
+        }
+      }
+    },
+    {
+      "Sid": "DenyReadingAnyOtherSecret",
+      "Effect": "Deny",
+      "Action": "secretsmanager:GetSecretValue",
+      "NotResource": [
+        "arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/mongodb-Iuqeur",
+        "arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/jwt-AweYNs",
+        "arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/hmac-s9TSqb",
+        "arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP"
+      ]
+    },
+    {
+      "Sid": "MaximumDecryptOnlyThroughSecretsManager",
+      "Effect": "Allow",
+      "Action": "kms:Decrypt",
+      "Resource": "arn:aws:kms:us-east-1:926925605666:key/51e1d79c-e924-4330-ac41-c9b263ee4ce3",
+      "Condition": {
+        "StringEquals": {
+          "kms:ViaService": "secretsmanager.us-east-1.amazonaws.com",
+          "kms:CallerAccount": "926925605666"
+        }
+      }
+    },
+    {
+      "Sid": "DenyDecryptWithAnyOtherKey",
+      "Effect": "Deny",
+      "Action": "kms:Decrypt",
+      "NotResource": "arn:aws:kms:us-east-1:926925605666:key/51e1d79c-e924-4330-ac41-c9b263ee4ce3"
+    },
+    {
+      "Sid": "DenyDecryptOutsideSecretsManager",
+      "Effect": "Deny",
+      "Action": "kms:Decrypt",
+      "Resource": "arn:aws:kms:us-east-1:926925605666:key/51e1d79c-e924-4330-ac41-c9b263ee4ce3",
+      "Condition": {
+        "StringNotEquals": {
+          "kms:ViaService": "secretsmanager.us-east-1.amazonaws.com"
+        }
+      }
+    },
+    {
+      "Sid": "DenyDecryptForAnotherAccount",
+      "Effect": "Deny",
+      "Action": "kms:Decrypt",
+      "Resource": "arn:aws:kms:us-east-1:926925605666:key/51e1d79c-e924-4330-ac41-c9b263ee4ce3",
+      "Condition": {
+        "StringNotEquals": {
+          "kms:CallerAccount": "926925605666"
+        }
+      }
+    },
+    {
+      "Sid": "MaximumReadAndCasAuthenticationAuthority",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:UpdateItem"
+      ],
+      "Resource": "arn:aws:dynamodb:us-east-1:926925605666:table/enver-dev-authentication-authority",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:PrincipalAccount": "926925605666"
+        },
+        "ForAllValues:StringEquals": {
+          "dynamodb:LeadingKeys": [
+            "authentication"
+          ]
+        },
+        "Null": {
+          "dynamodb:LeadingKeys": "false"
+        }
+      }
+    },
+    {
+      "Sid": "DenyAuthorityAccessToOtherTables",
+      "Effect": "Deny",
+      "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:UpdateItem"
+      ],
+      "NotResource": "arn:aws:dynamodb:us-east-1:926925605666:table/enver-dev-authentication-authority"
+    },
+    {
+      "Sid": "DenyAuthorityAccessToOtherPartitionKeys",
+      "Effect": "Deny",
+      "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:UpdateItem"
+      ],
+      "Resource": "arn:aws:dynamodb:us-east-1:926925605666:table/enver-dev-authentication-authority",
+      "Condition": {
+        "ForAnyValue:StringNotEquals": {
+          "dynamodb:LeadingKeys": [
+            "authentication"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "DenyAuthorityAccessWithoutPartitionKey",
+      "Effect": "Deny",
+      "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:UpdateItem"
+      ],
+      "Resource": "arn:aws:dynamodb:us-east-1:926925605666:table/enver-dev-authentication-authority",
+      "Condition": {
+        "Null": {
+          "dynamodb:LeadingKeys": "true"
+        }
+      }
+    }
+  ]
+}

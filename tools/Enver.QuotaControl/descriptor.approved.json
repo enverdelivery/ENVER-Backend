@@ -1,0 +1,17 @@
+{
+  "Environment": "development",
+  "ConfigurationVersion": "quota-development-academic-initial-v1",
+  "IdentityReference": "hmac-development-fecf274e-v1",
+  "PolicyRevision": "academic-initial",
+  "Capacity": 5000,
+  "MemoryBudgetBytes": 67108864,
+  "Rules": [
+    { "Name": "register/email", "Limit": 3, "WindowMicroseconds": 900000000 },
+    { "Name": "register/origin", "Limit": 20, "WindowMicroseconds": 900000000 },
+    { "Name": "login/email", "Limit": 10, "WindowMicroseconds": 60000000 },
+    { "Name": "login/origin", "Limit": 60, "WindowMicroseconds": 60000000 },
+    { "Name": "login/origin-email", "Limit": 5, "WindowMicroseconds": 60000000 },
+    { "Name": "logout/origin", "Limit": 300, "WindowMicroseconds": 60000000 },
+    { "Name": "logout/account", "Limit": 30, "WindowMicroseconds": 60000000 }
+  ]
+}

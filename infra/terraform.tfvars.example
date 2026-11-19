@@ -1,0 +1,18 @@
+# Baseline confirmada: enver/dev/us-east-1. Sin credenciales ni ID de cuenta real.
+# Candidato A pendiente DP-I-03: valores de red de ejemplo, NO aceptación.
+project_name   = "enver"
+environment    = "dev"
+aws_region     = "us-east-1"
+aws_account_id = "CUENTA_PENDIENTE"
+
+vpc_cidr                = "10.20.0.0/16"
+public_subnet_newbits    = 8
+network_design_approved = false
+
+common_tags = {
+  Purpose = "authentication-academic"
+}
+
+# Presupuesto inicial USD 50 / reserva objetivo USD 50; estimación total pendiente.
+# Cuenta placeholder y guard false impiden usar este ejemplo como aceptación.
+# No incluir credenciales AWS, conexiones, JWT, passwords ni tokens aquí.

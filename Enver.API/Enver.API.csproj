@@ -2,20 +2,39 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+    <RuntimeIdentifiers>linux-x64;win-x64</RuntimeIdentifiers>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <UserSecretsId>504dc0ff-6b94-4735-ba9d-eb4aeca60fa0</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.14" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.14" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.19.2" />
     <PackageReference Include="Microsoft.OpenApi" Version="2.13.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+    <PackageReference Include="StackExchange.Redis" Version="3.4.31" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="4.0.110.1" />
+    <PackageReference Include="MongoDB.Driver" Version="3.13.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <EmbeddedResource Include="Infrastructure\Redis\Scripts\RevokeToken.lua" />
+    <EmbeddedResource Include="Infrastructure\Redis\Scripts\ConsumeAuthenticationQuota.lua" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <_LocalSensitiveFilePatterns>**/appsettings.Runtime.json;**/appsettings.Local.json;**/appsettings.*.Local.json;**/secrets.json;**/*.pfx;**/*.p12;**/*.pem;**/*.key;**/.env;**/.env.*;**/*.tfstate;**/*.tfstate.*;**/*.tfvars;**/*.tfvars.json;**/*.tfplan</_LocalSensitiveFilePatterns>
+  </PropertyGroup>
+
+  <!-- Conservar configuración base; nunca copiar archivos locales sensibles a output/publish. -->
+  <ItemGroup>
+    <Content Update="$(_LocalSensitiveFilePatterns)" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
+    <None Update="$(_LocalSensitiveFilePatterns)" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
   </ItemGroup>
 
 </Project>

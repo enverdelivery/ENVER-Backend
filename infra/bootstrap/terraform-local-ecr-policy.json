@@ -1,0 +1,76 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CreateSingleTaggedApiRepository",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:CreateRepository",
+        "ecr:TagResource"
+      ],
+      "Resource": "arn:aws:ecr:us-east-1:*:repository/enver-dev-api",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:username": "enver-terraform-local",
+          "aws:ResourceAccount": "${aws:PrincipalAccount}",
+          "aws:RequestTag/Project": "enver",
+          "aws:RequestTag/Environment": "dev",
+          "aws:RequestTag/ManagedBy": "Terraform",
+          "aws:RequestTag/Name": "enver-dev-api"
+        }
+      }
+    },
+    {
+      "Sid": "ReadSingleApiRepository",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:DescribeRepositories",
+        "ecr:ListImages",
+        "ecr:ListTagsForResource",
+        "ecr:GetLifecyclePolicy"
+      ],
+      "Resource": "arn:aws:ecr:us-east-1:*:repository/enver-dev-api",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:username": "enver-terraform-local",
+          "aws:ResourceAccount": "${aws:PrincipalAccount}"
+        }
+      }
+    },
+    {
+      "Sid": "ManageLifecycleAndSupportAuthorizedRollback",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:PutLifecyclePolicy",
+        "ecr:DeleteLifecyclePolicy",
+        "ecr:DeleteRepository"
+      ],
+      "Resource": "arn:aws:ecr:us-east-1:*:repository/enver-dev-api",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:username": "enver-terraform-local",
+          "aws:ResourceAccount": "${aws:PrincipalAccount}",
+          "aws:ResourceTag/Project": "enver",
+          "aws:ResourceTag/Environment": "dev",
+          "aws:ResourceTag/ManagedBy": "Terraform",
+          "aws:ResourceTag/Name": "enver-dev-api"
+        }
+      }
+    },
+    {
+      "Sid": "InspectRegistryScanningWithoutChangingAccountSettings",
+      "Effect": "Allow",
+      "Action": "ecr:GetRegistryScanningConfiguration",
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1",
+          "aws:username": "enver-terraform-local"
+        }
+      }
+    }
+  ]
+}

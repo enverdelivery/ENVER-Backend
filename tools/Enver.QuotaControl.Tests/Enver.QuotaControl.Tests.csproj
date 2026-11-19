@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NuGetAudit>false</NuGetAudit>
+    <RestoreConfigFile>$(MSBuildThisFileDirectory)../Enver.QuotaControl/NuGet.Config</RestoreConfigFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Enver.QuotaControl/Enver.QuotaControl.csproj" />
+    <None Include="../Enver.QuotaControl/descriptor.approved.json" Link="descriptor.approved.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>
