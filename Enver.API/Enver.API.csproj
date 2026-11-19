@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+    <RuntimeIdentifiers>linux-x64;win-x64</RuntimeIdentifiers>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
@@ -27,7 +28,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <_LocalSensitiveFilePatterns>**/appsettings.Local.json;**/appsettings.*.Local.json;**/secrets.json;**/*.pfx;**/*.p12;**/*.pem;**/*.key;**/.env;**/.env.*;**/*.tfstate;**/*.tfstate.*;**/*.tfvars;**/*.tfvars.json;**/*.tfplan</_LocalSensitiveFilePatterns>
+    <_LocalSensitiveFilePatterns>**/appsettings.Runtime.json;**/appsettings.Local.json;**/appsettings.*.Local.json;**/secrets.json;**/*.pfx;**/*.p12;**/*.pem;**/*.key;**/.env;**/.env.*;**/*.tfstate;**/*.tfstate.*;**/*.tfvars;**/*.tfvars.json;**/*.tfplan</_LocalSensitiveFilePatterns>
   </PropertyGroup>
 
   <!-- Conservar configuración base; nunca copiar archivos locales sensibles a output/publish. -->

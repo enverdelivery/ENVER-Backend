@@ -1,151 +1,155 @@
-# Plan 004 — CI automático y Controlled Manual Deployment
+# Plan 004 — Cinco fases para CI/CD y deployment DEV manual
 
-## 1. Control y alcance autorizado
+## 1. Control de versión y autorización
 
-| Campo | Valor |
+| Campo | Estado vigente |
 | --- | --- |
-| Versión / fecha | 0.1.0 / 2026-11-12 |
-| Fuente | [spec.md](spec.md), solicitud SDD — CREAR Y MATERIALIZAR 004-CI-CD |
-| Estado | PLAN PROPUESTO MATERIALIZADO PARA REVISIÓN; SIN EJECUCIÓN AUTORIZADA |
-| Catálogo | [task.md](task.md): 30 tareas T-CICD-001–030, PENDIENTE / NO EJECUTADA |
-| Gates | Cinco GATE-CI y cuatro GATE-CD, PENDIENTES / NO SATISFECHOS |
+| Versión | 0.2.0 |
+| Fuente | [spec.md](spec.md), decisiones finales aprobadas por el responsable |
+| Estado | DISEÑO APROBADO; implementación y verificaciones técnicas NO EJECUTADAS |
+| Plan | Exactamente cinco fases; diez tareas grandes |
+| Catálogo único | [tasks.md](tasks.md), T-CICD-101–110, todas PENDIENTE / NO EJECUTADA |
+| Gates | GATE-CI-A–E y GATE-CD-A–D, todos PENDIENTE / NO SATISFECHO |
+| Próximo gate | IMPLEMENT COMPLETE CI/CD PIPELINE, no iniciado automáticamente |
 
-Aplican [constitución](../../.specify/memory/constitution.md), [001](../001-backend-foundation/spec.md), [002](../002-authentication/spec.md) y [003](../003-infrastructure/spec.md). La solicitud solo crea spec/plan/task de 004. No implementa workflows, scripts, Terraform, Docker o tests, no cambia configuraciones/seguridad del producto, no configura GitHub/AWS y no autoriza comandos técnicos, cargos, stage/commit/push. 003 y su trabajo no versionado se conservan intactos.
+Este gate modifica solo spec.md, plan.md y tasks.md. No crea los workflows que describe ni scripts/tests/IAM/infra, no ejecuta comandos de aplicación, pruebas, scans, AWS o deployment, ni realiza commit/push. Las decisiones de ramas, herramientas condicionales, OIDC, manualidad, imagen única y compensación ya están aprobadas; solo sus datos operativos y evidencias permanecen pendientes.
 
-Las siguientes PLD son **DECISIONES PROPUESTAS**, no implementadas. Se distinguen de los **REQUISITOS** de spec y de DP-CICD-01–14 **PENDIENTES**. Ninguna decisión de este plan se adopta silenciosamente por ejecutar una tarea.
+El catálogo singular task.md preexistente queda sustituido como fuente operativa por tasks.md; se conserva sin editar, mover o borrar fuera de este alcance. No usar sus treinta tareas ni sus reglas antiguas para dirigir el siguiente gate. Los IDs T-CICD-101–110 evitan confundir el catálogo nuevo con evidencias anteriores. Alcance/registro de aprobación en spec §1; constituciones y 001/002/003, memoria/AGENTS/README intactos.
 
-## 2. Decisiones propuestas y trazabilidad
+## 2. Decisiones aprobadas y trazabilidad
 
-| ID | Decisión propuesta / justificación | Requisitos principales | DP |
+| Decisión | Contrato vigente | Requisitos principales | Tareas |
 | --- | --- | --- | --- |
-| PLD-CICD-001 | Dos workflows conceptuales separados: CI automático y Deploy manual, solo workflow_dispatch/Run workflow. Sin producción por push, PR, merge, workflow_run o release | CI-001, CD-001, 002 | 01, 14 |
-| PLD-CICD-002 | PR a main más push main recomendado; deployment solo SHA alcanzable de main con CI de main del SHA exacto. PR merge verde no basta; tags posteriores no habilitados | CI-002, CD-003, 004, 006 | 01, 06 |
-| PLD-CICD-003 | SDK de global.json 10.0.403/disable, restore locked y build no-restore; conservar warnings efectivos y fallar con errores sin actualizar paquetes | CI-003–005 | 03, 04 |
-| PLD-CICD-004 | UT→IT→ST, sin filtros/omisiones, TRX/exitcode y agregación fail-closed; conteos históricos no contractuales | CI-006–009, 011 | 03, 04 |
-| PLD-CICD-005 | Runner Linux efímero con Docker, fixtures Testcontainers existentes (Mongo replica set, Redis, DynamoDB Local, Ryuk), aislamiento/cleanup y timeout de job separado del SUT | CI-007, 008, 010 | 03, 04 |
-| PLD-CICD-006 | Scans dependencias/secretos/source/imagen e IaC cuando exista; seleccionar herramientas por compatibilidad/licencia/costo. Sin falso verde ante fallo de control | CI-012, SEC-001–005 | 05 |
-| PLD-CICD-007 | PR sin privilegios AWS ni secretos; jobs confiables no consumen scripts/cachés/artefactos no verificados de PR, evitando escalamiento por pull_request_target/workflow_run | SEC-006, 011, 012 | 01, 14 |
-| PLD-CICD-008 | Checks de código verdes antes de build de imagen; CI GREEN final exige scan/integridad y publicación main. Tag SHA/digest, no latest y no rebuild en CD | REL-001–005 | 05, 06 |
-| PLD-CICD-009 | ECR de 003, publisher OIDC separado, misma imagen escaneada/publicada; manifiesto de release protegido une SHA/run/intento/digest y no se reemplaza silenciosamente en rerun | REL-002–006, SEC-008 | 06, 07, 12 |
-| PLD-CICD-010 | OIDC con aud/sub/contexto exactos y formatos reales; roles publisher/verificación/deploy/provisión/instancia separados, sin claves largas ni IAM creado por 004 | SEC-007–009, CD-005 | 02, 07 |
-| PLD-CICD-011 | production con historial y protección disponible; main/ref confiable, workflow en default branch. Segunda aprobación opcional según plan; persona inicia Run workflow siempre | CD-001–006, SEC-012 | 01, 02, 14 |
-| PLD-CICD-012 | Preflight prueba SHA/CI completo/run-intento/policy/ECR/digest, permisos read antes de mutación y revalidación bajo lock; fail-closed si APIs o evidencia faltan | CD-003, 006, SEC-009, REL-004, 005 | 05, 06, 07 |
-| PLD-CICD-013 | Runtime secrets quedan en AWS de 003; GitHub solo lo necesario al pipeline; secretos sintéticos temporales para smoke, sin logs/cuerpos sensibles | SEC-010, REL-010, CD-008 | 07, 10, 13 |
-| PLD-CICD-014 | Terraform fmt/validate/IaC condicionado a infra; plan protegido/controlado y apply solo manual/rol separado. State remoto/lock antes de runner | CI-012, CD-012, SEC-004, REL-006 | 09, 12 |
-| PLD-CICD-015 | Infra estructural de Terraform; versión/digest activo solo del deploy. Fuente persistente no secreta y reemplazo/reconcile acordados con 003 antes de implementar | REL-007, CD-007, 012 | 08, 09, 12 |
-| PLD-CICD-016 | Deploy manual por mecanismo EC2 acordado (SSM candidato), mismo digest A/B, estabilidad/targets y luego smoke; ACK no significa éxito | CD-007, 010, REL-006 | 08, 10, 11 |
-| PLD-CICD-017 | Smoke TLS/health/Auth sintético y evidencia A/B; revocación normal requiere superficie autorizada distinta de Logout, sin endpoint nuevo implícito | CD-008, 009, REL-012 | 10, 11 |
-| PLD-CICD-018 | Rollback también manual a digest previo aprobado y compatible; sin restaurar estado Redis/authority/JWT. Fallos e incertidumbre requieren reconciliación, no retries ciegos | CD-010, 011, REL-008 | 08, 11 |
-| PLD-CICD-019 | Grupo production-deploy compartido para deploy/rollback/apply, sin cancelar mutación activa; no prometer FIFO/cola durable ni ignorar mantenimiento externo | REL-009, CD-006, 012 | 09, 14 |
-| PLD-CICD-020 | Acciones críticas fijadas por SHA, evidencias saneadas/retención/costo y revisión negativa/final; no cerrar 002/003 por green CI ni afirmar cloud existente | SEC-011, 012, REL-010–012 | 02, 05, 06, 13, 14 |
+| PLD-CICD-001 | Tres workflows ci.yml, hardening.yml y deploy-dev.yml; jobs separados y deploy solo dispatch humano | CI-001/011; CD-001/002 | 101, 104, 107 |
+| PLD-CICD-002 | feature/*→PR→develop→PR→main; develop integra y origina candidatas DEV, main estable. Validación por SHA integrado exacto | CI-001/002; CD-003/004 | 101, 106, 107 |
+| PLD-CICD-003 | SDK10.0.403/disable, restore locked, build Release y warnings efectivos sin supresión | CI-003–005 | 101, 102 |
+| PLD-CICD-004 | UT/IT/ST/runtime completos aplicables y contratos, resultados nativos íntegros, cero failed/skipped, sin retries de suites | CI-006–009/011 | 101, 102, 110 |
+| PLD-CICD-005 | Runner efímero/Docker/fixtures existentes Mongo replica set/Redis noeviction/Dynamo Local/Ryuk; aislamiento, cleanup y presupuesto SUT intacto | CI-007/008/010 | 102 |
+| PLD-CICD-006 | Semgrep, Dependency Review+NuGet audit, Gitleaks, Hadolint, Trivy, CodeQL y Stryker/ZAP/RESTler según compatibilidad/política | CI-012; SEC-001–005 | 103, 104 |
+| PLD-CICD-007 | CI sin AWS; no privilegios PR/forks ni ejecución de artefactos no confiables en jobs privilegiados | SEC-006/011/012 | 101, 103–107, 110 |
+| PLD-CICD-008 | Una construcción de imagen linux/amd64 por candidata; mismo OCI/manifiesto para hardening, ECR y deploy; cero push PR | REL-001–005 | 104, 106, 108 |
+| PLD-CICD-009 | ECR existente; registro verificable SHA/run/intento/policy/digest/evidencia, retención anterior y rechazo de sustitución/rerun ambiguo | REL-002–006; SEC-008/011 | 104, 106, 107 |
+| PLD-CICD-010 | OIDC obligatorio; CI sin AWS, Publisher ECR, Deploy ECR-read/SSM-A-B/target-health-read, runtime actual IMDSv2 | SEC-007–009/012 | 105, 106, 107 |
+| PLD-CICD-011 | Environment development, workflow disponible en default branch para botón y ejecutado desde develop confiable; actores/ref protegidos | CD-001–005; SEC-012 | 101, 105, 107 |
+| PLD-CICD-012 | Selección automática última candidata aprobada develop, sin digest manual; prueba de CI/hardening exactos, congelación y revalidación bajo exclusión | CD-003/006; REL-004/005 | 106, 107 |
+| PLD-CICD-013 | Preservar secretos/runtime; pruebas sintéticas en memoria, reportes redactados sin confiar solo en masking | SEC-002/010–012; CD-008/012 | 102–110 |
+| PLD-CICD-014 | IaC existente con fmt/validate/scan sin AWS/state remoto; nunca apply en pipeline de aplicación | CI-012; CD-012; REL-006 | 103, 107 |
+| PLD-CICD-015 | Versión activa persistente por mecanismo existente; deploy único escritor; no revertir digest por Terraform, wrappers antiguos o reinicialización | REL-006/007; CD-012 | 107, 108, 109 |
+| PLD-CICD-016 | Rolling secuencial A/readiness/target healthy antes de B; digest/binding/servicio/health efectivos, no ACK como éxito | CD-007/010; REL-005/006 | 108, 109 |
+| PLD-CICD-017 | HTTPS health obligatorio, smoke AUTH según input; liveness no readiness integral ni prueba distribuida por logout repetido | CD-008/009; REL-012 | 102, 109, 110 |
+| PLD-CICD-018 | Compensación automática MISMO workflow manual: fallo A→solo A; fallo B→B y A si cambió; original FAILED incluso si rollback PASS | CD-010/011; REL-008 | 108, 109, 110 |
+| PLD-CICD-019 | Exclusión enver-development-deploy para todo run/compensación; cancel-in-progress=false, reconciliación SSM/runner y coordinación externa | CD-006/010; REL-009 | 107–110 |
+| PLD-CICD-020 | Gates fail-closed, cinco estados, reportes saneados, pinning/coste/retención y aceptación por evidencia sin cerrar otros specs por asociación | CI-011; SEC-005/011/012; REL-010–012 | 101–110 |
 
-## 3. Fases, dependencias y criterios de avance
+Números de tarea abreviados: 101 = T-CICD-101. Estas veinte decisiones sustituyen el texto previo incompatible; no hay quince fases activas ni despliegue exclusivo de main/production.
 
-Las fases son dominios de trabajo, no orden numérico rígido: OIDC precede a publicación y los contratos smoke/rollback/concurrencia preceden al primer deployment aceptable. La implementación de archivos y las verificaciones runtime son avances distintos; escribir un workflow no acredita que corrió.
+## 3. Cinco fases y capacidades completas
 
-| Fase | Tareas / resultado futuro | Dependencias | Criterio de avance | Gates |
-| --- | --- | --- | --- | --- |
-| **CICD-1 Baseline GitHub Actions** | 001 política/repo/costo; 002 estructura CI/Deploy y permisos | Autorización técnica y DP-01/02/14 | Contratos/eventos/refs separados revisados, sin producción automática. Skeleton validado antes de habilitar credenciales | GATE-CI-A |
-| **CICD-2 CI restore/build** | 003 SDK/restore; 004 build/warnings | CICD-1 | SDK exacto, restore locked y build no-restore con salida real/errores bloqueantes | GATE-CI-B |
-| **CICD-3 UT** | 005 suite UT; 006 resultados nativos/TRX | CICD-2 | Todos UT presentes pasan, cero failed/skipped; falta/archivo inválido falla, no mínimo fijo 684 | GATE-CI-C |
-| **CICD-4 IT/Testcontainers** | 007 runner/fixtures; 008 IT | CICD-2/3; runner/capacidad aprobados | Docker e imágenes aisladas, dependencias reales/locales representativas, IT completa/cleanup sin retocar SUT | GATE-CI-C |
-| **CICD-5 ST** | 009 ST; 010 agregación UT/IT/ST | CICD-3/4 | ST completa y agregación que falla ante rojo, cancelado, vacío, skip o suite ausente | GATE-CI-C |
-| **CICD-6 Security scanning** | 011 herramientas/policy; 012 controles fuente/deps/secretos y contrato de scan imagen/IaC | CICD-1/2; decisiones tooling/licencia | Controles/configuración aprobados; todas las ejecuciones requeridas/negativos acreditados en 029 | GATE-CI-D |
-| **CICD-7 Container build** | 013 build imagen; 014 manifiesto/integridad/procedencia | CICD-2–6 | Mismo SHA/config, scan de imagen e integridad; no secretos ni latest ni falsa equivalencia de reruns | GATE-CI-E |
-| **CICD-8 ECR publishing** | 015 contrato registry/publicación; 016 push confiable y verificación digest | CICD-7 y 9; ECR/roles de 003 bajo permiso propio | Solo main confiable publica, PR no; identidad ECR coincide con build/scan. No deployment ni creación ECR | GATE-CI-E |
-| **CICD-9 OIDC AWS** | 017 trust/roles por contrato; 018 permisos y prueba acceso/denegación | CICD-1 y contrato 015; provisión IAM de 003 independiente | Contexto/aud/sub reales verificados, separación roles y PR denegado; no claves largas ni runtime secrets en GitHub | GATE-CD-A |
-| **CICD-10 Terraform validation** | 019 fmt/validate/IaC condicional; 020 plan/apply/ownership | CICD-1/6/8/9 para contratos, sin exigir publicación para diseñar | Ausencia de infra explícita; si existe, validar; plan protegido, apply manual y versión única sin drift acordados con 003 | GATE-CI-D, GATE-CD-B |
-| **CICD-11 Manual deployment workflow** | 021 preflight de candidato; 022 despliegue EC2 manual | CICD-1–10 para capacidades necesarias; 003 recursos/readiness, no su aceptación final | workflow_dispatch/ref main/production y checks sin bypass. Operación de despliegue real solo con permiso posterior y smoke/rollback listos | GATE-CD-B |
-| **CICD-12 Smoke tests** | 023 HTTPS/health/Auth sintético; 024 cross-instance | CICD-11; 003 capacidad operativa/superficie autorizada | Pruebas diseñadas seguras; éxito público y estado distribuido solo con ejecución real en 030, sin inferirlo de Logout repetido | GATE-CD-C |
-| **CICD-13 Rollback/concurrency** | 025 rollback/fallos; 026 exclusión de mutaciones | CICD-10/11/12 para contratos | Digest previo/manualidad, reconciliación y lock compartido probados en entorno autorizado; no rollback de seguridad | GATE-CD-B, GATE-CD-D |
-| **CICD-14 Observability/evidence** | 027 logs/manifest/retención; 028 evidencia académica/costo | Resultados/contratos CICD-2–13 | Índice/política saneados y verificables; completar evidencia real en 029/030, sin datos personales/secretos | GATE-CD-D |
-| **CICD-15 Final validation** | 029 matriz CI/security/negativos; 030 prueba manual, smoke/rollback y cierre | Capacidades 1–14 autorizadas; 003 operativa y permisos específicos | Gates solo con evidencia real y revisión; sin deployment por evento automático, aceptación limitada a primera release Authentication | Todos |
+| Fase | Tareas grandes | Capacidad entregable futura | Condición para avanzar |
+| --- | --- | --- | --- |
+| **PHASE 1 — CI foundation** | 101, 102 | Grafo CI/eventos/SDK/Release/UT y suites IT/ST/runtime/contratos con resultados completos | CI confiable sin AWS, fixtures aisladas y agregación de tests fail-closed |
+| **PHASE 2 — DevSecOps gates** | 103, 104 | Fast gate de scanners/IaC y build once/hardening selectivo con todos sus jobs/reportes | Evidencia source/imagen y política aplicable, sin privilegios de publicación ni target inseguro |
+| **PHASE 3 — OIDC + ECR promotion** | 105, 106 | Identidades mínimas y promoción de la misma imagen develop a ECR con registro verificable | OIDC/IAM disponibles por autorización propia; digest remoto igual y sin deploy automático |
+| **PHASE 4 — Manual rolling deployment** | 107, 108 | Botón/preflight/candidata/lock y orquestación A→B por digest en baseline existente | Capacidad implementada/revisada; ninguna mutación real antes de verificación/compensación de fase5 listas |
+| **PHASE 5 — Verification + rollback** | 109, 110 | Health/smoke/compensación integrada y validación final positiva/negativa con evidencia | Original FAILED ante fallo, retorno validado o recuperación explícita; cierre de gates solo con evidencia |
 
-T-CICD-001–028 implementarán/revisarán contratos y capacidades **solo cuando se autoricen**; algunas pruebas necesitan servicios/runner y permiso propio. T-CICD-029 valida el CI completo/negativos y T-CICD-030 la entrega manual/cloud. Todas están sin ejecutar ahora. No se requiere cerrar GATE-CD-C antes de poder realizar la prueba que lo acredita.
+Las fases agrupan capacidades, no conceden ejecución automática al completarlas. 108 construye el flujo rolling con contrato de verificación/compensación; 109 completa y verifica su integración antes de habilitar un run mutador. No exigir gates de cierre cloud antes de poder realizar su prueba, ni usar esa ausencia para omitir precondiciones de seguridad. 110 necesita autorización de runs/objetivos/operaciones AWS específica además de implementación revisada.
 
-## 4. Modelo de CI propuesto
+## 4. Diseño de CI y hardening
 
-### 4.1. Eventos, SHA y confianza
+### 4.1. Grafo FAST PR GATE
 
-CI `ci.yml` es solo nombre conceptual futuro, no archivo creado. PR main comprueba integración; push main comprueba commit integrado y genera candidato elegible. PR head/merge SHA y main SHA registrados por separado. No usar resultado local ni PR de SHA distinto para publicar/desplegar.
+Los IDs siguientes son futuros IDs de jobs, no YAML creado:
 
-Flujo: checkout exacto → global.json/SDK → restore locked → build no-restore → UT → IT → ST → controles fuente/deps/secretos/IaC aplicables → build imagen → scan/integridad → publisher main → agregador **CI GREEN final**. Todos los pasos obligatorios acreditados; security no se da por verde por publicar reportes.
-
-CI PR aislado, sin OIDC AWS/production/secretos; puede construir/analizar imagen pero no publicar ECR productivo. Publisher confiable es job separado de tests/código no confiable, con OIDC/ECR mínimo y artefactos verificados del mismo run/SHA. Ningún workflow_run privilegiado que consuma salida de PR para desplegar o publicar sin cadena de custodia. No `continue-on-error` ni resumen verde si un job fue cancelado/skipped.
-
-### 4.2. SDK, build, tests y timeouts
-
-Respetar SDK 10.0.403/rollForward disable y lockfiles existentes. Configuración Release se propone para artefacto futuro, pero aprobación de configuración/build/tests y warnings efectivos es DP-04. No agregar TreatWarningsAsErrors o suppressions arbitrarios; registrar warnings y política de security por separado.
-
-Primera implementación recomendada secuencial para simplificar identidad de binarios y evitar presión de fixtures: UT→IT→ST. Si se distribuye en jobs, transferir/verificar build o reconstruir explícitamente mismo SHA/SDK/config; no asumir que checkout incluye assemblies. Reusar caché solo como optimización con claves/validación, nunca evidencia de test.
-
-Runner Linux efímero, Docker accesible y recursos medidos; Mongo replica set, Redis y DynamoDB Local/Ryuk según fixture existente. Inicialización/readiness y cleanup de fixtures, namespace por run, timeouts de job aprobados y salida nativa preservada antes de cleanup. No modificar los límites SUT por problemas del runner ni desactivar tests. Cero skipped bajo contrato vigente; conteos dinámicos y no cero, results completos por proyecto.
-
-### 4.3. Controles security y artefactos
-
-Herramientas/versiones/costo/policy antes de implementar. Selección mínima justificada para dependencias, secretos, source, imagen e IaC cuando exista; no imponer marcas/licencias sin aprobación. Fallos del scanner/feed/control, resultados desconocidos o findings bloqueantes niegan elegibilidad. Excepciones solo formales con alcance/responsable/vencimiento y visibles, sin omitir gate ni alterar tests.
-
-Acciones críticas fijadas por SHA aprobado y actualización revisada; imágenes base/fixtures identificables. Build de imagen después de checks de código, no después del green final que también la exige. Manifiesto enlaza SHA/run/intento, toolchain/base, resultados/hash y digest; verificar digest publicado ECR. Un rerun no sustituye candidato automáticamente; la misma etiqueta SHA no se reescribe ante diferente digest.
-
-## 5. Deployment manual y contrato con 003
-
-### 5.1. Procedimiento humano y elegibilidad
-
-`deploy.yml`/nombre Deploy son propuestas conceptuales. Workflow en default branch real, ejecutado solo desde revisión confiable main. Persona autorizada: Actions → Deploy → Run workflow → SHA/run/motivo → confirmación manual. Production fijo. Ningún evento push/PR/merge/release/cron/workflow_run ni bot dispatch inicia producción.
-
-Antes de mutar: confirmar actor/repo/ref; SHA alcanzable main; run/intento de CI confiable para ese SHA; cada gate obligatorio verde según policy vigente; digest ECR esperado y no sustituido. Si falta prueba, se rechaza. No usar "último run success", input de URL/ARN libre, nombre de check no confiable o etiqueta latest. Obtener lectura AWS temporal si verificar ECR lo exige, antes de rol mutador. Bajo exclusión, revalidar y congelar digest/destino.
-
-Production usa historial/environment y protecciones disponibles. Segunda aprobación es opcional según plan, no condición académica obligatoria: workflow_dispatch ya es acción humana. No afirmar que UI/API originan eventos distinguibles por sí solos; limitar actores/tokens, no automatizar llamadas dispatch y auditar manualidad. Si no existe environment/control requerido en el plan, resolver alternativa explícita o bloquear, no simularlo.
-
-### 5.2. OIDC y permissions
-
-003 proveerá IAM/roles/ECR/red/destino; 004 especifica necesidad/consumo. OIDC aud/sub exactos según repo/subject real; environment sub no garantiza rama por sí solo. Publisher main/ECR distinto de deploy/SSM, provisión/apply y runtime/bootstrap. No wildcard amplio ni claves duraderas, no credenciales de producción en PR.
-
-GITHUB_TOKEN `contents: read`; `actions: read` solo para consultas CI; `id-token: write` solo en jobs OIDC. `packages` no requiere write por ECR. Historial vía API/attestations/otras funciones necesitan permiso adicional solo si se adoptan y justifican. Runtime obtiene secretos en AWS; pipeline no imprime/lee innecesariamente JWT keys, Atlas, Redis o HMAC. Prueba sintética sensible permanece efímera.
-
-### 5.3. Inputs/outputs consumidos
-
-| De 003 hacia 004 | Uso / restricciones |
+| Job ID / nombre visible | needs / condiciones |
 | --- | --- |
-| Cuenta/región/environment y roles aprobados | Destino fijo/validado, no entrada arbitraria que amplíe trust |
-| ECR URI y repositorio | Publicar/leer digest en registry existente; no crearlo desde pipeline |
-| Instancias/SG/target group/ALB | Operación EC2 y comprobación dos targets, sin SSH público ni bypass |
-| URL HTTPS, TLS/DNS, liveness/readiness aprobados | Smoke y estabilidad; readiness no resuelta es bloqueo de aceptación |
-| Referencias configuración/secretos/authority | Conservar semántica, runtime no se abastece de GitHub Secrets |
-| Logs/métricas/alarma | Atribución interna A/B, errores y evidencia, sin PII ni JWT |
-| Backend state/locking y plan aprobado si aplica | Solo tramo manual autorizado, sin state local efímero en runner |
+| detect_changes / Detect Changes | Sin dependencias; siempre calcula alcance y deja gate visible |
+| build_test / Build & Test | detect_changes; restore/build Release/UT del SHA |
+| integration_validation / Mongo / Redis / Dynamo Integration Validation | build_test; IT y ST completas; binarios transferidos verificados o compilación declarada del mismo SHA |
+| runtime_tool_tests / Runtime Tool Tests | detect_changes; inventario/config/dependencias propio fuera de slnx |
+| semgrep / Semgrep SAST | detect_changes |
+| dependency_review / Dependency Review | detect_changes; delta PR y NuGet audit completo; sin confundir disponibilidad/licencia con éxito |
+| secret_scan / Secret Scan | detect_changes; detector/redacción sin revelar findings sensibles |
+| container_lint / Dockerfile / Container Lint | detect_changes |
+| iac_validation / IaC Validation | detect_changes; infra existente, sin backend ni AWS |
+| contract_tests / Contract Tests | integration_validation; verificar evidencia de aserciones contractuales del mismo SHA/run, no solo presencia de TRX |
+| docker_build / Docker Build | build_test, integration_validation, runtime_tool_tests, semgrep, dependency_review, secret_scan, container_lint, iac_validation, contract_tests; solo resultados aplicables acreditados |
+| pr_quality_gate / PR Quality Gate | detect_changes y todos los jobs anteriores; condición de finalización que evalúe también failure/cancelled/skipped |
 
-004 devuelve a operación/003: commit/digest elegido, run/intento/policy, actor/hora, versión activa/previa, outcome/targets/health/smoke/rollback y referencia de evidencia saneada. No devuelve secretos ni redefine arquitectura.
+Detect Changes no suprime a nivel de evento los checks requeridos. Condiciones internas y documento de alcance distinguen NOT APPLICABLE de skip imprevisto. Ante diff no calculable, ejecutar controles. Un job bloqueado por dependencia fallida no se trata como no aplicable. Un PR docs-only puede terminar con no aplicabilidades demostradas y sin candidata; no se vuelve desplegable por eso.
 
-### 5.4. Ownership Terraform/deploy y bootstrap
+Las tres suites de API se mantienen completas cuando cambia su ámbito; tests omitidos dentro de suite fallan. Los tests runtime ejecutables no se consideran cubiertos por dotnet test de la solución. No desactivar Ryuk ni duplicar servicios de Testcontainers; solo DynamoDB Local con credenciales sintéticas, nunca el servicio AWS real. Timeout de job y presupuesto de fixture/SUT son distintos; no aumentar el segundo para esconder runner insuficiente.
 
-Terraform administra estructura; workflow manual es único escritor de versión activa. Deben acordarse con 003 almacenamiento persistente no secreto del digest activo, inicialización, reemplazo EC2, reconcile y rollback. No resolver con dos tfvars writers o ignore_changes sin protocolo real. Prueba futura: aplicar cambio estructural/reemplazar host no impone digest anterior. Ubicación/mecanismo concreta DP-08; 003 no se modifica aquí ni DP-I-14 se declara cerrada.
+### 4.2. Grafo HARDENING GATE
 
-ECR/roles/state deben estar disponibles antes de primera publicación; 003 aún no los tiene implementados. Solicitar bootstrap acotado a 003 y revisar la secuencia de su autorización para no exigir imagen ECR antes de crear el registry. La preparación de 004 no exige aceptación final cloud de 003. La operación compartida 003/004 aportará la misma evidencia a los respectivos gates, sin esperar que ambos estén cerrados antes de empezar sus pruebas. Si se requiere ajuste de 003, pedirlo; no ejecutar ni editar por esta entrega (DP-12).
+| Job ID / nombre visible | needs / condiciones |
+| --- | --- |
+| verify_candidate / Verify Candidate | Verificar CI exacto terminado, origen develop confiable y artefacto OCI; sin rebuild |
+| container_scan / Container Vulnerability Scan | verify_candidate; analizar el manifest candidato exacto |
+| codeql / CodeQL SAST | verify_candidate; compilación instrumentada propia si precisa, sin reconstruir imagen |
+| mutation / Mutation Testing | verify_candidate; política manual/periódica/candidata y alcance medido |
+| dynamic_preflight / Dynamic Target Preflight | verify_candidate; laboratorio/OpenAPI/límites/destinos aprobados |
+| dast / DAST OWASP ZAP | dynamic_preflight; objetivo efímero propio realmente accesible al job |
+| fuzzing / REST API Fuzzing | dynamic_preflight; contrato exacto, compile/test antes de fuzz |
+| hardening_report / Hardening Report | verify_candidate y todos los análisis anteriores; siempre consolidar sin borrar fallos |
+| hardening_gate / Hardening Gate | hardening_report y estados reales de controles; aprobar política completa del contexto |
+| publish_candidate / Publish Approved Candidate | verify_candidate, hardening_gate; solo develop confiable, OIDC Publisher y sin ejecución de código del artifact |
 
-### 5.5. Aplicación, humo y rollback
+En implementaciones con runners distintos, un servidor iniciado por Dynamic Target Preflight no está mágicamente disponible en DAST/fuzzing. El preflight certifica la receta y el contrato seguros; cada consumidor crea su laboratorio aislado y verifica readiness/destino. No transferir secretos por job outputs. Puede consolidarse infraestructura dentro de cada job consumidor, sin fusionar los jobs visibles ni tocar A/B.
 
-Desplegar digest exacto en EC2 por mecanismo acordado (SSM candidato); no comando arbitrario del input. Esperar estabilidad acotada, mínimo dos instancias/AZ/digest y dos targets saludables; verificar vía HTTPS y telemetría. No exponer identidad de instancia por nuevo endpoint/cabecera pública. No prometer que ALB bloquea todo si todos unhealthy; fail-closed permanece responsabilidad de aplicación/authority.
+Para mantener **ci.yml sin AWS**, hardening se ejecuta como workflow independiente sobre push develop relevante, dispatch autorizado o calendario aprobado; no mediante workflow_run privilegiado ni llamada de deploy. Verifica el run CI del SHA/evento exacto con espera acotada y rechaza CI fallido/no verificable. No existe needs entre workflows; la unión de evidencia se valida por APIs/metadatos confiables. Los dos grafos visibles son coherentes, no una dependencia gráfica inexistente.
 
-Smoke básico: TLS válido sin bypass, `/health`, readiness aprobada, Register 201/Login 200/Logout 204 con identidad sintética institucional, no-store y errores seguros. Controlar cuotas/origen, creación/retención/limpieza de cuenta sin borrar datos con permisos de deploy. Tokens solo en memoria y nunca artifacts/logs. No retry ciego de POST.
+Solo push/dispatch desde develop confiable con candidata completa puede publicar. Schedule reanaliza artefactos existentes vigentes y no publica/despliega por sí mismo; pérdida/expiración del OCI requerido bloquea sin rebuild oculto. Los jobs de análisis no tienen AWS; solo publish_candidate recibe id-token y permisos ECR. Proteger el workflow/versiones de control y verificar autenticidad de todos los inputs antes de ese job.
 
-Prueba distribuida: solicitudes atribuidas a A/B, token en política protegida normal, revocación cruzada y cuota compartida. Logout repetido tiene excepción y no prueba rechazo; falta de superficie protegida autorizada deja bloqueada aceptación de GATE-CD-C/GATE-I-I, aunque smoke básico pase. Resolver por incremento separado, no agregando Orders o `/me` para mostrar la rúbrica.
+CodeQL e imagen se exigen para promoción según spec §6; mutation/DAST/RESTler tienen calendario/aplicabilidad versionados, sin PASS cuando no corrieron. Si un control requerido no puede ejecutarse por licencia/SDK/target/feed, bloquear; no degradarlo a opcional silenciosamente. Cada reporte incluye los cinco estados y la matriz de controles requeridos por ese contexto. Coste y latencia se miden; no metas SLA inventadas.
 
-Rollback solo otro Run workflow autorizado, digest anterior conocido y revisión compatible/vigente, sin revertir Redis/authority/JWT por defecto. Fallo/API incierta/unhealthy/smoke rojo no es éxito ni trigger automático de rollback; reconciliar y esperar operación humana. Grupo production-deploy común con cancel-in-progress false, coordinación apply/maintenance y revalidación al obtener turno; no prometer FIFO.
+## 5. Imagen, OIDC y candidata aprobada
 
-## 6. Estrategia de validación y gates
+Cadena única: Docker Build linux/amd64 → OCI íntegro con manifest digest/hash de transporte → hardening misma imagen → ECR mismos blobs/manifiesto → verificación digest remoto → registro aprobado. Usar [Enver.API/Dockerfile](../../Enver.API/Dockerfile) y contexto sellado/sin secretos; cambios de Dockerfile/SDK/producto requieren alcance autorizado, no reparación implícita de este gate.
 
-Definición canónica de gates 004 en [task.md §3](task.md#3-gates-formales), todos pendientes:
+PR no publica, hardening no construye otra imagen y deploy no compila. Un intento de build nuevo debe tener nueva identidad declarada; nunca afirmar que reconstrucción recupera un digest anterior. El proceso de copia al registry debe preservar media types/manifiesto; si no mantiene digest, bloquear en vez de aceptar equivalencia de config ID.
 
-- GATE-CI-A/B/C/D/E: estructura, restore/build, suites, security e imagen/ECR.
-- GATE-CD-A/B/C/D: OIDC/permisos, manualidad protegida, smoke público/distribuido y rollback/evidencia.
+Registro de candidata en custodia confiable, no JSON editado en un PR: repo, develop, SHA integrado, revisiones de workflows, run IDs/intentos, SDK/config/base, OCI hash/manifest digest, resultados/hashes de evidencia, versión de política/fecha/vigencia. Consultar datos GitHub/ECR confiables y retener el artefacto anterior. Versiones/revocaciones de aprobación no mutan el mapeo de una candidata ya emitida.
 
-Validación negativa futura debe comprobar: PR no recibe credenciales/publicación; SHA no main o CI ajeno/rojo/cancelado/skip se rechaza; digest/tag sustituido se rechaza; falta scanner/resultado o workflow errado no produce verde; automático nunca deploy/apply; colisiones no cancelan mutación; target/API/dependencia/smoke fallidos no declaran éxito. Sin modificar producto/tests para simular verde; probes de workflow y fallos solo con autorización de objetivo/entorno.
+OIDC requerido con aud/sub exactos. Repo/owner/environment/branch reales y formato con IDs si aplica se verifican en 105; environment subject no acredita develop por sí solo. Roles dedicados conforme spec §9: CI sin AWS, Publisher ECR, Deploy ECR-read+SSM-A-B+health-read, Runtime EC2 actual IMDSv2. No IAM/Terraform/secret-read global del deploy, claves permanentes, profile local enver-infra ni tokens entre jobs. Roles/ARN/configuración GitHub necesitan autorización independiente; no se crean ni prueban aquí.
 
-T-CICD-029 acredita CI completo/negativos; T-CICD-030 acredita operación manual real, smoke, fallos/rollback y evidencia. AC-CICD-01–16 enlazan requisitos/gates. Las tareas de configuración previa no cierran gates cloud por sí solas. Retener fallos y nativas; no reruns ocultos ni fakes como demostración cloud. GATE-G/H de 002 y AUTH-027 conservan su proceso propio.
+## 6. Deployment DEV y compensación dentro del mismo run
 
-## 7. Riesgos, costos y autorización posterior
+### 6.1. Botón, control de ref y preflight
 
-DP-CICD-01–14 de spec siguen abiertos. Antes de implementar especificar archivos, comandos, entorno, permisos, secretos/referencias, costo, reversión y evidencia. Proteger GitHub/AWS/SSM, state/planes y artifacts; calibrar runner antes de cambiar presupuestos. Validar plan/visibilidad/licencias/retención; Actions/ECR/transferencia/scanners pueden cobrar. No resolver carencias de plan con trust más amplio o segunda aprobación obligatoria no soportada.
+Solo deploy-dev.yml con nombre Deploy ENVER Dev y trigger workflow_dispatch. Inputs environment=development y run_smoke_tests booleano true por defecto; sin digest, comando, role/host/URL arbitrarios. Workflow disponible en default branch para descubrimiento; ejecutar desde develop confiable. No obligar a integrar la candidata en main para desplegar DEV; main sigue estable/entrega.
 
-No se instalan herramientas ni seleccionan versiones adicionales en esta entrega. No se crea CI/CD, resources, infra, ECR, pruebas u Orders. El resultado actual son tres documentos; detenerse sin stage/commit/push.
+Validar actor/repo/ref/revisión → resolver automáticamente última candidata aprobada/vigente alcanzable de develop → comprobar CI/hardening exactos/estados/policy/evidencias → OIDC temporal y ECR read → congelar SHA/run/intento/digest → exclusión del run/revalidación → comprobar A/B/baseline y digest previo compatible retenido. Si el head actual no está aprobado, el resumen identifica claramente qué candidata anterior elegible se eligió; no usar un CI verde genérico. Ante cero candidatas válidas, rechazar sin tocar AWS runtime.
+
+La identidad previa actual tiene evidencia de deployment manual, no aprobación CI nueva. Incorporarla como referencia de retorno exige validar/registrar su aprobación/compatibilidad sin inventar un run GitHub histórico. Sin digest anterior aprobado/usable, denegar antes de A. Mismo digest ya activo y validado puede ser no-op, con evidencia real y sin reinicios gratuitos.
+
+### 6.2. Rolling y preservación
+
+Consumir exactamente EC2 A/B, ECR, TG, ALB y CloudFront de spec §3. Comprobar primero servicio/contenedor/imagen/binding/configuración preservada. Actualizar referencia de imagen por mecanismo existente mediante SSM restringido/versionado; runtime obtiene permisos de pull por su rol actual, sin credenciales pipeline persistidas en EC2.
+
+Por A: despacho único rastreado → materialización ordinaria/startup → readiness acotada tolerando carrera → digest/binding/health/target healthy. **Solo después B**, con el mismo contrato. No modificar estructura systemd/wrappers/overlay de OriginSecret, JWT, autoridad, cuotas, ALB/CloudFront o Terraform. Ningún initialize ni recreación de infraestructura.
+
+Después de ambos: A/B mismo manifest aprobado, targets healthy y CloudFront HTTPS /health200/Healthy. Si se solicita smoke, flujo AUTH sintético seguro; run_smoke_tests=false solo omite AUTH y reporta NOT EXECUTED. No inventar readiness endpoint; liveness no prueba dependencias. Smoke no demuestra por sí solo rechazo distribuido post-logout.
+
+### 6.3. Máquina de fallos y compensación
+
+- Antes de cada mutación persistir metadatos no secretos, candidato/previo, fase, instance ID y CommandId/estado disponible; no guardar credenciales. No asumir fallo de llamada significa ausencia de efectos.
+- Fallo A: parar avance, **B intacta**, reconciliar A y restaurar A al anterior aprobado si cambió; validar A/target. Si ya está anterior, no restart redundante. Original FAILED.
+- Fallo B con A nueva: parar avance, reconciliar, **restaurar B y luego A si cambió**; validar ambos, targets y HTTPS CloudFront health. Original FAILED.
+- Fallo en validación final/smoke solicitado tras ambos cambios: mismo retorno B→A, sin retries de POST que creen cuentas ni compensaciones de datos.
+- Compensación como jobs/ramas condicionales del mismo run manual, ejecutables pese a needs fallido. No lanzar otro workflow, ni exigir segundo botón para esta compensación ya aprobada.
+- Un intento forward y, si procede, un intento de retorno por nodo; consultas de estado acotadas. Esperar/reconciliar SSM en curso antes de otra orden; si no es seguro, rollback BLOCKED/FAIL con intervención requerida, no bucle de retries.
+- Restauración B fallida no justifica mentir sobre éxito: intentar restauración A únicamente si el estado reconciliado lo permite; informar ambos outcomes y detenerse sin tocar seguridad.
+- `deploymentOutcome=FAILED` es irreversible para el intento original; `rollbackOutcome=PASS/FAIL/NOT EXECUTED/BLOCKED` va separado. El summary/cleanup no neutraliza el exitcode del fallo.
+
+El grupo enver-development-deploy y cancel-in-progress=false cubren el run entero y compensación; no es FIFO/cola durable ni garantiza que un runner muerto ejecute finally. Pérdida de runner/cancelación deja reconciliación obligatoria antes de nueva mutación, sin otro workflow automático. Coordinar mantenimiento externo y comandos SSM huérfanos. No ampliar rol Deploy con cambios TG/ALB/drenaje no autorizados.
+
+## 7. Verificación, evidencias y alcance de aceptación
+
+Gates definidos en [tasks.md §3](tasks.md#3-gates-formales). Cada capacidad debe tener negativos: CI ajeno/otro SHA, artifact alterado, digest sustituido, feed/control ausente, skipped/missing/timeout, ref no develop, PR con privilegios, rol fuera de alcance y fallo A/B/final/compensación. Pruebas de fallos reales solo en objetivo/entorno autorizado; los tests locales del orquestador no se presentan como AWS PASS.
+
+Reportes siempre consolidan build/UT/IT/ST/runtime/contratos/SAST/dependencias/secretos/contenedor/IaC/mutation/DAST/fuzzing y, para CD, actor/candidata/digests/A-B/targets/HTTPS/smoke/compensación. Cinco estados, evidencias firmes por run y saneamiento antes de upload. Excepciones y retención/coste visibles; sin tokens/password/secretos/runtime JSON/state/plan en logs/artifacts.
+
+Una ejecución operacional DEV puede pasar sus verificaciones aplicables sin cerrar aceptación distribuida integral. Si falta superficie protegida normal/atribución A-B, informar pendientes CD-009/AUTH-027/GATE-I-I; no atribuir rechazo del token a logout repetido, ni añadir endpoint nuevo. Ningún gate 004 cierra 001/002/003 retrospectivamente.
+
+**Implementación posterior:** resolver DP operativos de spec §13 en las diez capacidades, sin reabrir decisiones finales ni provisionar recursos por iniciativa. Crear/configurar archivos y ejecutar CI, configurar OIDC/IAM, publicar ECR y despachar deployment son acciones diferentes que necesitan alcance explícito en el siguiente gate. Esta entrega se detiene con tres documentos actualizados y cero workflows, pruebas, llamadas AWS o deployments nuevos.

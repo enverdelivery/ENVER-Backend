@@ -55,3 +55,45 @@ output "runtime_role_arn" {
   description = "Role EC2 futuro, sin grants Secrets/authority/CloudWatch ni permisos de deployment."
   value       = aws_iam_role.api_runtime.arn
 }
+
+# T017: contrato no secreto; no endpoint/SG materializado ni servicio READY.
+output "cache_primary_endpoint" {
+  description = "DNS privado futuro del primary Valkey. Cliente TLS con validación de certificado; no URL con credenciales."
+  value       = aws_elasticache_replication_group.cache.primary_endpoint_address
+}
+
+output "cache_port" {
+  description = "Puerto del endpoint Valkey; TLS obligatorio, nunca plaintext."
+  value       = aws_elasticache_replication_group.cache.port
+}
+
+output "cache_security_group_id" {
+  description = "SG exclusivo futuro del cache, solo ingress desde backend."
+  value       = aws_security_group.cache.id
+}
+
+output "cache_subnet_group_name" {
+  description = "Subnet group futuro de las dos subnets existentes autorizadas."
+  value       = aws_elasticache_subnet_group.cache.name
+}
+
+output "cache_engine" {
+  description = "Motor del candidato HCL; no prueba de compatibilidad runtime."
+  value       = aws_elasticache_replication_group.cache.engine
+}
+
+output "cache_tls_enabled" {
+  description = "TLS habilitado por diseño junto con modo required; no prueba de handshake cloud."
+  value       = aws_elasticache_replication_group.cache.transit_encryption_enabled
+}
+
+# T020: metadata futura, no estado del registro ni autorización de bootstrap.
+output "authentication_authority_table_name" {
+  description = "Nombre de la tabla authority T020; no acredita provisión, bootstrap ni confianza."
+  value       = aws_dynamodb_table.authentication_authority.name
+}
+
+output "authentication_authority_table_arn" {
+  description = "ARN no secreto de la tabla authority T020; no contiene datos operacionales."
+  value       = aws_dynamodb_table.authentication_authority.arn
+}

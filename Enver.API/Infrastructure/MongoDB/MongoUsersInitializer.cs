@@ -7,7 +7,11 @@ namespace Enver.API.Infrastructure.MongoDB;
 
 public enum MongoUsersInitializationStatus { Ready, Incompatible, Unavailable }
 
-/// <summary>Verifica estado efectivo en MongoDB; no repara datos ni índices, ni registra el host.</summary>
+/// <summary>
+/// Requisito de unicidad: inspecciona índices y crea el índice requerido solo si falta.
+/// createIndexes puede crear implícitamente users. No repara índices ni modifica documentos.
+/// El primer arranque operacional exige autorización explícita de esta mutación estructural.
+/// </summary>
 public sealed class MongoUsersInitializer
 {
     public const string IndexName = "normalizedEmail_1";

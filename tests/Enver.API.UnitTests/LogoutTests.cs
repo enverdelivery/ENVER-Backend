@@ -163,7 +163,7 @@ public sealed class LogoutTests
         using var cancel = new CancellationTokenSource(); var s = new Scenario { AfterWrite = cancel.Cancel };
         using var budget = new RequestBudget(4000, cancel.Token);
         Assert.Equal(LogoutStatus.Unavailable, (await s.Service.LogoutAsync(await InputAsync(), Origin(), true, budget)).Status);
-        Assert.Single(s.Calls.Where(x => x == "write"));
+        Assert.Single(s.Calls, x => x == "write");
     }
 
     internal static AuthenticationCanonicalOrigin Origin() => AuthenticationCanonicalOrigin.FromAddress(IPAddress.Loopback);

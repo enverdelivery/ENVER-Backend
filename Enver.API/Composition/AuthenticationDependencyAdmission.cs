@@ -45,14 +45,17 @@ public sealed class AuthenticationDependencyAdmission(MongoUsersInitializer init
 }
 
 internal sealed class AuthenticationInitializationService(AuthenticationDependencyAdmission admission, DummyPasswordHash dummy,
-    RedisSecurityStateDetector detector, IOptions<AuthenticationOptions> options) : IHostedService
+    RedisSecurityStateDetector detector, IOptions<AuthenticationOptions> options,
+    ILogger<AuthenticationInitializationService> logger) : IHostedService
 {
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         _ = detector; // Suscripción de señales antes de abrir conexiones/admisión.
         dummy.Initialize();
         using var budget = RequestBudget.Create(AuthenticationOperation.Register, options.Value, cancellationToken);
-        _ = await admission.RefreshIndexAsync(budget).ConfigureAwait(false);
+        var status = await admission.RefreshIndexAsync(budget).ConfigureAwait(false);
+        logger.Log(status == MongoUsersInitializationStatus.Ready ? LogLevel.Information : LogLevel.Warning,
+            new EventId(2101, "MongoInitialization"), "MongoDB structural initialization {Status}", status);
         // Dependencia temporal no disponible mantiene liveness y admisión cerrada.
     }
     public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;

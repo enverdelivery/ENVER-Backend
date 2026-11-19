@@ -38,6 +38,7 @@ README.md
 **/.env.*
 **/appsettings.Local.json
 **/appsettings.*.Local.json
+**/appsettings.Runtime.json
 **/secrets.json
 **/*.pfx
 **/*.p12

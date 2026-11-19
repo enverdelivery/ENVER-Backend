@@ -118,6 +118,45 @@ variable "compute_ami_id" {
   }
 }
 
+variable "api_secret_arns" {
+  description = "T-INFRA-019: lista vacía (policy inerte), core3 o core4 aprobado. Orden obligatorio mongodb, jwt, hmac, redis; solo los cuatro ARNs exactos autorizados. Metadata, nunca valores ni VersionIds. Poblar inputs no aplica IAM ni publica boundary v3."
+  type        = list(string)
+  default     = []
+  nullable    = false
+
+  validation {
+    condition = length(var.api_secret_arns) == 0 || try(
+      contains([3, 4], length(var.api_secret_arns)) &&
+      length(distinct(var.api_secret_arns)) == length(var.api_secret_arns) &&
+      alltrue([
+        for arn in var.api_secret_arns : contains([
+          "arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/mongodb-Iuqeur",
+          "arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/jwt-AweYNs",
+          "arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/hmac-s9TSqb",
+          "arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP"
+        ], arn)
+      ]) &&
+      tolist([
+        for arn in var.api_secret_arns :
+        regex("^arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/(mongodb|jwt|hmac|redis)-[A-Za-z0-9]{6}$", arn)[0]
+      ]) == tolist(slice(["mongodb", "jwt", "hmac", "redis"], 0, length(var.api_secret_arns))),
+      false
+    )
+    error_message = "api_secret_arns debe contener 0, los tres core aprobados o los cuatro ARNs exactos aprobados, en orden mongodb/jwt/hmac[/redis], de us-east-1/cuenta926925605666/enver/dev/api. Sin otros sufijos, comodines ni placeholders."
+  }
+}
+
+variable "api_secrets_kms_key_arn" {
+  description = "T-INFRA-019: ARN exacto aprobado de aws/secretsmanager (evidencia previa/owner), obligatorio con api_secret_arns no vacío. Solo metadata; null conserva el contrato inerte, sin otra clave ni material criptográfico."
+  type        = string
+  default     = null
+
+  validation {
+    condition     = var.api_secrets_kms_key_arn == null ? true : var.api_secrets_kms_key_arn == "arn:aws:kms:us-east-1:926925605666:key/51e1d79c-e924-4330-ac41-c9b263ee4ce3"
+    error_message = "api_secrets_kms_key_arn debe ser null o el ARN exacto aprobado de aws/secretsmanager: key/51e1d79c-e924-4330-ac41-c9b263ee4ce3 en cuenta926925605666/us-east-1. Sin alias, comodines u otras claves."
+  }
+}
+
 variable "runtime_permissions_boundary_arn" {
   description = "ARN real aprobado de boundary externa ENVER, creada por administrador humano y no gestionada por Terraform. Obligatorio; verificar existencia/contenido/version/custodia antes de plan. Sin secreto ni default."
   type        = string
@@ -127,5 +166,33 @@ variable "runtime_permissions_boundary_arn" {
     # Referencia determinística de cuenta/nombre aprobados, NO prueba de existencia.
     condition     = var.runtime_permissions_boundary_arn == "arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary"
     error_message = "Se requiere el ARN real aprobado, path /, de ENVER-Runtime-Permissions-Boundary en la cuenta baseline. No usar placeholder/otra policy; verificar creación manual y custodia independiente."
+  }
+}
+
+variable "cache_node_type" {
+  description = "T017: candidato development. AWS documenta T4g micro con Valkey >=7.2; oferta us-east-1 y capacidad real pendientes. Cambiar tamaño requiere revisión de plan/costo, no autoriza apply."
+  type        = string
+  default     = "cache.t4g.micro"
+  nullable    = false
+
+  validation {
+    condition     = contains(["cache.t4g.micro", "cache.t4g.small", "cache.t4g.medium"], var.cache_node_type)
+    error_message = "El diseño T017 solo contempla la familia T4g development (micro/small/medium); otro nodo requiere revisión explícita."
+  }
+}
+
+variable "valkey_runtime_user_id" {
+  description = "T017: ID no secreto de usuario VALKEY EXTERNALLY MANAGED, verificado por evidencia del owner, sin lookup AWS. null bloquea grupo/cache; no password, ARN ni ID ficticio."
+  type        = string
+  default     = null
+  nullable    = true
+
+  validation {
+    condition = var.valkey_runtime_user_id == null ? true : (
+      length(trimspace(var.valkey_runtime_user_id)) > 0 &&
+      can(regex("^[a-z][a-z0-9-]{0,127}$", var.valkey_runtime_user_id)) &&
+      var.valkey_runtime_user_id == "enver-dev-runtime"
+    )
+    error_message = "T017 solo admite el ID no vacío/formato válido enver-dev-runtime, provisionado y verificado por el owner externo; no se consulta su existencia por API."
   }
 }

@@ -39,6 +39,8 @@ coverage.*
 *.log
 
 # Archivos temporales y del sistema operativo
+[Tt]emp/
+[Tt]mp/
 *.tmp
 *.temp
 *.bak
@@ -52,14 +54,18 @@ Desktop.ini
 # Secretos y configuración local: .env.example debe contener solo placeholders
 .env
 .env.*
+*.env
 !.env.example
 appsettings.Local.json
 appsettings.*.Local.json
+appsettings.Runtime.json
 secrets.json
 *.pfx
 *.p12
 *.pem
 *.key
+*.dpapi
+*.dpapi.*
 .aws/
 .azure/
 .ssh/

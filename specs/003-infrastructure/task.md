@@ -4,13 +4,13 @@
 
 | Campo | Valor |
 | --- | --- |
-| Versión / fecha | 0.65.0 / 2026-11-14 UTC |
-| Solicitud inicial / incremento actual | CIERRE FORMAL T-INFRA-008 / E008 / DP-I-14 — HUMAN ACCEPTANCE / DOCUMENTATION / LOCAL COMMIT (§54). El responsable acepta no aplicabilidad CVE-2026-82560 únicamente para development/source078130627bc5/taggit-078130627bc5/root5da876d7…/hijo85260782…. E008 **ACCEPTED / ACEPTADA**, T008 **COMPLETE / ACCEPTED — COMPLETA / ACEPTADA** en alcance contrato/controles de imagen y DP-I-14 **ACCEPTED / ACEPTADO** como diseño. Scan COMPLETE 0CRITICAL/1HIGH/0restantes conservado; no scan limpio ni deployment autorizado. T019 desbloqueada respecto de T008/DP14, implementación y E019 pendientes, sin READY incondicional; GATE-I-B pendiente. Solo task/memoria y exactamente UN commit local autorizado; cero AWS/ECR writes, sin build/push/deployment |
+| Versión / fecha | 0.137.0 / 2026-11-17 UTC |
+| Solicitud inicial / incremento actual | **Continuación exclusiva de §125 (§126): FASE 1 = NOT READY.** Evidencia manual del responsable: STS identidad exacta PASS y DescribeSessions Active PASS/Sessions=[]; cobertura administrativa SSM SATISFECHA para esa observación, sin repetir llamadas ni ampliar IAM. NO ACTIVE EMITTERS SATISFECHO en el alcance observado; no es freeze mantenido ni NO COMMAND IN FLIGHT. W3 excluido de mutación de cuotas en sus caminos conocidos readonly/ACL y CONTROL no ejecutado; no se inventa otro emisor administrativo. Único bloqueo: evidencia atribuible de no-despacho operacional o terminal completo W1/API-EVAL y W2/lifecycle-EVAL. Sin reabrir clasificaciones/prerrequisitos cerrados ni iniciar ventana, freeze, CONTROL real, Redis, G o deployment; sin código/pruebas/AWS/IAM ejecutados ni commit/push en esta continuación |
 | Fuentes | [spec.md](spec.md) y [plan.md](plan.md), propuesta aprobada como base documental |
 | Catálogo | 30 tareas, T-INFRA-001 a T-INFRA-030 |
-| Estado vigente de tareas | 001/002/025 **COMPLETA / ACEPTADA** por aceptación humana explícita (§37); 005 **COMPLETA / ACEPTADA**, E005 **ACEPTADA** para el alcance actual con excepciones operativas temporales, no separación técnica integral (§39); 006 **COMPLETA / ACEPTADA**, E006 **ACEPTADA** para el alcance actual documentado con excepción temporal de egreso (§42); 008 **COMPLETA / ACEPTADA**, E008 **ACEPTADA**, DP-I-14 **ACEPTADO** para contrato/diseño y controles de imagen development exacta (§54), no operación de004; 015 **COMPLETA / ACEPTADA**, E015 **ACEPTADA** para diseño/contrato Atlas (§44), no Atlas operativo; 016 **COMPLETA / ACEPTADA**, E016 **ACEPTADA** para revisión de diseño/contrato y matrices (§46), no runtime; 003/004/007 PARCIAL / aceptación pendiente; 009 PARCIAL / VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA (§32.15), dependencias/decisiones y aceptación integral pendientes; 010 PARCIAL / recuperación conservadora acreditada, prueba formal pendiente; 019 **PARCIAL / DESBLOQUEADA RESPECTO T008-DP14 / IMPLEMENTACIÓN PENDIENTE** (§54), E019/DP09 y diferidos propios pendientes, sin READY incondicional; otras16 PENDIENTE / NO EJECUTADA, incluida026. Catálogo: 8 completas + 6 parciales + 16 pendientes = 30 |
+| Estado vigente de tareas | 001/002/025 **COMPLETA / ACEPTADA** por aceptación humana explícita (§37); 005 **COMPLETA / ACEPTADA**, E005 **ACEPTADA** para el alcance actual con excepciones operativas temporales, no separación técnica integral (§39); 006 **COMPLETA / ACEPTADA**, E006 **ACEPTADA** para el alcance actual documentado con excepción temporal de egreso (§42); 008 **COMPLETA / ACEPTADA**, E008 **ACEPTADA**, DP-I-14 **ACEPTADO** para contrato/diseño y controles de imagen development exacta (§54), no operación de004; 015 **COMPLETA / ACEPTADA**, E015 **ACEPTADA** para diseño/contrato Atlas (§44), no Atlas operativo; 016 **COMPLETA / ACEPTADA**, E016 **ACEPTADA** para revisión de diseño/contrato y matrices (§46), no runtime; 003/004/007 PARCIAL / aceptación pendiente; 009 PARCIAL / VALIDACIÓN TÉCNICA DE HOSTS ACREDITADA (§32.15), dependencias/decisiones y aceptación integral pendientes; 010 PARCIAL / recuperación conservadora acreditada, prueba formal pendiente; **017 COMPLETE / ACCEPTED; 019 COMPLETE / ACCEPTED** por aceptación humana explícita (§84), con evidencias de infraestructura/Valkey runtime A/B y CORE4/IAM/secretos A/B aceptadas en el alcance descrito; **020 COMPLETE / ACCEPTED** por aceptación condicionada explícita y cumplimiento de bootstrap/CAS no-op/negativos A-B (§92), con límites de metadata y sin aceptación global de AUTH-027/recuperación/deployment. Otras14 PENDIENTE / NO EJECUTADA, incluida026. Catálogo actual **11 completas/aceptadas + 5 parciales + 14 pendientes = 30**, gates sin cambio |
 | Estado de todos los gates | I-A **SATISFECHO** por aceptación explícita (§37); B–I **PENDIENTE / NO SATISFECHO** |
-| Evidencia de ejecución de 003 | Historial §§18–37 intacto. §32.15 conserva SSM/Docker A/B, sin contenedores ni servicio Enver.API observados entonces. §38 registra auditoría IAM previa, Compute v5 efectiva tras intervención humana y plan NUEVO post-v5 de 2026-11-13T14:37:09.988Z–14:37:27.758Z: exit2, recursos0/0/0/0replacements y +outputcompute_instances; refresh con discrepancias en8recursos, sin acciones correctivas. No zero drift absoluto, no apply ni reutilización de recovery4; ninguna nueva operación AWS/plan en la entrega documental |
+| Evidencia de ejecución de 003 | Historial §§18–37 intacto. §32.15 conserva SSM/Docker A/B, sin contenedores ni servicio Enver.API observados entonces. §38 registra auditoría IAM previa, Compute v5 efectiva tras intervención humana y plan NUEVO post-v5 de 2026-11-13T14:37:09.988Z–14:37:27.758Z: exit2, recursos0/0/0/0replacements y +outputcompute_instances; refresh con discrepancias en8recursos, sin acciones correctivas. §55 agrega inventario IAM/Secrets **solo lectura** de 2026-11-14T02:07–02:16Z y un plan `-refresh=false` exit0 0/2/0 sin mutar state. No zero drift absoluto, no apply ni reutilización de recovery4; ninguna escritura AWS/Secrets/IAM en §55 |
 | Baseline documental original | `feature/authentication`, `c58ea86e3eddff4befa8f61398dd58d55c4ef985` |
 | Baseline del BUILD actual | `feature/infrastructure`, creada desde `3b4760ea8387b1cabff56e5f5e0ba5ffe8acb932`, árbol inicialmente limpio |
 | Checkpoint previo a INFRA-2/3 | `feature/infrastructure`, `611071f0ecb0d6cb67993f4e9bffd00d328a2f90`, árbol limpio al iniciar §9 |
@@ -472,12 +472,13 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-017 — Opción Redis y compatibilidad
 
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Estado vigente §84:** **COMPLETE / ACCEPTED**, por aceptación humana explícita de infraestructura Valkey y secuencia runtime completa A/B (§83). E(T-INFRA-017) aceptada para ese alcance: Valkey7.2.6/cache.t4g.micro/TLSrequired/cifrado en reposo/0réplicas, DNS/TCP/TLS/AUTH/PING/CRUD/EVAL(GET)/ACLnegativo/limpieza PASS; sin datos persistentes de prueba ni credenciales expuestas. No implica HA, capacidad/continuidad/recuperación de T018, despliegue o gates aceptados.
+- **Estado histórico al cierre de §59:** **DESIGNED / REGIONAL VERIFIED / PLAN VALIDATED WITH AUTH BLOCKER / AUTH IMPLEMENTATION PENDING / APPLY BLOCKED**. Región verificada administrativamente por responsable, plan real con enver-admin-temp exit0:6altasT017, más1IAMT019previa y2EC2ajenas no aceptadas. Provider acepta Valkey7.2/valkey7/T4gmicro/TLSrequired/at-rest/noeviction y estructuraRBAC; **no prueba de CreateUserGroup/CreateReplicationGroup o autenticación**. Bloqueo de implementación/activación segura del usuario/password externo, **no error/rechazo AWS observado**. No COMPLETE/ACCEPTED ni recursos creados en aquel incremento. E017/DP-I-07/compatibilidad integral pendientes entonces. §58 conserva diseño y estado anterior; origen PENDIENTE / NO EJECUTADA histórico.
 - **Fase:** INFRA-9 Redis.
 - **Objetivo:** seleccionar opción viable sin alterar semántica de seguridad.
 - **Dependencias:** T-INFRA-001, T-INFRA-004, T-INFRA-005; DP-I-07.
 - **Trazabilidad:** INFRA-003, 016–018; PLD-INFRA-009; AC-I-07.
-- **Archivos esperados:** futuros `infra/redis.tf`, `variables.tf` y decisión en `spec.md`.
+- **Archivos esperados originalmente:** futuros `infra/redis.tf`, `variables.tf` y decisión en `spec.md`. **Incremento autorizado §58:** candidato equivalente `infra/elasticache.tf`, variable en `infra/variables.tf`, seis outputs no secretos en `infra/outputs.tf`; registro solo en task/memoria, sin editar spec/plan ni considerar adoptada la compatibilidad Valkey.
 - **Acciones futuras:** comparar ElastiCache nodos frente a Redis dedicado EC2 privada; evaluar costo total, versión/topología, TLS/ACL, TIME, Lua, atomicidad/noeviction y restricciones de comandos administrativos.
 - **Aceptación:** selección aprobada con matriz de compatibilidad a comprobar en 028; no Serverless/Valkey/Cluster por equivalencia asumida y sin afirmar HA del nodo único.
 - **Evidencia:** E(T-INFRA-017), decisión/costo y matriz de comandos/parámetros/adapter.
@@ -500,12 +501,16 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-019 — Secretos externos, entrega y rotación
 
-- **Estado vigente §54:** **PARCIAL / DESBLOQUEADA RESPECTO T008-DP14 / IMPLEMENTACIÓN PENDIENTE**. Dependencia T008/DP-I-14 satisfecha por aceptación explícita; T005 ya aceptada en su alcance. Inventario/diseño§47 revisados, **E019 y DP-I-09 pendientes**; Redis017/018, authority020/IMDS, IAM/KMS/ARNs reales, helper/adapter/TLS/rotación y pruebas conservan puertas de implementación. No READY TO PROCEED incondicional, provisión/delivery/runtime acreditados ni inicio automático; se puede solicitar siguiente incremento delimitado.
+- **Estado vigente §84:** **COMPLETE / ACCEPTED**, por aceptación humana explícita basada en boundary defaultv3, acceso CORE4 exacto, política efectiva AWS/state canónico consistentes (§79) y GetSecretValue Mongo/JWT/HMAC/Redis PASS + ListSecrets DENIED en A/B (§81). E(T-INFRA-019) aceptada para ese alcance, sin SecretString/password expuestos. No acredita despliegue, rotación real/helper/adapter de aplicación, T020 ni cierre de gates por inferencia.
+- **Estado histórico al cierre de §57:** **PARTIAL / CORE SECRETS CREATED / BOUNDARY V2 ACTIVE / RUNTIME IAM APPLIED / CORE SECRET ACCESS A/B PASS / REDIS PENDING**. Evidencia administrativa y pruebas A/B aportadas por el responsable: v2 default/v1 preservada, inline enver-dev-secrets-read presente, GetSecretValue Mongo/JWT/HMAC PASS y ListSecrets AccessDeniedException en cada host. Sin valores en evidencia; registro documental, no pruebas repetidas por el agente. **E019 pendiente, no COMPLETE entonces**; Redis/T017, authority/T020 y delivery/adapter/rotación/aceptación integral seguían pendientes. T008/DP14 permanecían aceptados; gates no cerrados por aquel PASS.
+- **Estado al cierre de §56:** **PARTIAL / CORE SECRETS CREATED (informado por responsable; metadata API pendiente) / BOUNDARY OWNER ACTION REQUIRED / REDIS PENDING**. Tres ARN/VersionId registrados sin leer valores; consultas metadata/KMS denegadas y lectura IAM bloqueada en sesión temporal sin MFA. V2-core3 propuesta local, **NO publicada/default por el agente**; defaultv1 conservado como evidencia histórica, no revalidado entonces. HCL admite0/3/4, inputs plan-only y policycore3 preparados; plan1altaIAM+2cambiosEC2previos, **no apply** ni aceptación de esos cambios ajenos. E019/DP09/helper/adapter/runtime/Redis/authority seguían pendientes. T008/DP14 permanecían aceptados.
+- **Estado al cierre de §55:** **PARCIAL / BLOQUEADA POR AUTORIZACIÓN IAM Y VALORES HUMANOS / REDIS PENDIENTE**. Mongo/JWT/HMAC **NO creados por el agente en aquel incremento**, existencia no verificable; boundaryv1 denegante según lectura entonces. Redis **PENDING VALUE** sin provisión. Policy de lectura mínima **preparada e inerte** en HCL (§55.6), no aplicada; boundary v2 **candidata no aplicada** (§55.7). E019/DP-I-09 pendientes; sin secretos/ARNs/VersionId/helper/adapter/runtime implementados ni deploy por aquella intervención.
+- **Estado previo §54:** **PARCIAL / DESBLOQUEADA RESPECTO T008-DP14 / IMPLEMENTACIÓN PENDIENTE**. Dependencia T008/DP-I-14 satisfecha por aceptación explícita; T005 ya aceptada en su alcance. Inventario/diseño§47 revisados, **E019 y DP-I-09 pendientes**; Redis017/018, authority020/IMDS, IAM/KMS/ARNs reales, helper/adapter/TLS/rotación y pruebas conservan puertas de implementación. No READY TO PROCEED incondicional, provisión/delivery/runtime acreditados ni inicio automático; se puede solicitar siguiente incremento delimitado.
 - **Impacto al cierre de §50:** publicación nueva y scan COMPLETE no eliminan el bloqueo T008/DP-I-14: aquella candidata FAIL, E008 no aceptada. Se mantienen PARCIAL/E019 aceptación pendiente y todos los diferidos propios; no implementación ni provisión de secretos.
 - **Remediación local §51:** no elimina dependencia T008/DP-I-14 aceptada ni cierra E019; sin secretos/IAM/helper/adapter/runtime implementados por el cambio de glibc.
 - **Impacto al cierre de §52:** publicación final y glibc remediado acreditados, **SECURITY CANDIDATE CONDITIONAL por Perl sin decisión aceptada**. T008 no integralmente acreditado/aceptado; **NO se elimina el bloqueo T008/DP-I-14 para T019**. T019 sigue PARCIAL/E019 aceptación/provisión pendientes, diferidos y límites intactos.
 - **Impacto al cierre de §53:** Perl técnicamente NOT APPLICABLE al digest evaluado / finding FALSE POSITIVE CANDIDATE, **no aceptado entonces**; la evaluación redujo la incertidumbre técnica, sin aceptar E008/DP-I-14 ni su dependencia. **T019 PARCIAL / E019 aceptación-provisión pendientes y bloqueo T008/DP-I-14 conservado entonces**, sin helper/adapter/IAM/secretos/runtime implementados.
-- **Impacto vigente §54:** **bloqueo de dependencia T008/DP-I-14 ELIMINADO**, no bloqueo vigente de imagen/Perl para preparar T019. E019/DP-I-09 y diferidos propios permanecen; **no T019 COMPLETA ni READY operativo/global**, no aceptación de secretos/configuración/deployment por este acto.
+- **Impacto histórico de §54:** **bloqueo de dependencia T008/DP-I-14 ELIMINADO**, no bloqueo de imagen/Perl para preparar T019. E019/DP-I-09 y diferidos propios permanecían entonces; **no T019 COMPLETA ni READY operativo/global por aquel acto**, no aceptación de secretos/configuración/deployment por §54. La aceptación posterior de T019 se registra en §84.
 - **Fase:** INFRA-10 Configuración.
 - **Objetivo:** mantener secretos runtime fuera de Git/imagen/state y distribuirlos de forma coordinada.
 - **Dependencias:** T-INFRA-005, T-INFRA-008; DP-I-09/14.
@@ -520,7 +525,13 @@ Notación abreviada: E(001) = E(T-INFRA-001); E(003–006) exige cada una de las
 
 ### T-INFRA-020 — Tabla authority y bootstrap controlado
 
-- **Estado:** PENDIENTE / NO EJECUTADA.
+- **Hitos de diseño §86 (históricos):** **DESIGNED / AWS OWNERSHIP CONFIRMED / HCL VALIDATED / BOUNDARY V4 PROPOSED / TARGETED PLAN READY / APPLY PENDING**. Perfil enver-t020-state/STS exacta; ListTables vacío, ownership **B**. Tabla/policy definidas; fmt/validate/plan exit0, **2/0/0 aislado**. Sin apply, publicación v4, bootstrap o prueba runtime. El bloqueo §85 y el origen PENDIENTE / NO EJECUTADA se conservan como antecedentes; no aceptación integral de E020/T020.
+- **Intento §87 (histórico):** apply explícitamente autorizado para tabla/policy, pero **APPLY PENDING / BLOCKED — BOUNDARY DEFAULT UNVERIFIED**: iam:GetPolicy denegado al perfil exclusivo, no se acredita default v4. STOP antes de fmt/validate/replan/apply; diseño/evidencia §86 conservados, sin provisión/bootstrap/runtime por este intento.
+- **Preflight §88 (histórico):** **BOUNDARY V4 VERIFIED DEFAULT / PREFLIGHT PASS / APPLY PERMISSIONS IDENTIFIED / TARGETED PLAN READY / APPLY PENDING**. STS/GetPolicy/GetPolicyVersion/fmt/validate/replan exit0; plan nuevo aislado **2/0/0**. Requisitos provider6.73.0 identificados por lectura, **no permisos efectivos de write comprobados entonces**. Aquella solicitud prohibía apply; se conserva su historial.
+- **Infraestructura §89 — PARCIAL / aceptación pendiente:** **INFRASTRUCTURE IMPLEMENTED / BOUNDARY V4 ACTIVE / RUNTIME IAM APPLIED / BOOTSTRAP PENDING / RUNTIME TEST PENDING / ACCEPTANCE PENDING**. Autorización posterior explícita, plan nuevo aislado **2/0/0** y apply único exit0. Tabla ACTIVE y policy exacta verificadas entonces; sin bootstrap/data-plane/runtime/deployment. E020 integral y GATE-I-B pendientes; no se acepta la tarea por inferencia.
+- **Intento §90 (histórico) — PARCIAL / BOOTSTRAP BLOCKED — SESSION EXPIRED:** contrato inicial probado, pero **enver-admin-temp/STSexit254/ExpiredToken** impidió verificar identidad administrativa. Sin GetItem/PutItem/pruebas A-B ni fallback/grants. Historial conservado.
+- **Intento §91 (histórico) — PARCIAL / BOOTSTRAP BLOCKED — GETITEM ACCESS DENIED:** STS identificó user/enver-terraform-local, pero GetItem consistente exit254/AccessDeniedException; sin PutItem/runtime ni cambio IAM/boundary. Historial conservado, no bloqueo vigente de bootstrap.
+- **Estado vigente §92 — COMPLETE / ACCEPTED:** aceptación condicionada explícita del responsable satisfecha por item inicial exacto creado una sola vez con condición, readback/final consistentes y A/B con instance role exacto/GetItem/CAS no-op/CAS incorrecto/Scan-Delete-otraPK negativos PASS. Sin mutar confianza ni residuos. Baseline infraestructura §89 conservada; metadata administrativa adicional limitada en este turno, sin fallback/grants. No cierre de GATE-I-B, AUTH-027 integral o despliegue.
 - **Fase:** INFRA-10 Configuración.
 - **Objetivo:** contemplar DynamoDB authority existente, no un sustituto.
 - **Dependencias:** T-INFRA-005, T-INFRA-019; DP-I-08/09.
@@ -5285,3 +5296,4814 @@ Después de editar ambos documentos: ejecutar `git diff --check`, revisar ambos 
 Evidencia externa **`C:\Users\Alexander Vega\AppData\Local\Temp\opencode\infra4-t008-human-acceptance-20261114\`**: precheck/copiasbefore/acceptance-review/validaciones/diffs/index/commit/postcheck, sin secretos/statecopiado. **acceptance-review.json SHA256 e9083c97c8296ea827b93b30f84d910e1ee73566c66113ed56e178a6ffde4c2f**; publication-audit SHA256 **c7e6bd8fd126720202f8f122fc382e5a6caa271c438e6be9d4d8df004cda4a26**, post-push-readonly **37ce7c61a4b91b4aabd19e8ff1378dee96bf1e1b2273f222ae53e4af80cdd0da**, assessmentPerl **f31bf7a4e2cdcdd17bb310aa4bd9e9ac1747934b3d3a121363f69cfcd7613c94** revalidados sin alterarlos. Historia task§§47–53/memoria§§1–114 preservada, nueva aceptación no borra fallos/CONDITIONAL/FAIL anteriores.
 
 Otros246tracked huella **389ca9dda957696ef076cab553706d7a3b03747aef5083d702b35e17bfb857cb**; state39/nativo38 hashes **d214e2b172312123f64be213376130cad4e8be25fce36107ebbe258ffd045fff /23a74f1556b10ade14f509820a2a225d124201b03d52380fd39b5dc458314ea7**, planes históricos conservados por hashes; custodia cifrada sin acceso/restore/passphrase. **Cero AWS calls/writes/ECRwrites/StartImageScan/SSM/Secrets/Atlas/credenciales/Docker/tests en este incremento**; Terraform solo fmt-check/validate. No negar el push/costo histórico§52. **DETENER tras el único commit y postcheck limpio; no deployment ni Git push ni ejecución T019 automática.**
+
+## 55. T-INFRA-019 — Inventario IAM real, bloqueo de secretos y contrato de lectura
+
+### 55.1. Acto, autorización y baseline
+
+**2026-11-14 UTC — SECRETS / IAM DESIGN-TO-IMPLEMENTATION.** Fuente: solicitud del responsable **T-INFRA-019 — IMPLEMENTACIÓN CONTROLADA DE SECRETS MANAGER Y ACCESO RUNTIME**. Autoriza preparar e implementar T019 de forma controlada con baseline explícito (cuenta 926925605666, us-east-1, role/profile `enver-dev-api-runtime`, boundary `ENVER-Runtime-Permissions-Boundary`, perfil Terraform `enver-infra`, EC2 A/B y SSM Online). Prohíbe desplegar Enver.API, iniciar contenedores, configurar ALB/target group, `docker run`/`pull` en EC2, `SSM SendCommand` de despliegue, arranque de la API, commit y Git push.
+
+Precheck: branch **feature/infrastructure**, HEAD **78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb** (=§54; T008/DP-I-14 no se reabren), árbol limpio, 0 staged/0 untracked. Únicos archivos modificados: este documento, [memoria](../../memoria.md), `infra/variables.tf` e `infra/iam-runtime.tf`. **Sin commit ni Git push**; los cambios quedan para revisión humana.
+
+### 55.2. Identidad actuante y límite real de autorización
+
+| Campo | Valor observado |
+| --- | --- |
+| Identidad STS | `arn:aws:iam::926925605666:user/enver-terraform-local` |
+| Cuenta / región | 926925605666 / us-east-1 |
+| Managed policies | ENVER-Terraform-Compute, ENVER-Terraform-Network-Apply, ENVER-Terraform-IAM-Runtime, ENVER-Local-ECR-Publisher, ENVER-IAM-Audit-ReadOnly, ENVER-SSM-Verification, ENVER-Terraform-ECR |
+| Inline policies | ENVER-Terraform-AMI-Describe, ENVER-Terraform-AMI-Read, ENVER-Terraform-Network-Read |
+
+Leídos los nueve documentos: **ninguno concede acciones `secretsmanager`, `kms` o `dynamodb`**. Evidencia directa: `DescribeSecret` y `ListSecrets` → `AccessDeniedException`; `kms:DescribeKey` → `AccessDeniedException`; `dynamodb:ListTables` → `AccessDeniedException`; `elasticache:DescribeCacheClusters` → `AccessDenied`; `iam:SimulatePrincipalPolicy` → `AccessDenied`. El perfil `default` no tiene credenciales.
+
+Esto **no es un fallo del contrato**: es el límite vigente de la identidad de aprovisionamiento. No se amplió ni se intentó sortear, y por eso el incremento se detiene antes de cualquier valor secreto.
+
+### 55.3. Inventario IAM runtime (read-only)
+
+- Role `enver-dev-api-runtime`: RoleId `AROA5PUISJMRKXUDXRKIS`, creado `2026-11-13T01:57:20Z`, `MaxSessionDuration=3600`, boundary exacta adjunta, último uso `2026-11-14T02:00:03Z`.
+- Instance profile `enver-dev-api-runtime`: `AIPA5PUISJMRNSCUWILCJ`, un único rol asociado.
+- Managed policies adjuntas al rol: **ninguna**. Inline: `enver-dev-ssm-session`, `enver-dev-ecr-pull`.
+- Boundary `ENVER-Runtime-Permissions-Boundary`: PolicyId `ANPA5PUISJMRCLMXU4FO7`, única versión `v1` (default), creada `2026-11-13T00:04:38Z`, `PermissionsBoundaryUsageCount=1`.
+- Contenido v1: tres Allow (canales SSM; `ecr:GetAuthorizationToken` con región+cuenta; tres lecturas ECR del repositorio `enver-dev-api`), más **`DenyEveryActionOutsideRuntimeContract` con `NotAction` limitado a esas ocho acciones**, `DenyPullFromOtherRepositoriesEvenWithSessionGrants` y `DenyRuntimeActionsOutsideApprovedRegion`.
+
+**Estado efectivo: Secrets Manager DENIED, KMS DENIED, DynamoDB DENIED** por el `Deny NotAction`. Un Allow en la policy del rol no puede prevalecer: en IAM el Deny explícito gana. La managed policy `ENVER-Terraform-IAM-Runtime` incluye `DenyAdministrationOfExternalRuntimeBoundary`, que deniega `CreatePolicyVersion`/`SetDefaultPolicyVersion`/`DeletePolicy` sobre la boundary: se administra fuera de Terraform por un humano y así se mantiene.
+
+### 55.4. Secrets Manager: resultado real, no supuesto
+
+No fue posible verificar existencia (`DescribeSecret`/`ListSecrets` denegados). Por tanto **no se declara que los secretos no existan**: se declara **existencia no verificada**. Por la regla de no sobrescritura, **no se creó ni modificó nada**.
+
+| Finalidad | Nombre previsto | Estado real | ARN / VersionId |
+| --- | --- | --- | --- |
+| MongoDB | `enver/dev/api/mongodb` | **NO CREADO** — sin permiso de escritura; password retenida por el operador, nunca solicitada en chat | N/A |
+| JWT | `enver/dev/api/jwt` | **NO CREADO** — mismo límite de identidad | N/A |
+| HMAC | `enver/dev/api/hmac` | **NO CREADO** — mismo límite de identidad | N/A |
+| Redis | `enver/dev/api/redis` | **PENDING VALUE** — Redis real no provisionado | N/A |
+
+Decisión deliberada: **no se generó material JWT/HMAC huérfano**. Generar claves sin destino autorizado ni custodia aprobada produciría material secreto sin propietario; la generación debe ocurrir en el paso de creación con identidad autorizada y sin exposición.
+
+**Cero valores secretos leídos, impresos, transmitidos o persistidos en este incremento.** Ningún secreto entró en Git, state, user-data, ENV, build args, imagen, logs, este documento ni memoria. Los ARN/VersionId se registrarán cuando existan y serán los únicos metadatos admisibles.
+
+### 55.5. KMS
+
+La clave gestionada `alias/aws/secretsmanager` existe en la cuenta (resolución observada a `key/51e1d79c-e924-4330-ac41-c9b263ee4ce3`), pero su política no pudo leerse (`DescribeKey` denegado). Con clave gestionada por AWS, obtener un valor exige `kms:Decrypt` sobre esa clave, restringible con `kms:ViaService=secretsmanager.us-east-1.amazonaws.com` y `kms:CallerAccount=926925605666`. No se otorga Encrypt/GenerateDataKey/CreateKey/ReEncrypt*. La condición de encryption context **no se declara viable** sin leer la clave: queda verificación pendiente, no garantía.
+
+### 55.6. Cambio IaC preparado e inerte
+
+- `infra/variables.tf`: `api_secret_arns` (list, default vacío) y `api_secrets_kms_key_arn` (string, default null). La validación exige, cuando se puebla, **exactamente cuatro ARNs completos y distintos** de la cuenta/región/ambiente baseline, con sufijo de seis caracteres y una finalidad por secreto; rechaza comodines, placeholders y ARNs de otra cuenta/región.
+- `infra/iam-runtime.tf`: `aws_iam_role_policy.api_secrets_read` con `count=0` mientras la lista esté vacía. Al poblarse concede solo `secretsmanager:GetSecretValue` sobre esos cuatro ARNs y `kms:Decrypt` sobre la clave declarada con ViaService/CallerAccount. Sin `ListSecrets`, `CreateSecret`, `PutSecretValue`, `UpdateSecret`, `DeleteSecret` ni `RotateSecret`; sin `Resource:"*"`.
+
+Motivo de la forma: el ARN definitivo de Secrets Manager incluye un sufijo aleatorio que **solo existe tras crear el secreto**; inventarlo o usar `*` violaría el requisito de ARNs exactos. El `count` mantiene el plan sin cambios y evita un grant prematuro. Estado real: **policy no aplicada** (sin apply) y, aun aplicada, **ineficaz** hasta que la boundary externa v2 la admita.
+
+### 55.7. Boundary v2 — candidato NO aplicado
+
+Para habilitar la lectura hace falta una versión nueva de la boundary, publicada por su administrador humano, que (a) incorpore `secretsmanager:GetSecretValue` y `kms:Decrypt` al `NotAction` del Deny existente y (b) agregue Deny acotados: `GetSecretValue` con `NotResource` a los cuatro ARNs y `kms:Decrypt` con `StringNotEquals` de ViaService/CallerAccount. Alternativa a evaluar por el owner: conservar el Deny `NotAction` y añadir Allow explícito por acción/recurso.
+
+**No se aplicó ni se preparó como artefacto aplicable**: sin ARNs reales cualquier versión sería un placeholder que no debe publicarse, y esta identidad tiene prohibido administrar la boundary por diseño.
+
+Orden obligatorio futuro: crear secretos con identidad autorizada → obtener los cuatro ARNs → poblar variables → boundary v2 por su owner → apply IAM autorizado → verificar lectura desde el host.
+
+### 55.8. Entrega al host, permisos de archivo e IMDS
+
+Contrato conservado y **no implementado**: instance profile → Secrets Manager → helper en host → tmpfs `/run/enver/secrets/` con `mongodb.json`, `jwt.json`, `hmac.json`, `redis.json` → bind mount read-only → adaptador .NET → memoria. Sin ENV/argv/build args/archivos persistentes/user-data.
+
+Permisos exigidos: directorio ancestro `0700`, archivos `0400` o `0440` compatibles con UID/GID `1654:1654`, `umask 0077`, publicación atómica del conjunto completo, sin workaround world-readable.
+
+IMDS verificado en ambas instancias: `HttpTokens=required`, `HttpPutResponseHopLimit=1`. El helper del host usa el instance profile; el contenedor no consulta IMDS. No se cambió hop limit ni metadata options. No se instaló helper, no se usó `SSM SendCommand`, no se inició contenedor ni la API.
+
+### 55.9. Estado de tareas, gates y validaciones
+
+- **T019: PARCIAL / BLOQUEADA POR AUTORIZACIÓN IAM Y VALORES HUMANOS / REDIS PENDIENTE.** No cumple ninguna rama de cierre del encargo: los tres secretos core no existen y la boundary sigue denegando. **E019 no aceptada.**
+- **T017: sin cambio.** Redis no provisionado (no hay `redis.tf` ni security group de caché; la lectura de ElastiCache está denegada, por lo que la ausencia se apoya en IaC/SG, no en una consulta positiva). `enver/dev/api/redis` permanece **PENDING VALUE**.
+- **T020: sin cambio.** DynamoDB no verificable (`ListTables` denegado) y sin ampliación de boundary.
+- **GATE-I-B: PENDING / NOT SATISFIED.** Catálogo sin cambios: 8 completas + 6 parciales + 16 pendientes = 30; gates 1 satisfecho + 8 pendientes.
+
+| Validación autorizada | Resultado |
+| --- | --- |
+| `terraform fmt -recursive infra` | exit0; reformateó `variables.tf` |
+| `terraform fmt -check -recursive .` | exit0 |
+| `terraform -chdir=infra validate` | exit0, configuración válida |
+| `terraform -chdir=infra plan -refresh=false` | exit0; **0 add, 2 change, 0 destroy**; los 2 cambios son drift previo de atributos de instancia ajenos a T019 y la policy nueva no aparece (count0) |
+| `git diff --check` | exit0 |
+| State / backup | hashes `d214e2b1…` / `23a74f15…` idénticos antes y después; sin refresh ni escritura de state |
+
+`-refresh=false` se usó deliberadamente: el plan por defecto puede escribir el state refrescado y este incremento no autoriza mutarlo. **No hubo apply, commit ni Git push. AWS writes: 0; Secrets Manager writes: 0; IAM writes: 0; deployment: 0.**
+
+## 56. T019 — Core3 informados, boundary v2 propuesta y HCL 0/3/4 sin apply
+
+### 56.1. Autorización, baseline y separación de evidencia
+
+**2026-11-14 UTC — IAM / SECRETS METADATA / NO DEPLOYMENT.** Solicitud explícita **PREPARAR BOUNDARY V2 + IAM PARA 3 CORE SECRETS**. Autoriza metadata de tres secretos, DescribeKey, revisión de v1, propuesta v2 y publicación de exactamente una versión/default **solo si se acredita autoridad administrativa suficiente**. HCL/inputs locales no secretos y fmt/fmt-check/validate/plan autorizados; **NO GetSecretValue, lectura de SecretString, escritura de secretos, Terraform apply, ejecución en EC2, Docker, ECRwrites, deployment, commit ni Git push**. No se usa autorización condicional como prueba de permisos.
+
+Precheck **03:32:55.952Z**: branch **feature/infrastructure**, HEAD **78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, exactamente los cuatro archivos esperados modificados por §55 (iam-runtime/variables/task/memoria), **0 staged/0 untracked**. Copiasbefore/hashes externos preservan cambios existentes. Otros244tracked y state/nativo/planes históricos conservados por hashes; spec/plan/constituciones/AGENTS/README/código/Dockerfile/bootstrapv1 no modificados.
+
+**Confirmado por responsable:** Mongo/JWT/HMAC ya creados, referencias de§56.2; Redis no existe todavía. **Observado por agente:** tres DescribeSecret y DescribeKey denegados; no valores leídos ni cambios cloud. **Propuesta:** JSONv2 y policycore3/inputs locales; no implementaciones AWS. **Pendiente:** verificación API y owner de boundary/default/apply/pruebas runtime/E019.
+
+### 56.2. Referencias exactas de los tres secretos
+
+| Propósito / nombre | ARN informado por responsable | VersionId informado / futuro mapping |
+| --- | --- | --- |
+| Mongo / enver/dev/api/mongodb | `arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/mongodb-Iuqeur` | `c9eb0b6c-d8c0-4ec1-b3fe-05809a0f33f4` → mongoSecretVersionId |
+| JWT / enver/dev/api/jwt | `arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/jwt-AweYNs` | `fe44b116-0c69-41c8-8daf-7c82be31d181` → jwtSecretVersionId |
+| HMAC / enver/dev/api/hmac | `arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/hmac-s9TSqb` | `fecf274e-12d7-4c58-b0d8-06d2149c015a` → hmacSecretVersionId |
+
+Los ARN pasan cuenta/región/nombre/sufijo **por sintaxis e inputs**, no por respuesta del servicio. **DescribeSecret a cada ARN: AccessDeniedException /exit254**; existencia/Name/VersionIdsToStages/CreatedDate/LastChangedDate/KmsKeyId no acreditados por API en este incremento. No registrar stages o fechas inventados; no interpretar denegación como inexistencia ni invalidar el informe del responsable. **No se llamó GetSecretValue/ListSecretVersionIds ni se modificaron secretos**. No se exige ni solicita password Mongo, material JWT/HMAC ni reentrada de valores.
+
+Redis **PENDING / NO EXISTE TODAVÍA según responsable**, sin ARN/VersionId/placeholder creado. No aparece en la lista de permisos actual; futura cuarta finalidad solo cuando T017 aporte endpoint/auth reales. VersionIds son metadata para el futuro manifest§48; **no son SecretString**, no se crean recursos Terraform Secret/SecretVersion ni se genera un release promovible incompleto.
+
+### 56.3. Sesiones temporales y bloqueo de la revisión IAM/KMS
+
+STS acredita **cuenta926925605666 / arn:aws:iam::926925605666:user/enver-terraform-local**. Dos sesiones GetSessionToken de una hora para inventario y plan; **credenciales exclusivamente en memoria/entorno transitorio del proceso e hijos, no impresas ni persistidas**. No credenciales nuevas en Git, HCL, tfvars, logs ni evidencias; no cambio de perfil/identidad para eludir controles.
+
+Inventario **03:34:21.992Z–03:34:37.199Z**: GetPolicy/ListPolicyVersions/GetUser/ListAttachedUserPolicies/ListUserPolicies/ListGroupsForUser/GetRole/ListRolePolicies → **InvalidClientTokenId**. La sesión GetSessionToken no llevaba MFA; AWS documenta que estas sesiones **no pueden llamar IAM sin autenticación MFA**: [GetSessionToken, Permissions](https://docs.aws.amazon.com/STS/latest/APIReference/API_GetSessionToken.html). Esto no acredita permisos administrativos ni una pérdida/retirada de la boundary. No se insistió con escrituras, credenciales de otro principal ni se pidió MFA/secretos por chat.
+
+Defaultv1/documento§55 y el Deny de administración externa de `ENVER-Terraform-IAM-Runtime` son **evidencia histórica**, no releídos en esta sesión. **Default actual/final: no verificable ahora; el agente no lo modificó.** No se afirma defaultv2, ausencia de otras versiones ni autoridad CreatePolicyVersion/SetDefaultPolicyVersion confirmada. **BOUNDARY_OWNER_ACTION_REQUIRED; CreatePolicyVersion/SetDefaultPolicyVersion NO intentados**. No borrar v1, detach ni reemplazar el ARN de policy; protecciones administrativas externas intactas por no intervención.
+
+`kms:DescribeKey(alias/aws/secretsmanager)` → **AccessDeniedException**. Por ello **KeyId/ARN/KeyManager/KeyState no verificados ahora**. El ARN históricamente observado en§55 es `arn:aws:kms:us-east-1:926925605666:key/51e1d79c-e924-4330-ac41-c9b263ee4ce3`; se utiliza **solo como referencia provisional de propuesta/plan**, no como prueba KeyManagerAWS/Enabled ni selección de otra clave. **Bloquea publicación/aplicación** hasta que el owner confirme alias→eseARN, KeyManagerAWS, KeyStateEnabled y la clave asociada a los secretos/versiones. Si no coincide, detener/revisar inputs/propuesta/plan; no cambiar claves de secretos por este acto.
+
+### 56.4. Boundary v2-core3 exacta — archivo candidato, NO publicado
+
+Artefacto no secreto en directorio temporal aprobado:
+
+`C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t019-core3-boundary-2026-11-14T03-32-55-950Z\boundary-v2-core3.proposed.json`
+
+SHA256 **a3a32ac31108d7fb248a52a06fb86fa57f2f800f9a4bd78ee6a10a349ecb61cc**. Base **local** `infra/bootstrap/runtime-permissions-boundary.json` SHA256 **2bb119bae48dbc0b2ac3871770c85d199102ee34d744f7d365629939c9091b70** (sin modificar), documento previamente asociado a v1; no export actual autenticado. **12 statements /3788 caracteres sin whitespace**, bajo límite6144; no validación IAM remota pretendida.
+
+Cambios exactos verificados localmente:
+
+1. Conservar los seis statements originales. En `DenyEveryActionOutsideRuntimeContract.NotAction` añadir **solo GetSecretValue y kms:Decrypt** a las **nueve** acciones originales (la mención de ocho en§55 es antecedente impreciso; la lista literal manda).
+2. Añadir esas dos acciones a `DenyRuntimeActionsOutsideApprovedRegion.Action`, conservando us-east-1. Los restantes cuatro statements son idénticos byte-semánticamente a la base, incluidos Allow SSM/ECR y Deny repositorios ajenos.
+3. Allow máximo **GetSecretValue /tresARN§56.2 /RequestedRegionus-east-1 /PrincipalAccount926925605666**. Deny GetSecretValue con **NotResource exactamente esos tresARN**.
+4. Allow máximo **kms:Decrypt** sobre **solo ARNclave histórica§56.3**, con **ViaService=secretsmanager.us-east-1.amazonaws.com /CallerAccount=926925605666**.
+5. Deny Decrypt con **NotResource=esa clave**. Dos Deny independientes sobre esa clave: ViaService distinto/ausente y CallerAccount distinto/ausente. No combinar ambas desigualdades en un único AND que permitiría incumplir solo una.
+6. **EncryptionContext:SecretARN omitido**: no se inspeccionó contexto real de esta cuenta/versión. [AWS documenta SecretARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/security-encryption.html), pero no se presenta esa documentación como evidencia de ejecución actual. ViaService+CallerAccount se conservan; limitación residual: descifrado bajo esa clave no se vincula adicionalmente al ARNsecreto por contexto, aunque GetSecretValue queda limitado a los tres recursos.
+
+**Sin nuevos Allow Encrypt/GenerateDataKey/CreateKey/ReEncrypt*/DynamoDB/ListSecrets/DescribeSecret/escrituras de secretos. Sin Resource* en nuevos Allow**, ni ARNs de alias/Redis inventados. `Resource*` de denegaciones generales/SSM/ECRauth originales se conserva por su semántica, no es grant de secretos. Eliminar las dos acciones del Deny general **no basta**: la v2 también incluye los Allow exactos. La alternativa mencionada en§55 de conservar el Deny y añadir Allow no vencería el Deny; no se adopta.
+
+**Propuesta BLOQUEADA / NO PUBLICAR aún**: owner debe comparar con v1 actual exportada, verificar metadata y KMS, validar policy/permisos y solo entonces aprobar publicación de una versiónv2/default conservando v1. Si default/versión ya cambió, detener y revisar, no crear una v3 ni borrar versiones automáticamente. Owner no debe quitar las protecciones externas a enver-terraform-local para forzar esta operación.
+
+### 56.5. HCL y policy del role: core3 ahora, future4 después
+
+`infra/variables.tf` acepta exactamente **0,3o4** ARNs:
+
+- 0: lista vacía, policycount0.
+- 3: **mongodb,jwt,hmac**, en ese orden.
+- 4: **mongodb,jwt,hmac,redis**, en ese orden, con Redisreal.
+
+ARNs completos/distintos de cuenta926925605666/us-east-1/enver/dev/api/sufijo6, sin comodines o placeholders. Validación usa `try` para que formato inválido produzca rechazo de variable, no error de indexación; comparación de listas de tipos compatibles. Core3 ejercitado por el plan; future4 se mantiene como rama futura, **sin inventar un ARN para probarla**.
+
+`infra/iam-runtime.tf` conserva `aws_iam_role_policy.api_secrets_read`, nombre **enver-dev-secrets-read** /rol **enver-dev-api-runtime**. Sid genérico `GetOnlyExactRuntimeSecrets`; grants preparados: solo GetSecretValue sobre los tresARN +kms:Decrypt sobre clave candidata con ViaService/CallerAccount. No ListSecrets/DescribeSecret/PutSecretValue ni Resource*. Descifrado se incluye por el flujo de Secrets Manager y el DenyKMS de runtime: la clave gestionada puede aportar autorización por su keypolicy de servicio, pero no vence Deny explícito de boundary. **Policy no aplicada; acceso efectivo no acreditado.**
+
+Inputs no secretos en **`infra/t019-core3.tfvars.json`**, ignorados por `.gitignore:92` (comprobado con check-ignore), no modifican el ejemplo versionado ni autoseleccionan un release. TresARN§56.2 +ARNclave histórica§56.3; **PROVISIONAL / PLAN ONLY / NO APPROVED FOR APPLY** por verificación denegada. Se usa `-var-file=t019-core3.tfvars.json` explícito, no auto.tfvars. Solo metadata, ningún VersionId/material incorporado como valor secreto.
+
+`runtime-core3.proposed.json` externo contiene la misma policy preparada, SHA256 **f0e1cf8776409040d5db8438f34c829926b265d28235e14d58c6e2aaef3c7877**; no PutRolePolicy por CLI, no actor IAM paralelo a Terraform. No cambiar role/profile/trust/attachment/boundaryARN, inputs de DynamoDB/Redis ni metadataEC2.
+
+### 56.6. Validaciones y plan sin refresh/apply
+
+| Validación | UTC | Resultado |
+| --- | --- | --- |
+| terraform fmt -recursive infra | 03:38:01.902–03:38:02.142 | **exit0**, sin cambios de formato adicionales |
+| terraform fmt -check -recursive infra | 03:38:02.142–03:38:02.385 | **exit0** |
+| terraform -chdir=infra validate -no-color | 03:38:02.386–03:38:13.854 | **exit0** |
+| terraform -chdir=infra plan -refresh=false -input=false -no-color -var-file=t019-core3.tfvars.json +baseline | 03:38:19.396–03:38:35.759 | **exit0 /1add,2change,0destroy** |
+
+Baseline de plan: regiónus-east-1/cuenta926925605666/environmentdev/VPC10.20.0.0/16/newbits8/aprobacionesnetwork-compute de diseño/ARNboundaryexacto; **compute_ami_id=ami-096ef200a877f36af**, AMI observada en plan anterior§55, fijada para no seleccionar una nueva por alias. Provider confirma ese AMI en lectura de plan; no cambio AMI, instalación ni actualización de provider/lock. No se guardó planbinario nuevo ni se alteraron planes históricos. Credenciales temporales en memoria también para provider, no perfil largo en su configuración.
+
+**Separación obligatoria de cambios:**
+
+- **T019 previsto:** crear únicamente **aws_iam_role_policy.api_secrets_read[0]**, con contenido§56.5. No crea secretos ni modifica la boundary externa. Plan no demuestra existencia/permiso de esos recursos ni efectividad de policy.
+- **Ajenos/no aceptados:** dos updatesinplace de `aws_instance.api["a"/"b"]`: `ipv6_addresses=(known after apply)` y `root_block_device.tags={}`; ya visibles en§55. Con refreshfalse son diferencias contra state/config, **no driftcloud verificado**. No reinterpretarlas como nueva autorización IPv6/EC2 ni usar ignore_changes/-target/stateedit para ocultarlas.
+- Output pendiente `compute_instances` sin escritura cloud. **No autorizar apply del plan íntegro** por tener exit0; separar/revisar los cambios ajenos en incremento propio antes de cualquier apply futuro.
+
+El plan sin refresh no equivale a lectura actual completa de recursos ni acreditación IAM/KMS. **No Terraform apply/refresh/import/statepush**, no despliegue. Hashes state39/nativo38 **d214e2b172312123f64be213376130cad4e8be25fce36107ebbe258ffd045fff /23a74f1556b10ade14f509820a2a225d124201b03d52380fd39b5dc458314ea7** deben seguir idénticos en cierre; igual para todos los planes anteriores.
+
+### 56.7. Estado, owner y límites finales
+
+**T019: PARTIAL / CORE SECRETS CREATED (informado por responsable; metadata API pendiente) / BOUNDARY OWNER ACTION REQUIRED / REDIS PENDING. E019 NO ACEPTADA.** No rama IAMAPPLYPENDING como si v2 ya fuera default; autorización de publicación era condicional y no se acreditó autoridad ni verificaciones previas. Values nunca expuestos/leídos por el agente; acto de creación humano no se atribuye a este incremento.
+
+Siguiente intervención humana requerida: sesión administrativa temporal válida para IAM (MFA/rol según política), **DescribeSecret** de los tresARN verificando VersionIdsToStages y estado, **DescribeKey** alias/ARN/KeyManagerAWS/Enabled, export actual de boundary/default/versiones y comprobación de autoridad; revisar el JSON candidato contra esas evidencias. No password/JWT/HMAC/MFA/sessiontoken por chat. Una discrepancia bloquea, no overwrite/rotación/fallback ni publicación automática. Después de una publicaciónv2/default realmente acreditada se podrá solicitar revisión de plan/applyIAM específico; no ejecución inmediata.
+
+Hosthelper→tmpfs→mountRO→adapter→memoria sigue contrato no implementado. Conservar manifest ARN+VersionId exactos/configschema, sin AWSCURRENT independiente; no extraer desdeEC2 en esta entrega. Contrato HMAC solicitado `keyBase64` debe mapear explícitamente a RateLimiting:PseudonymizationKeyBase64 (el antecedente§47 usa pseudonymizationKeyBase64); no adaptador ya compatible afirmado. UID/GID1654:1654/umask0077/dir0700/archivos0400o0440 requieren diseño coherente de ownership/traversal, no world-readable. IMDSv2required/hoplimit1 sin cambios; DynamoDB020/credencialesIMDScontainer no resueltos por deliveryhost.
+
+**T017 PENDIENTE**, Redis no existe según responsable; **T020 PENDIENTE**, ningún permiso DynamoDB añadido; **GATE-I-B PENDIENTE / NO SATISFECHO** (E019/020/027/028/runtime aún pendientes). I-ASATISFECHO y E005/E006/E008/E015/E016/DP14 aceptados en su alcance intactos. Catálogo **8completas+6parciales+16pendientes=30; gates1satisfecho+8pendientes**; no AUTH027/002/004/readiness/rollback/despliegue acreditados. SuitesUT684/IT310/ST223 previas no repetidas ni atribuidas a esta imagen/cloud.
+
+Evidencia externa bajo el directorio§56.4: `precheck.json`, copiasbefore, `inventory-failed.json` (denegaciones preservadas), `proposal-review.json`, dosJSONpropuestos, `validation-plan.json`, `plan.txt`, revisión final de diffs/integridad. No copiar state ni guardar credenciales; fuentes históricas distintas de verificación actual. **AWSlecturas sí; IAMwrites0/Secretswrites0/ECRwrites0/StartImageScan0/SSM0/applies0/deployment0/commit0/Gitpush0.** No crear v2 vacía, no intentos de escritura denegada/workarounds. USD50 agregado/guardrailUSD10/deadlineoriginal **2026-11-15T01:57:56.9337244Z** sin extensión/reinicio/consulta de saldo/facturación ni cleanup. **DETENER con cambios locales para revisión, sin stage/commit/push ni ejecución de tareas siguientes.**
+
+## 57. T019 — CORE SECRET ACCESS A/B: PASS, evidencia del responsable
+
+### 57.1. Fuente, alcance y baseline documental
+
+**2026-11-14 UTC — DOCUMENTATION / VALIDATION.** Fuente: mensaje del responsable **T-INFRA-019 — DOCUMENTAR CORE SECRET ACCESS A/B**, que aporta evidencia administrativa y resultados por instancia y autoriza su registro. Esta fecha identifica el registro documental, **no inventa un timestamp de las pruebas**. No se recibieron SecretString, passwords, claves ni tokens; no se solicitaron ni leyeron valores.
+
+Precheck **04:22:29.999Z**: **feature/infrastructure /78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cuatro cambios previos iam-runtime/variables/task/memoria, 0staged/0untracked. **Solo este documento y [memoria §118](../../memoria.md) se modifican en este incremento**; HCL/inputs/state/backup/planes y trabajo previo se preservan. Sin consultas AWS ni repetir GetSecretValue, IAM, SSM o pruebas A/B. Las operaciones administrativas y lecturas comunicadas pertenecen al responsable, **no a esta ejecución del agente**.
+
+### 57.2. Evidencia administrativa comunicada
+
+| Elemento | Resultado informado por responsable |
+| --- | --- |
+| Permissions boundary | **ENVER-Runtime-Permissions-Boundary /v2 DEFAULT /v1 PRESERVED** |
+| Runtime role | **enver-dev-api-runtime** |
+| Inline policies actuales | **enver-dev-ecr-pull**, **enver-dev-secrets-read**, **enver-dev-ssm-session** |
+| Runtime IAM | **APPLIED**, según evidencia administrativa recibida; no se atribuye un Terraform apply al agente |
+
+La evidencia posterior actualiza el estado vigente sin borrar los bloqueos de autenticación/metadata ni los planes y resultados anteriores de§§55–56. **No repetir publicación de boundary ni apply IAM**. La lista informada de policies no sustituye una exportación completa comparada ni acredita, por sí sola, reconciliación Terraform/state; no se inventan salidas apply/plan, seriales nuevos o método de provisión.
+
+### 57.3. Finalidades y resultados A/B
+
+| Finalidad | ARN aprobado de acceso core |
+| --- | --- |
+| MongoDB | `arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/mongodb-Iuqeur` |
+| JWT | `arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/jwt-AweYNs` |
+| HMAC | `arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/hmac-s9TSqb` |
+
+| Instancia | Role observado según evidencia | Mongo GetSecretValue | JWT GetSecretValue | HMAC GetSecretValue | ListSecrets | SecretString expuesto en evidencia |
+| --- | --- | --- | --- | --- | --- | --- |
+| A: **i-0a66085b7b2411393** | **assumed-role/enver-dev-api-runtime** | **PASS** | **PASS** | **PASS** | **AccessDeniedException** | **NO** |
+| B: **i-00de11a3f3c1a8aa5** | **assumed-role/enver-dev-api-runtime** | **PASS** | **PASS** | **PASS** | **AccessDeniedException** | **NO** |
+
+**CORE SECRET ACCESS A/B: PASS**, registrado con fuente humana explícita. GetSecretValue permitido para los tres core aprobados en ambas instancias y **ListSecrets DENIED** en ambas. Los resultados aportados no incluyen una prueba negativa GetSecretValue contra un ARN ajeno ni PutSecretValue: **no se afirma que esas pruebas se ejecutaron** ni se convierte este PASS en auditoría exhaustiva de todos los permisos. El alcance exacto aprobado sigue siendo esos tres ARN; no se amplía a Redis/DynamoDB/otras finalidades.
+
+VersionIds ya aprobados como metadata, conservados para futuro release manifest: **mongoSecretVersionId=c9eb0b6c-d8c0-4ec1-b3fe-05809a0f33f4**, **jwtSecretVersionId=fe44b116-0c69-41c8-8daf-7c82be31d181**, **hmacSecretVersionId=fecf274e-12d7-4c58-b0d8-06d2149c015a**. Son referencias previas de§56, **no nuevas respuestas metadata ni prueba de que el test humano fijó esas VersionIds**; no se inventan stages/fechas/versiones leídas. Redis permanece sin ARN/VersionId. **Sin valores o hashes de material secreto en este registro.**
+
+### 57.4. Estado y pendientes
+
+**T019: PARTIAL / CORE SECRETS CREATED / BOUNDARY V2 ACTIVE / RUNTIME IAM APPLIED / CORE SECRET ACCESS A/B PASS / REDIS PENDING.** No COMPLETE; **E019 permanece PENDIENTE / NO ACEPTADA**. La evidencia acota acceso desde los hosts, no acredita delivery tmpfs/mountRO/adapter, ejecución de Enver.API, TLS/opciones/rotación/manifest compartido A/B ni readiness. Las pruebas no se atribuyen al contenedor/imagen ni completan AUTH-027/002/004/E027/E028.
+
+- **T017: PENDING**, Redis no provisionado; secreto Redis **PENDING**, sin password/ARN ficticios.
+- **T020: PENDING**, permisos DynamoDB no habilitados según responsable; sin ampliación de IAM por este acto.
+- **GATE-I-B: PENDING / NOT SATISFIED**; los demás gates no se cierran por el PASS core. E005/E006/E008/E015/E016 y DP-I-14 conservan sus alcances; catálogo **8completas+6parciales+16pendientes=30**, gates **1satisfecho+8pendientes**.
+
+### 57.5. Validaciones y límites de esta entrega
+
+| Validación local autorizada | UTC | Resultado |
+| --- | --- | --- |
+| `terraform fmt -check -recursive infra` | **04:23:00.622Z–04:23:01.039Z** | **exit0**, sin formatear/modificar HCL |
+| `terraform -chdir=infra validate` | **04:23:00.648Z–04:23:16.801Z** | **exit0**, configuración válida; no evidencia cloud |
+
+Al terminar la edición: **git diff --check**, revisión de ambos diffs e integridad de los otros246tracked, state/backup/planes/inputs. Resultado de cierre en evidencia local/salida final; no compilación, suites, plan o apply adicional. **Cero AWS calls/writes/IAMwrites/Secretswrites/GetSecretValue/SSM/ECRwrites/Terraformapply/deployment en ESTE incremento**, sin negar operaciones históricas ni las pruebas humanas ahora registradas. Sin stage/commit/push; **DETENER** dejando únicamente los dos documentos actualizados para revisión.
+
+## 58. T017 — Diseño HCL de ElastiCache Valkey, subnet B corregida; sin plan AWS
+
+### 58.1. Autorización, corrección e inventario
+
+**2026-11-14 UTC — DESIGN / HCL / VALIDATE**, solicitud explícita de retomar T017 tras confirmación administrativa. El intento anterior se detuvo sin preparar recursos cache por discrepancia de subnet B; esta nueva solicitud resuelve expresamente esa discrepancia. **El responsable informa verificación directa mediante EC2 DescribeSubnets**: B real/autorizada **subnet-01934348f5d6985aa /10.20.1.0/24 /us-east-1b**. El ID anterior terminado en **aa5 es incorrecto y no se usa en HCL**. Fuente humana, no consulta repetida por el agente ni timestamp inventado de la comprobación administrativa.
+
+| Referencia autorizada | Valor |
+| --- | --- |
+| Cuenta / región | **926925605666 /us-east-1** |
+| VPC | **vpc-060f67e600affd569** |
+| Subnet A | **subnet-0120d869dd659e2a1 /10.20.0.0/24 /us-east-1a** |
+| Subnet B corregida | **subnet-01934348f5d6985aa /10.20.1.0/24 /us-east-1b** |
+| SG backend fuente | **sg-070d06cfebe866427 /enver-dev-backend** |
+
+Precheck **04:43:17.431Z**: branch **feature/infrastructure**, HEAD **78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cuatro cambios previos esperados (iam-runtime/variables/task/memoria), **0staged/0untracked**. Inventario `infra/`: **no elasticache.tf/redis.tf previos, ningún recurso aws_elasticache**, ni cache SG/subnet group/replication group/parameter group/users/passwords previos en HCL. El state local serial39 tampoco contiene recursos ElastiCache y coincide con VPC/A/B/backend autorizados; **no inventario cloud actual**. No se duplican VPC/subnets/backendSG ni se importan recursos. Precondiciones del candidato comparan IDs/CIDR/AZ exactos con recursos existentes; ante cambio, detener/revisar, no aceptar reemplazos.
+
+### 58.2. Arquitectura candidata y fundamento
+
+| Elemento | Diseño HCL; no recurso AWS existente acreditado |
+| --- | --- |
+| Motor / versión / familia | **valkey /7.2 /valkey7**. API version major.minor; no se inventa patch instalado. AWS documenta línea7.2 y release7.2.6; no implica ser la versión más reciente ni aprobación de seguridad runtime |
+| Provider | **hashicorp/aws6.73.0** fijado en lockfile existente; esquema local soporta replication_group/user_group/Valkey. Sin init/upgrade/cambio de provider |
+| Nodo | Variable **cache_node_type**, default **cache.t4g.micro**, alternativas development T4g small/medium con revisión posterior de plan/costo; AWS documenta micro con Valkey mínimo7.2, memoria física0.50GiB, burstable |
+| Región | **REGIONAL VERIFICATION PENDING**: documentación general no acredita disponibilidad/capacidad/cuotas de esa combinación en us-east-1/cuenta/AZ hoy |
+| Topología | Node-based, **1primary /0replicas**, cluster_mode disabled, sin automatic failover/Multi-AZ; colocación inicial AZA, subnet group conserva A/B para evolución futura. Dos subnets no significan dos nodos ni HA |
+| Subnet group | **enver-dev-cache-subnets**, solo A/B corregidas, por referencias a recursos existentes con precondiciones exactas |
+| Security group | **enver-dev-cache**, VPC exacta; solo **TCP6379 desde sg-070d06cfebe866427**, sin CIDR, SSH/HTTP/HTTPS ni ingress IPv6/público |
+| Egress cache | **Ninguna regla**: provider elimina allow-all inicial de AWS; respuestas de conexiones admitidas por seguimiento stateful, no se necesita egress abierto para ese retorno. Sin excepción genérica para el nodo único; operación gestionada/restricciones de red se verificarán antes de provisión |
+| Privacidad | Endpoint/IP privados del servicio node-based VPC, sin public IP/public endpoint. Las subnets existentes son las de hosts con ruta IGW: **no se renombran ni se presentan como subnets sin ruta pública**. La privacidad del cache depende de ENI privada/SG, no del nombre de subnet; sin rutas/NAT/endpoints nuevos |
+| TLS | **transit_encryption_enabled=true /transit_encryption_mode=required**. Cliente ENVER deberá exigir TLS y validar cadena/hostname; sin plaintext ni bypass de certificado |
+| At-rest | **at_rest_encryption_enabled=true**, sin kms_key_id: cifrado predeterminado **service-managed AWS**, sin CMK propia/recurso KMS ni reutilizar clave de secretos por inferencia |
+| Parámetros | **enver-dev-valkey /familia valkey7**, **maxmemory-policy=noeviction** explícita, no default asumido |
+| Backups / mantenimiento | Candidato mínimo **snapshot_retention_limit=0**, auto_minor_version_upgrade=false; no backup automático ni RPO/RTO/continuidad acreditados. Parches/ventana de mantenimiento, capacidad y recuperación requieren T018 y revisión previa al uso, no adopción silenciosa de durabilidad |
+| Tags de cache | **Project=ENVER /Environment=dev /ManagedBy=Terraform /Purpose=RuntimeCache**; sin retag de recursos anteriores |
+
+Fuentes públicas consultadas: [versiones AWS](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/engine-versions.html), [nodos admitidos](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html), [familias/parámetros](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ParameterGroups.Engine.html), [cifrado at-rest](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/at-rest-encryption.html). La familia correcta es **valkey7**, no valkey7.2. Sin limitación observada del provider que justifique Redis OSS; no Memcached, Serverless, cluster particionado, CMK o nodo adicional. **Valkey es candidato para diseño solicitado, no equivalencia/compatibilidad aceptada contra INFRA-017**: TIME, Lua/EVAL/EVALSHA, PEXPIRETIME/PEXPIREAT, estructuras/TTL/cardinalidad, concurrencia A/B y comportamiento OOM/fallo deben verificarse posteriormente con adapter/scripts de 002 en E028. No se ejecutaron esos tests ni se relajan cuotas, fail-closed, revocaciones o atomicidad.
+
+### 58.3. Auth propuesta y ausencia de secretos en Terraform
+
+**AUTH IMPLEMENTATION PENDING.** Mecanismo elegido para la estructura: **RBAC Valkey mediante user group**, con usuario futuro ACL/password **administrado externamente**. HCL solo define **aws_elasticache_user_group.cache /engine=valkey /user_ids=[]** y lo asocia al replication group. [RBAC de Valkey](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html) no exige usuario default y deshabilita ese usuario al asociar grupo VALKEY; sus usuarios deben usar password o IAM. [CreateUserGroup](https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_CreateUserGroup.html) tiene UserIds opcional; el provider omite el campo si vacío. **Grupo inicialmente vacío: deny-all por diseño; ningún cliente ENVER habilitado**. Validación de aceptación del servicio/ausencia de acceso anónimo sigue pendiente, no prueba cloud ahora.
+
+Alternativas evaluadas:
+
+- **AUTH token convencional /passwords sensibles:** rechazados para este incremento, porque `sensitive` oculta presentación pero **no elimina valores de state**. No se suministró ni generó token.
+- **Write-only del provider6.73 + entrada ephemeral:** el esquema disponible incluye auth_token_wo/passwords_wo; alternativa futura con revisión específica de provisión/rotación. No se implementa entrada de secreto, generador o valor ficticio para conseguir un plan.
+- **ACL/password externo + grupo Valkey:** preferido para separación de credencial/infraestructura y futuro Secrets Manager. No `nopass`, usuario default abierto o ACL+@all. ACL mínima por comandos y namespaces queda pendiente de revisión/prueba; no se inventa credencial o userID materializado.
+- **IAM authentication:** no seleccionada; requeriría elasticache:Connect y adaptación del cliente, ajenos al contrato TCP/password solicitado. No permisos elasticache:* ni Connect en runtime.
+
+Futuro incremento delimitado: generar/gestionar password fuera de Terraform, crear usuario ACL con password sin logs/argv/ficheros planos, custodiar/rotar mediante Secrets Manager, verificar auth/negativos y **actualizar HCL user_ids con solo el ID no secreto aprobado**. No añadir usuarios externamente a un grupo gestionado dejando `user_ids=[]`, pues un plan posterior podría retirarlos; no ignore_changes ni administración concurrente. Revisar la integración de rotación antes de activarla: el payload mínimo acordado no demuestra compatibilidad con una plantilla de rotación AWS que requiera otros campos. Aquí no se crea usuario, secreto, versión, Lambda o mecanismo de rotación.
+
+**No secreto nuevo en Terraform state:** no password/token/input secreto/output secreto, data GetSecretValue, SecretVersion, random_password ni provisioner/local-exec. State/backup **intactos**, sin nuevos valores en state; esto no es auditoría ni garantía retrospectiva del contenido global del state. HCL solo gestiona infraestructura y metadata de membresía. Un enfoque que fuerce secreto plano en state queda detenido, no habilitado por sensitive.
+
+### 58.4. Recursos, outputs y contrato futuro de T019
+
+Seis recursos **definidos**, no seis altas acreditadas por plan:
+
+1. `aws_security_group.cache`.
+2. `aws_vpc_security_group_ingress_rule.cache_from_backend`.
+3. `aws_elasticache_subnet_group.cache`.
+4. `aws_elasticache_parameter_group.cache`.
+5. `aws_elasticache_user_group.cache`.
+6. `aws_elasticache_replication_group.cache`.
+
+Sin recurso cluster duplicado/replica/egress/IAM/KMS/secret. Outputs no secretos: **cache_primary_endpoint**, **cache_port**, **cache_security_group_id**, **cache_subnet_group_name**, **cache_engine**, **cache_tls_enabled**. El DNS/SG nuevos **no existen ni tienen valor acreditado**; no inventar endpoint. Configuración futura no secreta: **host=primary DNS**, **port6379**, **TLS=true/required**, **database/index0 propuesto**, snapshot compartido A/B. El cliente debe conectar al primary, no a read replica; ACL y comportamiento del cliente se revisan antes de activar.
+
+Se conserva el contrato futuro **enver/dev/api/redis**, **NO creado**:
+
+```json
+{
+  "username": "<USERNAME_IF_APPLICABLE>",
+  "password": "<SECRET>"
+}
+```
+
+Son placeholders de contrato, no valores para Terraform. Username requerido cuando se active RBAC/password; endpoint/port/TLS/index separados del secreto. Cuando exista Redis y haya usuario/credencial autorizados, T019 deberá crear el secreto externamente, obtener **ARN exacto +VersionId**, evolucionar **boundary core3→core4**, añadir cuarto ARN a **enver-dev-secrets-read** y al release manifest exacto común A/B. No seleccionar sufijo/ARN/VersionId Redis, modificar boundary, IAM, inputs core3 o manifiestos hoy. Los VersionIds core y contrato de delivery ya aprobados se conservan. **Runtime no necesita permisos API ElastiCache** para el mecanismo TCP/ACL/password propuesto; permisos de administración pertenecen a un actor de provisión separado y no se conceden ahora.
+
+### 58.5. Verificación local, plan bloqueado y costos
+
+| Comando local | UTC | Resultado |
+| --- | --- | --- |
+| `terraform fmt infra/elasticache.tf infra/variables.tf infra/outputs.tf` | **04:44:52.557Z–04:44:52.755Z** | **exit0**, fmt acotado a HCL de esta entrega para preservar el trabajo anterior |
+| `terraform fmt -check -recursive infra` | **04:44:52.757Z–04:44:52.987Z** | **exit0** |
+| `terraform -chdir=infra validate` | **04:44:52.987Z–04:45:06.772Z** | **exit0**, configuración válida; no evaluación de disponibilidad/autorización/efectividad cloud |
+
+Revisión de credenciales **local**, sin imprimir ni persistir material: perfil enver-infra **sin SessionToken**, proceso **sin credenciales temporales completas**. No credencial permanente usada para AWS/provider ni GetSessionToken derivado como workaround. **PLAN NO EJECUTADO. PLAN AWS PENDING — TEMPORARY SESSION REQUIRED**. No plan offline simulado, datos mock presentados como cloud, plan histórico aplicado ni bandera para omitir comprobaciones del provider: la configuración existente incluye data AZ/AMI que requiere lecturas AWS aun con refreshfalse. No init, upgrade, build, test, ejecución EC2/API/SSM ni despliegue.
+
+Al retomar con autorización/sesión temporal, verificar identidad/cuenta y oferta regional engine/version/nodo/familia/noeviction; inventario cache cloud/nombres/SLR/cuotas/red/permisos de provisión, sin crear SLR o IAM implícitamente. Obtener plan nuevo separando **A: T017**, **B: T019 previo**, **C: EC2 ipv6_addresses/root_block_device.tags ajenos NO aceptados**. El plan global histórico1addIAM/2changeEC2 es antecedente, no resumen T017 ni evidencia de reconciliación del IAM informado aplicado por humano. Ninguno de esos cambios se acepta ni aplica aquí; no state edit/import/refresh ni medidas ignore_changes para esconderlos.
+
+**Costo aproximado relativo:** development, **un nodo T4g micro**, menor tamaño documentado de esa familia compatible; cero réplicas/Multi-AZ/NAT/CMK nuevos. Se espera menor costo que añadir réplicas o elegir tamaños mayores; **sin precio exacto/cotización regional actual** ni afirmación de ser el mínimo absoluto frente a todos los servicios. Cargos por nodo/hora, posible transferencia cross-AZ desde hostB y futuros secretos/rotación/observabilidad deben presupuestarse. 0.50GiB físicos no equivalen a memoria útil aceptada; reserva/overhead/seguridad y64MiB de cuotas no dimensionan el total: **T018 pendiente**, sin garantía de capacidad, RPO0 o continuidad del nodo único. Presupuesto **USD50 agregado /guardrailUSD10 /deadlineoriginal2026-11-15T01:57:56.9337244Z**, sin extensión, reset, timer o cleanup automático.
+
+### 58.6. Estado y cierre acotado
+
+- **T017: DESIGNED / HCL VALIDATED / AWS PLAN PENDING**, no PLAN VALIDATED, COMPLETE o ACCEPTED; provisión/aceptación E017/DP-I-07 y compatibilidad runtime pendientes.
+- **T019** conserva **PARTIAL / CORE SECRETS CREATED / BOUNDARY V2 ACTIVE / RUNTIME IAM APPLIED / CORE SECRET ACCESS A/B PASS / REDIS PENDING**, según evidencia humana§57. **E019 PENDIENTE**; no Redis secreto/lectura/delivery/rotación acreditados por diseñar HCL.
+- **T018/T020 PENDING**; sin autoridad DynamoDB/permisos nuevos, sin cierre AUTH-027, pérdida silenciosa residual ni recuperación acreditada.
+- **GATE-I-B PENDING / NOT SATISFIED**; también gates de Redis/operación/aceptación abiertos. T008/E008/DP-I-14 permanecen aceptados solo en su alcance previo. Catálogo **8completas+7con trabajo parcial(incluida017)+15pendientes=30**, gates **1satisfecho+8pendientes**.
+
+Archivos de esta entrega: **nuevo infra/elasticache.tf**; actualizados **infra/variables.tf**, **infra/outputs.tf**, **este task.md** y **[memoria §119](../../memoria.md)**. HCL T019 previo, compute/IMDSv2required/hoplimit1, boundary, spec/plan, constituciones, state39/backup38/planes/inputs/custodia conservados. Evidencia externa metadata-only en `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t017-hcl-resume-2026-11-14T04-43-17-431Z\`: precheck, copiasbefore de archivos afectados, validaciones, revisión/integridad de cierre. No copia de state o credenciales.
+
+**AWS APIreads0 /AWSwrites0 /IAMwrites0 /Secretswrites0 /SSMSendCommand0 /Terraformplan0 /Terraformapply0 /deployment0 /stage0 /commit0 /Gitpush0 en este incremento**; documentación pública consultada no equivale a API AWS autenticada. Revisión final de diffs/diff-check y conservación de archivos protegidos; resultados en evidencia local/salida final. **DETENER**, sin iniciar provisión ni tareas siguientes.
+
+## 59. T017 — Plan real con enver-admin-temp; región acreditada por responsable, auth pendiente
+
+### 59.1. Sesión, baseline y fuentes de verificación
+
+**2026-11-14 UTC — VERIFY / TERRAFORM PLAN ONLY**, autorización delimitada del responsable. Precheck **05:00:59.147Z** confirma **feature/infrastructure /78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cinco tracked modificados previos (iam-runtime/outputs/variables/task/memoria), único untracked esperado **infra/elasticache.tf**, **0staged**. HCL se revisa sin rediseño; fmt no cambia archivos. Se preserva el trabajo anterior, incluidos T019 y el nuevo archivo cache todavía sin stage.
+
+`aws configure list --profile enver-admin-temp` **exit0**, salida con campos de credencial capturada solo en memoria y no mostrada/persistida. Resolución local confirma **AccessKey/SecretAccessKey/SessionToken presentes**, sin registrar valores; expiración no expuesta por el perfil. **STS GetCallerIdentity 05:01:07.052Z–05:01:10.921Z/exit0**, cuenta **926925605666**, ARN **arn:aws:iam::926925605666:user/enver-terraform-local**. Ese ARN es el usuario de origen de la sesión temporal; no se confunde con ausencia de SessionToken. **AWS_PROFILE=enver-admin-temp** explícito en los procesos de Terraform/AWS, sin credenciales directas heredadas, sin enver-infra, fallback permanente o nueva derivación STS. Perfil temporal válido al verificar y ejecutar planes, no garantía de vigencia futura ni de permisos de provisión.
+
+**REGIONAL VERIFICATION: PASS ADMINISTRATIVO**, según evidencia CloudShell/us-east-1 aportada por responsable: describe-cache-engine-versions retorna **Valkey7.2/familiavalkey7**; en default.valkey7 **maxmemory-policy admite noeviction**; **cache.t4g.micro observado en reserved cache node offerings**. Otras versiones8.0/8.1/8.2/9.0/9.1 informadas no se seleccionan. La oferta reservada acredita un **candidato regional**, no stock/capacidad por AZ, matriz combinatoria validada por Create ni permisos de lanzamiento. No se repiten consultas ElastiCache ni se inventan respuestas API. Subnets **A=subnet-0120d869dd659e2a1 /B=subnet-01934348f5d6985aa**, CIDR/AZ/VPC/backendSG conservados; discrepancia B **CLOSED**, sin usar ID erróneo. Se actualiza el estado vigente documental sin borrar la espera regional histórica de§58 o cambiar comentarios de HCL fuera de alcance.
+
+### 59.2. Comandos y resultado real
+
+| Comando | UTC | Resultado |
+| --- | --- | --- |
+| `terraform -chdir=infra fmt` | **05:02:12.823Z–05:02:13.162Z** | **exit0**, sin archivos formateados |
+| `terraform fmt -check -recursive infra` | **05:02:13.166Z–05:02:13.463Z** | **exit0** |
+| `terraform -chdir=infra validate` | **05:02:13.463Z–05:02:27.186Z** | **exit0** |
+| Primer plan `-refresh=false` | **05:02:53.043Z–05:03:10.513Z** | Terraform **exit0**, **7add/2change/0destroy**; filtro local conservador detuvo persistencia de salida, no Terraform |
+| Segundo plan idéntico, revisión de marcador | **05:04:03.029Z–05:04:19.835Z** | Terraform **exit0**, **7add/2change/0destroy**, sin warnings/errors ni material secreto detectado; salida textual revisada |
+
+Plan global **sin target, refreshfalse/inputfalse/no-color**, `-var-file=t019-core3.tfvars.json` metadata-only existente. Inputs explícitos preservan project=enver/environment=dev/regiónus-east-1/cuenta926925605666/VPC10.20.0.0/16/newbits8/network_design_approved=true/compute_plan_approved=true/boundaryARNexacto y **compute_ami_id=ami-096ef200a877f36af** histórico; cache_node_type **cache.t4g.micro**. Flags de diseño no autorizan apply. No inputs Redis inventados, cambios de provider/lock, `init` o selección de AMI por alias. Comando exacto en evidencia local; **no plan binario nuevo**, copia de state, refresh/import/state edit o apply.
+
+Hubo lecturas AWS reales: STS y provider con data **aws_availability_zones.available** y **aws_ami.api** en ambos planes, sin GetSecretValue/SSM SendCommand ni llamadas Create/Modify ElastiCache. Con refreshfalse, las diferencias de recursos existentes se calculan frente a **state/config**, **no son drift cloud actualizado/verificado**. No se afirma un número exacto de llamadas internas/reintentos del provider.
+
+### 59.3. Separación obligatoria de acciones
+
+| Clasificación | Dirección Terraform exacta | Acción |
+| --- | --- | --- |
+| A /T017 | `aws_security_group.cache` | **CREATE**, enver-dev-cache /VPCvpc-060f67e600affd569 |
+| A /T017 | `aws_vpc_security_group_ingress_rule.cache_from_backend` | **CREATE**, TCP6379 desde sg-070d06cfebe866427 |
+| A /T017 | `aws_elasticache_subnet_group.cache` | **CREATE**, enver-dev-cache-subnets /A+Bcorrecta |
+| A /T017 | `aws_elasticache_parameter_group.cache` | **CREATE**, enver-dev-valkey /valkey7 /noeviction |
+| A /T017 | `aws_elasticache_user_group.cache` | **CREATE**, enginevalkey /enver-dev-valkey |
+| A /T017 | `aws_elasticache_replication_group.cache` | **CREATE**, enver-dev-valkey |
+| B /T019 previo | `aws_iam_role_policy.api_secrets_read[0]` | **CREATE**, enver-dev-secrets-read /roleenver-dev-api-runtime; core3+KMS metadata ya preparada, **no parte deT017** |
+| C /ajeno | `aws_instance.api["a"]` | **UPDATE IN-PLACE**, ipv6_addresses knownafterapply +root_block_device.tags{} |
+| C /ajeno | `aws_instance.api["b"]` | **UPDATE IN-PLACE**, mismas diferencias |
+
+**T0176add/0change/0destroy; T0191add/0change/0destroy; EC2ajeno0add/2change/0destroy. Global7add/2change/0destroy**, sin reemplazos u otros recursos. Outputs: seis cache de§58 más **compute_instances** previo; ese output previo no se presenta como capacidad T017 nueva ni se persiste a state por plan.
+
+Las dos diferencias EC2 son **UNRELATED / NOT ACCEPTED / NOT PART OF T017**. La alta IAM previa se muestra porque no está reconciliada en este state sin refresh, aunque el responsable informó policy aplicada/PASS core§57: **no se niega esa evidencia humana ni se afirma ausencia cloud**, no PutRolePolicy/import ni duplicación/reaplicación autorizada. **Este plan global NO es seguro/aprobado para futuro apply**; no aplicar los nueve cambios ni usar la mezcla para extender alcance. Requerirá intervención posterior delimitada y revisión actualizada de scope/state/auth antes de cualquier provisión.
+
+### 59.4. Valores exactos del plan, auth y secretos
+
+Plan acepta por validación del provider **engine="valkey" /engine_version="7.2" /node_type="cache.t4g.micro"**, sin normalizar versión a otra; **engine_version_actual knownafterapply**. Parameter group **family="valkey7" /maxmemory-policy="noeviction"**, sin parámetros ajenos. Replication group **cluster_mode="disabled" /num_cache_clusters=1 /multi_az_enabled=false /automatic_failover_enabled=false /AZus-east-1a /network_typeipv4 /port6379**; **transit_encryption_enabled=true /transit_encryption_mode="required" /at_rest_encryption_enabled="true"** (string del esquema provider para at-rest, intencióntrue). Sin kms_key_id/CMK nueva. Costo sigue development/un nodoT4gmicro/sin réplica, mínimo razonable candidato de esa familia, sin cotización exacta ni HA/durabilidad aceptada.
+
+SG planeado **enver-dev-cache/VPCexacta**; única regla cache nueva **TCP6379/sourceSGbackendexacto**, sin cidr_ipv4/cidr_ipv6/0.0.0.0/0/::/0. Subnet group muestra A+Bcorrecta; replication group solo referencia SGcache del HCL y subnet group autorizado. Endpoint privado por diseño node-based/VPC, **sin endpoint o IP nuevos materializados**. **egress/ingress inline del SG aparecen knownafterapply**, no evidencia operativa de reglas vacías; HCL no define egress nuevo ni excepción pública. Verificación de ausencia de egress abierto y de accesibilidad queda pendiente de provisión autorizada, no se deduce de un campo computed.
+
+**Auth:** provider planea grupo **enginevalkey /user_group_idenver-dev-valkey** y attachment en **user_group_ids** del replication group; HCL **user_ids=[]**, el plan textual omite la lista vacía. **Ningún error del provider exige usuario real**, ni AWS rechazó CreateUserGroup/CreateReplicationGroup porque **no se invocaron**. La aceptación del plan **NO prueba aceptación de Create/attachment por el servicio**, autenticación efectiva, ACL ni ausencia de acceso anónimo. Usuario/password/secret Redis externos siguen pendientes; no inventarlos, separar grupo o quitar attachment/TLS para conseguir acceso sin auth. Se mantiene diseño deny-all por grupo Valkey vacío según documentación§58, sin afirmarlo ensayado.
+
+**AUTH IMPLEMENTATION BLOCKER**, de implementación/activación y aceptación segura: aún falta usuario/password externo y validación de auth/negativos del servicio. **No es un error API inventado**, ni se afirma que AWS requiera al menos un usuario. Se clasifica conservadoramente **PLAN VALIDATED WITH AUTH BLOCKER /AUTH IMPLEMENTATION PENDING /APPLY BLOCKED**, no creación segura acreditada para levantar ese bloqueo. Continuidad, TIME/Lua/atomicidad/fallos/E028 y T018 siguen pendientes.
+
+**Filtro de secretos:** revisión local HCL/tfvarsJSON/state no detecta atributos secretos poblados ni patrones de credenciales. Primer filtro señaló el nombre **auth_token_wo** y retuvo la salida cruda solo en memoria (no persistida); wrapperexit1 por revisión, **Terraformexit0** conservado. Segunda ejecución confirma exactamente **auth_token_wo=(write-only attribute)**: **marcador del esquema**, no token suministrado. HCL no asigna auth_token/auth_token_wo ni password; solo se permite ese marcador fijo en la revisión, no valores desconocidos/sensitive como sustituto de inspección. Sin SecretString/password/token/material de clave en la evidencia; ARNs/IDKMS son metadata, no clave. Revisión no equivale a auditoría exhaustiva retrospectiva del state. **No material secreto nuevo introducido en plan/state/outputs**, state/backup conservados, sin lectura de valores SecretsManager. El registro del primer filtro se conserva como falso positivo local aclarado, no se elimina ni presenta como filtración real.
+
+### 59.5. Estado y límites de cierre
+
+**T017: DESIGNED / REGIONAL VERIFIED / PLAN VALIDATED WITH AUTH BLOCKER / AUTH IMPLEMENTATION PENDING / APPLY BLOCKED.** Regionalmente acreditado **por responsable**, plan real acreditado **por agente**, provisión/seguridad/funcionamiento no acreditados. No COMPLETE/ACCEPTED; E017/DP-I-07 pendientes. **T019** conserva **PARTIAL / CORE SECRETS CREATED / BOUNDARY V2 ACTIVE / RUNTIME IAM APPLIED / CORE SECRET ACCESS A/B PASS / REDIS PENDING**, E019pendiente, sin cuartoARN/VersionId/secretRedis, boundary/IAM/core3 sin cambios. **T018/T020PENDING /GATE-I-BPENDING-NOT SATISFIED**, no cierreAUTH027/readiness/otros gates. Catálogo **8completas+7parciales+15pendientes**, gates **1satisfecho+8pendientes**, T008/DP-I-14 aceptados solo en su alcance previo.
+
+Solo se editan **este task.md** y **[memoria §120](../../memoria.md)**; HCL previo/newfileelasticache sin cambios, state39/backup38/lock/inputs/planes históricos/custodia e IMDSv2requiredhoplimit1 conservados. Evidencia externa metadata-only `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t017-real-plan-2026-11-14T05-00-59-147Z\`: precheck/copiasbefore, secret-precheck, validations, primerplan-result sin salida cruda, segundo plan-reviewed/result/stderr, plan-review y cierre de integridad/diffs. Sin credenciales/copia de state/plan binario; textos contienen solo metadata y marcador write-only, no valores secretos.
+
+Al cierre **git diff --check** y revisión de diffs/integridad; resultado en evidencia local/salida final. **AWSreads SÍ /AWSwrites0 /IAMwrites0 /Secretswrites0 /Terraformapply0 /SSMSendCommand0 /deployment0 /stage0 /commit0 /Gitpush0** en este incremento. USD50agregado/guardrailUSD10/deadlineoriginal **2026-11-15T01:57:56.9337244Z** intactos, sin extensión/reset/cleanup. **DETENER** con documentos para revisión; ningún apply ni incremento siguiente.
+
+## 60. T017 — Contrato RBAC externo, puerta de usuario real y plan dirigido parcial
+
+### 60.1. Autorización, sesión y baseline
+
+**2026-11-14 UTC — SECURITY DESIGN / HCL REFINEMENT / TARGETED PLAN ONLY**, solicitudes explícitas del responsable de resolver auth/RBAC y retomar tras renovar **enver-admin-temp**. Solo refinamiento de `infra/elasticache.tf` / `infra/variables.tf` y actualización de este task / [memoria §121](../../memoria.md). Inspección de outputs, provider y código, fmt/check/validate y plan dirigido autorizados; **no apply, AWS/IAM/Secrets writes, SSM SendCommand, deployment, stage/commit/push**. No ejecución de aplicación o pruebas. §§58–59 conservan sus resultados históricos, incluido el plan global anterior **7/2/0 NO aplicable**; no se repitió un plan global ni se reconcilió state/IAM.
+
+Precheck original **17:21:02.825Z**, rama **feature/infrastructure**, HEAD **78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cinco tracked previamente modificados y único untracked `infra/elasticache.tf`, cero staged. Primer STS **17:22:57.588Z–17:23:01.940Z**, exit254 **ExpiredToken**: no se continuó con plan ni fallback. Responsable renovó el perfil y autorizó retomar. Recheck **17:27:09.279Z–17:27:17.461Z** confirmó baseline/hashes intactos, `aws configure list --profile enver-admin-temp` exit0, resolución con **SessionToken/AccessKey/SecretAccessKey presentes**, STS exit0, cuenta **926925605666**, ARN **arn:aws:iam::926925605666:user/enver-terraform-local** (usuario de origen de sesión temporal, no evidencia de credenciales permanentes). Salidas de configuración/credenciales capturadas solo en memoria, nunca impresas ni persistidas. Perfil sin expiración informada; validez observada, no garantía futura. Entorno de comandos limpia credenciales AWS y overrides Terraform heredados, fija exclusivamente **AWS_PROFILE=enver-admin-temp**, región us-east-1, sin enver-infra ni fallback a permanente.
+
+Se conserva sin reinvestigar **Valkey7.2 /valkey7 /cache.t4g.micro /1primary0replicas /clusterdisabled /MultiAZfalse /failoverfalse /TLSrequired /at-resttrue /noeviction /6379**, VPC **vpc-060f67e600affd569**, A **subnet-0120d869dd659e2a1**, B **subnet-01934348f5d6985aa**, ingress exclusivo backend **sg-070d06cfebe866427**. Verificación regional sigue **PASS administrativo del responsable**, no capacidad ni aceptación Create acreditadas. Las precondiciones exactas de red permanecen.
+
+### 60.2. Inventario de comandos por responsabilidad
+
+Lectura de `Enver.API/Infrastructure/Redis/`, sus dos Lua, builders de keys, `RedisConnections.cs`, csproj y `tests/**/*.cs`; sin ejecutar backend/tests. **Comandos de aplicación**, distintos de descubrimiento/transporte del cliente:
+
+| Contexto | Comandos reales / fuente |
+| --- | --- |
+| Runtime revocación | **GET** (`RedisTokenRevocationStore.IsRevokedAsync`); **SET PXAT, PEXPIRETIME, PEXPIREAT GT** en `Scripts/RevokeToken.lua` |
+| Runtime cuotas, rama evaluate | **TYPE, HLEN, HMGET, HSET, PTTL, TIME, ZCARD, ZRANGE, ZSCORE, ZCOUNT, DEL, ZREM, ZADD, ZREMRANGEBYSCORE, PEXPIRETIME, PEXPIREAT** en `Scripts/ConsumeAuthenticationQuota.lua`; **HMGET** adicional desde `RedisAuthenticationQuotaStore` para generation/state |
+| Despacho Lua runtime | **EVAL / EVALSHA** por `ScriptEvaluateAsync(string)`; **SCRIPT LOAD** es envío interno del caché de scripts de StackExchange.Redis3.4.31, no permiso para SCRIPT FLUSH/KILL/DEBUG ni SCRIPT completo |
+| Control recovery/maintenance | `RedisAuthenticationQuotaLifecycle`: initialize/fence/maintain/activate usan el mismo Lua; **PERSIST** solo en ramas de control/estado closed, no evaluate admitido con metadata ready; **ZRANGE** directo para lotes y **SCAN** por `KeysAsync` al activar tras drain. Los demás comandos se solapan con runtime. SCAN no participa en peticiones ni decide admisión |
+| Test/harness, no razón para ampliar runtime | Lecturas/seeding/cleanup con **GET, SET, DEL, EXISTS, DUMP, HGET, HGETALL, HSET, ZADD, ZCARD/ZCOUNT, ZRANGE, ZREM, ZSCORE, PERSIST, PTTL, PEXPIRETIME, PEXPIREAT, EXPIRE/PEXPIRE** (según precisión de la API de expiración), **PING, TIME, EVAL/EVALSHA** e inventario **SCAN** (KeysAsync; fallback KEYS no se autoriza en runtime). Literales de diagnóstico/fallos: **CLIENT PAUSE, CONFIG GET, INFO MEMORY, MEMORY USAGE, OBJECT ENCODING**. Inline Lua de observación: **HGET, SET, TIME, ZRANGE**. Solapamiento no convierte esas operaciones de test en necesidades del runtime |
+
+No hay llamadas de aplicación runtime a **EXPIRE, PEXPIRE, TTL, SCAN, KEYS, PERSIST** ni necesidad de otorgar categorías amplias. `RequiredRevocationEvictionPolicy` no ejecuta CONFIG GET en runtime. El Lua usa PTTL/PEXPIREAT/PEXPIRETIME concretos, no equivalencias genéricas. Inventario de API/literales de tests en evidencia externa; no se toman sus credenciales, namespaces o comandos administrativos para el cache cloud.
+
+**Transporte observado en fuente versionada del cliente3.4.31:** conexión/auth por username/password, HELLO de descubrimiento, ECHO de verificación, PING de heartbeat, INFO de servidor/replicación y CLIENT SETNAME/SETINFO/ID. Se proponen estos permisos puntuales además de los de aplicación. AUTH es intercambio de autenticación, no se concede administración ACL. Base futura **DB0**: no se añade SELECT por bases no usadas. El cliente también puede intentar probes CONFIG/SENTINEL/CLUSTER, GET de tie-breaker y suscripción de configuración según opciones; **no se amplía ACL a CONFIG, claves fuera de namespace ni pub/sub genérico** para silenciar errores. Configuración futura deberá evitar tie-breaker/config-channel innecesarios y validar conexión/reconnect con restricciones reales en E028; no se ha cambiado el cliente ni afirmado compatibilidad. La ACL propuesta no prueba que los probes denegados sean inocuos para las señales fail-closed de ENVER.
+
+### 60.3. ACL runtime propuesta y límites
+
+Usuario futuro: **user_id=enver-dev-runtime /user_name=enver-dev-runtime /engine=VALKEY**, autenticación **password**, no anónima. Claves de builders, ambiente dev: `enver:dev:auth:revoked:enver-api:*` y namespace con hash-tag `enver:{dev:auth:ratelimit}:` (metadata, registry, bucket:*).
+
+Access string **propuesta derivada del código**, aún no enviada ni validada en el motor:
+
+```text
+on -@all resetkeys ~enver:dev:auth:revoked:enver-api:* ~enver:{dev:auth:ratelimit}:metadata ~enver:{dev:auth:ratelimit}:registry ~enver:{dev:auth:ratelimit}:bucket:* resetchannels +get +set +del +type +hlen +hmget +hset +pttl +time +zcard +zrange +zscore +zcount +zrem +zadd +zremrangebyscore +pexpiretime +pexpireat +eval +evalsha +script|load +echo +ping +hello +info +client|setname +client|setinfo +client|id
+```
+
+**No +@all, no ~*, no allchannels, no SCAN/KEYS/PERSIST, no ACL/CONFIG/FLUSH/MEMORY/OBJECT/CLIENT PAUSE**. INFO se justifica solo por descubrimiento del cliente y expone información de servidor; no se presenta como aislamiento de métricas por key. Los cuatro patrones limitan keys, pero la unión permite los comandos otorgados sobre ambas familias: no aislamiento por operación de negocio. EVAL/EVALSHA permiten ejecutar Lua arbitrario con comandos/keys autorizados, **no fijan un SHA ni validan ARGV/modo**. El mismo script comparte modos de control: quitar SCAN/PERSIST no prueba que un runtime comprometido no pueda inicializar/mutar metadata usando HSET u otras ramas. No se promete separación de autoridad completa por esta ACL; T020/seguridad/E028 pendientes. Control de recuperación debe usar identidad/conexión administrativa distinta con permisos explícitos **SCAN/PERSIST** y alcance temporal/auditado; no se crea ese usuario ni se reutiliza el secreto runtime para recovery. SCAN es inventario de DB y no queda restringido por MATCH como frontera ACL; diseño de su control requiere autorización separada.
+
+### 60.4. Ownership, secreto y alternativa IAM
+
+**Elegido A: usuario RBAC externo + password en Secrets Manager**, preferido por el responsable para mantener material fuera del ciclo Terraform. Administración separada futura crea el usuario con password criptográficamente generado **fuera de Terraform**, aplica/verifica ACL, custodia y rota; ninguna contraseña generada ahora. Usar un canal administrativo que no exponga valores en argumentos de procesos, historial, archivos temporales o logs; no se entrega un comando con password como argumento ni se ejecutan CreateUser/ModifyUser/CreateSecret/PutSecretValue.
+
+Contrato futuro **enver/dev/api/redis**:
+
+```json
+{ "username": "enver-dev-runtime", "password": "<SECRET>" }
+```
+
+El marcador es solo contrato, no credencial. **Sin ARN/VersionId/endpoint inventados**; host/6379/TLS/DB0 quedan como configuración no secreta separada. Adapter/helper y release manifest compartido A/B deben mapear username/password al cliente TLS, validar certificado/hostname y fijar **ARN+VersionId reales**; siguen pendientes. T019 exige futuro cuarto ARN/core4 y revisión boundary/IAM autorizada por separado; no se modifica core3, v2/default o v1, ni se concede acceso runtime a APIs ElastiCache.
+
+**Opción B soportada, no seleccionada:** esquema instalado AWS provider **6.73.0** confirma `aws_elasticache_user.passwords_wo` **write_only=true /sensitive=true**, junto con `passwords_wo_version`; Terraform1.17.1 admite write-only. Provider documenta que evita password en plan/state; `passwords` y `authentication_mode.passwords` convencionales no ofrecen esa protección. Una futura B necesitaría input efímero/canal seguro y política de rotación; no se implementa variable/password/generador ni `aws_elasticache_user` ahora. **passwords_wo usage: NO**. No se afirma que write-only elimine todos los riesgos de entrega/logs.
+
+**IAM auth: alternativa C, NO elegida.** AWS soporta Valkey7.2 con TLS, token SigV4 válido15min y límite de conexión12h renovable mediante AUTH/HELLO con token nuevo. Requiere generación/renovación y permisos `elasticache:Connect` al usuario/cache. El código ENVER actual no implementa proveedor SigV4 para Redis ni renovación de tokens; `AWSSDK.DynamoDBv2` no prueba esa capacidad. No nuevos permisos runtime ni paquetes seleccionados.
+
+Fuentes consultadas de auth/cliente (sin repetir investigación de motor/nodo): [provider user6.73.0](https://github.com/hashicorp/terraform-provider-aws/blob/v6.73.0/website/docs/r/elasticache_user.html.markdown), [lectura de metadatos del data source](https://github.com/hashicorp/terraform-provider-aws/blob/v6.73.0/internal/service/elasticache/user_data_source.go), [RBAC AWS](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html), [IAM auth AWS](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html), [RedisDatabase3.4.31 — ScriptEvaluateMessage](https://github.com/StackExchange/StackExchange.Redis/blob/3.4.31/src/StackExchange.Redis/RedisDatabase.cs), [ServerEndPoint3.4.31 — handshake/discovery](https://github.com/StackExchange/StackExchange.Redis/blob/3.4.31/src/StackExchange.Redis/ServerEndPoint.cs).
+
+### 60.5. HCL refinado: no grupo vacío aplicable ni fallback sin auth
+
+Estado inicial inspeccionado: **user_ids=[]**, `aws_elasticache_user` **ausente**, replication group ya asociado a `aws_elasticache_user_group.cache` por `user_group_ids`; sin default user, variables password/auth_token ni uso passwords_wo. `infra/outputs.tf` tiene seis outputs cache no secretos y **no cambia** en este incremento.
+
+Estado nuevo en **elasticache.tf/variables.tf**:
+
+- `valkey_runtime_user_id` input no secreto, default **null**, validación admite solo null o el ID aprobado **enver-dev-runtime**. El literal expresa el contrato futuro, **no se suministró como usuario existente**.
+- `data.aws_elasticache_user.runtime` solo se instancia si hay input; DescribeUsers devuelve metadata, no contraseña. HCL nunca asigna su atributo passwords; fuente del provider lee tipo/password_count, no valores. No es recurso gestionado ni creación de usuario.
+- `aws_elasticache_user_group.cache.user_ids` se obtiene de ese usuario real. **Precondición null falla**: la expresión vacía inactiva no puede llegar a apply. Segunda puerta exige motor VALKEY, username aprobado, tipo password y password_count>=1. Lookup de ID inexistente también falla. No count=0 del replication group, no retirada de attachment ni fallback abierto.
+- Terraform conserva ownership de grupo/membresía y cache/red; administrador externo posee usuario/ACL/password/rotación. No gestionar membresía fuera de Terraform concurrentemente ni usar ignore_changes. La lectura metadata **no certifica ACL efectiva, estado operativo del usuario, secreto custodiado o pruebas negativas**; esos controles requieren evidencia futura antes de cualquier apply.
+- Replication group mantiene attachment dependiente del grupo bloqueado y todos los controles anteriores. Sin default user creado/agregado. Según AWS, el grupo Valkey asociado deshabilita default y no exige default en membresía; **comportamiento previsto, no comprobación live de acceso anónimo**. No se reclama que AWS haya rechazado un grupo vacío: la puerta es política local explícita, comprobada por Terraform.
+
+### 60.6. Validaciones y planes dirigidos reales
+
+**fmt** (solo los dos HCL autorizados) **17:30:59.282Z–17:30:59.476Z/exit0**, sin cambios de formato; **fmt -check -recursive infra 17:30:59.476Z–17:30:59.689Z/exit0**; **validate 17:30:59.689Z–17:31:11.377Z/exit0**. No init/upgrade/build/tests.
+
+Ambos planes ejecutan `terraform -chdir=infra plan -refresh=false -input=false -no-color`, con perfil temporal, mismo var-file **metadata-only t019-core3.tfvars.json** e inputs aprobados de§59 (cuenta/región/dev/VPC/newbits8/aprobaciones/boundary/AMI histórica/cachemicro). No var de usuario ficticio. El var-file T019 **preserva inputs existentes**, no implica que su recurso IAM entre en targets. Comandos completos en evidencia externa. **No plan global ni plan binario -out**.
+
+| Plan | Targets y resultado |
+| --- | --- |
+| **Seis T017** | **17:31:34.464Z–17:31:48.985Z /exit1**. Targets exclusivos SGcache, ingresscache, subnetgroup, parametergroup, usergroup y replicationgroup. Muestra parcial **4add/0change/0destroy**, pero falla con **Resource precondition failed / USER PROVISIONING REQUIRED BEFORE APPLY** por usuario null. **NO es un plan válido integral de seis**; no se atribuye error a API AWS ni a una contraseña |
+| **Cuatro prerrequisitos** | **17:32:09.123Z–17:32:24.092Z /exit0 /4add/0change/0destroy**. Solo targets SGcache, ingresscache, subnetgroup y parametergroup, más dependencias reales de red existentes sin acciones. **PLAN ISOLATED, validado solo para ese subconjunto**, no workaround para provisionar sin autorización |
+
+Altas exactas del plan exitoso:
+
+1. `aws_security_group.cache`.
+2. `aws_vpc_security_group_ingress_rule.cache_from_backend`.
+3. `aws_elasticache_subnet_group.cache`.
+4. `aws_elasticache_parameter_group.cache`.
+
+**aws_elasticache_user_group.cache /aws_elasticache_replication_group.cache: BLOQUEADOS, no incluidos en el plan exitoso**. Ambos intentos excluyen **aws_iam_role_policy.api_secrets_read[0]** y **EC2 A/B**, sin cambios/reemplazos/destrucciones de dependencias. Drift conocido **ipv6_addresses/root_block_device.tags: UNRELATED / NOT ACCEPTED / NOT PART OF T017**, no corregido ni ocultado; IAM humano aplicado y state sin reconciliar permanecen como§59. Target no prueba ausencia de drift global ni sustituye revisión fresca integral antes de apply futuro. Warning de resource targeting conservado, no se declara plan exhaustivo.
+
+Lecturas AWS **SÍ**: STS explícito (fallido antes de renovación, exitoso después), autenticación del provider y `data.aws_availability_zones.available` en cada plan. **No DescribeUsers** ahora porque no hay ID real; no GetSecretValue, AMI lookup nuevo ni SSM SendCommand. No se inventa conteo de requests internos. `-refresh=false` evalúa contra state/config, no inventario cloud fresco de drift.
+
+### 60.7. Secret audit, estado y detención
+
+Auditoría local **17:33:56.959Z** de HCL, `t019-core3.tfvars.json`, state/backup y planes textuales revisados: **ningún valor password/auth_token/SecretString/material de clave detectado** en el alcance; los nombres de atributos, tipos password y contrato con marcador no son secretos. Sin generación, lectura de valores SecretsManager ni archivos de credenciales; sin secreto introducido en tfvars/state/outputs/logs. State/backup no se editan ni se copian; hashes de precheck/cierre prueban preservación. Auditoría por campos/patrones no es garantía universal ni examen retrospectivo de todos los artefactos históricos. Los planes previos y la custodia cifrada permanecen intactos.
+
+**T017: DESIGNED / REGIONAL VERIFIED / TARGETED PLAN VALIDATED (4/6; 2 BLOCKED) / RBAC CONTRACT READY / USER PROVISIONING PENDING / APPLY BLOCKED.** RBAC CONTRACT READY significa contrato/diseño propuesto listo para revisión administrativa, **no ACL ensayada ni AUTH READY**. **USER PROVISIONING REQUIRED BEFORE APPLY**. Faltan usuario/password/secret reales, validación de ACL/estado/deny-anonymous y futuro plan seguro de los seis; compatibilidad E028, E017/DP-I-07, continuidad T018/T020 y aceptación siguen pendientes. **APPLY READY: NO /COMPLETE: NO /ACCEPTED: NO**.
+
+**T019** conserva **PARTIAL / CORE SECRETS CREATED / BOUNDARY V2 ACTIVE / RUNTIME IAM APPLIED / CORE SECRET ACCESS A/B PASS / REDIS PENDING**, E019 no aceptada; **T020 PENDING /GATE-I-B PENDING–NOT SATISFIED**, AUTH-027 integral no satisfecho. Catálogo **8 completas +7 parciales +15 pendientes**, gates **1 satisfecho +8 pendientes**. Sin cambios en imagen/aceptación T008/DP-I-14, IMDSv2required/hoplimit1, boundaryv2/default/v1, state39/backup38 y custodia histórica, USD50agregado/guardrailUSD10/deadlineoriginal **2026-11-15T01:57:56.9337244Z**; no extensión, reset ni limpieza automática.
+
+Evidencia externa `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t017-rbac-refine-2026-11-14T17-21-02-825Z\`: precheck/hashes/copias before de archivos autorizados (no state), schema user, identidad expirada/renovada sanitizada, validations, targeted-six/four reviewed/result/stderr, secret-audit-and-test-inventory y cierre/diffs. No credenciales ni valores secretos ni plan binario. Cambios de este incremento: **infra/elasticache.tf /infra/variables.tf /specs/003-infrastructure/task.md /memoria.md**; IAM/outputs ya modificados previamente se preservan, no se atribuyen a este trabajo. Final `git diff --check` e integridad en evidencia de cierre/salida final.
+
+**AWS reads SÍ /AWS writes0 /IAM writes0 /Secrets writes0 /Terraform apply0 /SSM SendCommand0 /deployment0 /stage0 /commit0 /push0** para este incremento. No borra operaciones humanas/históricas de entregas anteriores. **STOP: no crear usuario/password/secret, no apply ni siguiente tarea sin nueva autorización.**
+
+## 61. T017 — Provisión externa solicitada, detenida por AccessDenied en precheck
+
+**2026-11-14 UTC — ADMIN USER PROVISIONING / SECRETS / VERIFY**, autorización explícita posterior a§60 para crear **primero enver/dev/api/redis** y después el usuario externo **enver-dev-runtime /username igual /engine VALKEY**, con la misma contraseña criptográficamente generada fuera de Terraform y ACL exacta aprobada de§60.3, sin +@all/SCAN/PERSIST. El permiso de esta solicitud no modifica IAM ni autoriza apply, deployment, ECR writes, EC2 modify, stage/commit/push. Si el usuario existe, no sobrescribir y detener; si no se puede determinar su existencia, tampoco proceder por suposición.
+
+### 61.1. Precheck real y causa de detención
+
+Precheck **17:45:41.707Z–17:45:52.320Z**, rama **feature/infrastructure**, HEAD **78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cinco tracked modificados previamente/único untracked `infra/elasticache.tf`/cero staged. Hashes iniciales de archivos y state/backup protegidos registrados sin copiar state. Perfil exclusivo **enver-admin-temp**; resolución local confirma **AccessKey/SecretAccessKey/SessionToken presentes**, sin imprimir/persistir valores. Expiración no informada por resolución; STS prueba validez en ese momento, no permisos administrativos suficientes.
+
+| Acción real | Resultado |
+| --- | --- |
+| `aws sts get-caller-identity --profile enver-admin-temp --region us-east-1` | **17:45:44.863Z–17:45:48.031Z /exit0**, cuenta **926925605666**, ARN **arn:aws:iam::926925605666:user/enver-terraform-local**, origen de sesión temporal; no se usó permanente/enver-infra |
+| `aws elasticache describe-users --user-id enver-dev-runtime --profile enver-admin-temp --region us-east-1` | **17:45:48.031Z–17:45:52.320Z /exit254 /AccessDenied**. **USER EXISTENCE UNKNOWN**, no UserNotFound, sin metadata verificable |
+
+**PRECHECK BLOCKED / STOP_USER_PRECHECK_ERROR**. La denegación impide satisfacer la condición previa de no sobrescribir un usuario existente. **No se generó contraseña**, no se comprobó existencia del secreto, no CreateSecret/PutSecretValue/CreateUser/ModifyUser ni creación de grupo. No se amplió IAM, cambió perfil o buscó otra vía para eludir la denegación. El error no identifica por sí solo qué política/session policy/SCP/boundary origina la falta de acceso; no se inventa diagnóstico ni se prueba capacidad de escritura. El responsable debe revisar el acceso de lectura necesario o aportar un siguiente procedimiento autorizado; no se reintenta automáticamente.
+
+### 61.2. Resultado y estado conservado
+
+- **Secret Redis creado por este incremento: NO**; ARN/VersionId **no obtenidos**, existencia cloud **no consultada**. No inferir ausencia del secreto. Contrato futuro sigue `enver/dev/api/redis` con username/password, sin host/port/TLS y sin valores ficticios.
+- **Usuario creado por este incremento: NO**; Status/Engine/ACL/Auth observados **no disponibles**. ACL aprobada conserva exactamente§60.3; no se aplicó ni se verificó en AWS. No afirmar que usuario existente tiene/no tiene +@all/SCAN/PERSIST.
+- **valkey_runtime_user_id permanece null**, sin input poblado; HCL y outputs intactos. No fmt/validate/plan nuevos tras el bloqueo. Último resultado histórico sigue target4 **exit0 /4add0change0destroy**, target6 **exit1 por usuario null** (§60), no se presenta como ejecución de este incremento.
+- **User group aplicable: NO /replication group auth ready: NO /APPLY READY: NO**. No secreto generado/suministrado a Terraform; state39/backup38 protegidos, sin material nuevo en HCL/tfvars/plan/state/outputs/docs. No se declara auditoría nueva completa ni plan fresco inexistente.
+- **T017: DESIGNED / REGIONAL VERIFIED / TARGETED PLAN VALIDATED (4/6; 2 BLOCKED) / RBAC CONTRACT READY / USER PROVISIONING PENDING / APPLY BLOCKED**, con **PRECHECK BLOCKED — DescribeUsers AccessDenied**. No RBAC USER PROVISIONED, REDIS SECRET CREATED, FULL TARGETED PLAN VALIDATED, COMPLETE o ACCEPTED.
+- **T019** conserva **PARTIAL / CORE SECRETS CREATED / BOUNDARY V2 ACTIVE / RUNTIME IAM APPLIED / CORE SECRET ACCESS A/B PASS / REDIS PENDING**; ningún cuarto ARN/VersionId o core4 aprobado/aplicado ahora. Boundaryv2/default/v1, IAMcore3 y acceso A/B previos no se modifican. **T020 PENDING /GATE-I-B PENDING–NOT SATISFIED**, sin avance de E017/E019/E028/AUTH-027 ni aceptación de drift EC2 ajeno. Catálogo8completas+7parciales+15pendientes/gates1satisfecho+8pendientes conservados.
+
+Solo **specs/003-infrastructure/task.md /memoria.md** editados. Evidencia sanitizada externa `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t017-user-provision-2026-11-14T17-45-41-707Z\`: precheck/hashes/copias before de archivos autorizados, identidad y error por código (no credenciales ni cuerpo de secretos), cierre/diffs. Integridad y `git diff --check` al cierre en evidencia/salida final. Se conservan archivos HCL, inputs, state/backup/custodia, imágenes/planes históricos, IMDSv2required/hoplimit1, USD50agregado/guardrailUSD10 y deadlineoriginal **2026-11-15T01:57:56.9337244Z**, sin extensión/cleanup.
+
+**AWS reads SÍ (STS exitoso +DescribeUsers denegado) /AWS writes0 /Secrets writes0 /IAM writes0 /Terraform apply0 /SSM SendCommand0 /ECR writes0 /EC2 modify0 /deployment0 /stage0 /commit0 /push0** en esta solicitud. **STOP por precheck no satisfecho; no continuar con secretos, usuario o plan.**
+
+## 62. T017 — Provisión externa acreditada por responsable; full targeted plan falla por DescribeUsers403
+
+### 62.1. Alcance y fuentes de evidencia
+
+**2026-11-14 UTC — VERIFY / TARGETED PLAN ONLY**, autorización posterior explícita del responsable para verificar metadata de usuario/secreto externo, poblar solo input no secreto, fmt/check/validate y plan dirigido de los seis T017. **No apply, AWS/Secrets/IAM writes, deployment, stage/commit/push**. No se cambia IAM para resolver lecturas denegadas ni se sustituye el perfil. Historial de§61 intacto: allí no se creó usuario/secreto; la provisión que sigue es **externa, aportada ahora por el responsable**, no atribuida al agente.
+
+Precheck **18:00:42.999Z–18:00:50.962Z**: rama **feature/infrastructure**, HEAD **78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cinco tracked modificados previos/elasticache untracked esperado/cero staged. Perfil exclusivo **enver-admin-temp**, resolución local con claves y **SessionToken presentes**; no valores impresos/persistidos, expiración no informada. Entorno elimina AWScredentials y overrides Terraform heredados, fija perfil/región us-east-1, sin enver-infra ni fallback permanente. **STS18:00:45.476Z–18:00:48.042Z/exit0**, cuenta **926925605666**, ARN **arn:aws:iam::926925605666:user/enver-terraform-local**, origen de sesión temporal.
+
+| Evidencia administrativa del responsable | Valor informado; no independiente por agente |
+| --- | --- |
+| Usuario RBAC externo | **UserId/UserName enver-dev-runtime /Engine VALKEY /Status active /Authentication password /PasswordCount1** |
+| ARN usuario | **arn:aws:elasticache:us-east-1:926925605666:user:enver-dev-runtime** |
+| Secret Redis creado | **enver/dev/api/redis**, contrato username/password, sin host/port/TLS |
+| ARN secret | **arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP** |
+| VersionId | **2dfc79eb-625a-4f1b-aca7-b1575b5142c1** |
+
+ACL actual informada/verificada por responsable, idéntica al contrato aprobado de§60.3:
+
+```text
+on -@all resetkeys ~enver:dev:auth:revoked:enver-api:* ~enver:{dev:auth:ratelimit}:metadata ~enver:{dev:auth:ratelimit}:registry ~enver:{dev:auth:ratelimit}:bucket:* resetchannels +get +set +del +type +hlen +hmget +hset +pttl +time +zcard +zrange +zscore +zcount +zrem +zadd +zremrangebyscore +pexpiretime +pexpireat +eval +evalsha +script|load +echo +ping +hello +info +client|setname +client|setinfo +client|id
+```
+
+En esa ACL aportada **+@all/SCAN/PERSIST ausentes**; no se afirma verificación live propia. Límites de EVAL/aislamiento de autoridad, probes cliente/E028 y recovery de§60 permanecen. Password **nunca leído, generado, impreso ni enviado** por el agente; no prueba runtime de autenticación ni comparación del password entre usuario/secret. No se consulta GetSecretValue ni se supone AWSCURRENT o clave KMS a partir de lecturas fallidas.
+
+### 62.2. Lecturas propias: permisos aún insuficientes
+
+- **DescribeUsers18:00:48.042Z–18:00:50.962Z /exit254 /AccessDenied** para `enver-dev-runtime`. No devuelve metadata verificable; no se interpreta como usuario ausente o provisión fallida del responsable.
+- **DescribeSecret18:01:43.311Z–18:01:46.596Z /exit254 /AccessDeniedException** para el ARN Redis aportado. ARN/VersionId se registran por evidencia del responsable, **no confirmados por DescribeSecret**; no se intenta leer valores.
+- Tras estas denegaciones se completa únicamente fmt/validate y **un intento de plan dirigido expresamente solicitado**, con el ID real aportado; este conserva el lookup y permite observar el bloqueo del provider. No se reemplaza el lookup por confianza ciega, desactiva precondición, cambia identidad ni amplían permisos para conseguir éxito.
+
+### 62.3. Input, validación y resultado exacto
+
+**Input poblado solo por CLI:** `-var=valkey_runtime_user_id=enver-dev-runtime`. Es metadata de usuario real informado por responsable, no placeholder ni password. **No se cambia HCL/defaultnull, tfvars, outputs ni IAM**. Futuros planes deberán proporcionar explícitamente el input y pasar las mismas puertas; esta entrega no hace permanente una excepción. `user_ids` continúa derivado de `data.aws_elasticache_user.runtime[0].user_id` y replication group de `aws_elasticache_user_group.cache.user_group_id`. **Membresía y validación no evaluadas exitosamente** por DescribeUsers403; no se afirma grupo vacío aplicable ni grupo válido acreditado.
+
+| Validación | Resultado real |
+| --- | --- |
+| `terraform -chdir=infra fmt` | **18:01:43.329Z–18:01:43.647Z /exit0**, sin archivos reformateados |
+| `terraform fmt -check -recursive infra` | **18:01:43.647Z–18:01:43.943Z /exit0** |
+| `terraform -chdir=infra validate -no-color` | **18:01:43.944Z–18:01:55.587Z /exit0** |
+| Plan con seis targets T017 | **18:02:22.784Z–18:02:36.377Z /exit1**. **4add/0change/0destroy parciales**, no plan integral válido ni seis altas acreditadas |
+
+Plan `terraform -chdir=infra plan -refresh=false -input=false -no-color`, perfil **AWS_PROFILE=enver-admin-temp**, mismo var-file metadata-only **t019-core3.tfvars.json**, inputs aprobados cuenta/región/dev/red/newbits8/aprobaciones/boundary/AMIhistórica/cachemicro de§60, más el input userID anterior. Targets **exactamente** `aws_security_group.cache`, `aws_vpc_security_group_ingress_rule.cache_from_backend`, `aws_elasticache_subnet_group.cache`, `aws_elasticache_parameter_group.cache`, `aws_elasticache_user_group.cache`, `aws_elasticache_replication_group.cache`; dependencias reales de red, no plan global. Comando completo y textos revisados en evidencia externa. Sin plan binario ni modificación/copia de state.
+
+**Fallo concreto:** `data.aws_elasticache_user.runtime[0]` intenta DescribeUsers; **HTTP403 /AccessDenied**, mensaje del servicio: **no identity-based policy allows elasticache:DescribeUsers** sobre el ARN exacto del usuario. No se demuestra por ello ausencia de otras restricciones ni se modifica ninguna política. La puerta **USER PROVISIONING REQUIRED BEFORE APPLY por null ya no falla**, porque el input está suministrado; el bloqueo vigente es acceso de lectura a metadatos. El plan no acredita autenticación/ACL/Status, ni error de aceptación Create del servicio.
+
+Acciones parciales emitidas: **CREATE** `aws_security_group.cache`, `aws_vpc_security_group_ingress_rule.cache_from_backend`, `aws_elasticache_subnet_group.cache`, `aws_elasticache_parameter_group.cache`. **User group/replication group no llegan a plan válido**. **T019 aws_iam_role_policy.api_secrets_read[0] NO /EC2A-B NO /replacements NO /destroy NO**; drift ipv6_addresses/root_block_device.tags sigue **UNRELATED /NOT ACCEPTED /NOT PART OF T017**, sin reconciliación de state/IAM ni ocultación. **Aislamiento de targets y acciones parciales: SÍ; full targeted plan validado: NO**. No confundir partial4/0/0 con éxito o plan aplicable; warning de targeting y límites refreshfalse conservados.
+
+HCL sin cambios mantiene **Valkey7.2 /valkey7 /cache.t4g.micro /1primary0replicas /clusterdisabled /TLStrue-required /at-resttrue /noeviction /6379**, sin MultiAZ/failover, VPC/subnets/SGbackend exactos aprobados. Parameter group **enver-dev-valkey**, subnet group **enver-dev-cache-subnets**, SGcache **enver-dev-cache**, attachment de usergroup **enver-dev-valkey** por referencias HCL. **Configuración inspeccionada, no replication group completo validado en este plan fallido**. No endpoint/API creada ni operación runtime acreditada.
+
+### 62.4. Estado actual, T019 y preservación
+
+**T017: DESIGNED / REGIONAL VERIFIED / RBAC USER PROVISIONED (OWNER EVIDENCE) / REDIS SECRET CREATED (OWNER EVIDENCE) / FULL TARGETED PLAN FAILED (DescribeUsers AccessDenied) / APPLY BLOCKED.** Regional sigue PASS administrativo previo, target4 exitoso previo de§60 sigue histórico, no se descarta provisión humana por denegación local. **APPLY READY NO /AUTH runtime verificado NO /COMPLETE NO /ACCEPTED NO**. Antes de avanzar se requiere verificación con acceso de lectura autorizado y plan fresco completo exitoso; no se deriva autorización de ampliar IAM. E017/DP-I-07/E028/negativos/continuidad/T018/T020/AUTH-027 pendientes.
+
+**T019: PARTIAL / CORE SECRET ACCESS A/B PASS / REDIS SECRET CREATED / CORE4 IAM/BOUNDARY PENDING**, creación Redis según responsable, E019 no aceptada. Se preservan **CORE SECRETS CREATED /BOUNDARY V2 ACTIVE /RUNTIME IAM CORE3 APPLIED** previos. Trabajo futuro solicitado, **no ejecutado**: revisión/aprobación boundary **v3/core4** (conservar v2/v1/historia), agregar ARN Redis real a **enver-dev-secrets-read**, verificar lectura Redis A/B y fijar release manifest compartido con ARN+VersionId exactos. Redis secret existente **no equivale a acceso runtime A/B ni a boundarycore4**. No se añade ARN a tfvars/policy ahora ni se lee valor. **T020 PENDING /GATE-I-B PENDING–NOT SATISFIED**, catálogo8completas+7parciales+15pendientes y gates1satisfecho+8pendientes sin cambios.
+
+Revisión local de HCL/variables/tfvars/state/backup/outputs, plan fallido revisado y docs/diffs de esta entrega: sin material secreto nuevo suministrado o detectado; campos/tipo password, ACL y ARN/VersionId son metadata, no password/SecretString. Sin GetSecretValue/generador y sin secreto input/plan/state/outputs/docs; no garantía universal retrospectiva de todo artefacto histórico. State39/backup38/protectedfiles e HCL intactos por hashes al cierre. Solo **task/memoria** editados; `git diff --check` e integridad al cierre en evidencia/salida final.
+
+Evidencia sanitizada externa `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t017-full-targeted-2026-11-14T18-00-42-999Z\`: precheck/hashes/copias before no-state, secret-metadata con denegación, validations, full-targeted-result/text/stderr revisados, auditoría y cierre/diffs; sin credenciales/valores/plan binario. AWS reads reales **STS/DescribeUsers/DescribeSecret/provider/AZ +lookupuser denegado en plan**, sin conteo inventado de requests internos. **AWS writes0 /Secrets writes0 /IAM writes0 /Terraform apply0 /SSM SendCommand0 /ECR writes0 /EC2 modify0 /deployment0 /stage0 /commit0 /push0** en esta entrega; no borra provisión externa/humana informada. Preservados boundaryv2/default/v1/state/backup/custodia/planes/imágenes históricos, IMDSv2requiredhoplimit1, USD50agregado/guardrailUSD10/deadlineoriginal **2026-11-15T01:57:56.9337244Z**, sin extensión/cleanup. **STOP por full plan fallido, sin apply ni trabajo posterior.**
+
+## 63. T017 — Input externo sin DescribeUsers; full targeted plan6 validado, sin apply
+
+### 63.1. Autorización y sesión
+
+**2026-11-16 UTC — HCL REFINEMENT / TARGETED PLAN ONLY**, solicitud explícita de eliminar únicamente el lookup y las precondiciones basadas en metadata AWS del usuario externo, aceptar evidencia administrativa y validar el plan aislado6. Autoriza cambios **infra/elasticache.tf /infra/variables.tf** y sincronizar task/[memoria §124](../../memoria.md). **No apply, AWS/IAM/Secrets writes, deployment, stage/commit/push**, importación/adopción de usuario ni ampliación IAM. Los fallos DescribeUsers/DescribeSecret de§§61–62 siguen como historial; no se ocultan ni se presentan como permisos corregidos. La consulta deja de ser parte del contrato de Terraform por **decisión expresa del responsable**, no mediante otra identidad o API alternativa.
+
+Precheck **17:31:38.089Z–17:31:43.475Z**, rama **feature/infrastructure**, HEAD **78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cinco tracked modificados previamente/único untracked `infra/elasticache.tf`/cero staged. Resolución exclusiva **enver-admin-temp**, AccessKey/SecretAccessKey/SessionToken presentes, sin imprimir/persistir valores; sin expiración informada. **STS17:31:40.778Z–17:31:43.475Z/exit0**, cuenta **926925605666**, ARN **arn:aws:iam::926925605666:user/enver-terraform-local**, origen de sesión temporal. Entorno limpia credenciales y overrides Terraform heredados, fija perfil/región y deshabilita fallback metadata; sin permanente/enver-infra. No token expirado observado en este incremento ni nueva asunción STS/renovación realizada por agente.
+
+### 63.2. Evidencia owner aceptada y ownership
+
+**RBAC USER PROVISIONED — OWNER VERIFIED:** **UserId=UserName=enver-dev-runtime /EngineVALKEY /Statusactive /Authenticationpassword /PasswordCount1**, ARN **arn:aws:elasticache:us-east-1:926925605666:user:enver-dev-runtime**. ACL exacta de§62/§60.3 verificada por responsable, sin **+@all/SCAN/PERSIST**. **No verificación live propia** de existencia/estado/engine/ACL/password en esta entrega; no se añade permiso DescribeUsers. Fuente y límites de autoridad Lua/recovery/probescliente/E028 se conservan.
+
+**REDIS SECRET CREATED — OWNER VERIFIED:** **enver/dev/api/redis**, ARN **arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP**, VersionId **2dfc79eb-625a-4f1b-aca7-b1575b5142c1**. Contrato username **enver-dev-runtime** +password, no host/port/TLS. Solo metadata documental para futuro T019core4; **sin DescribeSecret/GetSecretValue ni dependencia SecretsManager en T017**. No password leído/generado/impreso ni supuesto AWSCURRENT, coincidencia de password probada o KMS verificado.
+
+| Responsabilidad | Owner vigente |
+| --- | --- |
+| SGcache, ingress, subnet group, parameter group, user group/membresía y replication group | **Terraform**, seis recursos T017 |
+| Usuario ElastiCache enver-dev-runtime y lifecycle de credenciales/ACL/rotación | **Administrador externo**, EXTERNALLY MANAGED; no recurso/import/state del usuario |
+| Credencial enver/dev/api/redis | **Secrets Manager**, custodia mediante administración externa; valor no gestionado por Terraform |
+
+Terraform ya no detecta por API cambios externos de engine/status/ACL/auth/credencial del usuario: **responsabilidad explícita del owner**, no garantía eliminada ni verificación fingida. No membresía externa concurrente ni ignore_changes. La evidencia administrativa debe revisarse antes de una futura operación autorizada; continuidad/negativos/compatibilidad siguen pendientes.
+
+### 63.3. Refinamiento HCL local
+
+- Eliminado **data.aws_elasticache_user.runtime** y toda referencia a él. Eliminada la precondición que consultaba engine/username/authentication/password_count. **Sin recurso aws_elasticache_user, importación, ownership del usuario o API alternativa**.
+- **valkey_runtime_user_id** conserva **string/defaultnull/nullabletrue**. Validación **local** permite null o el ID aprobado no vacío **enver-dev-runtime**, con formato `^[a-z][a-z0-9-]{0,127}$`; precondición del grupo exige input no nulo/no vacío. No flags que desactiven RBAC ni lookup de existencia por API.
+- `user_ids = var.valkey_runtime_user_id == null ? [] : [var.valkey_runtime_user_id]`. La rama vacía por defecto **no es aplicable** por precondición. Input de este plan **CLI -var=valkey_runtime_user_id=enver-dev-runtime**, no nuevo tfvars/default ni password.
+- Replication group conserva `user_group_ids = [aws_elasticache_user_group.cache.user_group_id]`; sin default user abierto, fallback sin auth, auth_token/passwords_wo/passwords o generadores.
+- **infra/outputs.tf intacto**: seis outputs cache no secretos. IAMcore3, compute y demás red intactos; solo dos HCL refinados dentro del alcance.
+
+### 63.4. Validación y plan dirigido exitoso
+
+| Acción | Resultado real, 2026-11-16 UTC |
+| --- | --- |
+| `terraform -chdir=infra fmt` | **17:32:30.640Z–17:32:31.225Z /exit0**, sin archivos reformateados |
+| `terraform fmt -check -recursive infra` | **17:32:31.225Z–17:32:31.520Z /exit0** |
+| `terraform -chdir=infra validate -no-color` | **17:32:31.520Z–17:32:47.074Z /exit0** |
+| Full targeted plan | **17:33:17.419Z–17:33:45.019Z /exit0 /6add0change0destroy**, sin replacements |
+
+Comando base `terraform -chdir=infra plan -refresh=false -input=false -no-color -var-file=t019-core3.tfvars.json`, perfil **AWS_PROFILE=enver-admin-temp**, mismos inputs aprobados de§62 (enver/dev/us-east-1/cuenta926925605666/VPC10.20.0.0/16/newbits8/networkdesigntrue/computeplantrue/boundaryARNexacto/AMIhistórica **ami-096ef200a877f36af**/cachemicro), más **-var=valkey_runtime_user_id=enver-dev-runtime**. El var-filecore3 conserva metadata y no incluye recursos IAM por ser usado. Comando completo y revisión en evidencia externa; **no plan global, -out/binario, init/upgrade, build/pruebas o reanudación de shell de tests cancelado**.
+
+**Seis targets y seis CREATE exactos, sin otras acciones:**
+
+1. **aws_security_group.cache** — enver-dev-cache /VPCvpc-060f67e600affd569.
+2. **aws_vpc_security_group_ingress_rule.cache_from_backend** — TCP6379, solo source **sg-070d06cfebe866427**.
+3. **aws_elasticache_subnet_group.cache** — enver-dev-cache-subnets, A **subnet-0120d869dd659e2a1** /B **subnet-01934348f5d6985aa**.
+4. **aws_elasticache_parameter_group.cache** — enver-dev-valkey /valkey7 /maxmemory-policy **noeviction**.
+5. **aws_elasticache_user_group.cache** — enginevalkey /idenver-dev-valkey /**user_ids=[enver-dev-runtime]**, no vacío.
+6. **aws_elasticache_replication_group.cache** — **user_group_ids=[enver-dev-valkey]** asociado, configuración siguiente.
+
+**Valkey7.2 /cache.t4g.micro /cluster_mode disabled /num_cache_clusters1**, intención **1primary0replicas**; replicas_per_node_group computed, no runtime/topología cloud medida. **MultiAZfalse/failoverfalse/TLStrue-required/at-rest="true"** (stringprovider)/**6379/IPv4/AZus-east-1a**. Parameter group **enver-dev-valkey**, subnet group **enver-dev-cache-subnets**, security_group_ids referencia HCL exclusiva SGcache **enver-dev-cache**, ID nuevo computed. Snapshotretention0/auto-minorfalse/sin backupHA conservados; no durabilidad/capacidad aceptadas. Endpoint/engine_version_actual/SG IDs/inlineingress-egress **knownafterapply**, no seguridad live demostrada ni egress efectivo inspeccionado. Regla ingress específica sin CIDR público, **no0.0.0.0/0 ni::/0**; precondiciones de red exactas conservadas.
+
+**PLAN ISOLATED YES**: **aws_iam_role_policy.api_secrets_read[0] NO /EC2A-B NO /aws_elasticache_user NO /SecretsManager resources NO**, dependencias reales existentes sin acciones. Sin ipv6_addresses/root_block_device.tags en este plan; diferencias previas siguen **UNRELATED /NOT ACCEPTED /NOT PART OFT017**, no drift global resuelto ni state/IAM reconciliado. Solo seis outputs cache en plan; no persistidos en state. Warningtargeting conservado; **-refresh=false valida contra config/state y no acredita inventario cloud fresco**. Lectura observable dataAZ y autenticación/provider/STS; no datasourceusuario/secret ni llamadas expresas DescribeUsers/DescribeSecret/GetSecretValue, sin conteo inventado de requests internos.
+
+### 63.5. Secret audit, readiness acotada y ventana vencida
+
+Sin valores password/auth_token/SecretString suministrados o generados en HCL/variables/tfvars/plan/state/outputs/docs. **auth_token_wo=(write-only attribute)** en texto del plan es **marcador de esquema**, no token configurado; HCL no asigna ese atributo. Nombres/tipo password, ACL y ARN/VersionId son metadata. Auditoría local por campos/patrones y revisión de plan/docs/diffs, resultados en evidencia de cierre; no garantía universal retrospectiva. State39/backup38 intactos por hashes, no copia de state, lectura de valores SecretsManager ni plan binario.
+
+**T017: DESIGNED / REGIONAL VERIFIED / RBAC USER PROVISIONED — OWNER VERIFIED / REDIS SECRET CREATED — OWNER VERIFIED / FULL TARGETED PLAN VALIDATED / APPLY READY (TÉCNICO, SOLO PLAN ACOTADO).** Readiness significa exclusivamente cumplimiento de los criterios del plan T017 establecidos por la solicitud actual y aceptación de evidencia owner; **no COMPLETE/ACCEPTED, auth/runtime probado, servicio creado, aceptación Create garantizada o gates satisfechos**. E017/DP-I-07/E028/negativos/T018/T020/continuidad/AUTH-027 siguen pendientes. Se elimina el blocker de lookup por cambio explícito de contrato, no se atribuyen permisos DescribeUsers nuevos.
+
+**Límite operativo vigente: VENTANA ORIGINAL VENCIDA desde 2026-11-15T01:57:56.9337244Z; esta entrega es 2026-11-16. APPLY OPERATIVO NO AUTORIZADO /BLOQUEADO POR VENTANA.** APPLY READY técnico **no autoriza ejecutar este plan ni renueva presupuesto/ventana/aprobaciones**. Cualquier apply futuro requiere autorización nueva delimitada, revisión de ventana/costos/gates/evidencia externa y plan fresco/revisado; no se selecciona una fecha nueva ni se hace cleanup automático. Tampoco se afirma que infraestructura histórica siga activa tras la fecha: no se inventaría cloud completo ni se aplican cambios.
+
+**T019** conserva **PARTIAL / CORE SECRET ACCESS A/B PASS / REDIS SECRET CREATED / CORE4 IAM/BOUNDARY PENDING**, fuente responsable; boundaryv2/default/v1/IAMcore3 intactos. Futuro boundaryv3/core4/addRedisARN/lecturaRedisA-B/releasemanifest exacto **no ejecutado**. **T020 PENDING /GATE-I-B PENDING–NOT SATISFIED**, E019 pendiente; catálogo8completas+7parciales+15pendientes y gates1satisfecho+8pendientes conservados.
+
+Cambios actuales **infra/elasticache.tf /infra/variables.tf /specs/003-infrastructure/task.md /memoria.md**, sin tocar outputs/IAMprevios o código/tests. Evidencia sanitizada externa `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t017-external-input-2026-11-16T17-31-38-089Z\`: precheck/hashes/copiasbefore no-state, validations, full-targeted-reviewed/result/stderr, plan-review, audit y cierre/diffs. `git diff --check` e integridad al cierre en evidencia/salida final. Preservadas imágenes/planes/custodia/state históricos, IMDSv2requiredhoplimit1, USD50agregado/guardrailUSD10 y deadlineoriginal vencida, sin extensión/reset/cleanup.
+
+**AWS reads SÍ /AWS writes0 /Terraform apply0 /Secrets writes0 /IAM writes0 /SSM SendCommand0 /ECR writes0 /EC2 modify0 /deployment0 /stage0 /commit0 /push0** en este incremento, no afirmación sobre provisión externa/histórica. **STOP con plan6 validado para revisión; sin apply ni trabajo posterior.**
+
+## 64. T017 — Nueva autorización targeted apply6; replan válido y detención explícita sin apply
+
+### 64.1. Alcance de la nueva autorización y decisión posterior
+
+**2026-11-16 UTC — AUTHORIZED TARGETED APPLY**, autorización explícita nueva, posterior a§63, limitada a los seis recursos T017. Permitía replan dirigido fresco/validación/auditoría, apply exclusivamente de esos seis si limpio y post-verificación de infraestructura/espera acotada. **No apply global, EC2, T019IAM, IAMwrites, SecretsManager, DynamoDB, Atlas, deploymentEnver.API, SSM SendCommand, ECRwrites, stage/commit/push ni conectividad Redis desde EC2**. No autorización para corregir automáticamente errores o ampliar permisos.
+
+Ventana puntual de esta solicitud: preparación iniciada **2026-11-16T17:43:11.193Z**. No se inventa duración/límite nuevo ni se extiende por esta autorización el deadline histórico de hosts **2026-11-15T01:57:56.9337244Z** o presupuesto **USD50agregado/guardrailUSD10**. Tras bloqueo preventivo descrito abajo, el responsable responde expresamente **“Detener sin apply”**, registrado **2026-11-16T17:51:05.230Z**. **La ejecución queda detenida por esa decisión posterior**; no reutilizar el permiso/plan guardado automáticamente. Se requerirá nueva instrucción delimitada para retomar.
+
+### 64.2. Precheck y replan fresco guardado
+
+Precheck **17:43:11.193Z–17:43:16.947Z**, rama **feature/infrastructure**, HEAD **78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cinco tracked modificados previos/elasticache untracked esperado/cero staged. Perfil exclusivo **enver-admin-temp**, claves y SessionToken presentes sin imprimir/persistir valores, expiración no informada. **STS17:43:14.039Z–17:43:16.947Z/exit0/cuenta926925605666**, ARN **arn:aws:iam::926925605666:user/enver-terraform-local**, origen de sesión temporal. Sin permanente/enver-infra/fallback, overridesAWS/TFheredados eliminados.
+
+| Paso pre-apply | Resultado observado, 2026-11-16 UTC |
+| --- | --- |
+| Auditoría HCL/variables/tfvars/state39/backup38/outputs | Sin campos secretos poblados/material de credenciales detectado; sin valores impresos/copias state |
+| `terraform fmt -check -recursive infra` | **17:43:43.551Z–17:43:43.826Z /exit0** |
+| `terraform -chdir=infra validate -no-color` | **17:43:43.826Z–17:43:55.236Z /exit0** |
+| Replan dirigido fresco guardado | **17:44:28.265Z–17:44:48.189Z /exit0 /6add0change0destroy** |
+
+Plan con **refresh=true**, no el refreshfalse de§63: `terraform -chdir=infra plan -refresh=true -input=false -no-color`, mismo var-file **t019-core3.tfvars.json** e inputs aprobados cuenta/región/dev/red/boundary/AMIhistórica/cachemicro, **-var=valkey_runtime_user_id=enver-dev-runtime**, seis `-target` T017 exactos y `-out` al archivo local externo de evidencia **t017-six-only.tfplan**. No plan global. Se refrescan dependencias reales de red/dataAZ sin acciones gestionadas adicionales; esto no acredita ausencia de drift global EC2/IAM ni de recursos excluidos.
+
+**Seis CREATE exactos**: `aws_security_group.cache`, `aws_vpc_security_group_ingress_rule.cache_from_backend`, `aws_elasticache_subnet_group.cache`, `aws_elasticache_parameter_group.cache`, `aws_elasticache_user_group.cache`, `aws_elasticache_replication_group.cache`. **Cambios0/destrucciones0/replacements0**; sin aws_elasticache_user/SecretsManager/T019IAM/EC2/otras acciones. Plan guardado SHA256 **47a201f220ce3a44ed2b79930f8b1a5e8641227148121c3027901e6d86c0d2c9**; no fue aplicado ni regenerado para apply.
+
+Revisión de JSON **solo en memoria**, sin guardar dump JSON/state: acciones de recursos gestionados exactamente **[create]** de esos seis; config/HCL/state hashes sin cambios. Confirma **Valkey7.2/cache.t4g.micro/clusterdisabled/num_cache_clusters1/noMultiAZ/nofailover/TLStrue-required/at-resttrue/6379**, parameter **enver-dev-valkey/valkey7/noeviction**, subnet **enver-dev-cache-subnets/A+Bexactas**, VPC/SGcache/ingressTCP6379 desde **sg-070d06cfebe866427** sin CIDR público, grupo **enver-dev-valkey** con **[enver-dev-runtime]** y attachment al replication group. Estado del usuario/secret/ACL sigue **OWNER VERIFIED**, externalownership de§63 intacto. No DescribeUsers/DescribeSecret/GetSecretValue ni password/auth_token/passwords_wo configurado.
+
+**Aclaración de auditoría local:** primer filtro JSON se detuvo antes de apply al señalar `planned...sensitive_values.auth_token` y `auth_token_wo`. Inspección mostró **booleanos de máscara de sensibilidad, no valores secretos**. Revisión posterior separó `resource.values`/before/after/variables/outputs reales de dichas máscaras y confirmó **sin material secreto**; el marcador textual `auth_token_wo=(write-only attribute)` tampoco es token suministrado. Se conserva registro del falso positivo, sin salida de valores ni bypass de un secreto real. El archivo binario guardado incluye metadata de planificación/estado auditada, **no contraseña/SecretString/credenciales configuradas**; es local, no versionado ni subido.
+
+### 64.3. Bloqueo preventivo de dependencia IAM y detención por responsable
+
+Antes de apply se hizo **una lectura GetRole del rol de servicio conocido AWSServiceRoleForElastiCache** para evitar que una primera provisión ElastiCache pudiera crear implícitamente un rol IAM fuera de los seis recursos y del permiso concedido. **No se creó, adjuntó, modificó ni amplió ningún rol/policy**.
+
+| Lectura | Resultado |
+| --- | --- |
+| `iam GetRole AWSServiceRoleForElastiCache` | **17:47:03.749Z–17:47:06.845Z /exit254 /InvalidClientTokenId**; rol no verificado |
+| STS revalidación posterior | **17:47:24.380Z–17:47:27.460Z /exit0**, misma cuenta/ARN/perfil temporal |
+
+La lectura IAM fallida **no demuestra rol ausente ni ExpiredToken general**, porque STS seguía funcionando. No se inventa causa del rechazo del endpoint IAM ni se cambia perfil/endpoint/permisos para eludirlo. Dependencia esperada: **arn:aws:iam::926925605666:role/aws-service-role/elasticache.amazonaws.com/AWSServiceRoleForElastiCache**, **no existencia acreditada**, no nuevo ARN creado. Ante la pregunta de confirmar administrativamente existencia del rol o detener, el responsable elige **DETENER SIN APPLY**; no aporta evidencia del rol.
+
+### 64.4. Resultado y estado vigente
+
+- **Terraform apply ejecutado: NO /comando apply0 /AWS writes0**. No apply parcial, timeout de creación o error de Create observado; el bloqueo ocurrió **antes** de cualquier escritura.
+- **SG ID /primary endpoint /replication group status real /engine_version_actual /infra post-apply: no obtenidos**. Nombres enver-dev-cache/enver-dev-cache-subnets/enver-dev-valkey y puerto6379 son contrato/plan, no recursos acreditados como creados. No post-verify ni polling necesarios porque no se inició creación; no conectividad/redis-cli/valkey-cli/EC2/SSM.
+- **T017** conserva **DESIGNED /REGIONAL VERIFIED /RBAC USER PROVISIONED — OWNER VERIFIED /REDIS SECRET CREATED — OWNER VERIFIED /FULL TARGETED PLAN VALIDATED /APPLY READY (TÉCNICO, SOLO PLAN ACOTADO)**, con **APPLY NOT EXECUTED /OWNER STOP /SERVICE ROLE UNVERIFIED**. No IMPLEMENTED, POST-APPLY INFRA VERIFIED, COMPLETE/ACCEPTED ni gates satisfechos. Readiness técnica no supera la orden posterior de detener ni el precheck operativo pendiente.
+- **T019 sin cambios:** **PARTIAL /CORE SECRET ACCESS A/B PASS /REDIS SECRET CREATED /CORE4 IAM/BOUNDARY PENDING**, fuente responsable; no core4/addRedisARN/readRedisA-B/boundaryv3 ejecutados. **T020 PENDING /GATE-I-B PENDING–NOT SATISFIED**, E017/E019/E028/AUTH-027 pendientes; catálogo8completas+7parciales+15pendientes/gates1satisfecho+8pendientes conservados.
+
+Solo **specs/003-infrastructure/task.md /memoria.md** editados ahora; **HCL/variables/outputs/IAMcore3/compute/state39/backup38/lock/inputs y custodia histórica preservados**. Plan guardado local nuevo y evidencias sanitizadas externas en `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t017-targeted-apply-2026-11-16T17-43-11-193Z\`: precheck/metadatahashes sin copia state, secret-audit/validations, preapply-plan/result/text/binario local, saved-plan-review y primer filtro, service-role-precheck, STSrevalidation, owner-stop y cierre/diffs. `git diff --check`/integridad final en evidencia/salida. Sin secretos impresos, lecturas de valores, generación de password, cambios de imagen/custodia o cleanup; IMDSv2requiredhoplimit1 y presupuesto/deadline históricos intactos.
+
+**AWS reads SÍ (STS/refresh dependencias/dataAZ/provider/GetRole fallido/STSrevalidación) /AWS writes0 /Terraform apply0 /Secrets writes0 /IAM writes0 /SSM SendCommand0 /ECR writes0 /EC2 modify0 /deployment0 /stage0 /commit0 /push0**, solo este incremento. **STOP por decisión explícita del responsable; no ejecutar el archivo guardado ni trabajo posterior automáticamente.**
+
+## 65. T017 — Retomar con service-linked role owner verified; apply6 fallido por autorización AWS
+
+### 65.1. Autorización reanudada, evidencia externa y sesión
+
+**2026-11-16 UTC — RETOMAR TARGETED APPLY**, solicitud explícita posterior a la detención de§64. Acepta evidencia administrativa de rol preexistente y autoriza **nuevo fmt-check/validate/replan dirigido**, aplicar solo los seis T017 si mantiene6/0/0 y verificar infraestructura/polling acotado, sin conectividad runtime desde EC2. **No applyglobal/EC2changes/T019IAM/Secretswrites/DynamoDB/Atlas/deployment/SSM/ECR/IAMchanges/stage/commit/push**. No correcciones automáticas, importación/adopción de usuario externo ni uso de credenciales permanentes. Esta instrucción reabre únicamente este incremento; no reutiliza el permiso detenido por inferencia ni amplía ventana/presupuesto de hosts.
+
+**Service-linked role accepted — OWNER VERIFIED:** **AWSServiceRoleForElastiCache**, ARN **arn:aws:iam::926925605666:role/aws-service-role/elasticache.amazonaws.com/AWSServiceRoleForElastiCache**, trustprincipal **elasticache.amazonaws.com**, existencia preexistente confirmada por responsable. **No nuevo GetRole, creación o modificación IAM**; la fuente administrativa resuelve el precheck de§64, no demuestra que la identidad temporal tenga permisos de creación de cache. Usuario **enver-dev-runtime /VALKEY/active/password1/ACL exacta sin +@all/SCAN/PERSIST** y secret Redis/ARN/VersionId de§63 conservan fuente **owner verified**, EXTERNALLY MANAGED. Sin DescribeUsers/DescribeSecret/GetSecretValue/password leído/generado/impreso.
+
+Precheck **18:14:33.590Z–18:14:40.225Z**, rama **feature/infrastructure**, HEAD **78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cinco tracked modificados previos/elasticacheuntracked esperado/cero staged, state serial39. Perfil exclusivo **enver-admin-temp**, SessionToken y claves presentes sin exponer/persistir valores, expiración no informada. **STS18:14:37.143Z–18:14:40.225Z/exit0/cuenta926925605666**, ARN **arn:aws:iam::926925605666:user/enver-terraform-local**, origen de sesión temporal. **STS nuevamente válido justo antes del apply**, evidencia local identity-before-apply; sin permanente/enver-infra/fallback, overridesAWS/TFheredados eliminados.
+
+### 65.2. Controles y plan fresco exacto
+
+Auditoría HCL/variables/tfvars/state39/backup38/outputs y JSON del plan **sin material secreto detectado**; JSON solo en memoria, máscaras de sensibilidad separadas de valores reales. Sin credenciales/password/SecretString en inputs/plan/state/outputs/docs; marcador `auth_token_wo=(write-only attribute)` no es token configurado. No copy manual de state/dump JSON a evidencia; binario de plan contiene metadata auditada local, no se versiona/sube. Auditoría de campos/patrones no es garantía retrospectiva universal.
+
+| Control final antes de apply | Resultado real, 2026-11-16 UTC |
+| --- | --- |
+| fmt-check | **18:17:13.991Z–18:17:14.243Z /exit0** |
+| validate | **18:17:14.246Z–18:17:29.193Z /exit0** |
+| Replan dirigido fresco | **18:17:29.197Z–18:17:47.349Z /exit0 /6add0change0destroy**, refreshtrue |
+| Revisión JSON/acciones/secretos | **18:17:59.898Z**, PASS; solo seis managedactions **CREATE**, checks exactos de configuración PASS |
+
+Primer intento local de comando de plan **18:16:40.002Z–18:16:40.213Z/exit1** falló por **Too many command line arguments** al separar una ruta Windows histórica con espacios; **antes de consultas AWS/aplicar**, sin plan ni cambio de recursos. Se conservó el registro y corrigió únicamente la construcción de argumentos del script externo de evidencia, no HCL/provider/targets. La ejecución final válida es la fila anterior; no se confunde con error del servicio o cuenta de recursos distinta.
+
+Comando base final `terraform -chdir=infra plan -refresh=true -input=false -no-color -var-file=t019-core3.tfvars.json`, mismos inputs aprobados/boundary/AMIhistórica de§64 y **-var=valkey_runtime_user_id=enver-dev-runtime**, seis `-target` exactos, guardado local nuevo **t017-six-only.tfplan**. SHA256 **0c5c9f0c11225e9befc4291822c8a031ef32b4aa51e445d562d305c21c07ec62**. **No se reutilizó el binario de§64**. Config/HCL/statehashes intactos antes de apply; dependencias reales refrescadas, sin otras acciones. Warningtargeting/límite de inventario global conservados.
+
+**Seis CREATE autorizados y revisados:** `aws_security_group.cache`, `aws_vpc_security_group_ingress_rule.cache_from_backend`, `aws_elasticache_subnet_group.cache`, `aws_elasticache_parameter_group.cache`, `aws_elasticache_user_group.cache`, `aws_elasticache_replication_group.cache`. **Sin usuario gestionado/SecretsManager/T019IAM/EC2/DynamoDB/Atlas, cambios/destrucciones/replacements**. Configuración planeada exacta **Valkey7.2/valkey7/T4gmicro/clusterdisabled/num_cache_clusters1/noMultiAZ/nofailover/TLStrue-required/at-resttrue/6379/noeviction/subnetsA-B/ingressSGbackend6379/usergroup[enver-dev-runtime]/attachment[enver-dev-valkey]**. Esta conformidad es del plan, no infraestructura creada/verificada.
+
+### 65.3. Apply único del archivo revisado y rechazo de autorización
+
+**Comando exacto**, con perfil temporal y ruta como un único argumento:
+
+```text
+terraform -chdir=infra apply -input=false -no-color "C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t017-apply-resume-2026-11-16T18-14-33-590Z\t017-six-only.tfplan"
+```
+
+El archivo guardado contiene exclusivamente los seis targets revisados; aplicar el archivo **no equivale a un apply global ni añade recursos**. No `-auto-approve` para otros planes, replan implícito o autoampliación de targets. Proceso acotado a45min; **terminó18:18:20.460Z–18:18:35.460Z /exit1 /sin timeout**.
+
+| Solicitud inicial de creación | Resultado AWS observado |
+| --- | --- |
+| **ec2:CreateSecurityGroup**, enver-dev-cache | **HTTP403 /UnauthorizedOperation**, sin identity-based allow |
+| **elasticache:CreateCacheSubnetGroup**, enver-dev-cache-subnets | **HTTP403 /AccessDenied**, sin identity-based allow |
+| **elasticache:CreateCacheParameterGroup**, enver-dev-valkey | **HTTP403 /AccessDenied**, sin identity-based allow |
+| **elasticache:CreateUserGroup**, enver-dev-valkey | **HTTP403 /AccessDenied**, sin identity-based allow |
+
+Identidad denegada **arn:aws:iam::926925605666:user/enver-terraform-local** sobre los recursos solicitados. Mensajes no demuestran ausencia de restricciones adicionales ni autorizan ampliarlas. **Cuatro write requests denegados /cero creaciones exitosas observadas**; **ingress y replication group no iniciaron creación**, por dependencias. No error de aceptación de Valkey/RBAC/nodo, rol ausente ni secreto incorrecto acreditado. Plan correcto/STS válido/rol preexistente no conceden por sí solos permisos efectivos de escritura.
+
+**No reintento de apply, corrección IAM, política propuesta/aplicada, creación manual alternativa ni destroy/rollback/import/stateedit**. La autorización actual no permite resolver ese rechazo mediante cambios IAM. Se detiene y registra para revisión del responsable; permisos de otras operaciones no intentadas no se afirman validados.
+
+### 65.4. Estado nativo, verificación local y metadata no obtenida
+
+Verificación posterior **18:19:55.998Z**: auditoría del state **sin valores secretos**, ningún ID T017 registrado y ningún recurso gestionado T017 presente; no llamadas post-check a recursos por ID porque no se obtuvo ninguno, ni polling de creación inexistente. **No verificación live satisfactoria de SG/ingress/subnets/parameter/usergroup/replication**, no endpoint/statusavailable/versión real/replicas reales obtenidos. Nombres enver-dev-cache/enver-dev-cache-subnets/enver-dev-valkey/port6379 y valores de seguridad siguen siendo **contrato/plan**, no evidencia de infraestructura operativa. No redis-cli/valkey-cli/EC2 connectivity/SSM/deployment/tests.
+
+**Terraform sí actualizó nativamente el estado local pese al apply fallido:** serial **39→44**, misma lineage; backup nativo ahora **serial39** (antes38). No es cambio AWS exitoso ni edición manual. Hash state final **8a8a43a53fae0a8dccf7cf5e2c0e57e62ec754b314bfa7deba56036084429704**, backup **854526ab61a58c83ae50479fbcb32651c4a88b1ce4f856b410db7bc046fa72ff**. Comparación de hashes de atributos de cada recurso gestionado previo: **ningún cambio, ningún añadido ni eliminado**. Sin recursos gestionados nuevos/caché en state. No se afirma que state/backup quedaron byte-a-byte intactos ni se restaura el serial39; evidencia/custodia cifrada histórica no tocadas.
+
+### 65.5. Estado documental y cierre
+
+**T017: FULL TARGETED PLAN VALIDATED / APPLY ATTEMPTED–FAILED / AUTHORIZATION BLOCKED / NOT IMPLEMENTED / POST-APPLY INFRA NOT VERIFIED / ACCEPTANCE PENDING.** Diseño, verificación regional y usuario/secret/rol **OWNER VERIFIED** conservados, pero readiness técnico previo no equivale a capacidad efectiva de aplicar. **No IMPLEMENTED/POST-APPLY INFRA VERIFIED/COMPLETE/ACCEPTED**; conectividad runtime, E017/DP-I-07/E028/negativos/continuidad/T018/T020/AUTH-027 siguen pendientes. No aceptar drift EC2 ajeno ni reconciliar IAMstate.
+
+**T019 permanece PARTIAL /CORE SECRET ACCESS A/B PASS /REDIS SECRET CREATED /CORE4 IAM/BOUNDARY PENDING**, fuente responsable; usuario externo/secret/ARN/VersionId, boundaryv2/default/v1 e IAMcore3 sin modificaciones. **T020 PENDING /GATE-I-B PENDING–NOT SATISFIED**, E019 pendiente; catálogo8completas+7parciales+15pendientes/gates1satisfecho+8pendientes conservados.
+
+Edición versionable únicamente **specs/003-infrastructure/task.md /memoria.md**. HCL/variables/outputs/IAM/compute/lock/inputs previos intactos; cambios locales ignorados **state/backup nativos** y nuevo plan binario auditado/evidencia externa `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t017-apply-resume-2026-11-16T18-14-33-590Z\`. Contiene precheck/hashes, scripts operativos sin secretos, validaciones, intento local de argumentos, replan/revisión/binario, STS preapply, apply-start/result/text, auditoría state/post-verificación local y comparación de atributos, cierre/diffs. No JSON/state completos copiados manualmente ni credenciales/SecretString; ningún secreto generado o leído. `git diff --check` e integridad final en evidencia/salida.
+
+Ventana reanudada solo para esta operación; presupuesto **USD50agregado/guardrailUSD10** e historial de deadlinehosts **2026-11-15T01:57:56.9337244Z** sin extensión automática/reset/cleanup. Preservadas imágenes/planes/custodia históricos/IMDSv2requiredhoplimit1. **AWS reads SÍ /AWS write attempts4 DENIED /successful creates observed0 /Terraform apply1 FAILED /Secrets writes0 /IAM writes0 /SSM SendCommand0 /ECR writes0 /EC2 successful changes0 /deployment0 /stage0 /commit0 /push0** en este incremento, no afirmación cero-write histórica global. **STOP por rechazo de autorización; sin reintentar ni ampliar permisos.**
+
+## 66. T017 — Targeted apply con role dedicado y verificación de infraestructura PASS
+
+### 66.1. Autorización, identidad y preservación del baseline
+
+**2026-11-16 UTC — RETOMAR TARGETED APPLY CON ROLE DEDICADO**, autorización explícita del responsable: revalidar sesión, fmt-check/validate, nuevo targeted plan, apply de exactamente seis recursos T017 si6/0/0 y sin acciones ajenas/secretos, post-verificación read-only/polling acotado y actualizar únicamente task/memoria. **No globalapply/EC2existentes/IAM/Secretswrites/T019/T020/deployment/ECRwrites/SSM/cleanup/delete/stage/commit/push**. Los análisis y handoff IAM previos no crearon roles/policies desde el agente; esta ejecución verifica la identidad asumida, no audita su trust/policies/boundaries íntegros ni atribuye su creación al agente.
+
+**Perfil exclusivo enver-t017-temp**, sin invocar directamente enver-infra/enver-admin-temp ni fallback. Precheck **19:15:14.294Z–19:15:17.890Z**: **STS19:15:14.294Z–19:15:17.047Z/exit0**, cuenta **926925605666**, ARN exacto **arn:aws:sts::926925605666:assumed-role/enver-t017-apply/enver-t017-local**. Rol asumido implica sesión temporal; sin exportar/leer/guardar/mostrar claves o SessionToken. OverridesAWS/TFheredados eliminados, provider usa cadena estándar y allowed_account_ids. **STS nuevamente válido/ARN exacto inmediatamente antes de apply**, evidencia identity-before-apply. Sin GetRole/DescribeUsers/DescribeSecret/GetSecretValue ni ampliar IAM.
+
+Rama **feature/infrastructure**, HEAD **78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cinco tracked modificados previos/elasticacheuntracked esperado/cero staged; state **serial44**/backup39 con hashes coincidentes con§65. Hashes iniciales de248tracked y14protegidos, HCL/inputs/lock/outputs existentes preservados. **AWSServiceRoleForElastiCache** conserva evidencia administrativa preexistente **OWNER VERIFIED**, sin recreación; usuario/ACL/password/secret Redis externos conservan fuente owner, excepto membresía y attachment ahora verificados por APIs de grupos.
+
+### 66.2. Controles y nuevo plan guardado
+
+| Control | Resultado real, 2026-11-16 UTC |
+| --- | --- |
+| `terraform fmt -check -recursive infra` | **19:16:56.691Z–19:16:57.011Z /exit0** |
+| `terraform -chdir=infra validate -no-color` | **19:16:57.012Z–19:17:08.929Z /exit0** |
+| Replan dirigido fresco/refreshtrue | **19:17:08.933Z–19:17:26.327Z /exit0 /6add0change0destroy** |
+| Revisión JSON/config/acciones/secretos | **19:17:36.618Z**, PASS: exactamente seis managedCREATE T017, sin acciones ajenas |
+
+Comando base `terraform -chdir=infra plan -refresh=true -input=false -no-color -var-file=t019-core3.tfvars.json`, mismos inputs aprobados de§65 (metadatos existentes, no cambios T019), ID explícito **-var=valkey_runtime_user_id=enver-dev-runtime**, seis `-target` exactos y nuevo `-out`. Inputs históricos compute/boundary no autorizan acciones sobre ellos. **No EC2A/B/T019IAM/Secrets/aws_elasticache_user/replacements/change/destroy/drift ajeno en las acciones**. Warningtargeting conservado: no es inventario ni reconciliación global.
+
+Nuevo plan **t017-six-only.tfplan**, SHA256 **a2300d71e0ecfb68686f231d0b29e16e8ea6a83ff92db4c2e740d76223197750**, en la evidencia externa de§66.6. No reutilización de binarios§64/65. HCL/variables/tfvars/state/backup/outputs y valores reales del JSON del plan auditados **sin password/SecretString/auth-token/credenciales detectados**; JSON solo en memoria, máscaras de sensibilidad separadas de valores. `auth_token_wo=(write-only attribute)` no es un token configurado. Binario local incluye metadata/state snapshot auditados; no versionar/subir. Auditoría por campos/patrones no garantiza retrospectivamente todo el historial.
+
+### 66.3. Apply único exitoso, exclusivamente seis T017
+
+**Perfil enver-t017-temp**, identidad exacta revalidada, hashes/config/state comprobados antes del comando:
+
+```text
+terraform -chdir=infra apply -input=false -no-color "C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t017-dedicated-apply-2026-11-16T19-15-14-294Z\t017-six-only.tfplan"
+```
+
+**19:17:47.331Z–19:23:09.708Z /exit0 /6added0changed0destroyed**, sin timeout/error/reintento. Aplicar ese archivo guardado ejecuta solamente las acciones revisadas de los seis targets; no applyglobal/replan implícito/autoampliación/correctivewrites. Los seis recursos terminaron Creationcomplete:
+
+| Dirección Terraform | ID creado |
+| --- | --- |
+| `aws_security_group.cache` | **sg-0af65898948bd0578** |
+| `aws_vpc_security_group_ingress_rule.cache_from_backend` | **sgr-0712b36ee9e1627ff** |
+| `aws_elasticache_subnet_group.cache` | **enver-dev-cache-subnets** |
+| `aws_elasticache_parameter_group.cache` | **enver-dev-valkey** |
+| `aws_elasticache_user_group.cache` | **enver-dev-valkey** |
+| `aws_elasticache_replication_group.cache` | **enver-dev-valkey** |
+
+AWSwrites **SÍ, solo T017**: seis recursos Terraform creados, con configuración inicial/etiquetado/revocación de egress por provider dentro del alcance. No equivale a exactamente seis APIwritecalls; no se hizo auditoría CloudTrail de su número. **EC2writes sí para nuevo SG/regla**, pero **cambios EC2existentes0**. Sin usuario/password/secret gestionados; usuario externo no importado/adoptado. Sin IAM/SecretsManager/T019/T020/DynamoDB/Atlas/ECR/deployment/SSM ni cleanup/delete.
+
+### 66.4. Post-verificación read-only real
+
+**19:23:14.960Z–19:23:33.979Z**, perfil dedicado, **siete llamadas read-only /todas exit0**, operaciones `DescribeSecurityGroups`, `DescribeCacheSubnetGroups`, `DescribeCacheParameterGroups`, `DescribeCacheParameters` (sourceuser), `DescribeUserGroups`, `DescribeReplicationGroups`, `DescribeCacheClusters` con IDs específicos. **17 checks PASS**, no cambio correctivo.
+
+| Comprobación | Metadata observada / resultado |
+| --- | --- |
+| SG /VPC | **enver-dev-cache /sg-0af65898948bd0578 /vpc-060f67e600affd569** |
+| Ingress | **Una sola regla TCP6379→6379**, exclusivamente **sg-070d06cfebe866427**, owner926925605666; sin CIDRIPv4/IPv6/prefixlists |
+| Egress | **Lista vacía**; retirado allow-all inicial, no aceptar excepción genérica |
+| Subnet group | **enver-dev-cache-subnets**, VPC exacta; exclusivamente **subnet-0120d869dd659e2a1 /us-east-1a** y **subnet-01934348f5d6985aa /us-east-1b** |
+| Parameter group | **enver-dev-valkey /familyvalkey7** |
+| Parámetro efectivo | **maxmemory-policy=noeviction /sourceuser**, cluster **ParameterApplyStatus=in-sync**, sin nodos a reiniciar |
+| User group | **enver-dev-valkey /enginevalkey /active**, exclusivamente miembro **enver-dev-runtime**, asociado a replicationgroupenver-dev-valkey |
+| Replication group | **enver-dev-valkey /available**, usergroupids=[enver-dev-valkey] |
+| Cluster miembro | **enver-dev-valkey-001 /available**, SG/subnetgroup/parametergroup exactos |
+| Engine/version real | **valkey /7.2.6**, patch real observado de línea7.2; HCL solicitado7.2 conservado, no actualización manual de versión |
+| Nodo /topología | **cache.t4g.micro /1primary en us-east-1a /0replicas /1nodegroup0001 /clusterdisabled** |
+| HA | **AutomaticFailover=disabled /MultiAZ=disabled** |
+| TLS | **TransitEncryptionEnabled=true /TransitEncryptionMode=required** |
+| At-rest | **AtRestEncryptionEnabled=true**, sin CMK seleccionada ni permisosKMS directos añadidos |
+| Primary endpoint | **master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com** |
+| Port | **6379** |
+
+Polling preparado con límite **10min/interval20s/max31observaciones**; primer DescribeReplicationGroups ya devolvió **available19:23:31.407Z**, por lo que **una observación/sin sleep ni polling adicional**. El provider ya esperó durante create. Sin conexión TCP/TLS/Redis/Lua desde EC2 ni redis-cli/valkey-cli/SSM; status y atributos de controlplane no prueban ACL/password/runtime/effectivepath/readiness/continuidad/recuperación ni AUTH-027 integral.
+
+### 66.5. Estado local nativo y límites de aceptación
+
+State escrito nativamente por Terraform **44→51**, backup nativo **serial44** (antes39), misma lineage. StateSHA256 **723c4316da4b5e8c482440f53552d083459dfc81fd0651ab6ee51cf1bfd96ea5**, backupSHA256 **393c49f8d9ac133b442a9882591bcedceaf367e6bf76b1ee6315bb372ce648d1**. Auditoría de state/outputs posterior sin material secreto; seis nuevos recursos gestionados exactos, cada uno1instancia ready/no taint. Comparación de hashes de atributos previos: **ningún recurso gestionado previo cambiado/eliminado**, sin reconciliar IAMstate ni aceptar drift EC2 ajeno. No stateedit/restore/import/copia manual de state o credenciales; custodia cifrada histórica permanece intacta y no se genera nueva custodia por inferencia.
+
+**T017 = IMPLEMENTED /POST-APPLY INFRA VERIFIED /RUNTIME CONNECTIVITY TEST PENDING /ACCEPTANCE PENDING.** No COMPLETE/ACCEPTED. Evidencia de infraestructura agregada a E017; **E017 integral/DP-I-07/E028/negativos/T018/continuidad/capacidad/recuperación y AUTH-027** no se aceptan ni completan por este apply. Revocación/cuotas y pérdida fail-closed no fueron probadas; limitación sinHA/durabilidad no resuelta. La presencia de endpoint y cifrado configurado no constituye aceptación runtime.
+
+**T019 permanece PARTIAL /CORE SECRET ACCESS A/B PASS /REDIS SECRET CREATED /CORE4 IAM/BOUNDARY PENDING**, fuente responsable para core/secret; no permisos runtimeRedis/core4/boundaryv3/readRedisA-B/releasepinning ejecutados. **T020PENDING /GATE-I-BPENDING-NOT SATISFIED**, E019 pendiente; catálogo **8completas+7parciales (incluida017 implementada sin aceptación)+15pendientes=30**, gates1satisfecho+8pendientes, sin cierres adicionales. Boundaryv2/default/v1, metadatos de secrets/VersionIds y arquitectura externos preservados.
+
+### 66.6. Evidencia, archivos y STOP
+
+Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t017-dedicated-apply-2026-11-16T19-15-14-294Z\**: precheck/hashesmetadata, scripts sin secretos, validaciones, replanreviewed/result/binario, JSONreview/checks, STSpreapply, apply-start/result/text, auditoría state, siete lecturas/metadata/checks, comparación de atributos nativos, auditoría final/diffs/cierre. Sin credenciales/password/SecretString/SessionToken expuestos ni persistidos, sin GetSecretValue ni dump completo JSON/state manual. Solo salida no sensible de APIs/plan/apply registrada.
+
+Edición versionable autorizada exclusivamente **specs/003-infrastructure/task.md /memoria.md**; no AGENTS/README/spec/plan/constituciones/001/002/código/configHCL/IAM/profiles/lock/variables/outputs modificados. Terraform actualizó state/backup ignorados; nuevo plan/evidencia externos no versionados. `git diff --check` e integridad final se acreditan en evidencia/salida, conservando246otros tracked y12otros protegidos. Rama/HEAD y cero staged/commit/push conservados.
+
+Esta autorización puntual permite únicamente el incremento descrito; no extiende hosts, permisos, presupuesto o futuras tareas. Preservados **USD50agregado/guardrailUSD10**, deadlinehosts histórico **2026-11-15T01:57:56.9337244Z**, IMDSv2required/hoplimit1, imágenes/planes/custodia previos; no costo actual verificado ni limpieza automática. Los recursos creados permanecen y pueden generar cargos; uso/retirada posteriores requieren decisión autorizada.
+
+**AWSreads SÍ /AWSwrites SÍ–soloT017 (6recursoscreados, no conteoAPIcalls) /Terraformapply1 SUCCESS /EC2existingchanges0 /IAMwrites0 /Secretswrites0 /T019changes0 /T020changes0 /SSMSendCommand0 /ECRwrites0 /deployment0 /cleanupdelete0 /runtimeconnectivitytests0 /stage0 /commit0 /push0**, solo este incremento. **STOP: infraestructura verificada, sin prueba runtime, aceptación ni trabajo adicional automático.**
+
+## 67. T017 — Validación runtime A/B detenida por sesión operadora expirada
+
+**2026-11-16 UTC — RUNTIME CONNECTIVITY TEST A/B /VALKEY TLS+RBAC /SIN DEPLOYMENT.** Responsable autoriza validar desde **A i-0a66085b7b2411393** y **B i-00de11a3f3c1a8aa5** con instance role **enver-dev-api-runtime**: precheck de GetSecretValue Redis fijado al ARN/VersionId de§66, herramientas existentes sin instalaciones, DNS/TCP/TLS verificado/AUTH/PING/CRUD efímero con TTL/Lua no destructivo/GETnegativo/cleanup. **Sin SCAN/PERSIST, cambios IAM/Secrets/red/Valkeyconfig, Terraformapply, deployment/ECRwrite/stage/commit/push**. Un GetSecretValue denegado debía detener el flujo salvo mecanismo owner-side ya autorizado y seguro; no se definió ni utilizó tal mecanismo.
+
+Se aclaró el canal/perfil antes de ejecutar: **respuesta explícita Autorizar enver-admin-temp**, solo sesión temporal para STS y SSM sobre los dos IDs, sin ampliar permisos ni fallback. No reutilización del permiso de apply del role dedicado ni habilitación general de AWS-RunShellScript; este último es administración remota controlada, no lectura pura (§§32.15/39), y **no llegó a invocarse**.
+
+### 67.1. Precheck real y STOP
+
+Precheck local **19:35:13.575Z–19:35:18.621Z**: perfil exclusivo **enver-admin-temp**, SessionToken presente según comprobación en memoria **sin valores expuestos/persistidos**, expiración no informada. Comando **aws sts get-caller-identity --profile enver-admin-temp --region us-east-1**: **exit254 /ExpiredToken**. No identidad/cuenta validada en esta ejecución. OverridesAWS/TFheredados retirados; **sin otro perfil, credenciales permanentes, reintento, renovación automática ni llamadas SSM/Secrets/EC2/Valkey** tras el fallo.
+
+**Bloqueo observado: OPERATOR SESSION EXPIRED.** No es fallo DNS/TCP/TLS/RBAC/Valkey ni evidencia de **AccessDenied de GetSecretValue/core4**, puesto que no se consultó el secreto desde ningún host. La presencia local de SessionToken no prueba vigencia; el resultado STS prevalece.
+
+| Resultado solicitado | A: i-0a66085b7b2411393 | B: i-00de11a3f3c1a8aa5 |
+| --- | --- | --- |
+| Redis secret GetSecretValue | **NO EJECUTADO**, sesión operadora expirada | **NO EJECUTADO**, sesión operadora expirada |
+| Inspección valkey-cli/redis-cli/runtime existente | NO EJECUTADA | NO EJECUTADA |
+| DNS /TCP6379 /TLS con verificación de certificado | NO EJECUTADOS | NO EJECUTADOS |
+| AUTH /PING | NO EJECUTADOS | NO EJECUTADOS |
+| SET/GET/PTTL/DEL efímeros /EVAL /GET ACLnegativo | NO EJECUTADOS | NO EJECUTADOS |
+| Cleanup de claves/credenciales temporales | **NO APLICA:** no claves de prueba ni archivos de credenciales creados | **NO APLICA:** no claves de prueba ni archivos de credenciales creados |
+
+**Password/SecretString expuestos: NO; GetSecretValue0 /SSMSendCommand0 /comandosremotos0 /SCAN0 /PERSIST0**. No comandos con password, shellhistory remoto, paquetes instalados, archivos temporales de credenciales o datos de prueba generados. No afirmar cleanup de una clave borrada ni testpassed: ninguna prueba se inició. Evidencia local no sensible se conserva, no es material temporal de credenciales.
+
+### 67.2. Estado conservado y entrega
+
+**T017 permanece IMPLEMENTED /POST-APPLY INFRA VERIFIED /RUNTIME CONNECTIVITY TEST PENDING /ACCEPTANCE PENDING**, fuente de infraestructura§66. **Runtime connectivity A/B NOT EXECUTED–BLOCKED BY EXPIRED OPERATOR SESSION**; no RUNTIMEPASS/ACCEPTANCEREADY/COMPLETE/ACCEPTED y no BLOCKEDBYCORE4 como hecho probado. **T019 PARTIAL /CORE SECRET ACCESS A/B PASS /REDIS SECRET CREATED /CORE4 IAM/BOUNDARY PENDING** sin cambios, no nueva evidencia live de acceso Redis/core4; **T020PENDING /GATE-I-BPENDING-NOT SATISFIED**. AUTH-027/E017integral/E019/E028/continuidad/aceptación y catálogo8completas+7parciales+15pendientes/gates1satisfecho+8pendientes conservados.
+
+Solo **specs/003-infrastructure/task.md /memoria.md** actualizados. Rama **feature/infrastructure**, HEAD **78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cambios previos/cero staged preservados. HCL/state51/backup44/planes/inputs/outputs/lock/profiles/IMDSv2/custodia/imágenes intactos; diffcheck e integridad de246otros tracked/14protegidos en evidencia final. Sin renovación de ventana hosts/deadlinehistórico2026-11-15T01:57:56.9337244Z/presupuestoUSD50agregado/guardrailUSD10 ni cleanup automático.
+
+Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t017-runtime-ab-2026-11-16T19-35-13-575Z\**: precheck con ExpiredToken/flags no sensibles, baseline documental/hashmetadata/diffs/postcheck. **AWSreads: STSfallido /AWSwrites0 /IAMwrites0 /Secretswrites0 /GetSecretValue0 /SSMSendCommand0 /Terraformapply0 /Valkeywrites0 /networkchanges0 /Valkeyconfigchanges0 /deployment0 /ECRwrites0 /stage0 /commit0 /push0**, solo este incremento. **STOP: solicitar renovación de enver-admin-temp; no reintentar automáticamente ni cambiar de perfil.**
+
+## 68. T017 — Runtime A/B: DNS/TCP/TLS PASS, lectura Redis denegada y cliente CLI ausente
+
+### 68.1. Autorización reanudada, operador y destinos
+
+**2026-11-16 UTC — RETOMAR RUNTIME CONNECTIVITY A/B TRAS RENOVAR enver-admin-temp**, instrucción explícita posterior al STOP de§67. Perfil operador exclusivo **enver-admin-temp**, sin enver-infra/enver-t017-temp/fallback/SSH. Solo SSM sobre **A i-0a66085b7b2411393 /B i-00de11a3f3c1a8aa5**, red/TLS primero, precheck de secreto desde instance role, clientes existentes, AUTH/PING/CRUDTTL/Lua/GETnegativo solo si se cumplen puertas. **Sin instalaciones automáticas/cambios host permanentes/IAM/Secretswrites/Terraformapply/red/Valkeyconfig/deployment/ECRwrite/stage/commit/push**. No SCAN/PERSIST ni correcciones; lectura del secreto no autoriza transportarlo al operador o a OpenCode.
+
+Precheck **19:41:46.307Z–19:41:52.291Z**, sesión temporal presente sin exponer/persistir valores, expiración no informada. **STS19:41:48.172Z–19:41:51.334Z /exit0 /cuenta926925605666 /arn:aws:iam::926925605666:user/enver-terraform-local**. Identidad revalidada antes de cada envío. OverridesAWS/TFheredados eliminados, sin credenciales permanentes/fallback. Rama **feature/infrastructure /HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cinco tracked modificados previos/elasticacheuntracked esperado/cero staged; hashes iniciales248tracked/14protegidos, state51 coincide con§66.
+
+SSM **DescribeInstanceInformation filtrado solo a ambos IDs: Online/Linux A/B**. AWS-RunShellScript se ejecuta como **administración remota controlada**, no se presenta como lectura IAM pura. **Dos SendCommand, cada uno dirigido exclusivamente a A/B; cuatro invocaciones remotas en total**, sin S3/CloudWatchOutput configurados para salida, solo JSON saneado al canal SSM. No comandos interactivos/history con credenciales, scripts revisados sin valores secretos. Timeouts remotos120s; consulta de estado SSM acotada150s, no loops de sondeo de Valkey ni reintentos de conexión.
+
+### 68.2. Etapa de transporte previa al secreto — PASS A/B
+
+**CommandId e4339a18-043e-4910-8303-38d3fdc29f9a**, documento **AWS-RunShellScript**. Invocaciones **Success/responseCode0/stderr vacío**. Python3 estándar existente ejecutado desde stdin con **-B -I** (sin pyc/instalación), core dumps deshabilitados por proceso; socket/ssl stdlib solo para transporte, **no cliente Redis alternativo ni autenticación**.
+
+Cada host hace una resolución DNS del endpoint **master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com**, una conexión TCP de prueba a6379 y otra para el handshakeTLS, sin bucles/reintentos; DNSalarm10s y sockettimeout5s. **ssl.create_default_context/check_hostname=true/CERT_REQUIRED**, SNI del endpoint; ninguna bandera insecure, CA o verificación de hostname deshabilitada. No IPs ni detalles ajenos del resolver registrados.
+
+| Comprobación | A i-0a66085b7b2411393 | B i-00de11a3f3c1a8aa5 |
+| --- | --- | --- |
+| Ejecución real de script UTC | **19:42:36.491257–19:42:36.531272Z** | **19:42:36.446504–19:42:36.467018Z** |
+| DNS /TCP6379 | **PASS /PASS** | **PASS /PASS** |
+| TLS | **PASS /TLSv1.3 /certificado+hostname verificados** | **PASS /TLSv1.3 /certificado+hostname verificados** |
+| valkey-cli /redis-cli | **No encontrados en PATH /no encontrados en PATH** | **No encontrados en PATH /no encontrados en PATH** |
+| Runtime/herramientas disponibles | **python3 /AWS CLI** | **python3 /AWS CLI** |
+
+La disponibilidadCLI se inspeccionó sin instalar; **CLI CLIENT INSTALLATION AUTHORIZATION REQUIRED en A/B**. Se completó únicamente el precheck de secreto solicitado a continuación, **sin avanzar a AUTH ni sustituir el cliente CLI por implementación propia**.
+
+### 68.3. Precheck de acceso Redis con instance role — DENIED A/B
+
+**CommandId a491f86d-1164-4309-b0d5-fdbdd60a7834**, AWS-RunShellScript solo A/B. Entorno remoto sin AWS_PROFILE/credenciales de entorno/archivos de configuración o credenciales estáticas: **AWS_CONFIG_FILE=/dev/null /AWS_SHARED_CREDENTIALS_FILE=/dev/null**, IMDS habilitado, regiónus-east-1/reintentosAWS1. STS remoto comprueba la identidad proveniente del instance role, no se inyectan credenciales del operador ni se recupera/exporta SessionToken del host.
+
+GetSecretValue dirigido exclusivamente a **arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP**, VersionId **2dfc79eb-625a-4f1b-aca7-b1575b5142c1**. Comando usa proyección **{ARN:ARN,VersionId:VersionId}**: aun si se permitiera, AWS CLI solo emitiría metadata, nunca SecretString/SecretBinary/password a Python/SSM/archivos. Stderr de AWS capturado en memoria, únicamente código de error saneado registrado; no debug/tracing. No GetSecretValue local, DescribeSecret/ListSecrets, otras versiones o mecanismo owner-side alternativo.
+
+| Resultado real | A | B |
+| --- | --- | --- |
+| Ejecución script UTC | **19:43:55.854603–19:43:56.944978Z** | **19:43:55.820566–19:43:56.960371Z** |
+| Runtime role verificado por STS | **arn:aws:sts::926925605666:assumed-role/enver-dev-api-runtime/i-0a66085b7b2411393** | **arn:aws:sts::926925605666:assumed-role/enver-dev-api-runtime/i-00de11a3f3c1a8aa5** |
+| GetSecretValue | **exit254 /AccessDeniedException /DENIED** | **exit254 /AccessDeniedException /DENIED** |
+| Clasificación | **T019 CORE4 REQUIRED** | **T019 CORE4 REQUIRED** |
+| Resultado del wrapper SSM | Success/responseCode0, stderr vacío | Success/responseCode0, stderr vacío |
+
+**SSM Success significa que el wrapper terminó y devolvió el resultado saneado, NO que se leyó el secreto ni autenticó en Valkey.** La denegación confirma la puerta de acceso Redis no satisfecha; no identifica por sí sola si el Deny concreto proviene de identity policy/boundary/KMS/SCP, ni acredita inexistencia/versión/password inválido. **No es un fallo de Valkey**; no ampliar IAM/ACL/SG, rotar password, alterar TLS o corregir políticas en esta entrega.
+
+### 68.4. Pruebas no ejecutadas, cleanup y estado
+
+**AUTH /PING /SET-GET-PTTL-DEL /EVAL /GET negativo fuera de namespace: NO EJECUTADOS en A/B**, por puertas de secreto y cliente. Sin comandos Valkey, claves efímeras, valor/password, archivos temporales de credenciales ni secretos en shellhistory/outputs/docs; **cleanup de claves/credenciales NO APLICA porque no se crearon**. No afirmar DEL=1/TTL/PONG/Lua/NOPERM/cleanupPASS ni autenticación válida. **SCAN0/PERSIST0**, ningún GET ajeno ni escritura fuera/dentro de namespace. Script/metadata saneados retenidos como evidencia local/artefactos normales de SSM; no contienen material de credenciales y no se borran por inferencia. No cambios permanentes de configuración/paquetes/servicios del host.
+
+**Runtime A/B: DNS/TCP/TLS PASS; autenticación y pruebas funcionales BLOCKED BY T019 CORE4**, con **bloqueo adicional CLI CLIENT INSTALLATION AUTHORIZATION REQUIRED**. **T017 IMPLEMENTED /POST-APPLY INFRA VERIFIED /RUNTIME CONNECTIVITY BLOCKED BY T019 CORE4 /ACCEPTANCE PENDING**. No RUNTIME CONNECTIVITY A/B PASS/ACCEPTANCE READY/COMPLETE/ACCEPTED. Infraestructura y versión7.2.6 siguen fuente§66; no se repitió inventario ElastiCache ni se infiere validación ACL efectiva por handshake.
+
+**T019 PARTIAL /CORE SECRET ACCESS A/B PASS /REDIS SECRET CREATED /CORE4 IAM/BOUNDARY REQUIRED**: core3 PASS permanece evidencia owner previa; nueva evidencia directa solo denegaciónRedisA/B, sin cambios a políticas/boundaryv2/default/v1, secreto/VersionId o core3. **T020PENDING /GATE-I-BPENDING-NOT SATISFIED**, E017integral/E019/E028/continuidad/recuperación/capacidad/AUTH-027 y aceptación pendientes. Catálogo8completas+7parciales+15pendientes/gates1satisfecho+8pendientes conservados.
+
+### 68.5. Documentación y cierre
+
+Solo **specs/003-infrastructure/task.md /memoria.md** editados. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t017-runtime-resume-2026-11-16T19-41-46-307Z\**: precheck/hashmetadata, scripts no sensibles, parámetrosSSM/CommandIds/calls/JSONresultadosaneados, diffs/auditoría/cierre. Sin password/SecretString/SecretBinary/SessionToken/claves en salidas ni documentos. Ninguna credencialRedis obtenida a causa de las denegaciones; sin archivos de credenciales creados en local/hosts.
+
+HCL/variables/outputs/IAM/profiles/lock/código/state51/backup44/planes/inputs/custodia/imágenes/IMDSv2 intactos; diffcheck/hashesfinales en evidencia/salida,246otros tracked/14protegidos conservados. No reset/cleanup/renovación implícita de ventana hosts/deadlinehistórico2026-11-15T01:57:56.9337244Z/presupuestoUSD50agregado/guardrailUSD10 ni costo actual verificado. Esta autorización solo valida las operaciones descritas, no permite instalaciónCLI/core4 posterior automática.
+
+**AWSwrites: 2SSMSendCommand (4invocaciones remotas de administración controlada), escrituras de infraestructura/configuración/datos0 /GetSecretValue2DENIED /Valkeycommands0 /Valkeywrites0 /IAMwrites0 /Secretswrites0 /Terraformapply0 /networkchanges0 /Valkeyconfigchanges0 /hostpackagechanges0 /deployment0 /ECRwrites0 /SSH0 /stage0 /commit0 /push0**, solo este incremento, no afirmar AWSwrites global0. **STOP tras denegación de secreto y clientes ausentes; sin nuevas ejecuciones, instalaciones ni correcciones automáticas.**
+
+## 69. T019 — Core4: diseño IAM/boundary v3 y plan no aislado, sin apply
+
+### 69.1. Alcance e inventario con límites de evidencia
+
+**2026-11-16 UTC — CORE4 REDIS SECRET ACCESS /DISEÑO + PLAN IAM/BOUNDARY /SIN APPLY**, autorización explícita para preparar HCL/inputs/propuesta JSON y fmt/validate/plan, documentando diferencias. **Sin IAMwrite/Secretswrite/Terraformapply/deployment/ECRwrite/commit/push**; sin import/state edits/SSM/instalaciones/correcciones EC2. Perfil temporal disponible **enver-admin-temp**, sin fallback. Precheck **19:51:45.332Z–19:51:52.470Z**, sesión temporal presente sin valores expuestos; **STS19:51:47.092Z–19:51:50.772Z /exit0 /cuenta926925605666 /arn:aws:iam::926925605666:user/enver-terraform-local**. STS regional revalidado antes del plan. Sin MFA acreditado ni renovación automática.
+
+Lecturas **GetRole(enver-dev-api-runtime), GetRolePolicy(enver-dev-secrets-read), GetPolicy(ENVER-Runtime-Permissions-Boundary)** entre **19:52:11.148Z–19:52:18.893Z**, todas **exit254/InvalidClientTokenId**. No GetPolicyVersion posterior ni simulación/publicación IAM. La causa no se atribuye a permisos por inferencia; STS válido no prueba acceso al endpoint IAM. **v2/default y v1 preservada son evidencia previa del owner**, no metadata AWS actual confirmada; no se afirma que v3 exista/no exista en AWS por estas lecturas fallidas. **v2 sigue baseline vigente hasta acción/evidencia nueva del owner**.
+
+`infra/bootstrap/runtime-permissions-boundary.json` es baseline histórico v1 y queda intacto. Fuente de propuesta v3: candidata v2 histórica externa `t019-core3-boundary-2026-11-14T03-32-55-950Z/boundary-v2-core3.proposed.json`, SHA256 **a3a32ac31108d7fb248a52a06fb86fa57f2f800f9a4bd78ee6a10a349ecb61cc**; **no es export live de v2**. Owner debe cotejarla con la versión efectiva antes de publicar. State local **serial51 /backup44** no contiene `aws_iam_role_policy.api_secrets_read[0]`; eso no demuestra ausencia en AWS ni autoriza sobrescribir la policy externa reportada. Core3 Mongo/JWT/HMAC A/B PASS sigue fuenteowner, no repetido ahora. RedisA/B **GetSecretValue exit254/AccessDeniedException**, DNS/TCP6379/TLS1.3 certificado+hostname **PASS** son evidencia directa§68, no fallo Valkey; CLI ausente sigue bloqueo adicional.
+
+### 69.2. Contrato core4 y artefactos preparados
+
+`infra/iam-runtime.tf` conserva recurso `api_secrets_read`/nombre **enver-dev-secrets-read**, dos statements Allow: **GetSecretValue solamente** para secretos y **kms:Decrypt solamente** para la clave aprobada. Comentarios sincronizados al estado core4; no grants añadidos a rol/SSM/ECR. `infra/variables.tf` restringe lista a **0, los tres core o los cuatro exactos**, orden mongodb/jwt/hmac/redis, sin otros sufijos ni comodines; clave null o ARNexacto aprobado. Defaults `[]/null` siguen inertes; no input autoaplicado.
+
+Input metadata opt-in **`infra/t019-core4.tfvars.json`** (local ignorado por Git; selección explícita `-var-file`, sin alterar core3) contiene exclusivamente:
+
+| Secreto | ARN exacto aprobado |
+| --- | --- |
+| MongoDB | `arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/mongodb-Iuqeur` |
+| JWT | `arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/jwt-AweYNs` |
+| HMAC | `arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/hmac-s9TSqb` |
+| Redis | `arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP` |
+
+Redis **VersionId `2dfc79eb-625a-4f1b-aca7-b1575b5142c1`** se conserva como metadata/contrato de prueba futura, **no como valor ni condición IAM de versión**: el grant solicitado es por ARN de secreto. GetSecretValue usa `aws:RequestedRegion=us-east-1 /aws:PrincipalAccount=926925605666`. **No ListSecrets/DescribeSecret/CreateSecret/PutSecretValue/UpdateSecret/DeleteSecret/rotación**, sin secretos nuevos.
+
+KMS **`arn:aws:kms:us-east-1:926925605666:key/51e1d79c-e924-4330-ac41-c9b263ee4ce3`**, alias **aws/secretsmanager según evidencia previa/owner**, no DescribeKey/alias revalidado ahora. Únicamente **kms:Decrypt**, condiciones **kms:ViaService=secretsmanager.us-east-1.amazonaws.com /kms:CallerAccount=926925605666**. No Encrypt/GenerateDataKey/CreateKey/ReEncrypt ni otras claves/regiones.
+
+Propuesta exacta **[`infra/bootstrap/runtime-permissions-boundary-v3-core4.proposed.json`](../../infra/bootstrap/runtime-permissions-boundary-v3-core4.proposed.json)**, doce statements, SHA256 **aff0d1a1bb0da5af279e4f57b464a1e9f1fe83b4a97113290e25db395bd1bb35**. **Solo dos diferencias respecto de candidata v2**: añadir Redis a **MaximumReadOfExactCoreSecrets.Resource** y **DenyReadingAnyOtherSecret.NotResource** (sin actualizar ambas listas el Deny seguiría bloqueando Redis). Otros statements/acciones/condiciones KMS/región/SSM/ECR y DenyOutsideContract intactos. Los `Resource:*` históricos de accionesSSM/ECR/denegaciones no son comodines de secretos permitidos. **Sin ElastiCache API/DynamoDB/Secretswrite/IAMwrite**, T020 separado.
+
+### 69.3. Validación y clasificación del plan
+
+| Acción | UTC /resultado |
+| --- | --- |
+| `terraform fmt infra/iam-runtime.tf infra/variables.tf` | **19:55:39.974Z–19:55:40.209Z /exit0**; solo HCL autorizado |
+| `terraform fmt -check -recursive infra` | **19:55:40.210Z–19:55:40.551Z /exit0** |
+| `terraform -chdir=infra validate -no-color` | **19:55:40.552Z–19:55:54.523Z /exit0** |
+| Plan global de revisión, **-refresh=false -detailed-exitcode**, inputcore4/baseline aprobado sin targets | **19:55:57.618Z–19:56:14.440Z /exit2 /1add2change0destroy** |
+
+Comando exacto/inputs no sensibles en evidencia externa `plan-result.json`. `-refresh=false` no evita todas las lecturas: data sources **aws_availability_zones.available /aws_ami.api** completaron lecturas. No refresco de recursos gestionados; no comprobación live de IAM o drift global. Plan guardado de revisión **NO APROBADO PARA APPLY**, SHA256 **e7b24b4785e25f08d9a4590ab390d86d44aa638b82fb7948d2ccdd997d2db7d3**; JSON inspeccionado en memoria sin dump completo, sin valores secretos detectados. Policy renderizada `runtime-core4.proposed.json` en evidencia externa contiene exactamente los cuatro ARNs y dos acciones solicitadas.
+
+| Grupo | Acciones propuestas, no ejecutadas |
+| --- | --- |
+| **A. T019 intencional** | `aws_iam_role_policy.api_secrets_read[0]` **create**, nombreenver-dev-secrets-read/roleenver-dev-api-runtime; **NO update-in-place** porque no figura en state. Contenido core4 validado; ownership efectivo no verificado. No nuevo secreto/recursoKMS. |
+| **B. Ajeno EC2** | `aws_instance.api["a"]` y `["b"]` **update-in-place**: root_block_device.tags `{}` y ipv6_addresses calculado/unknown; +outputcompute_instances. Diferencias históricas local-state/config/provider, **no drift AWS recién observado**; no aceptadas ni corregidas. |
+| **C. T017 gestionado** | SGcache/ingress/subnetgroup/parametergroup/usergroup/replicationgroup **seis no-op**. Sin nuevas altas/modificaciones ElastiCache. |
+
+**PLAN NOT ISOLATED /EXPECTED UPDATE-ONLY NOT SATISFIED /NOT APPLY READY**. Exit2 indica cambios, no error de sintaxis, y **no** autoriza esos cambios. No targeted apply/replan para ocultar acciones, import, state rm/mv/restore, lifecycle-ignore ni reconciliación automática. Un futuro incremento debe verificar ownership/policy actual con lectura IAM válida, resolver custodia/state con autorización y producir un plan nuevo aislado; no reutilizar este plan para aplicar.
+
+### 69.4. Handoff humano y contrato de pruebas futuras, no ejecutados
+
+**Boundary externa human-owned**: owner debe obtener metadata/version-default/documento efectivo mediante canal IAMválido, comparar con fuente candidata, confirmar que solo Redis se agrega a ambas listas exactas, y preservar/exportar v1/v2 y custodia. Si el documento actual difiere, **STOP/cotejo y autorización**, no reemplazo ciego por candidata histórica. Solo tras revisión/autorización aparte podrá publicar la nueva versión y hacerla default; **v3 es etiqueta propuesta, el ID AWS lo asigna el servicio**, no renombrar/eliminar versiones para forzarlo. Aportar VersionId/default/hash y evidencia saneada; **ninguna publicación/create-policy-version/set-default-policy-version ejecutada aquí**. Boundary sola no concede permisos; requiere futura actualización IAM core4 autorizada también.
+
+Después de IAM+boundary efectivos, nuevo incremento autorizado con perfil/entorno/comandos delimitados: desde **A/B instance role exacto**, **GetSecretValue Redis ARN+VersionId exactos PASS**, proyección solo ARN/VersionId y payload nunca impreso/persistido, credenciales solo en memoria si una prueba posterior las necesita. **ListSecrets DENIED** en ambos, llamada negativa acotada/maxresults1/sin paginación, proyectando únicamente conteo si inesperadamente se permite para evitar enumeración; si permite, **STOP sin registrar nombres/valores**. Sin conceder ListSecrets para probarlo; no DescribeSecret como requisito de acceso. Verificar core3 sin exposición y no-regresión de SSM/ECR dentro de autorización futura. Este es **contrato**, no evidencia de PASS actual. AUTH/PING/CRUD/Lua/ACL requiere además resolver cliente con autorización específica; no instalación implícita.
+
+### 69.5. Estados y cierre
+
+**T019 PARTIAL /CORE4 DESIGNED /RUNTIME POLICY PLAN VALIDATED /BOUNDARY V3 OWNER ACTION REQUIRED**; “PLAN VALIDATED” **solo valida contenido renderizado/HCL**, no aislamiento/ownership/permisos efectivos: **PLAN NOT ISOLATED /STATE OWNERSHIP RECONCILIATION REQUIRED**. No COMPLETE/ACCEPTED; core3PASSowner/Rediscreado y GetSecretValueDENIEDA/B siguen antecedentes. **T017 IMPLEMENTED /POST-APPLY INFRA VERIFIED /RUNTIME CONNECTIVITY BLOCKED BY T019 CORE4 /ACCEPTANCE PENDING**, inalterado. **T020PENDING /GATE-I-BPENDING-NOT SATISFIED**, E019/E017integral/E028/AUTH-027 pendientes; catálogo8completas+7parciales+15pendientes/gates1satisfecho+8pendientes sin cambios.
+
+Archivos de este incremento: **infra/iam-runtime.tf /infra/variables.tf /infra/t019-core4.tfvars.json /infra/bootstrap/runtime-permissions-boundary-v3-core4.proposed.json /specs/003-infrastructure/task.md /memoria.md**. Inputs/core3/baselineboundaryv1/outputs/elasticache/state51/backup44/lock/planes históricos/custodia/código/imágenes preservados por hashes. No secretos recuperados o expuestos, sin SecretString/password/SessionToken en archivos/logs/docs; solo metadata y policies. PresupuestoUSD50agregado/guardrailUSD10/deadlinehosts2026-11-15T01:57:56.9337244Z/IMDSv2required-hop1 sin extensión/cambio implícitos, costoactual no verificado.
+
+Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t019-core4-plan-2026-11-16T19-51-45-332Z\**: precheck/copiasbefore/hashmetadata/inventarioIAMfallido/estadopolicylocal/proposaldelta/validaciones/planreview/logsaneado/planbinarioNOAPROBADO/auditoríasecretos/diffs/cierre. **AWSreads SÍ: STSregional×2 exitosos, IAM×3 fallidos y lecturas provider/dataAMI-AZ; no conteo total API afirmado. AWSwrites0 /IAMwrites0 /Secretswrites0 /GetSecretValue0 /SSMSendCommand0 /Terraformapply0 /deployment0 /ECRwrites0 /networkchanges0 /Valkeychanges0 /stage0 /commit0 /push0**, solo este incremento. **STOP tras diseño/plan/documentación, sin publicar boundary ni reconciliar/aplicar IAM/EC2 automáticamente.**
+
+## 70. T019 — Reconciliación de state detenida por fallo de lectura IAM, sin import ni plan nuevo
+
+### 70.1. Autorización y puerta previa
+
+**2026-11-16 UTC — RECONCILIAR STATE DE enver-dev-secrets-read Y OBTENER PLAN CORE4 AISLADO /SIN APPLY**. Responsable autoriza verificar policy IAM exacta, import **solo si identidad AWS y recurso coinciden**, inspeccionar state, fmt/validate y plan dirigido únicamente a `aws_iam_role_policy.api_secrets_read[0]` con refresh=false. **No AWSresourcewrite/IAMwrite/Secretswrite/EC2modify/apply/deployment/commit/push**, sin state rm/mv ni reconciliación EC2. Esta autorización de import no dispensa verificar existencia/identidad real antes de alterar state.
+
+Precheck **20:04:49.166Z–20:04:53.645Z**, **enver-admin-temp** temporal presente, sin exponer/persistir credenciales ni fallback. **STS20:04:51.317Z–20:04:53.645Z /exit0 /cuenta926925605666 /arn:aws:iam::926925605666:user/enver-terraform-local**. Rama/HEAD **feature/infrastructure /78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cambios previos preservados/cero staged. No otro perfil, renovación, modificación de sesión o retry automático.
+
+**GetRolePolicy** exacto para **RoleName=enver-dev-api-runtime /PolicyName=enver-dev-secrets-read**, **20:05:10.106Z–20:05:12.319Z /exit254 /InvalidClientTokenId**. **Policy existente NO VERIFICADA**, documento IAM no obtenido. No inferir inexistencia, AccessDenied, política incorrecta o causa del fallo; STS regional exitoso no garantiza acceso IAM. **STOP antes de import**; sin GetRole adicional, GetPolicy/SecretsManager/SSM ni escritura remota. La existencia informada por responsable conserva su fuente, no se convierte en lectura AWS exitosa.
+
+### 70.2. Dirección y convención de import verificadas, no ejecutadas
+
+Lectura de **infra/iam-runtime.tf** y evidencia del render histórico§69 confirma address **`aws_iam_role_policy.api_secrets_read[0]`**, role esperado **enver-dev-api-runtime**, name esperado **enver-dev-secrets-read**, count habilitado por inputs core4. Lock conserva provider **hashicorp/aws6.73.0**. [Documentación oficial de esa versión](https://github.com/hashicorp/terraform-provider-aws/blob/v6.73.0/website/docs/r/iam_role_policy.html.markdown#import) consultada: import CLI usa **`role_name:role_policy_name`**. Identificador previsto **`enver-dev-api-runtime:enver-dev-secrets-read`**, **NO UTILIZADO**. No confundir con ARN ni usar ID supuesto sin verificación. No import block creado, import ejecutado, state edit ni apply.
+
+### 70.3. State y comandos no ejecutados
+
+| Indicador local | Antes | Después del STOP |
+| --- | --- | --- |
+| State serial | **51** | **51** |
+| Backup serial | **44** | **44** |
+| State resource blocks, incluidos data | **31** | **31** |
+| Instancias de recursos managed en state | **34** | **34** |
+| Backup resource blocks /managed instances | **25 /28** | **25 /28** |
+| Policy api_secrets_read[0] importada/presente | **NO** | **NO** |
+
+Lineage conservado; state SHA256 **723c4316da4b5e8c482440f53552d083459dfc81fd0651ab6ee51cf1bfd96ea5**, backup SHA256 **393c49f8d9ac133b442a9882591bcedceaf367e6bf76b1ee6315bb372ce648d1**, sin copia/restore/overwrite manual. No eliminación/movimiento ni modificación de otros recursos. **Import exit NO APLICA /state show del recurso NO EJECUTADO /fmt-fmtcheck-validate NO EJECUTADOS /targetedplan NO EJECUTADO** al fallar la puerta anterior. No adjudicar exit0/0add1change0destroy ni diff Redis-only a un plan inexistente. Los éxitos fmt/validate y plan1/2/0 de§69 son históricos, no resultados nuevos.
+
+**PLAN ISOLATED = NO /NO NEW PLAN /IMPORT BLOCKED**. No Redis añadido a permisos efectivos/state; contenido core4 preparado previamente no se cambia. `ListSecrets` sigue no permitido por la propuesta, sin prueba runtime ni documento IAM actual acreditados. ARNs exactos aprobados/VersionIdRedis/KMSconstraints siguen§69, sin comodines, secretos nuevos ni cambios DynamoDB. EC2A/B **root_block_device.tags /ipv6_addresses**: **UNRELATED /NOT ACCEPTED /NOT PART OF T019**; sin plan/refresh/reconciliación EC2 o T017 en este incremento.
+
+### 70.4. Estados, documentación y cierre
+
+Propuesta **infra/bootstrap/runtime-permissions-boundary-v3-core4.proposed.json** existe y conserva SHA256 **aff0d1a1bb0da5af279e4f57b464a1e9f1fe83b4a97113290e25db395bd1bb35**, **OWNER ACTION REQUIRED /NO PUBLICADA AQUÍ**. Boundaryv2/default/v1 conservan fuenteowner, no lectura live nueva. No IAMwrite para corregir acceso ni publicación automática.
+
+**T019 PARTIAL /CORE4 DESIGNED /RUNTIME POLICY PLAN VALIDATED /BOUNDARY V3 OWNER ACTION REQUIRED /PLAN NOT ISOLATED /STATE RECONCILIATION BLOCKED BY IAM METADATA**, validación solo de contenido histórico§69. **NO RUNTIME POLICY STATE RECONCILED /NO CORE4 TARGETED PLAN VALIDATED**, no COMPLETE/ACCEPTED. Requiere sesión temporal con lectura IAM funcional y confirmación para retomar la puerta; no solicitar valores de credenciales por chat ni seleccionar otro perfil automáticamente.
+
+**T017 IMPLEMENTED /POST-APPLY INFRA VERIFIED /RUNTIME CONNECTIVITY BLOCKED BY T019 CORE4 /ACCEPTANCE PENDING**, sin cambios: transporteA/BPASS/GetSecretValueDENIED y clienteausente permanecen§68. **T020PENDING /GATE-I-BPENDING-NOT SATISFIED**, E019/E017integral/E028/AUTH-027 pendientes, catálogo8+7+15/gates1+8 conservados. PresupuestoUSD50agregado/guardrailUSD10/deadlinehosts2026-11-15T01:57:56.9337244Z/IMDSv2required-hop1/custodia/imágenes sin cambios o extensión implícita.
+
+Solo **specs/003-infrastructure/task.md /memoria.md** editados. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t019-state-reconcile-2026-11-16T20-04-49-166Z\**: precheck/hashmetadata/copiasdocsantes/IAMfallidocódigosaneado/diffs/cierre. Integridad final/hashes/diffcheck en evidencia/salida; HCL/inputs/core3-core4/propuestav3/state51/backup44/lock/outputs/elasticache/planes históricos intactos. Sin valores secretos leídos/expuestos ni archivos de credenciales creados.
+
+**AWSreads STS1PASS /GetRolePolicy1fallido /AWSwrites0 /IAMwrites0 /Secretswrites0 /GetSecretValue0 /SSMSendCommand0 /Terraformimport0 /Terraformapply0 /EC2modify0 /deployment0 /ECRwrites0 /stage0 /commit0 /push0**, solo este incremento. **STOP por identidad de policy no verificada; sin import/plan nuevo, reintentos ni correcciones.**
+
+## 71. T019 — Import autorizado con evidencia CloudShell, fallido en lectura IAM, state intacto
+
+### 71.1. Evidencia owner y alcance reanudado
+
+**2026-11-16 UTC — RETOMAR STATE RECONCILIATION CORE4 /EVIDENCIA IAM CONFIRMADA POR CLOUDSHELL /IMPORT + TARGETED PLAN ONLY**. El responsable confirma **RoleName=enver-dev-api-runtime /PolicyName=enver-dev-secrets-read**, GetSecretValue sobre **Mongo/JWT/HMAC exactos de§69**, Redis aún excluido; **kms:Decrypt** sobre **arn:aws:kms:us-east-1:926925605666:key/51e1d79c-e924-4330-ac41-c9b263ee4ce3**, condiciones **kms:ViaService=secretsmanager.us-east-1.amazonaws.com /kms:CallerAccount=926925605666**. Se acepta como **OWNER VERIFIED /CloudShell**, no documento IAM obtenido por este agente. Autoriza expresamente **un import CLI**, seguido de state show/fmtcheck/validate/targetedplan solo si tiene éxito; no requiere repetir GetRolePolicy local como precondición de identidad. **No apply/IAMwrite/Secretswrite/EC2modify/deployment/commit/push**, sin staterm/mv ni reconciliación EC2.
+
+Precheck **20:17:28.889Z–20:17:35.912Z**, perfil temporal exclusivo **enver-admin-temp**, sesión presente sin exposición/persistencia de valores. **STS20:17:32.464Z–20:17:35.912Z /exit0 /cuenta926925605666 /arn:aws:iam::926925605666:user/enver-terraform-local**. Rama **feature/infrastructure /HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cero staged, trabajo previo/inputs/core4/lock/HCL sin cambios. Sin fallback/renovación/corrección de sesión. Address **aws_iam_role_policy.api_secrets_read[0]** ausente del state; importID **enver-dev-api-runtime:enver-dev-secrets-read**, convención provider6.73.0 verificada§70.
+
+### 71.2. Import único y fallo real
+
+**20:18:20.647Z–20:18:36.077Z /terraform import1 /exit1**, con **-chdir=infra /-input=false /-no-color /-lock-timeout=30s**, input **t019-core4.tfvars.json** y variables baseline aprobadas del plan§69, address/ID exactos anteriores. Comando completo no sensible en evidencia `import-attempt.json`; **ningún terraform apply/importblock**. Terraform realiza lecturas de dataAMI/AZ y prepara import, pero falla en **refresh del único recurso importado**:
+
+**IAM:GetRolePolicy /HTTP403 /InvalidClientTokenId — The security token included in the request is invalid**, RequestId **47db625f-2181-47d9-9d7d-d1b0f0b861a1**. **“Import prepared!” NO significa import persistido/satisfactorio**. La evidencia owner supera la duda de identidad, **no sustituye la lectura IAM obligatoria que necesita el provider para poblar state**. No inferir inexistencia, AccessDenied, necesidad de ampliar IAM o política inválida; causa del token no diagnosticada/corregida aquí. No inyección de documento/statefabricado, segundo import, perfil alternativo o nuevo intento automático.
+
+### 71.3. State antes/después y comandos no ejecutados
+
+| Indicador | Antes | Después de import fallido |
+| --- | --- | --- |
+| State serial /backup serial | **51 /44** | **51 /44** |
+| State resource blocks incluyendo data /managed instances | **31 /34** | **31 /34** |
+| Backup resource blocks /managed instances | **25 /28** | **25 /28** |
+| api_secrets_read[0] presente | **NO** | **NO** |
+| Recursos añadidos /recursos previos modificados o borrados | — | **0 /0** |
+
+Lineage y bytesstate/backup intactos: stateSHA256 **723c4316da4b5e8c482440f53552d083459dfc81fd0651ab6ee51cf1bfd96ea5**, backupSHA256 **393c49f8d9ac133b442a9882591bcedceaf367e6bf76b1ee6315bb372ce648d1**. Sin restore/manualstateedit/rm/mv; no eliminar artefactos ni revertir cambios del usuario por inferencia.
+
+**State show/fmt-check-recursive/validate/targetedplan NO EJECUTADOS** tras fallo; role/name de state show **NO DISPONIBLES**, solo identidad esperada/ownerconfirmada. **NO NEW PLAN /PLAN ISOLATED=NO**, add/change/destroy **NO APLICA**, sin afirmar0/1/0 ni diffRedis-only observado. HCL/inputcore4 conserva cuatroARN exactos aprobados§69, soloGetSecretValue, sin ListSecrets/comodines/write; **KMScontrato exacto intacto**, sin permisos adicionales. Redis incluido en propuesta previa **no significa añadido a AWS/state ni verificado en nuevo plan**. EC2tags/ipv6 **UNRELATED /NOT ACCEPTED /NOT PART OF T019**, sin plan/refresh de EC2; ningún T017/DynamoDB/SecretsManagerresource/otroIAM incorporado a un plan nuevo, porque no hubo plan.
+
+Propuesta **infra/bootstrap/runtime-permissions-boundary-v3-core4.proposed.json** preservada/hash **aff0d1a1bb0da5af279e4f57b464a1e9f1fe83b4a97113290e25db395bd1bb35**, **OWNER ACTION REQUIRED /NO PUBLICADA AQUÍ**; boundaryv2/default/v1 sin cambios, fuenteowner, sin inventario actual de versiones. No SecretsManagerread/secretpayload/password/SessionToken recuperado o expuesto; scripts/logs/docs contienen solo metadata/error saneado.
+
+### 71.4. Estados, registro y STOP
+
+**T019 PARTIAL /CORE4 DESIGNED /IMPORT ATTEMPTED–FAILED /STATE RECONCILIATION BLOCKED BY IAM READ /BOUNDARY V3 OWNER ACTION REQUIRED**. Conserva validación de contenido histórica§69 y **PLAN NOT ISOLATED /NO NEW PLAN**. **NO RUNTIME POLICY STATE RECONCILED /NO CORE4 TARGETED PLAN VALIDATED /NO COMPLETE/ACCEPTED**; no elevar al estado de éxito solicitado condicionalmente. Para retomar, responsable debe habilitar una sesión temporal cuyo canal IAM funcione y confirmar nuevo intento; no credenciales por chat ni autorizaciones IAMwrite implícitas.
+
+**T017 IMPLEMENTED /POST-APPLY INFRA VERIFIED /RUNTIME CONNECTIVITY BLOCKED BY T019 CORE4 /ACCEPTANCE PENDING**, transporteA/BPASS/RedisDENIED/CLIausente previos sin cambios. **T020PENDING /GATE-I-BPENDING-NOT SATISFIED**, E019/E017integral/E028/AUTH-027 pendientes; catálogo8+7+15/gates1+8 conservados. IMDSv2required-hop1/USD50agregado/USD10guardrail/deadlinehosts2026-11-15T01:57:56.9337244Z/custodia/imágenes sin cambios/extensiónimplícita.
+
+Solo **specs/003-infrastructure/task.md /memoria.md** actualizados como registro del incremento; HCL/variables/inputs/outputs/elasticache/boundaryv3/lock/state51/backup44/planes históricos intactos. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t019-owner-import-2026-11-16T20-17-28-889Z\**: precheck/hashes/docbefore/scriptimportsinsecretos/comando único/logsaneado/resultado/diffs/cierre. Integridadfinal/diffcheck en evidencia/salida.
+
+**AWSreads STS1PASS /providerdataAMI-AZ /IAMGetRolePolicyfallido; no totalAPIafirmado. Terraformimport1exit1 /AWSwrites0 /IAMwrites0 /Secretswrites0 /GetSecretValue0 /SSMSendCommand0 /Terraformapply0 /EC2modify0 /deployment0 /ECRwrites0 /stage0 /commit0 /push0**, solo este incremento. **STOP tras import fallido, sin plan/retry/correcciones ni publicación boundary.**
+
+## 72. T019 — Perfil dedicado e IAM PASS; import bloqueado por lecturas EC2 de data sources
+
+**2026-11-16 UTC — RETRY STATE RECONCILIATION CORE4 USING enver-t019-state**, autorización exclusiva de perfil **enver-t019-state** para STS/IAMmetadata/import/stateinspection/fmt/validate/targetedplan; expresamente sin enver-admin-temp/enver-infra/enver-t017-temp/fallback. **No apply/IAMwrite/boundarypublication/EC2modify/Secretswrite/deployment/commit/push**. Sin staterm/mv/restore ni permisos adicionales/configuración alterada por iniciativa del agente.
+
+### 72.1. Operador e identidad live verificados
+
+Precheck **20:38:20.150Z–20:38:26.872Z**, sesión temporal presente sin valores expuestos/persistidos. **STS20:38:23.182Z–20:38:26.872Z /exit0 /cuenta926925605666 /arn:aws:sts::926925605666:assumed-role/enver-t019-state/enver-t019-state-local**, coincidencia exacta con autorización. **GetRolePolicy20:38:44.133Z–20:38:46.405Z /exit0**, RoleName **enver-dev-api-runtime**, PolicyName **enver-dev-secrets-read**; documento IAMJSON obtenido y guardado en evidencia, no contenido SecretsManager. **El bloqueo IAM de§71 no se reproduce en este perfil**.
+
+Policy efectiva tiene exactamente dos Allow: **ReadExactCoreSecrets /secretsmanager:GetSecretValue** para los tresARNMongo/JWT/HMAC aprobados§69, **sin Redis ni Condition en ese statement**; **DecryptOnlyThroughSecretsManager /kms:Decrypt** para key **51e1d79c-e924-4330-ac41-c9b263ee4ce3** con ARNexacto/us-east-1/cuenta926925605666 y condiciones **kms:ViaService=secretsmanager.us-east-1.amazonaws.com /kms:CallerAccount=926925605666**. Sin ListSecrets/comodines/accioneswrite/otrosKMS. HCL/inputcore4 deseado intacto§69 conserva cuatroARNexactos/KMS y añade a GetSecretValue condiciones **aws:RequestedRegion=us-east-1 /aws:PrincipalAccount=926925605666**, además de cambiar ambos **Sid**. **Por tanto el diff pendiente no puede presumirse soloRedis:** condiciones nuevas serían un cambio semántico restrictivo adicional, Sids son metadata. **Hallazgo de comparación live/HCL, no diff de un plan nuevo**; no se quitan/aceptan esas condiciones ni cambia HCL sin decisión autorizada.
+
+### 72.2. Import único con perfil forzado
+
+Provider revisado **infra/providers.tf**: cadena estándar/región/allowed_account_ids, sin profile hardcode/accesskeys/assume_role alternativo. Todos los comandos del incremento reciben **AWS_PROFILE=enver-t019-state**, regiónus-east-1, overridesAWS/TFheredados eliminados, sin credenciales permanentes/fallback; STS/IAMCLI también llevan --profile explícito.
+
+Import autorizado **20:39:40.245Z–20:39:55.400Z /exit1**, único comando con **-chdir=infra /-input=false /-no-color /-lock-timeout=30s**, inputcore4/baseline§69, address **aws_iam_role_policy.api_secrets_read[0]**, ID **enver-dev-api-runtime:enver-dev-secrets-read**. Terraform muestra **Import prepared! /Refreshing state**, pero falla al evaluar data sources del módulo raíz:
+
+- **data.aws_ami.api → ec2:DescribeImages /HTTP403 /UnauthorizedOperation**, no identity-based Allow; RequestId **64589700-d290-493f-8f98-fb29a084d1f7**.
+- **data.aws_availability_zones.available → ec2:DescribeAvailabilityZones /HTTP403 /UnauthorizedOperation**, no identity-based Allow; RequestId **c4c92491-b6d4-4fb4-b45c-7e28cde871a5**.
+
+Ambos errores identifican el **mismo assumed-role enver-t019-state/enver-t019-state-local**, corroborando perfil provider. **No InvalidClientTokenId ahora ni identidadpolicy equivocada; IAMprecheckPASS no garantiza permiso de data sourcesglobales**. Son lecturas intentadas como parte de import, **no EC2modify**, no plan de EC2. Sin GetRequestAuthorizationDetails, ampliaciónIAM, desactivación/remoción de data sources, directorioTerraformalternativo, statefabricado, segundoimport ni perfil distinto para eludir el bloqueo. **STOP**; “Import prepared!” no acredita persistencia.
+
+### 72.3. State y resultados no ejecutados
+
+| Indicador | Antes | Después |
+| --- | --- | --- |
+| State serial /backup serial | **51 /44** | **51 /44** |
+| State resource blocks(incluyedata) /managed instances | **31 /34** | **31 /34** |
+| Backup blocks /managed instances | **25 /28** | **25 /28** |
+| Policy presente/importada | **NO** | **NO** |
+| Recursos añadidos /previos alterados o eliminados | — | **0 /0** |
+
+Lineage/bytes intactos: stateSHA256 **723c4316da4b5e8c482440f53552d083459dfc81fd0651ab6ee51cf1bfd96ea5**, backupSHA256 **393c49f8d9ac133b442a9882591bcedceaf367e6bf76b1ee6315bb372ce648d1**. **State show/fmtcheck/validate/targetedplan NO EJECUTADOS** tras importfallido; add/change/destroy **NO APLICA**, **PLAN ISOLATED=NO /NO NEW PLAN**, sin 0/1/0 inventado. Redis no agregado a policyAWS/state; propuesta sí lo contiene desde§69. **KMS intacto**, sin wildcard/ListSecrets/Secretswrite añadidos. EC2tags/ipv6 siguen **UNRELATED /NOT ACCEPTED /NOT PART OF T019**, no refresh/reconciliación/modify; T017/DynamoDB/Secretsresources/otrosIAM no incluidos en nuevo plan porque no hubo plan.
+
+Propuesta **infra/bootstrap/runtime-permissions-boundary-v3-core4.proposed.json** presente/intacta/hash **aff0d1a1bb0da5af279e4f57b464a1e9f1fe83b4a97113290e25db395bd1bb35**, **OWNER ACTION REQUIRED /NO PUBLICADA AQUÍ**. Boundaryv2/default/v1fuenteowner intacta, sin lectura nueva de versiones. No SecretsManagerread/payload/password/SessionToken en logs/docs/archivos; solo IAMpolicyJSON/metadata/errores.
+
+### 72.4. Estados y cierre
+
+**T019 PARTIAL /CORE4 DESIGNED /IMPORT ATTEMPTED–FAILED /STATE RECONCILIATION BLOCKED BY IMPORT DATA-SOURCE READS /BOUNDARY V3 OWNER ACTION REQUIRED**. Contenidovalidadohistórico§69 conservado, **NO STATE RECONCILED /NO CORE4 TARGETED PLAN VALIDATED /NO COMPLETE/ACCEPTED**, plan aislado pendiente y diffcondiciones pendiente de decisión. Desbloqueo requiere autorización específica aparte para la estrategia de lecturas/configuración y un nuevo intento; no concede ampliar IAM automáticamente.
+
+**T017 IMPLEMENTED /POST-APPLY INFRA VERIFIED /RUNTIME CONNECTIVITY BLOCKED BY T019 CORE4 /ACCEPTANCE PENDING**, transporteA/BPASS/RedisDENIED/CLIausente sin cambios. **T020PENDING /GATE-I-BPENDING-NOT SATISFIED**, E019/E017integral/E028/AUTH-027/catálogo8+7+15/gates1+8 conservados. IMDSv2required-hop1/USD50agregado/USD10guardrail/deadlinehosts2026-11-15T01:57:56.9337244Z/custodia/imágenes sin cambios/extensiónimplícita.
+
+Solo **specs/003-infrastructure/task.md /memoria.md** editados como registro. HCL/inputs/variables/outputs/elasticache/boundaryv3/lock/state51/backup44/planes históricos intactos. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t019-state-profile-2026-11-16T20-38-20-150Z\**: precheck/hashes/docbefore/IAMpolicyJSONsaneado/importcomandoperfilforzado/logsaneado/resultado/diffs/cierre. Integridadfinal/diffcheck en evidencia/salida.
+
+**AWSreads STS1PASS /GetRolePolicy1PASS /providerIAMread y dataEC2×2denegadas; no totalAPIafirmado. Terraformimport1exit1 /AWSwrites0 /IAMwrites0 /Secretswrites0 /GetSecretValue0 /SSMSendCommand0 /Terraformapply0 /EC2modify0 /deployment0 /ECRwrites0 /stage0 /commit0 /push0**, soloesteincremento. **STOP sin retry/configchanges/IAMbroadening/plan/publicación boundary.**
+
+## 73. T019 — Import PASS y plan dirigido aislado, no aceptable por Sid/condiciones adicionales
+
+### 73.1. Autorización e identidad
+
+**2026-11-16 UTC — RETRY IMPORT CORE4 AFTER DATA-SOURCE READ FIX /IMPORT + TARGETED PLAN ONLY**. Responsable informa corrección previa de lecturas de data sources y autoriza **una importación**, state show, fmtcheck/validate y plan dirigido refresh=false bajo **enver-t019-state exclusivamente**. **Sin apply/IAMwrite/Secretswrite/EC2modify/deployment/commit/push/boundarypublication**, sin otros perfiles. Regla explícita: **si HCL cambiaSid o añade condicionesSecretsManager → PLAN NOT ACCEPTABLE /STOP**, no autorización para corregir HCL por iniciativa del agente.
+
+Precheck **20:55:37.643Z–20:55:43.844Z**, sesión temporal presente sin exponer/persistir valores, **STS20:55:41.194Z–20:55:43.844Z /exit0 /cuenta926925605666 /arn:aws:sts::926925605666:assumed-role/enver-t019-state/enver-t019-state-local**, exacto. GetRolePolicy previo al import **exit0**, role **enver-dev-api-runtime**, name **enver-dev-secrets-read**; core3/Sids/KMS contrato verificados contra JSONIAM, sin leer valoresSecretsManager. AWS_PROFILEforzado/remociónoverridesAWS-TF/providercadenaestándar sin perfilalternativo. Feature/infrastructure/HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb/cero staged/trabajoprevio preservados.
+
+### 73.2. Import y delta nativo de state
+
+**Importúnico20:56:42.229Z–20:56:57.705Z /exit0**, address **aws_iam_role_policy.api_secrets_read[0]**, ID **enver-dev-api-runtime:enver-dev-secrets-read**, input **t019-core4.tfvars.json** y variablesbaseline aprobadas§69, -input=false/-no-color/-lock-timeout=30s. **AMI/AZRead complete PASS** dentro del import; fallos de§72 resueltos según ejecución actual, **sin IAMwrite ni intervención del agente en permisos**. Comando exacto en evidencia. No importblock/apply/state rm/mv/restore/manualstateedit.
+
+| Indicador | Antes | Después de import |
+| --- | --- | --- |
+| State serial /backup serial | **51 /44** | **52 /51** |
+| State resource blocks(incluyedata) /managed instances | **31 /34** | **31 /35** |
+| Backup blocks /managed instances | **25 /28** | **31 /34** |
+| api_secrets_read[0] presente | **NO** | **SÍ, un recurso managed importado** |
+
+Lineage conservado. State52SHA256 **baf3127c6ba3c6ee71020d50bb727ddb8c8c26b0b795facdd3b26794edd5acfd**; backup51SHA256 **0ecb404d3b87937dca94df19731c00ecfcc003668bfd8015bd94dfb801280b50**. Backup44anterior queda antecedente/hash§72; **no se restaura ni sobrescribe manualmente**, backup51 generado porTerraform.
+
+**No afirmar que todo state ajeno quedó idéntico**: el escritor nativo de import retiró **data.aws_ssm_parameter.al2023** del state (no recurso AWS eliminado), añadió output **compute_instances** y normalizó en EC2A/B **null→[]** seis campos: **capacity_reservation_specification /cpu_options /enclave_options /instance_market_options /maintenance_options /private_dns_name_options**. DependenciasEC2 conservadas. **Ningún recurso managed previo eliminado**, seisrecursosT017 sin cambio de atributos; no actualizacionesEC2AWS ni aceptación/reconciliación de drift. Delta por campo/output/data en evidencia; se conserva sin rollback/statefabricado. Diferencias históricas root_block_device.tags/ipv6 siguen **UNRELATED /NOT ACCEPTED /NOT PART OF T019**.
+
+**terraform -chdir=infra state show -no-color 'aws_iam_role_policy.api_secrets_read[0]' exit0**, role **enver-dev-api-runtime**, name **enver-dev-secrets-read**, IDexacto, index0; documento importado coincide con lectura livecore3 previa, **Redis aún NO presente en state/AWS**. La reconciliación añade ownership local de policy existente, no otorga core4. Lecturas/plan posteriores conservan state52/backup51 byteporbyte.
+
+### 73.3. Validaciones y plan dirigido
+
+| Acción | UTC /resultado |
+| --- | --- |
+| fmt -check -recursive infra | **20:59:09.456Z–20:59:09.769Z /exit0** |
+| terraform -chdir=infra validate -no-color | **20:59:09.771Z–20:59:22.756Z /exit0** |
+| Targeted plan refresh=false, detailed-exitcode, solo api_secrets_read[0] | **20:59:22.759Z–20:59:40.894Z /exit2 /0add1change0destroy** |
+
+**Única acción managed: update-in-place aws_iam_role_policy.api_secrets_read[0]**. Dependencia **aws_iam_role.api_runtime NO-OP** (sin modificación). **Sin EC2A/B/T017/T020/DynamoDB/SecretsManagerresources/otrosIAM con cambios**; **PLAN ISOLATED=YES por acciones**, no plan global ni prueba de ausencia de drift. Advertencia estándar de-target conservada, no se elimina: resultado puede omitir cambios ajenos.
+
+Plan guardado de revisión **NO APROBADO /NO REUTILIZAR PARA APPLY**, SHA256 **a3c44edab2cee1f5c981cf07d7658076b4f6ef443d6e699a64353bd95e55a67e**; comando completo/JSONreview en evidencia. JSONcompleto inspeccionado enmemoria, sin dump/valoressecretos detectados, no cambios al HCL.
+
+### 73.4. Diff real y STOP contractual
+
+- **ADD Redis ARN** `arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP`; Mongo/JWT/HMAC exactos§69 y GetSecretValue preservados. Es **propuesta de plan**, no cambio aplicado ni lectura del secreto/VersionId.
+- **Sid NO preservados:** `ReadExactCoreSecrets → GetOnlyExactRuntimeSecrets`; `DecryptOnlyThroughSecretsManager → DecryptOnlyThroughSecretsManagerForApprovedKey`.
+- **Condition nueva en GetSecretValue:** StringEquals **aws:RequestedRegion=us-east-1 /aws:PrincipalAccount=926925605666**, ausente en policyefectiva/importada. Es restricción adicional, no ampliación a otros secretos, pero **incumple el criterio explícito Redis-only/sin condiciones nuevas**.
+- **KMSpermisos/constraints preservados:** únicamente kms:Decrypt, keyARNexacto **arn:aws:kms:us-east-1:926925605666:key/51e1d79c-e924-4330-ac41-c9b263ee4ce3**, ViaService **secretsmanager.us-east-1.amazonaws.com**, CallerAccount **926925605666**. Cambia Sidmetadata, no permisosKMS.
+- **Sin wildcard/ListSecrets/DescribeSecret/Secretswrite/extraKMS/EC2-DynamoDB-ElastiCachepermissions**. Exactamente cuatroARN en la propuesta. **Redis-only semantic change=NO /Sidpreserved=NO /SecretsManagerconditionadded=YES**.
+
+**PLAN NOT ACCEPTABLE /STOP**. Aislamiento0/1/0 y compilaciónHCLválida **no** satisfacen el contrato de diff. Sin corregirSids/retirarcondiciones/cambiarinputs/replan/apply por iniciativa; requiere autorización delimitada posterior. No marca CORE4 TARGETED PLAN VALIDATED ni APPLYREADY.
+
+### 73.5. Estados y registro
+
+**T019 PARTIAL /CORE4 DESIGNED /RUNTIME POLICY STATE RECONCILED /CORE4 TARGETED PLAN NOT ACCEPTABLE /BOUNDARY V3 OWNER ACTION REQUIRED**; plan aislado por acciones pero no aceptable, no COMPLETE/ACCEPTED/APPLYautorizado. Propuesta **infra/bootstrap/runtime-permissions-boundary-v3-core4.proposed.json** intacta/hash **aff0d1a1bb0da5af279e4f57b464a1e9f1fe83b4a97113290e25db395bd1bb35**, **NO PUBLICADA AQUÍ**; v2/default/v1 siguen fuenteowner, no lectura actual de versiones. Grantcore4/RedisA-BPASS no acreditados.
+
+**T017 IMPLEMENTED /POST-APPLY INFRA VERIFIED /RUNTIME CONNECTIVITY BLOCKED BY T019 CORE4 /ACCEPTANCE PENDING**, transporteA/BPASS/RedisDENIED/CLIausente previos; **T020PENDING /GATE-I-BPENDING-NOT SATISFIED**, E019/E017integral/E028/AUTH-027/catálogo8+7+15/gates1+8sin cambios. IMDSv2required-hop1/USD50agregado/USD10guardrail/deadlinehosts2026-11-15T01:57:56.9337244Z/custodia/imágenes sin cambios/extensiónimplícita.
+
+Solo docs **task.md/memoria.md** editados y **state/backup por escritor nativo autorizado**; HCL/variables/inputs/outputs.tf/elasticache/boundaryv3/lock/planes históricos intactos. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t019-import-datafix-2026-11-16T20-55-37-643Z\**: precheck/hashes/docbefore/IAMpolicyJSON/importcomando-log/resultado/deltastatenativo/state-show/validaciones/targetedplan-reviewNOAPROBADO/auditoría/diffs/cierre. Sin credenciales/SecretString/password en outputs/docs/archivos. Integridadfinal/diffcheck en evidencia/salida.
+
+**AWSreads STS1PASS/GetRolePolicy1PASS/providerIAMread/dataAMI-AZPASS**, sin totalAPIafirmado. **Terraformimport1exit0 /statewriteNATIVO1 /AWSwrites0 /IAMwrites0 /Secretswrites0 /GetSecretValue0 /SSMSendCommand0 /Terraformapply0 /EC2modify0 /deployment0 /ECRwrites0 /stage0 /commit0 /push0**, soloesteincremento. **STOP por diff no aceptable tras import exitoso; sin correcciones/publicación/apply automáticos.**
+
+## 74. T019 — HCL normalizado y targeted plan core4 validado, sin import ni apply
+
+### 74.1. Alcance y baseline
+
+**2026-11-16 UTC — NORMALIZAR HCL CORE4 POST-IMPORT /HCL FIX + TARGETED REPLAN ONLY**. Responsable autoriza corregir exclusivamente la configuración que genera **aws_iam_role_policy.api_secrets_read[0]**, preservar ambosSid y todoKMS, retirarConditionSecretsManager; único diff permitido: **ADD RedisARNexacto§69**. **NO import/state rm/mv/reconciliación EC2/apply/IAMwrite/AWSwrite/boundarypublication/deployment/commit/push**. Normalización nativa de§73 aceptada por responsable **solo como mecánica local de state**, no modificaciónAWS ni aceptación integralEC2.
+
+Precheck **21:06:01.548Z–21:06:08.347Z**, perfil temporal exclusivo **enver-t019-state**, **STS21:06:04.947Z–21:06:08.347Z /exit0 /cuenta926925605666 /arn:aws:sts::926925605666:assumed-role/enver-t019-state/enver-t019-state-local**, exacto. Credenciales no expuestas/persistidas; overridesAWS-TFheredados eliminados/AWS_PROFILEforzado/providercadenaestándar/sinotrosperfiles. **State52 /backup51 /31blocks-35managedinstances**, recurso presente/index0/role-namecorrectos; policyimportadacore3 de§73 sirve baseline para refresh=false, no nueva lecturaIAMlive. Feature/infrastructure/HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb/cero staged/trabajoprevio preservados.
+
+### 74.2. Corrección autorizada
+
+Solo **infra/iam-runtime.tf**, bloque **api_secrets_read** y comentarios inmediatos: **Sid ReadExactCoreSecrets**, **Sid DecryptOnlyThroughSecretsManager**, **sin Condition en GetSecretValue**. Se conserva exactamente count/name/role/precondition, cuatroARN por inputcore4 previo sin cambios, KMSAction/ARN/condiciones; no se toca runtimeSSM/ECR/instanceprofile/role/T017/T020/EC2. Comentario actualiza que policy ya fue importada en state52. Comparación completa antes/después confirma que no hay otro delta HCL. Un control local inicial usó patrón ambiguo coincidente con ECR; se corrigió **el comparador externo**, no el HCL ECR; ese intento terminó antes de ejecutar Terraform/AWS adicional.
+
+### 74.3. Validación y targeted replan
+
+| Acción | UTC /resultado |
+| --- | --- |
+| terraform fmt -check -recursive infra | **21:08:10.191Z–21:08:10.503Z /exit0** |
+| terraform -chdir=infra validate -no-color | **21:08:10.504Z–21:08:22.804Z /exit0** |
+| Nuevo targetedplan -refresh=false -detailed-exitcode | **21:08:22.806Z–21:08:38.960Z /exit2 /0add1change0destroy** |
+
+Targetúnico **aws_iam_role_policy.api_secrets_read[0]**, variablesbaseline/inputcore4 iguales§73, perfilforzadoenver-t019-state; comando completo en evidencia. **Única acción managed: update-in-place de esa policy**; dependencia **aws_iam_role.api_runtime NO-OP**, sin otras accionesIAM/EC2A-B/T017/T020/DynamoDB/SecretsManagerresources. **PLAN ISOLATED=YES /PLAN ACCEPTABLE=YES**, para este scope dirigido, no plan global ni prueba de driftcero. Advertencia estándar-target conservada; no refresco global ni inventarioAWScompleto.
+
+RevisiónJSONsemántica: **after = before + soloRedisARN**, comparando todo el documento, no solo contando recursos. Redis **arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP** añadido en propuesta; Mongo/JWT/HMACexactos§69 intactos; únicamente GetSecretValue. **AmbosSidpreservados /ConditionSecretsManagerNONE /wildcardNO /ListSecretsNO /DescribeSecretNO /SecretswriteNO /extraKMS-EC2-DynamoDB-ElastiCachepermissionsNO**. KMSstatement completo idéntico: **kms:Decrypt /arn:aws:kms:us-east-1:926925605666:key/51e1d79c-e924-4330-ac41-c9b263ee4ce3 /kms:ViaService=secretsmanager.us-east-1.amazonaws.com /kms:CallerAccount=926925605666**.
+
+Plan guardado **solo revisión /NO APPLY AUTORIZADO**, SHA256 **75fe1a0f73d5ea1ccf62a62d25e76be000555fc4c0ee4a1b1bac08b19754b6fa**; JSONinspeccionado enmemoria/sindumpcompleto, sin valoressecretosdetectados. **Planaceptable no concede permisos ni autoriza apply**. State/importedpolicy sigue core3/Redisnoimplementado, sin nueva prueba GetSecretValueA/B. Cambio de contrato corregido aquí no acepta retrospectivamente plannoaceptable§73.
+
+### 74.4. State y propuesta boundary preservados
+
+**Import0 /statewrite0 /state52→52 /backup51→51**, sin normalización adicional ni reconciliaciónEC2. Hashes idénticos antes/después: state **baf3127c6ba3c6ee71020d50bb727ddb8c8c26b0b795facdd3b26794edd5acfd**, backup **0ecb404d3b87937dca94df19731c00ecfcc003668bfd8015bd94dfb801280b50**. Outputs/state-localmechanics de§73 se conservan; EC2tags/ipv6 siguen **UNRELATED /NOT ACCEPTED /NOT PART OF T019**.
+
+Revisión **solo lectura/local** de **infra/bootstrap/runtime-permissions-boundary-v3-core4.proposed.json**, hashintacto **aff0d1a1bb0da5af279e4f57b464a1e9f1fe83b4a97113290e25db395bd1bb35**: frente a candidata v2 histórica externa§69, **único delta añadirRedis a Allow.Resource y Deny.NotResource**; otrosSid/acciones/condiciones preservados. **No exportlive de v2**, no metadataAWSactual leída, no cambios/publicaciónv3; owner debe cotejar con versión efectiva antes de publicación futura. **BOUNDARY V3 OWNER ACTION REQUIRED**; v2/default/v1fuenteowner conservada, no reforma automática por retirarConditiondelruntimeHCL.
+
+### 74.5. Estados y cierre
+
+**T019 PARTIAL /CORE4 DESIGNED /RUNTIME POLICY STATE RECONCILED /CORE4 TARGETED PLAN VALIDATED /BOUNDARY V3 OWNER ACTION REQUIRED /APPLY PENDING**. No COMPLETE/ACCEPTED ni core4efectivo. **T017 IMPLEMENTED /POST-APPLY INFRA VERIFIED /RUNTIME CONNECTIVITY BLOCKED BY T019 CORE4 /ACCEPTANCE PENDING**, transporteA/BPASS/RedisDENIED/CLIausente previos; **T020PENDING /GATE-I-BPENDING-NOT SATISFIED**, E019/E017integral/E028/AUTH-027/catálogo8+7+15/gates1+8sin cambios.
+
+Archivos editados **infra/iam-runtime.tf /specs/003-infrastructure/task.md /memoria.md**; variables/inputs/outputs/elasticache/boundaryv3/lock/state52/backup51/planes históricos/custodia/código/imágenes intactos. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t019-hcl-normalize-2026-11-16T21-06-01-548Z\**: precheck/hashes/copiasbefore/controlHCL/validaciones/nuevoplanNOAPPLY/reviewsemántico/auditoría/boundarystaticreview/diffs/cierre. Sin credenciales/SecretString/password en archivos/logs/docs. Integridadfinal/diffcheck en evidencia/salida. IMDSv2required-hop1/USD50agregado/USD10guardrail/deadlinehosts2026-11-15T01:57:56.9337244Zsin cambios/extensiónimplícita, costoactualnoverificado.
+
+**AWSreads STS1PASS/providerlecturasidentidadparaplan; no totalAPIafirmado. AWSwrites0 /IAMwrites0 /Secretswrites0 /GetSecretValue0 /SSMSendCommand0 /Terraformimport0 /statewrite0 /Terraformapply0 /EC2modify0 /boundarypublish0 /deployment0 /ECRwrites0 /stage0 /commit0 /push0**, soloesteincremento. **STOP tras HCLnormalizado y targetedplanvalidado, sin apply/publicación/incremento posterior automático.**
+
+## 75. T019 — Apply autorizado detenido antes del replan por default boundary no verificable
+
+### 75.1. Antecedentes y autorización
+
+**2026-11-16 UTC — CORE4 TARGETED APPLY /RUNTIME SECRETS POLICY ONLY**, autorización explícita para **enver-t019-state exclusivamente**: STS/IAMread/fmtcheck/validate/nuevo targetedplan refresh=false y, **solo si pasan puertas**, applydelplan revisado únicamente **aws_iam_role_policy.api_secrets_read[0]**, seguido de IAMreadpostapply. **No globalapply/EC2/T017/T020/Secretswrite/boundarychanges/deployment/commit/push**, sin otros perfiles o ampliaciónIAM automática. Gate previo obligatorio: **GetPolicy DefaultVersionId=v3**; dato no verificable no equivale a gate satisfecho.
+
+Antecedente posterior a§74: corrección **únicamente Sid** de la propuesta local a **MaximumDecryptOnlyThroughSecretsManager**, revisión estática final contra **PolicyDocument v2 completo embebido por owner/CloudShell** (no candidata histórica): **12/12statements/Sidpreservados/EXPECTED CORE4=2/UNEXPECTED=0 /REDIS-ONLY /READY FOR OWNER PUBLICATION**. Las dos diferencias son RedisARNexacto en **MaximumReadOfExactCoreSecrets.Resource /DenyReadingAnyOtherSecret.NotResource**, sin otras acciones/condiciones/denies modificadas. No publicaciónAWS por el agente en esas intervenciones. Archivoactual **infra/bootstrap/runtime-permissions-boundary-v3-core4.proposed.json**, SHA256 **25d1036a921ab999866960b5dbc73d6cc785e085b4b4a46da38dbfd88a985988**. Historial de hashes previos se conserva como antecedente, no hash vigente.
+
+En solicitud actual owner informa **v3 PUBLISHED /DEFAULT**, revisiónRedis-onlyPASS. Se conserva esa evidencia **OWNER-REPORTED**, sin atribuir publicación al agente ni considerarla sustituto de lectura default exigida ahora. V1/v2 históricos/custodia no modificados.
+
+### 75.2. Precheck y puerta fallida
+
+Precheck **21:46:14.577Z–21:46:21.933Z**, sesión temporal **enver-t019-state** presente sin exposición/persistencia de valores; **STS21:46:18.325Z–21:46:21.933Z /exit0 /cuenta926925605666 /arn:aws:sts::926925605666:assumed-role/enver-t019-state/enver-t019-state-local**, exacto. AWS_PROFILEforzado/overridesAWS-TFheredados eliminados/providercadenaestándar, sin enver-admin-temp/enver-infra/enver-t017-temp/fallback/renovación automática. Rama **feature/infrastructure /HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cero staged, trabajo previo preservado.
+
+**IAM:GetPolicy** sobre **arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary**, **21:46:40.976Z–21:46:44.219Z /exit254 /AccessDenied**. **DefaultVersionId NO OBTENIDO /gate v3 NO SATISFECHO**, no afirmar que siga v2 o que owner no publicó v3; se distingue falta de lectura de inexistencia/versión incorrecta. **STOP antes de fmt/validate/replan/apply**. Sin GetPolicyVersion/GetRole/GetRolePolicy adicionales, pruebasSSM/GetSecretValue, cambioIAM/perfil/reintento o diagnóstico expansivo.
+
+### 75.3. Acciones no ejecutadas, state y estados
+
+**Fmtcheck /validate /targetedreplan /apply /IAMpostapplyverify: NO EJECUTADOS**. Planexit/add/change/destroy de este incremento **NO APLICA**. Planhistórico§74 **0/1/0 aislado/aceptable**, Sid/KMS/sinConditionSecretsManager conservados en HCL; **no se reutiliza como plan fresco ni como permiso para eludir la puerta**. No CORE4 IAM POLICY APPLIED /BOUNDARY V3 ACTIVE acreditada directamente /nueva lista efectiva core4 verificada. Mongo/JWT/HMAC core3 siguen baseline local importado, Redis no está en esa policy local; estadoIAMactual no reconsultado, sin afirmar ausenciaactualRedis fuera de ese baseline.
+
+**State52→52 /backup51→51 /31blocks-35managedinstances intactos /import0/statewrite0**, sin reconciliaciónEC2. StateSHA256 **baf3127c6ba3c6ee71020d50bb727ddb8c8c26b0b795facdd3b26794edd5acfd**, backupSHA256 **0ecb404d3b87937dca94df19731c00ecfcc003668bfd8015bd94dfb801280b50**; HCL/inputs/outputs/elasticache/lock/planes históricos/propuestaboundary/custodia/imágenes/código preservados. Sin rollback/stateedit/rm/mv/restore ni extensiónimplícitahosts. Mecánica local nativa§73 conserva aceptación limitada, no aceptación driftEC2.
+
+**T019 PARTIAL /CORE4 DESIGNED /RUNTIME POLICY STATE RECONCILED /CORE4 TARGETED PLAN VALIDATED (HISTÓRICO §74) /BOUNDARY V3 OWNER-REPORTED DEFAULT /APPLY BLOCKED–BOUNDARY DEFAULT UNVERIFIED**. No estado de applyexitoso/COMPLETE/ACCEPTED ni permisoscore4efectivos. Requiere lectura default funcional bajo perfil autorizado y confirmación para retomar; no permisos/credencialesporchat, IAMbroadening o fallback automático.
+
+**T017 IMPLEMENTED /POST-APPLY INFRA VERIFIED /RUNTIME CONNECTIVITY BLOCKED BY T019 CORE4 /ACCEPTANCE PENDING**, sin transición al estado condicional posterior al apply; transporteA/BPASS/RedisDENIED/CLIausente anteriores. **T020PENDING /GATE-I-BPENDING-NOT SATISFIED**, E019/E017integral/E028/AUTH-027/catálogo8+7+15/gates1+8sin cambios. IMDSv2required-hop1/USD50agregado/USD10guardrail/deadlinehosts2026-11-15T01:57:56.9337244Zsin cambios/extensiónimplícita, costoactualnoverificado.
+
+### 75.4. Registro y cierre
+
+Solo **specs/003-infrastructure/task.md /memoria.md** actualizados. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t019-targeted-apply-2026-11-16T21-46-14-577Z\**: precheck/hashes/docbefore/identidadSTS/gateboundarycódigosaneado/diffs/cierre. Integridadfinal/diffcheck en evidencia/salida. Sin SecretString/password/SessionToken/claves en archivos/logs/docs; no valores secretos recuperados ni archivos de credenciales creados.
+
+**AWSreads STS1PASS /GetPolicy1AccessDenied /AWSwrites0 /IAMwrites0 /Secretswrites0 /GetSecretValue0 /SSMSendCommand0 /Terraformimport0 /statewrite0 /Terraformapply0 /EC2modify0 /boundarypublish0 /deployment0 /ECRwrites0 /stage0 /commit0 /push0**, soloesteincremento. **STOP por defaultboundary no verificable, sin fmt/validate/replan/apply/retry/correcciones automáticas.**
+
+## 76. T019 — Boundary v3 verificada; apply core4 fallido por PutRolePolicy y discrepancia nativa de state
+
+### 76.1. Autorización y puertas de lectura
+
+**2026-11-16 UTC — RESUME CORE4 TARGETED APPLY /BOUNDARY READ PERMISSION FIXED**. El responsable informa corrección manual de lectura y autoriza STS/IAMread/fmtcheck/validate/replan refresh=false y apply únicamente **aws_iam_role_policy.api_secrets_read[0]**, seguido de IAMread; exclusivamente **enver-t019-state**. No globalapply/EC2/T017/T020/boundarywrite/Secretswrite/deployment/commit/push, ni ampliación IAM o perfiles alternativos. Se conserva el fallo previo §75; no se lo reinterpreta como ejecución exitosa.
+
+Lecturas **21:57:35.130Z–21:57:57.479Z**: **STS exit0 /cuenta926925605666 /arn:aws:sts::926925605666:assumed-role/enver-t019-state/enver-t019-state-local**, exacto. **GetPolicy DefaultVersionId=v3 /GetPolicyVersion VersionId=v3-IsDefaultVersion=true PASS** para **arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary**. Documento efectivo coincide semánticamente con propuesta revisada SHA256 **25d1036a921ab999866960b5dbc73d6cc785e085b4b4a46da38dbfd88a985988**, 12 statements y Redis exacto en **MaximumReadOfExactCoreSecrets.Resource /DenyReadingAnyOtherSecret.NotResource**, listas exactas core4. **GetRole confirma boundary adjunta** a enver-dev-api-runtime. **GetRolePolicy previo PASS**, core3 idéntico al baseline importado state52. Boundary publicada previamente por owner, no por esta ejecución.
+
+AWS_PROFILEforzado/overridesAWS-TFheredados eliminados/providercadenaestándar; sin enver-admin-temp/enver-infra/enver-t017-temp/fallback/credenciales persistidas. Rama **feature/infrastructure /HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cero staged; trabajo previo preservado.
+
+### 76.2. Validación y plan nuevo
+
+| Acción | UTC /resultado |
+| --- | --- |
+| terraform fmt -check -recursive infra | **21:58:57.310Z–21:58:57.686Z /exit0** |
+| terraform -chdir=infra validate -no-color | **21:58:57.688Z–21:59:10.365Z /exit0** |
+| Nuevo targetedplan -refresh=false -detailed-exitcode | **21:59:10.368Z–21:59:28.346Z /exit2 /0add1change0destroy** |
+
+Solo **update aws_iam_role_policy.api_secrets_read[0]**; dependencia **aws_iam_role.api_runtime NO-OP**, único output incluido runtime_role_arn NO-OP. **Sin EC2A/B/T017/T020/SecretsManagerresources/boundaryresource/otrosIAMchanges**. Lista completa de recursos del plan inspeccionada; **PLAN ISOLATED=YES /REDIS-ONLY=YES**. No plan global ni afirmación de driftcero; advertencias estándar de-target conservadas. Inputsbaseline idénticos §74, archivo metadata core4 existente sin modificación. Plan guardado nuevo SHA256 **1d016a9c26a9083c74739a03c6d754dbfac1b42fbb81259768a0afcb4b8d7d0a**, no reutiliza planes históricos.
+
+Revisión del documento completo y demás atributos: único delta añadir **arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP**. Mongo **mongodb-Iuqeur**, JWT **jwt-AweYNs**, HMAC **hmac-s9TSqb** preservados en cuenta926925605666/us-east-1/enver/dev/api. **ReadExactCoreSecrets /DecryptOnlyThroughSecretsManager** intactos; GetSecretValue sinCondition, KMSstatementexacto con **kms:Decrypt /key51e1d79c-e924-4330-ac41-c9b263ee4ce3 /ViaService secretsmanager.us-east-1.amazonaws.com /CallerAccount926925605666**. Sin ListSecrets/DescribeSecret/wildcard/Secretswrites/otrospermisos.
+
+Auditoría local inicial del JSON detectó dos **falsos positivos de metadatos booleanos sensitive_values.auth_token/auth_token_wo**, no valores. Se delimitó el comparador a valores reales, sin cambios Terraform/AWS y sin segundo plan: **hallazgos reales0**, sin dumpJSONcompleto ni credenciales/valoressecretos guardados. Se conservan ambos registros de auditoría.
+
+### 76.3. Apply intentado, denegado y lectura posterior
+
+Se aplicó **el mismo archivo de plan dirigido revisado**, hash reconfirmado antes de invocar; no globalapply ni replan implícito. **Terraformapply1 /22:01:19.341Z–22:01:33.244Z /exit1**. **IAM:PutRolePolicy HTTP403 AccessDenied**: el assumedrole **enver-t019-state/enver-t019-state-local** no tiene identity-based Allow para esa acción sobre **enver-dev-api-runtime**. RequestID **ca2f7516-eefb-4c01-936c-10597362a2ae**. **Intento de escritura IAM denegado, no actualización efectiva acreditada**. Sin reintento/corrección IAM/perfilalternativo/GetRequestAuthorizationDetails/rollback/despliegue.
+
+**GetRolePolicy posterior 22:02:07.882Z–22:02:11.482Z /exit0** confirma policy efectiva **enver-dev-api-runtime/enver-dev-secrets-read** idéntica a la previa: **GetSecretValue solo Mongo/JWT/HMAC; Redis AUSENTE**, ambosSid/KMS intactos, sin ConditionSecretsManager/ListSecrets/wildcard. **Lectura efectiva verificada=YES /core4 aplicado=NO**. Boundary v3 activa no basta para conceder Redis si inline policy no lo permite. No GetSecretValue/SSM/runtimeRedis test ni CLIinstall.
+
+### 76.4. State nativo: divergencia nueva, no corregida
+
+Aunque AWS rechazó el cambio, Terraform escribió **state52→54 /backup51→52**. Backup52 es byteidéntico al state52 anterior, SHA256 **baf3127c6ba3c6ee71020d50bb727ddb8c8c26b0b795facdd3b26794edd5acfd**. State54 SHA256 **d2073e2663632753ba5560fe9d657a3359fb01e85c7c7afed2775175ecb2aa33**. **31 bloques/35 instancias managed/lineage intactos**; único recurso con delta local **api_secrets_read**: policy, metadata private opaca y dependencies añade aws_iam_role.api_runtime; también serial/check_results. No otro recurso/EC2/T017 eliminado o modificado en state.
+
+**Policy local state54 contiene core4; IAM efectivo contiene core3**. KMS local intacto. **STATE RECONCILIATION PENDING**, la reconciliación histórica §73/74 no describe el estado actual. No considerar state54 prueba de permisos efectivos, no repetir -refresh=false sobre esta discrepancia, no reutilizar el plan ya intentado sin reconciliación y revisión autorizadas. **Sin stateedit/restore/rm/mv/import/refresh correctivo/replan adicional**; escrituras locales exclusivamente nativas del apply autorizado. Backup51 previo sustituido por mecánica nativa, no restaurado; custodia histórica externa intacta.
+
+### 76.5. Estados y cierre
+
+**T019 PARTIAL /CORE4 DESIGNED /BOUNDARY V3 ACTIVE /CORE4 TARGETED PLAN VALIDATED /CORE4 IAM APPLY FAILED–PUTROLEPOLICY DENIED /STATE RECONCILIATION PENDING**. **No CORE4 IAM POLICY APPLIED /COMPLETE/ACCEPTED**; runtimeRedis sigue pendiente y bloqueado por grant core4. Resolver permisos y reconciliar state requiere autorización posterior delimitada, no ampliación automática.
+
+**T017 IMPLEMENTED /POST-APPLY INFRA VERIFIED /RUNTIME CONNECTIVITY BLOCKED BY T019 CORE4 /ACCEPTANCE PENDING** se conserva; no transición al estado condicional de applyexitoso. **T020PENDING /GATE-I-BPENDING-NOT SATISFIED**; E019/E017integral/E028/AUTH-027/catálogo8+7+15/gates1+8 sin cambios. IMDSv2required-hop1/USD50agregado/USD10guardrail/deadlinehosts2026-11-15T01:57:56.9337244Z sin cambios/extensiónimplícita; costoactual no verificado.
+
+Solo **task.md/memoria.md** editados además de state/backup por Terraform nativo. HCL/inputs/outputs/elasticache/lock/propuestaboundary/planes históricos/código/imágenes preservados. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t019-resume-core4-2026-11-16T21-57-35-130Z\**: precheck/hashes/docbefore/STSIAMlecturas/validaciones/plan-review/auditorías/planbinario/applyexit1/IAMpostread/deltastate/diffs/cierre. Sin valoressecretos/credenciales expuestos o recuperados.
+
+**Terraformapply1exit1 /PutRolePolicy intento denegado observado1 /AWSwrites exitosas0 /IAMwrites exitosas0 /Secretswrites0 /boundarywrites0 /EC2modify0 /deployment0 /GetSecretValue0 /SSMSendCommand0 /import0 /stage0 /commit0 /push0**; contadores de éxito no esconden el intento de escritura denegado ni el statewrite nativo. No totalAPIprovider afirmado. **STOP tras fallo y verificación read-only, sin reparación/retry/incremento posterior automático.**
+
+## 77. T019 — Refresh-only dirigido fallido antes de reconciliación y retry core4
+
+**2026-11-16 UTC — STATE RECONCILIATION + CORE4 RETRY /AFTER PutRolePolicy AUTHORIZATION**. Owner informa **iam:PutRolePolicy** añadido únicamente sobre **arn:aws:iam::926925605666:role/enver-dev-api-runtime**; no se amplían permisos ni se ejecuta PutRolePolicy manual. Autorización: exclusivamente **enver-t019-state**, lecturas STS/IAM, plan refresh-only con refresh real del target **aws_iam_role_policy.api_secrets_read[0]**; solo si su alcance es exclusivamente la representación local de esa policy, apply del plan refresh-only; verificar core3 en state, fmt/validate y plan normal nuevo con refresh real y apply solo tras 0/1/0-Redis-only-aislamiento-boundaryv3. **No -refresh=false/backuprestore/state rm-mv/import/globalapply/EC2/T017/T020/Secretswrite/boundarywrite/deployment/commit/push**.
+
+Precheck **22:10:37.447Z**: **state54/backup52**, hashes iguales al cierre§76; 31bloques/35instanciasmanaged, lineage/rama **feature/infrastructure/HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb/cero staged**. Trabajo previo preservado; scripts/evidencia solo en temp externo. Perfilforzado **enver-t019-state**, overridesAWS-TFheredados eliminados, sin perfilesalternativos/credencialesexpuestas. Lecturas terminadas **22:12:16.067Z**: **STS PASS /cuenta926925605666 /arn:aws:sts::926925605666:assumed-role/enver-t019-state/enver-t019-state-local**; **GetPolicy defaultv3 /GetPolicyVersion v3-IsDefaultVersion=true /Redis en Allow.Resource-Deny.NotResource exactoscore4 PASS**; GetRole confirma boundaryadjunta; **GetRolePolicy PASS /AWSCORE3 exacto Mongo-JWT-HMAC/Redis AUSENTE**, ambosSid/GetSecretValue sinCondition/KMSexacto/sinListSecrets-wildcard. State inicial mantiene core4 y discrepancia conocida. Nueva autorización PutRolePolicy es evidenciaowner, no permiso efectivo de escritura probado.
+
+**Plan refresh-only1 /22:12:16.070Z–22:12:35.408Z /exit1**. Comando en evidencia: **-refresh-only -refresh=true -target=aws_iam_role_policy.api_secrets_read[0] -input=false -detailed-exitcode**, inputs baseline/core4 existentes, sin -refresh=false ni otro target. Archivo generado SHA256 **66a2fd34312fddd65b0ad34c57e5bb41a050793d6d2786570af2c3c0a11e25f1**: inspección local **terraform show -json** confirma **errored=true /applyable=false /complete=false**, sin resource_drift/resource_changes disponibles; **NO es un plan aprobado/aplicable ni prueba de aislamiento satisfactorio**. Referencias checks unknown de recursos excluidos en JSON no acreditan acciones sobre ellos. Showtext solo informa que falló la generación del plan.
+
+**Limitación de evidencia reconocida:** el comparador externo comprobó exit antes de persistir stdout/stderr del comando original, por lo que el diagnóstico original **no quedó retenido**. El JSON y showtext no recuperan la causa. No se atribuye a permisos IAM, dependencia, drift, precondición ni autorización nueva sin evidencia. No se repite el plan para ocultar esa limitación ni se amplían lecturas/acciones AWS; auditoría de valores reales del artefacto sin hallazgos, sin dumpJSONcompleto. Se conservan script/exit/artefacto fallido/inspecciones para trazabilidad.
+
+**STOP en gate de reconciliación. Refresh-only apply0 /state show posteriorNO EJECUTADO /fmt-validateNO EJECUTADOS /plan normal frescoNO EJECUTADO /targetedapply0 /PutRolePolicy0 /postapplyIAMNO APLICA**. Plan normal 0/1/0 y Redis-only de§76 es histórico, no resultado actual ni reutilizable. No reconciliación de state ni grantcore4 acreditados. **State54→54 /backup52→52 byteidénticos**, stateSHA256 **d2073e2663632753ba5560fe9d657a3359fb01e85c7c7afed2775175ecb2aa33**, backupSHA256 **baf3127c6ba3c6ee71020d50bb727ddb8c8c26b0b795facdd3b26794edd5acfd**. Sin escritor nativo nuevo/manualrestore/stateedit/import/refreshapply/normalizaciónEC2; custodiaexterna intacta. **StateCORE4 ≠ AWSCORE3**, no usarlo como baseline reconciliado ni ejecutar -refresh=false para eludir el incidente.
+
+Estado vigente tras este incremento: **T019 PARTIAL /BOUNDARY V3 ACTIVE /CORE4 IAM APPLY FAILED (INCIDENTE §76) /TARGETED REFRESH-ONLY PLAN FAILED /STATE RECONCILIATION PENDING**. **No CORE4 IAM POLICY APPLIED /STATE AND AWS RECONCILED /COMPLETE/ACCEPTED**. **T017 IMPLEMENTED /POST-APPLY INFRA VERIFIED /RUNTIME CONNECTIVITY BLOCKED BY T019 CORE4 /ACCEPTANCE PENDING**, sin transición condicional de éxito. **T020PENDING /GATE-I-BPENDING-NOT SATISFIED**, E019/E017integral/E028/AUTH-027/catálogo8+7+15/gates1+8sin cambios. IMDSv2required-hop1/USD50agregado/USD10guardrail/deadlinehosts2026-11-15T01:57:56.9337244Zsin cambios/extensiónimplícita/costoactualnoverificado. Diagnóstico original y cualquier reanudación/corrección requieren intervención posterior delimitada; no reparación automática.
+
+Solo **task.md/memoria.md** editados; HCL/inputs/outputs/elasticache/lock/propuestaboundary/state54/backup52/planesprevios/código/imágenes preservados. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t019-reconcile-retry-2026-11-16T22-10-37-447Z\**: precheck/hashes/docbefore/lecturas/refreshplanexit1/artefactoNOAPLICABLE/inspecciones/auditoría/diffs/cierre. Sin GetSecretValue/SSM/runtimeRedis/CLIinstall/valoressecretos/credenciales persistidas. **AWSwrites0 /IAMwrites0 /Secretswrites0 /Terraformapply0 (refresh-only0/normal0) /statewrite0 /boundarywrite0 /EC2modify0 /deployment0 /import0 /stage0 /commit0 /push0**, soloesteincremento; lecturasprovider sin totalAPIafirmado. **STOP sin replan/retry/apply/correcciones.**
+
+## 78. T019 — Reconciliación refresh-only aplicada; plan core4 nuevo listo, sin apply normal
+
+### 78.1. Antecedentes y autorización delimitada
+
+**2026-11-16 UTC.** Tras §77, una reproducción diagnóstica autorizada capturó **IAM_ACCESS_DENIED /iam:ListAttachedRolePolicies /aws_iam_role.api_runtime**, RequestID **b544d19d-80cc-4487-afa9-fbedd06b93ee**, sin escrituras. Evidencia externa **t019-refresh-diagnostic-2026-11-16T22-32-52-817Z** bajo el temp aprobado. Owner informó después autorización de esa lectura sobre el rol exacto; prechecks posteriores pasaron y el refreshplan de **t019-refresh-review-2026-11-16T22-45-07-470Z** detectó dos deltas locales, no uno: Secrets CORE4→CORE3 y representación inline del rol 2→3. No se aplicó entonces.
+
+El diagnóstico de ownership autorizado posterior (**t019-inline-ownership-2026-11-16T23-00-43-028Z**) confirmó **NO_INLINE_POLICY_OWNERSHIP_CONFLICT**: `infra/iam-runtime.tf` no configura bloques inline_policy en api_runtime; **api_ecr_pull/api_ssm_session/api_secrets_read[0]** están declarados y presentes en state, cada uno para su policy. Las tres policies AWS se verificaron con ListRolePolicies. La documentación/código oficial del proveedor fijado **6.73.0** identifica inline_policy como **Optional+Computed**: el atributo observado en state no implica ownership HCL. No migración, imports adicionales, eliminación del atributo ni cambios HCL necesarios. Historial de fallos conservado, no aceptación retrospectiva del apply normal fallido.
+
+Solicitud actual **AUTHORIZED REFRESH-ONLY STATE RECONCILIATION THEN CORE4 REPLAN ONLY** autoriza expresamente **ambos deltas**, regenerar y aplicar solo el refresh-only si coincide, verificar core3 y preparar un plan normal core4 nuevo con refresh real. Perfil único **enver-t019-state**. **No normal Core4 apply/globalapply/EC2/T017/T020/boundarywrite/Secretswrite/deployment/commit/push**, ni permisos automáticos, restore/state rm-mv/import.
+
+### 78.2. Puertas y refresh-only regenerado
+
+Precheck **23:05:25.148Z**: state54/backup52 y hashes previos intactos, 31bloques/35instanciasmanaged; rama **feature/infrastructure /HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cero staged. STS **PASS /arn:aws:sts::926925605666:assumed-role/enver-t019-state/enver-t019-state-local**, cuenta exacta; GetPolicy/GetPolicyVersion confirman **v3/default**, Redis exacto en Allow y excepción Deny. GetRolePolicy previo confirma **CORE3/sinRedis**, Sid y KMS exactos. OverridesAWS-TFheredados eliminados, sin perfiles alternativos ni credenciales expuestas.
+
+| Acción | UTC /resultado |
+| --- | --- |
+| Refresh-only plan nuevo, refresh=true, target api_secrets_read[0] | **23:07:01.566Z–23:07:22.049Z /exit2 /errored=false /applyable=true** |
+| Apply del mismo plan refresh-only guardado | **23:08:18.401Z–23:08:33.909Z /exit0 /0added0changed0destroyed** |
+| fmt -check -recursive infra | **23:12:11.842Z–23:12:12.216Z /exit0** |
+| validate -no-color | **23:12:12.226Z–23:12:27.754Z /exit0** |
+| Plan normal core4 nuevo, refresh=true, target api_secrets_read[0] | **23:12:27.758Z–23:12:48.600Z /exit2 /0add1change0destroy** |
+
+Plan refresh-only SHA256 **4a3e109386db79d0ba2bd96e90dbbd3f1bf6a839ec29be2543acae24bcc13a7e**, revisado íntegramente antes del apply. Solo **api_secrets_read CORE4→CORE3/retirarRedis** y **api_runtime.inline_policy calculado 2→3/añadir enver-dev-secrets-read CORE3**; otras policies/atributos intactos, output runtime_role_arn NO-OP, **acciones remotas0**. No plan histórico aplicado; hash del archivo nuevo reconfirmado. Advertencias-target/complete=false conservadas, no revisión global ni prueba de driftcero.
+
+### 78.3. State55 y verificación posterior
+
+**Refresh-only apply1exit0 /state54→55 /backup52→54**, exclusivamente escritor nativo Terraform. State55 SHA256 **5e9d4492fd0f8b0825e8cb23a0ce603a4df0fbb1f1c150cfa6125a8901ad5c5d**; backup54 SHA256 **61356d50677a6f76f015480e49cac2bc82433bc3cf38bd2483869d7b6d3002ba**. Lineage/31bloques/35instanciasmanaged conservados. Cada recurso del backup coincide con su hash de snapshot inicial; en state55 solo cambian los dos recursos aprobados, además de serial/check_results. Sin cambios a recursos EC2/T017 ni outputs. El backup nativo no es byteidéntico al archivo inicial: el control demasiado estricto pausó la verificación; se resolvió con comparación por recurso, sin repetir apply ni editar/restaurar state. La inspección local del archivo de plan no se trata como otra fuente de realidad AWS.
+
+**State show** de rol y policy PASS. Rol calculado refleja **enver-dev-ecr-pull/enver-dev-ssm-session/enver-dev-secrets-read**; **state55policyCORE3**. **GetRolePolicy posterior PASS /idéntica al documento anterior al refresh**, core3Mongo-JWT-HMAC/sinRedis/KMSintacto. **AWS=CORE3 /state=CORE3 /CONSISTENT=YES** para este contrato, sin afirmar consistencia global. HCL sin inline_policyownership, sin migración. AWS/IAMwrites0 y PutRolePolicy0; no secretos recuperados.
+
+### 78.4. Plan core4 listo, no aplicado
+
+Nuevo plan normal **refresh=true**, sin -refresh=false. Única acción remota propuesta **update aws_iam_role_policy.api_secrets_read[0]**; **aws_iam_role.api_runtime NO-OP**, sin resource_drift nuevo en este scope. **0add1change0destroy /REDIS-ONLY /ISOLATED**: añadir únicamente **arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP** a GetSecretValue; preservar Mongo **mongodb-Iuqeur**, JWT **jwt-AweYNs**, HMAC **hmac-s9TSqb**, ambosSid **ReadExactCoreSecrets/DecryptOnlyThroughSecretsManager**, KMS **kms:Decrypt/key51e1d79c-e924-4330-ac41-c9b263ee4ce3/ViaService secretsmanager.us-east-1.amazonaws.com/CallerAccount926925605666**. Sin ListSecrets/DescribeSecret/wildcard/Secretswrites/ConditionSecretsManageradicional/otrasaccionesIAM/EC2/T017/T020/boundary/SecretsManagerresources. Documento completo y demás atributos cotejados, no solo conteo.
+
+Archivo nuevo **t019-core4-fresh-PLAN-ONLY-NO-APPLY.tfplan**, SHA256 **273ae70a9f66f74fa91132529c67f3d1ea83cb49f97bcfd74d90e72253c53890**, en evidencia externa. **Normal Core4 apply0/no autorizado**: plan listo para autorización final posterior, no ejecución automática. State55/backup54 byteidénticos antes/después de fmt/validate/plan normal; **Redis sigue ausente de permisos efectivos**, no test runtime. Auditorías de valores reales en ambos planes sin hallazgos, sin dumpJSONcompleto.
+
+### 78.5. Estado y cierre
+
+**T019 PARTIAL /BOUNDARY V3 ACTIVE /STATE RECONCILED WITH AWS CORE3 /CORE4 TARGETED PLAN READY /APPLY PENDING**, no COMPLETE/ACCEPTED/IAMCORE4aplicado. **T017 IMPLEMENTED /POST-APPLY INFRA VERIFIED /RUNTIME CONNECTIVITY BLOCKED BY T019 CORE4 /ACCEPTANCE PENDING**; **T020PENDING/GATE-I-BPENDING-NOT SATISFIED**. E019/E017integral/E028/AUTH-027/catálogo8+7+15/gates1+8 sin cambios. IMDSv2required-hop1/USD50agregado/USD10guardrail/deadlinehosts2026-11-15T01:57:56.9337244Z/custodia/imágenes sin cambios/extensiónimplícita; costoactualnoverificado.
+
+Solo **task.md/memoria.md** sincronizados además de state/backup nativos. HCL/inputs/outputs/elasticache/lock/propuestaboundary/planesanteriores/código intactos. Evidencia **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t019-refresh-apply-core4-plan-2026-11-16T23-05-25-148Z\**: precheck/lecturas/planesbinarios-review/auditorías/refreshapply/resultados-state/deltanativo/state-show/IAMpostread/validaciones/hashes/diffs/cierre. **AWSwrites0/IAMwrites0/Secretswrites0/PutRolePolicy0/boundarywrite0/EC2modify0/Terraformapply1soloREFRESH-ONLY/statewriteNATIVO1/normalapply0/deployment0/GetSecretValue0/SSMSendCommand0/import0/stage0/commit0/push0**. No totalAPIprovider afirmado. **STOP antes del apply normal, sin trabajo adicional automático.**
+
+## 79. T019 — Apply final del plan exacto; IAM CORE4 y state canónico verificados
+
+### 79.1. Autorización y puertas
+
+**2026-11-16 UTC — FINAL CORE4 TARGETED APPLY /USE REVIEWED SAVED PLAN ONLY**. Autorización expresa para aplicar únicamente **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t019-refresh-apply-core4-plan-2026-11-16T23-05-25-148Z\t019-core4-fresh-PLAN-ONLY-NO-APPLY.tfplan**, SHA256 **273ae70a9f66f74fa91132529c67f3d1ea83cb49f97bcfd74d90e72253c53890**. El nombre histórico NO-APPLY del archivo no cambia su contenido: autorización actual permite ese archivo exacto, no regenerarlo ni renombrarlo. Perfil exclusivo **enver-t019-state**; **no newplan/globalapply/EC2/T017/T020/boundarywrite/Secretswrite/deployment/commit/push/runtimeGetSecretValue/Valkeytests**.
+
+Precheck **23:50:20.151Z–23:50:44.463Z**: **STS PASS/cuenta926925605666 /arn:aws:sts::926925605666:assumed-role/enver-t019-state/enver-t019-state-local**, GetPolicy confirma **DefaultVersionId=v3**, GetRolePolicy confirma **CORE3 Mongo/JWT/HMAC sinRedis**, idéntico a state55 canónico. State55/backup54 y hashes de§78 intactos, 31bloques/35managedinstances/lineage conservados; **feature/infrastructure/HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb/cero staged**. Perfilforzado/overridesAWS-TFheredados eliminados/sinotroperfil ni exposición de credenciales.
+
+Archivo existe/hash exacto reconfirmado antes del apply. **ShowJSON del plan existente**, no nuevo plan, verifica única acción **update aws_iam_role_policy.api_secrets_read[0]**, role dependenciaNO-OP; **0add1change0destroy**, documento completo y demás atributos Redis-only. Sid **ReadExactCoreSecrets/DecryptOnlyThroughSecretsManager**, core3/KMS exactos, sin ConditionSecretsManager/ListSecrets/wildcard/otrosrecursosconacciones. Hash intacto después de inspección. Plan anterior no se sustituyó/recalculó; advertencias-target/alcance limitado conservados.
+
+### 79.2. Apply y verificación IAM
+
+**Apply del archivo exacto 23:51:10.533Z–23:51:29.429Z /intento1/exit0 /0added1changed0destroyed**. Actualización IAM **PutRolePolicy SUCCESS**, limitada a **enver-dev-api-runtime/enver-dev-secrets-read**. No llamada manual PutRolePolicy, ampliaciónIAM ni reintento. **GetRolePolicy posterior PASS** confirma documento íntegro igual al after aprobado:
+
+- GetSecretValue exacto sobre **arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/mongodb-Iuqeur**, **jwt-AweYNs**, **hmac-s9TSqb** y **redis-FlY8aP**, estos tres últimos con el mismo prefijo cuenta/región/path; exactamente cuatro recursos y Redis presente.
+- AmbosSid preservados; **sin ListSecrets/DescribeSecret/wildcard/SecretsManagerwrites/extraCondition**.
+- KMSstatement completo idéntico al previo: solo **kms:Decrypt /arn:aws:kms:us-east-1:926925605666:key/51e1d79c-e924-4330-ac41-c9b263ee4ce3 /kms:ViaService=secretsmanager.us-east-1.amazonaws.com /kms:CallerAccount=926925605666**.
+
+La evidencia acredita **IAM CORE4**, no acceso runtime de EC2 ni funcionamiento Valkey. No se ejecuta GetSecretValue/SSM/testValkey, no se recuperan valoressecretos ni credenciales. Boundaryv3 sigue control externo verificado previamente, sin publicación/escritura aquí.
+
+### 79.3. State57 y límite de consistencia
+
+**State55→57/backup54→55**, escritor nativo Terraform; state57SHA256 **bbd705b0d6fc5830ce4c8021bd36e5e200d050fbd2d55927c7665f7b233d07e5**, backup55SHA256 **2af6e53351ac59d89ba6008d2ec615ddd0308b629645ea9d1b972b81703fadc8**. Cada recurso del backup coincide con snapshot inicial; único recurso con delta en state57 **api_secrets_read**. 31bloques/35managedinstances/lineage/demásrecursos/outputs intactos; serial/check_results reflejan mecánica nativa. Sin restore/stateedit/rm/mv/import/refreshapply ni nueva planificación.
+
+**State show api_secrets_read[0] PASS /policy CORE4 exactamente igual a AWS**. **STATE AND AWS CORE4 CONSISTENT** se refiere al recurso canónico de policy y la inline efectiva, no a auditoría global de state. **api_runtime fue NO-OP**: su snapshot calculado inline_policy conserva la observación CORE3 anterior al update y no fue refrescado después; no ownershipHCL competidor ni motivo para un refresh adicional no autorizado. No se altera manualmente ese atributo, ni se afirma que todo atributo calculado/global esté actualizado. Modelo canónico de§78 conservado.
+
+### 79.4. Estado y cierre
+
+**T019 BOUNDARY V3 ACTIVE /CORE4 IAM POLICY APPLIED /STATE AND AWS CORE4 CONSISTENT /RUNTIME REDIS SECRET ACCESS TEST PENDING**, trabajo parcial/no COMPLETE/ACCEPTED/E019integral. **T017 IMPLEMENTED /POST-APPLY INFRA VERIFIED /RUNTIME CONNECTIVITY PENDING CORE4 RUNTIME TEST /ACCEPTANCE PENDING**, no test runtime nuevo ni E017integral aceptada. **T020PENDING/GATE-I-BPENDING-NOT SATISFIED**; E028/AUTH-027/catálogo8+7+15/gates1+8 sin cambios. CLIausente según evidenciaanterior, sin instalación en este incremento. IMDSv2required-hop1/USD50agregado/USD10guardrail/deadlinehosts2026-11-15T01:57:56.9337244Z/custodia/imágenes sin cambios/extensiónimplícita; costoactualnoverificado.
+
+Solo **task.md/memoria.md** sincronizados además de state/backup nativos. HCL/inputs/outputs/elasticache/lock/boundaryproposal/planexacto/planesanteriores/código intactos. Evidencia **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t019-final-saved-apply-2026-11-16T23-50-20-151Z\**: precheck/hashes/docbefore/STSIAMbaseline/savedplanshow/gate/applycomando-stdout-stderr/resultado/IAMpostread/state-show/deltanativo/diffs/cierre. **AWS actualización1/IAM actualización1** del único recurso verificado; no conteo exhaustivo de requestsAPIprovider afirmado. **Terraformapply1exit0/newplan0/Secretswrites0/boundarywrites0/EC2modify0/runtimeGetSecretValue0/Valkeytests0/deployment0/import0/state-rm-mv0/backuprestore0/stage0/commit0/push0**. **STOP tras verificar IAM y state canónico CORE4, sin iniciar pruebas runtime u otro incremento.**
+
+## 80. T019/T017 — Validación runtime A/B detenida por sesión operadora expirada
+
+**2026-11-16 UTC — RUNTIME CORE4 SECRET ACCESS VALIDATION A/B /SSM RUNTIME READ-ONLY VALIDATION**. Responsable autoriza **enver-admin-temp solo para STS+SSM**, ejecución dentro de **A i-0a66085b7b2411393 /B i-00de11a3f3c1a8aa5** bajo rol **enver-dev-api-runtime**, GetSecretValue de Redis filtrado exclusivamente a metadata ARN/VersionId y prueba negativa ListSecrets; regresión metadata Mongo/JWT/HMAC opcional. Secret Redis exacto **arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP**. Prohibidos IAM/Secretswrites/apply/deployment/packageinstall/ValkeyAUTH/commit/push/SecretString-SecretBinary-username-password expuestos. Sesión expirada/inválida exige STOP sin fallback ni correcciones.
+
+Precheck **23:57:48.914Z**: **state57/backup55** y hashes§79 intactos, feature/infrastructure/HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb/cero staged/trabajoprevio preservados. Perfilforzado **enver-admin-temp**, overridesAWS-TFheredados eliminados/sin perfil alternativo. **STS GetCallerIdentity 23:57:49.829Z–23:57:52.289Z /exit254 /ExpiredToken**. Error exacto: `aws: [ERROR]: An error occurred (ExpiredToken) when calling the GetCallerIdentity operation (reached max retries: 0): The security token included in the request is expired`. No identidad operadora válida acreditada; **STOP inmediato**, sin renovación/configuración de credenciales, reintento ni uso de enver-t019-state como fallback.
+
+| Host previsto | Identidad runtime | Redis GetSecretValue metadata | ListSecrets negativo | Mongo/JWT/HMAC metadata |
+| --- | --- | --- | --- | --- |
+| A / i-0a66085b7b2411393 | NO EJECUTADA | NO EJECUTADO | NO EJECUTADO | NO EJECUTADOS |
+| B / i-00de11a3f3c1a8aa5 | NO EJECUTADA | NO EJECUTADO | NO EJECUTADO | NO EJECUTADOS |
+
+**SSMSendCommand0 /GetCommandInvocation0 /runtimeSTS0 /runtimeGetSecretValue0 /runtimeListSecrets0**. No afirmar FAIL de Redis/Valkey ni regresión de IAMCORE4: las pruebas no comenzaron. Rol runtime es contrato esperado, no identidad verificada en este incremento. No comandos en hosts/instalaciones/credenciales guardadas/historial con valoressecretos; no SecretString/password/username recuperados ni expuestos. No se prueba una denegación ListSecrets que no se ejecutó.
+
+**T019 BOUNDARY V3 ACTIVE /CORE4 IAM POLICY APPLIED /STATE AND AWS CORE4 CONSISTENT /RUNTIME REDIS SECRET ACCESS TEST PENDING**, baseline técnico§79 conservado, **bloqueo actual OPERATOR SESSION EXPIRED**; no A/BPASS/ACCEPTANCE READY/COMPLETE. **T017 IMPLEMENTED /POST-APPLY INFRA VERIFIED /RUNTIME CONNECTIVITY PENDING CORE4 RUNTIME TEST /ACCEPTANCE PENDING**, no transición a CORE4 SECRET ACCESS A/B PASS. **T020PENDING/GATE-I-BPENDING-NOT SATISFIED**, E019/E017integral/E028/AUTH-027/catálogo8+7+15/gates1+8sin cambios. Reanudar requiere sesión operadora válida por responsable y autorización delimitada posterior, no credenciales por chat ni permisos correctivos automáticos.
+
+Solo **task.md/memoria.md** actualizados; HCL/inputs/outputs/elasticache/lock/boundary/planes/state57/backup55/código/imágenes/custodia intactos. StateSHA256 **bbd705b0d6fc5830ce4c8021bd36e5e200d050fbd2d55927c7665f7b233d07e5**, backupSHA256 **2af6e53351ac59d89ba6008d2ec615ddd0308b629645ea9d1b972b81703fadc8**. Evidencia **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t019-runtime-core4-ab-2026-11-16T23-57-48-914Z\**: precheck/hashes/docbefore/STSerror/diffs/cierre. IMDSv2required-hop1/USD50agregado/USD10guardrail/deadlinehosts2026-11-15T01:57:56.9337244Zsin cambios/extensiónimplícita/costoactualnoverificado. **AWSwrites0/IAMwrites0/Secretswrites0/SSMSendCommand0/Terraformapply0/statewrite0/deployment0/packageinstall0/Valkeytests0/commit0/push0**. **STOP por ExpiredToken, sin ejecución runtime ni trabajo adicional automático.**
+
+## 81. T019/T017 — Lecturas CORE4 runtime A/B PASS, ListSecrets denegado y regresión CORE3 PASS
+
+**2026-11-17 UTC — RESUME RUNTIME CORE4 SECRET ACCESS VALIDATION A/B**. Owner informa renovación manual de sesión y autoriza reanudar solo STSoperador/SSM para identidadruntime/GetSecretValue metadataRedis/ListSecretsnegativo/regresiónmetadataMongo-JWT-HMAC en ambos hosts. **enver-admin-temp exclusivamente operador**, nunca credencial de SecretsManager dentro del host. No IAM/Boundary/Secretswrites/Terraform/deployment/packageinstall/ValkeyAUTH/commit/push. Historial ExpiredToken§80 conservado, no se transforma en PASS previo.
+
+**STSoperador00:02:37.019Z–00:02:40.826Z/exit0/cuenta926925605666/arn:aws:iam::926925605666:user/enver-terraform-local**, perfil enver-admin-temp. Aprobación manual y lectura actual distinguibles; sin fallback ni renovación por agente. State57/backup55/HEAD/rama/hashes previos intactos, cero staged. No llamadas IAM de validación ni comandos Terraform repetidos.
+
+| Host | CommandId SSM | Identidad runtime exacta | Redis | ListSecrets | Mongo/JWT/HMAC |
+| --- | --- | --- | --- | --- | --- |
+| A / i-0a66085b7b2411393 | 54fbebfd-7ceb-44a2-a9ed-b1bdc6253eab | arn:aws:sts::926925605666:assumed-role/enver-dev-api-runtime/i-0a66085b7b2411393 | exit0 PASS | AccessDeniedException/exit254, PASS esperado | exit0 PASS los tres |
+| B / i-00de11a3f3c1a8aa5 | ebf121de-2310-4354-8adf-d9a1c9142c33 | arn:aws:sts::926925605666:assumed-role/enver-dev-api-runtime/i-00de11a3f3c1a8aa5 | exit0 PASS | AccessDeniedException/exit254, PASS esperado | exit0 PASS los tres |
+
+Ambas invocaciones **SSM Success/ResponseCode0**, stderr vacío; A validada antes de enviar B. UTC reportada por hosts: A identidad **00:03:31.665173Z**, lecturas **00:03:32.216450Z–00:03:34.423310Z**; B identidad **00:04:00.098313Z**, lecturas **00:04:00.689042Z–00:04:03.984191Z**. Captura local finalizada A **00:04:31.353Z**, B **00:04:59.863Z**; se conservan timestamps por origen, sin inferir sincronía de relojes ni latencia de servicio a partir de esa diferencia.
+
+**RedisARNexacto arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP /VersionId2dfc79eb-625a-4f1b-aca7-b1575b5142c1** en ambos hosts. Regresión core3: **mongodb-Iuqeur /VersionIdc9eb0b6c-d8c0-4ec1-b3fe-05809a0f33f4**, **jwt-AweYNs /VersionIdfe44b116-0c69-41c8-8daf-7c82be31d181**, **hmac-s9TSqb /VersionIdfecf274e-12d7-4c58-b0d8-06d2149c015a**, todos bajo el mismo prefijo exacto cuenta/región/path y versiones iguales A/B. VersionIds son metadata, no payloadsecretos. Prueba ListSecrets devuelve explícitamente que el rol no tiene identity-based Allow; se acredita la denegación efectiva, no se atribuye una evaluación interna específica de boundary.
+
+**Aislamiento de credenciales y salida:** AWS CLI runtime recibe entorno construido sin profile/statickeys/credencialesoperador; config/credentials files apuntan a **/dev/null**, IMDSv2habilitado/v1deshabilitado, identidadSTSverificada antes de secretos. Query de GetSecretValue limita stdout a **ARN/VersionId**; Python valida y emite solo esos campos permitidos, no respuesta completa. ListSecrets limita salida positiva a conteo y exige AccessDenied; no listado de metadatos expuesto. Sin debug, sin valores en argumentos/scripts/historial; sin SecretString/SecretBinary/password/username impresos, persistidos por este flujo o archivos de credenciales creados. AWS CLI procesa la respuesta en memoria para aplicar el filtro; esto no equivale a no recibir el payload desde el servicio. SSM conserva scripts/salida **solo metadata/código**, no secretos.
+
+**T019 BOUNDARY V3 ACTIVE /CORE4 IAM POLICY APPLIED /STATE AND AWS CORE4 CONSISTENT /RUNTIME REDIS SECRET ACCESS A/B PASS /ACCEPTANCE READY** para revisión del responsable; **no COMPLETE/aceptaciónautomática/E019integralACEPTADA**. **T017 IMPLEMENTED /POST-APPLY INFRA VERIFIED /CORE4 SECRET ACCESS A/B PASS /AUTHENTICATED VALKEY TEST PENDING /ACCEPTANCE PENDING**; no ValkeyAUTH/PING/CRUD/Lua/ACLtest ni instalación. **T020PENDING/GATE-I-BPENDING-NOT SATISFIED**, E017integral/E028/AUTH-027/catálogo8+7+15/gates1+8sin cambios.
+
+Solo **task.md/memoria.md** actualizados. State57/backup55 byteidénticos: **bbd705b0d6fc5830ce4c8021bd36e5e200d050fbd2d55927c7665f7b233d07e5 /2af6e53351ac59d89ba6008d2ec615ddd0308b629645ea9d1b972b81703fadc8**; HCL/inputs/outputs/elasticache/lock/boundary/planes/código/imágenes/custodia intactos. Evidencia **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t019-runtime-core4-ab-resume-2026-11-17T00-02-35-447Z\**: precheck/STS/docbefore/scriptmetadata/SSMparameters-ids-invocations/hostreviews/diffs/cierre. **SSMSendCommand2 escrituras de control plane autorizadas para el canal operador**, no se ocultan bajo AWSwrites0; **cambios de infraestructura0/IAMwrites0/Secretswrites0/runtimeGetSecretValue8lecturas/ListSecrets2denegaciones/Terraformapply0/statewrite0/deployment0/packageinstall0/Valkeytests0/commit0/push0**. Lecturas de espera/resultado sin totalrequestsafirmado. IMDSv2required-hop1/USD50agregado/USD10guardrail/deadlinehosts2026-11-15T01:57:56.9337244Zsin cambios/extensiónimplícita/costoactualnoverificado. **STOP tras A/BPASS; no trabajo correctivo, aceptación automática ni siguiente prueba autenticada.**
+
+## 82. T017 — Prueba autenticada parcial en A; STOP por ACL de EXISTS dentro de EVAL
+
+**2026-11-17 UTC — AUTHENTICATED VALKEY RUNTIME TEST A/B / RUNTIME VALIDATION ONLY**, autorizado por el responsable: discovery sin instalación, secreto solo en memoria bajo rol de instancia, TLS verificado, AUTH/PING/CRUD efímero/Lua inocuo/GET negativo y limpieza. No permisos para corregir ACL/usuario/password/Secrets/IAM/boundary/SG/TLS/parameter group, instalar paquetes, ejecutar Terraform/deployment/commit/push. No SCAN/PERSIST.
+
+Operador **enver-admin-temp**, **STS exit0 00:12:31.110Z–00:12:35.303Z**, cuenta **926925605666**, ARN **arn:aws:iam::926925605666:user/enver-terraform-local**. Credenciales operadoras solo en canal STS/SSM. Discovery confirma identidades exactas **arn:aws:sts::926925605666:assumed-role/enver-dev-api-runtime/{instance-id}** para A/B, **valkey-cli/redis-cli ausentes**, **Python 3.9.25 / OpenSSL 3.5.8 / 135 CA** existentes; se utiliza Python stdlib ssl/socket con RESP2 mínimo por stdin, sin instalar cliente/biblioteca. Discovery no lee secretos ni conecta a Valkey.
+
+| Fase | Host | CommandId | Resultado |
+| --- | --- | --- | --- |
+| Discovery | A / i-0a66085b7b2411393 | 68deb926-a07a-40bd-850b-b77fcb49ad12 | SSM Success/0 |
+| Discovery | B / i-00de11a3f3c1a8aa5 | 7263c909-ce1b-4c98-bb41-b0d431533ca7 | SSM Success/0 |
+| Prueba autenticada | A / i-0a66085b7b2411393 | 8f241df9-f853-4f1e-bee1-3576a688289b | SSM Failed/1 por EVAL; STOP |
+| Prueba autenticada | B / i-00de11a3f3c1a8aa5 | No enviada | NO EJECUTADA por fallo A |
+
+**A**, UTC reportada por host **00:14:33.278153Z–00:14:33.845668Z**, captura local **00:15:28.453Z**, sin inferir sincronía de relojes:
+
+| Check | Evidencia no secreta |
+| --- | --- |
+| Identidad | Rol de instancia exacto enver-dev-api-runtime/i-0a66085b7b2411393 PASS |
+| Secret read | GetSecretValue exit0, ARN Redis exacto aprobado, VersionId 2dfc79eb-625a-4f1b-aca7-b1575b5142c1; username/password extraídos solo en memoria |
+| TLS | master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com:6379; TLSv1.3/TLS_AES_128_GCM_SHA256; certificado y hostname verificados, sin flags inseguros |
+| AUTH | PASS / OK, sin imprimir usuario ni password |
+| PING | PASS / PONG |
+| SET | PASS / OK / NX PX60000, clave enver:{dev:auth:ratelimit}:bucket:runtime-check:a03a1a047f8941f9b40c21681f7c6ff0 |
+| GET | PASS / coincide valor aleatorio no sensible |
+| PTTL | PASS / 59998 ms > 0 |
+| DEL | PASS / 1 |
+| EVAL | FAIL: script de solo lectura `return redis.call('EXISTS', KEYS[1])`, una clave aprobada, después de DEL |
+| ACL negativo | NO EJECUTADO tras fallo EVAL; ninguna lectura del namespace prohibido en este incremento |
+| Limpieza | PASS: DEL adicional devuelve 0 y GET devuelve nil; clave ausente, conexión cerrada, proceso finalizado, sin archivos/argv/env/historial con credenciales |
+
+**Error exacto con valor del usuario redactado en memoria antes de salida/logs:** `ERR ACL failure in script: User [REDACTED] has no permissions to run the 'exists' command script: 36470718001cbf79c047c6e440069970b40bb3b4, on @user_script:1.` Stderr SSM: `failed to run commands: exit status 1`. Se acredita un fallo por el comando **EXISTS dentro del script elegido**, no un fallo de AUTH, transporte, IAM, GetSecretValue ni una conclusión de que EVAL está prohibido en general. **No cambiar ACL ni probar script alternativo sin nueva autorización.** Tras el fallo solo se hizo limpieza de la propia clave, no otros tests ni reintentos. B mantiene únicamente discovery/identidad PASS; secret/TLS/AUTH/PING/CRUD/EVAL/ACL autenticados no ejecutados.
+
+**Controles de secretos:** CLI con entorno construido sin profile/statickeys/credenciales operadoras, config/credentials en /dev/null e IMDSv2; SecretString capturado por pipe únicamente en memoria de procesos, nunca salida SSM. AUTH usa socket TLS y no argumentos/env de proceso. Se redacta cualquier valor sensible en errores antes de emitirlos. Sin debug, archivos de credenciales, valores en scripts/historial/core dumps creados por el flujo; core dumps deshabilitados con ulimit. Referencias a credenciales descartadas, socket cerrado y proceso terminado; no se promete zeroización criptográfica de buffers inmutables de Python. SSM conserva código y evidencia no secreta. **Password/SecretString/username expuestos: NO**.
+
+**T017 IMPLEMENTED / POST-APPLY INFRA VERIFIED / CORE4 SECRET ACCESS A/B PASS / AUTHENTICATED VALKEY TEST PARTIAL — A EVAL FAIL / B NOT EXECUTED / ACCEPTANCE PENDING**; no A/B PASS/ACCEPTANCE READY/COMPLETE ni E017 integral aceptada. **T019 BOUNDARY V3 ACTIVE / CORE4 IAM POLICY APPLIED / STATE AND AWS CORE4 CONSISTENT / RUNTIME REDIS SECRET ACCESS A/B PASS / ACCEPTANCE READY** conservado desde §81, sin revalidar IAM ni aceptar automáticamente. **T020 PENDING / GATE-I-B PENDING-NOT SATISFIED**, E028/AUTH-027/catálogo8+7+15/gates sin cambios.
+
+**Conteo:** SSM SendCommand **3** escrituras de control plane autorizadas (discovery A/B + prueba A), sin total de requests de espera/lectura afirmado. Secret read **1**; Valkey **3 comandos de escritura exitosos**: SET/DEL=1/DEL=0 de limpieza, **2 mutaciones efectivas** y ninguna clave persistente; EVAL intentado sin mutación, GET/PTTL/PING/AUTH no contados como escrituras de datos. **Cambios infraestructura0/IAMwrites0/Secretswrites0/Terraformcommands0/apply0/statewrite0/deployment0/packageinstall0/commit0/push0**. Solo task/memoria actualizados; state57/backup55, HCL, inputs, planes, lock, boundary y trabajo previo preservados. Hashes state/backup **bbd705b0d6fc5830ce4c8021bd36e5e200d050fbd2d55927c7665f7b233d07e5 / 2af6e53351ac59d89ba6008d2ec615ddd0308b629645ea9d1b972b81703fadc8**. Sin extensión implícita del deadline original de hosts ni cambio de guardrails/custodia. Evidencia **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t017-auth-runtime-ab-2026-11-17T00-12-29-510Z\**: precheck/STS/scripts/parámetros/CommandIds/invocaciones/reviews/diffs/cierre. **STOP por fallo A; no correcciones ni pruebas posteriores automáticas.**
+
+## 83. T017 — Reintento autorizado con Lua GET: secuencia completa A/B PASS
+
+**2026-11-17 UTC — RETRY AUTHENTICATED VALKEY TEST A/B / ACL-CONFORMANT LUA ONLY**. El responsable confirma que EXISTS está excluido intencionalmente del ACL y autoriza repetir la secuencia completa con `return redis.call('GET', KEYS[1])`, sin modificar permisos ni instalar paquetes. El fallo anterior §82 permanece como evidencia histórica de un script no conforme, no de fallo de Valkey. No se ejecutan EXISTS/SCAN/PERSIST, cambios ACL/IAM/Secrets/infraestructura, Terraform, deployment, commit o push.
+
+Operador **enver-admin-temp**, **STS exit0 00:23:55.209Z–00:24:00.282Z**, cuenta **926925605666**, **arn:aws:iam::926925605666:user/enver-terraform-local**, exclusivamente STS/SSM. Cada host confirma su identidad exacta **arn:aws:sts::926925605666:assumed-role/enver-dev-api-runtime/{instance-id}** antes del secreto. Cliente **Python 3.9.25/ssl/socket/RESP2/OpenSSL3.5.8 existente**; discovery anterior conservado, sin instalación ni repetición de trabajo IAM/Terraform.
+
+| Evidencia nueva | A | B |
+| --- | --- | --- |
+| InstanceId | i-0a66085b7b2411393 | i-00de11a3f3c1a8aa5 |
+| CommandId SSM | 12c9b6e3-042e-4fe8-bf72-303818b1e4bf | 2c3472bd-1bc0-4dbb-b6c9-2cf2db5a69d6 |
+| Resultado SSM | Success/ResponseCode0/stderr vacío | Success/ResponseCode0/stderr vacío |
+| Secret read | GetSecretValue exit0 PASS, rol de instancia | GetSecretValue exit0 PASS, rol de instancia |
+| TLS | TLS1.3/certificado y hostname verificados PASS | TLS1.3/certificado y hostname verificados PASS |
+| AUTH / PING | PASS / PONG | PASS / PONG |
+| SET | OK / NX PX60000 | OK / NX PX60000 |
+| GET | Valor esperado PASS | Valor esperado PASS |
+| PTTL | 59999 ms > 0 | 59999 ms > 0 |
+| EVAL | Lua GET, valor esperado PASS | Lua GET, valor esperado PASS |
+| ACL negativo antes de DEL | GET namespace prohibido → NOPERM, PASS | GET namespace prohibido → NOPERM, PASS |
+| DEL | 1 | 1 |
+| Limpieza GET posterior | nil / clave ausente PASS | nil / clave ausente PASS |
+
+Endpoint **master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com:6379**, cifrado **TLS_AES_128_GCM_SHA256**, validación CA/hostname activa y sin flags inseguros. Secret ARN exacto **arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP**, **VersionId2dfc79eb-625a-4f1b-aca7-b1575b5142c1** en ambos hosts; solo metadata registrada. Claves **enver:{dev:auth:ratelimit}:bucket:runtime-check:b1e42ed6f1c049e98ae5fd2dec858345** (A) y **enver:{dev:auth:ratelimit}:bucket:runtime-check:1b46e6553cb44af08bf2a1d028ddfde7** (B), valores aleatorios no sensibles. EVAL usa una clave permitida y únicamente GET, sin mutación. ACL negativo: **GET enver:dev:forbidden:runtime-check**, respuesta exacta **NOPERM No permissions to access a key**; ninguna escritura fuera del namespace autorizado.
+
+Secuencia nueva completa e internamente consistente: identidad/cliente/secreto/TLS/AUTH/PING/SET/GET/PTTL/EVAL(GET)/ACLnegativo/DEL/GETnil/limpieza, **A validada antes de enviar B**. UTC reportada por hosts **A00:23:56.973719Z–00:23:57.589173Z / B00:24:16.666384Z–00:24:17.258931Z**; capturas locales terminadas **00:24:52.782Z / 00:25:12.474Z**. Se distinguen relojes de origen, sin afirmar sincronía ni latencia a partir de esas diferencias.
+
+**Secretos y limpieza:** credenciales de instancia mediante entorno explícito/IMDSv2/config-credentials /dev/null, sin profile/statickeys/credenciales operadoras en hosts. SecretString y username/password solo en memoria del flujo, no argv/env/logs/historial/archivos. AUTH por socket TLS. Salida SSM contiene código y evidencia permitida, sin valores sensibles. Procesos finalizados, conexiones cerradas, referencias descartadas y GETnil confirmado en ambas claves; sin archivos temporales de credenciales o test data persistentes. Se conservan scripts/parámetros/evidencias no secretos, incluidos artefactos internos de SSM: no se afirma que no exista ningún archivo de evidencia. **No se afirma zeroización de memoria. Password/SecretString/username expuestos: NO**.
+
+**T017 IMPLEMENTED / POST-APPLY INFRA VERIFIED / CORE4 SECRET ACCESS A/B PASS / AUTHENTICATED VALKEY RUNTIME A/B PASS / ACCEPTANCE READY**, sin COMPLETE ni aceptación automática de E017 integral. **T019 BOUNDARY V3 ACTIVE / CORE4 IAM POLICY APPLIED / STATE AND AWS CORE4 CONSISTENT / RUNTIME REDIS SECRET ACCESS A/B PASS / ACCEPTANCE READY** conserva baseline§81, sin revalidación IAM ni aceptación automática. **T020 PENDING / GATE-I-B PENDING-NOT SATISFIED**, E028/AUTH-027/catálogo8+7+15/gates sin cambios; estas pruebas acotadas no acreditan continuidad/capacidad/recuperación integral.
+
+**Conteo del reintento:** **SSMSendCommand2** escrituras de control plane autorizadas, sin totalrequests de espera afirmado; **GetSecretValue2 lecturas / Valkeywrites4 = SET2+DEL2**, EVAL2 de solo lectura y ACLnegativo2 denegaciones, ninguna clave persistente. **ACLwrites0/IAMwrites0/Secretswrites0/infrachanges0/Terraformcommands0/apply0/statewrite0/deployment0/packageinstall0/commit0/push0**. Solo task/memoria actualizados; state57/backup55 byteidénticos, hashes **bbd705b0d6fc5830ce4c8021bd36e5e200d050fbd2d55927c7665f7b233d07e5 / 2af6e53351ac59d89ba6008d2ec615ddd0308b629645ea9d1b972b81703fadc8**, HCL/inputs/planes/lock/boundary/código/custodia/trabajo previo intactos. Guardrails/deadline original sin cambios ni extensión implícita. Evidencia **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t017-auth-runtime-getlua-ab-2026-11-17T00-23-53-699Z\**: precheck/STS/scripts/parámetros/CommandIds/invocaciones/reviews/diffs/cierre. **STOP tras A/B PASS, sin aceptación ni siguiente incremento automático.**
+
+## 84. Aceptación humana explícita de T017 y T019
+
+**2026-11-17 UTC — ACCEPTANCE T017 + T019 / HUMAN OWNER ACCEPTANCE / DOCUMENTATION-STATUS UPDATE ONLY.** El responsable humano acepta expresamente ambas tareas sobre la evidencia técnica ya completada. No es aceptación automática del agente ni una nueva prueba. **Estados finales: T017 COMPLETE / ACCEPTED; T019 COMPLETE / ACCEPTED.** E(T-INFRA-017) y E(T-INFRA-019) quedan aceptadas para el alcance expresamente descrito a continuación.
+
+### Base aceptada de T017
+
+- Infraestructura y verificación post-apply PASS: replication group **enver-dev-valkey**, **Valkey 7.2.6**, **cache.t4g.micro**, **TLS habilitado/required**, **cifrado en reposo habilitado**, **0 réplicas**. Es nodo único: la aceptación no afirma alta disponibilidad.
+- En **A i-0a66085b7b2411393** y **B i-00de11a3f3c1a8aa5**, DNS/TCP/TLS PASS del historial de conectividad y secuencia autenticada completa §83: **AUTH/PING/SET/GET/PTTL/EVAL(GET)/ACLnegativo/DEL/limpieza PASS**, con certificado y hostname verificados.
+- Lua conforme al ACL: `return redis.call('GET', KEYS[1])`; denegación esperada del GET fuera del namespace permitido. Sin EXISTS en el reintento ni cambios ACL. TTL60s, DEL1 y GETnil en ambas claves; **sin datos de prueba persistentes ni exposición de credenciales**.
+- Evidencia de aceptación: §83 y memoria §144; invocaciones SSM **12c9b6e3-042e-4fe8-bf72-303818b1e4bf** (A) y **2c3472bd-1bc0-4dbb-b6c9-2cf2db5a69d6** (B), Success/0. Se conservan los fallos previos y su diagnóstico, no se reescriben como PASS retrospectivos.
+
+### Base aceptada de T019
+
+- Boundary **ENVER-Runtime-Permissions-Boundary / default v3**, política runtime **CORE4 exacta**: Mongo/JWT/HMAC/Redis; política efectiva AWS y recurso canónico Terraform **consistentes CORE4**, según §79. La consistencia no se extiende al snapshot calculado histórico del rol ni a todo el state global.
+- Rol runtime **enver-dev-api-runtime**: **GetSecretValue Redis/Mongo/JWT/HMAC PASS en A/B**, con **ListSecrets DENIED en ambos** como resultado esperado (§81, memoria §142). Sin SecretString/password expuestos, sin valores secretos en esta aceptación.
+- Evidencia de acceso: invocaciones SSM **54fbebfd-7ceb-44a2-a9ed-b1bdc6253eab** (A) y **ebf121de-2310-4354-8adf-d9a1c9142c33** (B), Success/0; evidencia IAM/state §79 y metadatos aprobados §81. No se repiten llamadas AWS ni se refresca Terraform para registrar esta decisión.
+
+### Límites, estados conservados y cierre
+
+**T020 PENDING. GATE-I-B PENDING / NOT SATISFIED**, porque T020 y deployment/runtime release siguen pendientes; no se declaran satisfechas otras dependencias del gate por aceptar estas dos tareas. Catálogo actualizado: **10 completas/aceptadas (001/002/005/006/008/015/016/017/019/025) + 5 parciales (003/004/007/009/010) + 15 pendientes = 30**. Gates: **I-A SATISFECHO; B–I PENDIENTE / NO SATISFECHO (1+8)**.
+
+Este cierre acepta T017/T019 en la base indicada por el responsable; no implementa ni prueba delivery/helper/adapter/rotación de aplicación, capacidad/continuidad/recuperación de T018, E028 integral, readiness/release de la API o AUTH-027 integral. Sus pendientes y demás decisiones históricas no se eliminan por inferencia. Sin cambio de arquitectura, ACL, configuración, guardrails, deadline de hosts o custodia.
+
+Únicamente **specs/003-infrastructure/task.md** y **memoria.md** actualizados; implementación, state57/backup55, planes e inputs preservados. **AWS calls0/AWSwrites0/SSMSendCommand0/IAMwrites0/Secretswrites0/Valkeywrites0/Terraformcommands0/apply0/deployment0/commit0/push0** en esta entrega exclusivamente documental. **STOP tras registrar la aceptación humana, sin iniciar T020, despliegue ni trabajo adicional.**
+
+## 85. T020 — Discovery DynamoDB bloqueado por ListTables denegado; ownership sin resolver
+
+**2026-11-17 UTC — DYNAMODB AUTHENTICATION AUTHORITY / AWS DISCOVERY + HCL + V4 PROPOSAL + TARGETED PLAN / NO APPLY.** El responsable acepta el contrato del adapter: una tabla, **PK Id/String**, sin sort key, registro **Id=authentication**, **GetItem ConsistentRead=true** y **UpdateItem condicional/CAS**; sin runtime Scan/Query/PutItem/DeleteItem, TTL/GSI/LSI. Autoriza metadatos AWS, y solo después de resolver ownership permite HCL/policy separada/v4 candidata y plan targeted con refresh. Nombre **enver-dev-authentication-authority** aprobado únicamente si se acredita que no existe tabla canónica; no permiso para duplicarla ni sembrar Open/0/0. Prohibidos apply, DynamoDB/IAMwrites, publicación de boundary, deployment, commit/push y pruebas runtime en este incremento.
+
+### Identidad y discovery realmente ejecutados
+
+- Perfil único seleccionado **enver-admin-temp**, región **us-east-1**, sin fallback ni cambios de credenciales/permisos; se eliminan overrides AWS/TF heredados para evitar otra identidad/configuración accidental.
+- **STS GetCallerIdentity 00:46:09.819Z–00:46:12.376Z / exit0**, cuenta **926925605666**, **arn:aws:iam::926925605666:user/enver-terraform-local**. STS confirma identidad, no capacidad de metadatos DynamoDB.
+- **DynamoDB ListTables 00:46:12.377Z–00:46:14.900Z / exit254 / AccessDeniedException**. Error exacto: `aws: [ERROR]: An error occurred (AccessDeniedException) when calling the ListTables operation (reached max retries: 0): User: arn:aws:iam::926925605666:user/enver-terraform-local is not authorized to perform: dynamodb:ListTables on resource: arn:aws:dynamodb:us-east-1:926925605666:table/* because no identity-based policy allows the dynamodb:ListTables action`.
+- **STOP inmediato tras la denegación**, sin reintento, perfil alternativo, IAM correctivo o consultas por nombres adivinados. No DescribeTable/DescribeTimeToLive/DescribeContinuousBackups/tags, GetItem u otra llamada data-plane. El patrón table/* procede del error AWS; no es un permiso solicitado, generado o concedido.
+
+### Ownership, diseño y límites de evidencia
+
+**Decisión C — NO RESUELTO**, inventario **NO OBTENIDO**, tabla existente coincidente **DESCONOCIDA**, nombre/ARN canónicos **NO IDENTIFICADOS**, necesidad de tabla nueva **NO DETERMINADA**. Un AccessDenied no prueba inventario vacío ni autoriza opción B. El nombre candidato sigue siendo solo condicional; no se crea `aws_dynamodb_table.authentication_authority` ni `aws_iam_role_policy.api_dynamodb_auth_authority`.
+
+Contrato aceptado conservado: PK Id/S, sin sort key, runtime exclusivo **dynamodb:GetItem + dynamodb:UpdateItem**, sin Scan/Query/PutItem/DeleteItem. Si B se acredita después: PAY_PER_REQUEST, TTL/indexes/streams/globaltables ausentes, SSE default AWS-owned sin nueva KMS, deletion protection si provider/diseño compatibles; **PITR no habilitar automáticamente**, decisión separada de costo/requisito. Ningún valor describe una tabla AWS observada en este turno. **LeadingKeys=authentication** queda por evaluar/documentar e implementar antes de preparar IAM; **no condición desplegada ni prueba de su funcionamiento**.
+
+**Boundary v4 requerida por el diseño** porque v3 excluye DynamoDB y contiene DenyEveryActionOutsideRuntimeContract; **v4 NO GENERADA / NO PUBLICADA**, al no haber ownership/ARN aprobado. No modificar la v3 ni T019. CORE4/Redis/KMS/ECR/SSM y su aceptación previa se conservan sin nueva revalidación AWS. HCL/outputs/variables/candidata v4 **sin cambios**; fmt/validate/targeted-plan **NO EJECUTADOS**, exit/add/change/destroy/aislamiento **NO DISPONIBLES**, no presentar 0/0/0 como resultado de un plan inexistente. EC2/T017/T019/otros recursos no planificados ni alterados; exclusión de drift **no verificada por plan**.
+
+Contrato futuro de pruebas conservado, **NO EJECUTADO**: identidad enver-dev-api-runtime en A/B, GetItem consistente Id=authentication, UpdateItem CAS autorizado mediante operación no-op que preserve todo estado de confianza, CAS obsoleto→ConditionalCheckFailedException, otra PK denegada si LeadingKeys se implementa, Scan/DeleteItem AccessDenied; sin DeleteTable ni bootstrap/reset implícitos. Antes de probar requiere tabla/ownership, policy/boundary aprobadas y aplicadas, bootstrap separado válido si procede y autorización runtime posterior. No copiar estado Open/0/0 de fixtures.
+
+### Estado y cierre
+
+**T020 PENDING / BLOCKED — AWS METADATA ACCESS DENIED / OWNERSHIP UNRESOLVED**, no DESIGNED/HCL VALIDATED/TARGETED PLAN READY/APPLY PENDING como hitos acreditados. **T017 COMPLETE / ACCEPTED; T019 COMPLETE / ACCEPTED** conservados por aceptación humana §84. **GATE-I-B PENDING / NOT SATISFIED**, T020 y deployment/runtime release pendientes, sin cerrar AUTH-027/E028/otros diferidos; catálogo **10 completas + 5 parciales + 15 pendientes**, gates1+8.
+
+Reanudar requiere que el responsable designe una sesión/perfil autorizado con metadatos DynamoDB efectivos o habilite ese acceso por su canal administrativo, y autorice la continuación; **el agente no modifica IAM, no solicita credenciales por chat ni ejecuta otro perfil como fallback**. Después será obligatorio resolver A/B/C antes de HCL/v4/plan.
+
+Solo task/memoria actualizados; rama **feature/infrastructure/HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, trabajo previo preservado y cero staged. **State57/backup55 intactos**, hashes **bbd705b0d6fc5830ce4c8021bd36e5e200d050fbd2d55927c7665f7b233d07e5 / 2af6e53351ac59d89ba6008d2ec615ddd0308b629645ea9d1b972b81703fadc8**. Evidencia **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t020-discovery-plan-2026-11-17T00-46-08-895Z\**: precheck/hashes/docbefore/STS/ListTableserror/decision/diffs/cierre, sin valores secretos. **AWSCLI operaciones2 (STSexit0/ListTablesexit254), AWSwrites0/IAMwrites0/DynamoDBwrites0/boundarypublication0/SSMSendCommand0/Terraformcommands0/apply0/statewrite0/deployment0/commit0/push0**. Custodia/guardrails/deadline original sin cambios o extensión implícita. **STOP por discovery denegado; no trabajo adicional automático.**
+
+## 86. T020 — Ownership B, HCL validado, boundary v4 propuesta y plan aislado; NO APPLY
+
+**2026-11-17 UTC — RESUME DYNAMODB DISCOVERY + HCL + V4 PROPOSAL + TARGETED PLAN USING enver-t020-state.** Autorización expresa del responsable: solo lectura AWS, HCL T020, fmt/validate y plan targeted; no apply, DynamoDB/IAM write, publicación de boundary, deployment, commit/push ni prueba runtime. El nuevo perfil está autorizado expresamente para este incremento: **no es fallback no autorizado del intento §85**, que permanece intacto como historial.
+
+### 86.1. Sesión, inventario y ownership
+
+- Perfil exclusivo **enver-t020-state**, **us-east-1**, sin credenciales inline ni fallback; overrides AWS/TF heredados eliminados en los procesos usados.
+- **STS GetCallerIdentity 01:02:20.971Z–01:02:24.766Z / exit0**, cuenta **926925605666**, ARN exacto esperado **arn:aws:sts::926925605666:assumed-role/enver-t020-state/enver-t020-state-local**.
+- **DynamoDB ListTables 01:02:24.767Z–01:02:28.335Z / exit0**, resultado **TableNames=[]**, paginación automática del CLI sin límite manual. **0 tablas en esa cuenta/región**; ninguna candidata que requiera DescribeTable/TTL/backups/tags. No se consultan datos ni se adivinan tablas. No es inventario de otras regiones/cuentas.
+- **Decisión B:** no existe tabla canónica en el inventario regional, se activa la aprobación condicional del nombre **enver-dev-authentication-authority**. Ownership futuro **Terraform**, recurso **aws_dynamodb_table.authentication_authority**. ARN exacto determinístico aprobado para HCL/IAM/v4: **arn:aws:dynamodb:us-east-1:926925605666:table/enver-dev-authentication-authority**. **No tabla existente adoptada/importada; tabla todavía NO CREADA**, ARN no observado en DescribeTable.
+- El state local tampoco contiene tabla authority. Antes de un futuro apply autorizado se debe repetir discovery/descartar creación externa posterior; no reutilizar este inventario como garantía permanente contra duplicados.
+
+### 86.2. Tabla, separación de bootstrap y mínimo runtime
+
+Archivo nuevo [authority.tf](../../infra/authority.tf): PK **Id / S**, sin sort key, **PAY_PER_REQUEST**, **deletion_protection_enabled=true**, **stream_enabled=false**; tags comunes **Project=enver/Environment=dev/ManagedBy=Terraform** y Name exacto. Precondición enver/dev/us-east-1/cuenta926925605666. Sin GSI/LSI, réplicas/global tables, import/restore, TTL o item. **SSE omitido intencionalmente** para cifrado predeterminado AWS-owned: sin nueva KMS key, alias/aws/dynamodb o grants KMS runtime. **PITR no habilitado**: bloque omitido, decisión separada de recuperación/costo; no se afirma recuperación puntual disponible. El provider 6.73.0 marca TTL/PITR/SSE/GSI y otros campos computados como known-after-apply; su estado cloud deberá verificarse tras una futura provisión autorizada, no se infiere de este plan. La tabla vacía **no es authority válida ni Open implícito**.
+
+**Terraform NO crea Id=authentication**; sin aws_dynamodb_table_item ni fixture Open/0/0. Bootstrap futuro debe tener propietario, procedimiento, sesión/privilegios independientes y autorización específica; no está diseñado como auto-seed runtime ni ejecutado por este incremento. Provisión CreateTable/DescribeTable/metadata del operador no se trasladan al rol runtime.
+
+Policy inline separada **aws_iam_role_policy.api_dynamodb_auth_authority**, nombre **enver-dev-dynamodb-auth-authority**, rol existente **enver-dev-api-runtime**. Un único Allow: **dynamodb:GetItem + dynamodb:UpdateItem**, **ARN exacto de la tabla**, sin comodines, índices u otras tablas. **Sin Allow Scan/Query/PutItem/DeleteItem/BatchWriteItem/ConditionCheckItem/CreateTable/DeleteTable**, sin nuevo permiso de transacciones. Referencia nominal al rol existente para no incorporar su refresh/snapshot de otras policies al target; `depends_on` solo a la tabla para ordenar provisión tabla→policy. No modifica ni reemplaza la policy secrets CORE4, el rol o la boundary externa.
+
+**LeadingKeys SÍ** en ambos Allows candidatos (inline y máximo boundary): `ForAllValues:StringEquals` **dynamodb:LeadingKeys=[authentication]**, más `Null` **dynamodb:LeadingKeys=false**. AWS documenta LeadingKeys para **GetItem y UpdateItem**, es colección incluso para operaciones individuales y debe combinarse con ForAllValues; Null evita verdad vacía por clave ausente. El adapter envía **Key.Id.S=authentication**, lectura **ConsistentRead=true** y UpdateItem condicional con **ReturnValues=ALL_NEW**: compatible sin imponer Attributes/ReturnValues que rompan el contrato. Fuentes: [AWS DynamoDB service authorization](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazondynamodb.html), [FGAC/LeadingKeys](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/specifying-conditions.html), [referencia JSON de acciones AWS](https://servicereference.us-east-1.amazonaws.com/v1/dynamodb/dynamodb.json).
+
+**Límite de la política:** ConsistentRead y CAS/estado/generation/revision/quarantine son obligaciones del adapter/coordinador, no controles impuestos por LeadingKeys/IAM. UpdateItem puede hacer upsert si no hay condición adecuada; la ausencia del Allow PutItem no sustituye la protección de ausencia de authority. AWS autoriza los items de transacciones mediante acciones por item: esta entrega no agrega acciones ni usa transacciones; no afirmar que la simple ausencia de un Action llamado TransactWriteItems constituye una denegación transaccional independiente. Ningún grant candidato está aplicado ni validado runtime.
+
+### 86.3. Propuesta de boundary v4, nunca publicada
+
+Nuevo [runtime-permissions-boundary-v4-t020.proposed.json](../../infra/bootstrap/runtime-permissions-boundary-v4-t020.proposed.json), derivado localmente de la candidata v3 CORE4 aceptada. **12→16 statements**, revisión estructural local PASS:
+
+1. Se conservan exactamente **10 statements originales**; en los otros dos solo se agregan **GetItem/UpdateItem** a `DenyEveryActionOutsideRuntimeContract.NotAction` y `DenyRuntimeActionsOutsideApprovedRegion.Action`.
+2. Nuevo máximo Allow: solo **GetItem/UpdateItem**, ARN exacto, región/cuenta aprobadas, LeadingKeys=authentication y Null=false.
+3. Tres Deny DynamoDB específicos para esos dos Actions: **otras tablas**, **otros valores de PK**, **PK ausente**. Mantienen el techo frente a grants directos a sesiones, sin ampliar las capacidades T019. No DynamoDB wildcard Allow ni Scan/Query/PutItem/DeleteItem.
+4. Redis/Mongo/JWT/HMAC **CORE4**, KMS/ViaService/CallerAccount, ECR/SSM y sus denegaciones se conservan por igualdad estructural, **no nueva prueba AWS de v3**. JSON compacto **5239 caracteres**, bajo límite administrado6144; validación sintáctica/comparación local, **no IAM Access Analyzer ni validación AWS de nueva versión**.
+
+**Boundary AWS default v3 permanece en la baseline aceptada; no publicación, set-default, cambio de attachment o recurso Terraform para boundary.** La propuesta v4 no concede acceso; con v3 todavía vigente la nueva policy no bastaría para usar DynamoDB. Cualquier publicación/aplicación futura requiere aprobación independiente y secuencia revisada; no ejecutar automáticamente.
+
+### 86.4. Validaciones y plan realmente ejecutados
+
+Terraform **1.17.1**, provider AWS lockfile existente **6.73.0**, sin init/upgrade/instalaciones ni cambios de dependencias.
+
+| Acción | Resultado real UTC |
+| --- | --- |
+| `terraform fmt -check -recursive infra` | **exit0**, 01:07:22.866Z–01:07:23.551Z, sin reformat global |
+| `terraform -chdir=infra validate -no-color` | **exit0**, 01:07:23.552Z–01:07:44.104Z, configuración válida |
+| Plan saved targeted, `-refresh=true -input=false -lock-timeout=30s` | **exit0**, 01:08:31.163Z–01:08:56.913Z, dos targets exactos abajo |
+| `terraform -chdir=infra show -json <plan>` | **exit0**, inspección local de acciones/inputs/outputs |
+
+Targets exclusivos **aws_dynamodb_table.authentication_authority** y **aws_iam_role_policy.api_dynamodb_auth_authority**. Inputs metadata-only externos conservan enver/dev/us-east-1/cuenta, VPC10.20.0.0/16, subnetnewbits8, network/compute aprobados de baseline, AMI fija **ami-096ef200a877f36af**, boundary ARN existente, Valkey runtime ID/tamaño y ARNs CORE4/KMS de `infra/t019-core4.tfvars.json` sin modificar ese archivo; no passwords/secret values/credenciales. Ningún default inerte CORE3/secretos vacíos usado para alterar T019.
+
+**Plan aislado PASS: 2 add / 0 change / 0 destroy / 0 replacements**:
+
+- CREATE **aws_dynamodb_table.authentication_authority**.
+- CREATE **aws_iam_role_policy.api_dynamodb_auth_authority**.
+- Solo dos outputs nuevos no sensibles: **authentication_authority_table_name / authentication_authority_table_arn**. ARN de output computed known-after-apply; ARN exacto del Allow ya revisable en el plan.
+- **0 recursos ajenos**, **resource_drift=[] en este plan targeted**; no EC2 A/B, T017/Valkey, T019/Secrets policy, Secrets Manager, ECR, rol/boundary v3 u otras IAM policies incluidos. No adoptar/reconciliar drift global.
+- Warning normal **Resource targeting is in effect**; JSON **complete=false / errored=false** por alcance parcial. **No prueba de ausencia global de drift, readiness o plan integral**. `applyable=true` del formato no es autorización de apply.
+
+Plan saved **T020-ONLY-NO-APPLY.tfplan**, SHA256 **73d9639234cbfcecbced901e0a901cb3dd290ea5bea9ed4f176446eaaf9cc53e**, solo custodia/revisión; no aplicado. Carpeta local aprobada de evidencias **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t020-resume-plan-2026-11-17T01-02-19-641Z\**: precheck/docs-before, STS/ListTables/triage, revisiónv4, fmt/validate/plan/show JSON privado y resumen de aislamiento, inputs metadata-only, hashes/diffs/postcheck. Plan/show pueden incorporar snapshots internos del state: **no pegar/sincronizar su JSON completo en documentación ni tratarlos como artefactos públicos**.
+
+### 86.5. Contrato futuro A/B — diseñado, NO ejecutado
+
+Precondiciones: autorización separada de cada write/procedimiento, infraestructura y policy aplicadas, v4 humana revisada/publicada, bootstrap válido independiente y ventana de mantenimiento/concurrencia acordada. Authority ausente/malformada/incierta **STOP/fail-closed**, nunca seed automático o forzar Open. Sin esos prerrequisitos **no probar UpdateItem**.
+
+1. En **A y B**, STS con credenciales de instancia demuestra rol **enver-dev-api-runtime** (no perfil operador). Sin imprimir credenciales.
+2. **GetItem Id=authentication / ConsistentRead=true → autorizado**; validar shape/trust del registro, registrar solo resultado/metadata mínima.
+3. **CAS no-op**, no reversible por rollback: usar UpdateItem con **SET Revision al mismo valor observado**, ConditionExpression exige existencia y coincidencia **State/Generation/Revision** observados (y campos de confianza adicionales si la revisión del procedimiento lo exige); no cambia State, Generation, Revision, tiempos ni quarantine. CAS fallido por concurrencia obliga abortar/releer, no reintentar forzando. Leer consistentemente después para confirmar igualdad semántica. Prueba IAM/CAS solamente, **no aceptación integral de transiciones AUTH-027**.
+4. **CAS incorrecto/obsoleto** con revisión deliberadamente imposible para ese registro y la misma asignación no-op → **ConditionalCheckFailedException**, sin mutación. No cambiar contadores/timestamps solo para producir un stale CAS.
+5. **Otra PK → AccessDenied**, LeadingKeys. **Scan → AccessDenied** con límite mínimo y sin registrar items si inesperadamente permitido. **DeleteItem → AccessDenied**, usar una PK de prueba aprobada garantizada ajena al registro operativo; no intentar borrar authentication. Un resultado inesperado detiene la prueba. Sin DeleteTable ni modificación de confianza para probar negativos.
+6. Evidencia y limpieza no deben exponer datos/secretos; sin test key sembrada por defecto, sin scripts/SSM/data-plane ejecutados en esta entrega.
+
+### 86.6. Cierre y estado
+
+**T020 DESIGNED / AWS OWNERSHIP CONFIRMED / HCL VALIDATED / BOUNDARY V4 PROPOSED / TARGETED PLAN READY / APPLY PENDING**. Ownership confirmado significa opción B/destino, **no existencia de tabla o aceptación integral**. Pendientes: aprobación/provisión, v4 publicada por humano, bootstrap controlado, configuración externa de la aplicación, validación A/B y aceptación de E020. **T017 COMPLETE / ACCEPTED; T019 COMPLETE / ACCEPTED**, sin reabrir/modificar sus recursos. **GATE-I-B PENDING / NOT SATISFIED** por T020 y deployment/runtime release; no cerrar AUTH-027 integral/E028/T018/diferidos. Catálogo de aceptación **10 completas + 5 parciales + 15 pendientes**, gates1+8.
+
+Cambios de este incremento, **exactamente cinco archivos**: nuevos **infra/authority.tf**, **infra/bootstrap/runtime-permissions-boundary-v4-t020.proposed.json**; ampliado **infra/outputs.tf** solo con outputs T020; sincronizados **specs/003-infrastructure/task.md** y **memoria.md**. Sin nuevas variables innecesarias. T017/T019/HCL previo/lock/inputs/state/v3/código y trabajo ajeno preservados; no otros documentos modificados. Rama **feature/infrastructure/HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cero staged/commit/push. **State57/backup55 intactos**, SHA256 **bbd705b0d6fc5830ce4c8021bd36e5e200d050fbd2d55927c7665f7b233d07e5 / 2af6e53351ac59d89ba6008d2ec615ddd0308b629645ea9d1b972b81703fadc8**.
+
+**AWSCLI operaciones explícitas2 (STS/ListTables exit0)** más lecturas del provider durante plan; no conteo inferido de requests internos. **AWSwrites0/IAMwrites0/DynamoDBwrites0/boundarypublication0/SSMSendCommand0/runtimeTests0/Terraformapply0/statewrite0/deployment0/commit0/push0**. Terraformcommands4: fmt/validate/plan/show, sin init/refresh standalone/apply. Presupuesto agregadoUSD50/guardrailUSD10 y deadline original de hosts **2026-11-15T01:57:56.9337244Z** conservados; no extensión/cleanup implícitos ni afirmación de que el plazo siga vigente. **STOP tras propuesta y plan; no ejecutar siguiente etapa.**
+
+## 87. T020 — Apply targeted autorizado, bloqueado por lectura IAM de boundary denegada
+
+**2026-11-17 UTC — FINAL TARGETED APPLY / perfil exclusivo enver-t020-state.** El responsable autoriza aplicar únicamente **aws_dynamodb_table.authentication_authority** y **aws_iam_role_policy.api_dynamodb_auth_authority**, condicionado a identidad exacta, boundary efectiva default **v4** con contrato exacto, fmt/validate exit0 y **NUEVO plan targeted aislado 2 add / 0 change / 0 destroy**. No apply global, otros recursos IAM/AWS, publicación de boundary, bootstrap/data-plane write, deployment, commit/push. El antiguo plan §86 no sustituye el nuevo replan solicitado ni fue aplicado.
+
+### Sesión y bloqueo realmente observados
+
+- **STS GetCallerIdentity 01:25:27.590Z–01:25:32.145Z / exit0**, cuenta926925605666, identidad exacta **arn:aws:sts::926925605666:assumed-role/enver-t020-state/enver-t020-state-local**.
+- **IAM GetPolicy 01:25:32.146Z–01:25:37.008Z / exit254 / AccessDenied** sobre **arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary**. AWS indica que **ninguna identity-based policy permite iam:GetPolicy** para ese recurso. No es un error STS ni prueba de v3/v4 default; es imposibilidad de consultar metadata con la identidad autorizada.
+- **STOP inmediato**, sin fallback, reintento, GetRequestAuthorizationDetails, ampliación de permisos ni credenciales por chat. No GetPolicyVersion, inventario DynamoDB, nueva validación, replan, apply o verificaciones post-apply. **Default efectivo actual NO VERIFICADO**; v4 es expectativa del responsable, no resultado acreditado. No afirmar v3 vigente por historial ni v4 activa/publicada por el agente.
+
+### Evidencia previa, plan y recursos
+
+Se conservan diseño/ownership B/HCL y plan aislado previo §86, además del resultado de revisión estática final v4 contra la respuesta AWS efectiva v3 ya disponible localmente: comparación PASS/T020-only, sin publicación. Ninguno sustituye la verificación actual de default v4 exigida para apply. En este intento **fmt/validate/plan/apply NO EJECUTADOS**; plan exit/add/change/destroy/aislamiento **N/D**, no 0/0/0 ni éxito inferido. **Tabla/policy NO CREADAS por este incremento**, estado cloud/ARN observado/esquema/TTL/IAM efectivos **NO VERIFICADOS**; nombre/ARN y GetItem/UpdateItem/LeadingKeys siguen siendo contrato previsto §86.
+
+**Bootstrap NO EJECUTADO**, sin Id=authentication/Open0/0, sin GetItem/UpdateItem/Scan/DeleteItem u otra operación data-plane; tampoco pruebas A/B. No INFRASTRUCTURE IMPLEMENTED / BOUNDARY V4 ACTIVE / RUNTIME IAM APPLIED acreditados.
+
+### Estado, custodia y continuación
+
+**T020 APPLY PENDING / BLOCKED — BOUNDARY DEFAULT UNVERIFIED (iam:GetPolicy AccessDenied)**, sin revocar los hitos de diseño/HCL/plan histórico. Bootstrap/runtime/aceptación siguen pendientes. **T017 COMPLETE / ACCEPTED; T019 COMPLETE / ACCEPTED**, sin cambios o nuevas verificaciones; **GATE-I-B PENDING / NOT SATISFIED**. Catálogo de aceptación **10 completas + 5 parciales + 15 pendientes**, gates1+8; no cerrar AUTH-027 integral/E028/T018/deployment/runtime release/diferidos.
+
+Continuar requiere que el responsable habilite por su canal autorizado la lectura de metadata de esta boundary al perfil **enver-t020-state** y autorice reanudar. La única carencia demostrada aquí es **iam:GetPolicy**; no se probó GetPolicyVersion ni capacidad de writes, no inferir que los demás permisos faltan o están disponibles. No cambiar IAM por iniciativa del agente. Reanudar desde las verificaciones de identidad/default/documento, inventario sin duplicados y nuevo plan; no ejecutar automáticamente el plan histórico.
+
+Solo **specs/003-infrastructure/task.md** y **memoria.md** actualizados. HCL/candidatasv3-v4/lock/inputs/planes/trabajo previo intactos, rama **feature/infrastructure/HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cero staged. **State57/backup55 sin cambios**, SHA256 **bbd705b0d6fc5830ce4c8021bd36e5e200d050fbd2d55927c7665f7b233d07e5 / 2af6e53351ac59d89ba6008d2ec615ddd0308b629645ea9d1b972b81703fadc8**. Copias de custodia previas externas, no restauraciones ni reconciliación automática.
+
+Evidencia **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t020-final-targeted-apply-2026-11-17T01-25-26-019Z\**: precheck/hashes/copias-before, STS, error GetPolicy y read-gate fallido, diffs/postcheck. Sin secretos expuestos. **AWSCLI operaciones2 (STSexit0/GetPolicyexit254); AWSwrites0/IAMwrites0/DynamoDBinfrastructurewrites0/DynamoDBdatawrites0/boundarypublication0/Terraformcommands0/Terraformapply0/statewrite0/SSMSendCommand0/runtimeTests0/deployment0/commit0/push0**. Presupuesto USD50 agregado/guardrailUSD10, custodia y deadline original hosts **2026-11-15T01:57:56.9337244Z** sin extensión o cleanup implícitos. **STOP por requisito de seguridad no verificable; no aplicar ni iniciar siguiente etapa.**
+
+## 88. T020 — Preflight reanudado: v4 efectiva default, nuevo plan aislado y permisos mínimos del provider; NO APPLY
+
+**2026-11-17 UTC — RESUME APPLY PREFLIGHT / VALIDATION + TARGETED PLAN + APPLY PERMISSION DISCOVERY ONLY.** Autorización expresa para lecturas AWS, fmt/validate, nuevo plan y análisis estático de APIs del provider. **NO TERRAFORM APPLY / NO AWS-IAM-DynamoDB WRITE / NO deployment/commit/push**. La autorización anterior §87 no se ejecuta en este turno: la instrucción vigente prohíbe apply. Sin bootstrap ni pruebas runtime.
+
+### 88.1. Identidad y boundary revalidadas en AWS
+
+Perfil único **enver-t020-state/us-east-1**, overrides AWS/TF heredados eliminados, sin fallback. **STS01:37:49.230Z–01:37:54.017Z/exit0**, identidad exacta **arn:aws:sts::926925605666:assumed-role/enver-t020-state/enver-t020-state-local**, cuenta926925605666. **GetPolicy01:37:54.019Z–01:37:58.913Z/exit0**, ARN **arn:aws:iam::926925605666:policy/ENVER-Runtime-Permissions-Boundary**, **DefaultVersionId=v4**. **GetPolicyVersion01:37:58.914Z–01:38:03.692Z/exit0**, **VersionId=v4 / IsDefaultVersion=true**, CreateDate **2026-11-17T01:21:00Z**.
+
+**Documento AWS v4 completo igual estructuralmente a la propuesta local revisada**, 16 statements, SHA256 del archivo local **78849092aa4fe45ae58b04eb4db5e50f82a016ae8af3e4891480c37ba649d381**. Máximo DynamoDB exclusivo **GetItem/UpdateItem** sobre **arn:aws:dynamodb:us-east-1:926925605666:table/enver-dev-authentication-authority**, LeadingKeysauthentication/ForAllValues:StringEquals/Nullfalse y confinamientos exactos; CORE4/KMS/ECR/SSM preservados conforme a la comparación anterior. **Lecturas autorizadas ahora PASS**: bloqueo GetPolicy §87 resuelto para este preflight, no evidencia de quién publicó v4 ni publicación por el agente. No se cambia attachment/default/documento. No prueba de uso runtime ni de permisos de escritura del operador.
+
+### 88.2. Validación y nuevo plan targeted
+
+Terraform **1.17.1**, provider AWS existente **6.73.0**, sin init/upgrade ni cambios de HCL/lock/variables/inputs del repositorio.
+
+| Comando | Resultado UTC |
+| --- | --- |
+| `terraform fmt -check -recursive infra` | **exit0**, 01:38:43.981Z–01:38:44.305Z |
+| `terraform -chdir=infra validate -no-color` | **exit0**, 01:38:44.307Z–01:39:02.208Z |
+| Plan saved targeted con refreshtrue/inputfalse/locktimeout30s | **exit0**, 01:39:02.212Z–01:39:24.895Z |
+| `terraform -chdir=infra show -json <plan nuevo>` | **exit0**, 01:39:24.896Z–01:39:39.585Z |
+
+Targets exclusivos **aws_dynamodb_table.authentication_authority** y **aws_iam_role_policy.api_dynamodb_auth_authority**. Inputs externos metadata-only reproducen baseline enver/dev/us-east-1/cuenta, AMI fija/red/boundary/Valkey y **CORE4** del archivo existente; sin valores secretos ni credenciales. **Plan aislado PASS: 2 add / 0 change / 0 destroy / 0 replacements**, solo ambos CREATE y outputs T020 de nombre/ARN. Sin EC2/T017/T019/Valkey/SecretsManager/ECR/boundary/rol u otras policies; **0 recursos ajenos**. resource_drift=[] en este alcance, completefalse/erroredfalse y warning normal targeting: no ausencia global de drift ni plan integral.
+
+Tabla planeada: **enver-dev-authentication-authority**, PKId/S, sin sort key, PAY_PER_REQUEST, deletionprotectiontrue/streamfalse, tags **Project=enver/Environment=dev/ManagedBy=Terraform/Name exacto**. Sin TTL/PITR/SSE/GSI configurados; algunos campos siguen computed known-after-apply. Contrato sin índices/TTL/PITR habilitado, SSE default AWS-owned, sin réplicas/import/restore/item. IAM planeado: rol **enver-dev-api-runtime**, nombre **enver-dev-dynamodb-auth-authority**, AllowGetItem/UpdateItem/ARNexacto/LeadingKeysauthentication/Nullfalse, sin operaciones adicionales. **No tabla/policy creadas por este turno**; plan de CREATE no verifica ausencia cloud de un recurso no presente en state. No inventario adicional realizado; revalidar duplicados antes de futura provisión.
+
+Plan **T020-PREFLIGHT-ONLY-NO-APPLY.tfplan**, SHA256 **919055317d2ed2ca1265607585c1f28dae292696a51a45058fbda7723ef2aea5**, **NO APLICADO**. No reutilizar plan histórico §86 ni esta evidencia como autorización automática de apply.
+
+### 88.3. Discovery estático de permisos de apply — no grants ni sondeo mediante writes
+
+Fuentes públicas del provider **v6.73.0** correspondiente al lockfile, descargadas solo como evidencia externa de lectura: [table.go](https://github.com/hashicorp/terraform-provider-aws/blob/v6.73.0/internal/service/dynamodb/table.go), [find.go](https://github.com/hashicorp/terraform-provider-aws/blob/v6.73.0/internal/service/dynamodb/find.go), [wait.go](https://github.com/hashicorp/terraform-provider-aws/blob/v6.73.0/internal/service/dynamodb/wait.go), [status.go](https://github.com/hashicorp/terraform-provider-aws/blob/v6.73.0/internal/service/dynamodb/status.go), [tags_gen.go](https://github.com/hashicorp/terraform-provider-aws/blob/v6.73.0/internal/service/dynamodb/tags_gen.go), [SDKv2 tags_interceptor.go](https://github.com/hashicorp/terraform-provider-aws/blob/v6.73.0/internal/provider/sdkv2/tags_interceptor.go), [IAM role_policy.go](https://github.com/hashicorp/terraform-provider-aws/blob/v6.73.0/internal/service/iam/role_policy.go). Cotejo de scoping con [AWS DynamoDB SAR](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazondynamodb.html), [AWS IAM SAR](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsidentityandaccessmanagementiam.html) y [CreateTable API](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_CreateTable.html). No instalación o ejecución del código fuente consultado.
+
+**Mínimo práctico para los dos CREATE exactos**, no para lifecycle genérico, bootstrap o runtime:
+
+| Acción del operador Terraform | Justificación en el camino exacto | Resource |
+| --- | --- | --- |
+| **dynamodb:CreateTable** | table.go644/878–965: creación normal, schema/billing/deletionprotection en CreateTableInput | ARN exacto de tabla |
+| **dynamodb:TagResource** | Los tags comunes no vacíos se envían en CreateTableInput.Tags, table.go882; autorización de tagging-on-create. No se presupone una llamada TagResource independiente para corregir tags | ARN exacto de tabla |
+| **dynamodb:DescribeTable** | find.go17–22; waiters ACTIVE y warm-throughput, y read final | ARN exacto de tabla |
+| **dynamodb:DescribeContinuousBackups** | table.go1140, read final incondicional aunque PITR no se habilite | ARN exacto de tabla |
+| **dynamodb:DescribeTimeToLive** | table.go1154, read final incondicional aunque TTL no se habilite | ARN exacto de tabla |
+| **dynamodb:ListTagsOfResource** | SDKv2 tags_interceptor.go88–96 llama ListTags después de Create; tableRead no entrega TagsOut; tags_gen.go48–52 | ARN exacto de tabla |
+| **iam:PutRolePolicy** | role_policy.go90–107: crear inline policy planeada | ARN exacto del rol runtime |
+| **iam:GetRolePolicy** | role_policy.go115–135/199–205: espera propagación y lectura final por rol/nombre de policy | ARN exacto del rol runtime |
+
+**Resource tabla en las seis acciones DynamoDB:** `arn:aws:dynamodb:us-east-1:926925605666:table/enver-dev-authentication-authority`, incluso CreateTable sobre el ARN futuro, soportado por IAM. **Resource de las dos acciones IAM:** `arn:aws:iam::926925605666:role/enver-dev-api-runtime`. No `dynamodb:*`, `iam:*`, índice, wildcard de tabla, otra tabla o rol. Son privilegios de **provisión del operador**, nunca nuevos permisos runtime en la v4 o policy de la API.
+
+**Ninguna de estas ocho acciones requiere Resource="*".** Lecturas separadas de preflight **iam:GetPolicy/GetPolicyVersion** admiten el ARN exacto de la boundary y dieron PASS. STSGetCallerIdentity no se puede acotar por recurso pero no necesita un Allow explícito para devolver identidad. **ListTables necesita Resource="*" si se conserva como discovery de inventario**, pero no es dependencia del apply de estos dos recursos y no se llamó en este turno. No se propone DescribeEndpoints/DescribeLimits/ListRoles/tag:GetTagKeys u otras lecturas globales innecesarias.
+
+**Candidatos evaluados y excluidos del mínimo de este plan:**
+
+- **UpdateTable NO:** solo CREATE, deletionprotection va directamente en CreateTableInput900; sin posteriores cambios de clase, índices o réplicas.
+- **UpdateTimeToLive NO:** guardia table.go990 requiere ttl.enabled=true; no hay bloque de enablement.
+- **UpdateContinuousBackups NO:** guardia table.go996 requiere PITRenabled=true; no habilitado.
+- **UntagResource NO:** no Update de tags ni remociones; Create envía los tags iniciales y el interceptor solo los lee después.
+- **DeleteTable/DeleteRolePolicy NO:** sin destroy ni rollback destructivo autorizado. **PassRole/CreateRole/AttachRolePolicy/publicaciónboundary NO**: inline policy sobre rol existente, no rol entregado a otro servicio o nueva managed policy.
+- Sin data-plane GetItem/UpdateItem/PutItem/Scan/Query/DeleteItem/Batch*/transacciones ni grants KMS. AWS-owned SSE sin réplicas no justifica KMS adicional; si AWS devolviera otro SSE inesperado se debe revisar, no ampliar permisos silenciosamente.
+
+**Límites de evidencia y seguridad:** conjunto derivado estáticamente del camino del provider más autorización AWS, **NO permisos efectivos de write demostrados en la sesión**. No IAM simulation ni probes de CreateTable/PutRolePolicy/TagResource; un plan de recursos nuevos no ejecuta sus APIs Create/read finales ni demuestra que estarán permitidas por identity/session policies/SCP/boundaries. Un fallo futuro exige STOP y revisión, no grants adicionales automáticos.
+
+**IAM solo permite scoping a role ARN para PutRolePolicy/GetRolePolicy, no al ARN o nombre de una inline policy específica.** Ese permiso de operador por sí solo puede afectar otras inline policies del mismo rol; el nombre autorizado **enver-dev-dynamodb-auth-authority** se controla mediante plan/hash/comando guardado y autorización humana. No inventar condición iam:PolicyName ni afirmar aislamiento IAM por nombre que AWS no ofrece. No se genera ni aplica una policy del operador en esta entrega.
+
+### 88.4. Estado y custodia
+
+**T020 BOUNDARY V4 VERIFIED DEFAULT / PREFLIGHT PASS / APPLY PERMISSIONS IDENTIFIED / TARGETED PLAN READY / APPLY PENDING**. Tabla/policy/infraestructura T020 siguen sin aplicar; bootstrap/runtime/aceptación pendientes. **T017 COMPLETE / ACCEPTED; T019 COMPLETE / ACCEPTED**, sin modificar sus recursos. **GATE-I-B PENDING / NOT SATISFIED**, sin cierre AUTH-027 integral/E028/T018/deployment/runtime release/diferidos. Catálogo de aceptación sin cambios **10 completas + 5 parciales + 15 pendientes**, gates1+8. Para apply posterior se requiere autorización nueva y permisos efectivos adecuados; no continuar automáticamente.
+
+Solo documentación **specs/003-infrastructure/task.md** y **memoria.md** sincronizada; HCL/outputs/inputs/lock/candidatas/código/trabajo previo y planes anteriores preservados. Rama **feature/infrastructure/HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**, cero staged/commit/push. State57/backup55 intactos, SHA256 **bbd705b0d6fc5830ce4c8021bd36e5e200d050fbd2d55927c7665f7b233d07e5 / 2af6e53351ac59d89ba6008d2ec615ddd0308b629645ea9d1b972b81703fadc8**.
+
+Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t020-resume-preflight-2026-11-17T01-37-48-457Z\**: precheck/docsbefore/STS/boundaryefectiva/readgate, fmt/validate/plan/showprivado/aislamiento/inputsmetadata, fuentesprovider con manifiesto/hashes/anchors y apply-permissions-discovery.json, cierre/hashes/cambios documentales. Plan/show contienen snapshots internos: no publicar JSON completo ni valores secretos.
+
+**AWSCLI operaciones3 (STS/GetPolicy/GetPolicyVersion exit0)** más lecturas internas del provider al plan; consultas públicas de fuentes no usan la sesión AWS. **AWSwrites0/IAMwrites0/DynamoDBwrites0/boundarypublication0/Terraformapply0/statewrite0/SSMSendCommand0/runtimeTests0/deployment0/commit0/push0**. Terraformcommands4: fmt/validate/plan/show. PresupuestoUSD50agregado/guardrailUSD10 y deadlineoriginalhosts **2026-11-15T01:57:56.9337244Z** sin extensión/cleanup implícitos. **STOP tras preflight y discovery estático; NO APPLY.**
+
+## 89. T020 — Apply targeted autorizado y verificación de infraestructura; bootstrap/runtime/aceptación pendientes
+
+**2026-11-17 UTC — AUTHORIZED TARGETED APPLY / FINAL APPLY ONLY.** Autorización posterior expresa del responsable para crear exclusivamente **aws_dynamodb_table.authentication_authority** y **aws_iam_role_policy.api_dynamodb_auth_authority**, aplicando un plan nuevo tras controles. Sin apply global, otros recursos, publicación boundary, bootstrap, pruebas runtime, deployment, commit o push. No se modifica HCL ni se amplían permisos del operador. §§85–88 permanecen históricos.
+
+### 89.1. Gates y plan nuevo
+
+Perfil exclusivo **enver-t020-state/us-east-1**, sin fallback/overrides heredados. STS **01:58:11.298Z–01:58:16.305Z/exit0**, identidad exacta **arn:aws:sts::926925605666:assumed-role/enver-t020-state/enver-t020-state-local**. GetPolicy/GetPolicyVersion **exit0**, **DefaultVersionId=v4 / VersionId=v4 / IsDefaultVersion=true**, documento completo igual a la propuesta revisada. ListTables vacío de nuevo; ownership **B** reconfirmado. GetRolePolicy del nombre exacto antes del apply devolvió **NoSuchEntity**, no AccessDenied: no adopción/import ni sobrescritura de una inline policy ya presente. Recheck inmediato de default antes de aplicar: **v4/exit0**.
+
+Terraform1.17.1/providerAWS6.73.0 existentes, sin init/upgrade. **Fmt exit0** (01:59:19.137Z–01:59:19.553Z), **validate exit0** (01:59:19.555Z–01:59:37.073Z), **plan exit0** (01:59:37.078Z–01:59:59.319Z), **show JSON exit0** (01:59:59.319Z–02:00:13.707Z). Plan guardado con refreshtrue, inputs externos metadata-only baseline/CORE4, targets únicamente los dos autorizados. **2 add / 0 change / 0 destroy**, sin replacements/recursos ajenos/drift entries dentro del target; completefalse/erroredfalse/applyabletrue. No EC2/T017/T019/Valkey/SecretsManager/ECR/boundary/otras policies/rol en acciones. No afirmación de drift global nulo.
+
+Plan **T020-FRESH-TARGETED-AUTHORIZED.tfplan**, SHA256 **3ea30700805dee378656a017ea3590623846de9eac88261278e404ecb64158ea**; contrato de tabla y policy cotejado antes de aplicar. No se reutilizan planes históricos §§86/88.
+
+### 89.2. Apply único y verificaciones posteriores
+
+**Apply: inicio 2026-11-17T02:01:09.244Z, fin02:01:42.828Z, exit0**. Comando `terraform -chdir=infra apply -input=false -no-color -lock-timeout=30s -parallelism=1 <plan nuevo guardado>`. Hash verificado inmediatamente antes, marcador de intento único; sin retry/remediación/grants. **Apply complete: 2 added, 0 changed, 0 destroyed**. Warning normal de targeting conservado; no ejecutar por ese warning un plan/apply global fuera de alcance.
+
+Lecturas posteriores de DescribeTable/DescribeTimeToLive/DescribeContinuousBackups/ListTagsOfResource/GetRolePolicy/GetPolicy **exit0**, verificación consolidada **02:03:16.860Z/PASS**:
+
+| Contrato | Resultado observado |
+| --- | --- |
+| Tabla / estado | **enver-dev-authentication-authority / ACTIVE** |
+| ARN exacto observado | **arn:aws:dynamodb:us-east-1:926925605666:table/enver-dev-authentication-authority** |
+| PK / sort key | **Id / String**, solo HASH; sin sort key |
+| Billing / TTL / PITR | **PAY_PER_REQUEST / DISABLED / DISABLED** |
+| Protección / índices / streams / réplicas | **deletion protection true / ninguno / disabled / ninguna** |
+| Cifrado | Default AWS-owned; respuesta sin SSEDescription/KMSMasterKeyArn, sin clave KMS nueva |
+| Tags | Projectenver / Environmentdev / ManagedByTerraform / Name exacto |
+| IAM | Rol **enver-dev-api-runtime**, inline **enver-dev-dynamodb-auth-authority**, creada y leída exactamente igual al plan y state |
+| Allow runtime único | **dynamodb:GetItem + dynamodb:UpdateItem** sobre el ARN exacto de tabla |
+| Condición exacta | **ForAllValues:StringEquals: dynamodb:LeadingKeys=[authentication]**, **Null: dynamodb:LeadingKeys=false** |
+| Permisos no concedidos por esta policy | Sin Scan/Query/PutItem/DeleteItem/wildcard DynamoDB ni otros statements |
+| Boundary | **Default v4** reconfirmado después, sin publicación/modificación por el agente |
+
+Lo anterior verifica documentos IAM e infraestructura, **no demuestra acceso efectivo runtime ni CAS/ConsistentRead/distribución/fail-closed**. No lectura/escritura de items ni bootstrap **Id=authentication/Open/0/0**. ItemCount0 de DescribeTable es metadata eventualmente consistente, no prueba data-plane ni sustituto de bootstrap controlado.
+
+### 89.3. State, custodia y estado vigente
+
+State **57→60**, lineage preservado, **31 recursos previos idénticos** y outputs anteriores intactos. Solo dos recursos nuevos T020 y outputs authentication_authority_table_name/arn; T017/T019/EC2/CORE4/otras policies sin cambios de state. Backup nativo ahora **serial57**, no backup55 restaurado: difiere del state57 precopiado solo en **check_results**, no recursos/outputs/lineage. State57 y backup55 originales copiados antes en custodia externa; no edición/restauración manual de state/backup. Hash state60 **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258**; backup57 **cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279**.
+
+**T020 INFRASTRUCTURE IMPLEMENTED / BOUNDARY V4 ACTIVE / RUNTIME IAM APPLIED / BOOTSTRAP PENDING / RUNTIME TEST PENDING / ACCEPTANCE PENDING**. Avance técnico **PARCIAL**, no COMPLETE ni aceptación E020. **T017/T019 COMPLETE / ACCEPTED**, **GATE-I-B PENDING / NOT SATISFIED**, gates1satisfecho+8pendientes. Clasificación actualizada por ejecución parcial de T020: **10 completas/aceptadas + 6 parciales + 14 pendientes = 30**, sin aceptación nueva; el anterior10+5+15 queda histórico. AUTH-027 integral/E028/T018/deployment/runtime release y diferidos sin cierre.
+
+Solo **task.md/memoria.md** editados documentalmente; HCL/código/inputs/lock/candidatas/trabajo previo intactos. Rama **feature/infrastructure**, HEAD **78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb**. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t020-authorized-final-apply-2026-11-17T01-58-10-673Z\**: precheck/copiasbefore/readgates, STS/v4/inventario/policy ausente, fmt/validate/plan/showprivado/contrato/hash, applygate/intento/result/logs, lecturas posteriores/state-review/verificación/cierre. Plan/show/state solo custodia local, sin publicar snapshots o secretos.
+
+**AWS writes sí:** creación infraestructura mediante **CreateTable** (tags y protección en request) y **PutRolePolicy**; no conteo exhaustivo CloudTrail ni permiso genérico adicional inferido. **IAM write sí: PutRolePolicy**. **DynamoDB data writes0/bootstrap0/runtimeTests0/boundarypublication0/deployment0/commit0/push0**. **Terraformapply1/exit0**, cinco comandos Terraform (fmt/validate/plan/show/apply), sin apply global. PresupuestoUSD50agregado/guardrailUSD10 y deadlineoriginalhosts **2026-11-15T01:57:56.9337244Z** conservados, sin extensión/cleanup implícitos. **STOP; no iniciar bootstrap/runtime/siguiente incremento.**
+
+## 90. T020 — Contrato de bootstrap probado; STOP por sesión administrativa expirada, sin datos ni pruebas runtime
+
+**2026-11-17 UTC — DYNAMODB AUTHORITY BOOTSTRAP + RUNTIME VALIDATION / FINAL ACCEPTANCE BLOCK.** El responsable autoriza inspección previa, lectura/creación condicional de un único item mediante identidad bootstrap separada y pruebas seguras desde A/B con instance role existente; aceptación condicionada a todos los resultados. **NO Terraform apply/infraestructura/IAM/boundary/deployment/commit/push**. Esta autorización no permite fallback administrativo indiscriminado, reset de confianza, privilegios runtime nuevos o aceptación con pruebas pendientes.
+
+### 90.1. Contrato exacto inspeccionado antes de cualquier escritura
+
+Fuentes: [adapter](../../Enver.API/Infrastructure/Aws/DynamoDbAuthenticationSecurityAuthority.cs) líneas14–23/223/255–328; [fixture](../../tests/Shared/AuthenticationDependenciesFixture.cs) líneas289–305; [modelo](../../Enver.API/Features/Authentication/Application/Ports/IAuthenticationSecurityAuthority.cs) líneas25–29/42–103; [spec003 §11](spec.md#11-dynamodb-authority), INFRA-020/021, y [test de bootstrap](../../tests/Enver.API.IntegrationTests/DynamoDbAuthenticationSecurityAuthorityTests.cs) líneas15–34. Tests/fixture **leídos, no ejecutados**; no se copia su CreateTable/DeleteItem/DeleteTable de entorno local a AWS.
+
+**Item inicial compatible, exactamente cuatro atributos DynamoDB:**
+
+```json
+{
+  "Id": { "S": "authentication" },
+  "State": { "S": "Open" },
+  "Generation": { "N": "0" },
+  "Revision": { "N": "0" }
+}
+```
+
+Id/State son String; Generation/Revision Number representando Int64 no negativo. **No se ha creado este item**. El fixture demuestra Open/0/0 explícito y ConditionExpression **attribute_not_exists(#id)** con #id=Id; el adapter/modelo validan estos cuatro campos, no basta solo Id. La ausencia del registro no concede confianza Open.
+
+**Campos adicionales reales, no iniciales inventados:** LastPossibleIssuanceUtc es opcional en Open; si existe, Number de Unix milliseconds válido. En Open deben estar **ausentes**, no NULL ni cero, **QuarantineUntilUtc, CapturedLifetimeSeconds, CapturedSkewSeconds, CapturedOperationalMarginSeconds**. Para Closed, el modelo exige LastPossibleIssuanceUtc/QuarantineUntilUtc (Number Unix milliseconds UTC), CapturedLifetimeSeconds (Number entero >0), CapturedSkewSeconds/CapturedOperationalMarginSeconds (Number entero >=0), quarantine>=last y suma de horizonte sin overflow. No CreatedAt/UpdatedAt/eligibility independiente u otros campos en este contrato. State/Generation/Revision forman el control optimista; producción incrementa Revision al registrar emisión/cerrar/reabrir y Generation al pasar Open→Closed. No se probarán transiciones de confianza solo para satisfacer un test.
+
+### 90.2. Identidad bootstrap y bloqueo real
+
+Discovery local de **nombres de perfiles** y configuración no sensible (sin leer/imprimir claves) encontró enver-admin-temp como candidato administrativo separado; no se presupone autorización por el nombre. **Único perfil intentado: enver-admin-temp/us-east-1**, overrides de credenciales AWS heredadas eliminados y fallback a IMDS deshabilitado. STS **02:11:58.097Z–02:12:00.853Z / exit254 / ExpiredToken**, mensaje de token de seguridad expirado. **Identidad ARN/cuenta actuales NO VERIFICADAS**; no sustituir una identidad histórica ni usar enver-dev-api-runtime para bootstrap.
+
+**STOP inmediato antes de GetItem.** Item existente antes **NO DETERMINADO**; no se informa ausencia ni BOOTSTRAP ALREADY PRESENT. **PutItem NO EJECUTADO**, condición preparada solo como contrato, no usada en AWS. Permisos GetItem/PutItem **NO COMPROBADOS**, ninguna denegación IAM DynamoDB demostrada. No enumeración/probe de otros perfiles, renovación/MFA/AssumeRole alternativo, cambio IAM o segundo intento automático. Las pruebas runtime A/B, sus identidades, GetItem consistente/CAS/negativos y la lectura final **NO EJECUTADOS** por prerrequisito de bootstrap no satisfecho.
+
+**Acción requerida del responsable:** renovar por canal autorizado la sesión administrativa separada o designar una identidad bootstrap vigente y solicitar reanudación. Si la identidad ya tiene los permisos mínimos, la expiración por sí sola **no justifica añadir políticas**. Requisito temporal mínimo de datos, **solo propuesta/no aplicado**, para ese bootstrap:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": ["dynamodb:GetItem", "dynamodb:PutItem"],
+    "Resource": "arn:aws:dynamodb:us-east-1:926925605666:table/enver-dev-authentication-authority",
+    "Condition": {
+      "ForAllValues:StringEquals": {"dynamodb:LeadingKeys": ["authentication"]},
+      "Null": {"dynamodb:LeadingKeys": "false"}
+    }
+  }]
+}
+```
+
+Ningún Resource* ni acción wildcard; no UpdateItem/DeleteItem/Scan/Query/CreateTable para bootstrap. GetCallerIdentity no requiere Allow explícito pero sí sesión válida. PutItem con protección **attribute_not_exists(Id)** se exige en el request; la policy anterior limita acción/recurso/clave, **no impone por sí sola esa condición de no sobrescritura**. Nunca adjuntar esta propuesta al runtime ni alterar v4. No se crea archivo de policy ni infraestructura.
+
+### 90.3. Procedimiento seguro conservado, NO EJECUTADO
+
+Al reanudar: GetItem consistente administrativo; si existe, no sobrescribir, comprobar contrato vigente y declarar BOOTSTRAP ALREADY PRESENT. Si falta y los gates de identidad/schema/autorización están satisfechos, un solo PutItem condicional con los cuatro atributos; conflicto de creación implica no reintentar/overwrite, sino revisar/leer. Verificación consistente posterior obligatoria.
+
+Para A/B conservar §87: identidad exacta del instance role sin inyectar claves; GetItem ConsistentReadtrue; CAS no-op **SET Revision al mismo valor observado**, existencia y State/Generation/Revision esperados, protegiendo también presencia/valor de metadatos de confianza del snapshot. Incorrect CAS con revisión **-1**, imposible para contrato no negativo, misma asignación inocua; se espera ConditionalCheckFailedException. Ningún incremento/rollback/forzado de contadores o timestamps. Concurrencia/conflicto exige abortar/revisar, no restaurar un snapshot obsoleto.
+
+Scan con límite mínimo y otro GetItem sobre **una PK ajena no creada** deben denegarse. DeleteItem negativo **jamás contra authentication**: solo clave no operacional autorizada y condición imposible adicional que prevenga borrar incluso si el permiso fuese inesperadamente amplio. Tal prueba con otra clave no aislaría por sí sola si la denegación proviene de LeadingKeys o ausencia de DeleteItem; cotejar documentos IAM exactos, no afirmar esa causalidad sin evidencia. No rows/atributos de prueba nuevos ni limpieza destructiva.
+
+### 90.4. Resultado, gate y preservación
+
+**Bootstrap ejecutado NO / item final verificado NO / runtime A-B NO EJECUTADO / cleanup requerido NO / cleanup completo NO APLICA**: no datos ni scripts remotos creados. **T020 PARCIAL / INFRASTRUCTURE IMPLEMENTED (baseline §89) / BOOTSTRAP BLOCKED — SESSION EXPIRED / BOOTSTRAP PENDING / RUNTIME TEST PENDING / ACCEPTANCE PENDING**; no COMPLETE/ACCEPTED. Boundaryv4/tablaACTIVE/policy aplicada son evidencia anterior §89, **no lecturas cloud nuevas de este turno**.
+
+**T017/T019 COMPLETE / ACCEPTED**, sin nueva aceptación ni cambios; catálogo **10 completas/aceptadas + 6 parciales + 14 pendientes**, gates1+8. **GATE-I-B PENDING / NOT SATISFIED**: §3 exige E003–006/E019–020/E027–028 y VPC/rutas/SG/SSM/IAM/salidaAtlas/no bypass público; T003/004 y evidencia integral de validación/despliegue E027/E028 siguen pendientes. Ni un futuro T020 aceptado lo cerraría automáticamente; además T020 todavía carece de bootstrap/runtime en este intento. AUTH-027 integral/T018/deployment/runtime release y diferidos conservados.
+
+Solo este task/memoria editados; HCL/código/inputs/lock/candidatas/trabajo previo intactos, **state60/backup57 sin cambios**, hashes **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 / cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279**. Rama feature/infrastructure/HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t020-bootstrap-runtime-2026-11-17T02-11-57-281Z\**: precheck/copiasdocbefore/schema-contract con fuentes/hashes, STS fallido/readgate/postcheck. Sin credenciales/secretos publicados.
+
+**AWSCLIremoto1/STSexit254/ExpiredToken; AWSwrites0/IAMwrites0/boundarywrites0/DynamoDBdatawrites0/bootstrap0/SSMSendCommand0/runtimeTests0/Terraformcommands0/Terraformapply0/infrachanges0/deployment0/commit0/push0**. USD50agregado/USD10guardrail/deadlineoriginalhosts **2026-11-15T01:57:56.9337244Z** sin extensión/cleanup implícitos. **STOP por sesión administrativa inválida; no siguiente incremento automático.**
+
+## 91. T020 — Sesión renovada PASS, bootstrap bloqueado por GetItem denegado
+
+**2026-11-17 UTC — RESUME BOOTSTRAP AFTER SESSION RENEWAL.** Perfil indicado **enver-admin-temp**, STS primero; después lectura consistente y solo si falta creación condicional del item exacto, seguida de pruebas A/B seguras previamente definidas. Sin cambio IAM/runtime/boundary/infraestructura, Terraform apply, deployment, commit o push. Edición documental limitada a task/memoria; contrato y procedimiento §90 conservados y hashes de sus fuentes cotejados sin cambios.
+
+| Evidencia fresca | Resultado |
+| --- | --- |
+| STS, **02:17:44.249Z–02:17:49.810Z** | **exit0**, Account926925605666, **arn:aws:iam::926925605666:user/enver-terraform-local** |
+| GetItem, **02:17:49.811Z–02:17:55.375Z** | **exit254 / AccessDeniedException**, `--consistent-read`, key **Id:{S:authentication}**, tabla **enver-dev-authentication-authority** |
+| Recurso del rechazo | **arn:aws:dynamodb:us-east-1:926925605666:table/enver-dev-authentication-authority** |
+| Motivo AWS | **because no identity-based policy allows the dynamodb:GetItem action** |
+
+**STOP después de GetItem denegado**, sin fallback, cambios de permisos ni escritura de prueba. ExpiredToken de §90 ya no es el bloqueo vigente: sesión e identidad ahora acreditadas. **Solo GetItem se demuestra faltante en la evaluación AWS observada**; PutItem no se prueba ni se presume permitido/denegado. Tampoco se infiere un fallo de LeadingKeys o de boundary de runtime: la llamada administrativa con la clave correcta falla por ausencia de identity-based Allow según AWS.
+
+**Existencia del item N/D**: no se declara ausente ni BOOTSTRAP ALREADY PRESENT. **PutItem0/condición no usada/bootstrap0/readback0/runtimeA-B0**; no probes de escritura sin lectura previa autorizada. El contrato exacto sigue **IdSauthentication/StateSOpen/GenerationN0/RevisionN0**, cuatro atributos sin extras; eventual creación solo con **attribute_not_exists(Id)**. Si en una reanudación el item ya existe, no se sobrescribe. No instancia runtime utilizada para bootstrap ni credenciales inyectadas en hosts.
+
+**Acción administrativa pendiente, no ejecutada:** habilitar por el responsable la identidad bootstrap separada con el mínimo de §90.2, **GetItem + PutItem**, Resource exacto de tabla, **ForAllValues:StringEquals dynamodb:LeadingKeys=[authentication] / Null=false**. GetItem es carencia demostrada; PutItem es requisito aún no probado. No añadir runtimePutItem ni cambiar v4; sin `dynamodb:*`, recursos globales o grants automáticos. La condición de no sobrescritura se impone además en el request PutItem, no se atribuye a esa policy por sí sola. Requiere solicitud explícita de reanudación una vez corregido el acceso.
+
+**T020 PARCIAL / INFRASTRUCTURE IMPLEMENTED (baseline §89) / BOOTSTRAP BLOCKED — GETITEM ACCESS DENIED / BOOTSTRAP PENDING / RUNTIME TEST PENDING / ACCEPTANCE PENDING**. No COMPLETE/ACCEPTED, no tabla/v4/IAM nuevamente leídos en este turno. **T017/T019 COMPLETE / ACCEPTED**, catálogo10aceptadas+6parciales+14pendientes/gates1+8. **GATE-I-B PENDING / NOT SATISFIED**: además de E020 faltan evidencias integrales E003–004/E027–028/networksecurity/Atlas/no bypass según §3; no cerrarlo solo por T020. AUTH-027 integral/T018/deployment/runtime release/diferidos sin cambio.
+
+**Cleanup requerido NO / completo NO APLICA**, sin datos/atributos/artefactos remotos creados ni cambios de confianza. Solo taskv0.102.0§91/memoria§152; código/HCL/inputs/lock/candidatas/trabajo previo preservados. State60/backup57 intactos, SHA256 **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 / cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279**. Rama feature/infrastructure/HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t020-resume-bootstrap-2026-11-17T02-17-42-877Z\**: precheck/docsbefore/schema-contract, STSexit0/GetItemerror/readgate/postcheck. Sin secretos expuestos.
+
+**AWSCLIremoto2 (STSexit0/GetItemexit254) / AWSwrites0 / IAMwrites0 / boundarywrites0 / DynamoDBdatawrites0 / bootstrap0 / runtimeTests0 / SSMSendCommand0 / Terraformcommands0 / apply0 / infrachanges0 / deployment0 / commit0 / push0**. USD50agregado/USD10guardrail/deadlineoriginalhosts **2026-11-15T01:57:56.9337244Z** conservados, sin extensión o cleanup implícitos. **STOP por permiso GetItem de bootstrap insuficiente; no continuar con PutItem/runtime.**
+
+## 92. T020 — Bootstrap condicional y pruebas runtime A/B PASS; COMPLETE / ACCEPTED en el alcance autorizado
+
+**2026-11-17 UTC — RESUME BOOTSTRAP AFTER ADMIN IAM FIX.** El responsable informa concesión temporal administrativa de GetItem/PutItem sobre tabla exacta/LeadingKeys authentication/Nullfalse y autoriza reanudar. Su mensaje dispone explícitamente **T020 COMPLETE / ACCEPTED si bootstrap y todos los tests A/B pasan**. Se satisface esa condición en este incremento; no se atribuye la concesión IAM al agente ni se audita la policy temporal por inferencia. Sin IAM/boundary/infra changes, Terraform, deployment, commit o push. §§85–91 permanecen como evidencia histórica.
+
+### 92.1. Bootstrap separado del runtime
+
+Contrato de §90 y hashes de adapter/fixture/modelo/spec comprobados sin cambios antes de escribir. Perfil **enver-admin-temp**, STS **02:26:13.146Z–02:26:18.464Z/exit0**, identidad exacta **arn:aws:iam::926925605666:user/enver-terraform-local**, Account926925605666. No se usa enver-dev-api-runtime para crear el registro.
+
+| Paso administrativo | Evidencia UTC / resultado |
+| --- | --- |
+| GetItem antes, ConsistentReadtrue, IdSauthentication | **02:26:18.465Z–02:26:23.644Z/exit0**, respuesta sin Item: **ausente** |
+| Único PutItem | **02:26:23.655Z–02:26:28.290Z/exit0**, **attribute_not_exists(#id)** con #id=Id, sin retry/upsert incondicional |
+| Readback ConsistentReadtrue | **02:26:28.293Z–02:26:33.979Z/exit0**, cuatro atributos exactos |
+| Lectura administrativa final consistente | **02:32:53.683Z–02:32:58.693Z/exit0**, item idéntico al readback y a los snapshots A/B |
+
+Tabla **enver-dev-authentication-authority**, ARN **arn:aws:dynamodb:us-east-1:926925605666:table/enver-dev-authentication-authority**. Documento creado y final:
+
+```json
+{
+  "Id": {"S": "authentication"},
+  "State": {"S": "Open"},
+  "Generation": {"N": "0"},
+  "Revision": {"N": "0"}
+}
+```
+
+Sin LastPossibleIssuanceUtc ni QuarantineUntilUtc/CapturedLifetimeSeconds/CapturedSkewSeconds/CapturedOperationalMarginSeconds, sin timestamps/atributos inventados, otras filas o keys de prueba. Se prueba acceso efectivo GetItem/PutItem del administrador para esta clave, **no que su policy agregada carezca de otros permisos** ni su condición exacta mediante auditoría IAM. Protección de no sobrescritura incluida en el request, no derivada solo de LeadingKeys.
+
+### 92.2. Metadata administrativa adicional: límites no ocultados
+
+Un chequeo adicional **DescribeTable 02:28:10.803Z–02:28:15.274Z/exit254/AccessDeniedException** devolvió **no identity-based policy allows the dynamodb:DescribeTable action** al administrador. Es una lectura extra, no permiso necesario para GetItem/PutItem o los tests autorizados del instance role. Se conserva el primer runtime-preflight-gate fallido que la trató como prerrequisito y se registra expresamente la corrección de esa clasificación en optional-metadata-limitation.json/runtime-execution-gate.json, sin reemplazar evidencia, reintentar DescribeTable o pedir grants por comodidad. GetItem/PutItem/readback ya habían pasado; se continúa únicamente el alcance runtime solicitado, no una remediación o cambio técnico.
+
+TableACTIVE/schema/protección/TTL/PITR y policy/v4 exactas conservan su verificación **§89/02:03:16.860Z**, además del baseline informado por el responsable. **No se presentan como DescribeTable/IAM frescos de este turno.** GetItem/UpdateItem actuales sí prueban la operatividad data-plane observada.
+
+Después de los tests y de la lectura final de datos, **GetRolePolicy02:32:58.701Z–02:33:03.551Z/exit254/InvalidClientTokenId**, mensaje **The security token included in the request is invalid**. **STOP de consultas AWS**, sin repetir STS, renovar sesión, fallback o llamadas GetRole/GetPolicy/GetPolicyVersion posteriores. Esa relectura IAM adicional no acredita drift ni ausencia de policy; impide una auditoría administrativa fresca del documento/attachment/v4, no invalida los resultados A/B anteriores. No se afirma nueva lectura IAM PASS ni se amplía la aceptación a una auditoría de privilegios global.
+
+### 92.3. Ejecución runtime A/B con el instance role
+
+SSM DescribeInstanceInformation filtrado a los dos IDs **02:29:15.630Z–02:29:20.399Z/exit0**, ambos Online/Linux. Canal operador **enver-admin-temp**, documento **AWS-RunShellScript**, solo destinos aprobados; SSM es administración remota controlada, no lectura AWS sin efectos de control plane. Python3/AWS CLI existentes, sin instalación o despliegue. Script por stdin, core dumps deshabilitados, entorno runtime nuevo sin profiles/statickeys/credenciales del operador, config/credentials **/dev/null**, **IMDSv2** requerido y ninguna clave bootstrap enviada al host.
+
+| Evidencia | A | B |
+| --- | --- | --- |
+| InstanceId | **i-0a66085b7b2411393** | **i-00de11a3f3c1a8aa5** |
+| SSM CommandId | **af22175d-5c59-4ea0-b21b-78a510f062c6** | **b33eda3e-582d-4139-9f1b-dc640176c346** |
+| Identidad STS exacta | **arn:aws:sts::926925605666:assumed-role/enver-dev-api-runtime/i-0a66085b7b2411393** | **arn:aws:sts::926925605666:assumed-role/enver-dev-api-runtime/i-00de11a3f3c1a8aa5** |
+| SSM final | **Success/ResponseCode0/stderr vacío** | **Success/ResponseCode0/stderr vacío** |
+| GetItem ConsistentReadtrue / schema | **PASS / cuatro atributos iniciales exactos** | **PASS / cuatro atributos iniciales exactos** |
+| UpdateItem CAS no-op | **PASS / ALL_NEW idéntico al snapshot** | **PASS / ALL_NEW idéntico al snapshot** |
+| CAS incorrecto | **ConditionalCheckFailedException/exit254 esperado** | **ConditionalCheckFailedException/exit254 esperado** |
+| Scan | **AccessDeniedException/exit254 esperado** | **AccessDeniedException/exit254 esperado** |
+| DeleteItem | **AccessDeniedException/exit254 esperado** | **AccessDeniedException/exit254 esperado** |
+| GetItem otra PK | **AccessDeniedException/exit254 esperado** | **AccessDeniedException/exit254 esperado** |
+| Lectura final consistente | **PASS / snapshot idéntico, atributos4** | **PASS / snapshot idéntico, atributos4** |
+
+**A validada antes de enviar B.** Capturas locales terminadas **A02:31:46.104Z / B02:32:08.686Z**; send responses **A02:31:34.020Z / B02:31:57.903Z**. UTC reportadas por hosts **A02:30:46.160756Z–02:30:49.895292Z / B02:31:10.045548Z–02:31:13.906688Z**; se conservan ambos orígenes **sin afirmar sincronía de relojes o latencia a partir de su diferencia**.
+
+Script SHA256 **eb263f9e63fe290e6a61cee3038df89495428d7886878ec3527b33c948cfdf2b**, idéntico A/B. CAS positivo **SET Revision al mismo N0 observado**, condicionado por existencia, StateOpen/Generation0/Revision0 y ausencia de los cinco campos opcionales/de cuarentena. No upsert si el item desaparece, incremento, transiciones Open/Closed, timestamps o confianza reseteados. CAS incorrecto solo cambia la revisión **esperada a N-1**, imposible para contrato no negativo; la asignación permanece N0. Es prueba de igualdad condicional/rechazo de versión incorrecta, **no una carrera real ni ejecución de todas las transiciones del adapter**.
+
+Scan **SelectCOUNT/Limit1**, sin exponer items aun si inesperadamente permitido. DeleteItem apunta únicamente a **unauthorized-test-key**, **nunca authentication**, con condición imposible **attribute_exists(Id) AND attribute_not_exists(Id)** para impedir borrado incluso ante permisos inesperados. GetItem negativo usa esa misma PK sin crearla. AWS devuelve en los tres negativos **no identity-based policy allows** la acción correspondiente; la discriminación GetItem(authentication)PASS/GetItem(otraPK)DENIED es coherente con el contrato LeadingKeys aprobado. **No se atribuye a AWS una explicación explícita de qué statement/version de boundary produjo la denegación**. No se envían PutItem/Query/Batch/Transact desde runtime ni se conceden permisos nuevos.
+
+### 92.4. Estado final, aceptación y gates
+
+**Cleanup de datos NO REQUERIDO**, restauración NO EJECUTADA: las dos actualizaciones exitosas son no-op semántico; inicial/final/ALL_NEW coinciden, sin cambios de Generation/Revision/State o metadatos. No filas/atributos de prueba creados ni DeleteItem contra autoridad. No Scan exitoso o inventario de todas las filas alegado; ausencia de residuos propios se sustenta en requests/snapshots exactos, no se presume tabla globalmente auditada. Procesos finalizados y SSM conserva scripts/evidencia no secreta; no se afirma ausencia de artefactos internos del canal SSM.
+
+**T020 COMPLETE / ACCEPTED**, **E020 aceptada para el alcance actual** de infraestructura baseline§89, bootstrap controlado exacto y tests de permisos/CAS seguro A/B, **por decisión condicionada explícita del responsable satisfecha**, no aceptación autónoma inferida por el agente. Límites adicionales de metadata quedan expresos. **T017/T019 COMPLETE / ACCEPTED** preservados; catálogo **11 completas/aceptadas + 5 parciales + 14 pendientes = 30**, no 10+6+14 vigente. Este cierre no acredita AUTH-027 integral, fail-closed/recuperación/cuarentena reales, RTO/RPO, pérdida de autoridad/Redis, bootstrap automático, despliegue/API/ALB ni revisión integral IAM. Diferidos de DP-I-08/09/operación se conservan salvo el bootstrap y acceso efectivamente probados.
+
+**GATE-I-B PENDING / NOT SATISFIED**: §3 exige E003–006/E019–020/E027–028/networksecurity/salidaAtlas/no bypass. E020 en su alcance ahora aceptada no reemplaza E003/004 y E027/028 integrales ni aceptación de gate; deployment/runtime release, T018 y demás prerrequisitos pendientes sin ejecución adicional. Gates **1 satisfecho + 8 pendientes**.
+
+Solo **task.md/memoria.md** editados; código/HCL/inputs/outputs/lock/candidatas/planes/trabajo previo conservados, **state60/backup57 byteidénticos**: **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 / cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279**. Rama feature/infrastructure/HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb, sin staged. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\t020-bootstrap-ab-final-2026-11-17T02-26-11-670Z\**: precheck/docsbefore/schema/STS/existencia/Putcondicional/readback/gates, denegaciónMetadataadministrativa/limitación, SSMOnline/script/parámetros/CommandIds/invocaciones/reviews A-B/finalItem/IAMerror/cierre. Sin credenciales ni secretos publicados.
+
+**Writes exitosas autorizadas identificadas: PutItem1 + UpdateItem2 no-op + SSMSendCommand2 = 5 operaciones**, no conteo CloudTrail exhaustivo. Datos: **3 requests de escritura exitosos, una creación efectiva del item y 2 no-op**; además CASincorrecto2 rechazados/DeleteItem2 denegados, sin mutación. Lecturas runtime GetItemconsistente4/otraPKdenegada2, STS2, Scandenegado2; 16 CLI runtime, sin totalrequestsAWS afirmado. CLIoperador14 (incluye2waiters y2erroresmetadata), no confundir con totalAPIrequests. **IAMwrites0/boundarywrites0/infrachanges0/Terraformcommands0/apply0/statewrite0/deployment0/packageinstall0/commit0/push0**. USD50agregado/USD10guardrail/deadlineoriginalhosts **2026-11-15T01:57:56.9337244Z** conservados, sin extensión/cleanup implícitos ni costo actual acreditado. **STOP tras aceptación T020 delimitada; no remediación IAM ni siguiente incremento automático.**
+
+## 93. Pre-deployment: contrato inspeccionado y prechecks A/B PASS; despliegue detenido antes de modificar Docker/configuración
+
+**2026-11-17 UTC — PRE-DEPLOYMENT READINESS + EC2 A/B DOCKER DEPLOY / RUNTIME DEPLOYMENT / NO COMMIT-PUSH.** Responsable autoriza inspección previa, prechecks, ECRlogin/pull por digest y despliegue A primero; B solo después de health/dependencias A PASS, sin rebuild/publicación/ALB/HTTPS. La autorización de desplegar no aporta valores externos de control ni autoriza corregir contradicciones de confianza, ACL o código por iniciativa del agente. **Se completa la inspección/observación autorizada, no se ejecuta despliegue por gates de configuración no resueltos.** No se usa un arranque fallido como sustituto de readiness ni se afirma éxito por `/health` solo.
+
+### 93.1. Fuente aceptada y contrato real de arranque/configuración
+
+**21 archivos pertinentes** comparados con **078130627bc50a9dc2feee5fb699cedbea87dbbb**, todos iguales ignorando únicamente CRLF/LF: Program/Dockerfile/appsettings/Options/composición/transport/dependency admission/capacity/snapshot/keybuilders/revocation/index initializer/launchSettings. No se atribuye la imagen al HEAD operador ni se cambia código. Fuentes y hashes en source-contract-review.json.
+
+Dockerfile usa **ENTRYPOINT [dotnet, Enver.API.dll]**, /app, usuario non-root de la base y EXPOSE8080/8081. **Comando de proceso exacto: `dotnet Enver.API.dll`**. `WebApplication.CreateBuilder(args)` aporta configuración normal ASP.NET Core; Options enlazan MongoDb/Redis/Jwt/Authentication/RateLimiting/AuthenticationComposition/AuthenticationSecurityAuthority/AuthenticationTransport y ValidateOnStart. **No proveedor Secrets Manager ni lector de cuatro envelopes `/run/enver/secrets` implementado en la imagen**. Native appsettings/environment providers no equivalen al adaptador propuesto en §§47–48. No se propone rebuild para eludir el digest aceptado.
+
+Claves descubiertas y comunicadas en la sesión **antes de cualquier modificación de hosts**; `:` es binding IConfiguration, `__` su representación de environment para claves jerárquicas, no un canal recomendado para valores secretos:
+
+| Área | Nombres reales del contrato |
+| --- | --- |
+| Hosting | **ASPNETCORE_ENVIRONMENT**, **ASPNETCORE_HTTP_PORTS** (launchSettingsContainer8080; no se ejecuta perfil VisualStudio ni dotnetrun) |
+| MongoDb | **ConnectionString**, **DatabaseName**, UsersCollectionName, OperationTimeoutMilliseconds, ConnectionTimeoutMilliseconds, WriteConcernCandidate, ReadConcernCandidate, ReadPreference, todos bajo **MongoDb:** |
+| Redis | **ConnectionString**, **NamespacePrefix**, RevocationPurpose, RateLimitingPurpose, OperationTimeoutMilliseconds, ConnectionTimeoutMilliseconds, RevocationOperationalMarginSeconds, FailClosed, RequiredRevocationEvictionPolicy, bajo **Redis:** |
+| JWT | **Jwt:Algorithm/Issuer/Audience/LifetimeSeconds/ClockSkewSeconds/ActiveKid**, **Jwt:Keys:<i>:Kid/KeyBase64** |
+| Cuotas | **RateLimiting:PseudonymizationKeyBase64/PolicyRevision/MaxActivePartitions** y **RateLimiting:{RegisterEmail,RegisterOrigin,LoginOriginEmail,LoginEmail,LoginOrigin,LogoutAccount,LogoutOrigin}:{PermitLimit,WindowSeconds}** |
+| Referencias externas | **AuthenticationComposition:AuthorityRegion/QuotaConfigurationVersion/QuotaIdentityReference/QuotaGeneration** |
+| Authority | **AuthenticationSecurityAuthority:TableName/OperationTimeoutMilliseconds** |
+| Transporte/confianza | **AuthenticationTransport:DirectConnectionApproved/AllowLocalHttp/HttpsPort/KnownProxies:<i>** |
+| Defaults de imagen conservados | **Authentication:** InstitutionalDomain, FullNameMaxUnicodeScalars, EmailMaxAsciiBytes, EmailLocalPartMaxAsciiBytes, PasswordCreationMinUnicodeScalars, PasswordMaxUnicodeScalars, PasswordMaxUtf8Bytes, MaxRequestBodyBytes, MaxJsonDepth, MaxJwtBytes, RegisterBudgetMilliseconds, LoginBudgetMilliseconds, LogoutBudgetMilliseconds, HashingConcurrencyLimit; **AllowedHosts**, **Logging:LogLevel:Default/Microsoft.AspNetCore** |
+
+ConnectionStringMongo/Redis, KeyBase64JWT y PseudonymizationKeyBase64 contienen **valores secretos**; solo se registran sus nombres, no sus valores. No endpoint/puerto Redis Options independientes: se transportan en Redis:ConnectionString compatible con el parser, no se inventan Redis:Host/Port/Password. Región del cliente DynamoDB viene de **AuthenticationComposition:AuthorityRegion**, no de una variable AWSREGION asumida como reemplazo de esa Option. No claves estáticas AWS.
+
+**Program.cs registra AddHealthChecks() sin checks de dependencias y MapHealthChecks("/health").AllowAnonymous(): solo LIVENESS.** El hosted service llama RefreshIndexAsync y puede crear índice Mongo si falta, pero ignora readiness negativa y mantiene admisión cerrada; un health200 no probaría Mongo funcional. No se invoca ese inicializador ni se crean índices por este precheck. **El `docker run` completo no queda aprobado/finalizado** mientras falten snapshot, mapping/delivery, transporte, networking de credenciales y lifecycle/restart coherentes.
+
+### 93.2. Sesión, SSM y observación A/B
+
+Operador **enver-admin-temp**, **STS02:43:28.697Z–02:43:33.243Z/exit0**, identidad **arn:aws:iam::926925605666:user/enver-terraform-local**. SSM filtrado solo a ambos IDs confirma Online antes de ejecutar; documentos **AWS-RunShellScript**, scripts de observación con Python/AWS CLI existentes, sin instalar. Entorno de AWS en hosts nuevo, sin perfiles/statickeys/credenciales operadoras, config-credentials/dev/null/IMDSv2; core dumps deshabilitados.
+
+| Evidencia | A | B |
+| --- | --- | --- |
+| InstanceId | **i-0a66085b7b2411393** | **i-00de11a3f3c1a8aa5** |
+| STS runtime | **arn:aws:sts::926925605666:assumed-role/enver-dev-api-runtime/i-0a66085b7b2411393** | **arn:aws:sts::926925605666:assumed-role/enver-dev-api-runtime/i-00de11a3f3c1a8aa5** |
+| SSM CommandId | **6a8f7a40-0396-4001-ac59-5866f9b10fd9** | **c637bf78-f636-479a-9316-2af94f645947** |
+| Resultado | **Success/ResponseCode0/stderr vacío** | **Success/ResponseCode0/stderr vacío** |
+| Docker/arquitectura | **25.0.14/active/x86_64** | **25.0.14/active/x86_64** |
+| Bytes disponibles /var/lib/docker | **8546476032** | **8546304000** |
+| Listener8080 / contenedores | **0 / 0** | **0 / 0** |
+| Imágenes ENVER locales | **ninguna** | **ninguna** |
+| /etc/enver/runtime-manifest.json / /run/enver | **ausentes / ausente** | **ausentes / ausente** |
+| Swap | **no** | **no** |
+| Token ECR y manifests | **PASS, solo memoria, sin Dockerlogin** | **PASS, solo memoria, sin Dockerlogin** |
+| CORE4 GetSecretValue metadata versiones fijadas | **4/4 PASS** | **4/4 PASS**, iguales a A |
+| Redis DNS/TCP/TLS | **PASS/TLS1.3/certificado-hostname verificados** | **PASS/TLS1.3/certificado-hostname verificados** |
+| Authority ConsistentReadtrue | **PASS/authentication/Open/Generation0/Revision0/atributos4** | **PASS/mismo item exacto** |
+
+Redis endpoint **master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com:6379**, TLS_AES_128_GCM_SHA256; no AUTH/PING/Lua/CRUD repetidos aquí. DynamoDB **enver-dev-authentication-authority**, ninguna escritura/bootstrap/CAS. Mongo conexión/autenticación y dependencias **desde aplicación NO PROBADAS**; acceso al secreto no acredita acceso Atlas.
+
+Se leen versiones explícitas del inventario T019, no AWSCURRENT independiente: **mongodb-Iuqeur/c9eb0b6c-d8c0-4ec1-b3fe-05809a0f33f4**, **jwt-AweYNs/fe44b116-0c69-41c8-8daf-7c82be31d181**, **hmac-s9TSqb/fecf274e-12d7-4c58-b0d8-06d2149c015a**, **redis-FlY8aP/2dfc79eb-625a-4f1b-aca7-b1575b5142c1**, bajo ARNprefix **arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/**. Query CLI limita salida a ARN/VersionId; **payloads no expuestos ni schemas de payload validados**. AWS CLI recibe el payload en memoria antes del filtro, no se afirma que el servicio no lo haya devuelto. Token ECR solo en memoria de Python/CLI/HTTPS, nunca Dockerconfig/argv/env/logs/archivo; no zeroización de memoria garantizada.
+
+Script SHA256 **81bf4487b97518584bd2f5dcf10e22b03d58dd14f6d4b3648c99567c172af1ff**, idéntico en A/B. A revisada PASS antes de B. Capturas locales **A02:48:03.323Z/B02:48:24.307Z**; UTC hosts **A02:46:31.118352Z–02:46:34.666974Z/B02:47:26.883974Z–02:47:30.647547Z**, sin asumir sincronía o derivar latencia. SSM conserva sus artefactos internos de código/salida no secreta; **no cambios en configuración host/Docker/servicios** no significa ausencia de toda escritura interna del canal SSM.
+
+### 93.3. Artefacto exacto disponible, no desplegado
+
+En ambos hosts se obtiene token mediante el instance role y se leen por HTTPS los manifests del registry, verificando **SHA256 de bytes** del root y del hijo y pertenencia linux/amd64 del hijo al índice:
+
+- Repository **926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api**.
+- Source aceptado **078130627bc50a9dc2feee5fb699cedbea87dbbb**, tag humano **git-078130627bc5** no usado como selector.
+- Root **sha256:5da876d7cd52b36d6f63d84cf9856b7d6130715cd00f93bf7daef45c3e76aa9f**.
+- Hijo amd64 **sha256:852607824b0b5630567c52b9c067ab72ba290980f577def8a41235b590515f2d**, **10 layers** en manifest.
+- Referencia inmutable candidata para pull: **926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api@sha256:852607824b0b5630567c52b9c067ab72ba290980f577def8a41235b590515f2d**.
+
+**Dockerlogin0/pull0/run0/build0/publish0**. No imageID/RepoDigest local ni digest en ejecución: no confundir verificación de manifests remotos con imagen descargada/arrancada. No nuevo scan o reproducibilidad de build acreditada por esas lecturas.
+
+### 93.4. Gates previos al despliegue que requieren aclaración/autorización de configuración
+
+1. **DEPLOY-CONFIG-01 — Snapshot externo no proporcionado.** No referencias operativas aprobadas de **QuotaConfigurationVersion/QuotaIdentityReference/QuotaGeneration**, ni **MaxActivePartitions** configurado; appsettings lo deja null. ForAcademicActivation exige **5000 explícitos**, no default correctivo ni autorización para activarlo por inferencia. Generation debe ser32hexminúsculos/no todos0, externa y acorde al estado confiable Redis; no generar RunId/GUID ni copiar config-021/identity-053 de fixtures. Manifiesto esperado ausente en A/B no prueba inexistencia de todo artefacto externo posible; el responsable debe aportar/aprobar el snapshot compartido.
+2. **DEPLOY-CONFIG-02 — Contradicción ambiente/DB/namespace.** Diseño aprobado **ASPNETCORE_ENVIRONMENT=Development/enver_development** (§§43–46) y validadores requieren namespace **enver:development**. Capture usa environment.ToLowerInvariant y el keybuilder produciría **enver:{development:auth:ratelimit}:***; revocaciones también usarían development. Contrato ACL aceptado T017 (§§58–60/83) permite **enver:dev:auth:revoked:enver-api:*** y **enver:{dev:auth:ratelimit}:***. No se reaudita ACL remota en este turno ni se afirma un NOPERM observado por la aplicación: es incompatibilidad estática de contratos. Cambiar solo a entorno **Dev** exigiría **enver_dev** al validador Mongo, frente a DB/privilegios aprobados **enver_development**, y cambiaría la política de HTTP local. **Detener la acción de deployment afectada, no editar código/ACL/DB/entorno o reconfigurar confianza para resolverlo sin decisión del responsable.**
+3. **DEPLOY-CONFIG-03 — Entrega/mapping de secretos y restart.** Imagen no lee envelopes de cuatro secretos propuesta en019. Se necesita canal de configuración soportado por la imagen, mappings verificables en memoria, versiones idénticas A/B y lifecycle tmpfs/mountRO/ownership/reobtención coherente con restart persistente. No asumir helper/systemd/adaptador existente; no escribir secretos a ENV/argv/dockerinspect/disco persistente ni unificar payloads por comodidad. No cambiar el digest para incorporar un proveedor no autorizado. Un proveedor appsettings nativo es una capacidad de configuración, **no una implementación aprobada del delivery todavía**.
+4. **DEPLOY-CONFIG-04 — Transporte/red de credenciales.** Definir binding/trust de HTTP local y ruta del SDK DynamoDB del contenedor a instance-role sin keys estáticas. Baseline/HCL **IMDSv2 required/hop1** no acredita acceso desde contenedor bridge; tampoco se cambia a host networking, metadatahop2, proxy de credenciales o acceso directo aprobado por iniciativa del agente. AllowLocalHttp solo válido para entornos locales permitidos con DirectConnectionApproved; no aprobar bypass/forwardedheaders genéricos o modificar HTTPS/ALB para hacer pasar health.
+
+No se escriben archivos runtime/secretos/manifiestos en hosts, ni se ejecutan Dockerlogin/pull/run, ni se prueban endpoints de negocio que podrían cerrar autoridad o mutar usuarios/cuotas. **Health/aplicación/dependencias Mongo-Redis-Dynamo dentro de container A/B NO EJECUTADAS**, sin fallo startup ficticio ni contenedores parcialmente desplegados. No nombre/ID asignado a contenedor; comando Docker completo no finalizado. Resolver estos gates requiere valores/decisiones del responsable y solicitud de reanudación; no una ampliación automática de IAM, rebuild o cambio a infraestructura aceptada.
+
+### 93.5. Estado y preservación
+
+**DEPLOYMENT BLOCKED BEFORE MUTATION / PRECHECK A-B PASS / APPLICATION LOCAL HEALTH NOT VERIFIED / ALB INTEGRATION PENDING**, no EC2A/BdeploymentCOMPLETE. **T008/T017/T019/T020 COMPLETE / ACCEPTED** conservados; no se reabren sus alcances aceptados ni se presentan como integración de aplicación ya validada. **GATE-I-B PENDING / NOT SATISFIED**: E003–004/E027–028/red/Atlas/nobypass y evidencia integral restante; catálogotareas **11aceptadas+5parciales+14pendientes**, gates1+8, AUTH-027integral/T018/diferidos sin cierre. Readiness observacional de este incremento no acepta tareas adicionales.
+
+Solo **task.md/memoria.md** editados. Código/HCL/inputs/outputs/lock/planes/candidatas/trabajo previo y **state60/backup57** preservados: **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 / cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279**. Rama feature/infrastructure/HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb, sin staged. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-deployment-readiness-2026-11-17T02-43-24-895Z\**: precheck/docsbefore/sourcecomparison/STS/sessiongate/script/SSM/hostreviews/discovered-runtime-contract/deployment-readiness-decision/postcheck. El contrato descubierto no es snapshot aprobado ni archivo desplegado.
+
+**SSMSendCommand2** escrituras control plane autorizadas de observación; **SecretsGetValue8/ECRGetAuthorizationToken2/DynamoDBGetItem2** desde roles de instancia y manifestsHTTPSroot-child4lecturas. **IAMwrites0/boundarywrites0/RedisACLwrites0/Redisdatawrites0/DynamoDBdatawrites0/hostconfigchanges0/Dockerlogin0/pull0/run0/build0/publish0/deployment0/Terraformcommands0/apply0/statewrite0/ALBchanges0/HTTPSchanges0/packageinstall0/commit0/push0**. No AWSwrites0 falso por SSM, no conteoAPIrequests exhaustivo. No valores secretos/tokenECR/keysAWS expuestos, usados estáticamente o persistidos por el flujo. USD50agregado/USD10guardrail/deadlineoriginalhosts **2026-11-15T01:57:56.9337244Z** conservados, sin extensión/cleanup implícitos ni costo actual acreditado. **STOP antes de cambios runtime; solicitar snapshot y decisiones de compatibilidad, no ejecutar siguiente etapa automáticamente.**
+
+## 94. Capacidad académica DEV aprobada; determinación de referencias bloqueada por sesión expirada
+
+### 94.1. Aprobación delimitada y fuente comprobada
+
+El responsable **aprueba explícitamente RateLimiting:MaxActivePartitions=5000 para el snapshot operativo académico DEV**, conforme a `ForAcademicActivation`. Es una decisión aprobada, **no configuración aplicada ni autorización de activación/bootstrap**. El contrato fija presupuesto de cuotas **67108864 bytes**, compartido por ambiente/finalidad; no acredita medición cloud, capacidad del proceso Redis completo o continuidad. `appsettings.json` no se modifica y conserva null. Esta solicitud **no autoriza deployment, Docker login/pull/run ni cambios IAM/ACL/Redis/DynamoDB**. No se reutiliza la autorización histórica de deployment de §93.
+
+Lectura local **2026-11-17T03:28:59.427Z**: **11/11 fuentes coinciden**, ignorando únicamente CRLF/LF, con el source aceptado **078130627bc50a9dc2feee5fb699cedbea87dbbb**. Incluye Capture/composición, configuración/keybuilder/protocolo/lifecycle/Lua de cuotas, capacidad/snapshot/política y pseudonimizador HMAC. No build, aplicación o pruebas. La revisión previa de 21 fuentes de §93 se conserva como evidencia anterior, no se presenta como 21 comparaciones nuevas.
+
+### 94.2. Qué snapshot externo debe someterse a aprobación
+
+**No hay valores operativos determinados para las tres referencias.** El contrato no los deriva de código, commit, releaseId, secreto, tabla ni arranque. Debe aprobarse **un snapshot externo inmutable, común A/B y compatible con metadata Redis confiable del ambiente finalmente acordado**, no tres etiquetas independientes:
+
+| Campo externo | Correspondencia exacta que debe verificarse, no valor propuesto |
+| --- | --- |
+| AuthenticationComposition:QuotaConfigurationVersion | `ConfigurationVersion`, segundo componente de `metadata.snapshot`; token de 1–128 caracteres `[A-Za-z0-9_.-]`. Identifica configuración inmutable completa; no es `PolicyRevision`, contador `metadata.version` ni configVersion del manifiesto por equivalencia automática |
+| AuthenticationComposition:QuotaIdentityReference | `IdentityConfigurationReference`, tercer componente de `metadata.snapshot`; mismo formato de token. Referencia no secreta de la configuración de identidad/HMAC/representación, **no clave ni hash de la clave ni VersionId de Secrets Manager usado como sustituto**. Exigir registro externo confiable que vincule la referencia con la versión HMAC y representación efectivas, sin revelar material |
+| AuthenticationComposition:QuotaGeneration | Valor exacto de `metadata.generation`; **32 hex minúsculas, no todos cero**, externo y sujeto a continuidad/fencing. Es distinto de Generation numérico de DynamoDB y de `metadata.version` |
+
+Fuentes: [`AuthenticationDependencyOptions.Capture`](../../Enver.API/Composition/AuthenticationDependencyOptions.cs), [`RedisAuthenticationQuotaConfiguration`](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaConfiguration.cs), [`RedisAuthenticationQuotaScriptProtocol.Encode`](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaScriptProtocol.cs) y [`ConsumeAuthenticationQuota.lua`](../../Enver.API/Infrastructure/Redis/Scripts/ConsumeAuthenticationQuota.lua). Lua compara snapshot completo y generación por igualdad exacta antes de admitir; validar solo la sintaxis o esas tres referencias no basta.
+
+**Representación persistida del snapshot:** 20 componentes separados por `|`: ambiente canónico, versión de configuración, referencia de identidad, revisión de política, capacidad, presupuesto de memoria, y siete pares límite/ventana **en microsegundos**, en este orden contractual:
+
+| Orden Lua | Cuota académica confirmada | Límite / ventana en microsegundos |
+| --- | --- | --- |
+| 1 | register:email | 3 / 900000000 |
+| 2 | register:origin | 20 / 900000000 |
+| 3 | login:email | 10 / 60000000 |
+| 4 | login:origin | 60 / 60000000 |
+| 5 | login:origin-email | 5 / 60000000 |
+| 6 | logout:origin | 300 / 60000000 |
+| 7 | logout:account | 30 / 60000000 |
+
+Revisión académica `academic-initial`, capacidad aprobada5000 y presupuesto contractual67108864 se contrastarán con el estado, **no se concatenan ahora con referencias inventadas para producir un snapshot operativo**. La metadata contractual es hash persistente/PTTL=-1 con exactamente12 campos: `protocol`, `snapshot`, `generation`, `state`, `count`, `horizon`, `dirty`, `version`, `fence`, `drain`, `last`, `maximumWindow`. Deben contrastarse protocolo1, estado ready/closed, dirty, contadores/horizontes/reloj lógico y registro/expiraciones, además del snapshot. Una lectura aislada no acredita continuidad histórica ni ausencia de buckets huérfanos.
+
+**Ambiente pendiente, no decidido por esta aprobación:** Capture y HMAC usan `IHostEnvironment.EnvironmentName.ToLowerInvariant()`. El diseño `Development` requiere cuotas `enver:{development:auth:ratelimit}:metadata/registry`; la ACL aceptada permite las claves `enver:{dev:auth:ratelimit}:metadata/registry`. Consultar `dev` dentro del alcance aceptado sería solo observación, **no aprobación de cambiar el ambiente de la aplicación, MongoDB, namespace o ACL**. No buscar otro namespace/DB para eludir historia ni probar accesos fuera del contrato aceptado.
+
+### 94.3. Consulta observacional detenida antes de Redis
+
+Perfil exclusivo **enver-admin-temp**, región **us-east-1**, cuenta esperada926925605666. **STS get-caller-identity 03:29:01.361Z–03:29:05.468Z, exit254 / ExpiredToken**. **STOP sin fallback, renovación automática ni reintento**. Identidad vigente no verificada; no se heredan como vigentes las comprobaciones de sesión de §93.
+
+**SSMSendCommand0 / GetSecretValue0 / Redis AUTH-TYPE-HMGET-HLEN-PTTL-ZCARD-PEXPIRETIME-TIME0 / DynamoDBcalls0.** La observación prevista desde A/i-0a66085b7b2411393 mediante instance role y versión Redis fijada **no se envió ni ejecutó**. No se consultó B, no se inspeccionaron payloads secretos ni metadata viva y no se leyeron miembros de buckets. La evidencia anterior de §93 acredita TLS entonces, **no contenido/existencia actual de metadata**; T017 aceptó su prueba aislada, no un snapshot operativo de cuotas.
+
+Resultado: **CAPACITY APPROVED / NOT APPLIED; QUOTA SNAPSHOT DISCOVERY BLOCKED — SESSION EXPIRED; REFERENCES UNDETERMINED / NO SUBSTITUTES**. No afirmar Redis vacío/no inicializado, metadata ready/closed o refs inexistentes. **No utilizar config-021, identity-053, GUID, RunId ni Generation=0 como sustitutos**, ni generar otra etiqueta/generación por iniciativa del agente.
+
+### 94.4. Puerta de continuación y preservación
+
+Tras renovación segura del perfil por el responsable y confirmación de reanudación de la observación delimitada, verificar sesión/identidad antes de SSM; consultar solo metadata/registro permitidos con TLS/AUTH en memoria, sin EVAL, SCAN/KEYS, miembros de buckets, inicialización, fencing, mantenimiento o escrituras. SSM implica una escritura de control plane aunque las operaciones Redis sean de lectura; registrar el envío si posteriormente se autoriza/ejecuta. No pedir credenciales por chat ni ampliar IAM/ACL ante denegación.
+
+- **Si hay metadata íntegra/confiable:** extraer sus referencias exactas y contrastar el snapshot completo con aprobación/custodia externa, vínculo de identidad HMAC y ambiente acordado. Presentar esos valores observados para aprobación; leer no los aprueba ni permite cambiar/reabrir el estado.
+- **Si falta o es inconsistente/dirty/closed, o no hay registro externo confiable:** detener. Redis vacío **no demuestra ambiente jamás utilizado** (`RedisAuthenticationQuotaLifecycle`); no inicializar ni asignar generación. El responsable debe acreditar historia/ausencia de uso o autorizar un procedimiento separado de recuperación/transición, con precondiciones y snapshot externo. No resolverlo con reset, espera sin cese acreditado, cambio de namespace o DynamoDBOpen0/0.
+
+Los cuatro bloqueos de §93 continúan salvo la **decisión de capacidad ya aprobada**, que no se mantiene como decisión pendiente: faltan referencias verificadas/aprobadas y aplicación futura; conflicto de ambiente, delivery/restart y transporte/red no resueltos. **DEPLOYMENT NOT AUTHORIZED / BLOCKED BEFORE LOGIN-PULL-RUN; T008/T017/T019/T020 COMPLETE / ACCEPTED; GATE-I-B PENDING / NOT SATISFIED**, catálogo11+5+14/gates1+8, AUTH-027 integral/T018/diferidos intactos.
+
+Solo se actualizan **task.md/memoria.md** en el repositorio. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-quota-readonly-20261117\**: precheck/hashes/sourceMatches, STS saneado, decisión de bloqueo y scripts de observación **no ejecutados en hosts**, sin secretos. Primer intento de comparación local por node-e falló por quoting antes de ejecutarse el código; comparación completada mediante archivo externo, sin efecto AWS. Código/HCL/inputs/outputs/lock/planes/candidatas y trabajo previo preservados; state60/backup57 con hashes **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 / cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279**. **IAMwrites0/ACLwrites0/Redisdatawrites0/DynamoDBdatawrites0/hostchanges0/Dockercommands0/deployment0/Terraformcommands0/apply0/statewrite0/packageinstall0/stage0/commit0/push0**. No extensión de ventana/costo o cleanup implícitos; detener hasta resolver sesión y fuentes de evidencia.
+
+## 95. Primer snapshot de cuotas: análisis y preparación documental, no inicialización
+
+### 95.1. Autorización y aceptación observacional separadas de ejecución
+
+El responsable **acepta el resultado observacional de DEPLOY-CONFIG-01** y autoriza únicamente análisis/preparación documental de una inicialización controlada. **No autoriza initialize/fence/maintain/activate, escrituras Redis/DynamoDB/secretos, cambios IAM/ACL/código/HCL/hosts, Docker login/pull/run, deployment/ALB/apply/commit/push**. `MaxActivePartitions=5000` conserva **APROBADO / NO APLICADO**; el JSON continúa null.
+
+Se incorpora ahora la evidencia de la reanudación observacional anterior, que no había modificado documentos: **SSM CommandId ecafe096-7a39-4081-8b66-4117720120f5**, A/i-0a66085b7b2411393, Success/ResponseCode0/stderr vacío, instance role exacto, TLS1.3/certificado-hostname y AUTH PASS. En **DB0**, namespace **dev**, `enver:{dev:auth:ratelimit}:metadata` TYPE none/HLEN0/PTTL-2, dos HMGET de12campos nulos; registry TYPE none/ZCARD0/PTTL-2/PEXPIRETIME-2. **metadata.snapshot AUSENTE / metadata.generation AUSENTE / registry AUSENTE; no referencias operativas recuperables de ese estado observado**. No hubo SCAN, inventario de buckets o lectura de development; no equivale a Redis globalmente vacío ni prueba histórica de primer uso. Lectura de reloj host03:41:46Z, captura local03:42:43Z, sin asumir sincronía. La sesión expirada de §94 permanece como antecedente, no bloqueo vigente de aquella reanudación completada.
+
+Evidencia anterior: **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-quota-observation-resume-20261117\decision.json** y **closure.json**. En aquel incremento: SendCommand1/AUTH1/12comandos Redis de lectura/GetSecretValue1 solo AUTHRedis en memoria, cero escrituras de datos; no lectura HMAC/JWT. **Esta entrega no repite esas operaciones ni hace llamadas AWS.**
+
+Revisión local **2026-11-17T03:48:17.135Z**, **24/24 fuentes iguales** al source aceptado **078130627bc50a9dc2feee5fb699cedbea87dbbb**, normalizando solo CRLF/LF. No se ejecuta código del producto. Fuentes/ubicaciones relevantes:
+
+| Contrato inspeccionado | Anclaje de fuente aceptada |
+| --- | --- |
+| Control y gates previos | [RedisAuthenticationQuotaLifecycle](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaLifecycle.cs), líneas8–11/35–38/40–99/102–116 |
+| Formatos/control de generación y orden | [RedisAuthenticationQuotaConfiguration](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaConfiguration.cs), líneas9–33; [key builder de cuotas](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaKeyBuilder.cs), líneas9–19/50–53 |
+| Capture/snapshot/capacidad | [AuthenticationDependencyOptions](../../Enver.API/Composition/AuthenticationDependencyOptions.cs), líneas9–33/39–50; [snapshot](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaConfigurationSnapshot.cs), líneas3–39; [capacidad](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaCapacityDescriptor.cs), líneas15–47 |
+| Representación y mutación efectivas | [protocolo Redis](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaScriptProtocol.cs), líneas25–50/78–115; [Lua](../../Enver.API/Infrastructure/Redis/Scripts/ConsumeAuthenticationQuota.lua), líneas14–52/71–122/167–217 |
+| Identidad y transiciones | [HMAC](../../Enver.API/Infrastructure/Security/HmacAuthenticationScopePseudonymizer.cs), líneas24–39/42–90; [componentes canónicos](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationScopeIdentity.cs), líneas17–26/38–51/66–74/96–118; [AuthenticationPseudonymizationTransition](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationPseudonymizationTransition.cs), líneas5–37 |
+| Validación/arranque y límites de integración | [validadores Options](../../Enver.API/Configuration/AuthenticationOptionsValidation.cs), líneas9–23/28–49/95–108; [composición](../../Enver.API/Composition/AuthenticationServiceCollectionExtensions.cs), líneas39–44/67–111; [Program](../../Enver.API/Program.cs), líneas3–17/32–35; [admisión](../../Enver.API/Composition/AuthenticationDependencyAdmission.cs), líneas27–35/47–55 |
+| Seguridad y recuperación separadas | [guard Redis](../../Enver.API/Infrastructure/Redis/RedisSecurityStateGuard.cs), líneas34–43/104–110; [coordinador global](../../Enver.API/Infrastructure/Security/AuthenticationSecurityCoordinator.cs), líneas48–91; [recuperación de cuotas](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaRecoveryContract.cs), líneas13–19/36–63 |
+| Bundle no secreto de release | Este task §§47.3–47.6 y **48.2/48.4–48.7**, contrastados con el código real y §93; diseño documental no equivale a parser/helper implementados |
+
+### 95.2. Respuestas 1 y 7 — Ausencia, primer uso y riesgo de continuidad
+
+**No: la ausencia de metadata/registry por sí sola no habilita una primera inicialización válida.** El source exige ambiente nuevo cuya ausencia de historia acredita el operador. Lua verifica atómicamente que **ambas claves sean inexistentes**, pero no conoce despliegues anteriores, pérdida/flush/eviction, otros consumidores o usos con otra identidad. La aceptación de la observación no acredita esas precondiciones.
+
+En initialize se pasan únicamente metadata y registry: n=0/batch=0; **no hay SCAN ni búsqueda de bucket:* huérfanos**. Por ello la lectura actual no prueba ausencia de residuos. La rama puede crear metadata ready/count0 aun si existen buckets fuera de las dos claves inspeccionadas: es un riesgo de desalineación y disponibilidad y puede permitir evadir consumos perdidos o identidades cambiadas. Cambiar ambiente, DB, clave HMAC o representación también puede crear particiones diferentes sin agotar cuotas previas. No se promete que un reinicio, PING o un nuevo nombre preserve cuotas.
+
+Si se acredita dominio lógico de cuotas jamás utilizado, ausencia de residuos/consumidores y cierre de toda admisión durante la operación, initialize es la ruta de primer uso **condicionalmente válida**. Si hay historia previa o incierta, no debe declararse nuevo ni emplearse initialize para reparar: corresponde análisis/autorización separados de reconstrucción o recuperación con cese global, in-flight resueltos, horizonte confiable y reconciliación. `AuthenticationPseudonymizationTransition` exige drenar max(ventanas anterior/nueva), actualmente900s solo si se acredita esa política; no basta esperar900s desde esta observación ni conocer DynamoDBOpen0/0. No se elimina el riesgo residual de pérdida totalmente silenciosa.
+
+### 95.3. Respuesta 2 — Autoridad y qué hace cada componente
+
+- **Autoridad de aprobación:** responsable del proyecto acepta historia/evidencias, ambiente, versión lógica, vínculo de identidad, procedimiento de generación y descriptor exacto. Un operador de CONTROL posteriormente autorizado es escritor único de ese cambio. Ninguna aprobación documental de esta entrega autoriza la escritura.
+- **Capture y constructores:** capturan configuración externa, canonizan ambiente y validan; **no crean referencias ni escriben Redis**. La generación ya debe existir como entrada externa antes de construir `RedisAuthenticationQuotaConfiguration`.
+- **Escritor técnico contractual de primer uso:** `RedisAuthenticationQuotaLifecycle.InitializeVerifiedNewEnvironmentAsync` → `RunAsync("initialize")` → `Encode` → **ConsumeAuthenticationQuota.lua**, en el primary, con guards local/global reales que permitan continuar. Lua serializa las entradas aprobadas para `metadata.snapshot` y copia la generación suministrada a `metadata.generation`; **no genera azar ni elige etiquetas**. No sustituirlo por HSET manual ni por un invocador que omita gates.
+- **No automatización de arranque:** el store no invoca el lifecycle; la composición registra el store y su snapshot, **no un invocador operacional del lifecycle**. No se ha acreditado CLI/endpoint/job productivo de bootstrap. Startup y reconnect no inicializan cuotas. Un método público y una ACL con HSET/EVAL no confieren aprobación operacional ni separación criptográfica entre control/runtime; la ACL aceptada permite esos comandos, pero no acredita historia, ARGV ni finalidad.
+- **No son autoridades de cuotas:** DynamoDB registra otro estado/generación, Secrets Manager custodia material/versiones, Terraform gestiona infraestructura, y manifest/config.json archivan selección aprobada. Ninguno debe restaurar por sí solo metadata viva ni crear otra fuente de verdad.
+
+**Falta un invocador operativo auditado y expresamente autorizado.** El eventual invocador debe usar exactamente el contrato aceptado, guards genuinos, RequestBudget/timeouts y evidencia saneada, sin `executeOverride`, stubs ni fixtures. No se prepara código ni comando de EVAL en esta entrega. Si requiere herramienta/composición nueva, se pide autorización separada; no se asume disponible por existir el componente.
+
+### 95.4. Respuestas 3 y 4 — Formato, semántica y quién define las referencias
+
+| Referencia | Formato efectivo exigido por configuración y Lua | Semántica y origen válido futuro |
+| --- | --- | --- |
+| QuotaConfigurationVersion | Token **1–128** caracteres, regex `^[A-Za-z0-9_.-]{1,128}$`, case-sensitive; no espacios, pipes o caracteres Unicode | Etiqueta humana externa de **configuración inmutable completa**: ambiente, identidad, revisión de política, siete reglas, capacidad y presupuesto. El source no prescribe nombre, secuencia o valor inicial. Elegir y aprobar una etiqueta no reutilizada para contenido diferente; no derivarla de fixture, commit o metadata.version |
+| QuotaIdentityReference | Mismo token/case-sensitive | Etiqueta humana externa de un **vínculo inmutable** con la configuración HMAC/representación/ambiente. No es clave, hash/fingerprint de clave ni VersionId usado como sustituto; el vínculo debe registrarse y aprobarse antes del snapshot. No consta etiqueta inicial inequívoca |
+| QuotaGeneration | Regex **`^[0-9a-f]{32}$`**, distinta de32ceros | Identificador externo de época/fencing del estado compartido de cuotas. Fijado para todos los consumidores/control del mismo estado; no contador, no fecha, no generación DynamoDB, no `metadata.version`, no identificador de petición. No se renueva por startup/restart/deployment. Para primer uso se propone generación CSPRNG de§95.6, pendiente de aprobación y ejecución separadas |
+
+`QuotaIdentifiers.RequireValid` del snapshot puro es menos restrictivo; **no sustituye** la validación posterior de configuración Redis/key builder/Lua. Que Lua llame `uuid` a su verificador y C# reutilice `IsAttemptId` solo describe helpers sintácticos: **no exige ni autoriza usar un GUID o RunId**. Versiones/identidad pueden ser decididas humanamente dentro del contrato, pero **ninguna cadena concreta se deduce de estas fuentes**; generación no debe elegirse como constante humana ilustrativa.
+
+`metadata.snapshot` no es una cuarta referencia elegida libremente ni el JSON de release: Lua lo serializa en orden exacto de§95.9. `metadata.generation` debe ser idéntica a la `QuotaGeneration` aprobada. El estado numérico `metadata.version` se inicializa a1 y evoluciona por operaciones; no es la versión de configuración ni se asigna a QuotaGeneration.
+
+### 95.5. Respuesta 5 — Vínculo de identidad/HMAC sin secretos
+
+**Registro externo no secreto propuesto, pendiente de aprobación:** la etiqueta exacta QuotaIdentityReference se vincula a la tupla **ambiente canónico + ARN HMAC completo/VersionId exacto del inventario T019 + source/representación canónica aceptados**. El manifiesto fija ARN/VersionId, su `quotaIdentityReference` debe coincidir con la configuración; el registro protegido explicita la relación. No crear secreto, rotar la clave, consultar AWSCURRENT para elegirla, copiar un UUID de versión como etiqueta, derivar una referencia del material o registrar su hash. La versión HMAC ya inventariada es una **referencia de material existente, no prueba de una etiqueta de identidad aprobada**. No se lee el secreto en esta entrega.
+
+Representación exacta aceptada: **HMAC-SHA-256**, dominio `enver.auth.quota`, versión textual `1`, ambiente en minúsculas, operación, scope y componentes en ese orden; cada campo UTF8 estricto con longitud de4bytes unsigned big-endian. Correo validado: Trim/lowercaseASCII; origen: IPv4-mapped normalizado, sin scopeID, prefijoipv4:/ipv6:+byteshexminúsculos; origin-email: origen antes de correo; account: sub autenticado UUIDD canónico en minúsculas, sin divulgar identificadores. Salida Base64url de32bytes/43caracteres/sinpadding. Esas representaciones de cuenta no se usan para generar QuotaGeneration.
+
+**Límite importante:** el pseudonimizador lee clave y ambiente, **no QuotaIdentityReference**; ni Options ni Lua comprueban criptográficamente que la etiqueta describa esa clave. El registro/pinning/entrega coherente y verificación privada de A/B deben acreditar el vínculo; no basta escribir la misma etiqueta con materiales diferentes. El secreto debe seguir siendo Base64 canónica≥32bytes y distinto de todas las claves JWT, comprobaciones existentes que no prueban por sí solas origen/entropía. No revelar HMAC ni generar pseudónimos reales como evidencia.
+
+Cambiar clave, ambiente, representación, dominio o versión cambia identidad: exige `AuthenticationPseudonymizationTransition`, cese/in-flight/drenaje/reconciliación y una sola configuración activa, sin dual-key ni reset. Cambiar solo una etiqueta no implementa una rotación segura.
+
+### 95.6. Respuesta 6 — Procedimiento de generación propuesto, no ejecutado
+
+El source **valida forma y no-cero**, pero no implementa generador ni exige una biblioteca/entropía específica. Como procedimiento externo compatible y sin GUID/fixtures se propone, **sujeto a aprobación humana**:
+
+1. Un único operador de CONTROL, fuera de startup/request/CI automático, usa **CSPRNG del sistema**, por ejemplo la capacidad ya existente en .NET `RandomNumberGenerator.GetBytes(16)`, para obtener exactamente16bytes nuevos, independientes de HMAC/JWT/secretos/commit/RunId/clock/DynamoDB.
+2. Codifica todos los bytes en **32hexminúsculas**, sin guiones/prefijos/truncamiento ni conversión por GUID. Rechaza16bytes todoscero y cualquier colisión con generaciones custodiadas del dominio; si la historia no es confiable, no se infiere primer uso de esta comprobación.
+3. Registra únicamente resultado no secreto, fuente CSPRNG/fecha/actor/alcance y aprobación en custodia protegida; **no registrar estado/semilla del generador**. Se revisa y aprueba el descriptor completo con ese literal antes de cualquier escritura.
+4. El mismo literal se fija en configuración/control/A-B y se coteja posteriormente con `metadata.generation`. Reintentar una operación incierta o reiniciar no permite generar otro literal.
+
+**No se ejecuta el generador ni se propone un valor concreto ahora.** La aprobación de este procedimiento todavía no aprobaría un snapshot con campos pendientes ni la ejecución Redis. La generación es metadata de integridad, no un nuevo secreto ni una garantía absoluta de unicidad/continuidad.
+
+### 95.7. initialize/fence/maintain/activate: efectos y límites reales
+
+| Modo | Condiciones relevantes y efecto aceptado por fuente | Lo que NO acredita/autoriza |
+| --- | --- | --- |
+| initialize | Guards local/global deben permitir continuar; entradas/keys/formato válidos, n=0/batch=0, metadata y registry inexistentes. Lua usa TIME y escribe12campos: protocol1, snapshot serializado, generation suministrada, **state=ready**, count0/horizon0, dirty1→0, version1, fence0/drain0, last=now, maximumWindow=maxventana. Nueva metadata sin TTL; **no crea registry vacío ni buckets**. Reply `initialized/ok` | No comprueba historia ni busca buckets huérfanos. **No existe initialize-closed** en este contrato; state ready requiere exclusión externa de admisión. Los ceros de count/fence/drain no son QuotaGeneration=0 |
+| fence | nextGeneration debe ser válida y distinta de la actual suministrada. Con metadata existente exige snapshot/generación actuales compatibles; **permite metadata ausente**. Escribe closed con nextGeneration, count/topHorizon observados, fence=now, drain=now+maxventana; PERSIST registry si count>0 | No prueba primer uso, último consumo global o historia; no es reemplazo de initialize ni ruta automática de reparación. Lifecycle no ejecuta CheckSecurityAsync para fence/maintain; no confundirlo con permisos de operación |
+| maintain | Metadata válida, closed/dirty0, snapshot/generación coincidentes y drenaje cumplido; lote≤3candidatos, limpieza/reconciliación serializada, DEL/ZREM de residuos permitidos y metadata/version actualizadas | Es **mutación**, no una consulta. No genera referencias ni reabre confianza |
+| activate | Metadata válida closed/dirty0, drenaje cumplido, count0 y guards permisivos. Lifecycle ejecuta maintain y lotes de registro más inventario SCAN de buckets del primary antes de activate; Lua cambia estado a ready | No inicializa metadata ausente, no abre autoridad DynamoDB ni prueba cese por sí mismo. Requiere SCAN/PERSIST de control que la ACL runtime aceptada no concede; no ampliar permisos en esta entrega |
+
+Todos los modos usan el mismo script y snapshot; **fence/maintain/activate no migran arbitrariamente a otro snapshot de política/identidad**: Lua compara igualdad cuando hay metadata. Las clases de transición expresan obligaciones, no un migrador productivo completo. No proponer la cadena initialize→fence→maintain→activate como requisito de primer uso ni como implementación automática de una rotación.
+
+**No rollback Lua ni retry ciego:** el primer HSET deja dirty1 antes del HSETdirty0; error/timeout tras despacho puede dejar estado parcial o un initialize ejecutado sin respuesta. El protocolo devuelve incertidumbre y no compensa/reintenta/read-back automáticamente. El procedimiento futuro debe detenerse y autorizar verificación controlada; no borrar, volver a inicializar, generar otra época o tratar una respuesta perdida como ausencia de efectos.
+
+### 95.8. Respuesta 8 — Precondiciones antes de cualquier escritura futura
+
+Todas están **pendientes de evidencia actual específica**, salvo aprobación de capacidad y formato de política ya registrados; no las satisface esta revisión de lectura:
+
+1. **Historia/alcance:** responsable acredita con registros de consumidores/despliegues/operación que el dominio de cuotas del destino correcto jamás se utilizó; no inferirlo de ausencia de contenedores en una observación, ausencia actual de datos, fechas de provisión o DynamoDBOpen0/0. Si no puede acreditarlo, STOP de primer uso y procedimiento separado de recuperación.
+2. **Ambiente coherente:** resolver expresamente Development→development frente a ACLdev. Capture/key builder/HMAC derivan el ambiente del host; cuotas `enver:{E:auth:ratelimit}:*`; RedisOptions exige `enver:E`. Mongo exige `enver_E` o `enver_E_...`; el builder de revocación usa ese ambiente también. Mantener Development conserva enver_development, pero requiere resolver permisos sobre development por autorización separada; elegir Dev mantiene prefijosdev, pero hace incompatible enver_development y cambia elegibilidad de HTTP local. **No hay valor de ambiente operacional inequívoco compatible con todos los contratos actuales**, ni se arregla cambiando solo NamespacePrefix o metadata. No modificar ACL/DB/código/transporte aquí ni reabrir T017 aceptada.
+3. **Destino/no residuos:** endpoint primary/TLS/AUTH/DB fijados, lectura fresca de las dos claves y **ausencia acreditada de buckets/residuos en el namespace correcto**, además de otros consumidores; no contadores o datos de prueba mezclados. La observación previa no incluye ese inventario. Si se necesita SCAN, requiere alcance/identidad de control y autorización separados; MATCH no constituye frontera ACL. No FLUSH/DEL, moverDB o nuevos prefijos para aparentar primer uso.
+4. **Exclusión efectiva y escritor único:** impedir admisión de todos los consumidores y resolver in-flight/incertidumbre durante comprobaciones/escritura/readback; no solo un lock de archivo o retirar targets ALB. Initialize publica ready: ningún consumidor debe empezar entre pasos. El script serializa sus keys, **no convierte el inventario/historia fuera del script en transacción global**.
+5. **Snapshot/identidad aprobados:** etiquetas humanas exactas, vínculo HMAC protegido, política/revisión/capacidad/presupuesto y generación externa generada por procedimiento aprobado; descriptor inmutable común al control y A/B. No defaultscorrectivos, fixtures ni hot reload.
+6. **Gates de seguridad reales y sin efectos laterales no autorizados:** RedisSecurityStateGuard y autoridad externa deben permitir continuar; estar fuera de tráfico no significa sustituir guards por true. No cerrar DynamoDB como supuesto paso de preparación: initialize requiere guard global permisivo y no reabre autoridad. `AuthenticationDependencyAdmission.EvaluateAsync` puede llamar **global.CloseAsync y escribir DynamoDB ante fallo local**; no ejecutarlo como diagnóstico de solo lectura. El `AuthenticationSecurityCoordinator.EvaluateAsync` directo usa ReadAsync en la fuente, pero el invocador y su composición deben revisarse antes de autorizarse. Si cualquier gate falla, STOP, sin bypass/reset/reapertura.
+7. **Invocador/credenciales/permisos:** actor temporal real, permisos mínimos existentes auditados contra keys/modo, cliente compatible/TLS/timeouts/cancelación y source/Lua exactos. No está acreditado un invocador productivo listo, ni el acceso cloud del cliente .NET se prueba con el socket Python anterior. No cambiar IAM/ACL/host para obtener éxito por este análisis.
+8. **Validación sin arranque accidental:** ValidateOnStart y Capture rechazan referencias vacías, ambiente/formato inválidos o capacidad≠5000. El validador RateLimiting aislado permite null o positivo, **pero la composición exige5000**. Options validan estructura, no historia/metadatos/vínculo HMAC. No arrancar Program para probarlo: hosted initializer puede crear índice Mongo, y /health es solo liveness. No atribuir a ValidateOnStart verificación de manifest/configSha256 ni igualdad con Redis.
+9. **Plan de fallo/readback y custodia:** aprobar operación exacta/ventana/entorno y recibos no secretos; respuesta `initialized/ok`, protocolo1,12campos/dirty0/state ready/version1/snapshot y generación exactos, metadata PTTL-1, registry aún ausente si no hay consumos, tiempo/horizontes compatibles. Ese es resultado **esperado condicional**, no evidencia actual. Ante conflicto/timeout/partial, mantener exclusión, no segundo intento o limpieza automática; conservar configuración y pruebas. No afirmar readiness/capacidad medida/AUTH-027 integral por este readback.
+
+### 95.9. Respuesta 9 — Único contenido determinable y contrato config.json/manifest
+
+**No se propone un primer snapshot operativo completo ni valores concretos de las tres referencias**: faltan ambiente, decisiones de etiquetas/vínculo, generación y prueba de primer uso. Sí se determina inequívocamente la representación de la política académica aceptada (ventanas en microsegundos). Metasímbolos **E/C/I/G**, no cadenas utilizables, representan ambiente canónico/versión/identidad/generación pendientes:
+
+```text
+metadata.snapshot = E|C|I|academic-initial|5000|67108864|3|900000000|20|900000000|10|60000000|60|60000000|5|60000000|300|60000000|30|60000000
+metadata.generation = G
+```
+
+Orden de los siete pares: register:email, register:origin, login:email, login:origin, login:origin-email, logout:origin, logout:account. La generación **no forma parte** de la cadena snapshot. No se crea archivo runtime/config.json ni se calcula hash de un bundle incompleto; no sustituir E por dev o development implícitamente.
+
+**Vinculación al release:** según §§48.2/48.4, `config.json` archiva configuración efectiva **no secreta**, incluidas las tres claves reales de AuthenticationComposition, ambiente, siete cuotas/revisión/capacidad y resto del contrato. Manifest relaciona source/digest, `configVersion` de bundle, `configSha256` de bytesUTF8exactos, cuatroARN+VersionId y `quotaIdentityReference` igual a I. **configVersion de bundle no equivale automáticamente a C**, ni releaseId/generation son intercambiables. C y G no son campos adicionales top-level del esquema1 mostrado: permanecen en el snapshot de config; no extender el esquema silenciosamente. La custodia de aprobaciones ancla hash y origen; hash de config no autentica por sí solo ni debe calcularse sobre HMAC.
+
+**Secuencia documental para evitar circularidad:** primero descriptor de bootstrap **no promovible**, con referencias exactas y aprobación específica de primer uso tras precondiciones; después, solo bajo autorización técnica independiente, se inicializa y contrasta readback; finalmente se vincula ese resultado al bundle de release y su aprobación de promoción propia. No fingir que el borrador ya es un release completo con metadata coincidente, deploymentTimestamp, evidencia CI o aprobación de deployment. Inicializar no satisface la promoción ni despliega A/B.
+
+La imagen aceptada utiliza CreateBuilder/providers nativos: **no lee automáticamente un archivo llamado config.json, el manifest ni los envelopes de T019**. Parser/helper/adapter de §§47–48 son diseño, no capacidad observada. Debe decidirse y autorizarse después el canal de mapping soportado por esa imagen y la entrega íntegra A/B; no cambiar digest/código ni escribir secretos a env/argv/disco para resolverlo en esta entrega.
+
+### 95.10. Decisiones humanas exactas pendientes y consecuencias
+
+Los textos siguientes son **solicitudes de decisión, no decisiones ya aprobadas ni permiso de ejecución**. Los campos entre corchetes requieren datos/evidencia reales antes de aprobarse:
+
+| Decisión pendiente | Formulación que debe completar/aprobar el responsable | Consecuencia y límite |
+| --- | --- | --- |
+| D-INIT-HIST | «Acredito mediante [evidencias y responsable] que el dominio de cuotas [destino/DB/ambiente/prefijo exactos] jamás se utilizó, no quedan residuos y todos los consumidores/admisiones/in-flight están controlados; autorizo tratarlo documentalmente como primer uso». Si no puede acreditarlo, elegir expresamente **historia incierta → recuperación separada**, no declarar primer uso | Una aprobación sin evidencia no satisface el contrato. Aceptar TYPE none no implica esta declaración ni escritura; evidencia contraria impide initialize |
+| D-INIT-ENV | «Selecciono [ASPNETCORE_ENVIRONMENT real] y su ambiente canónico derivado, DB Mongo y prefijos Redis coherentes, y especifico qué ajuste contractual futuro separado se someterá a autorización para resolver Development/ACLdev» | Mantener Development y escoger Dev tienen los impactos de§95.8.2. Esta selección no modifica infra/ACL/DB/transporte ni habilita inicializar un namespace distinto al observado |
+| D-INIT-REF | «Defino y apruebo C=[token exacto] como versión de este descriptor inmutable; I=[token exacto] como referencia de [registro no secreto con ARN/VersionId HMAC inventariados, ambiente y representación/source exactos]» | Etiquetas nuevas de gobierno, **no recuperadas de Redis**. No aprobar antes de fijar el vínculo. Cambios futuros no permiten reasignar una etiqueta conservando contenido distinto ni evadir transiciones |
+| D-INIT-GEN | «Apruebo para una futura ejecución separada el procedimiento CSPRNG16bytes→hexminúsculas/no cero/no colisión de§95.6, con [actor/custodia]; el literal generado y descriptor completo se presentarán para aprobación antes de escribir» | No se genera ahora, no se vuelve a generar por intento/restart. No GUID/RunId/fixtures/hashHMAC/DynamoDB0; generación nueva no prueba historia |
+| D-INIT-EXEC | **Posterior, no solicitada como permiso implícito ahora:** «Tras acreditar todas las puertas, apruebo el descriptor completo con C/I/G literales, invocador revisado, actor/keys/comandos/entorno/ventana, gates sin mutaciones no autorizadas y readback/fallo para una inicialización controlada» | Requiere autorización técnica nueva y específica; si falta invocador compatible o exige desarrollo, ese trabajo necesita alcance propio previo. Inicializar escribe ready y cuenta como activación operacional de cuotas, no deployment ni aceptación del gate |
+
+### 95.11. Estado de salida y preservación
+
+**ANÁLISIS DOCUMENTAL COMPLETADO / PRIMER SNAPSHOT NO DETERMINADO / INICIALIZACIÓN NO AUTORIZADA NI EJECUTADA**. Resultado observacional aceptado en su alcance exacto, no reabrir T017/T019/T020 ni suponer cuotas cloud inicializadas. **T008/T017/T019/T020 COMPLETE / ACCEPTED; GATE-I-B PENDING / NOT SATISFIED**, catálogo11+5+14/gates1+8, AUTH-027 integral/T018/delivery/transporte y demás diferidos intactos.
+
+Solo este task y **[memoria §156](../../memoria.md)** se actualizan. Evidencia no secreta local **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-quota-initialization-design-20261117\**: fuentes24/sourceMatches, hashes de252archivos protegidos, copias documentales before y revisión de integridad posterior. Sin generar G ni escribir descriptor runtime. State60/backup57 preservados, hashes **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 / cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279**. **AWS/SSM/Redis/Secrets/DynamoDBcalls0, initialize/fence/maintain/activate0, IAM/ACLwrites0, código/HCL/hostchanges0, Dockercommands0, deployment/ALBchanges0, Terraformcommands/apply0, build/tests0, stage/commit/push0** en esta entrega. Mantener ventana/costos/historial, sin limpieza ni siguiente fase automática.
+
+## 96. Auditoría observacional de primer uso — dev HISTORY UNCERTAIN / development INDETERMINATE
+
+### 96.1. Alcance expresamente autorizado y source antes de observar
+
+El responsable **acepta §95 como análisis**, sin autorizar inicialización, y permite exclusivamente lecturas para auditar primer uso del dominio de cuotas Redis, distinguiendo **dev** de **development**. No permite initialize/fence/maintain/activate, escrituras Redis, generación de QuotaGeneration, cambios de secretos/IAM/ACL/ambiente/namespace/hosts/código/HCL, Docker login/pull/run, deployment/Terraform/ALB/commit/push. Se usa SSM/rol existente para el acceso observacional; el envío SSM es una escritura de control plane, **no escritura de datos Redis ni cambio de configuración del host**. Se conservan sus artefactos internos no secretos.
+
+**Source aceptado 078130627bc50a9dc2feee5fb699cedbea87dbbb**, contrastado antes de AWS: **8/8 archivos iguales**, normalizando solo CRLF/LF. [Key builder](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaKeyBuilder.cs) líneas6/14–24/27–53, [Lifecycle](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaLifecycle.cs) líneas8–11/40–42/63–80, [Lua](../../Enver.API/Infrastructure/Redis/Scripts/ConsumeAuthenticationQuota.lua) líneas22/47–63/78–92/167–217, [Capture](../../Enver.API/Composition/AuthenticationDependencyOptions.cs) líneas18–33, protocolo/configuración/store/política. No se ejecuta el producto, no se invoca ningún modo Lua.
+
+**Únicas familias de claves derivadas de esas fuentes**, aplicadas a cada ambiente sin cambiarlo:
+
+| Ambiente | Metadata / registry exactas | Patrón de inventario exacto de Lifecycle |
+| --- | --- | --- |
+| dev, accesible por ACL aceptada | `enver:{dev:auth:ratelimit}:metadata` / `enver:{dev:auth:ratelimit}:registry` | `enver:{dev:auth:ratelimit}:bucket:*` |
+| development, esperado por host Development | `enver:{development:auth:ratelimit}:metadata` / `enver:{development:auth:ratelimit}:registry` | `enver:{development:auth:ratelimit}:bucket:*` |
+
+Bucket válido: prefijo + `bucket:<operation>:<scope>:<opaqueId>`; pares register:email/origin, login:email/origin/origin-email, logout:origin/account; opaqueId Base64url canónico43caracteres de32bytes, no material HMAC. **Ni revisión, versión de configuración, referencia de identidad ni generación forman parte del nombre físico**. No se inventan patrones para generaciones antiguas, locks, fences, snapshots o aliases; el contrato inspeccionado no define otras claves de control/lifecycle: están en los12campos de metadata. No se inventaría revocación/JWT ni namespaces ajenos. No hay patrón global `*`, `KEYS`, ACL GETUSER/LIST, EVAL o sondeo de identificadores candidatos.
+
+### 96.2. Identidad, operación y límites observacionales
+
+**Operador:** perfil exclusivo enver-admin-temp, STS **2026-11-17T04:02:37.665Z–04:02:41.256Z/exit0**, cuenta926925605666, ARN exacto **arn:aws:iam::926925605666:user/enver-terraform-local**. SSM confirma A **i-0a66085b7b2411393** Online. Un SendCommand, **91a3a9a1-d872-46bb-8009-d635abf14ee3**, **Success / ResponseCode0 / stderr vacío**; host acredita **arn:aws:sts::926925605666:assumed-role/enver-dev-api-runtime/i-0a66085b7b2411393**. ScriptSHA256 **075583f5d74ee9f1e1c5c8e44ffb78443d076cc3179e0a2b86156c0cb5e55e29**. No fallback de perfil/rol ni reenvío.
+
+**Destino:** primary **master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com:6379**, DB0 por conexión nueva sin SELECT, TLS1.3 con CA/hostname verificados. Un GetSecretValue de **AUTH Redis exclusivamente**, ARN/VersionId fijados a **arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP / 2dfc79eb-625a-4f1b-aca7-b1575b5142c1**; material consumido solo en memoria por socketTLS, no argv/env/logs/archivos. No lecturas JWT/HMAC/Mongo, username/password/ConnectionString expuestos **NO**. No se afirma zeroización de memoria.
+
+**Tiempos:** observación de namespaces reportada por host **04:02:00.374211Z /04:02:00.376596Z**, TIME Redis **1794888120/376941**, captura local terminada **04:02:55.652Z**. Se conservan los relojes de origen, sin suponer sincronía o inferir latencia/continuidad histórica.
+
+**Enumeración:** se intentó una vez `SCAN 0 MATCH enver:{dev:auth:ratelimit}:bucket:* COUNT 3`, exactamente el patrón de Lifecycle. Respuesta **NOPERM**, cero páginas devueltas. Esto prueba denegación actual del comando en la conexión usada, coherente con ACL aceptada §§60.3/63/65, no prueba de inexistencia de buckets. **No se repite SCAN para development**, no se cambia ACL ni se pasa a otra identidad o a KEYS. MATCH filtra una enumeración de DB, **no es frontera ACL**; no se afirma aislamiento de enumeración por patrón ni lectura administrativa de ACL remota completa.
+
+El mecanismo runtime permitido **ZRANGE de registry** solo puede localizar miembros registrados, no huérfanos. En dev, TYPE none/ZCARD0 no devuelve candidatos; no se envía ZRANGE ni se adivinan claves. En development, TYPE de registry fue denegado. **No hay un mecanismo autorizado y efectivamente disponible que pruebe inventario completo con estos permisos.** GET/TYPE de nombres conocidos no sustituyen SCAN; INFO/global stats tampoco acreditarían historia de este dominio y no se consultan.
+
+### 96.3. Matriz de evidencia para los ocho objetivos
+
+| Objetivo | dev — evidencia observada / límite | development — evidencia observada / límite |
+| --- | --- | --- |
+| 1. metadata.snapshot | Metadata TYPE none/HLEN0/PTTL-2; dos HMGET de12campos nulos, antes/después estables; **AUSENTE en esas lecturas** | TYPE metadata **NOPERM**; snapshot **INDETERMINADO**, no ausente |
+| 2. metadata.generation | Campo nulo en ambas lecturas; **AUSENTE**, no se genera/sustituye | **INDETERMINADA** por denegación |
+| 3. registry | TYPE none/ZCARD0/PTTL-2/PEXPIRETIME-2; **AUSENTE** en la lectura | TYPE registry **NOPERM**; existencia/contenido **INDETERMINADOS** |
+| 4. buckets existentes/huérfanos | **INDETERMINADOS**: SCAN NOPERM y registry no ofrece miembros; **0 examinados no significa0existentes** | **INDETERMINADOS**: sin lectura de registry ni enumeración autorizada disponible |
+| 5. control/lifecycle | El source persiste state/count/horizon/dirty/version/fence/drain/last/maximumWindow y protocol/snapshot/generation **en metadata**, sin clave aparte. Todos nulos hoy; no traza actual recuperable de esa clave | Mismo contrato de source; metadata inaccesible, estado de control **INDETERMINADO** |
+| 6. generaciones anteriores | **No existen nombres por generación en el contrato**; cambios reemplazan generation en metadata, no ledger histórico. Sin metadata/historia externa confiable no se pueden recuperar ni excluir épocas anteriores; no buscar prefijos inventados | Igual límite de diseño, más denegación de metadata. **No se verifica ausencia de generaciones previas** |
+| 7. residuos initialize/fence/maintain/activate | initialize crea ready, fence closed con fence/drain, maintain/activate actualizan versión/estado. No hay estos campos hoy, **no demuestra que nunca se ejecutaron**. Buckets huérfanos no verificables; eliminación/pérdida/expiración de datos no se descartan retrospectivamente | Residuos de control/buckets **INDETERMINADOS** por falta de acceso |
+| 8. consumo previo / uso namespace | Historia aceptada §§82–84 acredita **diagnósticos SET/DEL bajo bucket:runtime-check:** y limpieza; no son buckets válidos del builder ni consumo evaluate. **Hubo uso físico del prefijo**. Sin contadores actuales o historial suficiente para acreditar/descartar consumo real de cuotas | No evidencia suficiente para afirmar uso o no uso. Las denegaciones no indican inexistencia ni consumo |
+
+El antecedente positivo de diagnósticos es importante: §83 registra SET NX PX60000, GET, EVAL(GET), DEL1 y GETnil A/B, aceptados por §84; §82 conserva el intento diagnóstico anterior/fallo/limpieza. Las claves diagnósticas no cumplen `<operation>:<scope>:<opaqueId>` y no autorizan afirmar que `ConsumeAuthenticationQuota` aceptó consumos. Su limpieza acreditada **no se extiende** a otros buckets que no pudieron inventariarse. No se reejecutan aquellos tests ni se reabre su aceptación.
+
+Una inicialización conforme deja metadata sin TTL; que ahora no exista es compatible con primer uso, pero también con borrado/pérdida/restauración/selección de dominio diferente. Una lectura actual, incluso si un inventario completo resultase vacío, **no sustituye los registros confiables de historia de consumidores/despliegues/operaciones** que exige el comentario de Lifecycle y Lua. No se ha acreditado historia completa, exclusión global o in-flight resueltos. La auditoría no es una transacción global ni congela consumidores.
+
+### 96.4. Clasificación por namespace y conflicto de aplicación
+
+- **dev: HISTORY UNCERTAIN.** Conexión y claves fijas auditadas; snapshot/generation/registry ausentes. Sin inventario de buckets/huérfanos por SCANdenegado, sin ledger de épocas ni historia confiable de consumos/control. Hay uso diagnóstico previo documentado del prefijo; no prueba de consumo real de cuotas ni de ausencia de consumos. **NEVER-USED EVIDENCE SUFFICIENT: NO**.
+- **development: INDETERMINATE.** Es el ambiente canónico derivado de **ASPNETCORE_ENVIRONMENT=Development** y el namespace contractual de aplicación **enver:development**; **TYPE metadata y TYPE registry NOPERM**, buckets sin enumeración disponible. No se ha observado vacío, ausencia de snapshot/generación o continuidad. **NEVER-USED EVIDENCE SUFFICIENT: NO**.
+
+Las evidencias dev **no se transfieren a development**. El acceso a un prefijo aceptado por T017 no demuestra acceso ni primer uso del dominio esperado por la aplicación. Se mantiene DEPLOY-CONFIG-02; no se altera ambiente, NamespacePrefix, DB o ACL para reconciliarlos. Ninguna clasificación aprueba D-INIT-HIST ni las demás decisiones de §95.10, crea referencias o convierte §95 en permiso de ejecución.
+
+### 96.5. Detención, conteos y preservación
+
+**STOP: EVIDENCIA INSUFICIENTE PARA ACREDITAR PRIMER USO.** No nuevas llamadas remotas después de obtener este resultado. No inicializar ni proponer initialize como autorizado. Sin recuperación/limpieza/reconciliación, nuevas identidades, grants o consultas ampliadas automáticas. Quedan exactamente sin probar: inventario completo dev/huérfanos, todo el estado development y la historia/continuidad confiable de cuotas/consumidores/épocas en ambos dominios.
+
+Conteos efectivos: **SSMSendCommand1**, STSoperador1/STSinstance1, GetSecretValueRedis1/AUTH1, **16intentos de comandos observacionales Redis**: TYPE5 (2denegadosdevelopment), PTTL3, HLEN2, HMGET2, PEXPIRETIME1, ZCARD1, SCAN1 (denegado), TIME1. **17comandos incluidos AUTH /3denegaciones NOPERM**. Esos16intentos incluyen los3denegados, no se presentan como16lecturas exitosas. ZRANGE/ZSCORE/bucketreads0, SCANpages0, KEYS0, EVAL/EVALSHA0, ACLadmincommands0. Escrituras Redis/DynamoDB/Secrets/IAM/ACL0, generaciónQuotaGenerationNO, initialize/fence/maintain/activate0, Dockercommands0/deployment0/Terraformcommands0/ALBchanges0/build-tests0/stage-commit-push0. No se inventa totalrequests de waiter/SSM interno.
+
+**MaxActivePartitions=5000 APROBADO / NO APLICADO; T008/T017/T019/T020 COMPLETE / ACCEPTED; GATE-I-B PENDING / NOT SATISFIED.** Catálogo11+5+14/gates1+8 y diferidos intactos. Solo este task v0.107.0/§96 y **[memoria §157](../../memoria.md)** se actualizan; §95 y demás historial conservados. Evidencia local no secreta **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-quota-first-use-audit-20261117\**: precheck8fuentes/hashes252archivos/copiasdocs, script/scope/STS/SSM/parámetros/decisión y cierre de integridad. Sin persistencia de secretos o valores de buckets. State60/backup57 preservados, hashes **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 / cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279**; código/HCL/hosts/configuración y trabajo anterior intactos. Sin ampliación de ventana/costos/alcance ni siguiente incremento automático.
+
+## 97. DEPLOY-CONFIG-02 — Análisis de compatibilidad y propuesta ACL development, no cambio autorizado
+
+### 97.1. Aceptación y límites de esta entrega
+
+El responsable **acepta §96 como resultado observacional**: **dev HISTORY UNCERTAIN / development INDETERMINATE**, no se autoriza inicialización y **MaxActivePartitions=5000 APROBADO / NO APLICADO**. Autoriza solo análisis/propuesta para conservar el contrato **ASPNETCORE_ENVIRONMENT=Development / MongoDb:DatabaseName=enver_development / Redis:NamespacePrefix=enver:development**. No se repite observación cloud: **AWS/SSM/Redis/Secrets/IAM/MongoDB/DynamoDBcalls0**, sin modificar ACL/usuario/secreto/ambiente/DB/código/HCL/hosts, sin escrituras de datos, generación, lifecycle, Docker, deployment, Terraform, ALB, commit o push.
+
+**2026-11-17T04:11:34.866Z — revisión local23/23fuentes iguales** al source aceptado **078130627bc50a9dc2feee5fb699cedbea87dbbb**, normalizando solo CRLF/LF; incluye builders/stores/validadores/composición/HMAC/Lua/contratos y cuatro archivos de pruebas leídos, **ninguna prueba ejecutada**. HCL/policy local son contexto de ownership/alcance, no nueva verificación remota ni permiso de corregir sus comentarios históricos.
+
+### 97.2. Contrato exacto y patrones físicos reales
+
+**No existe un archivo/clase RedisAuthenticationKeyBuilder en el árbol inspeccionado.** Los componentes reales son [RedisKeyBuilder](../../Enver.API/Infrastructure/Redis/RedisKeyBuilder.cs) y [RedisAuthenticationQuotaKeyBuilder](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaKeyBuilder.cs); ambos se revisan, sin crear o renombrar componentes.
+
+- [RedisOptionsValidator](../../Enver.API/Configuration/AuthenticationOptionsValidation.cs), líneas40–49: igualdad exacta `NamespacePrefix == $"enver:{environment.ToLowerInvariant()}"`. Para host **Development exige enver:development**, no enver:dev, no mayúsculas, espacios, sufijos o alias. Además exige conexión externa no vacía, propósitos exactos **auth:revocation / auth:ratelimit**, timeouts/margen positivos, FailClosedtrue y noeviction. MongoDbOptionsValidator líneas28–36 admite **enver_development** y bases con prefijo enver_development_, sin necesitar cambiar la DB aprobada. ValidateOnStart está conectado por composición/Program; los comentarios antiguos de clases no sustituyen ese wiring real.
+- [RedisTokenRevocationStore](../../Enver.API/Infrastructure/Redis/RedisTokenRevocationStore.cs), líneas36/210–215/262–264: extrae **development** de NamespacePrefix y lo pasa al builder. Este fija issuer **enver-api** y segmento físico **auth:revoked**, no auth:revocation; el propósito declarado no es una plantilla libre de key. Jti canónico Base64url43/32bytes, sin JWT/rawemail en key.
+- [Capture](../../Enver.API/Composition/AuthenticationDependencyOptions.cs), líneas18–33, y [composición](../../Enver.API/Composition/AuthenticationServiceCollectionExtensions.cs), líneas105–110: cuotas toman ambiente del **IHostEnvironment**, no de NamespacePrefix. Lua comprueba las mismas keys exactas y su hash tag. [HMAC](../../Enver.API/Infrastructure/Security/HmacAuthenticationScopePseudonymizer.cs), líneas33–36/49–67, también incorpora ambiente canónico del host a la identidad. El dominio de cuotas no se redirige cambiando solo RedisOptions ni el nombre de un secreto.
+
+**Patrones contractuales para el runtime ya aprobado**, sin instanciar IDs ni referencias:
+
+| Familia | Clave/patrón físico con environment development |
+| --- | --- |
+| Revocación | `enver:development:auth:revoked:enver-api:<jti>`; selector ACL `~enver:development:auth:revoked:enver-api:*` |
+| Metadata de cuotas | `enver:{development:auth:ratelimit}:metadata` |
+| Registry | `enver:{development:auth:ratelimit}:registry` |
+| register/email | `enver:{development:auth:ratelimit}:bucket:register:email:<opaqueId>` |
+| register/origin | `enver:{development:auth:ratelimit}:bucket:register:origin:<opaqueId>` |
+| login/email | `enver:{development:auth:ratelimit}:bucket:login:email:<opaqueId>` |
+| login/origin | `enver:{development:auth:ratelimit}:bucket:login:origin:<opaqueId>` |
+| login/origin-email | `enver:{development:auth:ratelimit}:bucket:login:origin-email:<opaqueId>` |
+| logout/origin | `enver:{development:auth:ratelimit}:bucket:logout:origin:<opaqueId>` |
+| logout/account | `enver:{development:auth:ratelimit}:bucket:logout:account:<opaqueId>` |
+
+Todas las keys de cuotas comparten **{development:auth:ratelimit}**; opaqueId canónico Base64url43 de32bytes. [Lua](../../Enver.API/Infrastructure/Redis/Scripts/ConsumeAuthenticationQuota.lua), líneas47–63/78–92/167–217: snapshot/generation/control son campos de metadata, **no nuevas keys por versión/generación**. [RevokeToken.lua](../../Enver.API/Infrastructure/Redis/Scripts/RevokeToken.lua) preserva expiración con PXAT/PEXPIREATGT; el store calcula retención hasta **exp+skew+margen**. La propuesta no modifica TTL, retención, claves, hash tags, HMAC o siete reglas de cuotas.
+
+### 97.3. ACL aceptada T017 y delta exacto propuesto A
+
+**Baseline aceptado**, no propuesta de reescritura histórica: §§60.3/63/65 y aceptación§84 documentan ACLdev, comandos mínimos inventariados, sin SCAN/KEYS/PERSIST ni administración. §96 acredita SCANdenegado y TYPEdevelopmentdenegados, **no export live completo del ACL**. Antes de una intervención futura debe verificarse administrativamente baseline vigente y ausencia de grants alternativos; si difiere, STOP/revisión, no aplicar sustitución ciega.
+
+**A — recomendación de objetivo, NO APROBADA / NO APLICADA:** conservar mismo usuario/autenticación/grupo/credenciales y sustituir **solo los cuatro selectores de claves**, sin coexistencia implícita:
+
+| Selector aceptado | Sustitución propuesta |
+| --- | --- |
+| `~enver:dev:auth:revoked:enver-api:*` | `~enver:development:auth:revoked:enver-api:*` |
+| `~enver:{dev:auth:ratelimit}:metadata` | `~enver:{development:auth:ratelimit}:metadata` |
+| `~enver:{dev:auth:ratelimit}:registry` | `~enver:{development:auth:ratelimit}:registry` |
+| `~enver:{dev:auth:ratelimit}:bucket:*` | `~enver:{development:auth:ratelimit}:bucket:*` |
+
+**Access string objetivo no secreto**, solo representación revisable, **no comando de administración ni instrucción para ejecutar ahora**:
+
+```text
+on -@all resetkeys ~enver:development:auth:revoked:enver-api:* ~enver:{development:auth:ratelimit}:metadata ~enver:{development:auth:ratelimit}:registry ~enver:{development:auth:ratelimit}:bucket:* resetchannels +get +set +del +type +hlen +hmget +hset +pttl +time +zcard +zrange +zscore +zcount +zrem +zadd +zremrangebyscore +pexpiretime +pexpireat +eval +evalsha +script|load +echo +ping +hello +info +client|setname +client|setinfo +client|id
+```
+
+Mantener **-@all/resetkeys/resetchannels**, mismas acciones/subcomandos y restricciones de pubsub; no `~*`, `~enver:*`, `~enver:development:*`, wildcard de ambiente, +@all, EXISTS, SCAN, KEYS, PERSIST o nuevos comandos para silenciar probes del cliente. La futura sustitución debe retirar los cuatro grantsdev, **no simplemente añadir development**. El único atributo a intervenir sería **AccessString del usuario existente** mediante administración externa autorizada; no alterar estado/identificador/autenticación/password/grupo ni enviar parámetros de rotación como parte del ajuste.
+
+La unión de comandos y selectores sigue permitiendo comandos sobre ambas familias, y EVAL/EVALSHA no fijan SHA/ARGV/modo: **se conserva el riesgo aceptado de separación incompleta control/runtime**, no se declara corregido. Esta propuesta no endurece ni amplía otros aspectos de T017. Sigue sin dar a runtime un inventario SCAN o facultad de recuperación; permisos y autorización de observación/control constituyen un alcance independiente.
+
+### 97.4. Comparación de A/B/C/D: seguridad, continuidad, privilegio y complejidad
+
+| Alternativa | Seguridad / mínimo privilegio | Continuidad | Complejidad y conclusión |
+| --- | --- | --- | --- |
+| **A. Reemplazar dev por development en ACL** | Un solo dominio lógico permitido, mismos comandos; alinea el aislamiento con host/DB aprobados y elimina grantsdev obsoletos, **si su retirada se acredita segura**. No es un subconjunto de claves anterior: cambia el conjunto autorizado | **No mueve ni reconstruye estado**. Retirar dev podría ocultar revocaciones/consumos a consumidores anteriores. Deben controlarse consumidores y resolverse historia/continuidad; §96 no lo acredita | **Menor delta contractual ejecutable sin código, secretos, IAM o HCL**:4selectores. Recomendada como estado objetivo condicionado, **no cambio inmediato autorizado** |
+| **B. Coexistencia temporal dev+development** | Ocho selectores, mayor radio de acceso con la misma credencial y capacidad de mutar ambos dominios. Requiere necesidad probada, responsables, plazo/criterio de retirada y evidencia adicional; no privilegio mínimo por defecto | Conserva permiso a dev pero **no hace dual-read ni migra datos**. RuntimeDevelopment solo usa development; antiguos consumidoresdev podrían mantener particiones separadas, eludir cuotas o consultar revocaciones distintas. HMAC ambiente cambia entre consumidoresdev/development | Delta inicial de adición más retirada posterior/rollback más complejo. Solo justificable si se demuestra transición concreta de consumidores/estado; **no hay tal evidencia ahora**. No recomendada preventivamente ni como cura de historia incierta |
+| **C. Desacoplar environment y namespace por código** | Requiere nueva autoridad de configuración/validación y revisar aislamiento de revocaciones/cuotas/HMAC/Lua; riesgo de mezcla de ambientes. Relajar solo el validador no es desacoplamiento coherente | No resuelve por sí misma revocaciones/contadores/identidades previos y puede cambiar el dominio HMAC o partir cuotas. No existe tal adapter/alias en la fuente aceptada | Nuevo contrato SDD, implementación/pruebas/source/imagen/release y aceptaciónT008, no delta mínimo. Fuera del alcance/no implementable por esta autorización. Rechazada para resolver este conflicto acotado |
+| **D. Alternativas contractuales existentes** | Cambiar solo NamespacePrefix a dev es rechazado por Options; aun omitiéndolo, Capture/HMAC seguirían development. Cambiar solo DBRedis/endpoint/nombresAWS no es alias. Otro usuario con ACLdevelopment podría aislar mejor credenciales, pero **no hay uno acreditado** | Ninguna opción existente ofrece traducción o migración de namespaces. Otro usuario tampoco reconstruye estado y requiere pinning/entrega/continuidad propios | Nuevo usuario/secreto/grupo podría exigir IAM/HCL/boundary y aceptar otra arquitectura de acceso; no es alternativa existente lista. **Conservar bloqueo** es la única actuación inmediata segura, pero no resuelve el contrato |
+
+La recomendación A se funda en **consistencia de los tres valores requeridos y ausencia de nuevas capacidades**, no en conveniencia de permisos. B no se adopta sin consumidores/estado que justifiquen una transición, C rehace un contrato ya coherente en código y D no tiene alias compatible disponible. La **seguridad de ejecutar A todavía depende de precondiciones no satisfechas**, no se deduce de su menor tamaño.
+
+### 97.5. Policies, IAM, secretos, infraestructura y release
+
+- **ACL Redis ≠ IAM AWS:** los patrones de claves son autorización de datos Valkey. [api_secrets_read](../../infra/iam-runtime.tf), líneas87–122, autoriza GetSecretValue de CORE4 exactos y KMS limitado a SecretsManager. No autoriza patrones Redis ni administración ElastiCache. [Boundaryv4](../../infra/bootstrap/runtime-permissions-boundary-v4-t020.proposed.json) permite CORE4/autoridad y deniega acciones fuera de contrato; no otorgar ModifyUser al runtime para este ajuste. Actor administrador externo con permisos ya autorizados debe gestionar cualquier cambio posterior; si faltan permisos, STOP, sin ampliarlos por inferencia.
+- **Mantener los cuatro ARN/VersionId y material existentes**. Los nombres AWS **enver/dev/api/** no son el namespace de las claves Redis. No renombrar secretos a development, generar versiones o rotar HMAC/JWT/Redis por este cambio. La versión del secreto fija credenciales, **no congela el ACL mutable de su usuario**: la aprobación deberá custodiar AccessString no secreto antes/después y vincular su evidencia al release sin inventar nuevos campos de config/manifest§48.
+- [elasticache.tf](../../infra/elasticache.tf), líneas80–107, separa ownership: usuario/ACL/password externos, Terraform posee membresía y cache; [variables.tf](../../infra/variables.tf), líneas121–168/184–198, fija CORE4 y el ID existente. A no crea/reemplaza usuario, no cambia membresía ni necesita HCL/apply/import. Endpoint/TLS/SG/noeviction/nodo/DB0 siguen iguales. Las etiquetas y `var.environment=dev` de infraestructura **no deben renombrarse** para imitar ASP.NETEnvironment: identifican recursos aceptados, no el ambiente derivado por los builders.
+- [authority.tf](../../infra/authority.tf) y T020: tabla/PKauthentication/GetItem-UpdateItem/LeadingKeys y estado/generación independientes de namespaceRedis; **sin cambios ni bootstrap/reapertura/CAS** por esta propuesta. T019/T020 mantienen aceptación; no se afirma auditoría IAM fresca.
+- Config objetivo conserva **Development/enver_development/enver:development**, source/digest aceptados y contrato HMAC. **A no cambia realmente el ambiente HMAC de esa aplicación**; sí cambiaría identidad si se trasladaran consumidores reales desde dev, lo que requiere transición separada. No asignar QuotaIdentityReference/configversion/generation para aparentar compatibilidad. Deliveryadapter/config.json/manifest y demás bloqueos§93–95 no quedan implementados por alinear ACL.
+
+### 97.6. Puertas para una intervención futura, no ejecución actual
+
+1. **Decisión humana de objetivo y autorización independiente de intervención**, con actor/usuarioidentificado de forma protegida/servicio/destino/ventana/delta/revisión/rollback/pruebas permitidas. La autorización actual no incluye ni siquiera llamadas de lectura cloud adicionales o edición técnica de archivos.
+2. **Baseline y ownership verificables:** obtener evidencia administrativa no secreta del ACL y grupos efectivos, autenticación/TLS/destino, identidad con facultad de gestión ya aprobada y ausencia de cambios concurrentes. Preservar recibo de AccessString anterior exacto; no reconstruirlo solo a partir del diseño antiguo. Si se detecta drift, no normalizar ni publicar automáticamente el string propuesto.
+3. **Historia de ambos dominios y control de consumidores:** siguen devHISTORYUNCERTAIN/developmentINDETERMINATE. Inventario/lecturas por identidad de observación autorizada separadamente e historial confiable de consumidores, revocaciones, emisiones e in-flight; runtime sigue sin SCAN. Retirar permiso no elimina datos, pero puede volverlos inaccesibles para consumidores. No llamar «nuevo» a development ni usar ausencia de metadata o DynamoDBOpen0/0 como prueba.
+4. **Exclusión de tráfico y criterio de continuidad:** no activar aplicación ni migrar consumidores con pérdida o historia incierta. Cualquier recuperación, cuarentena/drenaje o reconstrucción de revocaciones/cuotas requiere procedimiento/autorización independientes. Revocaciones conservan exp+skew+margen; cuotas maxventanasold/new con último consumo posible confiable y capacidad reconciliada. **No vale esperar900s desde§96 o desde el cambio de ACL**. No se prescribe cerrar o reabrir DynamoDB como efecto lateral de esta propuesta.
+5. **Cambio ACL separado de uso de datos:** si se autoriza solo alineación de permisos, el recibo puede acreditar el delta y las lecturas de compatibilidad, **nunca primer uso, readiness, cuotas inicializadas o promoción**. Metadata ausente o incierta seguirá bloqueando operación. Si se exige continuidad ya demostrada antes del cambio y no puede acreditarse, conservar bloqueo y solicitar el alcance observacional correspondiente, no recurrir a B como bypass.
+6. **Propagación/fallo de conexiones:** revisar futuras conexiones nuevas/existentes A/B y resultado administrativo terminal, sin asumir aplicación inmediata o que AUTH/PING prueba datos. Errores pueden cerrar stickyguard; [RedisSecurityStateGuard](../../Enver.API/Infrastructure/Redis/RedisSecurityStateGuard.cs) y detector no reabren por reconnect. [AuthenticationDependencyAdmission](../../Enver.API/Composition/AuthenticationDependencyAdmission.cs), líneas27–35, puede escribir cierre DynamoDB ante falloRedis: **no usar el host/API como diagnóstico supuestamente de lectura** ni resetear guard/autoridad para conseguir un PASS.
+
+### 97.7. Pruebas exigibles — todas PENDIENTES / NO EJECUTADAS
+
+| Bloque / entorno futuro separado | Positivas y negativas necesarias | Límite de aceptación |
+| --- | --- | --- |
+| **Contrato estático/unitario, sin cloud** | Development + enver_development + enver:development válidos con el resto de entradas sintéticas correctas; NamespacePrefixenver:dev, mayúsculas/espacios/sufijos y DBenver_dev rechazados. Builders producen todas las familias de§97.2, mismo hash-tag de cuotas y separación frente a dev; HMAC toma development sin volcar material/IDs reales. Verificar que la ACL objetivo cambia solo4selectores, no comandos | Los cuatro archivos de pruebas inspeccionados cubren patrones genéricos/ambientes sintéticos; **no acreditan un PASS específico de esta ACL clouddevelopment**. Ampliación/ejecución de tests requerirían permiso propio; fixtures de laboratorio no son referencias operativas |
+| **Read-only de permisos A/B tras cambio autorizado** | Identidades/TLS/AUTH/PING; TYPE/PTTL metadata y registry development, HLEN/HMGET si corresponde/ZCARD sin mutaciones; GET de clave de revocación de prueba aprobada para verificar acceso. Para A, GET/TYPE a nombresdev/otrosambientes/fuera de familias deben ser NOPERM; sin escribir al intentar los negativos. A y B usan el mismo destino/ambiente/credencial fijada | Un TYPE none válido prueba permiso/ausencia puntual, **no primer uso**. Registry no enumera huérfanos. /health no prueba disponibilidad/integridad. No EVAL de cuotas para «probar lectura» |
+| **ACL/cliente/protocolo en laboratorio aislado autorizado** | Con ACLexactaobjetivo y cliente .NET aceptado: transporte/probes/reconnect/scriptcache; GET/SET de revocación sintética con retención que no se acorta y rechazo distribuido A→B; siete scopes/cuotas concurrentes/capacidad/política/generación/metadata existente de prueba; Lua runtimeevaluate y sus comandos autorizados. Negativos de keysdev/otroissuer/otrasfamilias, incluso EVAL(GET) con KEYSdeclaradas fuera del alcance; fallo/timeout → unavailable/uncertain/fail-closed, sin fallbacklocal o reset | No probar cambios destructivos contra datos del dominio auditado. **No inicializar metadata ni sembrar buckets/registry reales para el smoke ACL**. Estado sintético y escrituras de integración solo en laboratorio con permiso específico; no selecciona/provisiona otro servicio cloud en esta entrega. La ruta productiva queda bloqueada hasta resolver§95–96 |
+| **Revisión de privilegio y evidencia no secreta** | Confirmar administrativamente comandos/4selectores y ausencia de grantsalternativos, sin SCAN/KEYS/PERSIST/EXISTS/ACL/CONFIG/FLUSH/globalkeys/pubsub añadidos. No ejecutar un comando destructivo como negativo. Recibos ACLantes/después, origen/fecha/actor, hash del AccessString no secreto, resultado y correlación A/B; no SecretString/credenciales/HMAC/JWT/pseudónimos de personas | Quitar SCAN/PERSIST no impide HSET/EVAL sobre metadata: registrar riesgo residual, no prometer aislamiento de control. Credenciales pinneadas no son evidencia de ACL pinneada |
+| **Continuidad/rollback en entorno autorizado** | Demostrar que no se pierden revocaciones vigentes, no se resetean/parten contadores, no hay dos identidades admitiendo simultáneamente ni consumersdev olvidados; ensayo de rollbackpermiso con admisiones bloqueadas y recibos antes/después | No se acredita con pruebas de conectividadT017 previas, tiempo transcurrido, tablaOpen o mero reemplazo de ACL. Nueva aceptación del responsable solo para resultados efectivamente obtenidos |
+
+No se autoriza volver a ejecutar pruebas§83, crear scratchkeys en metadata/registry o dejar buckets huérfanos como diagnóstico. Las futuras pruebas que muten datos/estado de seguridad deben declarar **explícitamente su entorno y escrituras**; no se encubren como auditoría observacional ni se ejecutan por aceptar este diseño.
+
+### 97.8. Rollback propuesto, no ejecutado
+
+**Rollback de permisos no es rollback de estado ni migración inversa**:
+
+1. Ante error/propagación parcial/prueba fallida, mantener admisiones excluidas y detener pasos; conservar recibos y datos, sin retries compensatorios de lifecycle, reset de confianza, borrar/copiar/renombrar keys o regenerar G.
+2. **Si no hubo consumos/emisiones/escrituras nuevas y se acredita ausencia de in-flight**, un administrador previamente autorizado podría restaurar **el AccessString previo exacto custodiado**, verificando grants/estado/propagación/conexiones. No modificar password/secretos/grupo/IAM/HCL; no añadir ambos dominios como «rollback» silencioso.
+3. Restaurar ACLdev **no vuelve compatible una aplicación Development**. Conservar configuración requerida sin cambios y servicio/admisión bloqueados hasta resolver el conflicto. No cambiar environment a Dev, DBMongo, NamespacePrefix ni hacer restart para reabrir guard/autoridad; no presentar el retorno de AUTH/PING como recuperación.
+4. **Si ya hubo uso de development o hay incertidumbre**, restaurar permisos puede ocultar nuevas revocaciones/consumos. No reabrir en dev ni hacer rollbackautomático: requiere decisión/recuperación de continuidad específica, inventario confiable, control de emisiones/in-flight, horizonte de revocación y cuotas/reconciliación o reconstrucción según contrato. Los datosdevelopment se preservan. Si el ACL anterior contenía drift inseguro, no restaurarlo sin revisión: mantener fail-closed.
+
+### 97.9. Impacto en T017 y decisión humana pendiente
+
+**T017 COMPLETE / ACCEPTED permanece sin cambio** por instrucción humana. Su aceptación§84 y evidencia§83 son históricamente válidas para el ACLdev y alcance entonces probado; **no certifican el stringdevelopment ni una migración/continuidad nuevas**. El ajuste propuesto es una **enmienda incremental de compatibilidad de T017**, no una corrección retrospectiva de PASS, ni justificación para marcarla incompleta o reabrir T019/T020. Debe registrarse su nueva decisión, autorización de ejecución específica y posterior aceptación de evidencia de compatibilidad por el responsable; no crear otra tarea de catálogo automáticamente.
+
+**Decisión propuesta exacta, pendiente:** «Apruebo **A como objetivo contractual de DEPLOY-CONFIG-02**: mantener ASPNETCORE_ENVIRONMENT=Development, MongoDb:DatabaseName=enver_development y Redis:NamespacePrefix=enver:development; sustituir únicamente los cuatro selectores de claves ACLdev por development indicados en §97.3, conservando comandos, usuario/autenticación/credenciales/grupo, secretos/VersionId, IAM/boundary/HCL y recursos existentes. Esta aprobación de diseño no autoriza ejecución, coexistencia, migración de datos, inicialización, generación, cambio de confianza o deployment. Antes de intervenir exigiré autorización delimitada con evidencia de baseline/continuidad/consumidores, pruebas y rollback de §§97.6–97.8; aceptaré expresamente sus resultados como enmienda de compatibilidad de T017 sin alterar el historial previo. Mantengo devHISTORYUNCERTAIN, developmentINDETERMINATE y los gates pendientes hasta evidencia/decisión posteriores».
+
+La aprobación de ese texto **todavía no existe**. Elegir B/C/D requiere explicar necesidad y aprobar su alcance alternativo; no se selecciona por defecto ante un bloqueo de A. **DEPLOY-CONFIG-02 permanece sin resolver operacionalmente**: hay una solución contractual recomendada, no ACL aplicada ni permisosdevelopment verificados. DEPLOY-CONFIG-01/historia/metadata, transporte/delivery y otros bloqueos independientes permanecen.
+
+### 97.10. Estado de salida y preservación
+
+**ANÁLISIS COMPLETADO / A RECOMENDADA CONDICIONAL / NO APROBADA / NO APLICADA / SIN EJECUCIÓN TÉCNICA**. **MaxActivePartitions=5000 APROBADO / NO APLICADO; T008/T017/T019/T020 COMPLETE / ACCEPTED; GATE-I-B PENDING / NOT SATISFIED**. Catálogo11+5+14/gates1+8/diferidos intactos. No refsoperativas creadas ni inicialización autorizada.
+
+Solo este taskv0.108.0/§97 y **[memoria §158](../../memoria.md)** se actualizan; aceptación de§96 registrada sin reescribirlo. Evidencia no secreta local **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-deploy-config02-proposal-20261117\**: precheck23fuentes/hashes252archivos/copiasdocs y cierre de integridad. State60/backup57 preservados, hashes **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 / cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279**; historial/trabajo previo intactos. **AWS/SSM/Redis/Secrets/IAM/MongoDB/DynamoDBcalls0, ACL/userchanges0, ambiente/DB/código/HCL/hostchanges0, datoswrites0, generation/lifecycle0, Docker/deployment/ALB/Terraform0, build-tests0, stage-commit-push0**. Sin extensión de ventana/costos/alcance ni siguiente incremento automático.
+
+## 98. Aprobación contractual A y precheck observacional ACL — STOP por ExpiredToken
+
+### 98.1. Decisión explícita del responsable y autorización separada
+
+**A APROBADA EXCLUSIVAMENTE COMO DISEÑO CONTRACTUAL / NO APLICADA.** Responsable mantiene **ASPNETCORE_ENVIRONMENT=Development / MongoDb:DatabaseName=enver_development / Redis:NamespacePrefix=enver:development** y aprueba reemplazar únicamente los cuatro selectores de §97.3: revocación `~enver:dev:auth:revoked:enver-api:*`→`~enver:development:auth:revoked:enver-api:*`; cuotas `~enver:{dev:auth:ratelimit}:metadata /registry /bucket:*`→equivalentesdevelopment. **No coexistencia dev+development**, no ampliar comandos/añadir SCAN/KEYS/PERSIST/EXISTS/comodines generales, no cambios de usuario/grupo/autenticación/credenciales, código/MongoDB/IAM/secretos/HCL/ambiente.
+
+Autoriza preparar y ejecutar **solo PRECHECK OBSERVACIONAL** de ACL/usuario/grupo/consumidoresA-B/ausencia actual de deployment y contenedores, custodiar baseline/rollback y preparar delta/pruebas **sin aplicarlos**. La secuencia futura solicitada es **ACL antes → cambio mínimo controlado → ACL después → positiva development → negativa dev → rollback disponible**. El rollback debe estar **custodiado antes del cambio y conservarse después**, no improvisarse al final. Ningún paso de modificación, rollback, prueba posterior o deployment se ejecuta por aprobar el diseño o este precheck.
+
+### 98.2. Sesión y resultado efectivo: bloqueo antes de observar recursos
+
+Revisión local **8/8 fuentes iguales** al source aceptado **078130627bc50a9dc2feee5fb699cedbea87dbbb**, normalizandoCRLFLF: validador/builders/store/Capture/composición/HMAC/Lua. Hashes de252archivos protegidos y copias documentales before, sin ejecutar producto/tests. Se conserva el análisis§97, no se reinterpreta como permiso técnico.
+
+**Única llamada AWS:** `sts get-caller-identity`, perfil exclusivo **enver-admin-temp**, **2026-11-17T04:51:09.991Z–04:51:13.256Z / exit254 / ExpiredToken**. La sesión vigente y su identidad **NO VERIFICADAS**, aunque el perfil se usó satisfactoriamente en incrementos previos. **STOP inmediato** sin fallback de perfil/rol, reintento, renovación automática, ampliación IAM, acceso directo Redis o invocación de los hosts. **DescribeUsers0/DescribeUserGroups0/DescribeReplicationGroups0/SSMSendCommand0/GetSecretValue0/Rediscommands0/Dockercommands0**. La denegación histórica de DescribeUsers no se repite ahora ni se presenta como vigente: **no se llegó a esa API por token expirado**.
+
+Evidencia no secreta **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-acl-alignment-precheck-20261117\**: **operator-sts.json**, **control-decision.json**, **precheck.json**, **preparation-NOT-EXECUTABLE.json**, copiasdocs y cierre de integridad. La preparación contiene lecturas previstas/delta aprobado/pruebas futuras y sus bloqueos, no secretos ni parámetros listos para mutación. Los guards de escritura exclusiva de scripts/evidencia impiden sobreescritura: **no volver a ejecutarlos ciegamente** para reanudar.
+
+### 98.3. Cumplimiento observado de los nueve puntos solicitados
+
+| Punto del precheck | Estado real de esta entrega |
+| --- | --- |
+| 1. ACL actual exacto y custodia saneada | **BLOQUEADO / NO OBTENIDO** por STSExpiredToken. Diseño§60/§97 y evidencia§96 no son captura exacta actual; no archivo acl-before ni hash de ACLlive inventados |
+| 2. Usuario/grupo/ACL efectivos sin password | **NO VERIFICADOS actualmente**. DescribeUsers/DescribeUserGroups/asociación al replication group no consultados. No GetSecretValue ni ACL GETUSER/LIST alternativos |
+| 3. Exactamente los cuatro patrones dev esperados | **NO VERIFICADO remotamente**; cuatro selectores confirmados como baseline contractual histórico, no efectivos actuales |
+| 4. Ausencia actual de grantsdevelopment | **NO VERIFICADA**. TYPEdevelopmentNOPERM de§96 se conserva como observación anterior, no export administrativo fresco ni prueba actual de todos los grants |
+| 5. Consumidores A/B afectados | **Identificados nominalmente**: A **i-0a66085b7b2411393**, B **i-00de11a3f3c1a8aa5**, instance role/credencialRedis compartida según evidencia aceptada§§81–84/93. Ambos son destinos potencialmente afectados por cambiar permisos. **Uso actual no observado, no se excluyen otros consumidores** |
+| 6. No deployment Enver.API activo | **NO VERIFICADO de nuevo**. §93 conserva observación de entonces; no equivale a ausencia hoy. No SSM ni lectura de procesos/servicios/puerto8080 |
+| 7. No contenedores runtime actuales A/B | **NO VERIFICADO de nuevo**, Dockerps0. No se usa el inventario vacío histórico como PASS actual |
+| 8. Rollback exacto al ACL anterior preparado, sin ejecutarlo | **BLOQUEADO / NO DISPONIBLE**: falta baseline exacto y condiciones de seguridad. Criterio/procedimiento preparado, **no payload rollback** ni ejecución. No recrearlo desde string esperado |
+| 9. Delta mínimo/pruebas posteriores preparados, no aplicados | **PREPARADOS COMO DISEÑO NO EJECUTABLE** en§98.4/evidencia externa. No payload administrativo de cambio listo, sin baseline verificado; modificación/pruebas posteriores **NO EJECUTADAS / NO AUTORIZADAS** |
+
+**PRECHECK INCOMPLETO / NO APTO PARA CAMBIO REMOTO.** No inferir readiness por identificación nominal, por aprobación A o por intentos previos de observación.
+
+### 98.4. Preparación retenida: delta, lecturas, pruebas y rollback condicionados
+
+**Lecturas pendientes, solo después de renovar sesión fuera del chat y confirmar reanudación:** verificar STS exacta, luego metadatos dirigidos del usuarioRedis ya identificado (AccessString exacto/status/engine/tipoauth/passwordcount/grupos, sin valorespassword), grupo y asociación/status/endpointcache aceptados. No inventario global o lectura de secretos. Custodiar bytes exactos no secretos del AccessString y hash, comprobar exactamente4grantsdev/0development, mismos comandos/subcomandos y ausencia de accesos alternativos/drift. Si la API de lectura resulta denegada, registrar el bloqueo; no cambiar IAM o sustituir identidad/API sin autorización.
+
+**A/B pendiente:** verificar targetsSSM e identidadesruntime; herramientas existentes, lecturas de Docker por socket local (running/all counts), estado servicioDocker, nombres de procesos **sin argumentos**, unidadesEnver y puerto8080. No dump de env, DockerConfig.Env, cmdline, userdata, archivosconfig de aplicación o logs. Un contenedor/proceso/listener inesperado o fallo de herramienta es bloqueo/indeterminado, **no se detiene/reinicia/limpia nada**. La evidencia podrá limitar ausencia a estos mecanismos/hosts y momento, no probar historia o inexistencia de otros consumidores.
+
+**Modificación futura propuesta, no ejecutable ahora:** sobre el baseline real verificado, reemplazar solo4selectores del diseñoA, preservando literalmente los demás grants y propiedades; retirar dev sin coexistencia ni wildcard nuevo. Custodiar antes rollback exacto y revisar drift/consumidores. Nueva autorización independiente debe delimitar actor/usuario, servicio/destino, ventana, payload de AccessString únicamente, pruebas, criterio de fallo y rollback. No se presume permiso administrativo de escritura porque DescribeUsers posteriormente pueda devolver datos.
+
+**ACLdespués y pruebas futuras, NO ejecutadas:** readback administrativo para verificar deltaexacto4selectores/comandosidénticos, asociación y propagación; A/B con autenticación fijada ya aprobada/TLS verificado, **positivasdevelopment** TYPE metadata/registry y HLEN/HMGET/PTTL/ZCARD cuando corresponda; permisos de revocación/bucket mediante GET/TYPE de identificadores sintéticos canónicos autorizados separadamente, sin crear claves ni refsoperativas. **Negativasdev** equivalentes deben devolver NOPERM. No KEYS/SCAN/EXISTS, EVALcuotas, metadata nueva, escrituras Redis, generaciónG o fixtures operativos. Éxito de permiso/TYPE none **no significa primer uso, continuidad o deployment listo**. La autorización actual es de precheck, no de esas pruebas postcambio.
+
+**Rollback futuro:** capturar baseline antes; no ejecución ni disponibilidad acreditada ahora. Restaurar ACLexacto solo por autorización específica y si no oculta nuevos consumos/revocaciones o drift inseguro. Si hay uso nuevo/estado incierto, mantener admisiones bloqueadas y recuperación/continuidad separadas, sin DEL/RENAME/reset/moverkeys/regeneración. ACLdevrestaurada no hace compatible Development; no cambiar ambiente/DB/NamespacePrefix, credenciales o confianza para forzar recuperación. No cambiar/abrir/cerrar DynamoDB como efecto lateral de esta preparación.
+
+### 98.5. Aceptaciones conservadas, registro y detención
+
+**A APROBADA DISEÑO / NO APLICADA; PRECHECK BLOCKED — EXPIRED TOKEN; CAMBIO REMOTO NO AUTORIZADO NI EJECUTADO; ROLLBACK EXACTO NO DISPONIBLE.** Registrar aceptación contractual **no extiende T017** al ACLdevelopment: su estado **COMPLETE / ACCEPTED histórico** y pruebas originales se conservan. La alineación futura tendrá evidencia incremental separada y nueva aceptación humana, no sustitución retrospectiva. **dev HISTORY UNCERTAIN / development INDETERMINATE; MaxActivePartitions=5000 APROBADO / NO APLICADO; T008/T019/T020 COMPLETE / ACCEPTED; GATE-I-B PENDING / NOT SATISFIED**, catálogo11+5+14/gates1+8/diferidos intactos.
+
+Solo **taskv0.109.0§98 / [memoria §159](../../memoria.md)** se editan, historia§97 intacta. State60/backup57 hashes **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 / cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279** preservados junto a código/HCL/policies/inputs/planes/custodia y trabajo previo. **STS1fallido / ElastiCachecalls0 / SSM0 / Secrets0 / Redis0 / IAMcalls0 / DynamoDB0 / MongoDB0 / Docker0 / Terraform0 / deployment-ALB0 / ACL-user-groupchanges0 / datoswrites0 / metadata-generation-lifecycle0 / build-tests0 / stage-commit-push0**. Sin extensión de ventana/costos ni cleanup. **Detener hasta sesión válida y confirmación de reanudación del precheck; no ejecutar la secuencia de modificación remota por esta aprobación de diseño.**
+
+## 99. Reanudación del precheck ACL — sesión válida, DescribeUsers denegado, A/B sin runtime observado
+
+### 99.1. Autorización y alcance conservados
+
+Responsable informa sesión renovada y autoriza reanudar **exclusivamente el PRECHECK OBSERVACIONAL de §98**. **A DISEÑO APROBADO / NO APLICADO**: mantener Development/enver_development/enver:development; reemplazo futuro únicamente de los cuatro patrones dev por development, sin coexistencia o comandos nuevos. No autoriza modificar ACL/usuario/grupo/credenciales/IAM/HCL/código/MongoDB/ambiente, escribir Redis, generar metadata/G, inicializar cuotas, Docker login/pull/run, deployment, Terraform apply, commit/push.
+
+Antes de observar se contrastan **8/8 fuentes iguales** al source aceptado **078130627bc50a9dc2feee5fb699cedbea87dbbb**, normalizando CRLF/LF; builders/validador/store/Capture/composición/HMAC/Lua. Se capturan hashes de252archivos protegidos y copias documentales before. No se ejecuta el producto ni pruebas; artefactos nuevos solo de evidencia externa y actualización task/memoria.
+
+### 99.2. Sesión renovada PASS; lectura administrativa ACL BLOQUEADA
+
+- **STS operador:** perfil exclusivo **enver-admin-temp**, **2026-11-17T05:37:16.460Z–05:37:20.446Z / exit0**; cuenta **926925605666**, ARN exacto **arn:aws:iam::926925605666:user/enver-terraform-local**. Resuelve el bloqueo de sesión de§98 para esta reanudación, sin borrar aquel historial.
+- **DescribeUsers dirigido al usuario Redis existente:** **05:37:20.448Z–05:37:24.726Z / exit254 / AccessDenied**. Se solicitaron únicamente UserId/ARN/status/engine/AccessString/grupos y tipoauth/passwordcount, sin valorespassword ni UserName. **No se devolvió metadata verificable**. Este fallo es de autorización de lectura, **no ExpiredToken, usuario inexistente ni ACL vacío**; no se atribuye una causa de policy más específica sin respuesta conservada que la pruebe.
+- **ACL actual exacto NO OBTENIDO**; no se crean acl-before ni hash de ACLlive ni payloads de cambio/rollback exacto. No se llegó a DescribeUserGroups o DescribeReplicationGroups: **0 llamadas** a ambas APIs en esta reanudación. Usuario/status/auth/grupo/asociación/grants no se verifican remotamente. No inferir que no hay patronesdevelopment del NOPERM de§96 o del diseño antiguo.
+- **Sin fallback para obtener ACL:** no Redis ACL GETUSER/LIST, otra API/identidad, GetSecretValue, cambios IAM o pruebas de ModifyUser. La parte ACL queda detenida. Las lecturas independientes de hosts A/B se completan dentro de la autorización expresa del precheck; **no son un workaround para la lectura denegada ni amplían acceso Redis**.
+
+### 99.3. Consumidores potenciales A/B y comprobación actual sin deployment
+
+SSM describe-instance-information dirigido a ambos IDs confirma **Online**; cada host acredita su ARN exacto **arn:aws:sts::926925605666:assumed-role/enver-dev-api-runtime/{instance-id}** antes de las lecturas. No se consultan secretos ni configuración de la aplicación; rol/targets actuales y vínculo nominal histórico al usuario Redis identifican **potenciales consumidores afectados**, no sesiones Redis activas. Otros consumidores del usuario/grupo **no se excluyen**.
+
+| Evidencia nueva | A | B |
+| --- | --- | --- |
+| InstanceId | i-0a66085b7b2411393 | i-00de11a3f3c1a8aa5 |
+| CommandId SSM | **ef14ce4f-77e8-4a2c-b3d8-86031beb1858** | **8c97e357-1686-4111-b1a7-968e057cae25** |
+| Resultado SSM | Success / ResponseCode0 / stderr vacío | Success / ResponseCode0 / stderr vacío |
+| Script SHA256 | c7b6693fcaa576f0157d7ef7f895dc7cad08e3d6d3786f78db7951841a2b0fa5 | d4dc70eaf23d65bebaa68cd4a66969a033fb25c6057c4abbffb0819e5d7e853f |
+| Docker service / endpoint | active / socketUnix local explícito | active / socketUnix local explícito |
+| Contenedores en ejecución / totales | **0 / 0** | **0 / 0** |
+| Procesos por nombre dotnet/Enver | **0** | **0** |
+| Unidades servicio Enver / activas o inciertas | **0 / 0** | **0 / 0** |
+| Listeners TCP8080 | **0** | **0** |
+| UTC reportada por host al observar | 2026-11-17T05:36:45.046222Z | 2026-11-17T05:36:53.617457Z |
+
+**No se observó deployment de Enver.API activo en los mecanismos inspeccionados de A/B**, ni contenedores en sus daemons Docker locales. Alcance puntual: Dockerps local running/all, nombres de procesos sin argv, unidades de servicio Enver y TCP8080. **No inventario global, exclusión de todo mecanismo alternativo o prueba de historia**, ni congelación de consumidores/in-flight. Captura local terminada **05:37:46.382Z**; relojes de hosts/operador conservados como fuentes distintas, sin asumir sincronía ni inferir latencia.
+
+Herramientas existentes, sin instalación. Lecturas por host: systemctlis-activedocker, Dockerpsquiet/local y Dockerpsallquiet/local, pscomm, systemctllist-unitsservice y ss8080. No Dockerlogin/pull/run/stop/restart/inspectEnv, health request, lectura de argv/env/userdata/configs/logs o nombres/imágenes de contenedores exportados. Sin cambio de servicio/configuración del host; los scripts/artefactos normales de SSM no secretos se conservan.
+
+### 99.4. Resultado por los nueve objetivos
+
+| Objetivo | Resultado de la reanudación |
+| --- | --- |
+| 1. Custodiar ACL actual exacto saneado | **BLOQUEADO: DescribeUsers AccessDenied**, sin AccessString recuperado; no sustituir por baseline contractual |
+| 2. Usuario/grupo/ACL efectivos | **NO VERIFICADOS**, sin metadata administrativamente accesible; runtime roles A/B sí acreditados, no equivalen a asociación RBAC |
+| 3. Exactamente cuatro patronesdev esperados | Confirmados solo como **diseño histórico**, **NO CONFIRMADOS en ACLlive** |
+| 4. No patternsdevelopment concedidos | **NO CONFIRMADO actualmente**; no convertir evidencia anterior en export fresco |
+| 5. Identificar A/B afectados | **Identificados y observados**, IDs/roles exactos; potenciales consumidores de la configuración compartida, sin API activa observada. Otros consumidores no descartados |
+| 6. Verificar no deployment Enver.API activo | **Sin deployment observado en Docker/procesos/unidadesEnver/8080 de A/B**, alcance y momento de§99.3 |
+| 7. Sin contenedores runtime actuales A/B | **Docker local running/all0/0 en ambos**; sin afirmar ausencia global en otros mecanismos/hosts |
+| 8. Rollback exacto preparado sin ejecutarlo | **NO DISPONIBLE / BLOQUEADO**: falta AccessString vigente y revisión de seguridad. No payload o rollback ejecutado |
+| 9. Delta mínimo y pruebas posteriores | **PREPARADOS COMO DISEÑO / NO EJECUTADOS**:4selectores de§97.3, comandos conservados, no coexistencia. No delta efectivo/payloadready contra ACLlive inexistente |
+
+### 99.5. Preparación retenida, faltantes exactos y detención
+
+**prepared-plan-NOT-AUTHORIZED.json** retiene los cuatro pares dev→development aprobados, comandos esperados del baseline documental, pruebas positivasdevelopment/negativasdev y prohibición de ejecución. **baselineReadyfalse / rollbackExactCapturedfalse**: no se presenta el diseño como delta verificado contra cloud. No existe archivo de parámetros listo de cambio o rollback en la evidencia de esta reanudación.
+
+Secuencia posterior, aún **NO AUTORIZADA**: capturar ACLantes y custodiar rollback previo; cambio mínimo controlado; ACLdespués con validaciónexacta4selectores/mismoscomandos/asociación; positivasdevelopment A/B mediante TLS/auth fijados y TYPE/lecturas tipadas; negativasdev equivalentes deben NOPERM; rollback disponible y custodiado. Acceso bucket/revocación solo mediante nombres sintéticos canónicos autorizados separadamente y GET/TYPE sin crear claves. No SCAN/KEYS/EXISTS/EVALcuotas, siembra de metadata/registry/buckets, refsG o escrituras de prueba. TYPE none/permisoPASS no prueban primeruso/readiness. Cualquier cambio y eventual rollback necesitan autorización específica; no reacción automática por este precheck.
+
+**Falta exactamente:** (a) captura administrativa autorizada del AccessString vigente y metadata saneada del usuario; (b) prueba de grupo/membresía/asociación al cache y ausencia de grants alternativos/cambios pendientes; (c) contraste real de4dev/0development/mismoscomandos y custodia de rollback; (d) autorización de cambio/pruebas y condiciones de continuidad/consumidores. La ausencia actual observada de runtimeA/B **no elimina historia incierta, in-flight desconocidos o consumidores externos**, no satisface§95 ni convierte desarrollo en ambiente nuevo.
+
+El acceso de lectura **elasticache:DescribeUsers** con el perfil vigente resultó denegado; no se pide ampliar IAM por inferencia. Una evidencia saneada existente del administrador autorizado o un alcance de lectura posterior autorizado deberá resolver ese faltante. **STOP antes de modificar ACL y sin llamadas remotas adicionales**. La renovación resolvió la sesión, no el permiso de lectura ni el permiso de escritura. No se usa una API de modificación como prueba de autorización.
+
+### 99.6. Preservación y evidencias
+
+**PRECHECK PARCIAL / ACL BLOCKED — AccessDenied / A-B HOST OBSERVATION PASS / EXACT ROLLBACK UNAVAILABLE. A DISEÑO APROBADO / NO APLICADO. T017 COMPLETE / ACCEPTED histórico**, nueva alineación ACL mantiene evidencia incremental separada/no aceptada como implementada. **dev HISTORY UNCERTAIN / development INDETERMINATE; MaxActivePartitions=5000 APROBADO / NO APLICADO; T008/T019/T020 COMPLETE / ACCEPTED; GATE-I-B PENDING / NOT SATISFIED**, catálogo11+5+14/gates1+8/diferidos sin cambios.
+
+Conteos: STSoperador1/STSinstancia2, DescribeUsers1denegado, DescribeUserGroups0/DescribeReplicationGroups0, SSMdescribe-instance-information1/**SendCommand2**/waiters2/getinvocation2, **Dockerps4 de lectura** (running/all A/B), systemctl4/ps2/ss2. Los envíosSSM son **escrituras de controlplane autorizadas de observación**, no datosRedis/configuraciónhost. No se inventa número de requests internos de waiter/SSM. **Secretreads0/Rediscommands0/IAMcalls0/DynamoDB0/MongoDB0/ACL-user-groupchanges0/datoswrites0/generación-lifecycle0/Dockerlogin-pull-run0/deployment-ALB0/Terraform0/build-tests0/stage-commit-push0**. Ningún secreto expuesto.
+
+Solo este taskv0.110.0/§99 y **[memoria §160](../../memoria.md)** se editan; §98/ExpiredToken y demás historial intactos. Evidencia local no secreta **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-acl-alignment-resume-20261117\**: precheck/source8/hashes252/copiasdocs/STS/denegación/plan/SSMparámetros-CommandIds-invocaciones-reviews/decision/cierre. Scripts con guards de escritura exclusiva, no rerun ciego. State60/backup57 hashes **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 / cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279** preservados junto a fuentes/HCL/policies/inputs/planes/custodia/trabajo previo. Sin extensión de ventana/costos/cleanup ni siguiente fase automática.
+
+## 100. Precheck con lectura ElastiCache disponible — ACL exacto custodiado, cambio y rollback preparados / NO EJECUTADOS
+
+### 100.1. Autorización y captura administrativa vigente
+
+Responsable informa permisos de lectura disponibles y autoriza **exclusivamente reanudar el precheck observacional de §99**, incluyendo custodia ACL, asociaciones, A/B, rollback y pruebas futuras. No autoriza cambio remoto. **A DISEÑO APROBADO / NO APLICADO**. Permanecen **ASPNETCORE_ENVIRONMENT=Development / MongoDb:DatabaseName=enver_development / Redis:NamespacePrefix=enver:development**, sin modificar configuración.
+
+Perfil exclusivo **enver-admin-temp**, región **us-east-1**. **STS PASS / exit0, 2026-11-17T05:54:54.231Z–05:54:57.909Z**, cuenta926925605666/ARN **arn:aws:iam::926925605666:user/enver-terraform-local**. Nueva evidencia, no reemplazo de los fallos ExpiredToken/AccessDenied históricos.
+
+| Lectura dirigida | UTC operador / exit | Resultado observado |
+| --- | --- | --- |
+| DescribeUsers / enver-dev-runtime | 05:54:57.913Z–05:55:02.040Z / 0 | UserId/ARN esperado, **active / valkey / on**, auth **password**, PasswordCount1, único grupo **enver-dev-valkey** |
+| DescribeUserGroups / enver-dev-valkey | 05:55:02.043Z–05:55:06.023Z / 0 | **active / valkey**, único miembro **enver-dev-runtime**, única asociación replication group **enver-dev-valkey**, PendingChangesnull |
+| DescribeReplicationGroups / enver-dev-valkey | 05:55:06.026Z–05:55:10.572Z / 0 | **available**, único UserGroupId **enver-dev-valkey**, PendingModifiedValues{}, nodegroupavailable, TLStrue, ClusterEnabledfalse, primaryendpoint **master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com:6379** |
+
+**Asociación usuario→user group→replication group confirmada en ambas direcciones por configuración administrativa efectiva de AWS**, sin cambios pendientes informados. No se obtienen passwords ni SecretString; authcount/tipo son metadata no secreta. No se autentica a Redis ni se ejecuta introspección ACL en el servidor: la evidencia es administrativa puntual, no prueba de conexiones actuales/identidad de cada cliente ni inventario global de consumidores.
+
+### 100.2. ACL vigente exacto y delta mínimo
+
+**acl-before.access-string.txt** custodia byte por byte el AccessString retornado (UTF8 sin newline agregado), junto con respuesta saneada y **acl-custody.json**. SHA256 **cc8fc7e2182e6fa51f00a1b63215c61e9763424063b3649265c9d95dd5ed3ddc**. No se reconstruye desde §60/§97 ni se usa una propuesta como baseline. **baseline-verification.json: todos los contrastes PASS**.
+
+| Patrón vigente exacto, presente | Patrón objetivo A, actualmente AUSENTE |
+| --- | --- |
+| `~enver:dev:auth:revoked:enver-api:*` | `~enver:development:auth:revoked:enver-api:*` |
+| `~enver:{dev:auth:ratelimit}:metadata` | `~enver:{development:auth:ratelimit}:metadata` |
+| `~enver:{dev:auth:ratelimit}:registry` | `~enver:{development:auth:ratelimit}:registry` |
+| `~enver:{dev:auth:ratelimit}:bucket:*` | `~enver:{development:auth:ratelimit}:bucket:*` |
+
+ACL contiene **exactamente4patronesdev / 0development**, sin otros patrones de clave, permisos `%R/%W`, wildcard general, selectores alternativos o categorías adicionales. Comandos coinciden exactamente con baseline documental: se preservan **on, resetchannels, -@all y todos los +command**, incluido su orden; no +SCAN/+KEYS/+PERSIST/+EXISTS. No hay concesiones de canales. Los comodines específicos `bucket:*`/revocación ya existentes se conservan solo bajo development; no se amplían.
+
+**Delta semántico mínimo: sustituir exclusivamente esos4tokens**. **acl-target.expected-access-string.txt** preserva todos los otros tokens del ACL capturado, SHA256 **c8dd259d05ec62e012929732cb83b7b184d178ffc75a53f301a51896b008dee6**. Sin coexistencia ni cambio de usuario/grupo/auth/credenciales/secrets-VersionIds/IAM/HCL/código/MongoDB/ambiente/DB. Esto no migra datos ni restaura continuidad; es preparación de permisos.
+
+### 100.3. Rollback exacto preparado antes de cualquier cambio
+
+**rollback-parameters.PREPARED-NOT-AUTHORIZED.json** contiene únicamente UserIdexistente y AccessString para reproducir el **ACL efectivo exacto capturado**. **change-parameters.PREPARED-NOT-AUTHORIZED.json** contiene únicamente UserIdexistente y AccessStringobjetivo. **Ambos NO AUTORIZADOS / NO EJECUTADOS**, no hay comando de ejecución adjunto ni llamada ModifyUser.
+
+**Semántica importante:** ambos payloads agregan la directiva administrativa **resetkeys inmediatamente después de on**, antes de los patrones. AccessString aplica reglas de actualización: reenviar solo patrones puede **acumular** grants, no retirar los anteriores. resetkeys vacía la lista de permisos de clave antes de reconstruir exactamente los cuatro pretendidos. **No es +resetkeys ni nuevo comando Redis concedido**, no modifica datos, usuario, grupo o contraseña. Se conservan resetchannels/-@all/+commands del snapshot; **no reset global, resetpass, nopass o modificación de AuthenticationMode**. Snapshot literal y payload efectivo se distinguen expresamente: el argumento de rollback añade resetkeys, pero el resultado esperado es el ACL original exacto, no una acumulación con development.
+
+SHA256 de AccessString de cambio **d71268c5810010a6e7c7ace559f94ad5279f3898c8eb8cfbfe831459f7cf84c9**; rollback **d80e9122d19e5f9f6ab86a590ab9fbe2c8fb38f810b527568c7b3b17228abe9c**. Comparaciones locales de tokens/listas demuestran cuatro sustituciones, cero cambios de comandos y exclusión dev/development tras reemplazo y restauración; **no son ejecución Redis ni prueba remota de ModifyUser**.
+
+**Rollback disponible no significa seguro ni autorizado para ejecutar:** exige nueva autorización, baseline fresco sin drift y revisión de consumidores/continuidad. Restaurar dev tras nuevo uso o incertidumbre podría ocultar revocaciones/consumos; detener y mantener fail-closed mediante contención separadamente autorizada, sin reset de datos ni restauración/reapertura automática. ACLdev no hace compatible el hostDevelopment. No acciones sobre DynamoDB como efecto lateral de esta preparación.
+
+### 100.4. A/B siguen sin runtime observado
+
+SSM targeted describe confirma ambos Online; identidad por STSinstancia antes de lecturas coincide con **arn:aws:sts::926925605666:assumed-role/enver-dev-api-runtime/{id}**. Observación nueva, independiente de§99:
+
+| Host | CommandId / resultado | Hora reportada por host |
+| --- | --- | --- |
+| A / i-0a66085b7b2411393 | **3b09924e-a81f-4ef7-901e-e41da4c0d27a**, Success / ResponseCode0 / stderr vacío | 2026-11-17T05:54:33.021794Z |
+| B / i-00de11a3f3c1a8aa5 | **937bd693-e9d9-4026-9d3a-e2e005236cd5**, Success / ResponseCode0 / stderr vacío | 2026-11-17T05:54:44.393872Z |
+
+**En ambos: Docker active / socketUnixlocal explícito; contenedoresrunning0 / all0; nombresprocesosdotnet-Enver0; unidadesEnver0 / activas-inciertas0; listenersTCP8080=0.** No deployment Enver.API activo observado en esos mecanismos. No exclusión de mecanismos alternativos/otros consumidores/clientes en vuelo ni garantía de historia o ausencia posterior. Captura local completa **05:55:37.633Z**; fuentes de reloj separadas, no asumidas sincronizadas. Mismos scripts SHA256A **c7b6693fcaa576f0157d7ef7f895dc7cad08e3d6d3786f78db7951841a2b0fa5** / B **d4dc70eaf23d65bebaa68cd4a66969a033fb25c6057c4abbffb0819e5d7e853f**. No lectura env/argv/config/logs/SecretString ni Dockerlogin/pull/run/stop/restart, no ejecución del producto.
+
+### 100.5. Pruebas posteriores preparadas / NO EJECUTADAS
+
+**post-change-tests.PREPARED-NOT-AUTHORIZED.json** detalla A/B y transporte TLSvalidado/host fijado/DB0/usuario existente, sin secretos en argumentos o salida. Requiere **autorización posterior específica**, baseline/consumidores frescos y rollback custodiado antes del cambio; luego readbackACLdespués con contraste4selectores/mismoscomandos/auth/asociaciones.
+
+- **Positivas development:** TYPE metadata/registry/bucket; GET revocación, sin NOPERM. Claves de prueba bucket `login:origin:{sentinela}` y revocación `{sentinela}`, donde sentinela pública fija = **43 caracteres A**, base64url canónico32bytes, no material HMAC/JWT emitido/G ni referencia operativa. No crear claves. TYPE none o GETnil son lecturas válidas, **no prueba de inexistencia histórica/readiness/inicialización**. ValorGET no se exporta; tipo inesperado/WRONGTYPE requiere revisión.
+- **Negativas dev:** mismas cuatro formas/lecturas bajo dev deben devolver **NOPERM**; éxito denota coexistencia o delta fallido. No usar SCAN/KEYS/EXISTS/PERSIST/EVAL/EVALSHA o escritura para probar permisos.
+- Lecturas tipadas metadata HLEN/HMGETcamposconocidos/PTTL y registry ZCARD/PTTL solo condicionadas al tipo y autorización; counts/null structure, no dumps. No inventario global, cuotasconsumo, metadatawrites, generación, lifecycle, inicialización o deployment.
+- Resultado inesperado: detener, sin corrección de permisos/init automática. Cualquier rollback exige permiso y continuidad segura; no reutilizar aceptaciónT017 como aceptación de nueva alineación.
+
+### 100.6. Resultado de los diez objetivos, límites y preservación
+
+**1 ACL exacto custodiado; 2 usuario y 3 grupo verificados administrativamente; 4 asociaciones confirmadas; 5 exactamente4dev presentes; 6 los4development ausentes y ningún grantalternativo; 7 rollback exacto efectivo preparado; 8 A/B sin deployment activo observado; 9 delta mínimo4selectores confirmado; 10 pruebas positivas/negativas preparadas.** Todo dentro del alcance y momento descritos; **no permiso de ejecución, prueba de readiness o exclusión de otros consumidores**.
+
+**A DISEÑO APROBADO / NO APLICADO; dev HISTORY UNCERTAIN / development INDETERMINATE; MaxActivePartitions=5000 APROBADO / NO APLICADO; T008/T017/T019/T020 COMPLETE / ACCEPTED** conservados. **T017 histórica**, evidencia futura de alineación separada/no implementada por este precheck. **GATE-I-B PENDING / NOT SATISFIED**, catálogo11+5+14/gates1+8/diferidos sin cambios. No referenciascuota/G asignadas, ni aceptación humana de cambio aún inexistente.
+
+Conteos de esta reanudación: STSoperador1/STSinstancia2, DescribeUsers1/DescribeUserGroups1/DescribeReplicationGroups1todosPASS, SSMdescribeinstances1/**SendCommand2**/waiters2/getinvocation2, Dockerps4/systemctl4/ps2/ss2delectura. No número inventado de requests internos del waiter. SendCommand es **escritura de controlplane autorizada para observación**, no mutación de ACL/datos/configuraciónhost. **Rediscommands0/Secretreads0/IAMcalls0/ACL-user-groupchanges0/datoswrites0/metadata-generation-lifecycle0/DynamoDB0/MongoDB0/Dockerlogin-pull-run0/deployment-ALB0/Terraform0/build-tests0/stage-commit-push0**. No secretos expuestos ni instalaciones.
+
+Solo taskv0.111.0/§100 y **[memoria §161](../../memoria.md)** actualizados; §99/§160 y todo historial preservado. Evidencia no secreta **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-acl-alignment-read-enabled-20261117\**: precheck8fuentes/hashes252/copiasdocs/STS/3lecturasElastiCache/ACLantes-custodia/baseline-verification/ACLobjetivo/2payloadsPREPARED/plan/pruebas/SSM-CommandIds-invocaciones-reviews/decision/closure. Scripts con escritura exclusiva, no rerun ciego. State60/backup57 hashes **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 / cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279** y trabajo previo preservados. **STOP antes de cualquier modificación remota; no llamadas adicionales, extensión de ventana/costos, cleanup o siguiente fase automática.**
+
+## 101. Cambio controlado A autorizado — ModifyUser AccessDenied; ACL original intacto, STOP sin pruebas posteriores
+
+### 101.1. Aceptación humana y autorización delimitada
+
+Responsable **acepta el resultado del precheck§100** y autoriza modificar exclusivamente el AccessString de **enver-dev-runtime**, sustituyendo los cuatro patronesdev por development, mediante **resetkeys**, mismos comandos/auth/usuario/grupo/credenciales y sin comodines generales o comandos adicionales. Autoriza después solo lecturasA/B positivas TLS/auth/developmentmetadata-registry-bucket-revocación y negativasdev/otronamespace. Ante cambio parcial/estadoinesperado/authfallida/aislamientofallido, autoriza **solo rollback exacto§100 y STOP**, no segunda solución. No autoriza IAM, secretos, código/HCL/MongoDB/DynamoDB/ambiente/hosts/Docker/ALB/deployment/Terraform/commit/push, ni metadata/G/registry/buckets/init/fence-maintain-activate.
+
+Esta autorización posterior **no reescribe §100** ni convierte sus payloads históricos en ejecuciones ya realizadas. Se copian con nombres **change-authorized.json / rollback-authorized.json** a una carpeta de ejecución nueva, se verifican sus hashes y se conserva el baseline literal. La nueva autorización es suficiente para el intento delimitado; **no garantiza permiso AWS efectivo** ni abre otra fase.
+
+### 101.2. Revalidación antes de intentar el cambio
+
+- Sourceaceptado **078130627bc50a9dc2feee5fb699cedbea87dbbb**, **8/8fuentes iguales** normalizando CRLF/LF; hashes252archivos protegidos/copiasbefore y estadoGit preservados. Sin ejecución del producto, instalación ni modificación de fuentes.
+- Perfil exclusivo **enver-admin-temp / us-east-1**; STSoperador PASS **2026-11-17T06:06:06.793Z–06:06:11.014Z**, y nueva identidad verificada inmediatamente antes del intento. Cuenta926925605666, ARN **arn:aws:iam::926925605666:user/enver-terraform-local**.
+- DescribeUsers/Groups/ReplicationGroups de preflight y relecturas inmediatas confirman el usuario **active**, ACL **idéntico byte por byte a§100**, authpassword/count1, grupo/cache/asociación y endpoint esperados sin pendientes. UserName se contrasta únicamente mediante digest para validar identidad si se llegara a AUTH; **nombre/credenciales no exportados**, password jamás consultado.
+- ACLantes SHA256 **cc8fc7e2182e6fa51f00a1b63215c61e9763424063b3649265c9d95dd5ed3ddc**; objetivo **c8dd259d05ec62e012929732cb83b7b184d178ffc75a53f301a51896b008dee6**. PayloadAccessStringcambio **d71268c5810010a6e7c7ace559f94ad5279f3898c8eb8cfbfe831459f7cf84c9** / rollback **d80e9122d19e5f9f6ab86a590ab9fbe2c8fb38f810b527568c7b3b17228abe9c**, idénticos a§100.
+
+| Revalidación de ausencia de runtime antes del intento | A | B |
+| --- | --- | --- |
+| InstanceId | i-0a66085b7b2411393 | i-00de11a3f3c1a8aa5 |
+| CommandId SSM | **e6fcff8d-d027-43a6-89f2-a4fea05e80bd** | **bc8e883f-54db-436d-a0f4-d000d854a80b** |
+| Estado / ResponseCode / stderr | Success / 0 / vacío | Success / 0 / vacío |
+| Identidad | rolruntime/instancia exactos | rolruntime/instancia exactos |
+| Docker service / running / all | active / **0 / 0** | active / **0 / 0** |
+| Procesosdotnet-Enver / unidadesEnver / listeners8080 | **0 / 0 / 0** | **0 / 0 / 0** |
+| Hora reportada por host | 2026-11-17T06:05:44.903099Z | 2026-11-17T06:05:55.916903Z |
+
+TargetsOnline; mismos scripts de observación§100. Captura/preflightgate local **06:06:49.115Z**, relojes separados/no sincronía asumida. **No deployment activo observado en esos mecanismos de A/B**, sin excluir mecanismosalternativos/otrosconsumidores/historia o clientes en vuelo. Solo lecturas de Dockerlocal/procesosnombres/unidades/8080; sin Dockerlogin/pull/run ni cambioshost. El hash de baseline se revalida inmediatamente antes de enviar la mutación.
+
+### 101.3. Único intento de modificación — DENEGADO, sin aplicación
+
+**elasticache:ModifyUser**, **2026-11-17T06:07:15.659Z–06:07:19.187Z**, **exit254 / AccessDenied**. Usuario **enver-dev-runtime**. Entrada contiene **únicamente UserId + AccessString** del payloadcambio§100, con resetkeys, sin AuthenticationMode/Passwords/UserGroupIds u otros argumentos de mutación. AWS_MAX_ATTEMPTS1; guard de evidencia exclusivo impide repetir el intento. No cambio de grupo/replicationgroup ni fallback de servicio/identidad/API. No se infiere la policy concreta causante del error.
+
+**Delta solicitado**: exactamente los cuatro pares de§100.2, dev→development, sin coexistencia, comandos/on/resetchannels/-@all preservados. **Delta aplicado: NINGUNO confirmado**, no se atribuye al payload preparación una ejecución efectiva. La directiva resetkeys se envió en el intento denegado, no se ejecutó en Redis ni se concedió como +comando.
+
+### 101.4. Estado AWS posterior, rollback y pruebas A/B
+
+**DescribeUsers posterior 06:07:19.191Z–06:07:23.199Z / exit0** confirma **active / valkey / on**, ACLexactooriginal SHA256 **cc8fc7e2182e6fa51f00a1b63215c61e9763424063b3649265c9d95dd5ed3ddc**, cuatrodev/0development, mismos comandos/UserId/ARN/únicogrupo/authpassword/count1 e identidad de auth. No modificación parcial observada. La comprobación es administrativa, no autenticación remotaRedis ni proofreadiness.
+
+**Rollback NO NECESARIO / NO EJECUTADO**: no se emite ModifyUser de rollback porque el baseline ya está intacto y active. Se conserva el rollback custodiado, no se pretende haber restaurado algo que no cambió. El campo técnico baselineRestoredtrue del decisionfile representa baseline confirmado intacto; el estado preciso es **NOT_NEEDED_BASELINE_CONFIRMED_UNCHANGED**. No reintento/segunda solución/cambioIAM.
+
+**Pruebas RedisA/B posteriores NO EJECUTADAS**: no hubo cambio exitoso que validar. No GetSecretValue, conexión TLSRedis, AUTH/PING, lectura positiva development o negativa dev/otronamespace en esta entrega. Los dos comandosSSM anteriores fueron **revalidación de hosts previa**, no pruebas de aislamiento posteriores. **validate-redis.py** quedó preparado/no enviado; su uso del AUTHRedis existente fijado en memoria no llegó a realizarse. No se declara auth/TLSfallida ni correcta de nuevo, ni pruebasPASADAS por evidencia anterior.
+
+### 101.5. Limitaciones, estados y detención
+
+**CAMBIO CONTROLADO AUTORIZADO / NO APLICADO — BLOQUEADO ModifyUser AccessDenied. A permanece DISEÑO APROBADO / NO APLICADO**; no procede el estado ACL DEVELOPMENT APLICADO / VALIDACIÓN INCREMENTAL COMPLETADA. El contrato Development/enver_development/enver:development no se modifica para evitar el bloqueo, y su incompatibilidad con ACLdev permanece. Hace falta resolver por vía autorizada el permiso efectivo de modificación antes de un eventual nuevo incremento explícitamente autorizado; **no se realizan cambios IAM ni se presume permiso futuro por esta autorización**.
+
+**T017 COMPLETE / ACCEPTED histórico**, §100aceptado y este intento constituyen evidencia incremental separada, sin reescribir ni extender aceptación a alineación no aplicada. **dev HISTORY UNCERTAIN / development INDETERMINATE respecto a historia/primeruso; MaxActivePartitions=5000 APROBADO / NO APLICADO; T008/T019/T020 COMPLETE / ACCEPTED; GATE-I-B PENDING / NOT SATISFIED**. Catálogo11+5+14/gates1+8/diferidos intactos. Ausencia actual de runtime no prueba NEVER-USED ni satisface readiness/continuidad. Sin snapshot/G/refs/cuotasinit/delivery/deployment.
+
+Conteos de este incremento: STSoperador2/STSinstancia2, DescribeUsers3/DescribeUserGroups2/DescribeReplicationGroups2, **ModifyUser1denegado / mutacionesACLefectivas0 / ModifyUserrollback0**, SSMdescribeinstances1/**SendCommand2**/waiters2/getinvocation2; Dockerps4/systemctl4/ps2/ss2lectura. Waiterrequests internos no cuantificados. SSMescriturascontrolplane autorizadas para observación, no configuraciónhost/datos. **Secretreads0/Rediscommands0/IAMcalls0/user-group-replicationchanges0/datoswrites0/metadata-generation-lifecycle0/DynamoDB0/MongoDB0/Dockerlogin-pull-run0/deployment-ALB0/Terraform0/stage-commit-push0**. Checks locales de sintaxisJS únicamente; sin build/producttests/instalaciones. No secretos expuestos.
+
+Solo taskv0.112.0/§101 y **[memoria §162](../../memoria.md)** se editan; §100/§161 y demás historial intactos. Evidencia no secreta **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-acl-controlled-change-20261117\**: precheck/copiasdocs/authorization/ACLantes-objetivo/payloadscambio-rollbackautorizados/gate/STS/lecturasAWS/SSMpreflight/intentoModifyUser-denegación/readbackposterior/failure-decision/closure. State60/backup57 SHA256 **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 / cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279** y252archivosprotegidos sin cambios. Scripts con guards exclusivos, no rerun ciego. **STOP tras denegación y readback de seguridad; sin llamadas remotas adicionales ni snapshot/secret delivery/Docker/deployment/cleanup/siguiente fase automática.**
+
+## 102. Reanudación autorizada — ACL DEVELOPMENT APLICADO / VALIDACIÓN INCREMENTAL COMPLETADA
+
+### 102.1. Autorización posterior, custodia y revalidación
+
+Responsable informa que adjuntó el permiso temporal **elasticache:ModifyUser** a **enver-terraform-local** y autoriza **exclusivamente reanudar §101**: una sustitución de los cuatro patronesdev por development con resetkeys/mismoscomandos y observaciónA/B preparada; cualquier fallo posterior exige solo rollbackexacto§100/101 y STOP, sin segunda alternativa. La acción IAM es **informada por el responsable**, no inspeccionada, ejecutada o ampliada por el agente. Restricciones de datos/metadata/G/init/lifecycle/IAM/secretos/Mongo/Dynamo/código/HCL/hosts/Docker/ALB/Terraform/deployment/commit/push conservadas.
+
+Evidencia nueva **enver-acl-controlled-resume-20261117**: copias exactas de common/preflight/apply/validate-redis de§101, con hashes contrastados contra su cierre; **no se reejecuta la carpeta anterior ni se sobreescribe su denegación**. resumption-authorization.json registra esta autorización posterior. Snapshotantes/payloadscambio-rollback provienen de§100, no reconstruidos desde texto histórico. Sourceaceptado078130627bc50a9dc2feee5fb699cedbea87dbbb **8/8fuentes igualesCRLFLF**, hashes252archivosprotegidos/copiasdocs/estadoGit.
+
+**STSoperador PASS 2026-11-17T06:14:50.736Z–06:14:55.303Z**, perfil exclusivo **enver-admin-temp/us-east-1**, cuenta926925605666/ARNexacto **arn:aws:iam::926925605666:user/enver-terraform-local**, reconfirmado inmediatamente antes del cambio. DescribeUsers/Groups/ReplicationGroups y relecturas inmediatas confirman baselineACL§100/101 exacto, usuarioactive/authpasswordcount1/grupo-cache-endpoint/asociacionesúnicas/sinpendientes. Antes del cambio **A/BOnline/rolruntimeexacto/Dockeractive/running0-all0/procesosdotnet-Enver0/unidadesEnver0/TCP8080=0**, sin deploymentactivo observado en esos mecanismos; otrosconsumidores/mecanismos/inflight no excluidos.
+
+SSMpreflight A **7a0e2b9a-bdac-4191-a2d3-e40367487efd**, B **67b2d5bb-da45-4bf7-b4bc-8ba3eb90421a**, ambosSuccess/0/stderrvacío. HorashostA **06:14:27.175737Z** / B **06:14:38.465163Z**, gatecapturalocal **06:15:32.099Z**. No sincronía asumida entre relojes. Solo observaciónhost; sin modificaciónconfig, logs/env/argvdump o Dockerlogin-pull-run.
+
+### 102.2. ACL anterior, delta aplicado y estado AWS posterior
+
+**Baselineliteral§100/101 custodiado** en acl-before-section100.exact.txt, SHA256 **cc8fc7e2182e6fa51f00a1b63215c61e9763424063b3649265c9d95dd5ed3ddc**, idéntico al inmediatamente vigente antes de modificar. **Único ModifyUser 2026-11-17T06:15:51.770Z–06:15:56.380Z / exit0**; entrada solo UserId **enver-dev-runtime** y AccessStringautorizado§100 con **resetkeys**, SHA256AccessString **d71268c5810010a6e7c7ace559f94ad5279f3898c8eb8cfbfe831459f7cf84c9**. Sin Passwords/AuthenticationMode/UserGroupIds u otro campo de mutación; AWS_MAX_ATTEMPTS1, sin reintento/segunda solución.
+
+| Patrón anterior retirado | Único patrón equivalente aplicado |
+| --- | --- |
+| `~enver:dev:auth:revoked:enver-api:*` | `~enver:development:auth:revoked:enver-api:*` |
+| `~enver:{dev:auth:ratelimit}:metadata` | `~enver:{development:auth:ratelimit}:metadata` |
+| `~enver:{dev:auth:ratelimit}:registry` | `~enver:{development:auth:ratelimit}:registry` |
+| `~enver:{dev:auth:ratelimit}:bucket:*` | `~enver:{development:auth:ratelimit}:bucket:*` |
+
+Respuesta de modificación **modifying**; seguimiento acotado **25DescribeUsers** conserva24lecturasmodifying y terminaactive. **Readbackactivo 06:19:22.651Z–06:19:26.029Z / exit0**, usuario **active / valkey / on**. **ACL final literal custodiado acl-after.exact.txt**, SHA256 **c8dd259d05ec62e012929732cb83b7b184d178ffc75a53f301a51896b008dee6**, idéntico al objetivo exacto preparado en§100. **Exactamente4development / 0dev / ningún otro grant de claves**, sin coexistencia/wildcardgeneral o selectoresadicionales.
+
+**on/resetchannels/-@all y cada +command se conservan exactamente**, incluido su orden. No SCAN/KEYS/PERSIST/EXISTS o comando nuevo; resetkeys es directiva de reemplazo de permisos, no +comando ni operación de datos. Sin cambios de identidad/auth/credenciales: mismoUserId/ARN, identidadauthcontrastadapordigest, authpassword/count1; password no se obtiene del plano administrativo ni se envía a ModifyUser. Asociación **enver-dev-runtime→enver-dev-valkey→enver-dev-valkey** permaneceidéntica; DescribeUserGroups posterior **06:19:26.030Z–06:19:30.049Z** active/sinpendientes y DescribeReplicationGroups **06:19:30.053Z–06:19:34.377Z** available/TLStrue/asociaciónúnica/pendientes{}; **0modificaciones de grupo o replicationgroup**.
+
+### 102.3. Validación observacional A/B posterior — PASS
+
+| Evidencia | A | B |
+| --- | --- | --- |
+| Instancia | i-0a66085b7b2411393 | i-00de11a3f3c1a8aa5 |
+| CommandId SSM posterior | **4d9311ce-c691-4b2c-b469-c66b093409be** | **a8bc9b5a-99b9-49cc-a6fe-7689cc8b06ba** |
+| Script SHA256 instanciado | 829807fa3a611adb95980b615fe7b9b638a3f8e620b0f3bd875889186be5ed61 | 9ad6bcd177ea1e9700f6dca914654c140e39029dc0ac9da186303a69fab9f144 |
+| ResultadoSSM | Success / ResponseCode0 / stderr vacío | Success / ResponseCode0 / stderr vacío |
+| Identidad | rol enver-dev-api-runtime / instancia exactos | rol enver-dev-api-runtime / instancia exactos |
+| TLS / AUTH / PING | **TLS1.3, certificado+hostname verificados / OK / PONG** | **TLS1.3, certificado+hostname verificados / OK / PONG** |
+| Development positivo | **9/9 lecturas permitidas** | **9/9 lecturas permitidas** |
+| Dev negativo | **9/9 NOPERM** | **9/9 NOPERM** |
+| Otro namespace acl-unapproved | **9/9 NOPERM** | **9/9 NOPERM** |
+| Hora final reportada por host | 2026-11-17T06:18:54.381016Z | 2026-11-17T06:19:06.820298Z |
+
+Por host: **29comandos = AUTH1 + PING1 + 9positivos + 9negativosdev + 9negativosotronamespace**, **18NOPERM esperados**. TLS validado contra endpointfijo6379/DB0, sin flagsinseguros ni fallback. Credencial existente **AUTHRedis** leída **una vez por host**, ARN/VersionId fijados iguales a la evidenciaaceptada; exclusivamente en memoria para AUTH, identidadusernamecontrasta con la del usuario efectivo mediante digest. **Sin persistencia, impresión, argumentos de proceso con credenciales, secret delivery, rotación o modificación de secretos**. No lectura de otros secretos/HMAC/JWT. LecturasRedis usan allowlist exacta de comandos+claves, límites de respuestas/tiempo, errores saneados y core-dumps deshabilitados; no cliente de aplicación/diagnóstico con efectosDynamoDB.
+
+**Lecturaspositivasdevelopment en ambos:** metadata TYPE **none**, HLEN **0**, HMGET12campos **todosnull** (snapshot/generationausentes), PTTL **-2**; registry TYPE **none**, ZCARD **0**, PTTL **-2**; bucketcanónico fijo TYPE **none**; revocacióncanónica fija GET **nil**. Clavesbucket/revocación usan etiqueta pública **43A** base64url32bytes de§100/101, no HMAC/JWTemitido/G/refcuota; no se crean. Los valoresHMGET/GET no se exportan, solo presencia/null. **Negativasdev y acl-unapproved:** esas mismas9operaciones equivalentes denegadasNOPERM en ambos, sin probar escrituras, SCAN/KEYS/PERSIST/EXISTS/EVAL/EVALSHA, siembra o inventarioglobal.
+
+**Rollback NO NECESARIO / NO EJECUTADO**: modificación, estadoactive, ACLexacto, asociaciones, TLS/auth y aislamiento cumplen. Snapshotantes y **rollback-authorized.json** conservados, SHA256AccessStringrollback **d80e9122d19e5f9f6ab86a590ab9fbe2c8fb38f810b527568c7b3b17228abe9c**; no concede autorización perpetua de reversión tras nuevo uso. Cualquier reversión futura necesita contexto/autorización y continuidadsegura, sin ocultar revocaciones/consumos. No segundo intento o alternativa.
+
+### 102.4. Alcance acreditado y limitaciones conservadas
+
+**Alternativa A: ACL DEVELOPMENT APLICADO / VALIDACIÓN INCREMENTAL COMPLETADA**, únicamente sustitución de permisos y lecturas/aislamiento puntuales en A/B. Resuelve el desajuste de namespace del ACL con el contrato Development/enver_development/enver:development **en este alcance**, sin modificar esos valores. No implementa autenticación/quotas/lifecycle ni acredita APIdeployment, consumo válido, revocacionesescritas, durabilidad/recuperación/continuidad/readiness. No se amplía aceptaciónT017: **T017 COMPLETE / ACCEPTED histórico**, este cambio se registra como **evidenciaincrementalseparada**, no reescritura de su historia ni cierre de otros pendientes.
+
+**dev HISTORY UNCERTAIN; development INDETERMINATE respecto a historia/primeruso**, aun con metadata/registryausentes en lecturasactuales. No NEVER-USED: no inventariodebuckets/huérfanos/historial/consumidoresglobales, ni migración/dualread/ledgerhistórico. **MaxActivePartitions=5000 APROBADO / NO APLICADO; T008/T019/T020 COMPLETE / ACCEPTED; GATE-I-B PENDING / NOT SATISFIED**; catálogo11+5+14/gates1+8/diferidos sin cambios. No snapshotinicial/refs/G asignados o generados, no metadatawrites/registry/buckets/cuotasinit/InitializeVerifiedNewEnvironmentAsync/fence-maintain-activate. Preservar fail-closed y las puertas pendientes de inicialización/continuidad; el ACL no las satisface.
+
+### 102.5. Conteos, integridad y cierre
+
+En esta reanudación: STSoperador2/STSinstancia4 (preflight2+validación2), **ModifyUser1PASS / rollback0**, DescribeUsers27 (preflight1+inmediato1+seguimiento25), DescribeUserGroups3/DescribeReplicationGroups3, SSMdescribeinstances1/**SendCommand4** (preflight2+validación2)/waiters4/getinvocation4; no total inventado de requestsinternoswaiter. Redis **58intentos** = AUTH2/PING2/positivas18/negativas36NOPERM. **GetSecretValue2**, solo AUTHRedisfijado/memoria, **Secretwrites0**. Dockerps4/systemctl4/ps2/ss2lecturaspreflight. SendCommand escritura de controlplaneautorizada observacional; **única mutación de configuraciónobjetivo: ACLdelmismousuario**, no cambios de grupo/cache/host.
+
+**Redisdatawrites0/metadata-generation-lifecycle0/IAMcalls-changes0/secretschanges0/MongoDB0/DynamoDB0/código-HCLchanges0/hostconfigchanges0/Dockerlogin-pull-run0/deployment-ALB0/Terraform0/stage-commit-push0**, sin instalaciones/build/producttests o secretos expuestos. El permisoIAMtemporal fue informado como acción humana previa; su revocación no se ejecuta ni se presume autorizada en este incremento.
+
+Solo taskv0.113.0/§102 y **[memoria §163](../../memoria.md)** se actualizan; §100/101/§161/162 y evidenciafuente intactos. Evidencia no secreta **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-acl-controlled-resume-20261117\**: autorizaciónreanudación/hashescopiasidénticas/precheck252-source8/copiasdocs/gate/STS/ACLantes-objetivo-payloads/ModifyUser/25estados/ACLdespués-asociaciones/SSMA-Breviews/decision/closure. State60/backup57 SHA256 **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 / cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279** y252archivosprotegidos/trabajopreviopreservados. Captura finaloperador **06:19:59.460Z**, horashostconservadas sin asumir sincronía. **STOP tras pruebas; ninguna llamada remota adicional, snapshot/secret delivery/Docker/deployment/cleanup/cambioIAM o siguiente fase automática.**
+
+## 103. DEPLOY-CONFIG-01 en development — recuperación cerrada propuesta, no primer uso supuesto
+
+### 103.1. Aceptación de A, objetivo y alcance exclusivamente documental
+
+Responsable **acepta A como ACL DEVELOPMENT APLICADO / VALIDACIÓN INCREMENTAL COMPLETADA** y **DEPLOY-CONFIG-02 RESUELTO en compatibilidad Development/development y ACL**; no aceptación de cuotas inicializadas, continuidad histórica, readiness o deployment. **T017 COMPLETE / ACCEPTED permanece histórico**, §102 es evidencia incremental separada. Se autoriza solo análisis/preparación documental para DEPLOY-CONFIG-01, sin llamadas remotas ni ejecución initialize/fence/maintain/activate/generadorG, Rediswrites, secretos, IAM/ACL, Docker, deployment, Terraform, commit/push.
+
+Destino documental inequívoco: **hostDevelopment → ambiente development**, Mongo **enver_development**, revocaciones **enver:development:auth:revoked:enver-api:** y cuotas **enver:{development:auth:ratelimit}:**, DB0/endpoint fijados en§102. No se migra dev, no se cambia ambiente/prefijo/DB/HMAC para aparentar ausencia. Observación§102: metadata/registry TYPE none, snapshot/generationausentes; solo un bucketcanónico y una revocación de prueba fueron leídos, **no inventario de todos los buckets ni prueba de nunca-usado**. En esta entrega no se repite observación cloud ni se declara mantenimiento ya efectivo.
+
+### 103.2. Fuentes aceptadas y conclusión técnica
+
+Revisión local **2026-11-17T06:28:24.226Z**, **26/26fuentes iguales** al sourceaceptado **078130627bc50a9dc2feee5fb699cedbea87dbbb**, normalizandoCRLF/LF; lectura de pruebas, **sin ejecutarlas**. Anclajes relevantes:
+
+| Fuente | Hallazgo verificable por lectura |
+| --- | --- |
+| [Lifecycle](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaLifecycle.cs) L8–11,35–38,40–99,102–115 | initialize solo nunca-usado acreditado; fence/control explícitos; activate inventaría registry y buckets en primaries; no coordinador de cese o bootstrap productivo |
+| [Lua](../../Enver.API/Infrastructure/Redis/Scripts/ConsumeAuthenticationQuota.lua) L24–52,71–122,124–145,167–217 | Validación de snapshot/generación; fence puede crear closed sin metadata; drenaje/reconciliación; dirty y ausencia de rollback transaccional |
+| [RecoveryContract](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaRecoveryContract.cs) L13–19,23–64 | Cese global, in-flight, último consumo posible, reconstrucción verificada **o** horizonte seguro, capacidad reconciliada; son precondiciones, no un operador implementado |
+| [Policy/transition](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaPolicyDescriptor.cs) L69–116 y [transición HMAC](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationPseudonymizationTransition.cs) L5–37 | Siete reglas; ventana máxima académica900s; drenaje max(anterior,nueva), configuración única, sin dualread/consume/reset |
+| [Configuración Redis](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaConfiguration.cs) L10–33, [snapshot](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaConfigurationSnapshot.cs) L3–39, [Capture](../../Enver.API/Composition/AuthenticationDependencyOptions.cs) L9–33 | Entradas externas; formatos/capacidad; no generador, no descubrimiento de referencias anteriores |
+| [Key builder](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaKeyBuilder.cs) L6–24, [HMAC](../../Enver.API/Infrastructure/Security/HmacAuthenticationScopePseudonymizer.cs) L24–39,42–90, [identidad canónica](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationScopeIdentity.cs) L17–26,38–51,66–118 | Keys físicas sin versión/generación; pseudónimo incluye ambiente y representación, no QuotaIdentityReference |
+| [Protocolo](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaScriptProtocol.cs) L25–50,78–115, [composición](../../Enver.API/Composition/AuthenticationServiceCollectionExtensions.cs) L67–111 | Guards/RequestBudget/sin retry automático; runtime no registra invocadoroperacional del lifecycle |
+| [Pruebas integración](../../tests/Enver.API.IntegrationTests/RedisAuthenticationQuotaRecoveryTests.cs) L56–105, [pruebas lifecycle](../../tests/Enver.API.UnitTests/RedisAuthenticationQuotaLifecycleTests.cs) L14–57 | Casos sintéticos de pérdida metadata y orphan con configuración conocida. No evidencia de historia/cloud, ni permiso para copiar GUID/fixtures/guardsOpen/executeOverride |
+
+**Respuesta1:** sí existe una **ruta técnica condicional de recuperación cerrada**, no una recuperación segura automática de cualquier historia indeterminada. Fence admite metadataausente; con configuración fiable, exclusión/drenaje/inventario/guards puede preceder maintain→activate. **Hoy faltan esas evidencias, referencias e invocador/permisos de control**; DEPLOY-CONFIG-01 no está resuelto y deployment debe seguir bloqueado. Historia indeterminada no pasa a historia nunca-usada: solo podría pasar a **estado operacional verificado por recuperación**, manteniendo la incertidumbre histórica registrada.
+
+### 103.3. Qué usar y qué no usar con metadataausente
+
+| Opción | Decisión técnica propuesta y límites exactos |
+| --- | --- |
+| initialize | **NO para el estado actual.** Valida ausencia metadata+registry, no huérfanos/historia; escribe directamente ready/count0. No initialize-closed. Esperar o aceptar pérdida no convierte su precondición nunca-usado en verdadera |
+| fence | **Candidato de control posterior**, después de procedimientoexterno. Acepta metadataausente porque la validación de ausencia exceptúa fence (LuaL89–94); crea12campos closed/dirty0, nextGeneration, count/topHorizon del registry, fence=now y drain=now+maximumWindow (L180–186). No reconstruye eventos, snapshotprevio ni relojlast perdido; registryausente producecount0 aunque haya huérfanos. Metadataexistente inválida o snapshot/Gincompatibles puede bloquearlo antes de escribir |
+| maintain | **Solo tras closedválido/dirty0/snapshot-Gexactos/draincumplido**; lotes≤3candidatos canónicos. Revalida tipos/scores/horizontes/TTL/límites; retira solo estado inactivo autorizado con DEL/ZREM, actualiza metadata. Es mutación, no lectura ni limpieza por conveniencia |
+| activate | **Solo tras reconciliación e inventario completo verificables**, count0/draincumplido/guardsreales. C# hace maintain, vacía candidatos de registry por lotes e inventaría buckets de primaries antes de activar. Luaactivate directo con registryvacío **no demuestra ausencia de huérfanos** y no sustituye al wrapper |
+| Procedimiento externo previo | **Necesario**: acreditar exclusión de todos los escritores/admisiones, resolver in-flight, recuperar descriptor/HMAC/épocas/tiempos/inventario y escoger reconstrucción o drenaje. No equivale a modificar DynamoDB/ACL/IAM/hosts por este documento |
+| Mantenimiento cerrado / reconstrucción | **Recomendado como vía de preparación**, no ejecutado: recuperar evidencia primero; restauración/reconstrucción controlada solo mediante mecanismo verificado que aún no se acredita. Si no puede acreditarse reconstrucción ni horizonte/inventario, permanecer cerrado y bloquear deployment |
+
+**Límite de fence al perder metadata:** el script acepta valores suministrados y no puede autenticar el snapshot anterior ausente. La API exige una configuraciónbase con Gválida y nextGdistinta incluso en ese caso; **no se inventa una Gbase/oldGeneration para satisfacer el método**. Se debe recuperar su procedencia o diseñar/aprobar por separado cómo el control representa la ausencia de base y valida una nueva época. Tampoco se elige un snapshotnuevo con ventana más corta para que drene antes. Tests de pérdida conservan configuraciónanterior conocida y no cubren este vacío de evidencia.
+
+### 103.4. Dos salidas válidas condicionales, no reset ni permiso de perder cuotas
+
+**R-REC (preferida): reconstrucción verificable.** Recuperar descriptorprevio real, vínculo HMAC/representación, época y evidencia íntegra de consumos todavía relevantes, registry/capacidad/TTL/horizontes/últimoreloj. Backup/export/log solo si existencia, autenticidad, completitud y corte consistente se acreditan; **no se presume que estén disponibles**. LogsHTTP/Mongo/DynamoDBOpen0/0 no son ledger completo de consumos atomicomultiscope ni resuelven operaciones inciertas. No sustituir por HSETmanual o restauración de snapshot viejo que pierda consumos posteriores. Si falta evidencia, no declarar reconstruccióncorrecta ni reabrir antes de horizonteseguro.
+
+**R-DRAIN (alternativa condicional): cierre continuo + expiración lógica acreditada + reconciliación.** El source admite esta salida sin recuperar todos los eventos perdidos (RecoveryContractL41–49), **pero no sin pruebas de cese y tiempo**. Deben fijarse:
+
+- **Tlast**, cota confiable del último consumo posible, incluidos procesosdirectos/diagnósticos/reintentos/in-flight/operacionesinciertas; no instante de alerta, captura§102, cambioACL o ausenciaDocker. Un corte posterior puede establecer esa cota si se acredita exclusión total y resolución/agotamiento verificable de operacionesya despachadas, no por mera declaración.
+- **Wsafe = max(ventanas de todas las políticas/identidades anteriores que puedan afectar, ventana objetivo)**. 900s solo si se acredita que la académica es cota de **todas** las políticas pertinentes; políticaantigua desconocida sin cotas ⇒ no tiempo seguro deducible. La ventana del Luausa solo el snapshotsuministrado; si Wsafe es mayor, se espera fuera del script el horizonteextra probado, sin editar políticas ni reabrir antes.
+- Evidencia compartida fiable de tiempo y transcurso **Tnow≥Tlast+Wsafe**, cierre continuo hasta final, compatible con scores/horizontes. Luausa TIMEdepared y max(TIME,last) solo cuando metadataexiste; su ausencia pierde last. No suponer monotonicidad, fiarse de sleep/relojhost/adelanto de pared ni convertir scoresfuturos/horizontesincoherentes en eventos expirados. Dudas de reloj/extensión del horizonte ⇒ STOP, no borrar para continuar.
+- Reconciliar todos los residuos y capacidad bajo única configuración: drenaje no garantiza que Redis haya borrado buckets permanentes/huérfanos, ni inventario ausente significa cero. No evadir cuotas activas: conservarlas/reconstruirlas o mantener cierre hasta que su relevancia haya vencido con evidencia.
+
+Si no es posible acreditar R-REC ni R-DRAIN, **la única salida compatible con no evadir cuotas es mantener deployment bloqueado**. Una aceptaciónhumana de pérdida de historia documenta un riesgo, **no crea evidencia de continuidad ni autoriza initialize/reset/NEVER-USED**; abrir con posible consumo vigente desconocido exigiría modificar explícitamente el contrato por flujoSDD y no sería cumplimiento del objetivo actual.
+
+### 103.5. Condiciones antes de asignar referencias o crear metadata
+
+Los símbolos **C/I/Gbase/Gnext** son metasímbolos, no valores utilizables. **No se asigna ni genera ninguno ahora**.
+
+| Elemento | Condición de gobierno/técnica previa |
+| --- | --- |
+| QuotaConfigurationVersion (C) | Token `[A-Za-z0-9_.-]{1,128}`, case-sensitive; responsable aprueba etiqueta de descriptor inmutable **development + vínculoidentidad + revisión/sietereglas + capacidad5000 + presupuesto67108864**. Recuperar Cprevia si se preserva su contenido; si se aprueba nueva C, no fingir que fue recuperada. Etiqueta/config de bundle/metadata.version/commit no son equivalentes; aprobar C no autoriza escritura |
+| QuotaIdentityReference (I) | Mismo token; vinculación aprobada no secreta a **development + ARN/VersionId HMACexistente + source/representacióncanónica**. Recuperar vínculoanterior real; si no existe, definir uno nuevo solo como elecciónfutura con transición explícita, no prueba del pasado. No hashdelaclave/VersionId/fixtures como sustituto; igualdadI no verifica criptográficamente continuidad |
+| QuotaGeneration | `[0-9a-f]{32}`, no32ceros, externa. Recuperar Gbase real cuando proceda, y definir semántica de baseausente sin fingir historial. Antes de generarGnext: aprobar rutaR-REC/R-DRAIN, exclusión, fuentes/cotas, descriptor/inventario, herramienta/custodia/escritorúnico y procedimientoCSPRNG de§95.6. Luego ejecuciónseparada16bytesCSPRNG→32hex/no cero/comprobacióncontraépocascustodiadas; aprobarliteral antes de escribir, mismoGnextcontrol/A-B, no regenerar en retry/restart. Si el historial de generaciones es incompleto, registrar ese límite, no afirmar unicidadhistórica absoluta |
+| metadata.snapshot | No texto elegido libremente: LuaL47–50 serializa ambiente/C/I/revisión/capacidad/presupuesto y14enteros de reglas, sin incluirG. Antes de escribir: descriptorcompleto aprobado, evidencia de ruta/continuidaddescrita, invocador real auditado, guards/permisos/destino/escritor/tiempo válidos y autorizaciónespecífica. No HSETcorrectivo ni cambiar C/I en metadataexistente para evadir igualdad |
+| metadata.generation | Exactamente la Gexterna del modo autorizado: initialize=Gbase solo en nunca-usado acreditado; recuperación fence=Gnext y closed, después maintain/activate con ese mismoGnext. No confundir con generaciónDynamoDB, metadata.version, AttemptId, UUID/RunId de fixtures o secretoVersionId |
+
+La matriz no condiciona una simple propuesta de nombre a haber escrito Redis; separa **aprobar descriptor → autorizar generación → custodiar/aprobar literal → autorizar escritura**. No existe snapshotoperacional íntegro mientras faltenC/I/G/evidencias. **5000 APROBADO / NO APLICADO** se conserva: su inclusión en descriptorpropuesto no aplica appsettings ni prueba memoria/capacidad. El presupuesto específico no garantiza salud del proceso Redis ni sustituye integración/medición.
+
+### 103.6. Huérfanos e inventario sin SCAN/KEYS generalizados
+
+**No puede acreditarse ausencia de huérfanos usando solo registry, metadata o algunas claves conocidas.** Sus nombres no contienen versión/generación, solo ambiente/operación/scope/opaqueId (KeyBuilderL6–24). Una G nueva no crea un keyspace limpio, I/C nuevas tampoco; no DEL/FLUSH/RENAME/moverDB/prefijosalternativos, ni copiar dev→development para simular continuidad.
+
+Opciones documentales **a aprobar y demostrar, ninguna disponible por inferencia**: catálogo externo íntegro del namespace y su corte compatible con el cierre; snapshot/export offline confiable con análisis acotado a ese prefijo y cobertura completa; o inventario por herramientaCONTROL auditada/aislada, no runtime, cuyo alcance/coste/confidencialidad se autoricen aparte. **Sin SCAN/KEYSgeneralizados**; MATCH no limita el permisoACL de SCAN. No se propone ampliar ACLruntime para obtener éxito; clavesconocidas solo sirven para inspección dirigida, nunca para declarar catálogo completo.
+
+**Limitaciónimplementada decisiva:** ActivateAfterDrainAsync usa `server.KeysAsync(... bucket:*,3, DemandMaster)` en primaries (LifecycleL63–95), inventario cuyo camino de servidor exige revisión del cliente, sin asumir que nunca recurra a KEYS. La ACL§102 **no concede SCAN/KEYS/PERSIST**. Lua fence usa PERSIST si registrycount>0, y maintain puede volver a usarlo; un fallo después del HSET puede dejar dirty1. El caso actual registryausente podría evitar alguna llamadaPERSIST, **no hace compatible el flujo general ni elimina inventario**. No llamar Luaactivate directamente, usar executeOverride, o saltar wrapper/guards para eludir permisos.
+
+Si la prohibición de inventario de servidor se mantiene, un catálogo externo **no puede inyectarse hoy como sustituto de la faseKeysAsync del wrapper**: exige diseño/implementación/pruebas/autorizaciónSDD separados de un caminoCONTROL compatible. Si no se acredita herramienta/inventario compatible, STOP y deploymentbloqueado. No publicar comandosEVAL/ACL ni implementarlos en este análisis.
+
+Para candidatos confiablemente inventariados, tratamiento posterior propuesto: tipos/forma canónica/revisión/generación efectiva, scores y reloj válidos, TTL/horizonte/capacidad contrastados; **no liberar activos**. Activeorphan sinregistro o estadoinválido ⇒ cierre/reconstrucción, no borrar/recontar por conveniencia. Solo después del horizonteválido, maintain revalida cada lote≤3 y puede retirar residuos inactivos con serialización. No reducir eventos para pasar techo `maximumLimit`, ni ignorar inventario>5000/tiposmalformados o un candidato que no aceptaLua; esos límites requieren análisis nuevo, no limpieza fuera del protocolo. Registry vacío/ausente puede ser resultado válido de ceroestado tras reconciliación; no se crea zsetvacío de prueba.
+
+### 103.7. Continuidad HMAC, identidad y límites compartidos
+
+Conservar **misma claveHMAC existente/VersionIdpinned, ambiente development, dominio enver.auth.quota, versión1, UTF8estricto/camposconlongitudbig-endian y canonización de correo/origen/cuenta** del source. No leer secreto ni generar pseudónimosreales en esta entrega. Futura verificación privada puede acreditar coherenciaA/B sin revelar material/identificadores; configI/manifest/source coincidentes deben vincularse a esaconfiguración, no a AWSCURRENT mutable. El pseudonimizador no leeI: no bastaetiquetaidéntica.
+
+Historia bajo dev u otra clave/representación no se vuelve compatible cambiando nombres de keys o ACL: **dev y development producen pseudónimos distintos aunque usen la misma clave**. Si esa historia puede pertenecer a los mismos límites funcionales, debe incluirse en cese/cotasanteriores y resolución de transición; no reabrirgrantsdev ni asumir migración. Cambio de clave/dominio/representación/ambiente requiere transición053 y drenaje maxanteriores/nuevas con un solo emisor/consumidorválido; sin dualread/consume, hotreload o fallbacklocal. Gfence invalida consumidoresantiguos en el script, no sustituye exclusión de clientes que no cumplen protocolo.
+
+Las cuotas y revocación/autoridad020 son dominios distintos: 020 no almacena consumoscuotas, su G/estado no reconstruyeC/I/Gcuotas. Drenarcuotas no demuestra continuidadJWT/logout ni levanta cuarentena. No usar `AuthenticationDependencyAdmission.EvaluateAsync` como diagnósticosinmutación: [L27–35](../../Enver.API/Composition/AuthenticationDependencyAdmission.cs) puede llamar global.CloseAsync/escribirDynamoDB. Guards de initialize/activate deben ser reales y permitircontinuar, no stubsOpen; fence/maintain no pasan CheckSecurityAsync, por lo que el ceseexterno no se deduce de su éxito. No cerrar/reabrirDynamoDB ni arrancarAPI/Mongoinitializer para fabricar gates en este análisis.
+
+### 103.8. Procedimiento propuesto paso a paso y fallo/rollback seguro
+
+**Procedimiento no ejecutable y no autorizado para operación**, con un gate humano antes de cada intervención. Estadofuturopropuesto: **historiaINDETERMINATE → mantenimientoexternoverificado → recuperaciónCLOSEDverificada → horizonte/reconstrucción+inventarioreconciliados → READYoperacionalverificado**; historia sigueINDETERMINATE, no NEVER-USED. Ninguna de estas transiciones operativas se declara ocurrida ahora.
+
+1. **Aceptar el bloqueo actual** y custodiar evidencia§95/96/102/source; mantenerDEPLOY-CONFIG-02resuelto en su alcance. Documentar responsables/destinoC/I/Gpendientes, posibles consumidores/épocasanteriores y qué evidencia falta. No asignarreferencias ni preparar payloadRedis.
+2. **Diseñar y autorizar mantenimientoexterno efectivo**: exclusión comprobable de todos los escritores/admisiones/diagnósticos, coordinaciónA-B/otrosclientes y operacionesya despachadas; mecanismo, ventana y readbacks deben aprobarse, no bastanALBsintráfico/Dockervacío/locklocal. Esta entrega no lo ejecuta ni cambia infraestructura/autoridad.
+3. **Recuperar evidencias no secretas y trazar el dominio real**: descriptor/políticasanteriores, vínculoHMAC/source, G/últimoreloj si recuperables, catálogos/exports/cortes confiables y consumosinciertos. Inspecciónremotafutura solo por alcancelectura autorizado, no diagnóstico que muta. Pruebas negativas/permisos no prueban historia.
+4. **Elegir R-REC o R-DRAIN con puertas concretas**: probar reconstruccióníntegra o acreditarTlast/Wsafe/tiempocompartido y cierrecontinuo; inventario/capacidad no se omiten. Si política/horizonte/base/inventario siguenindeterminables, STOP, no inicializar. La cota puede establecerse tras un cierreposterior verificable aunque no se conozca todo el pasado; no existe cota fiable por simple ausenciaactual.
+5. **Resolver brecha de control** mediante diseño/aprobaciónSDD propia: invocadorauditado sin stub, inventariocompleto sin generalizarpermisosruntime, manejo baseausente/reconstrucción/partiales/reloj y compatibilidadPERSIST. No se selecciona identidad/ACL/herramienta inexistente ni se implementa en esta entrega. Si exige source o permisosdistintos, aprobaciónespecífica previa, no bypass.
+6. **Aprobar descriptor de recuperación y referencias exactas**, y solo después autorizar generar/custodiar/aprobarGnext por el procedimientoexterno. Base/Ganteriores con procedencia o semánticaausencia explícitamente resuelta; capacidad5000 y presupuesto con integraciónpendiente. Custodiar plan de fallo, escritorúnico/keys/método/gates reales y ventana. No promover bundle ni entregarsecretos.
+7. **Solo bajo autorizacióntécnicaposterior:** ejecutar restauración/reconstrucciónverificada si aplica, o fence con baseválida a Gnext/closed; leer12campos/PTTL-1/dirty0/snapshotexacto/Gnext/count/horizon/fence/drain/last. No initialize bajo historiaindeterminada. Cualquierconflicto/timeout/dirty≠0 ⇒ cierre y readbackseparado autorizado, sin repetir/generarotraG.
+8. **Completar horizonte externo y del script, luego reconciliación/inventario íntegros**: preservarestadoactivo, lotes≤3 revalidados, no liberar por TTL/timeout aislado; conservar closed hasta que count0/residuosexpiradosretirados y capacidad verificados. Cesecontinuo desdeTlast y ninguna admisiónconsumidora con Gnextantesdeaprobarapertura. Si no hay inventariocompatible, STOP.
+9. **Autorizar activaciónseparada** solo con gates auténticos/continuidadsegura. Invocadorincluyeinventario, no Luaactivateaislado. Readbackready/dirty0/snapshot-Gexactos y coherenciaA-B/todo consumidor. Pruebasobservacionales y pruebas de cuota real pertenecen a permisosdistintos; probar consumo escribe y no está autorizado por este documento. No declararéxito integral/gate/deployment por PING/ready.
+10. **Cerrar con evidencia y aceptaciónhumana del incremento**, no seguir a secret delivery/Docker/deployment. DEPLOY-CONFIG-01 solo podrá cerrarse con snapshotexternocompleto/estadoRedisválido/compatibilidaddelivery evidenciados en sus respectivos alcances, no por aprobar este borrador.
+
+**Rollback seguro = retorno a mantenimiento, no retorno al pasado perdido:** antes de escribir, abortar sin cambios; después de fence no restaurarGold/ready, snapshotobsoleto o ausenciaoriginal mediante DEL, ni volverACLdev. MantenerGnext/closed y ceseexterno; metadatadirty/resultadoincierto requiere diagnóstico y recuperación autorizados, conservando custodia/contador/tiempo, no retryciego. Tras activación con consumos posibles, parar y resolverin-flight; nunca sobrescribir estado con backup anterior que suprima cuotasactivas. Si fuera imprescindible otrofence/G, es otra intervenciónespecífica, no una segunda soluciónautomática. Fallo de guard/autoridad020 no se reabre por recuperarcuotas. El sourceLua no tiene rollback; respuesta perdida no prueba falta de escritura. En un estado que no permita dejarclosedválido por protocolo, la exclusiónexterna debe mantenerse, no forzarHSET o reset.
+
+### 103.9. Decisiones humanas exactas requeridas y recomendación de salida
+
+Textos a completar con evidencia real, **propuestas NO APROBADAS / NO EJECUTADAS**; aceptar uno no autoriza los siguientes:
+
+| Decisión | Texto y evidencia que debe aportar/aprobar el responsable |
+| --- | --- |
+| D-REC-BLOCK | «Mantengo deployment y toda admisión de cuotas bloqueados mientras no se acrediten los gates de recuperación; development conserva historia INDETERMINATE. Solicito [evidencias/propietarios/alcancelectura] sin autorizar escrituras ni generación». **Recomendación inmediata** |
+| D-REC-MAINT | «Apruebo diseñar/ejecutar en un incremento delimitado mantenimiento cerrado para [todoslosconsumidores/mecanismo/ventana/actor], con prueba de exclusión y resoluciónin-flight; Tlast solo se fijará a partir de [evidenciaconfiable]. No autorizo por esto cerrar/reabrir020, cambiarIAM/ACL/hosts o desplegar»; cualquier mecanismo que lo requiera debe pedir esos permisos expresamente |
+| D-REC-PATH | «Selecciono reconstrucciónR-REC con [fuentesíntegras/corte/verificación], o drenajeR-DRAIN con Tlast=[evidencia], políticasanteriores/cotasWsafe=[evidencia], tiempo=[fuente] e inventario/capacidad=[métodoauditable]. Si falta cualquierprueba, continúacierre»; sin camposacreditados no hay ruta aprobable |
+| D-REC-LOSS | «Reconozco y acepto [pérdidadehistoria concreta, alcance, impacto, evidencia y límites], **sin afirmar nunca-usado ni cancelar cuotas potencialmente activas**; reabrir solo tras reconstrucciónverificada o vencimientoacreditado+reconciliación». Si se pretende aceptar omisión de cuotasvigentes, declarar **excepción/reformaSDD explícita incompatible con el objetivoactual**, no llamarla recuperaciónsegura; ningunaautorización así se presume |
+| D-REC-CONTROL | «Apruebo especificar [invocador/inventariocompleto/baseausente/reloj/partiales] y pruebas, permisosmínimos y separaciónruntime/control sin SCAN/KEYSgeneralizados; no invocaractivate saltando inventario». Diseño/implementación/ejecución requieren autorizacionespropias; no ampliarACL en este documento |
+| D-REC-EPOCH | «Una vez acreditadas las puertas, apruebo nueva época de **recuperación**, no primeruso, para el descriptor exacto [C/I/política/capacidad/vínculoHMAC]; apruebo procedimientoexternoG y custodia, baseausenteresuelta y Gnextliteral sujeto a revisiónposterior; no rotarHMAC/cambiarambiente ni perdercontinuidad por conveniencia» |
+| D-REC-EXEC-OPEN | **Posterior:** «Apruebo [operaciónexacta/escritor/source/destino/comandos/gates/ventana/readback/fallo] y luego [criterios de activación/reapertura/aceptaciónevidencia] tras completarR-REC/R-DRAIN». No incluirdeployment/delivery ni modificación020/IAM por inferencia |
+
+**Recomendación:** mantener **DEPLOY-CONFIG-01 BLOQUEADO** y aprobar, si se desea, solo **D-REC-BLOCK + preparación de D-REC-MAINT/PATH/CONTROL** para recuperar evidencia. **No initialize; no fence/maintain/activate hoy; no generarG**. Si se obtiene descriptor/horizonte/inventarioconfiables, preferir recuperacióncerrada por contrato existente con brechas resueltas; si no, continuar bloqueo en lugar de resetear. No recomendar una nueva época abierta por simple aceptación de pérdida.
+
+### 103.10. Preservación y evidencias locales
+
+**ANÁLISIS Y PREPARACIÓN DOCUMENTAL COMPLETADOS / PROCEDIMIENTO PROPUESTO NO APROBADO PARA EJECUCIÓN / DEPLOY-CONFIG-01 BLOQUEADO**. **DEPLOY-CONFIG-02 RESUELTO solo compatibilidad / A§102ACEPTADA; dev HISTORY UNCERTAIN / development INDETERMINATE respectoahistoria; MaxActivePartitions=5000 APROBADO / NO APLICADO; metadata.snapshot no inicializada / metadata.generation no inicializada / registry no inicializado; T008/T017/T019/T020 COMPLETE / ACCEPTED; GATE-I-B PENDING / NOT SATISFIED**, catálogo11+5+14/gates1+8/diferidos intactos. No cambio de categorías históricas por diseñar una recuperación; continuidad/revocación/AUTH-027 integral no acreditadas por este análisis.
+
+Solo taskv0.114.0/§103 y **[memoria §164](../../memoria.md)** actualizados; historia§95/102/§156/163 intacta. Evidencialocalno secreta **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-development-quota-recovery-design-20261117\**: precheck26fuentes/source/hashes252/copiasdocs/cierre. **AWS/SSM/Redis/Secrets/MongoDB/DynamoDBcalls0, initialize/fence/maintain/activate0, Ggenerada0, IAM/ACL/secretwrites0, código-HCL-hostchanges0, Dockercommands0, deployment/ALB0, Terraformcommands0, build/tests0, stage/commit/push0**. State60/backup57 SHA256 **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 / cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279** preservados. **STOP en recomendación/decisioneshumanas, sin siguientes acciones automáticas.**
+
+## 104. DEPLOY-CONFIG-03 — entrega nativa JSON compatible con imagen inmutable: diseño, no ejecución
+
+### 104.1. Alcance, artefacto y evidencia de compatibilidad
+
+Responsable mantiene **DEPLOY-CONFIG-01 BLOQUEADO conforme §103**, sin initialize/fence operativo/maintain/activate/escrituras Redis. Autoriza solo análisis/diseño de entrega de secretos a la imagen aceptada, **sin leer SecretString**, modificar código/HCL/IAM/secretos/hosts, ejecutar Docker/rebuild/deployment ni commit/push. **DEPLOY-CONFIG-02 RESUELTO en compatibilidad; DEPLOY-CONFIG-04 PENDIENTE; GATE-I-B PENDING / NOT SATISFIED**. Esta entrega no implementa helper ni unidad y no declara resuelto operacionalmente03.
+
+Artefacto preservado de§93: source **078130627bc50a9dc2feee5fb699cedbea87dbbb**, índice **sha256:5da876d7cd52b36d6f63d84cf9856b7d6130715cd00f93bf7daef45c3e76aa9f**, hijo linux/amd64 **sha256:852607824b0b5630567c52b9c067ab72ba290980f577def8a41235b590515f2d** en **926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api**. No tag como selector ni reconstrucción. Lectura local **2026-11-17T06:42:55.874Z: 22/22 fuentes iguales** al source aceptado, ignorando soloCRLF/LF. Dockerfile L35–38 mantiene **WORKDIR/app / ENTRYPOINT dotnet Enver.API.dll**, USER$APP_UID; evidencia histórica del build registra runtime10.0.15/UID-GID1654:1654 (§§51–52). Es evidencia previa, no una nueva inspección de imagen o comprobación de userns/host.
+
+**Cadena de compatibilidad estática:** [Program L3,13–15](../../Enver.API/Program.cs) usa `WebApplication.CreateBuilder(args)` ordinario, sin sustituir Sources; [Dockerfile](../../Enver.API/Dockerfile) ejecuta esa aplicación desde/app; [composición L39–44,67–111](../../Enver.API/Composition/AuthenticationServiceCollectionExtensions.cs) consume Configuration.GetSection/Bind/Options; [validadores L9–24](../../Enver.API/Configuration/AuthenticationOptionsValidation.cs) exigen claves externas y ValidateOnStart. [csproj](../../Enver.API/Enver.API.csproj) es Web/net10.0 con UserSecretsId y AWSSDK.DynamoDBv2, **sin proveedor Secrets Manager ni KeyPerFile registrado**. No se halló AddJsonFile/AddEnvironmentVariables/AddUserSecrets/AddKeyPerFile/AddSecretsManager/GetSecretValue/custom ConfigurationBuilder en códigoAPI: los providers presentes proceden de los defaults del framework, no de un adaptadorENVER.
+
+Lectura pública complementaria, **no ejecución/cloud de ENVER**: [WebApplicationBuilder10.0.0](https://raw.githubusercontent.com/dotnet/aspnetcore/v10.0.0/src/DefaultBuilder/src/WebApplicationBuilder.cs), [ApplyDefaultAppConfiguration10.0.15](https://raw.githubusercontent.com/dotnet/runtime/v10.0.15/src/libraries/Microsoft.Extensions.Hosting/src/HostingHostBuilderExtensions.cs), [UserSecretsPathHelper10.0.0](https://raw.githubusercontent.com/dotnet/runtime/v10.0.0/src/libraries/Microsoft.Extensions.Configuration.UserSecrets/src/PathHelper.cs). La fuente10.0.15 corresponde a la versiónruntime documentada, no se deduce esa versión del paqueteOpenApi10.0.14. **Compatibilidad por source/defaults y trazabilidad histórica: sí; prueba dinámica de consumo del JSON por ese digest en A/B: NO EJECUTADA**.
+
+### 104.2. Inventario exacto de material y mapping requerido
+
+**Cuatro finalidades existentes, sin crear otro secreto.** La API no consume directamente los envelopes/contratosSecretsManager. El futuro helper debe producir las claves que realmente enlazan Options:
+
+| Finalidad | Claves consumidas por imagen | Transformación/validación anterior a publicación, todo en memoria |
+| --- | --- | --- |
+| MongoDB | **MongoDb:ConnectionString**, y destino **MongoDb:DatabaseName=enver_development** | Contrato documentado username/password/host/database → URI mongodb+srv con usuario/password percent-encoded individualmente una vez, host/DBexactos/TLS/authSourceadmin/retryWritesfalse/majority (§47.3). Password y URIcompleta secretos; host/usuario sensibles. No `ConnectionStrings:MongoDb`, no archivoenvelope sin mapear. Factory conserva concerns/timeout y sanea errores de parseo |
+| JWT HS256 | **Jwt:ActiveKid**, **Jwt:Keys:<i>:Kid**, **Jwt:Keys:<i>:KeyBase64** para todos los índices0..n−1 | Ring completo de una versión, kidsúnicos/activo presente, Base64canónica≥32bytes por clave. TODAS las claves simétricas secretas, incluidas verificadoras antiguas; no mapear solo la activa ni truncar ring |
+| HMAC cuotas | **RateLimiting:PseudonymizationKeyBase64** | Payload→hoja exacta, Base64canónica≥32bytes y distinta de cadaJWT. **Discrepancia histórica de schema:** §47 usa pseudonymizationKeyBase64; §57 conserva solicitud keyBase64. Sin leer valores no se acredita cuál contiene la versión real. Exigir schema aprobado por metadata/owner y validarlo en prueba autorizada; no fallback silencioso entre ambas ni inventar un payload |
+| Redis AUTH | **Redis:ConnectionString** | username/password de versión fijada + endpoint **master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com:6379**, TLS/cert-hostname/DB0 explícitos → representaciónStackExchange.Redis3.4.31 que mantenga credencial exacta. No opciones Redis:Password/User separadas: no existen en RedisOptions. Validar roundtrip/representabilidad; comas/CRLF/espacios extremos no se arreglan con JSONescape/URLencode ni truncando. Si no representable, STOP y cambio tipado separado/rebuild, nunca cambiar el secreto por conveniencia |
+
+Mongo/JWT/HMAC **schema de los valores no acreditado por lecturasmetadata§93**; Redis `{username,password}` sí fue validado en memoria por pruebaaceptada§102, no se vuelve a leer ahora. Fuente de mapping: [MongoOptions](../../Enver.API/Configuration/MongoDbOptions.cs), [RedisOptions](../../Enver.API/Configuration/RedisOptions.cs), [JwtOptions](../../Enver.API/Configuration/JwtOptions.cs), [RateOptions](../../Enver.API/Configuration/RateLimitingOptions.cs), [MongoFactory](../../Enver.API/Infrastructure/MongoDB/MongoClientFactory.cs), [RedisConnections](../../Enver.API/Infrastructure/Redis/RedisConnections.cs), [JwtKeyRing](../../Enver.API/Security/JwtKeyRing.cs). Las validaciones de longitud no acreditan entropía ni generación segura del material existente.
+
+**No secretos a entregar:** C/I/G de cuotas son control de integridad/no secretos y siguen pendientes§103; MaxActivePartitions5000 sigueAPROBADO/NOAPLICADO; políticas/revisión/siete reglas, regiónus-east-1/tablaauthority/ambienteDevelopment/namespaceenver:development/transporte/logging son config no secreta o sensible. DatosJWTemitidos/passwordsusuarios/passwordhashes no son secretos de configuración; no crearpepper/FCM/SMTP/TLSkeyextra sin integración demostrada. El SDKDynamoDB usa credencialesAWS temporales de cadenaestándar, **no copiarlas al JSON, ENV o argumentos**; su acceso desde container pertenece a04, no se resuelve con este delivery.
+
+### 104.3. Providers realmente habilitados y precedencia
+
+Defaults del builder normal, **menor→mayor precedencia de aplicación**: configfallbackhost (ASPNETCORE_/DOTNET_/argumentos de host) → **appsettings.json → appsettings.Development.json → JSON de nombreaplicación si existen según defaults10.0.15 → UserSecrets enDevelopment → variables de entorno sin prefijo → argumentosCLI**. La fuente10.0.15 incluye `<ApplicationName>.settings.json` y `.settings.Development.json`; no se presume archivoexistente en la imagen ni se usa como dependencia del mecanismo recomendado. No modificarApplicationName para conseguir otra fuente. El ambiente/contentroot se fijan temprano: no cambiar host mediante una hoja tardía delJSON. Debe mantenerseDevelopment, root/app y ausencia de overridesDOTNET/CLI contradictorios.
+
+| Entrada | Soporte real / evaluación |
+| --- | --- |
+| Environment variables | **Sí**: p.ej. MongoDb__ConnectionString, Redis__ConnectionString, Jwt__Keys__0__KeyBase64, RateLimiting__PseudonymizationKeyBase64. `__`→`:`, arraysporíndice. **RECHAZADA para valores secretos**: DockerConfig.Env/inspect/metadata persistente y /proc/environ. `--env-file` no evita esto |
+| appsettings.json o appsettings.Development.json montados | **Sí**, JSONnativo leído relativoalcontentroot; candidato mínimo sin cambiarcódigo. Montar soloarchivoRO, no reemplazar/app ni DLLs. JSONordinalcasecorrectoenLinux; claves deben ser lasOptions, no envelopesvalue |
+| JSON adicional | **No cualquiernombre/ruta**: los nombresconvencionales antesdescritos tienenprovider; `/run/enver/secrets/config.json`, un argumento `--config ruta`, `appsettings.Secrets.json` o config.json montado arbitrariamente **no registran AddJsonFile**. No asumir autodiscovery de un directorio |
+| User Secrets | **Condicionalmente sí enDevelopment**, según atributoUserSecretsId del assembly/perfilusuario. csproj lo declara; archivo generado **local Release** contiene atributo, sin nueva compilación. No afirmar que Release deshabilita provider. No se inspeccionó atributo del DLLpublicado en esta entrega. Linux suele HOME/.microsoft/usersecrets/<id>/secrets.json, depende delperfil. **No recomendado**: almacenamiento plano local/no gestorrotación, rutasperfil/precedenciaextra; no leer UserSecretsdeloperador. Montarlodesdetmpfs también exigiría mapping/helper y no mejora aislamiento |
+| Secrets Manager directo | **NO**: SDKDynamoDB no es un IConfigurationproviderSecretsManager. IAM/GetSecretValuehostPASS no entrega valores a API; ni ARN como valor ni accesoIMDS bastan |
+| /run/enver/secrets + envelopes o `_FILE`/Docker secrets | **NO adaptador actual**. Docker standalone no convierte un archivo en IConfiguration; no KeyPerFile/variables_FILE implementadas. La propuesta§47.6 requiere código/rebuild si se quiere consumirla enAPI |
+| Stdin/FD/proxy/agent HTTP/ParameterStore/hostingstartupinyectado | No provider configurado para estasfuentes. Requieren diseño/código/integración nuevos; no DLLexterna/startuphook para evadir imageninmutable |
+
+JSONsopcionales no acreditan fail-closed de entrega completa. Optionsrequiere material, pero no comprueba bundle/ARN/VersionId/igualdadA-B; **el helper y supervisor externos tienen que impedir arranque parcial**. Arrays se fusionan por claves entreproviders, no sustitución atómica garantizada: impedir entradasJWTresiduales/ENV/CLI/UserSecrets/configadicional no aprobadas; verificar conjunto exacto. DefaultsreloadOnChangetrue **no es rotación segura**: Options/keyring/HMAC/conexiones son snapshotslong-lived. Se propone `DOTNET_hostBuilder__reloadConfigOnChange=false` (no secreto, hostconfig temprano) y archivosinmutablesporinstancia; debe comprobarse ese flag en prueba futura. No basta ponerlo solo dentro delJSON tardío.
+
+### 104.4. Opción mínima recomendada y límites de lo que ya existe
+
+**Recomendada como diseño: hosthelper → GetSecretValue cuatroARN+VersionId exactos → validación/mapping en RAM → un JSON nativo derivado en tmpfs → bindmountRO de un archivo a `/app/appsettings.Development.json` → providers/Options ya existentes.** No exige modificar el digest ni añadiradaptadorAPI. Sustituye paraesteincremento el ladoAPI de la propuesta§47.6, **sin reescribir su historial ni presentarla como implementada**. Los cuatro secretos siguen separados enSecretsManager; el JSON agregado **solo RAM** no es un nuevo mega-secret persistente. Requiere decisiónhumana específica por concentrar material en un archivo efímero.
+
+Pathhost candidato, no creado: **`/run/enver/<releaseId>/appsettings.Development.json`**; destinoexacto **`/app/appsettings.Development.json`**. `releaseId` componente no secreto validado/sintraversal; archivo fuera decontextobuild/Git y no nombrado porcredenciales. JSONderivado debe preservar contenidoDevelopmentlogging/DB/namespace de la imagen y contener secretleavesexactas de§104.2; demás config aprobada no secreta puede incluirse ahí, **sin inventar C/I/G ni activar5000 ahora**. appsettings.jsonbase permaneceintacto. No copiar los bytes secretos a writablelayer, docker cp, volume de disco, /tmp no acreditado, archivoenv, imagen o inspect. Elmountoculta el archivooriginal sin cambiar lascapas/digest, que seguiríanrecuperables.
+
+**Existe hoy:** providerJSON/env/CLI/UserSecretscondicional; binding y validadores; factories/keyring/pseudonimizador; instance-role y pruebasCORE4previas. **NO existe demostrado:** helperdelivery/servicioorquestador, manifiestoruntimeaprobadoinstalado, publicaciónatómicabundle, validaciónschemasrealesMongo/JWT/HMAC, pruebaUIownership/precedencia/restart/logprivacy ni deliveryA-Bdinámico. `infra/bootstrap/compute-host.sh` es host-only/DockerSSM, sin secreto/API/delivery; scripts externos§93precheck-host.py y§102validate-redis.py hacen prechecks/lecturas/pruebas acotadas, **no arrancan contenedores ni implementan entrega/rotación**. No reutilizarlos ciegamente como helper; pueden producir efectosremotos si se ejecutan, no ejecutadosahora.
+
+CambioProgram/AddKeyPerFile/AddJsonFilecustom/SecretsManagerprovider/envelopesAPI/credencialesRedistipadas nuevas exigiría **cambio/rebuild/nuevoartefactoyaceptación**, fuera dealcance. Helper externo nuevo no cambia imagen pero sí es trabajo técnico/scriptsruntime a autorizar, auditar y probar; aquí solo se diseña.
+
+### 104.5. Exposición, controles y riesgos residuales
+
+| Superficie | ENV/CLI | JSONtmpfsRO recomendado, condiciones/limitaciones |
+| --- | --- | --- |
+| docker inspect/daemonmetadata | ENV queda enConfig.Env, CLI enCmd/Args; valores pueden persistir bajo data-rootDocker | Solo paths/mountsRO, digest, nombres/flags y ENVno secreta; **no valores enConfig.Env/Cmd/labels/healthcheck/comandoSSM/systemdEnvironment**. Dockerroot tiene acceso almount: RO no significa secreto frentealdaemon |
+| /proc/argv | CLI encmdline; ENV enenviron, accesosegúnpermisos | argvsolo`dotnet Enver.API.dll`; environ sinmaterial. mountinfo/fd/rootpueden revelarpath/accesoalarchivo; `/proc/<pid>/mem`, dumps yptracepueden accederalmaterial con privilegios. No prometer ausencia en todo/proc |
+| Filesystem | envfile/tmp normales puedenpersistir | Archivo existe en tmpfs y es legible porAPI; no disco persistente solo si **tmpfsreal + swapdeshabilitado + sinhibernación/crashdump/core/snapshot/backup/agentequeexporteRAM**. `/run` o RuntimeDirectory por nombre no pruebanesto. Cumplir restricciónestricta, no dar por válido swapcifrado como “sinpersistencia” |
+| Memoria | Proceso/CLI/runtime reciben valores | AWSCLI/JSONhelper/.NETConfiguration/Options/drivers conservan strings/buffers. No zeroizacióncompleta garantizada; limpiar bufferspropioscuando viable no elimina copiasGC/pagecachetmpfs/rootexposure |
+| Logs/journal/SSM | tracing/CLIdebug/echo/errores pueden volcarvalores | Sinset-x/debug/GetDebugView/printJSON/Options/URI/parsersraw. Erroreshelpergenéricos allowlist. App tiene sanidadesparciales, **no garantía global**, erroresstartup/framework/terceros podrían filtrar. Propuesta inicial **Dockerlog-drivernone/detached, sinattach/rawoutaSSM/journal**, dumpsdiagnóstico restringidos; tradeoffobservabilidad a aprobar. No considerarrotación local10MB delbootstrap como protección desecretos |
+| Runtime/metadataAWS | Env/args/envfiles/logs puedenpersistir en variosservicios | CloudTrail puede registrar ARN/VersionId/identidad, no se envíanvalores enrequestsmetadata. SSMscripts/parameters/output y systemdunit contienen solo código/refs, no JSONvalores. No credencialesAWSestáticas/copiasIMDS enbundle; trazabilidad no secreta por refs/versiones/resultados, **sin hashes de material ni delJSON secreto** |
+
+**Permisos propuestos:** supervisorroot/umask0077, ancestrohostroot0700; generacióninicialrootprivada, archivo regularsinlinks/symlinks, publicación de conjunto completa/rename en **mismo tmpfs**. Antes de montar, lectura estricta solo UID/GIDefectivo del digest: opción0440root:grupoapp verificado o0400propietarioapp, sinworldreadable y sinwriteAPI. Traversalhostrootprotegeacceso; resolución/mount porDockerroot, lecturaincontainer dependeUID/GID/userns/SELinux reales. No inferirGIDefectivo deAPP_UID ni cambiarrootuser para hacerpasar lectura. BindRO soloarchivo, no Docker/IMDSsocket/profile delhelper. Proponer rootfsRO/capdropall/no-new-privileges/corelimit0 y tmpfs mínimos para temporales .NET si necesarios, sujetosapruebafutura/04; no seleccionarnetworkingahora.
+
+**No actualización en caliente:** no editar/reemplazarelarchivo mientras estámontado; un bind dearchivo puede seguir apuntandoalinodeanterior trasrename. No unlinkprematuro para ocultarlo ni confiar secureeraseRAM. Conservar generación mientras lausa contenedor; al deteneryretirar solo esecontenedor, cleanup acotado de susarchivos bajo autorización. Trasreboot pierdeRAM, helper reobtiene versiónexacta antesderecrear; IAMredfallida→noarranque, noENVfallback. **Dockerrestartpolicy no/gestiónsupervisada** propuestos, sinalways/unless-stopped que arranqueelcontainerobsoleto antesdelhelper. Supervisorrevalida/reobtienetodoconjunto en cadaciclodearranque/recreación; este mecanismo aún noestá implementado.
+
+Root/Dockergroup/SSMadmin/Appcomprometida pueden leer clavesdelproceso: no aislamiento frenteaprivilegiosdelhost. La prevención de persistencia absoluta no se demuestra solo por diseño; **verificarcontroleshost y pruebasnegativas antes de aceptar03**. Si no se acepta archivoRAMlegible/rootriesgo o no se puede evitar dumps/logs/swap, no recomendar ENVcomoworkaround: deliverypermanecebloqueado.
+
+### 104.6. IAM existente frente a carencias: evidencia, no modificación
+
+| Ámbito | Evidencia existente / necesidad para propuesta |
+| --- | --- |
+| Hostrole | **enver-dev-api-runtime**, profileenver-dev-api-runtime, A/B§81/93/102 con STSexacto. **GetSecretValue solo cuatroARNCORE4**, policy **enver-dev-secrets-read** aplicada/verificada§79; lecturasversionesfijas8PASS§81/93 y RedisAUTH§102. No revalidacióncloudahora |
+| KMS | Clave **arn:aws:kms:us-east-1:926925605666:key/51e1d79c-e924-4330-ac41-c9b263ee4ce3**, Decrypt porSecretsManager/us-east-1/CallerAccount926925605666, [HCL L87–114](../../infra/iam-runtime.tf). SinpruebadeEncryptionContextSecretARN; no aumentargrants/CMK/keypolicy |
+| Boundary | **ENVER-Runtime-Permissions-Boundary v4 default** verificada§88, preservaCORE4/KMS/ECR/SSM y limitaGet/Updateauthority. Propuesta [v4](../../infra/bootstrap/runtime-permissions-boundary-v4-t020.proposed.json) cotejadaallí, no documentaciónlocalcomopruebaefectivahoy |
+| Lecturasmetadata/discovery/rotación | ListSecretsDENIEDA/B§81, DescribeSecret/ListSecretVersionIds/Put/Rotate no necesitanotorgarsealhelper. PinningconVersionIdaprobado evita discovery; autorizaciónIAM porARN **no obliga por sí sola a usar esaVersionId**. Cambiarsecretos/versiones/credenciales es acciónhumana aparte, no permiso runtimependiente |
+| ECR/SSM y operaciónhost | ECRpullreadonly/SSMcanalexistentes conformeT008/hosts; SSMacciónoperadorSendCommand/IAMread debenrevalidarse si se autorizaesa prueba, noheredarsesiónvigente. Escribir tmpfs/chown/montarDocker son permisoslocalesnoIAM. No concedePassRole/admin/cambiosACL/red |
+| API→DynamoDB | GetItem/UpdateItemscoped ya evidenciadosT020. **IMDSv2required/hop1 desdebridge sigue04pendiente**; hostrolePASS no prueba accesoSDKcontainer. No cambiahoplimit/hostnet/proxy/credencialesporresolver03 |
+
+**CarenciaIAMnueva demostrada para hostfetchCORE4: ninguna.** No decir “faltanGetSecretValue/Decrypt” por un antecedenteAccessDenied resuelto. Falta revalidación efectiva bajo nuevaautorización, schemas/mapping/entregador/controleslocales, no unAllowfabricado. Roothelper no es actorIAMseparado por sí mismo: si el containeraccede al mismoinstance-role paraDynamoDB, podría heredar tambiénCORE4; este riesgo/aislamiento pertenece a04/revisiónmínimoprivilegio y no se da por resuelto. No IAMsimulation/lecturasIAM/AWScalls enestaentrega.
+
+### 104.7. Procedimiento A/B exacto propuesto y puertas separadas
+
+**No ejecutado; no es comandoDocker ni autorización.** A=**i-0a66085b7b2411393**, B=**i-00de11a3f3c1a8aa5**. Cada fase A debe revisarsePASS antes de B; cualquiererror→STOP, sin fallback/correcciónautomática.
+
+1. **Aprobar el diseño de salida JSONnativa** enlugardeladaptador§47.6, acumulaciónsoloRAM, política de logs/restart/amenazas y alcancedeprueba. Mantener01bloqueado y04pendiente; no prometerarranqueoperacional.
+2. **Autorizar por separado preparar/revisar helper y supervisor externos**, indicandoarchivos/scripts/source/hash/actor/región/A-B/comandos/readbacks/fallo. Implementación y pruebassintéticas posteriores, sin cambiarC#/HCL/digest, sinsecretosrealesniDocker porinferenciadeestaaprobación. Casos: schemasduplicados/desconocidos/tipos/tamaño/UTF8/arrays/Base64/roles/refsT019/HMACschema/URI-redisinrepresentable/TLS/missing/noquotarefs; soloresultadossaneados.
+3. **Revalidación no secreta bajo permisoobservacionalnuevo**: cuenta/rol/rama/digest/indexhijo/configUSER-WORKDIR-entrypoint/framework, no modificarlos. HostAyluegoB: herramientasyaexistentes/identidadroleexacta/ausencia de app, tmpfsreal/mountflags/swap-hibernación-dumps/UID-GID-userns/SELinux/permisos/salidaSSMsinlogssecretos, restriccionesrestart/archivosalternativos/ENV-CLI. Dockerinspect/pull no ocurren ahora; silafuturaautorizaciónnoincluyeesaslecturas, noejecutarlas. Falta decualquierprecondición→STOP.
+4. **Aprobar manifiesto no secreto común con cuatrorefs completas**. Las versiones históricamente fijadas§93 son las siguientes, no un nuevo release aprobado ni AWSCURRENTdescubierto:
+
+   | Finalidad; ARNprefix común `arn:aws:secretsmanager:us-east-1:926925605666:secret:` | VersionId histórico |
+   | --- | --- |
+   | enver/dev/api/mongodb-Iuqeur | c9eb0b6c-d8c0-4ec1-b3fe-05809a0f33f4 |
+   | enver/dev/api/jwt-AweYNs | fe44b116-0c69-41c8-8daf-7c82be31d181 |
+   | enver/dev/api/hmac-s9TSqb | fecf274e-12d7-4c58-b0d8-06d2149c015a |
+   | enver/dev/api/redis-FlY8aP | 2dfc79eb-625a-4f1b-aca7-b1575b5142c1 |
+
+   Mantener nombresSecretsManagerenver/dev, no renombrarporDevelopment; pathsecreto noambientepseudonimizador. Incluirdigestinmutable/ambiente/DB/namespace/destinos/schemaaprobado/source/mappingversion/releaseIdno secreto. Configcuotas y transporte quedan sin resolver por01/04, **manifiestooperacionalcompleto no producibleahora**. Se puedeproponer contrato de delivery parcial claramenteNOARRANCABLE sinrellenarrefsficiticias; no ejecutarlo comoappconfig.
+5. **Solo nueva autorización explícita de prueba con valores en RAM**: hostAhelper con instance-role (sinprofile/statickeysoperador) solicita exactamente4GetSecretValue(ARN,VersionId), retornoARN/VersionIdexactos, payloadscompletos soloenmemoria/streamsprivados. NoAWSdebug/queryquetermine enarchivo/stdout/journal; no capturarerawstderr/excepcionesJSON. Timeouts/reintentosacotados/autorizados, refusarSecretBinaryoschemadistinto/otroversion. Validarmappingallowlist, HMACvsJWT, destinoTLS/Redisroundtrip y JSON conserializerseguro. Sin generar/rotarversiones. PublicarunicamenteJSONcompleto en tmpfsprivado delrelease yownershipRO; emitirsoloPASS/schemaVersion/refs aprobadas/modos/pathsinvalores. **No iniciarAPI con01bloqueado**. RevisiónA antes de repetirBconmismomanifiesto; no copiararchivossecretos entrehosts.
+6. **Aceptar solo la preparación A/B**, con pruebaslecturaporUIDautorizadas/noexportcontenido, fallo atómico/caducidad/reobtenciónsimulados, inspecciónmetadataallowlistsinvalores/logs/dumps/persistencia. No hashearJSON/material ni escribirloenartefactosevidencia. Un script puede atestiguarschema/ref/coherenciaenmemoria, pero eso **no acredita aún que eseDLL consumió losvalores**. Cleanup exactodeartefactospropios traspruebaseparadamenteautorizado; no dejar secretosRAMindefinidamente enhosts sinconsumidor.
+7. **Pausaobligatoria mientras01/04 y gatesrestantes no se resuelvan**. No pruebas end-to-end delentrypointconcredencialesoperacionales para “probarprovider”: [InitializationService L47–55](../../Enver.API/Composition/AuthenticationDependencyAdmission.cs) llama inicializacióníndicesMongo alstart; otrodiagnósticoadmisión puedeescribirDynamoDB alfallarRedis. FaltaCuotaG no se suplanta para quearranque; /health nopruebaSecretsdelivery/readiness.
+8. **Solo después de resolver01/04, con autorización propiaDocker/deployment/efectosstartup:** pullmismodigest, helper reobtienebundlecompleto, montajearchivoROpathfijo con`--mount`sinautocreardirectoriodeficheroausente, contentroot/app/Development, ENVno secretaallowlist (flagreloadfalse), sinCLIconfigsecret/UserSecretsexternos/otrosproviderssecretos. RootfsRO/nonroot/caps/restart/loggingaprobados. A sintráfico→verificaciónconsumoconfig/versiones-sinexponer→B→acuerdounsnapshotantesdereabrir. No fabricar02otra vez ni usar04hostnetwork/IMDSbypass. ComandoDockercompleto queda pendiente de04yautorización, no se publicacomoejecutable.
+9. **Reinicio/reboot/rotación:** recrearúnicamentebajoorquestadorconreobtencióncuatroversionesfijadas/gates/readbacks, noDockerautostartconbundleobsoleto. Secretfetchfallido=sin nuevoarranque; setparcialnuncapublicado. Soloaceptar03operacional trasprueba real coherente deldigestA/B/lifecycle/privacy e inspecciónsegura. Nada abreALB/gateporinferenciadelPASS03.
+
+### 104.8. Rotación y rollback seguros, sin hot reload ni pérdida de cuotas
+
+Entrega soporta **selección de otra versión en un manifiesto aprobado y recreación coordinada del mismo digest**, no rotation automática deSecretsManager ni garantías de nooutage. No editarJSONmontado/AWSCURRENTindependiente. Mantener§47.4:
+
+- **JWT:** faseambasclaves/ActiveKidanteriorA-B → faseambas/ActiveKidnuevaA-B → retiraranterior solo≥930s desdeúltimaemisiónposibleacreditada. Rollback conserva verificación de tokensnuevosyaemitidos; restaurarringviejo a ciegas esinseguro.
+- **HMAC:** **no rotar en esteincremento**; cambioidentidad exige cierre/drenaje/continuidad§103/053, no nuevobundleparaevadircuotas. Mismosbytes/schema/ambiente development A-B; retomaranterior sería otratransición, no reset.
+- **Mongo/Redis:** passwordsanteriores solo sirven si realmente siguen válidas y mismoestadoconfiable. No suponer doblepassword/overlap/cerointerrupción delAtlasusuario oRedis. Sin autorización de rotaciónexterna no cambiarbackend/secretos/ACL.
+
+**Falloantesdearranque:** detenerA/noB, no publicarbundleparcial, cleanupúnicamentegeneraciónpropiaautorizada y mantenerdeploymentbloqueado; conservarmanifiestonosecreto/evidencias saneadas. **Trasarranquefuturo:** manteneradmisióncerrada/drenarinflightsegúnpermisos, detenercontendoresnuevos antesderetirararchivomontado; reconstruirbundleporfetchdeversiónanterior solo si aprobaciónvigente/credencialaúnválida/ringnecesario/HMAC-CIG-continuidadpreservados. No restablecerC/I/G/Redis/020/ACLdev ni hacerfallbackautomático. Hoy noexiste un despliegueoperativoanterior comprobado alquevolver: **rollback inicial = no arrancar / permanecer detenido**, no inventarpreviousrelease.
+
+Retener solo refs/manifest/hashesdescriptsnosecretos; reobtenciónsecretaenRAMbajopermisonuevo, no rollbackconbackupenEBS. Root/tmpfsRAMno aseguran borradocriptográfico. Fallo ocompromisosecreto requiere gestiónincidente/rotaciónespecífica, no imprimirvalorespara comparar.
+
+### 104.9. Decisión humana exacta necesaria y siguiente alcance autorizable
+
+**D-DELIVERY-JSON, propuesta no aprobada:** «Apruebo como diseño el consumo nativo de `/app/appsettings.Development.json`, generado por helper externo desde los cuatro secretos versionados, únicamente en tmpfs real y bind RO, sin modificar la imagen aceptada. Acepto la agregación efímera en RAM y el acceso residual de proceso/root/Docker/SSM administrativo; exijo ausencia de valores en ENV/argv/inspect/disco persistente/logs/dumps, no hot reload y supervisor con reobtención antes de cada recreación. Esto sustituye para este mecanismo el adaptador API aún inexistente, no autoriza su implementación ni deployment. Mantengo DEPLOY-CONFIG-01 BLOQUEADO, 04 pendiente y GATE-I-B no satisfecho».
+
+**Después, autorizaciones separadas y delimitadas:** (a) diseñar/implementar/revisar **solo helper/supervisor externos y pruebas sintéticas**, archivos/componentes/comandos definidos antesdeeditar, sinC#/HCL/IAM/rebuild; (b) preflightobservacionalA-Bconcomandos/identidad/entornofijados, **sinGetSecretValue**; (c) pruebaexpresadelectura **exactamenteCORE4ARN+VersionId** y mappingenRAM/tmpfsAyluegoB/ownership/privacy/fallo/cleanup acotado, **sinDocker ni iniciarAPI** mientras01bloqueado; (d) pruebaend-to-endposterior solo tras01/04/gatesconautorizaciónarranque/efectosreales. Cada unaes peticiónfutura distinta, no concesióndepermiso ahora. Owner debe resolver **schemaHMAC**, payloadschemaMongo/JWT y validez del manifiesto/VersionIds, política de logsnone/observabilidad y controles anti-persistencia; si no los acepta/acredita, mantener03bloqueado en vez de usarENV.
+
+**Recomendación final:** elegir **JSONnativo derivado en tmpfs + mountROarchivo**, conservardigestinmutable y no reconstruir para resolverdelivery. Capacidad soportadaporlaimagen **SÍ por análisis**, helper/contratoentrega/rotación/restart/end-to-end **PENDIENTES**. No aceptar03integral sin esaspruebas ni levantar01poreste diseño.
+
+### 104.10. Preservación y cierre documental
+
+**DEPLOY-CONFIG-03 ANALIZADO / DISEÑO PROPUESTO / NO IMPLEMENTADO / NO VALIDADO EN CONTENEDOR; DEPLOY-CONFIG-01 BLOQUEADO; 02 RESUELTO solo compatibilidad; 04 PENDIENTE; GATE-I-B PENDING / NOT SATISFIED**. **dev HISTORY UNCERTAIN / development INDETERMINATE respecto a historia; MaxActivePartitions=5000 APROBADO / NO APLICADO; metadata.snapshot/generation/registry no inicializados; T008/T017/T019/T020 COMPLETE / ACCEPTED histórico**, catálogo11+5+14/gates1+8/diferidos intactos. No initialize/fence/maintain/activate/Ggenerada, no cambio cuotas/revocaciones/020.
+
+Solo **taskv0.115.0/§104 y [memoria §165](../../memoria.md)** sincronizados; §103yotros antecedentes intactos. Evidencia local no secreta **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-secret-delivery-design-20261117\**, source22/hashes252/metadataAssemblyInfolocalnopayload/copiasdocs/cierre. Lecturas públicas framework porHTTP sí; **AWS/SSM/GetSecretValue/SecretString/Redis/MongoDB/DynamoDBcalls0; secretosgenerados/escritos0; helperimplementado0; código-HCL-IAM-ACL-hostchanges0; Docker/rebuild/deployment/Terraform/build-tests/stage-commit-push0**. State60/backup57 SHA256 **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 / cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279** preservados. **STOP en opción/evidencia/riesgos/decisión/pasos autorizables, sin siguiente fase automática.**
+
+## 105. DEPLOY-CONFIG-03 — candidato aceptado; schema y precedencia; prueba sintética bloqueada por Engine local
+
+### 105.1. Autorización actual y límite de la aceptación
+
+El responsable **acepta §104 como diseño candidato**, no como delivery operativo acreditado. Autoriza únicamente **DISEÑO + PRUEBA SINTÉTICA LOCAL/CONTROLADA**, fixtures no operacionales, tmpfs y montajeRO del JSON en el mismo digest, sin modificar código ni reconstruir imagen. No SecretString real, IAM, A/Breal, Mongo, Redis, DynamoDB, ALB, Terraform, commit/push. **01 BLOQUEADO§103 / 02 RESUELTO compatibilidad / 04 PENDIENTE / GATE-I-B PENDING / NOT SATISFIED**. La autorización sintética no autoriza arranque normal de ENVER ni lecturas reales posteriores.
+
+Solo documentación task/memoria y evidencias locales no secretas de este incremento. **No se crea sonda ejecutable ni helperproductivo, no C#/HCL/config del proyecto modificados**. SDK local descubierto, no build: **9.0.205/10.0.300/10.0.403**. Se diseña una sonda aislada porque arrancar `dotnet Enver.API.dll` ejecutaría Program y eventualmente inicializacióníndicesMongo ([InitializationService L47–55](../../Enver.API/Composition/AuthenticationDependencyAdmission.cs)); `--network none` no convierte ese startup en prueba pura de configuración y no justifica intentos de conectar dependencias.
+
+### 105.2. Resultado real de la prueba: bloqueada antes de crear fixtures o mounts
+
+Entorno actual Windows, contexto **desktop-linux**. Operaciones observadas en esta entrega:
+
+| Comprobación local | Resultado real |
+| --- | --- |
+| `docker image inspect 926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api@sha256:852607824b0b5630567c52b9c067ab72ba290980f577def8a41235b590515f2d --format '{{json .}}'` | **Timeout del harness20000ms**, sin salida ni metadata. Disponibilidad/identidad local del digest **NO ESTABLECIDAS** |
+| `docker context show` | exit0, **desktop-linux** |
+| Procesos DockerDesktop/backend y servicio com.docker.service | ProcesosDesktop/backend presentes; servicio **Stopped/Manual**. No identifica por sí solo causa del timeout ni prueba que arrancar ese servicio resolvería DockerDesktop |
+| `docker version --format '{{json .Server.Version}}'` | **Timeout del harness45000ms**, sin salida. Engine no respondió; no versiónserver comprobada |
+
+**PRUEBA SINTÉTICA EN DIGEST BLOQUEADA / NO EJECUTADA**. **Docker create/run/start0, tmpfs0, fixtures0, valores sintéticos generados0, sonda/build0, Program/APIstart0**. No se reinicia/arranca Desktop/Engine/servicios/WSL, cambia contexto, descarga imagen, instala herramientas o recurre a EC2 para eludir el bloqueo. Solo lecturas Docker3 (inspect/context/version), dos sin respuesta, no Dockercommands0 falso. No logs de contenedor/inspectEnv/Args/mount/persistencia comprobados: **NO PROBADOS**, no PASS por ausencia de ejecución. Nada nuevo que limpiar de fixtures/mounts porque no se crearon.
+
+Evidencia **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-secret-synthetic-20261117\synthetic-attempt.json** registra comandos/resultados/límites. Su timestamp es el de registro local, no una hora inventada de cada comando. **Captura/source22/22igual al aceptado078130627bc50a9dc2feee5fb699cedbea87dbbb a2026-11-17T06:59:25.127Z**. Base de252archivosprotegidos, documentosprevios y trabajoajeno conservados.
+
+### 105.3. Precedencia exacta relevante y qué evidencia existe
+
+El [Program L3](../../Enver.API/Program.cs) llama al builder ordinario y no quita/agrega providers propios. [Framework hosting10.0.15 L237–281](https://raw.githubusercontent.com/dotnet/runtime/v10.0.15/src/libraries/Microsoft.Extensions.Hosting/src/HostingHostBuilderExtensions.cs), vuelto a consultar porHTTP200 en esta entrega, registra los providers de aplicación **en este orden de menor→mayor prioridad**:
+
+1. `appsettings.json` (opcional).
+2. `appsettings.{EnvironmentName}.json` (opcional): **appsettings.Development.json**, con filename case-sensitive en Linux.
+3. En esta fuente10.0.15, `<ApplicationName>.settings.json` y `<ApplicationName>.settings.Development.json`, siApplicationName existe (opcionales). No asumir que existen dentro del digest ni cambiarApplicationName para usarlos.
+4. UserSecrets siDevelopment y assembly/atributo/perfil lo permiten (opcional); no leerlos ni montarlos en esta prueba.
+5. Environmentvariables, sin prefijo para aplicación.
+6. ArgumentosCLI suministrados.
+
+**Último provider que contiene la misma clave normalizada gana**; añadir una clave en JSON no la protege deENV/CLI. El fallbackhostprefijadoASPNETCORE_/DOTNET_/argumentoshost participa antes, y ambiente/contentroot/ApplicationName se resuelven temprano. Desarrollo acordado sigueDevelopment/root/app: no confiar en ponerEnvironment dentro del JSON tardío. `DOTNET_ENVIRONMENT` contradictorio puede alterar el entorno; impedirlo. Env `[sección]__[propiedad]` normaliza `__`→`:` ([EnvironmentVariablesProvider10.0.15 L154–162](https://raw.githubusercontent.com/dotnet/runtime/v10.0.15/src/libraries/Microsoft.Extensions.Configuration.EnvironmentVariables/src/EnvironmentVariablesConfigurationProvider.cs), HTTP200). `ConnectionStrings__MongoDb` creaotra clave, no MongoDb:ConnectionString. La configuración suele comparar claves case-insensitively, **no transforma keyBase64 en PseudonymizationKeyBase64**; casing de filename/valores comoKid siguen sus propias reglas.
+
+**ArraysJWT se fusionan por claves/índices entreproviders, no reemplazo íntegro garantizado**. La lista final debe ser0..n−1 exactos de un ring aprobado, sin índicesresiduales deENV/UserSecrets/CLI/JSONadicionales. ProviderJSONreload por defecto true (hostingL271); flag temprano **DOTNET_hostBuilder__reloadConfigOnChange=false** no secreto propuesto, más archivosinmutables/recreación, sin asumirhotreload seguro dekeyring/HMAC/conexiones. Los dosJSONopcionales no garantizan que un bundleparcial falle siempre: helper/supervisor deben exigir conjunto completo.
+
+**Evidencia actual = orden de registro en source framework + builder/sourceaceptados; NO tabla de precedencia observada dinámicamente dentro del digest.** La matriz de prueba futura de§105.6 separa esos niveles; no convertir el timeout en confirmación experimental.
+
+### 105.4. Schema final exacto consumido por la API y discrepancia HMAC resuelta
+
+La [composición](../../Enver.API/Composition/AuthenticationServiceCollectionExtensions.cs) llama [AddValidatedAuthenticationOptions L9–24](../../Enver.API/Configuration/AuthenticationOptionsValidation.cs): enlaza seccionesOptions, no lee directamente ningún SecretString/envelope. **Contrato de salidaIConfiguration resuelto por source**:
+
+| Hoja exacta | Tipo y restricciones reales del código aceptado | Endurecimiento del helper/destino acordado, no validación nativa inexistente |
+| --- | --- | --- |
+| `MongoDb:ConnectionString` | string no vacío; MongoClientFactory.CreateSettings parsea URI medianteMongoDB.Driver3.13.0, admite las URI que acepteelparser (`mongodb://`/`mongodb+srv://`); rechaza timeoutMS. Concernsmajority/primary, RetryWritesfalse y timeouts se fuerzan porOptions | Exigirhost/usuario/baseaprobados, TLS verificadono bypass, URI SRVcontractual§47, encodingindividualusuario/password unavez. MongoDb:DatabaseName=enver_development esotrahoja requerida. No afirmar que un validadorno-vacío impone todoesto |
+| `Redis:ConnectionString` | string no vacío, parseado porStackExchange.Redis3.4.31; timeoutspositivos; factory configuraFailFast/AbortOnConnectFailfalse/IncludeDetailInExceptionsfalse. No formatoURIarbitrario asumido | Credentials+endpoint6379/ssl=true/sslHostcorrecto/defaultDatabase0 deben conservarseexactos alparsear. ParserheredaTLSdeentrada, no lo fuerzaelsecreto. Comas/CRLF/espaciosextremos no arreglablesconJSONescape/URLencode; no representar⇒STOP |
+| `Jwt:ActiveKid` | string no whitespace; debe existir por igualdad **Ordinal/case-sensitive** entrekids de la lista | No trim/cambiarKid/material, no activarKidnoaprobado |
+| `Jwt:Keys:<i>:Kid` | arrayJSONKeys de objetos; cadaKidstring no whitespace/únicoOrdinal; lista no vacía | ArrayJSONcompleto, índices0..n−1 contiguos, sinnulls/entriesresiduales; exigircamposaprobados. Binder no es por sí solo validador deunknownfields |
+| `Jwt:Keys:<i>:KeyBase64` | string con **Base64 estándar canónica**, decode≥32bytes; se exige reencodeBase64(bytes)==entrada. Whitespace/no canónico rechazado aunque decoderpudieraignorarlo | Incluye TODAS las claves simétricas HS256 del ring, no soloactiva. NoBase64url/hex/passwordliteral; mínimo32 no exactamente32, longitudnoentropía |
+| `RateLimiting:PseudonymizationKeyBase64` | misma Base64estándarcanónica decode≥32bytes, **distinta en bytes de cadaJWT**, incluso verificadoras; propiedadliteralRateLimitingOptionsL15, validatorL100–107, pseudonimizadorL30–39 | Mismo material/ambiente/representaciónA-B. No rotar/resetearidentidad para resolverdelivery; I esreferencia no secreto, no derivarla de HMAC |
+
+**Resolución HMAC:** JSON nativo debe contener sección **`RateLimiting`** y propiedad **`PseudonymizationKeyBase64`**. `RateLimiting:KeyBase64`, `keyBase64` enraíz y `pseudonymizationKeyBase64` enraíz **NO son aliases consumidos por RateLimiting**. Nombrecaseinsensitive dentro de la sección no cambia esa estructura. [RateLimitingOptions L6,15](../../Enver.API/Configuration/RateLimitingOptions.cs), [pseudonimizador L30–39](../../Enver.API/Infrastructure/Security/HmacAuthenticationScopePseudonymizer.cs) decodifican ese valor y usan losbytes, no token/HMACresultado/VersionId.
+
+Los antecedentes **§47 `{pseudonymizationKeyBase64:...}` / §57 `{keyBase64:...}` se referían a payloads externos del secreto**, no a dos opcionesAPI. El source no consume ninguno de esos documentos directamente, por lo que **no determina qué payload tiene realmente SecretsManager**. Contradicción resuelta para el contratoAPI; schemaexternoreal sigue **NO LEÍDO / NO ACREDITADO**, sin modificar el historial ni declarar que se arregló un secreto. El futuro manifiesto debe declarar **un campo de entrada exacto aprobado**, y helpermapearlo a la única hojasalida; no aceptar ambos ni fallback por ensayo. Owner puede acreditarschema sinvalores; comprobarlo conpayload requiere autorizaciónrealposterior.
+
+Estructura JSON de salida (sin ejemplos de valores/material): **MongoDbobjeto→ConnectionStringstring/DatabaseNamestring; Redisobjeto→ConnectionStringstring/NamespacePrefixstring; Jwtobjeto→ActiveKidstring/Keysarray[{Kidstring,KeyBase64string}]; RateLimitingobjeto→PseudonymizationKeyBase64string**. Mantenerdefaults/políticas/Logging/DB/namespaceDevelopment delJSONoriginal ybase. Camposnuevosdelhelper (versionId/value/releaseId) **no van como envelopes aOptions**. Rechazar duplicadoscase-insensitive, clavesdesconocidas/mal-tipadas/coleccionesincompletas antesdepublicar; estas son obligacionesdelhelperpendiente, no nuevas validacionesAPI ya implementadas.
+
+### 105.5. Helper/supervisor externo diseñado, sin implementación ni lectura real
+
+**Estados propuestos:** STOPPED→PREFLIGHT→FETCHING→VALIDATED→PUBLISHED→CONTAINER→STOPPING→CLEANED. Cualquier fallo conservaadmisióncerrada/noarranque; no publicar parcial/no fallbackENV-AWSCURRENT-previous/secretofixture. Locklocal porrelease/host y coordinaciónA-B externa; no escoordinador020 ni recuperadorde01.
+
+1. Supervisor lee **manifiesto no secreto aprobado**: digest/source/ambienteDevelopment/DBnamespace/destinos/schemaentradaexacto/mappingversion/cuatroARN+VersionId/opcionesruntimepermitidas. Root-owned/integridad/inmutabilidad; no contenidoSecretString ni hashesmaterial. Rechazarotraskeys/role/region/configCLIENV/UserSecrets.
+2. Preflight acredita **tmpfs real**/mountnosuid,nodev,noexec/tamañobounded, swapdeshabilitado, sinhibernación/core/crashdump/RAMexport/backup/agentecaptura. Directoriorootprivado0700/umask0077; no confiar en nombre/run ni en swapcifrado como “no persistencia”. No habilitar servicios/cambiarhost sin alcanceexpreso.
+3. Fetch desdehost con rol **enver-dev-api-runtime**, credencialesIMDSv2 temporales internas aSDK/CLI, sinstatickeys/profileoperador/ENVcredenciales. CuatroGetSecretValuefijados y retornoARN/VersionIdexactos. Respuestapayload enRAM/streamsprivados; stdout/stderrAWS no van aSSM/journal/terminal/archivo. No debug/tracing/echo/exceptionraw/valoresenargv/ENV. Boundedrequests/timeouts; failclosedalerror, no discovery niotroARN.
+4. ValidaciónUTF8/JSONtipoobjeto/tamaño64KiBporSecretString/profundidadbounded/duplicados/unknownfields conforme esquemaaprobado ymappingexacto§105.4. Verificarring/Base64/HMACdistintoJWT/destino/TLS/representabilidadconexiones; **no establecer conexiones ni crear clientes para “validar” schema**. No cambiamaterial/codificaciónsilenciosamente. Payloads yJSONderivado siguenenRAM.
+5. Publicar un archivoenunageneracióntmpfsprivada, validadoantesderenameatómicoenelmismofs; no caches/envfiles/discopersistente. UID/GID/userns/SELinuxlegiblesporusuarioefectivononroot, archivo0440root:grupoaprobado o0400ownerapp/noappwrite, sinworldreadable/symlinks/hardlinks. Cuatrosecretresources siguen separados; agregaciónlocalúnicamentetemporalaceptadacomocandidato.
+6. Mount **unarchivoRO** a `/app/appsettings.Development.json` con`--mount type=bind,...,readonly` (no-vautocreacióndirectory). NoAPIwritesalarchivo/no reemplazar/app/noDLL/adapterAPI/nuevodigest. Supervisor verificaSource/Destination/RW=false yEngineexacto antesdeuso; valores jamásConfig.Env/Cmd/labels/healthchecks. Runtimeflags/credentialroute/netcontinúanpendientes04; nopublicaruncomandooperacionalcompletoconopcionesinventadas.
+7. **NoautostartDocker**: restart=no y recreaciónsoloporsupervisor. Cadaciclo/bootrequierefetchvalidaciónde4versionescomunesotra vez; no usararchivoanteriorincompleto, hotreload, cambiarinodeactivooaplicarAWSCURRENTindependiente. Nunca abriradmisiónporhealth/PING. Programreal solo con01/04resueltos yautorizaciónstartupefectos.
+8. Stop/recreate: detenercontenedor/resolverin-flightsegúnalcance/retirarmountreferencias, eliminarúnicamenteJSON/directoriogeneraciónpropios, desmontartmpfsexclusivo siestáautorizado ylibre, limpiarbufferspropiosviables. No defender `unlink`/borrado como zeroizaciónforense: stringsGC/cache/RAM/copiasdeldaemon puedenpersistirhasta liberación. Nunca rm-recursivobroad niresetsRedis/020. Metadatos/evidencias soloaprobación/refs/resultados.
+
+El filesystemRAM **sí contiene** elJSON mientrascorre yAPIpuedeleerlo. Root/Dockerdaemon/SSMadmin oproceso comprometido puedenacceder, incluso por/proc/root/fd/mem/ptrace/dumps segúnprivilegios. Nozeroizacióncompletaprometida. Seproponen loggingnone/detached/sinrawattach ydiagnósticosdumpsrestringidos conobservabilidadnosecretaaprobada; errorframework/terceros no estáglobalmente demostrado libredevalores. Log-driverlocal10MB delbootstrapno esmedidaprivacidad. NoIamchanges: CORE4/KMS ylimitaciones delmismoinstance-role de§104/04 intactas.
+
+### 105.6. Prueba sintética segura preparada como protocolo; pendiente de Engine y sonda aislada
+
+**No fixture/sondaimplementada oejecutada**. Para reanudar se debe disponer de Engine funcional y ubicaciónLinuxlocal/controlada contmpfsbindreal. WindowsTemp/C: o volumennamedDocker no se presentan como tmpfs; **no trasladar a A/Breal, crearWSL/VM nueva o iniciarEngine automáticamente**. Confirmarherramienta/sonda externa autorizada sinmodificarENVER/norebuild: eldigest esruntime, no tiene porqué tener compilador niunendpointdiagnóstico. Si se requiere crear/compilar una sonda de prueba fuera delrepositorio, delimitarla y aclarar ese alcancefrentea“NO modificarcódigo” **antes** dehacerlo; no startuphook/patchProgram/reflectionentrypoint para evadirprohibición.
+
+Diseño de sonda: procesoexternodeprueba sobre el **mismo runtime/digest**, entrypointdepruebanoProgram, assembliesENVER solo para bindingdeOptions/reflexión y dependenciasresueltasdelartefactoaceptado. `WebApplication.CreateBuilder` sin construir/arrancarhostENVER, ApplicationName=Enver.API/root/app/Development para reproducirdefaults relevantes; sin invocar AddAuthenticationDependencies/HostedService/factories/clientes/red. Atestiguarsolobooleans/provider-types/conjuntodeclaves, no valores. No seleccionarotraimagenSDK comopruebadelruntimeaceptado. Una sondaexternacompartiendo runtime prueba provider/binding, **no se llamará despliegue ni prueba delProgram/DIcompletos**.
+
+**Matriz de escenarios a ejecutar posteriormente**:
+
+| Escenario | Entrada/salida esperada, hoy NO EJECUTADOS |
+| --- | --- |
+| P-BASE | appsettings.json sintéticobindRO yDevelopmentsinmarker: markerbasevence |
+| P-DEV | ambosJSONconmarkerhomónimo: Developmentvence |
+| P-ENV | sondageneraenRAM **markernosecretoaislado** yloestableceenentornodelprocesodeprueba antesdeCreateBuilder: ENVvenceDevelopment. No secretofixtureenDockerConfig.Env |
+| P-CLI | sondageneraenRAMargumentosparaelproviderCLI delbuilder, no processargv/DockerCmd: CLIvenceENV. Prueba de provider, no alegar que secretosenCLIsonseguros |
+| P-RESTORE | eliminaroverridesenRAM, buildernuevo devuelveDevelopment; aislarcasos/UserSecrets/nombreAppotrosJSON |
+| S-SCHEMA | valores públicos nooperacionales generadossoloRAM, Base64deterministadebytespúblicosdistintosJWT/HMAC, endpoints `.invalid`, bindOptionsexactos sinclientes niDNS; noGoperativa/configuracióncuotasbootstrap |
+| S-NEG | wrongRateLimiting:KeyBase64/raízalias no alimentanPseudonymizationKeyBase64; malBase64/igualJWT/arrayresidual/duplicados/unknownfields yschemasrotos debenrechazarse porvalidador ohelpersegúnresponsabilidad, sinvaloresenerror |
+| M-RO | /app/appsettings.Development.json esmountRO y escritura falla, comoUIDefectivo no root; origenfixturetmpfscomprobado/mountflags/permisos; no copiar aoverlay |
+| L-PRIVACY | inspectproyectado/memoryscanEnv,Cmd,Args,Labels,Healthcheck,mountmetadata; processargv/environ sinvaloresfixture. NingúnfixtureenDockerstdinmetadata; streamRAMsolo parafixture/atestiguación |
+| L-LOG/CLEAN | logdrivernone y salidaatestationallowlistsinfakevalues; no attachraw persistente, ningúncore/log/copyenhost; stoppenremovercontainerantesdelimpieza, pathspropiosausentes/tmpfsdesmontado. Noafirmar borradoRAMabsoluto |
+
+Para reconciliarprecendenciaENV/CLI conrequisito“ningúnvalorfixtureenEnv/argsDocker”, **solo markersnosecretos del provider se introducen enRAMdentro de la sonda**, no valoresJWT/HMAC/passwordsni`-e valor`/CLIreal. Comprobación `dockerinspect` se procesaenmemoria y emitesoloPASS/campos/contadores; no dumpcompleto sin filtrar. Configdefaults no se extrapola a proofprivacidad. Pruebanegativadefuga si se diseñara deliberadamente se clasifica separada yno se guardaenlogs/evidencias; no necesaria para autorizarreal ahora.
+
+Forma de comando **solo futura/condicional**, no ejecutable sinlosartefactos/entornopendientes:
+
+```text
+docker create --pull=never --network=none --read-only --cap-drop=ALL
+  --security-opt=no-new-privileges --restart=no --log-driver=none
+  --user <UID:GID verificados> --workdir /app
+  --mount type=bind,src=<fixture-base en tmpfs>,dst=/app/appsettings.json,readonly
+  --mount type=bind,src=<fixture-dev en tmpfs>,dst=/app/appsettings.Development.json,readonly
+  --mount type=bind,src=<sonda externa aprobada>,dst=/probe,readonly
+  --entrypoint dotnet
+  926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api@sha256:852607824b0b5630567c52b9c067ab72ba290980f577def8a41235b590515f2d
+  /probe/Probe.dll
+```
+
+Es plantilla conpaths/UID/sonda **NO creados**, no comando listo para ejecutar ni cambio delENTRYPOINTguardadoenimagen. Temporalesruntime/diagnósticos y límitescore se debenacotar aRAM en elplanfinal. CrearfixtureenhosttmpfsrequiereubicarLinuxreal; Docker`--tmpfs`dentrodeuncontainer no convierteunpatherC: enorigenbindtmpfs. Despuéscreate: inspecciónmetadataenRAM→startsoloProbe→atestiguaciónRAM→stop/removercontenedorpropio→cleanupmountspropios. Ningúnpaso ejecutado, no objetosDockerasignados.
+
+### 105.7. Requests/comandos exactos propuestos para CORE4 real, NO AUTORIZADOS
+
+**Solo contrato de ejecución futura porhelperhost revisado, no ejecutar AWSCLI en terminal ni redirigirlo aarchivo**. PreflightrolSTSExactoA/B/Cuenta926925605666/us-east-1 conpermisoslectura acotados antesdecreerreferencias; Engine/redeliverytestPASS yschemasentradaaprobados antesdepedirvalores. Las versiones§93 son históricascustodiadas, requierenconfirmación/aprobaciónactualdelmanifiesto, noAWSCURRENTfallback:
+
+| SecretId completo exacto | VersionId exacto histórico |
+| --- | --- |
+| arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/mongodb-Iuqeur | c9eb0b6c-d8c0-4ec1-b3fe-05809a0f33f4 |
+| arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/jwt-AweYNs | fe44b116-0c69-41c8-8daf-7c82be31d181 |
+| arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/hmac-s9TSqb | fecf274e-12d7-4c58-b0d8-06d2149c015a |
+| arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP | 2dfc79eb-625a-4f1b-aca7-b1575b5142c1 |
+
+Para cadafila, **requestAPI exacto**: `GetSecretValue(SecretId=<ARNliteral>, VersionId=<VersionIdliteral>)` enus-east-1; omitirVersionStagepara no dependerdeetiquetamutable. Si se utilizaCLIexistente en elhelper en vezdeSDK, **argv completo propuesto**, solo referenciasnosecretas:
+
+```text
+["aws", "secretsmanager", "get-secret-value",
+ "--secret-id", ARN_LITERAL_DE_LA_FILA,
+ "--version-id", VERSION_ID_LITERAL_DE_LA_FILA,
+ "--region", "us-east-1", "--output", "json", "--no-cli-pager",
+ "--cli-connect-timeout", "5", "--cli-read-timeout", "15"]
+```
+
+**Especificación obligatoria de invocación:** subprocesssinShell/capturestdout-stderrenRAM privada/timeouttotal45s/1intentoAWSconfigurado/noAWSdebug/noautoprompt; sinexportprofile/statickeysoperador ni respuestasenENV. SalidaJSON tieneSecretString: **no consola/pipesjournal/archivo/querydevalores**. ParsearbytesenRAM, validarARN/VersionId/schemaexacto/SecretStringobjeto, descartarSecretBinary/otroformato/no fallbackotrosecret. En fallo emitirúnicamentecódigoallowlist/noexceptionraw. Conservar4enRAMhasta validar/mapearJSONcompleto ypublicaciónatómicatmpfs; verificardestino/ownership/ausenciavaloresENV/args/logs; metadatapersistiblesolorefs/resultados. Retirartransientescopiesviables, sin prometerzeroizaciónGC. **Cuatrolecturaslógicasporhost**/8A-B siambasautorizadas sinreintentos; AresultadosrevisadosantesdeB. NoList/Describe/IAMgrants ni Secretwrites porinferenciadelectura.
+
+Interfazcandidata delhelper externo **inexistente/noejecutableactualmente**, argumentossolonosecretos:
+
+```text
+python3 /opt/enver/bin/secret-delivery.py prepare --manifest /etc/enver/runtime-manifest.json --mode prepare-only
+python3 /opt/enver/bin/secret-delivery.py discard --manifest /etc/enver/runtime-manifest.json
+```
+
+`prepare-only` futuro haríafetch/validación/tmpfs/atestiguaciónsinAPI; `discard` futuro soloelreleasepropio/sinconsumidor trasverificarpath/mount. Script/unidadno creados, nombreinterfazpropuesta no paquete/herramientaya instalada. **NingúncomandoDockeroperacionalCORE4autorizablecompletohoy**, por01bloqueado/04pendiente; montar/iniciarAPIreal esotraintervención despuésderesolverlos. Reobtención de bundles para rollback requieremismaautorizaciónnovigenciaautomática; credencialesanteriores/ring/HMAC/cuotas deben seguirválidos, rollbackinicial=noarranque como§104.
+
+### 105.8. Decisiones humanas y preservación
+
+**Para continuar sintético:** responsable poneEngineDockerlocaloperativo por sucanal oautorizasoluciónacotada yconfirma reanudación; definir ubicacióntmpfsLinuxlocalcontrolada y mecanismo de sondaexterna sinProgram. Aclararcreación/compilación de sondaexterna si se necesitafrentea“NO modificarcódigo”; no modificar/reconstruirENVER. No resolverproblemaEngine conAWS/otraimagen/provider. Revalidardigest/estado, no reutilizarplanpresuponiendoimagenlocal.
+
+**Antes de cualquierGetSecretValue real**, decisiónnueva **D-CORE4-READ-TEST** (pendiente, NO AUTORIZADA): «Tras aceptar evidencias sintéticas y schemas de entrada/mappingexactos, autorizo prueba prepare-only en [A y luego B/hostexacto], rol enver-dev-api-runtime/cuenta926925605666/us-east-1, únicamente los cuatro SecretId+VersionId aprobados de§105.7, lectura/validación en RAM y archivo derivado exclusivamente en tmpfs verificado, sin valores ENV/argv/inspect/logs/disco persistente. Apruebo comandos/sourcehash/timeout/númerointentos/paths/permisos/atestiguación/cleanup exactos revisados. No inicio API/deployment, no Mongo/Redis/Dynamo/IAM/secretwrites; mantengo DEPLOY-CONFIG-01 bloqueado, 04 pendiente y GATE-I-B no satisfecho».
+
+**Resultado de esta entrega:** schemaAPIHMAC resuelto yschemafinalhojas/precedenciadocumentadosporfuente; helper/supervisor/protocolo yrequestsrealespropuestos; **pruebasmontaje/consumoeneldigest/privacidad/persistencia NO EJECUTADAS / BLOQUEADAS**, noaceptación03operacional. NoSecretString/valoresoperacionalesleídos, nofixturegenerado.
+
+Preservados **dev HISTORY UNCERTAIN / development INDETERMINATE historia; MaxActivePartitions=5000 APROBADO / NO APLICADO; metadata.snapshot/generation/registry no inicializados; T008/T017/T019/T020 COMPLETE / ACCEPTED histórico; 01 BLOQUEADO§103 / 02 RESUELTO compatibilidad / 04 PENDIENTE / GATE-I-B PENDING / NOT SATISFIED**, catálogo11+5+14/gates1+8/diferidos. Solo **taskv0.116.0/§105 y [memoria §166](../../memoria.md)** actualizados, historial§104intacto. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-secret-synthetic-20261117\** precheck22/hashes252/copiasdocs/attempt/cierre. **AWS/SSM/SecretString/Redis/Mongo/Dynamo/IAM-ACL-HCL-código-hostchanges0; lifecycle-G0; Dockercreate-run-start0/rebuild0; productbuild-tests0/sondabuild0; ALB/Terraform/deployment/stage-commit-push0**. State60/backup57SHA256 **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 / cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279** conservados. **STOP sin reintentosEngine o lecturasreales/siguientefaseautomáticos.**
+
+## 106. Docker local — daemon Linux accesible; ruta Windows/Desktop bloqueada; recuperación limitada por seguridad
+
+### 106.1. Alcance autorizado y resultado
+
+El responsable autoriza **solo diagnóstico/recuperación de Docker local y comprobaciones básicas posteriores**, no prueba sintética, contenedores nuevos, tmpfs, secretos, IAM, código, rebuild, deployment, Redis/Mongo/Dynamo, commit/push. **DEPLOY-CONFIG-03 permanece DISEÑADO / NO VALIDADO EN RUNTIME**. Se conserva §105 como evidencia histórica de los timeouts, sin convertirlo en PASS de runtime.
+
+**Resultado: diagnóstico localizado, recuperación del CLI Windows NO COMPLETADA.** El daemon Linux sí responde por socket interno; no está demostrado que esté caído. La ruta Windows CLI→named pipe/Desktop→daemon no devuelve respuestas HTTP. Se obtiene acceso diagnóstico directo de lectura, **no se cambia el contexto ni se presenta ese acceso interno como reparación soportada del Desktop**. No se reinicia ante riesgo de reactivar cargas ajenas y espacio físico crítico. No se ejecuta la prueba sintética como siguiente fase.
+
+### 106.2. Contexto, transporte, servicios y WSL2/Hyper-V
+
+| Área | Evidencia observada en esta entrega |
+| --- | --- |
+| Contexto activo heredado | desktop-linux; endpoint **npipe:////./pipe/dockerDesktopLinuxEngine**. DOCKER_HOST/DOCKER_CONTEXT/DOCKER_TLS_VERIFY/DOCKER_API_VERSION ausentes en el entorno inspeccionado. Sin cambio de contexto/config |
+| CLI Windows | `docker version --format '{{json .Server}}'` timeout20000ms; `docker desktop status` timeout12000ms. Client/context/help responden, no confundirlo con Server saludable |
+| Named pipes | **dockerDesktopLinuxEngine y docker_engine** aceptan conexión en plazo2s, pero un GETHTTP `/_ping` no obtiene datos en5s por pipe. No ConnectionRefused/inexistencia de pipe observada |
+| Desktop/Windows | Procesos DockerDesktop y com.docker.backend presentes; com.docker.service **Stopped/Manual**. Esto no prueba que ese servicio sea la causa: daemonWSL sigue funcionando. No Start-Service/kill/Restart-Service |
+| WSL/hipervisor | WSLpredeterminado2, UbuntuStopped, **docker-desktop Running / versión2**; WslServiceRunning/vmcomputeRunning/HypervisorPresenttrue. LxssManagerStopped no prueba fallo del WslService moderno. No wsl--shutdown/terminate/unregister, reinicio Windows o cambiofeaturesHyper-V |
+| Procesos Linux | dockerdPID149/containerdPID109 existen; estadoSleeping y futex_do_wait. Un futex o “Responding=true” de Windows no acredita deadlock ni salud por sí solo |
+| Socket Unix | **/tmp/docker-desktop-root/run/docker.sock** accesible al cliente Linux nativo; `version` devuelve **29.6.1**, `info` devuelve linux/DockerDesktop(containerized)/overlayfs/33contenedores/0running/0paused |
+
+La prueba de socket emplea, **sin montar nada ni crear contenedores**, el binario ya existente **/mnt/host/wsl/docker-desktop/cli-tools/usr/bin/docker** en la distribución docker-desktop, con `--host unix:///tmp/docker-desktop-root/run/docker.sock`. No se ejecuta un cliente recién instalado. El wrapper `/usr/local/bin/docker` devolvió explícitamente que invocarlo desde esa distribución no está soportado; no se presenta el acceso directo al socket interno como integraciónWSL de usuario ya aprobada ni como comando habitual recomendado para la prueba sintética.
+
+Un primer comando `sh` de lectura falló por quoting de regex antes de la inspección solicitada; se corrigió únicamente el comando, sin cambios de configuración. Consultas posteriores de procesos/socket/filesystem completadas. Ninguna petición de recuperación se emite a sockets de aplicación o AWS.
+
+### 106.3. Espacio físico, logs y posibles locks
+
+- **C: total255365816320bytes / libre109658112bytes ≈104.6MiB**, ~0.043% libre al observar. DockerVHDX reside en ese mismo volumen (**docker_data.vhdx40856715264bytes**). **Espacio físico crítico acreditado**, no es seguro asumir que el host puede expandir el VHDX/escribir registros normalmente.
+- Dentro de WSL, volumen Docker **/dev/sde** muestra tamaño lógico1006.9G, uso19.7G/2%, disponibles935.9G e inodos221612/67108864. Es capacidad **lógica**, no reserva física enC:. No afirmar discoDockerlleno por ese reporte ni hostcon935GBrealeslibres.
+- Particiones loop/imagen de solo lectura al100% son normales para sus imágenes; no confundirlas con agotamiento del volumen de datos. La estadística de inodos deDrvFS muestra valores no interpretables como inodosext4; no usarla como prueba de corrupción.
+- RAMWindows libre observada5514372KiB de16651416KiB; no evidencia de agotamientoRAM por esa muestra.
+- Revisión acotada de tails de logsDesktop/backend/monitor/initrotado, solo conteos de clases de error. No se persisten dumps/rawlogs ni se inspeccionan credenciales/configsDocker. Sin coincidenciasENOSPC/“no space left” en los tails consultados, sin coincidenciasI/O/read-only/EXT4error en el initrotado revisado. **Esto no descarta presión de almacenamiento ni identifica por sí solo la causa profunda.**
+- Se encontraron3 líneas con texto de lock/instancia en tailDesktop, **no un lock exclusivo bloqueante demostrado**. No se eliminan lockfiles ni se matan procesos por mera presencia. Timeouts de cliente no prueban que dockerd esté deadlocked: el mismo daemon contesta al cliente nativo.
+
+**Causa localizada:** fallo/hang en la ruta de IPC/proxy de Desktop del ladoWindows, no ausencia del daemonLinux ni endpointcontexto inexistente. **Causa interna definitiva de ese hang: NO PROBADA.** La escasez extrema deC: es condición concurrente y obstáculo operativo confirmado, no una relación causalENOSPC demostrada por los logs revisados.
+
+### 106.4. Por qué no se ejecutó un reinicio completo
+
+Antes de una posible recuperación se consultaron **solo metadatos de seguridad de reinicio** de los contenedores existentes: cantidad/estado y HostConfig.RestartPolicy.Name, sinEnv/Args/valores. Resultado **33 existentes, 0running, 0paused; políticas8always /2unless-stopped /23no**. No se cambió ninguna política.
+
+Un restartDesktop/daemon puede reactivar automáticamente cargas existentes con políticaalways, incluidas aplicaciones ajenas que no deben tocarse por esta solicitud. No basta observar0running antes de reiniciar para garantizar0después. **No se hace restart a ciegas bajo NO Redis/Mongo/Dynamo**, ni se cambian políticas sin autorización ni se borran contenedores/imágenes/volúmenes para evitarlo.
+
+**Acción correctiva persistente ejecutada: ninguna.** Solo diagnóstico y acceso de lectura por socket nativo; CLIWindows permanece sin respuesta. No dockerdesktoprestart/stop/start, Stop-Process, wslshutdown, prune, resetfactory, compactVHDX, eliminación de logs/cachés/evidencia/archivos del usuario, actualizaciones o reinstalación. La autorización de recuperar comandos no se interpreta como permiso para descartar datos o arrancar otras cargas.
+
+### 106.5. Comprobaciones básicas y disponibilidad de imagen sin pull
+
+Por el acceso **diagnóstico directo al daemon Linux existente**, sin ejecución de imágenes:
+
+| Comprobación | Resultado |
+| --- | --- |
+| docker version | **PASS29.6.1** por Unix; Windowsnamedpipe sigue bloqueado |
+| docker info | **PASS**, OSTypeLinux/OperatingSystemDockerDesktop(containerized)/Driveroverlayfs; running0 |
+| docker images --digests --no-trunc | **PASS** listado de metadata; imágenes existentes preservadas, ningún prune/pull/tag/build |
+| inspect referenciahijoaceptado | `926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api@sha256:852607824b0b5630567c52b9c067ab72ba290980f577def8a41235b590515f2d` devuelve **No such image** para esa referencia local |
+| inspect índiceaceptado | `926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api@sha256:5da876d7cd52b36d6f63d84cf9856b7d6130715cd00f93bf7daef45c3e76aa9f` **PASS local linux/amd64**, Id y RepoDigest devuelven ese índice |
+
+Ausencia de referenciahijo **no prueba ausencia de todos sus blobs/plataforma local**, ni invalida la imagen publicada. Índice e hijo son identidades distintas: **no se sustituye automáticamente el digest candidato**, crea tag/alias, extrae/pulla ni corre por índice para hacer pasar §105. Futura prueba requerirá fijar y verificar identidad/plataforma de la referencia autorizada. No valores secretos en las proyecciones de inspección empleadas.
+
+### 106.6. tmpfs y bind RO: capacidad de plataforma, no prueba de montaje
+
+WSL2/Linux activo; `/proc/filesystems` incluye **tmpfs**, ydf ya muestra mountsRAM existentes de la plataforma. DockerLinux admite tmpfs y bindmountRO **en principio**, por lo que no se halló incompatibilidad fundamental Windowscontainers. **No se creó ni remonteó ningún tmpfs/bind y no se verificó empíricamente lecturaRO en un contenedor**.
+
+Para la prueba futura todavía deben acreditarse **Engine/CLIsoportado recuperados, origenfixtureLinuxRAM compartible condaemon, mapping de ruta/UID-GID/userns/permisos y flagsRO efectivos**. Un pathC:/Temp o namedvolume en disco no se convierte en tmpfs por estar bajoDockerDesktop; no elegir el filesystem interno de Docker como ubicación operacional sin revisar soporte/alcance. No se acredita ausencia de swap/dumps/persistencia ni se habilita el helperporobservarcapacidadkernel. Estado: **SOPORTE DE PLATAFORMA PLAUSIBLE / MONTAJE EFECTIVO Y NO PERSISTENCIA NO PROBADOS**.
+
+### 106.7. Decisión humana de continuación y cierre
+
+**Siguiente intervención necesaria, no ejecutada:** el responsable libera espacio físico enC: mediante archivos/rutas de su elección y preservando evidencia/imágenes/volúmenes, o autoriza una limpieza **específica por archivos y límites**, no broaddelete/prune/reset. Después aprueba un plan de recuperaciónDesktop que **impida reactivar cargas ajenas** o acepta expresamente su impacto fuera de la restricciónactual; si requiere modificar temporalmente políticas/servicios debe delimitarlo y custodiar baseline/restauración, sin presumir que esto ya está autorizado. No se prescribe cuántosGBgarantizan solución ni se declara reparación probada por liberar espacio.
+
+Con espacio/impacto resueltos y reanudaciónconfirmada: revalidarcontexto/estado, aplicar únicamente recuperaciónacotadaaprobada y comprobar **version/info/images/inspectdigest** por elCLIWindowsnormal. **STOP al recuperar comandos**, sin contenedores/tmpfs/sonda/secretos. RecuperarDesktop no acepta03 ni autoriza§105 automáticamente.
+
+Preservados **01 BLOQUEADO§103 /02 RESUELTO compatibilidad /03 DISEÑADO-NO VALIDADO EN RUNTIME /04 PENDIENTE /GATE-I-B PENDING / NOT SATISFIED; dev HISTORY UNCERTAIN /development INDETERMINATE historia; MaxActivePartitions=5000 APROBADO / NO APLICADO; metadata.snapshot/generation/registry no inicializados; T008/T017/T019/T020 COMPLETE / ACCEPTED históricos**, catálogo11+5+14/gates1+8/diferidos. NoRedisMongoDynamo/AWScalls ni credenciales/configssecretasleídas.
+
+Solo **taskv0.117.0/§106 y [memoria §167](../../memoria.md)** sincronizados. Evidencia local **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-docker-local-diagnosis-20261117\**, captura **2026-11-17T07:19:44.490Z**, source22/22igual/hashes252/diagnosis/cierre. Para no duplicar documentos grandes enC: crítico, custodia por hashes de cuerpos históricos/headerpermitido y evidencia previa, no copias completas adicionales. State60/backup57SHA256 **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 /cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279** intactos. **Create-start-stopcontainer0/tmpfs0/Desktop-daemonWSLrestart0/prune-delete-reset0/pull-rebuild0/contextconfigchanges0/IAM-código-HCLchanges0/secretreads0/AWS0/RedisMongoDynamo0/deploymentALBTerraform0/stagecommitpush0**. **STOP: recuperaciónWindows pendiente de decisión segura, sin cambios destructivos ni prueba sintética.**
+
+## 107. Precheck de espacio Windows y viabilidad de prueba sintética por WSL — solo observación
+
+### 107.1. Autorización y límites
+
+El responsable **acepta §106** y autoriza únicamente inventario observacional de espacio en C: y evaluación de la ruta Linux mediante version/info/images/image inspect, arquitectura y capacidad tmpfs/bind RO. **No autoriza limpieza, reinicio, cambios Docker/WSL, pull/run/create/start/mounts/fixtures/secretos/deployment/commit/push ni la ejecución de §105.** No se inicia Ubuntu ni se habilita integración WSL. Se conserva el historial de §106; las nuevas comprobaciones de selección por plataforma amplían su evidencia, no alteran el resultado de su inspección anterior por referencia hija.
+
+### 107.2. Inventario y límites de medida
+
+Se enumeran nombres, tipos, longitudes y fechas de modificación; **no contenidos de archivos de usuario, configuraciones con credenciales, SecretString o datos de aplicaciones**. Sin seguir junctions/symlinks y sin recorrer árboles cloud de OneDrive. Escaneos con presupuesto de tiempo y registro de errores: **tamaño lógico**, no bytes físicos garantizados recuperables. Hardlinks, compresión, archivos dispersos y accesos denegados impiden reconciliar estos datos con todo el espacio usado. Totales padre/hijo se solapan: **no sumarlos**. Los recorridos parciales son cotas inferiores, no totales completos.
+
+| Categoría / fuente principal observada | Tamaño lógico aproximado | Tratamiento |
+| --- | --- | --- |
+| `%LOCALAPPDATA%\Docker\wsl` | **38,145 GiB**, dos VHDX | Datos Docker/WSL protegidos; no borrar/compactar/mover ni limpiar imágenes, volúmenes o contenedores |
+| `C:\Program Files` / `C:\Program Files (x86)` | **≥8,292 / ≥12,169 GiB** | Recorridos limitados por tiempo; aplicaciones instaladas, no candidatos de borrado manual |
+| `C:\ProgramData` | **≥12,599 GiB** | 61 errores de acceso y 7 enlaces omitidos; no eliminación por tamaño/nombre. Package Cache 1,456 GiB no se ofrece para limpieza manual |
+| `C:\hiberfil.sys` / `pagefile.sys` / `swapfile.sys` | **6,352 / 3,962 / 0,266 GiB** | Metadatos Win32; archivos de sistema, no tocar ni cambiar hibernación/paging por inferencia |
+| npm / NuGet HTTP / Go build | **6,161 / 0,955 / 0,418 GiB** | Caches separadas de proyectos y paquetes instalados; candidatos delimitados en §107.3 |
+| `%APPDATA%\UnityHub` | **3,855 GiB**, de ellos downloads **3,507 GiB** | Instaladores/descargas posiblemente reanudables; no clasificar el árbol entero como cache desechable |
+| `%LOCALAPPDATA%\Temp` | **≥2,526 GiB**, 2 errores; 1,463 GiB con mtime mayor a 30 días | Antigüedad no acredita desuso; no vaciar completo |
+| Toolchains Arduino15 / Android | **≥3,090 / ≥2,218 GiB** | Parciales; pueden sostener proyectos. No borrar SDKs/dependencias por nombre |
+| Descargas / Escritorio / Documentos del usuario | **0,620 / 0,652 / 0,078 GiB** | Datos del usuario, solo decisión de su propietario; no candidatos seguros automáticos |
+| `C:\API_SDD_ENVER` / `C:\Microservices_Net_Core` | **1,010 / 0,439 GiB** | Proyectos protegidos; no limpiar bin/obj/node_modules, repositorios, evidencias o lockfiles |
+| `.nuget\packages` / `node_modules` del perfil | **1,076 / 0,301 GiB** | Dependencias instaladas, no confundir con caches HTTP |
+
+Windows y Users completos no quedaron cuantificados por los límites de tiempo; no usar el prefijo parcial de su recorrido como consumo total. Windows\Temp y Papelera tuvieron accesos denegados: **no se acreditan vacíos**. El primer escáner Node informó ENOENT para los tres archivos de sistema; la enumeración Win32 **sí los observa con tamaño**, y la evidencia suplementaria deja explícita esa limitación, no afirma que estén ausentes.
+
+La última muestra **2026-11-17T07:42:17.0366889Z** da **C:557494272 bytes libres ≈531,7 MiB / 0,519 GiB**, de255365816320bytes. Es diferente de los≈105MiB de§106; **el agente no liberó espacio ni atribuye ese cambio a una causa comprobada**. Sigue siendo un margen crítico. Capacidad lógica del ext4 dentro del VHDX no reserva espacio físico enC:.
+
+### 107.3. Candidatos ordenados de menor riesgo — propuesta, nada eliminado
+
+Todos requieren autorización posterior por **ruta exacta**, confirmar que no haya escritores/instalaciones/builds activos y aceptar el coste de reconstrucción/descarga y el posible impacto offline. Ser cache no garantiza que sus fuentes remotas sigan disponibles.
+
+| Orden | Ruta delimitada | Tamaño estimado | Condición y exclusiones |
+| --- | --- | --- | --- |
+| 1 | `%LOCALAPPDATA%\npm-cache\_cacache` | **6,157 GiB** | Cache de contenido npm. Excluir `_npx`, instalaciones globales, node_modules y lockfiles de proyectos |
+| 2 | `%LOCALAPPDATA%\NuGet\v3-cache` | **0,955 GiB** | Cache HTTP, distinta de `.nuget\packages`; no usar una limpieza global de todos los almacenes NuGet ni tocar feeds/config/credenciales |
+| 3 | `%LOCALAPPDATA%\go-build` | **0,418 GiB** | Cache de compilación; no módulos/fuentes. Herramientas inactivas antes de limpieza aprobada |
+| 4 | `%APPDATA%\Code\Cache`, `CachedData`, `CachedExtensionVSIXs` | **0,397 GiB** conjunto | Cerrar editor/actualizadores; conservar User, extensiones instaladas, workspaces y backups. VSIX puede ser necesario offline |
+| 5 | `%LOCALAPPDATA%\pip\Cache` | **0,084 GiB** | Confirmar ruedas locales/offline reemplazables; no virtualenvs ni paquetes instalados |
+| 6 | `C:\yarn-cache` | **0,012 GiB** | Confirmación del propietario de que es cache recreable; el nombre de ruta por sí solo no prueba seguridad |
+
+**≈8,02 GiB lógicos** de candidatos delimitados, no promesa de espacio físico. No se ejecuta comando de limpieza ni se prueba borrabilidad mediante escrituras. **Temporales seguros acreditados para borrar inmediatamente: ninguno**; se propone revisar staging `%LOCALAPPDATA%\Temp\vscode-stable-user-x64` **0,209 GiB**, únicamente tras confirmar actualización terminada. Ya está incluido en Temp, no sumarlo otra vez.
+
+**Condicionales, no primera elección:** UnityHub\downloads **3,507 GiB** puede contener instalaciones pausadas/reanudables u offline; requiere revisión por el propietario/aplicación. Temp\dh **0,542 GiB** y carpetas GUID de instaladores no se declaran desechables por antigüedad. **Preservar Temp\opencode≈0,149 GiB**, DiagOutputDir≈0,119GiB y wsl-crashes≈0,100GiB, especialmente mientras el diagnóstico está abierto.
+
+**Logs separados:** Code\logs≈0,036GiB; Docker\log≈0,059GiB; CrashDumps≈0,058GiB. Son pequeños respecto al cache npm; retener diagnóstico actual, no borrarlos para ganar espacio marginal sin decisión de retención. No abrir dumps/credenciales ni descartar evidencia. WindowsSoftwareDistribution\Download≈0,204GiB y ProgramData\PackageCache≈1,456GiB son administrados por el sistema/instaladores, no candidatos de eliminación manual aquí.
+
+**Margen propuesto antes de continuar con una futura prueba:** **mínimo operativo recomendado 5 GiB libres verificados en C:, objetivo preferible 10 GiB**. Es juicio de seguridad operativa para Windows/WSL y metadatos/logs/builds futuros, **no mínimo oficial Docker, requisito ya aprobado, garantía de suficiencia ni solución demostrada del IPC**. No se crea contenedor o sonda para estimar ese consumo. Elegir primero cache npm y luego HTTP/build caches puede alcanzar el margen mínimo si el espacio físico realmente se recupera; requiere volver a medir después de la limpieza que el responsable autorice, no iniciada aquí.
+
+### 107.4. Ruta WSL y resolución local del índice aceptado
+
+**SÍ, viabilidad técnica de ejecutar la futura prueba mediante Linux/WSL sin depender de `docker.exe` o del pipe Windows. NO, lista para ejecutarse ahora con los controles exigidos.** No es necesario reparar el CLI Windows como condición técnica para esa alternativa; sí siguen siendo necesarios los controles de espacio, aislamiento, soporte/ruta RAM y no persistencia. Se usa el LinuxCLI ya existente **/mnt/host/wsl/docker-desktop/cli-tools/usr/bin/docker**, conectado explícitamente a **unix:///tmp/docker-desktop-root/run/docker.sock**, sin cambios de contexto/configuración. `wsl.exe` fue solo lanzador desde esta sesión Windows; el cliente y el socket comprobados son Linux.
+
+| Comprobación observacional | Resultado |
+| --- | --- |
+| version | **PASS29.6.1/API1.55/Linux/amd64**, kernel6.18.54.1-microsoft-standard-WSL2 |
+| info | **PASS Linux/x86_64/DockerDesktop(containerized)/overlayfs; 33 existentes/0running/0paused**; sin consultar o tocar datos de las cargas |
+| images | **PASS** árbol del repositorio: tag histórico git-078130627bc5 → índice5da876d7cd52 → linux/amd64 hijo852607824b0b; árbol reporta385MBdisco/109MBcontenido |
+| inspect del índice | **PASS** Id/RepoDigest completos5da876…, Descriptor **application/vnd.oci.image.index.v1+json**, size856 |
+| inspect del mismo índice con `--platform linux/amd64` | **PASS** Id y Descriptor **sha256:852607824b0b5630567c52b9c067ab72ba290980f577def8a41235b590515f2d**, mediaType **application/vnd.oci.image.manifest.v1+json**, size2196; osLinux/archamd64 |
+
+Por tanto, **NO es estrictamente necesario registrar localmente el hijo852607… como referencia independiente `repositorio@digesthijo`**. El índice ya registrado puede seleccionar su manifestamd64 local, y esa selección devuelve **exactamente el hijo aceptado**, no otro artefacto. El `No such image` de§106 corresponde a lookup de aquella referencia independiente, **no a inexistencia del manifest hijo bajo el índice**. El árbol local y el inspectporplataforma resuelven la incertidumbre de asociación. No pull/tag/alias/redefinición de digest.
+
+La plataforma nativa del daemon esamd64; Docker puede seleccionar automáticamente el manifest correspondiente desde el índice. Para una futura prueba **se propone fijar explícitamente `linux/amd64` y `pull=never`**, manteniendo como referencia exacta:
+
+```text
+926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api@sha256:5da876d7cd52b36d6f63d84cf9856b7d6130715cd00f93bf7daef45c3e76aa9f
+```
+
+Esto no sustituye el digest raíz por el hijo: **el índice identifica la imagen aceptada y la plataforma determina el hijo que ya referencia**. No usar tag mutable. Cualquier error de contenido local en la ejecución futura debe producir **STOP sin pull/fallback**. **Selección local demostrada por metadata; ejecución, integridad de todas las capas al ejecutarse, startup de sonda y resultado sintético NO PROBADOS**. No se ha ejecutado run/create/start para comprobarlo.
+
+Incidencias de lectura: primera plantilla pidió `.Manifests`, campo inexistente, y falló sin mutación; proyección corregida. `images --tree --no-trunc` no soporta esa combinación; se retiró solo no-trunc. Filtro de árbol por digest exacto devolvió sin filas; se usó árbol por repositorio y se corroboró asociación con los **digests completos de inspectporplataforma**, no por prefijos truncados.
+
+### 107.5. tmpfs/bind RO y riesgos pendientes
+
+- `/proc/filesystems` incluye **tmpfs**; se observan mounts tmpfs existentes, sin crear ninguno. El directorioWSL **/mnt/host/wsl** y la vista de la raíz de dockerd **/proc/149/root/run/desktop/mnt/host/wsl** muestran mismo tipo tmpfs, fsid9bd942a1ae111ede y dispositivo:inode34:1. Mountinfo de dockerd confirma **/run/desktop/mnt/host/wsl** en tmpfs compartido. Esto ofrece una **ruta candidata Linux RAM visible al daemon**, no ubicación de fixture aprobada o probada mediante escritura.
+- Hay **submounts ext4 eISO** bajo ese árbol; no asumir que cualquier descendiente sea RAM. En futura entrega, fijar ruta aislada nueva y comprobar su filesystem exacto desde ambos lados, permisos/UID-GID/userns y acceso real del contenedor. No intervenir los directorios internos administrados por Desktop ni montar el DockerAPI socket en la sonda.
+- DockerLinux ofrece bindmount **read-only** por su API; la capacidad de plataforma existe, pero **el mountRO efectivo y la denegación de escritura desde la imagen/UID real no están probados** por estas lecturas. No crear/remontar nada para convertirlo en PASS. Destino candidato sin cambio: **/app/appsettings.Development.json**, archivo únicoRO.
+- **Swap WSL activo: /dev/sdc,2097152KiB≈2GiB, usado0 en la muestra**. tmpfs es paginable; usado0 no impide persistencia futura. **No persistencia NO ACREDITADA**. Flags de swap del contenedor por sí solos no protegen un archivo tmpfs creado en el host; Windows paging/hibernación/dumps/exportación de RAM son riesgos adicionales. No swapoff, cambio.wslconfig, hibernación, kerneloptions o reinicio autorizados aquí.
+- La distribución interna **docker-desktop no es una distro de trabajo soportada por su wrapper** (§106). Acceso directo diagnóstico funciona, pero falta aprobar su uso temporal para la prueba y el soporte/mapeo RAM; alternativa de rutaLinux soportada requeriría autorización separada. **No se inicia Ubuntu ni se habilita integración WSL** por inferencia. No se instala tooling.
+- Falta acordar/autorizar la **sonda/helper externo aislado**, sus fuentes, build/toolchain y lifecycle, sin modificarENVER/rebuild ni ejecutarProgram, clientes, DNS o dependencias. La disponibilidad del cliente Docker no acredita disponibilidad de la sonda. No fixtures reales/sintéticos generados en esta entrega.
+
+Fuentes públicas contrastadas: [inspectporplataforma/API1.49+](https://docs.docker.com/reference/cli/docker/image/inspect/), [bindmounts desde el host del daemon y opciónreadonly](https://docs.docker.com/engine/storage/bind-mounts/), [tmpfs y advertencia de swap](https://docs.docker.com/engine/storage/tmpfs/), [platform y pull=never](https://docs.docker.com/reference/cli/docker/container/run/). Son capacidades documentadas, no evidencia de mount o ejecución local.
+
+### 107.6. Cierre y decisión requerida
+
+**STOP con inventario/candidatos/margen propuesto y viabilidadLinux SÍ técnica/NO lista hoy.** El responsable decide **qué rutas cache exactas permite limpiar**, sinDocker/evidencia/proyectos, y cómo se abordará la no persistencia/swap y la ruta/sondaLinux en una autorización posterior. No se exige reiniciarDesktop para proseguir con esta alternativa; **tampoco se autoriza la prueba por haber identificado una ruta viable**. La rutaWindows de§106 no se repara ni se vuelve a evaluar en este incremento.
+
+**DEPLOY-CONFIG-03 DISEÑADO / NO VALIDADO EN RUNTIME**; preservados **01 BLOQUEADO§103 /02 RESUELTO solo compatibilidad /04 PENDIENTE /GATE-I-B PENDING / NOT SATISFIED; dev HISTORY UNCERTAIN /development INDETERMINATE respecto a historia; MaxActivePartitions=5000 APROBADO / NO APLICADO; metadata.snapshot/generation/registry no inicializados; T008/T017/T019/T020 COMPLETE / ACCEPTED históricos**, demás gates/diferidos sin resolver. Ninguna lectura CORE4real autorizada ni realizada.
+
+Solo **taskv0.118.0/§107 y [memoria §168](../../memoria.md)** sincronizados. Evidencia externa **C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-space-wsl-precheck-20261117\**: space-scan/detail, assessment, precheck/cierre por hashes; sin duplicar documentos grandes enC: ni guardar contenidos de usuario. **252 archivos protegidos y evidencia§106 se custodian sin cambios**; state60/backup57 SHA256 **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 /cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279** preservados. **Borrados/prune/pull/run/create/start/stop/mounts/fixtures/reinicios/cambiosDockerWSL/secretreads/AWS/IAM/RedisMongoDynamo/códigoHCL/rebuild/deployment/commit/push:0**. Sin siguiente fase automática.
+
+## 108. Configuración final y deployment A/B — A bloqueado antes de secretos y docker run
+
+### 108.1. Cambio de estrategia y condición de parada
+
+El responsable sustituye la prueba sintética separada por **preparación de configuración final y deployment controlado primero en A**, integrando la futura validación03/04 en ese deployment; B solo se prepararía tras registrar A satisfactorio, sin despliegue automático. Se respeta la nueva estrategia: **no se ejecutan ni se crean artefactos de la prueba sintética, sonda, fixtures o imágenes intermedias**. La limpieza de caches anteriormente autorizada no llegó a ejecutarse y no se retoma bajo este objetivo nuevo.
+
+La autorización contiene una condición previa expresa: **si la aplicación exige las tres referencias de cuota aún no definidas, detenerse antes de docker run**. La lectura del código aceptado confirma esa condición. **Resultado de EC2 A en este incremento: BLOQUEADO EN FASE 1 / NO CREADO / NO INTERVENIDO**. No se ejecutan lecturasSecretString, preflight remoto, mounts o comandosDocker para intentar un startup inválido conocido.
+
+### 108.2. Valores finales no secretos confirmados, no aplicados
+
+| Configuración | Valor confirmado para el futuro runtime | Estado real |
+| --- | --- | --- |
+| ASPNETCORE_ENVIRONMENT | `Development` | No se inició proceso ni se cambió entorno de A |
+| MongoDb:DatabaseName | `enver_development` | Coincide con JSONDevelopment de origen; no se entregó un archivo runtime |
+| Redis:NamespacePrefix | `enver:development` | Coincide con JSONDevelopment y compatibilidad02; no valida continuidad/historia |
+| RateLimiting:MaxActivePartitions | `5000` | **APROBADO / NO APLICADO**; base JSON de origen conserva null, sin editar código/config |
+| AuthenticationComposition:QuotaConfigurationVersion | **Sin valor establecido** | Obligatorio; no inventado, no placeholder entregado |
+| AuthenticationComposition:QuotaIdentityReference | **Sin valor establecido** | Obligatorio; no derivado del nombre/versión/hashHMAC ni generado |
+| AuthenticationComposition:QuotaGeneration | **Sin valor establecido** | Obligatorio; no GUID/aleatorio/cero/default generado |
+
+Estos valores **no constituyen un appsettings completo arrancable**. No se genera un JSON con secretos ni se ocultan campos pendientes mediante valores de prueba. `AuthenticationComposition:AuthorityRegion` también es obligatorio; proporcionar una región válida **no elimina** el bloqueo de las tres referencias. No se inventan otros valores de autoridad/transporte por iniciativa del agente.
+
+### 108.3. Bloqueo exacto acreditado en fuente aceptada, sin arrancar la API
+
+Comparación de lectura **2026-11-17T13:16:26.806Z**, **28/28 archivos iguales** a `078130627bc50a9dc2feee5fb699cedbea87dbbb`, normalizando soloCRLF/LF; incluye los22 anteriores y fuentes adicionales del bloqueo. No se reconstruye ni se ejecuta la imagen para esta conclusión.
+
+1. [Program.cs](../../Enver.API/Program.cs), líneas13–17/35, registra `AddAuthenticationDependencies` incondicionalmente; no hay rama Development que lo omita.
+2. [AuthenticationServiceCollectionExtensions.cs](../../Enver.API/Composition/AuthenticationServiceCollectionExtensions.cs), líneas70–71, registra `AuthenticationDependencyValidator` y **Bind(...).ValidateOnStart()**; líneas106–107 también resuelven `Capture` para la configuración de cuotas.
+3. [AuthenticationDependencyOptions.cs](../../Enver.API/Composition/AuthenticationDependencyOptions.cs), líneas12–16, fija sección **AuthenticationComposition** y defaults vacíos. `Capture`, líneas32–33, construye snapshot con **ambas referencias**, capacidad académica y **QuotaGeneration**, sin sustitutos. El validator, líneas43–50, exige región válida, llamaCapture y traduce cualquier incompatibilidad al mensaje exacto **`AuthenticationComposition: referencias externas/capacidad incompatibles.`**
+4. [AuthenticationQuotaConfigurationSnapshot.cs](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaConfigurationSnapshot.cs), líneas14–16, exige identificadores válidos para environment/configurationVersion/identityConfigurationReference. [AuthenticationQuotaModels.cs](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaModels.cs), líneas106–113, rechaza vacío/whitespace/control. Por tanto omitir ConfigurationVersion o IdentityReference **falla**, aunque5000 sea válido.
+5. [RedisAuthenticationQuotaConfiguration.cs](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaConfiguration.cs), líneas14–17, rechaza generación inválida. [RedisAuthenticationQuotaKeyBuilder.cs](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaKeyBuilder.cs), líneas52–53, exige32hexminúsculas y no todo ceros. Omitirla **falla también** aun si las otras referencias fueran válidas. Esto describe el formato, **no autoriza generar una**.
+6. [AuthenticationQuotaCapacityDescriptor.cs](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaCapacityDescriptor.cs), líneas43–47:5000 satisface únicamente la condición de capacidad, no crea snapshot/generación ni permite referencias vacías.
+
+**Conclusión:** la imagen aceptada no ofrece por configuración un modo de arranque sin esas referencias con este wiring. El rechazo se deriva de la validación de opciones/inicio; **no se presenta como excepción/log runtime observado ni se inventa qué validator fallaría primero**. No se pueden validar03/04 durante un deployment que ya incumple su precondición. Agregar nombres sintácticamente válidos pero no acreditados solo eludiría el primer rechazo, **no resolvería DEPLOY-CONFIG-01**. No se cambian código, DI, validators o imagen para saltarlo.
+
+### 108.4. Secret delivery e imagen — referencias preparadas documentalmente, ejecución no iniciada
+
+Los cuatro pares exactos están acreditados en **§105.7**, además de su historialCORE4. Antes de cualquierSecretString se confirma documentalmente el inventario, **no su vigencia remota ni el schema real de los payloads**:
+
+| SecretId exacto | VersionId exacto acreditado |
+| --- | --- |
+| `arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/mongodb-Iuqeur` | `c9eb0b6c-d8c0-4ec1-b3fe-05809a0f33f4` |
+| `arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/jwt-AweYNs` | `fe44b116-0c69-41c8-8daf-7c82be31d181` |
+| `arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/hmac-s9TSqb` | `fecf274e-12d7-4c58-b0d8-06d2149c015a` |
+| `arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/redis-FlY8aP` | `2dfc79eb-625a-4f1b-aca7-b1575b5142c1` |
+
+Se conserva diseño **helperHOST → respuestasRAM → validaciónschema → JSONcompleto exclusivamente tmpfs verificado → archivo únicoRO `/app/appsettings.Development.json`**, permisos/ownershipmínimos y cleanup coordinado sin consumidores. NoENV/argv/logs/metadatosDocker/discopersistente para valores; noAWSdebug/volcado de errores. HMAC consumidoexacto **RateLimiting:PseudonymizationKeyBase64**, sin aliasKeyBase64. Schemasreales no leídos ni deducidos por metadata. **No se implementa/instala el helper ni se leen secretos tras detectar Fase1bloqueada.** No se habilita AWSCURRENT/AWSPREVIOUSfallback.
+
+Única referencia permitida para un futuro deployment, sin tagalternativo/latest/rebuild:
+
+```text
+926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api@sha256:5da876d7cd52b36d6f63d84cf9856b7d6130715cd00f93bf7daef45c3e76aa9f
+--platform linux/amd64
+```
+
+Son referencia y selección de plataforma, **no un docker run preparado para ejecutar sin gates**. La resolución local índice→hijo852607… de§107 permanece histórica; no demuestra disponibilidad oDocker sano actual enA ni deliveryruntime03.
+
+### 108.5. Efectos persistentes y límites de validación/rollback
+
+- El arranque no es una prueba de configuración inocua: [AuthenticationDependencyAdmission.cs](../../Enver.API/Composition/AuthenticationDependencyAdmission.cs), líneas47–55, registraStartAsync que llamaRefreshIndexAsync; [MongoUsersInitializer.cs](../../Enver.API/Infrastructure/MongoDB/MongoUsersInitializer.cs), líneas36–46, **puede crear índiceMongo** si falta, y líneas80–83 permiten que eso cree la colección. **Riesgo condicional**, no operación ejecutada enA. No afirmar que parar/remover contenedor lo revierte ni provocar esa escritura para observarla.
+- El caminoEvaluateAsync deAdmission, líneas29–35, **puede llamarglobal.CloseAsync** ante falloRedis, con efectos de autoridadDynamo. No se afirma que necesariamente ocurra al inicio; explica por qué conexiones/admisión no son una inspección sin efectos. No invocar rutas de negocio para “probar dependencias” sin considerar sus efectos.
+- La composición no demuestra auto initialize/fence/maintain/activate de cuotas enstartup; **no se ejecuta ninguna de ellas** ni se genera metadata/registry/buckets. Vigilar después de un write no garantiza ausencia de efectos persistentes. Un fallo/quota-write en una ejecución futura requeriría detener/remover solo el contenedor propio y reportar efectos; **no reparaciónRedis/Dynamo/Mongo automática**.
+- `/health` está registrado como healthcheck básico del host: aun sirespondiera no acreditaría por sí solo Mongo/Redis/Dynamo, credencialesSDK/IMDSv2 ocontinuidad. Esas validaciones reales **no se sustituyen por lectura de código ni por la existencia de un rol**.
+- Se conserva el límite04: si el futuro contenedor no obtiene credenciales con metadataoptions actuales, **STOP**; no aumentarhoplimit, hostnetwork, staticAWSENV/tokens/files/proxiesadhoc, IAMchanges o cambiosmetadataoptions. No se intenta demostrarIMDSv2 dentro de contenedor sin contenedor autorizado y viable.
+
+### 108.6. Resultado A y cierre
+
+| Elemento solicitado | Resultado de esta intervención |
+| --- | --- |
+| HostA | Destino histórico `i-0a66085b7b2411393`; **no contactado/intervenido** |
+| RuntimeENVER ausente /8080libre/Docker sano/espacioHOSTA | **NO VERIFICADOS ACTUALMENTE**; no extrapolar muestrasWindows/WSL aEC2 |
+| Roleasociado/IMDSv2/metadataoptions actuales | **NO VERIFICADOS ACTUALMENTE**; rol históricoenver-dev-api-runtime/hop1noeslecturaactual |
+| ContainerID | **NO CREADO**; no run/create/start enA oB |
+| Config | Valoresnosecretosconfirmados; **startup bloqueado por referenciascuotas ausentes**, JSONruntime no generado/cargado |
+| Mongo/RedisTLS-auth/namespace real/DynamoSDK-IMDSv2 | **NO EJECUTADOS / NO VALIDADOS EN RUNTIME** |
+| /health | **NO CONSULTADO** |
+| Env/command/args/logs sin secretos | **NO PROBADO EN CONTENEDOR**; no secretos leídos/manejados por esta intervención |
+| Efectos persistentes de este incremento | Ninguna operación remota o conexiónRedis/Mongo/Dynamo; riesgos anteriores son análisis, no efectos observados |
+| RollbackA | **NO APLICA**, nada creado/montado; no detener/remover cargas existentes ni borrar imágenes |
+| B | **NO INTERVENIDO**, no preparado como ejecutable ni desplegado automáticamente |
+
+**Siguiente decisión necesaria:** resolver por evidencia/aprobaciónoperativa DEPLOY-CONFIG-01 y acreditar referencias/snapshot/generación confiables antes de proseguir con esta misma imagen. No basta autorizar valores arbitrarios. Si se desea arrancar sin esas referencias, sería **un cambio de código/artefacto de alcance distinto, NO autorizado** y no una solución compatible con digestinmutable. No se solicita ni ejecuta initialize/fence/maintain/activate enestaentrega. **STOP en el bloqueo deFase1, antesdeSecretString/docker run**, sin añadir una nueva prueba sintética como requisito.
+
+Preservados **DEPLOY-CONFIG-01 BLOQUEADO /02 RESUELTO compatibilidad /03 diseñoJSON-tmpfs APROBADO–NO VALIDADO EN RUNTIME /04 PENDIENTE /T008-T017-T019-T020 COMPLETE / ACCEPTED históricos /GATE-I-B PENDING / NOT SATISFIED; dev HISTORY UNCERTAIN /development INDETERMINATE historia; MaxActivePartitions5000 APROBADO / NO APLICADO; metadata.snapshot/metadata.generation/registry no inicializados**. Sin cambio de gates/diferidos/historial. Solo **taskv0.119.0/§108 y [memoria §169](../../memoria.md)**, sin archivos de prueba/copias/scripts auxiliares nuevos. Verificación de lectura28source/252protegidos/evidencia§106–107intactos registrada en salida de sesión **2026-11-17T13:16:26.806Z**; branchfeature/infrastructure/HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb/staged0. **AWS/SecretString/SSM/RedisMongoDynamo/IAM/metadataoptions/runtimecommands/mounts/containercreate-start-stop-remove/lifecyclecuotas/limpiezacaches/rebuild/ALB/Terraformapply/deployment/commit/push:0**. Sin reanudación automática.
+
+## 109. Fuentes legítimas de C/I/G y decisión mínima para recuperación, sin ejecución
+
+### 109.1. Baseline y resultado acotado
+
+El responsable confirma **DEPLOY-CONFIG-01 como bloqueo duro de startup** y solicita solo procedencia de referencias y propuesta de recuperación. No se reabren T008/T017/T019/T020 ni las validaciones aceptadas. La prueba sintética separada sigue descartada; no se crea ningún artefacto de prueba o herramienta de control.
+
+**Resultado:** el descriptor objetivo y la referencia de material HMAC pueden acreditarse documentalmente, **pero no se encontró un literal operativo aprobado de QuotaConfigurationVersion o QuotaIdentityReference ni una QuotaGeneration histórica confiable** en las fuentes revisadas. No es prueba de inexistencia universal: un manifiesto/backup externo custodiado por el responsable aún podría aportarlos. No se hacen consultas AWS/Redis para convertir evidencia histórica en estado actual.
+
+### 109.2. Búsqueda y matriz de fuentes
+
+- Código/composición/configuración, contratos/lifecycle/Lua/transiciones/HMAC/autoridad y documentación §§94–96/102–103/108; **32/32 fuentes iguales** al source aceptado `078130627bc50a9dc2feee5fb699cedbea87dbbb`, normalizando solo CRLF/LF, revisión de lectura **2026-11-17T13:27:51.577Z**.
+- Historial Git de las tres propiedades y `IdentityConfigurationReference` en Enver.API/infra: commits relevantes **123503c /d6e7644 /fe7858d** definen contratos/store/composición, no acreditan un release operativo con esas etiquetas. Ejemplos `config-021`, `identity-053` y RunId están en **tests**, no son referencias recuperadas de cloud.
+- Terraform HCL y metadata estructural del **state60/backup57**, sin comandos Terraform ni volcado de atributos sensibles. HCL `api_secret_arns` administra referencias IAM, no versiones HMAC/configuración de cuotas; `authority.tf` crea tabla/policy, no snapshot ni items. State no contiene recursos `aws_dynamodb_table_item` o `aws_secretsmanager_secret_version`; no se infiere que eso excluya datos externos fuera de Terraform.
+- Evidencia aceptada §93, directorio `enver-deployment-readiness-2026-11-17T02-43-24-895Z`: host-A/B-review registra **runtimeManifestPresent=false** en las rutas entonces examinadas. No equivale a búsqueda exhaustiva de archivos en EC2 o de custodia externa.
+- Evidencia §102, `enver-acl-controlled-resume-20261117/validation-A-review.json` y B: observaciones **06:18:54 /06:19:06 UTC** en development muestran metadata TYPE none/HMGET12nulos/generationPresent=false, registry TYPE none. No inventario íntegro de buckets ni ausencia de historia. Antecedente §96 dev conserva metadata/generation ausentes y SCAN denegado, sin ledger de épocas. No se repite aquella auditoría.
+- Metadata HMAC histórica aceptada en `t019-runtime-core4-ab-resume-2026-11-17T00-02-35-447Z/host-A-review.json` y B, filas `hmac_metadata`, identifica mismo ARN/VersionId. Solo se leen archivos locales saneados, **no nuevas respuestas GetSecretValue**.
+- Autoridad histórica `t020-bootstrap-ab-final-2026-11-17T02-26-11-670Z/bootstrap-item-final.json`: Id=authentication/State=Open/**Generation Number0/Revision Number0**, cuatro atributos. [Adapter DynamoDB](../../Enver.API/Infrastructure/Aws/DynamoDbAuthenticationSecurityAuthority.cs) administra generación/estado de seguridad-emisión/cuarentena, **no C/I/G ni consumos de cuotas**. Su cero no se convierte en una generación Redis.
+
+| Campo | Fuente legítima | Evidencia localizada | Recuperable SI/NO | Decisión pendiente |
+| --- | --- | --- | --- | --- |
+| QuotaConfigurationVersion (C) | Registro externo aprobado del descriptor inmutable, contrastado con snapshot Redis confiable si se recupera | Source/JSON/revisión académica/capacidad identifican contenido objetivo; §§94–95/103/108 sin etiqueta operativa; snapshots ausentes en observaciones aceptadas | **NO** literal histórico acreditado; **SÍ** contenido objetivo identificable | Aprobar descriptor completo y una etiqueta literal propia, o aportar registro histórico auténtico; no copiar PolicyRevision/commit/configVersion automáticamente |
+| QuotaIdentityReference (I) | Registro inmutable que vincula etiqueta a ambiente + versión HMAC fijada + representación/source | ARN/VersionId HMAC exactos acreditados; pseudonimizador define representación pero no consume I; no registro histórico etiqueta→tupla localizado | **NO** etiqueta histórica; **SÍ** referencia de material HMAC documentada | Aprobar vínculo/etiqueta explícitos, conservando material/ambiente/representación; continuidad pasada no probada solo por metadata |
+| QuotaGeneration (G) | `metadata.generation` confiable + custodia de control y corte consistente; o futura época de recuperación aprobada | Metadata ausente en lecturas anteriores; sin generación recuperable localizada; fixtures/DynamoDB0 no válidos | **NO** G histórica confiable localizada | Resolver recuperación/cierre/inventario/control/base ausente, aprobar D-REC-EPOCH; después generar/custodiar/revisar literal bajo autorización separada |
+
+### 109.3. Descriptor exacto de C y reglas de versionado
+
+C identifica el [AuthenticationQuotaConfigurationSnapshot](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaConfigurationSnapshot.cs): **ambiente development + I + PolicyRevision + siete pares operación/scope/límite/ventana + MaxActivePartitions5000 + MemoryBudgetBytes67108864**. No identifica por sí solo un build, release entero o secreto. G **no forma parte del snapshot**; cambiar solo época no implica cambiar descriptor o C. Fuente de composición: [Capture](../../Enver.API/Composition/AuthenticationDependencyOptions.cs), líneas18–33.
+
+Contenido objetivo existente, **no nueva política ni dato histórico supuesto**:
+
+| Operación / scope | PermitLimit | WindowSeconds | WindowMicroseconds |
+| --- | --- | --- | --- |
+| register / email | 3 | 900 | 900000000 |
+| register / origin | 20 | 900 | 900000000 |
+| login / email | 10 | 60 | 60000000 |
+| login / origin | 60 | 60 | 60000000 |
+| login / origin-email | 5 | 60 | 60000000 |
+| logout / origin | 300 | 60 | 60000000 |
+| logout / account | 30 | 60 | 60000000 |
+
+**PolicyRevision existente `academic-initial`** ([descriptor](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaPolicyDescriptor.cs), líneas69–77); presupuesto contractual64MiB;5000APROBADO/NOAPLICADO. Esto es descriptor **objetivo**, no prueba de política usada por todos los consumidores anteriores. El orden de tabla coincide con serialización Lua:20partes ambiente/C/I/revisión/capacidad/presupuesto +14enteros de reglas; ningún snapshot operativo se concatena con marcadores ficticios.
+
+Formato efectivo C/I **`[A-Za-z0-9_.-]{1,128}`**, case-sensitive. El código no prescribe SemVer, fecha o secuencia. **Regla propuesta de gobierno, consistente con §103:** registro no secreto inmutable y custodiado; una etiqueta identifica un solo contenido; mismo descriptor puede conservar C, cambio de I/ambiente/reglas/revisión/capacidad/presupuesto requiere otra C aprobada y transición aplicable. Cambiar reglas requiere también revisión de política coherente; cambiar capacidad tiene transición propia. No reutilizar etiqueta para contenido diferente ni usar `metadata.version`, configVersion de bundle o hash de commit como equivalencias automáticas. Un hash de un descriptor público podría anclar integridad en un esquema aprobado, **pero no es algoritmo de C implementado ni permiso para generar una etiqueta ahora**. No se propone un literal quota-config-v1.
+
+### 109.4. Identidad I: metadata legítima recuperada y compatibilidad de representaciones
+
+Única referencia de material HMAC acreditada para preservar, **no valor de QuotaIdentityReference**:
+
+```text
+ARN: arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/hmac-s9TSqb
+VersionId: fecf274e-12d7-4c58-b0d8-06d2149c015a
+```
+
+La tupla a registrar junto a I debe incluir **development**, ese par exacto, hojaAPI **RateLimiting:PseudonymizationKeyBase64**, source aceptado y representación de [HmacAuthenticationScopePseudonymizer](../../Enver.API/Infrastructure/Security/HmacAuthenticationScopePseudonymizer.cs) /[AuthenticationScopeIdentity](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationScopeIdentity.cs): HMAC-SHA256; dominio `enver.auth.quota`; versión textual `1`; ambiente minúsculo; operación/scope/componentes; UTF8 estricto con longitudes uint32big-endian; canonización correo/origen/cuenta del source; salida32bytes/Base64url43sinpadding. No se lee material, calcula hash de clave ni genera pseudónimo real.
+
+| Candidato como I | Sintaxis del código | Legitimidad operativa actual |
+| --- | --- | --- |
+| ARN completo | **NO**, contiene `:` y `/` | Conservarlo en registro externo, no recodificarlo por conveniencia |
+| ARN+VersionId concatenados | **NO** en representación literal habitual | Tupla en registro externo; no meterla sin esquema en I |
+| VersionId existente | **SÍ** sus36caracteres cumplen token | **NO sustitución automática**: no acredita ambiente/representación/registro aprobado y contradice uso por conveniencia excluido en§95.5 |
+| AWSCURRENT/AWSPREVIOUS u otro alias mutable | Puede pasar token | **NO**: puede mover material sin cambiar I; no preserva pinning. No se introduce alias AWS nuevo |
+| Etiqueta externa inmutable | **SÍ**, si cumple token | **Válida tras aprobar y custodiar vínculo exacto**, hoy sin literal recuperado |
+| Identificador derivado de metadata/descriptor públicos | Puede cumplir token según esquema | Solo con algoritmo/representación/alcance/custodia aprobados; no existe derivación automática implementada ni se calcula uno ahora |
+| Hash/fingerprint de la clave | No basta formato | **NO**: no leer/derivar/divulgar material, ni sustituir registro por hash de secreto |
+
+**Metadata identifica una versión de material, no prueba que cada proceso histórico usara esa versión ni que su payload tenga el schema esperado.** HMAC lee clave y ambiente, **no I**; etiqueta igual no valida criptográficamente continuidad. Preservar pinning y representación evita introducir un cambio intencional, pero no reconstruye historia desconocida. El nombre `/dev/` del secreto no obliga ambienteHMACdev: no renombrar secreto o mover cuotas. dev ydevelopment producen identidades diferentes aun con la misma clave.
+
+**C e I pueden aprobarse antes de G:** sí, como **descriptor/vínculo futuros**, sin writes ni aplicación runtime. No pueden llamarse referencias históricas recuperadas. I se aprueba primero con su registro y C referencia ese I; luego una G identifica la época que opera ese snapshot. La definición del contenido puede quedar completa hoy; sus **literales y aprobación humana siguen pendientes**.
+
+### 109.5. G: procedencia, brecha base ausente y nueva época posible
+
+Contrato efectivo: **32hexminúsculas/no todos0**. [KeyBuilder](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaKeyBuilder.cs) líneas52–53 y Lua14–15; nombrehelperuuid/IsAttemptId no convierte el valor en GUID/RunId. **Procedencia legítima:** época externa custodiada del estado Redis, suministrada al control y a todos los consumidores, contrastada con `metadata.generation`. El script valida/almacena G; no la genera. No se cambia por restart/deployment/retry, ni se deriva de HMAC, VersionId, commit, tiempo, DynamoDBGeneration0 o contador metadata.version. No hay ledger ni nombres de key por generación: fence sustituye la generación en metadata; cambiar G no aísla buckets viejos.
+
+**No se localizó G recuperable con procedencia confiable.** Una copia auténtica de metadata/manifest/control anterior podría aportarla, pero debe ligar snapshot/G/destino/tiempo y consumos posteriores; no basta encontrar32hex en una evidencia o código. No se concluye que nunca existió una G. No se genera ahora.
+
+**Brecha que una decisión de nueva época no resuelve por sí sola:** `FenceAsync(nextGeneration)` usa configuraciónbase que **ya exige Gbase válida**, y [Encode](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaScriptProtocol.cs), líneas33–34, exige Gnext distinta; Lua28–38 exige ambas incluso sin metadata. Lua89–92 permite fence sin metadata, pero no autentica la base perdida. **No se puede fingir una Gbase histórica ni pasar0/GUID/testfixture o duplicar Gnext como base**. Falta recuperar base auténtica o diseñar/aprobar un caminoCONTROL de recuperación con semántica explícita de baseausente, distinto de initialize; si requiere herramienta/código/permisos, es incremento separado. No se afirma que exista un procedimiento ejecutable seguro hoy con solo aprobar un número.
+
+### 109.6. Procedimiento mínimo de aprobación — no ejecutado
+
+1. **Cerrar el expediente C/I sin tocar datos:** el responsable aporta registro histórico confiable si existe; de lo contrario aprueba el descriptor objetivo de§109.3 y el vínculo de§109.4 con dos **literales proporcionados/revisados por él**, declarados selección futura, no recuperación del pasado. Registrar fecha/actor/source/destino/aprobación y mismo registroA/B. No se asignan tokens aquí.
+2. **Acreditar cierre continuo y universo de consumidores:** A/B y cualquier otro cliente/diagnóstico/escritor, jobs/credenciales/operacionesdespachadas; establecer exclusión y resolverin-flight. Puerto libre/no contenedores es evidencia parcial, no cese global. Establecer Tlast confiable; no ejecutar mantenimiento ni cambiarinfra bajo este documento.
+3. **Seleccionar ruta basada en evidencia:** R-REC solo con reconstrucción íntegra/corte consistente verificables; **R-DRAIN** si no hay eventos recuperables, con cota de todas las políticas anteriores/identidades pertinentes, **Wsafe=max(anteriores,objetivo)**, fuente temporal confiable y Tnow≥Tlast+Wsafe.900s solo si todas las políticas pertinentes quedan acotadas a900s; la académica actual por sí sola no basta. Historia desconocida sin cota o reloj confiable mantiene bloqueo.
+4. **Resolver control e inventario antes de D-REC-EPOCH ejecutable:** inventario completo que cubra huérfanos y capacidad, mecanismo para Gbaseausente, invocador real/guards/timeouts/fallos y permisos compatibles. ACLruntime no permite SCAN/KEYS/PERSIST y wrapper ActivateAfterDrainAsync inventaría primaries con KeysAsync; un catálogo externo no sustituye esa fase hoy. Sin control compatible, no saltar wrapper ni ampliar permisos implícitamente. Distinguir diseño/aprobación del control, construcción y ejecución; ninguna ocurre aquí.
+5. **D-REC-LOSS delimitada:** aceptar pérdida de detalle histórico irrecuperable **solo después de reconstrucción válida o vencimiento acreditado de su relevancia**, preservando clasificaciónINDETERMINATE. **Cero permiso para cancelar consumos posiblemente vigentes**, resetear namespaces o pasar por nunca-usado. Si el responsable pretende aceptar pérdida de cuotas vigentes, sería excepción/reformaSDD explícita, no solución segura compatible con este objetivo.
+6. **D-REC-EPOCH**, cuando lo anterior esté acreditado: aprobar época de **recuperación cerrada**, descriptor exactoC/I, ruta/evidencias, resoluciónbaseausente, operadorúnico/custodia y procedimientoCSPRNG externo de§95.6. Solo en un incremento posterior autorizado:16bytesCSPRNG→32hexminúsculas/no0, contraste con épocas custodiadas, registrar límite de historia incompleta, custodiar y **aprobar literal antes de escribir**. No generar Gbase ficticia ni regenerar ante timeout. Esto no activa cuotas.
+7. **D-REC-EXEC-OPEN posterior:** aprobar operacióncontrol exacta y validada para llevar aclosed, ejecutar bajo permisos separados, readbacks integrales y cierre sostenido; completar horizonte/reconstrucción, inventario/reconciliación y guards auténticos; **autorizar apertura por separado** cuando evidencia lo permita. Exigir metadata12campos/PTTL-1/protocolo1/snapshotexacto/Gexacta/dirty0/count-horizontes-reloj-registrycoherentes, residuos activos preservados y cero estado aún relevante sin reconciliar. En la ruta drenada del wrapper, registrycount0 y buckets reconciliados antesdeactivate, luego ready/dirty0/readbacks y coherencia de consumidores. No interpretar sintaxis de G u Optionsválidas como continuidad/READY. Fallo/dirty/resultadoincierto ⇒ mantener exclusión/closed, no borrar/retroceder snapshot o restaurar consumosobsoletos.
+
+**Qué falta para D-REC-EPOCH:** C/I literales y aprobación/vínculo; cese/inflight/Tlast; ruta/horizontes/fuente de tiempo o reconstrucción; inventario/método verificables; semánticabaseausente/control compatible y custodia/actor/procedimientogeneración. **Qué falta después para D-REC-EXEC-OPEN:** G literal custodiada/aprobada, herramienta/permisos/source y comandos exactos revisados, estado cerrado verificado, pruebas de horizonte/reconciliación y guards, readbacks/planfallo/ventana. No confundir con autorizaciónDocker o reapertura de la autoridad020.
+
+### 109.7. Decisión humana mínima inmediata y siguiente paso operativo propuesto
+
+**Decisión adoptada por el usuario:** mantener bloqueo duro y no generarG ni ejecutarlifecycle. **Propuesta mínima todavía no aprobada:**
+
+> Apruebo como objetivo inmutable el descriptor development/academic-initial/siete reglas de§109.3/capacidad5000/presupuesto67108864, vinculado a la identidad development y al ARN+VersionId HMAC exactos de§109.4/source aceptado. Proporcionaré o aprobaré expresamente las etiquetas C/I de sus registros, sin presentarlas como históricas. No autorizo G ni Redis. Para la nueva época exijo recuperación, no primer uso: solo acepto pérdida de detalle sin cuotas aún relevantes y reapertura después de R-REC verificada o R-DRAIN acreditada con inventario/reconciliación/control compatibles.
+
+**Siguiente incremento propuesto para acercarse al docker run:** obtener del responsable la custodia disponible de manifiestos/registroHMAC/control/backups/exports y cotas de políticas; **aprobar C/I con esos registros**. En paralelo, autorizar de forma específica **preparación del control de recuperación baseausente e inventario**, delimitando herramienta/permisos/efectos y la prueba de cese global, sin introducir una sonda sintética de03 ni cambiar imagenAPI. Si no hay datos recuperables, seleccionar R-DRAIN solo cuando se puedan probar sus cotas. **No volver a consultar metadata ausente esperando que produzca una G**, ni generarG para arranque. No hay una decisiónhumana única que por sí sola cree evidencia o cierre01. Una herramientaCONTROL separada podría conservar digestAPI, pero no está implementada ni autorizada; si fuera indispensable cambiar API/permisos, pedir alcance nuevo en vez de ocultar el bloqueo.
+
+**DEPLOY-CONFIG-01 solo podrá cerrarse** tras estadooperativo de cuotas recuperado/confiable y C/I/Gaprobados coincidentes; eso habilitaría reconsiderar el primer docker runA bajo autorización y validaciones03/04, **no garantiza esos otros gates ni elimina el riesgoMongo**. Hasta entonces permanece BLOQUEADO.
+
+Solo **taskv0.120.0/§109 y [memoria §170](../../memoria.md)** actualizados, historial anterior intacto; sin nuevas carpetas/copias/scripts. Evidencia de lectura e integridad en salida de sesión13:27:51.577Z:32fuentes/252archivosprotegidos sin cambios, hashes seleccionados de evidenciaT019/020/ACL y metadata estructuralstate. State60/backup57 SHA256 **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 /cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279** conservados. **AWS/SecretString/Redis/DynamoDBwrites/IAM/metadataoptions/Terraform/Docker/rebuild/deployment/initialize-fence-maintain-activate/Ggenerada/commit/push:0**. Preservados **02 RESUELTO /03 DISEÑO APROBADO-NO VALIDADO EN RUNTIME /04 PENDIENTE /T008-T017-T019-T020 COMPLETE-ACCEPTED históricos /GATE-I-B PENDING / NOT SATISFIED; dev HISTORY UNCERTAIN /development INDETERMINATE;5000 APROBADO / NO APLICADO; metadata.snapshot/metadata.generation/registry no inicializados**, demásgates/diferidos sin cambios. **STOP en propuesta, no ejecución.**
+
+## 110. C/I aprobadas documentalmente y propuesta CONTROL mínima para G
+
+### 110.1. Autorización y validación de etiquetas
+
+El responsable autoriza formalizar **exactamente** las dos etiquetas suministradas y analizar CONTROL, sin generarG, leerSecretString, derivarhashHMAC, rotarHMAC, ejecutarRedis/lifecycle/Docker/deployment, crearherramientas o modificarIAM/ACL. Se registran como **NUEVAS SELECCIONES CONTROLADAS — APPROVED / NOT APPLIED**, no referencias históricas recuperadas.
+
+| Campo | Literal aprobado | Longitud | Contrato `^[A-Za-z0-9_.-]{1,128}$` | Estado |
+| --- | --- | --- | --- | --- |
+| AuthenticationComposition:QuotaConfigurationVersion | `quota-development-academic-initial-v1` | 37 | **PASS**, ASCII y tokenC# compatibles | **APPROVED / NOT APPLIED** |
+| AuthenticationComposition:QuotaIdentityReference | `hmac-development-fecf274e-v1` | 28 | **PASS**, ASCII y tokenC# compatibles | **APPROVED / NOT APPLIED** |
+
+Validación local de cadenas **2026-11-17T13:35:47.516Z**; no ejecución del producto o de una prueba sintética. [RedisAuthenticationQuotaConfiguration.Token](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaConfiguration.cs) líneas31–32 y tokenLua línea17 aceptan esos caracteres/longitudes. Trece fuentes relevantes cotejadas con el source aceptado, **13/13 iguales**, solo normalizaciónCRLF/LF.
+
+### 110.2. Registro inmutable de C
+
+**C = `quota-development-academic-initial-v1`**, selección aprobada en esta intervención; no etiqueta previa descubierta. Vinculación íntegra:
+
+| Propiedad | Valor aprobado del descriptor |
+| --- | --- |
+| Environment canónico | `development` |
+| IdentityConfigurationReference | **`hmac-development-fecf274e-v1`**, registro de§110.3 |
+| Policy revision | `academic-initial` |
+| MaxActivePartitions | `5000` |
+| Contractual memory budget | `67108864` bytes |
+| Source aceptado que define el contrato/representación | `078130627bc50a9dc2feee5fb699cedbea87dbbb` |
+
+| Regla | PermitLimit | WindowSeconds | WindowMicroseconds |
+| --- | --- | --- | --- |
+| register/email | 3 | 900 | 900000000 |
+| register/origin | 20 | 900 | 900000000 |
+| login/email | 10 | 60 | 60000000 |
+| login/origin | 60 | 60 | 60000000 |
+| login/origin-email | 5 | 60 | 60000000 |
+| logout/origin | 300 | 60 | 60000000 |
+| logout/account | 30 | 60 | 60000000 |
+
+**Inmutabilidad:** no reutilizar este C para otro ambiente, I, revisión, reglas, capacidad o presupuesto; cambios requieren decisión/versionado y transición aplicables. Source ancla la interpretación auditada, no convierte cualquier nuevo build en el mismo contrato por presunción. G no es parte del descriptor; su futura aprobación es independiente. Esta aprobación no configura memoria real ni acredita medición/integración de capacidad.
+
+### 110.3. Registro inmutable de I
+
+**I = `hmac-development-fecf274e-v1`**, nueva selección controlada aprobada, vinculada a:
+
+| Propiedad | Valor aprobado |
+| --- | --- |
+| Environment | `development` |
+| Configuration key | `RateLimiting:PseudonymizationKeyBase64` |
+| Secrets Manager ARN | `arn:aws:secretsmanager:us-east-1:926925605666:secret:enver/dev/api/hmac-s9TSqb` |
+| VersionId completo | `fecf274e-12d7-4c58-b0d8-06d2149c015a` |
+| Algorithm | `HMAC-SHA256` |
+| Domain | `enver.auth.quota` |
+| Representation version | `1` |
+| Source aceptado | `078130627bc50a9dc2feee5fb699cedbea87dbbb` |
+
+La representación incluye los componentes/canonización y encuadreUTF8estricto/longitudesuint32big-endian/Base64url del source, descritos en§109.4. **El prefijo fecf274e de la etiqueta no reemplaza el VersionId completo ni garantiza unicidad de versiones**: el vínculo completo de esta tabla gobierna. No reinterpretar la etiqueta si cambia el stageAWSCURRENT ni otro secreto comparte ese prefijo. No hash/fingerprint del material, rotación, rename o lecturaHMAC.
+
+**C/I APPROVED / NOT APPLIED:** no se editan appsettings/ENV/manifiestos desplegados, Terraform, metadataRedis o consumidores. No implican historia recuperada, primeruso, continuidad histórica demostrada, snapshotRedis existente, autorización de escritura o G aprobada. I describe la selección objetivo de material, no una prueba criptográfica de todos los consumidores pasados. Los resultados de§109 sin etiquetas aprobadas quedan como historia; esta autorización posterior establece ahora los literales.
+
+### 110.4. Brechas CONTROL A–F y mínimo cambio funcional
+
+| Brecha | Requisito del diseño, NO capacidad implementada |
+| --- | --- |
+| A. Gbase auténtica ausente | Representar **base desconocida/ausente explícitamente**, no suministrar Gbase ficticia. Recuperar baseauténtica sería válido si aparece evidencia, pero no se presupone |
+| B. Metadata ausente | EntradaCONTROL específica de **recuperación únicamente cerrada**, con comprobación atómica de ausencia y fallo si aparece metadata concurrente. No llamar initialize ni rebautizar initialize-ready como recuperación |
+| C. Inventario íntegro | Enumeración verificable de buckets/registry en cada primary pertinente/DB0, incluyendo huérfanos, bajo cierre continuo y sin altas concurrentes; tipos/nombres/scores/TTL/horizontes/capacidad contrastados. SCAN completo no prueba por sí solo historia |
+| D. Wrapper KeysAsync/PERSIST | Mantener inventario/guards/validaciones/maintain acotado del wrapper; verificar rutaSCAN del cliente ya fijado y PERSIST requerido sobre registry. No executeOverride/stubs/activateLuaaislado |
+| E. ACL actual | **No modificar runtime**. Proponer identidadCONTROL separada con permisos temporales expresamente autorizados; accesoSCAN tiene alcance de enumeraciónDB, no aislamiento técnico por MATCH |
+| F. Closed antes de abrir | Exclusión externa efectiva desde antes del inventario; luego estadoRedis **closed**, nunca ready por creación. Apertura separada solo tras todas las verificaciones y autorización posterior |
+
+**Por qué no basta un helper que invoque código actual:** [Encode](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaScriptProtocol.cs) líneas33–34 y configuración exigen Gbase y Gnextdistintas; Lua28–38 vuelve a validarlas incluso sinmetadata. Un administrador, credenciales más amplias o una espera no cambian ese contrato. **Mínimo cambio funcional propuesto: añadir solo al artefactoCONTROL una entrada/protocolo de recuperación de metadata ausente sin Gbase**, con salida compatible con los12campos/snapshot/G del consumidor aceptado. No implementada, no contratoAPI modificado, no EVALmanual ni HSETcorrectivo permitido hoy. Requiere especificación/revisión/pruebas de seguridad y autorización independiente; no reutilizar el protocolo viejo pasando ceros o generacionesinventadas. La imagenAPI/digest aceptados pueden permanecer intactos si se demuestra compatibilidad de salida; no afirmarla validada por diseño.
+
+### 110.5. Comparación de opciones CONTROL
+
+Las filas comparan mecanismos complementarios, no cinco autorizaciones ni cinco soluciones completas. **Todos siguen propuestos/no autorizados para implementación o ejecución.**
+
+| CONTROL option | Cambios requeridos | Privilegios temporales | Evidencia necesaria | Rollback | Riesgo |
+| --- | --- | --- | --- | --- | --- |
+| Herramienta administrativa externa | ArtefactoCONTROL aislado, operador único, descriptorC/I aprobado; entrada de recuperación cerrada sinbase + invocación real del wrapper existente después | IdentidadCONTROL separada; lecturas dirigidas/inventario y mutaciones solo en fases aprobadas; noheredar permisossecretosHMAC/IAM por necesidad de controlRedis | Source/hash/plan/permisos/comandos/timeouts/guards/corte/fallos y compatibilidad12campos auditados; no herramienta actual acreditada | Anteswrite abortar; después mantenerclosed/exclusión, preservarG/estado y evidencia | Código nuevo mínimo pero crítico; no autoriza confiar en script improvisado ni concede historia |
+| Solo privilegios temporales delimitados | Cuenta/ACL y acceso de redCONTROL con ventana/revocación; **no resuelve Gbase ni metadata** por sí solo | SCAN y PERSIST más comandos mínimos de conexión/lectura/protocolo que se aprueben; KEYS denegado; acceso a valores restringido a keys autorizadas | Demostrar comandos del cliente exacto, coberturaSCAN y alcance de enumeraciónDB aceptado, revocación verificable | Revocar permisos/control al cerrar ventana sin tocar runtime ni datos; si hay incertidumbre mantener exclusión | SCAN enumeraDB aunque MATCH sea prefijo; ACL no ofrece frontera por patrón para esa enumeración. Ventana temporal no es expiración automática deACL |
+| Operación cerrada de mantenimiento | Cierre externo completo y operación nueva para recuperación metadataausente con Gbase desconocida; luego reconciliación serializada | WritessoloCONTROL cuando se autoricen; sobre metadata/registry/buckets del dominio, sin FLUSH/RENAME/MIGRATE/restoregenérico | Exclusión/inflight/resoluciónbaseausente/inventario/coherencia/reloj/resultadoatómico y readback | Mantenerclosed y ceseexterno; dirty/timeout ⇒ diagnóstico autorizado, no retryciego | Cerrado no equivale reconciliado; nohistoriarecuperada, Lua no garantiza rollback de escrituras parciales |
+| Reconstrucción verificable R-REC | Fuente íntegra y corte consistente + replay/restauración especializada que preserve consumos; mayor superficie si no existe | Lecturas de custodia/backups y escrituras de restauración posteriores aprobadas; no activarbackupviejo en caliente | Autenticidad/completitud/corte, descriptorHMAC/Gprevios, operaciones posteriores/inciertas y reconciliación | Conservaroriginal/custodia y bloqueo; no sobrescribir consumos posteriores con respaldo | No se acredita actualmente fuente íntegra; pérdidas/duplicaciones/cambiosdeidentidad pueden violar cuotas. No se selecciona como ruta mínima actual |
+| Drenaje temporal acreditado R-DRAIN | Cese/inflight/Tlast, cotaWsafe de políticasanteriores y objetivo, tiempo confiable, inventario/reconciliación; no temporizador fijo | Ningún nuevo privilegio por esperar; inventario/control requeridos por filas anteriores no desaparecen | Tnow≥Tlast+Wsafe, cierrecontinuo, cotas/reloj confiables y todos los residuos tratados por protocolo | Permanecer cerrado; ante duda extender cierre por evidencia, no acortar/suponer vencimiento | Política anterior sin cota o cese incompleto ⇒ horizonte indeterminable; esperar900s no basta. No evita brechaGbase |
+
+### 110.6. Única ruta mínima recomendada: CONTROL externo + R-DRAIN acreditado + recuperación cerrada
+
+**Recomendación de diseño, no decisión de ejecución:** separar CONTROL de API; conservar imagenAPI/sourcecontrato/runtimeACL; no reconstruir historia de eventos que hoy no tiene fuente íntegra acreditada. Elegir **R-DRAIN solo si se consiguen sus cotas**, con herramientaCONTROL aislada y una única extensión funcional de baseausente. Si no se consiguen cotas o autorización para inventario compatible, **STOP en esta misma ruta**, no fallbackautomático areset/initialize/reconstrucción improvisada.
+
+**Secuencia propuesta hasta D-REC-EPOCH:**
+
+1. **Especificar D-REC-CONTROL sin crear herramienta:** exactos destinoDB0/prefijodevelopment/C-Iaprobados/source, actores/permisos/temporización, método de exclusión y diseño de recuperación sinbase. Custodiar toda evidencia antigua relevante sin reabrirACLdev ni tratar su historia como de development. Definir el empaquetado de CONTROL separado, sin modificar ni reconstruir la API. Implementación y pruebas serían otro incremento específicamente autorizado; la prohibición de prueba sintética03 no acredita seguridad de un nuevo control ni elimina su revisión/pruebas previas.
+2. **Aprobar alcance de inventario y permisosCONTROL por separado:** idealmente identidadadministrativa separada del runtime, host/redoperador único y ventana con revocación/validación explícitas. Proponer **SCAN, no KEYS**, y permisoPERSIST restringido al registry cuando el protocolo lo requiera; resto de comandos internos/cliente se revisan y autorizan nominalmente, no `+@all`. No emitir un payloadACL parcial que parezca ejecutable ni crear usuario/grupo/credenciales ahora.
+3. **Límite no negociable de SCAN:** `MATCH enver:{development:auth:ratelimit}:bucket:*` filtra resultados, **no limita la autorización a ese prefijo**. Un permisoSCAN tiene capacidad de enumerarDB. Aceptar esa exposición por identidad/ventana/host aislados sería **una decisión nueva expresa** que modifica la restricción de inventario general previo; no se presume por este análisis. No registrar nombres ajenos. Sin esa aceptación, la ruta recomendada queda bloqueada; un exportoffline requeriría otra propuesta y adaptación del wrapper, no es sustituto ya implementado.
+4. **Verificar compatibilidad del wrapper sin bypass:** StackExchange.Redis fijado3.4.31 y Valkey7.2 deben revisarse para confirmar que KeysAsync usaráSCAN; KEYS permanece denegado y cualquier intento/fallback ⇒ STOP. Control podrá necesitar consultas de topología/conexión; revisar su alcance y no conceder categoríasglobales. Con permisoPERSISTCONTROL, el wrapper/Lua existente puede conservar su función; no cambiar runtimeACL para ello.
+5. **Cierre externo certificado, inventario y drenaje:** autorizar/ejecutar posteriormente mecanismo que excluya todoslosescritores y resuelvainflight; fijarTlast fiable. Inventariar primaries/registry/buckets completos, duplicados/malformados/huérfanos/TTL/scores/capacidad/horizontes; guardar custodia mínima no sensible y cobertura, no seudónimos de usuarios en logs. SCANpageCOUNT no es límite duro de resultados; cursorhasta0 en cada primary con cierre estable. Expiraciones no implican altas concurrentes; contrastar inventario y revalidar cada candidato. No considerarnadaausente como neverused. ProbarWsafe para todaslaspolíticas/identidades relevantes y tiempocompartido; conservar cierre hastaTlast+Wsafe. Con politicaprevia/reloj incotables, no aproximar900s ni avanzar.
+6. **Contrato mínimo de nueva operaciónCONTROL, antes de aprobarG:** entrada con **baseausente explícita**, C/Iexactos aprobados y una Gfutura autorizada, sin parámetroGoldficticio. Debe comprobar atómicamente metadataausente y abortar si aparece; no reemplazar metadataexistente ni cambiarle C/I por conveniencia. Solo debe crear **closed**, nunca ready, sin borrarconsumos/registry/buckets ni inferircount0porregistryausente. Describir cómo preserva/reconcilia registry/horizontes y qué estados inválidos/huérfanos llevan aSTOP. La ruta recomendada exige horizonteexterno e inventario acreditados antes de esta futura creación, y revalidación enescritura/readback. Si un límite o forma no admite reconciliación por el protocolo, no adaptar contadores por HSETmanual.
+7. **Resultados verificables y aprobación humana:** especificación y herramientaCONTROL futura revisadas/probadas para ausencia/race/cambio deprimary/dirty/falloPERSIST/timeoutrespuesta perdida, sin omitirguards. Plan/readback prueba los12campos/PTTL-1/protocolo/snapshot-Gexactos/closed/dirty y contadores/horizontes coherentes. **dirty0 significa metadata estable según protocolo, no prueba por sí sola de inventario o continuidad**. Conservación del cierreexterno es obligatoria anteresultadoincierto; idempotencia/readback bajo mismoG, nunca regenerarG porretry. Solo con esas evidencias, C/Iaprobados y ruta/cierre/horizonte/inventario/control compatibles se podrá someter **D-REC-EPOCH**, todavía sin generación hoy.
+
+**Después, no ahora:** autorizaciónseparada para generar/custodiar/revisarliteralG y escrituraCONTROLclosed; otra para reconciliación mediante wrapper genuino y **D-REC-EXEC-OPEN**. El wrapper debe volver a inventariar bajo cierre, revalidar lotes≤3 y condiciones reales hasta activar; inventario externo no permite saltarlo. Operador no usa EvaluateAsync con posibles efectosDynamo como simple precheck sin alcance aprobado; los guards deberán ser auténticos y sus efectos considerados. Cierre inicial no debe depender de que globalsOpen se fabriquen. Noreabrirautoridad020 ni tocarrevocaciones por recuperacióncuotas.
+
+**Rollback:** antes del primerwriteCONTROL, abortar sin tocar datos y retirar permisos temporales aprobados. Después de crearclosed o de mutaciónincierta, preservar nuevoestado/G/custodia y exclusión externa; nunca restaurarGold/ausenciametadata/C-Iviejos/backupqueomitaeventos, ni borrar metadata para deshacer. Revocación de permisos no es rollback de datos; mantener capacidad de contención mediante mecanismo previamente aprobado, sin grantsindefinidos. Cualquier recuperación de dirty/partiales es intervención separada. No afirmar que Lua deshace fallos.
+
+### 110.7. Estado final y límite de continuación
+
+**C/I APPROVED / NOT APPLIED; G NO GENERADA / NO APROBADA; CONTROL únicamente PROPUESTO**, sinherramientacreada. A–F quedan con una ruta de resolución explícita, **no resueltas por esta entrega**. Mínima autorización siguiente sugerida: especificar el contratoCONTROL externo de recuperación cerrada sinbase y su plan de inventario/permisos/pruebas/cese/cotas; no ejecución ni generaciónG. No es necesario volver a elegir C/I salvo cambio real del descriptor/vínculo.
+
+Solo **taskv0.121.0/§110 y [memoria §171](../../memoria.md)** sincronizados; no appsettings/código/HCL/IAM/ACL/hosts o archivosauxiliares nuevos. Evidencia de validación e integridad en salida de sesión **13:35:47.516Z**, trecefuentesigualesaaceptado/252protegidosintactos. State60/backup57SHA256 **b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258 /cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279** conservados. **SecretString/hashHMAC/rotaciónHMAC/Ggenerada/Redis/lifecycle/AWS/IAM-ACLchanges/Docker/deployment/Terraform/rebuild/commit/push0**. Preservados **01 BLOQUEADO DURO /02 RESUELTO /03 DISEÑO APROBADO-NO VALIDADO EN RUNTIME /04 PENDIENTE /T008-T017-T019-T020 COMPLETE-ACCEPTED históricos /GATE-I-B PENDING / NOT SATISFIED; dev HISTORY UNCERTAIN /development INDETERMINATE;5000 APPROVED / NOT APPLIED; metadata.snapshot/metadata.generation/registry no inicializados**, demásgates/diferidos intactos. **STOP antes de implementación o ejecución.**
+
+## 111. Diseño detallado CONTROL externo: drenaje acreditado y recuperación exclusivamente cerrada
+
+### 111.1. Alcance confirmado, fuentes y resultado de diseño
+
+El responsable ratifica **C=`quota-development-academic-initial-v1` e I=`hmac-development-fecf274e-v1`, APPROVED / NOT APPLIED**, con los vínculos inmutables de §110. **DEPLOY-CONFIG-01 permanece BLOQUEO DURO DE STARTUP únicamente por recuperación de G y procedimiento CONTROL necesario**; C/I no se reabren como decisiones pendientes. Diseñar no significa aprobar su implementación, permisos, pruebas o ejecución. No generar G, acceder a Redis/AWS operativo/SecretString, cambiar ACL/IAM, crear herramienta, iniciar Docker/deployment o hacer commit/push.
+
+Lectura del source aceptado **`078130627bc50a9dc2feee5fb699cedbea87dbbb`**: [Lua](../../Enver.API/Infrastructure/Redis/Scripts/ConsumeAuthenticationQuota.lua), [lifecycle](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaLifecycle.cs), [protocolo](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaScriptProtocol.cs), [configuración](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaConfiguration.cs), [keys](../../Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaKeyBuilder.cs), [recuperación](../../Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaRecoveryContract.cs), [guard Redis](../../Enver.API/Infrastructure/Redis/RedisSecurityStateGuard.cs), [coordinador global](../../Enver.API/Infrastructure/Security/AuthenticationSecurityCoordinator.cs). Cotejo local inicial **2026-11-17T13:45:09.606Z: 14/14 fuentes iguales al commit; 252 archivos protegidos intactos**, sin ejecutar producto/pruebas.
+
+**Conclusión técnica condicionada:** sí puede diseñarse una operación nueva, exclusivamente administrativa, que cree directamente `closed` con una futura G de recuperación aprobada y represente la base histórica como **UNKNOWN**, sin una Gold ficticia. **No se puede hacer con los modos actuales sin cambiarlos o introducir un protocolo CONTROL separado**. Se recomienda el protocolo separado, conservando la imagen de ENVER. G es obligatoria incluso para metadata closed compatible: **sin G aprobada hoy, la escritura mínima autorizada y técnicamente admisible hoy es ninguna**. No placeholder, generación cero, campo vacío ni metadata parcial.
+
+### 111.2. Contrato actual exacto: metadata, snapshot, registry y guards
+
+Destino lógico: TLS, DB0, `development`. Denominaciones de este diseño:
+
+- **M** = `enver:{development:auth:ratelimit}:metadata`.
+- **R** = `enver:{development:auth:ratelimit}:registry`.
+- **B** = `enver:{development:auth:ratelimit}:bucket:*`. El `~` de una regla ACL **no** forma parte del nombre ni del patrón MATCH.
+
+**M es hash persistente: HLEN exactamente 12 y PTTL=-1**. No agregar campos de auditoría, ni `baseGenerationStatus`, ni una segunda revision: un campo adicional hace que el consumidor rechace metadata. Enteros decimales canónicos no negativos, sin ceros iniciales salvo `0`, dentro de **MAX=9007199254740991**; controles adicionales según tabla:
+
+| Campo M | Contrato observado / función |
+| --- | --- |
+| protocol | Texto `1`; versión de protocolo, distinta de la revisión de política |
+| snapshot | Igualdad exacta con la cadena de 20 componentes que se define abajo |
+| generation | Igualdad exacta con G capturada por consumidor; 32 hex minúsculas, no todo ceros |
+| state | `ready` o **`closed`**; evaluate solo admite ready y dirty0 |
+| count | Ocupación registrada; entero ≤5000; no es contador histórico de requests |
+| horizon | Mayor score/horizonte de R, o 0 si vacío; microsegundos de tiempo compartido |
+| dirty | `0` o `1`; maintain/activate exigen 0; no demuestra por sí solo inventario íntegro |
+| version | Versión de mutación del hash, entero <MAX al leer; cada fase de escritura existente usa anterior+1; ausencia ⇒1 |
+| fence | Instante lógico de fencing/cierre en microsegundos; no G anterior ni número de revisión |
+| drain | Instante lógico mínimo para maintain/activate; microsegundos |
+| last | Último tiempo lógico observado; siguiente now=max(TIME,last) |
+| maximumWindow | Máxima ventana del descriptor objetivo: **900000000 microsegundos** |
+
+**Snapshot exacto del objetivo aprobado**, sin G, sin saltos de línea ni espacios, delimitador `|`:
+
+```text
+development|quota-development-academic-initial-v1|hmac-development-fecf274e-v1|academic-initial|5000|67108864|3|900000000|20|900000000|10|60000000|60|60000000|5|60000000|300|60000000|30|60000000
+```
+
+Orden Lua: environment/C/I/policyRevision/capacity/memory; después los pares límite/ventanaμs de register-email, register-origin, login-email, login-origin, login-origin-email, logout-origin, logout-account. **`academic-initial` es la revisión de política dentro del snapshot; `version` no la sustituye**. No JSON serializado, no HMAC/material dentro del snapshot. Budget contractual **67108864**, no memoria medida/aplicada.
+
+**R**: sorted set; miembro=`operation:scope:opaqueId`, score=último consumo de esa partición+ventana aplicable en μs. Un bucket B es zset de attemptId32hex→tiempoμs, con opaqueId43 Base64url canónico derivado del contrato HMAC. Las keys no contienen G/C/I: cambiar etiquetas no crea namespaces nuevos ni elimina consumos. En ready, R no vacío debe expirar en ceil(horizon/1000); en closed, R no vacío debe tener PTTL=-1. Buckets mantienen TTL por su horizonte; **no se les aplica PERSIST**. Ausencia de R no prueba ausencia de buckets/huérfanos ni jamás utilizado.
+
+**Guards actuales relevantes y límites reales:**
+
+1. Lua valida tipos, keys exactas/hash tag, formas y siete definiciones antes de escribir; M existente exige igualdad de snapshot y G. Solo fence e initialize permiten M ausente; **initialize crea ready y exige never-used acreditado: prohibido aquí**. Fence exige Gbase válida y Gnext distinta: no sirve para base desconocida sin falsificar entrada.
+2. Maintain/activate requieren M.closed/dirty0, now≥drain, count/horizon coherentes con R. R ausente con ocupación previa solo se acepta si los horizontes conocidos terminaron. Cada lote candidato≤3; buckets con >300 eventos físicos, tipos/formas inválidos, scores futuros o retención incoherente provocan rechazo, no reparación automática. Límite300 deriva del máximo límite actual, no de una política histórica probada.
+3. `ActivateAfterDrainAsync` primero maintain, recorre R en lotes≤3, luego `server.KeysAsync` en primaries para huérfanos, máximo5000 candidatos únicos; no acepta solo inventario externo, override E/S ni activateLua aislado. Usa un presupuesto finito para inventario; excederlo devuelve unavailable/uncertain, no autoriza un timeout infinito ni fragmentar la prueba hasta declarar éxito.
+4. `RunAsync` consulta guards local/global **solo para initialize/activate**. Maintain/fence no hacen esa comprobación: requieren el control externo por diseño. Guard local real verifica obtener multiplexer y latch; **no acredita integridad, historial ni drenaje**. Global real lee autoridad DynamoDB; su Open/Generation/Revision son otra autoridad, no G de cuotas.
+5. TIME es reloj de pared, no monotónico. Cancelación del cliente no cancela comandos ya despachados. Error tras escritura Lua no revierte cambios; todo resultado incierto exige cierre y readback, no retry ciego.
+
+### 111.3. Invariantes y alcance de «nunca borrar buckets»
+
+**Operación nueva de creación CONTROL:** M debe estar ausente; CAS en servidor; si M existe o aparece antes del punto atómico, abortar sin mutaciones. Nunca sobrescribir M existente, escribir ready, admitir, borrar/tocar buckets, modificar consumos, cambiar C/I, environment development, capacity5000, policy academic-initial o budget67108864. Un operador CONTROL único, con exclusión continua de todos los demás escritores. C/I no pueden utilizarse para reinterpretar estado viejo.
+
+**Restricción adicional para no introducir una excepción implícita:** Lua actual maintain puede ejecutar **DEL bucket y ZREM registry** (líneas188–192) cuando acredita vencimiento; no son rollback ni cancelación de consumo activo, pero **sí borran buckets físicamente**. Esta entrega no presume que el responsable permita ese borrado por llamarlo reconciliación. En consecuencia, la **ruta mínima recomendada mantiene también la prohibición estricta durante toda la secuencia**: esperar expiración natural acreditada y exigir **R ausente y ningún B** antes de crear M. Si quedan huérfanos sin TTL, tipos corruptos, registry persistente o residuos incompatibles, **STOP**. No «limpiar» ni conceder DEL; diseñar su tratamiento requeriría autorización nueva que aclare expresamente ese alcance. No se presenta la ruta como capaz de reparar cualquier estado perdido.
+
+El objetivo aquí sigue siendo **recuperación closed**, no never-used: vacío tras drenaje acreditado es un estado actual demostrado, **no historia recuperada ni primer uso**. El requisito de inventario vacío no sustituye Tlast/Wsafe/cese. Refina el diseño general de §110 bajo las invariantes más estrictas de esta solicitud, sin borrar aquel historial.
+
+### 111.4. Escritura mínima futura recomendada y representación UNKNOWN
+
+**Contrato propuesto de la operación administrativa, no código ni script ejecutable:**
+
+- Manifest de CONTROL separado: tipo recuperación; `baseGenerationStatus=UNKNOWN`; ningún literal base; destino/corte/source/hash del artefacto; C/I exactas; referencia a exclusión/inventario/drenaje, aprobación de época, futura G y custodia. **UNKNOWN se registra fuera de M**: el runtime no admite UNKNOWN como generation ni un campo13. No se crea ese manifest hoy.
+- Entrada: destino exacto, descriptor aprobado, G futura ya generada y aprobada posteriormente, evidencia vigente de cese/inflight/inventario/drenaje y operador único. No se necesita material HMAC ni SecretString para serializar etiquetas/snapshot.
+- El controlador valida toda la entrada y la vigencia de las evidencias **antes** de E/S mutante. La ausencia de autorización o G implica «no emitir EVAL de escritura», no best-effort.
+- **Un EVAL nuevo y acotado**, declarando solo M/R en KEYS, comprueba `TYPE(M)=none` y `TYPE(R)=none`, descriptor/G válidos y TIME fiable representable. Cualquier otro tipo, incluida metadata hash completa e idéntica, ⇒ aborto sin escritura. No existe overwrite idempotente permitido.
+- Reloj de creación **t=TIMEμs**, positivo, t+900000000≤MAX. Validaciones de entrada/lecturas y plan antes de la única mutación. No hacer SCAN dentro de Lua ni pasar arbitrariamente todos los buckets a un script bloqueante.
+- **Única mutación de la rama recomendada:** una llamada HSET multcampo que crea M con los12campos de la tabla siguiente. No SET/DEL/ZADD/ZREM/PEXPIRE/PERSIST, no registry vacío artificial. Un hash recién creado no tiene TTL; comprobar después PTTL=-1. No seguir con correcciones de campos parciales si hay error.
+
+| Campo | Valor de creación futura |
+| --- | --- |
+| protocol | `1` |
+| snapshot | Cadena exacta de §111.2 |
+| generation | **G de recuperación futura aprobada**, sin valor generado aquí |
+| state | **`closed`** |
+| count / horizon | `0` / `0`, justificados por R ausente **e inventario B completo vacío**, no por R ausente solamente |
+| dirty | `0` al completar esa única mutación; cualquier resultado incierto requiere readback |
+| version | `1`, primera versión de **este hash recuperado**, no afirmación de primera utilización histórica |
+| fence / last | t / t, instante nuevo de cierre, **no Tlast histórico** |
+| drain | **t+900000000**, retención adicional conservadora consistente con fence actual |
+| maximumWindow | `900000000` |
+
+La espera adicional desde t **no reemplaza ni acorta Wsafe histórico**, que ya debe haberse acreditado antes de D-REC-EPOCH/escritura. No adoptar drain=t por conveniencia. Maintain/activate posteriores deben esperar también ese drain y tener reloj confiable.
+
+**Atomicidad y límites:** el EVAL serializa la comprobación M/R y HSET en el primary; si otro creador gana, el segundo aborta. No hay ventana intermedia entre EXISTS/TYPE local y HSET fuera de transacción. No prueba atómicamente la ausencia de todos los B: esa condición depende de inventario terminado y **exclusión externa continua y acreditada**, no de un token booleano. Si no puede garantizarse esa exclusión, no procede el CAS. Lecturas preliminares pueden provocar expiración natural de keys vencidas; no se promete ausencia de ese efecto normal de Valkey. No se asignan TTL nuevos ni se adelantan los existentes.
+
+La respuesta de la nueva operación necesita **contrato/parser propios**: el Parse actual reconoce initialized/fenced/maintained/activated, no un estado «created_closed» nuevo. No fingir respuesta fenced/initialized para pasar el parser. Timeout/OOM/caída/desconexión ⇒ resultado incierto y exclusión; readback exacto decide si quedó este M.closed, no una nueva G. Si M ya existe, incluso con la misma G, la operación de creación aborta; un **readback separado** puede reconocer creación previa, nunca reescribirla. Si M desaparece tras éxito/posible éxito, no recrearlo automáticamente: sospecha de pérdida de continuidad y nuevo bloqueo.
+
+**Caso no seleccionado, analizado para PERSIST/compatibilidad:** se podría diseñar creación closed conservando un R no vacío, count=ZCARD y horizon=maxscore, marcando dirty1 antes de PERSIST(R) y dirty0 solo tras éxito; no escribir buckets. Eso necesita más comandos, validaciones y recuperación de parciales, y no prueba inventario por sí mismo. No resuelve la apertura estricta si maintain necesitará DEL. **No es autorización ni rama implementada**, no se elige frente a la mínima sin residuos; residuos no autorizan convertir count/horizon en cero.
+
+### 111.5. Inventario íntegro: alternativas y procedimiento concreto
+
+| Alternativa solicitada | Viabilidad y comandos | Límites / decisión |
+| --- | --- | --- |
+| A. Identidad CONTROL temporal con SCAN | Recomendada como identidad separada; SCAN DB0/MATCH exacto, TYPE/PTTL/PEXPIRETIME, ZCARD/ZRANGE y lecturas M | SCAN enumera DB, MATCH no es frontera ACL; permisos no expiran por sí solos; aceptación de alcance y revocación posteriores obligatorias |
+| B. Herramienta desde host administrativo | Recomendada como **lugar de ejecución de A**, TLS por red autorizada, artefacto auditado; mismos comandos | Host administrativo no elimina ACL ni descubre huérfanos sin SCAN. Red actual solo acepta SG backend según HCL observado; no seleccionar host nuevo, cambiar SG/IAM ni reutilizar rol runtime por inferencia |
+| C. Backup/export soportado por ElastiCache | Backup node-based exportable a S3 y análisis RDB offline puede ofrecer un inventario del corte respaldado | Más recursos/permisos/custodia y snapshot consistente; no inventario vivo hasta acreditar cero cambios posteriores. No sustituye KeysAsync del wrapper; requeriría adaptación y otra decisión. No crear backup/export/restauración hoy |
+
+No se acredita otra API ElastiCache que enumere íntegramente las keys vivas por namespace sin acceso al motor. Métricas, eventos de keyspace, CLIENT LIST, registroR, INFO keyspace y DBSIZE no prueban ausencia de huérfanos. Export no equivale a autoridad histórica de consumos ni permiso de restaurar. No KEYS al runtime **ni a CONTROL**, no MONITOR, no CONFIG/DEBUG, no upgrade de engine ni features nuevas de Valkey9.1 para resolver un contrato7.2.
+
+**Procedimiento de inventario futuro, hoy NO EJECUTABLE:**
+
+1. Acreditar primary/topología/DB0/engine y usuario correcto; el HCL describe cluster-mode disabled/un nodo/Valkey7.2, no se revalida remoto aquí. Cualquier cambio de primary/topología durante una pasada invalida su cobertura: conservar cierre, nueva pasada completa autorizada; no continuar cursor sobre otro servidor. En cluster multi-primary se requeriría cada primary pertinente, sin asumir que el endpoint de configuración hace fan-out de SCAN.
+2. Bajo exclusión y consumidores/inflight0, leer TYPE/HLEN/HMGET/PTTL de M si existe; para esta operación M existente implica STOP. Leer TYPE/PTTL/PEXPIRETIME/ZCARD de R y **ZRANGE por rangos de rank acotados WITHSCORES** si es zset; deduplicar miembros y comprobar estabilidad del corte. No hace falta ZSCAN si se usa ZRANGE. Tipo incorrecto ⇒ STOP, no conversión.
+3. Iniciar cursor0 y continuar **`SCAN <cursor> MATCH enver:{development:auth:ratelimit}:bucket:* COUNT <presupuesto-de-trabajo>`** hasta cursor devuelto0 en el mismo primary/DB0. COUNT es hint, no límite duro de respuesta; página vacía con cursor no0 no termina. No usar TYPE zset como filtro: ocultaría buckets malformados. Deduplicar nombres y registrar cobertura/páginas/tiempos sin volcar identificadores opacos a logs.
+4. Por B, validar forma con CandidateBucket; leer TYPE/PTTL/PEXPIRETIME/ZCARD; ZRANGE acotado WITHSCORES para todos los eventos si el tamaño admite el límite vigente; corroborar ids/scores/horizontes/registry/bucket. Más de5000 buckets o más de300 eventos en uno no se truncan ni se reparan; la rama compatible se detiene y el diagnóstico más amplio necesitaría otro alcance. Si un B desaparece por expiración, registrar la observación temporal; no declarar jamás existió.
+5. Contrastar **unión de miembrosR y B físicos**, huérfanos en ambas direcciones, tipos, TTL y límites; no aceptar solo ZCARD(R). Toda evidencia de políticas/representaciones previas relevantes queda en custodia y afecta Wsafe; no fusionar dev y development ni migrarles datos por este inventario.
+6. Tras drenaje, realizar **pasada completa final**: para la rama mínima, R.none y B vacío; con ausencia de nuevas altas bajo exclusión, expiraciones solo retiran residuos y la pasada cubre todo B sobreviviente. No es snapshot histórico ni fotografía simultánea de todas las keys; prueba de ausencia actual depende del cierre continuo. Revalidar M/R en el EVAL y repetir inventario/readback después; residuo, discrepancia o evidencia de reaparición ⇒ STOP.
+
+Custodia futura de nombres/eventos necesarios para auditoría solo en canal restringido y aprobado, no logs públicos, argv/ENV ni documentos de gobierno. Guardar resúmenes y referencias de custodia, no materialHMAC, PII o valores de secretos. Inventariar no consume cuota ni verifica HMAC leyendo su clave.
+
+### 111.6. PERSIST: necesidad exacta, alcance y permisos por fase
+
+PERSIST quita el vencimiento de una key, **no persiste a disco ni prueba durabilidad**. En el source:
+
+- Fence: tras escribir M.closed, si **ZCARD(R)>0**, ejecuta **PERSIST R** (Lua184), después dirty0. Preserva registro durante cierre; fallo puede dejar dirty1.
+- Maintain y fase final de otros modos: si finalCount>0 y estado previo closed, **PERSIST R** (Lua209–211). El cierre exige R persistente (Lua117), por lo que no basta omitir esa llamada y aceptar registry volátil.
+- Activate: exige count0 antes de escribir ready. En activación exitosa no hay R no vacío que persistir; sin embargo el wrapper pasa por maintain y reconciliación, que **sí podrían necesitarlo si hay miembros**.
+- Nunca PERSIST M por esta ruta: se crea sinTTL y se exige PTTL=-1. Nunca PERSIST buckets ni revocaciones.
+
+**Conclusión:** para recuperación general con R no vacío, CONTROL requiere PERSIST y la retención sinTTL es parte de la compatibilidad; no es una opción de logging. Para la **ruta mínima seleccionada R/B vacíos**, ninguna rama ejecuta PERSIST y no es indispensable concederlo: si aparece un residuo, STOP, no grant automático. La herramienta futura no debe falsear count0 para esquivarlo.
+
+**Permisos Redis mínimos semánticos, no un AccessString autorizado ni probado:**
+
+| Fase / perfil | Comandos necesarios del motor | Alcance de keys / observación |
+| --- | --- | --- |
+| Inventario / readbacks | SCAN, TYPE, HLEN, HMGET, PTTL, PEXPIRETIME, TIME, ZCARD, ZRANGE | Lecturas dirigidas solo M/R/B; SCAN tiene alcance de enumeraciónDB. HLEN/HMGET sobre M, zset sobre R/B |
+| Crear closed mínimo | EVAL; dentro TYPE, TIME, HSET | KEYS=M/R; única escritura HSET sobre M. Sin MULTI/WATCH/EXISTS/DEL/PERSIST necesarios para este contrato |
+| Maintain/activate **solo rama vacía** y wrapper real | EVAL + TYPE, HLEN, HMGET, PTTL, TIME, ZCARD, ZRANGE; SCAN y lecturas anteriores para cobertura | HSET M para version/last/dirty/state; no candidatos/consumos/buckets que retirar. Si aparece residuo, detener antes de limpieza; sin permisos DEL/ZREM/PERSIST no se promete ausencia de parcial si un guard externo falla |
+| Rama general **no seleccionada / no concedida** | Añadir PERSIST R; DEL B y ZREM R solo si posteriormente se aprobara limpieza por vencimiento | Incompatible con lectura global estricta de «nunca borrar buckets» sin nueva aclaración humana |
+
+`EVALSHA` y `SCRIPT LOAD` son necesidades **condicionales del transporte/caché de scripts**, no semántica del CAS; el diseño nuevo puede emitir EVAL directo sin ambos. El wrapper utiliza StackExchange.Redis3.4.31 y puede exigir su ruta real de scripting/handshake: cerrar manifiesto exacto de comandos con revisión de ese cliente y pruebas posteriores autorizadas. Conexión TLS/AUTH; PING/ECHO/HELLO, INFO y CLIENT SETNAME/SETINFO/ID solamente si lo requiere su configuración auditada, como en el baseline existente; no `+@all`, no conceder comandos de escritura por silenciar probes. SELECT no se necesita si conexión nace enDB0; tampoco concederlo para simular aislamiento por DB en7.2.
+
+KeysAsync debe configurarse/verificarse para **SCAN y sin fallbackKEYS** en la herramientaCONTROL; si cliente/servidor intenta KEYS o no puede completar inventario dentro del presupuesto, STOP. Si los comandos exactos del cliente aún no se han cerrado, no afirmar «ACL final ejecutable lista». Ningún payloadACL ni credencial se crea hoy.
+
+**Aislamiento:** ACLs simples aplican la unión de comandos a la unión de patrones; añadir +PERSIST a M/R/B no lo restringe automáticamente a R. Si se necesitase ese permiso en otro alcance, exigir selectores por comando/key soportados y verificados en ElastiCache/Valkey objetivo; sin prueba, no prometer ese confinamiento ni concederlo sobre buckets. EVAL/HSET no están restringidos a un SHA ni al valor closed por ACL: separación temporal/artefacto auditado/actor único/evidencia son controles operativos, no un servidor que impida toda instrucción maliciosa. No acceso a familia revoked, dev, ~* o canales. Revocar ventana/acceso/credenciales temporales por procedimiento aprobado, verificar conexiones existentes, no asumir que cambiar ACL termina todas las sesiones o que tiene TTL automático. Ningún cambio runtimeACL/IAM hoy.
+
+### 111.7. Drenaje acreditado: evidencia concreta y límites
+
+Las siete ventanas objetivo acreditadas **por source/decisión**, no por ejecución histórica: register-email900s; register-origin900s; login-email60s; login-origin60s; login-origin-email60s; logout-origin60s; logout-account60s. **Wtarget=900s**. No se ha acreditado que todos los consumidores/políticas históricos de development usaran solo esas ventanas; source aceptado no prueba todos los binarios/configuraciones pasados. **Wsafe sigue indeterminada**, no fijada a900 por esta entrega.
+
+| Magnitud | Evidencia necesaria para considerarla acreditada | Lo que no basta |
+| --- | --- | --- |
+| consumidores=0 | Inventario owner de todos los hosts/instancias/containers/unidades/jobs/scripts/admins con acceso de escritura; binarios/configuraciones/policies de cada uno; mecanismos verificables que impiden su ejecución/reinicio y nuevas conexiones durante toda la ventana; operador CONTROL es el único escritor posterior permitido | Cero procesos A/B en una muestra, cero targetsALB, ausencia de manifiesto, ACL alineada o metadata ausente |
+| operaciones en vuelo=0 | Cierre de nuevas solicitudes y de todos los caminos de escritura/retry; terminación/acuse de los ya despachados con barrera de servidor o cotas verificadas que incluyan colas de red/cliente/servidor y ejecuciónLua; estado incierto resuelto o acotado conservadoramente | Timeout RequestBudget, matar proceso/cliente, tráficoHTTP0 o solo desconectar socket: comandos ya enviados pueden ejecutarse después |
+| Tlast | Cota superior confiable del **último consumo posible en servidor**, tras completar la exclusión/resolver in-flight y comandos diferidos; referencia de tiempo compartida/correlación con incertidumbre y evidencia de corte en cada escritor. Puede usarse el instante superior certificado al finalizar esas barreras, aunque sea posterior al último consumo real | Momento de alerta, startup, último bucket visible, fence=t nuevo, LastPossibleIssuanceUtcDynamo de JWT o «desde ahora» |
+| Wsafe | Cota máxima de retención/ventana de cada política/identidad histórica realmente posible, obtenida de manifests/artefactos/configuraciones/aprobaciones y su exhaustividad; max(Wtarget, todas las cotas previas). Distinguir namespaces sin asumir equivalencia dev/development | Solo la versión actual, TTL de algunas keys, backup incompleto o aceptación de pérdida de detalle |
+| Tiempo transcurrido confiable | Evidencia de autoridad/reloj compartido con límites de error/saltos, observaciones TIME correlacionadas y continuidad de corte; comprobar **límite inferior de Tnow ≥ límite superior de Tlast + Wsafe**, incluyendo incertidumbre cuantificada | Dos TIME separados por reloj adelantado, hora local sola, espera900s del operador o snapshots ausentes |
+
+No agregar margen JWT/revocación a Wsafe de cuotas como sustituto de políticas; incertidumbre de reloj y último consumo sí debe acotarse explícitamente. Regresión o salto no explicado ⇒ renovar prueba temporal, no darla por satisfecha por max(TIME,last). Si una política histórica/canal de escritura no tiene cota verificable, **no existe plazo finito acreditado de drenaje**: conservar exclusión/closed y no solicitar la época como lista para ejecutar. Esta entrega no aporta ni fabrica esas evidencias.
+
+Después de Tlast+Wsafe, los eventos ya no deben estar activos según las políticas acreditadas; **los residuos físicos pueden seguir existiendo por fallo parcial/TTL ausente**. Por eso hay inventario final y la rama estricta se detiene si quedan; no borrar, prorrogar arbitrariamente o reducir contadores. Esperar más no elimina por sí solo un bucket persistente. Conjunto vacío tras prueba no afirma continuidad histórica recuperada, solo ausencia de consumo aún exigible bajo las cotas demostradas.
+
+### 111.8. Secuencia futura y rollback por etapa
+
+**TODAS las operaciones técnicas de esta tabla son NO EJECUTABLES bajo la autorización actual.** Solo lectura de source/diseño documental se efectuó. D-REC-EPOCH es una decisión posterior de recuperación, no aprobación global de comandos; D-REC-EXEC-OPEN y los límites de ejecución deben distinguir creación closed, mantenimiento y activación. Cada aprobación identifica actor/host/destino/artefacto/comandos/ventana y readbacks. D-REC-MAINT/PATH/LOSS/CONTROL siguen pendientes donde no se acreditó evidencia; pérdida de detalle no autoriza pérdida de consumos vigentes.
+
+| Etapa | Operación | Permiso Redis necesario | Precondición | Efecto persistente | Rollback | Autorización humana requerida |
+| --- | --- | --- | --- | --- | --- | --- |
+| PRECHECK | Revisar baseline, artefactoCONTROL, topología/DB, C/I, mandatos y plan de corte; no arrancar API | Ninguno local; TYPE/TIME y lecturas si se autoriza observación remota futura | Source/digest aceptados, estado y alcance inequívocos | Ninguno de cuotas; observación no inicializa | Abortar, sin tocar datos | Preparación/pruebas CONTROL y observación remota delimitadas, aún no concedidas |
+| Exclusión | Detener todos los consumidores/altas/retries y resolver comandos en vuelo; certificar Tlast | Ninguno por sí sola; lecturas futuras de verificación | Universo de escritores completo y mecanismo externo aprobado | Cierre externo; no se necesita escribir una G para excluir | Mantener exclusión, no restaurar admisión para «deshacer» | D-REC-MAINT y mecanismo/actores/efectos exactos |
+| Inventario | Pasadas completas M/R/B, unión de huérfanos, cobertura primaria | SCAN + lecturas §111.6 | Exclusión continua e inflight0 | Sin mutación solicitada; expiración natural posible | Abortar evidencia incompleta; mantener cierre | SCAN CONTROL/alcanceDB y read-only aprobados; no runtimeKEYS |
+| Drenaje | Probar Tnow≥Tlast+Wsafe y repetir inventario final vacío | TIME + SCAN/lecturas | Cotas históricas/reloj acreditados; cese continuo | Ninguna escritura; expiraciones ya previstas | Permanecer cerrado si falta cota o hay residuos; no cleanup | D-REC-PATH=R-DRAIN y D-REC-LOSS delimitada |
+| D-REC-EPOCH | Aprobar recuperación con baseUNKNOWN, no never-used | Ninguno | Diseño/artefacto/pruebas/cese/cotas/inventario/permisos compatibles acreditados; no residuos para rama mínima | Registro de decisión/custodia, no Redis | Retener STOP; no emitir G/write | Aprobación expresa de época y procedimiento de custodia |
+| Generación G | Procedimiento futuro OS-CSPRNG16bytes→32hex/nozero; comparar custodia disponible y aprobar literal | Ninguno | Autorización específica de generación; misma época para controles/reintentos/A-B | Solo custodia externa aprobada; no secretoHMAC | Marcar no aplicada; no regenerar para resolver timeout/errores | Generación y después aprobación de literal, no concedidas hoy |
+| CONTROL closed | CAS M.none/R.none; nueva operación de §111.4, HSET12campos | EVAL + TYPE/TIME/HSET | G aprobada, evidencias vigentes, R/B vacíos bajo exclusión; capacidad5000 y C/I exactos | M.closed persistente; count0/horizon0/version1; drain=t+900s | Conservar M/G y exclusión; jamás DEL M ni revertir Gold | Autorización de escritura closed, distinta de apertura |
+| Readback closed | Verificar HLEN12/HMGET todos/PTTL-1/snapshot/G/closed/dirty0/count0/horizon0; inventarioR/B final | HLEN/HMGET/PTTL/TYPE/TIME/SCAN/lecturas | Respuesta cierta o incierta siempre bajo exclusión | Ninguna corrección; se custodia resultado | Si M distinto, parcial, ausente o dirty1: STOP, no reescribir | Readbacks exactos incluidos en incremento closed |
+| Reconciliación | Contrastación vacía real y capacidad, sin candidatos; rechazar cualquier residuo | SCAN/TYPE/ZCARD/ZRANGE y lecturas | Closed exacto; inventario vacío/cese continuo | Ninguno en rama estricta | Conservar closed; no DEL B/ZREM R | Alcance de reconciliación vacío, no limpieza implícita |
+| Maintain | Esperar drain adicional; mantener con cero candidatos; el wrapper repetirá maintain | EVAL + lecturasLua/HSET M; sin DEL/ZREM/PERSIST en rama vacía | now≥drain, M.closed/dirty0, R/B siguen vacíos | Incrementa version/last; dirty durante escritura, termina0 | Mantener cierre; parcial/timeout exige readback y nueva autorización si requiere reparación | Mantenimiento delimitado; no autoriza activate |
+| Guards | Guard local real + coordinador global real antes de abrir; el wrapper los evalúa nuevamente | Ninguno adicional para coordinador; conexión Redis real; DynamoDB GetItem consistente externo a Redis | Recuperaciónintegridad acreditada por controles previos; autoridad020 sana; sin latch cerrado no recuperado | Lectura de autoridad; no abrirla/alterarla | Denegar si unavailable/uncertain/globalClosed; no sustituir por booleanos | Autorizar lectura real de autoridad y configuración no secreta necesaria; no IAM nuevo automático |
+| Activate | Invocar **ActivateAfterDrainAsync real**, mantiene/recorre R/KeysAsync, luego guards y activateLua | SCAN + comandos de rama vacía + HSET M | D-REC-EXEC-OPEN; closed estable, tiempo/capacidad/cese y guards reales satisfechos | M pasa a **ready**, version/last avanzan; aún exclusión externa | Si incierto, no asumir closed: contener externamente y readback. Cierre/fence posterior requiere otro mandato y bases auténticas | Autorización de activar separada; D-REC-EPOCH no basta |
+| Readback final | Verificar ready/dirty0/C-I-G/version/retención/R-B y estadoautoridad; comprobar coherencia del corte | Lecturas/inventario | Exclusión externa sigue vigente durante readback | Sin consumir cuotas; mantener evidencia | Ante discrepancia mantener exclusión aunque Redis diga ready; no borrar/retroceder metadata | Readback final y eventual levantamiento de exclusión **por separado** |
+
+La operación de recuperación **termina en readback closed**. Las etapas posteriores describen el camino futuro solicitado, no parte de su autorización ni una apertura automática. Redis ready no levanta la exclusión externa y no inicia deployment.
+
+**Guards sin efectos ocultos:** usar clases reales del contrato, no un stub que devuelve Verifiable. [DynamoDB authority.ReadAsync](../../Enver.API/Infrastructure/Aws/DynamoDbAuthenticationSecurityAuthority.cs) usa GetItem consistente; no requiere UpdateItem para esa lectura. Si global está Closed/no verificable, STOP: esta ruta no lo reabre. Evitar resolver guards mediante AuthenticationDependencyAdmission.EvaluateAsync, que ante fallo Redis llama global.CloseAsync y puede escribir DynamoDB; tampoco iniciar IHost para obtener servicios: el initializer puede crear índicesMongo. Componer CONTROL explícitamente sin startup de API. No presentar el guard local actual como comprobación profunda de Redis ni fabricar «trust restored» recreando un latch tras fallo. Falta cerrar/probar esa composición real antes de aceptar activación.
+
+**Rollback transversal:** antes de M, retirar accesoCONTROL aprobado y mantener cierre; después de M o un resultado incierto, preservar metadata/G/custodia y exclusión. No borrar M para primeruso, restaurar G desconocida, resetear count/version, eliminar buckets, cancelar consumos, reponer backups viejos ni volver a abrir autoridad020. Tras activate el cierre externo es la barrera principal hasta conocer el resultado; un eventual fence debe usar una Gbase auténtica ya custodiada y Gnext posterior autorizada, nunca inventadas. No generar esa G de rollback hoy ni preautorizarla. Revocar privilegios sin perder el mecanismo de contención aprobado; no grants permanentes por comodidad.
+
+### 111.9. Diseño exacto recomendado y faltantes antes de D-REC-EPOCH
+
+**Una sola ruta recomendada:** CONTROL externo separado, identidad temporal y host administrativo aprobados; exclusión e inflight0 certificados; inventarioSCAN íntegro; R-DRAIN con cotas históricas acreditadas; **R ausente/B vacío por expiración natural, nunca por borrado CONTROL**; época/literal posteriores; EVAL nuevo create-if-absent de M.closed con12campos/snapshot exactos y G nueva aprobada; readback, cierre externo mantenido. Sin residuos, la continuación posterior por wrapper real puede recorrer maintain/guards/activate sin DEL/ZREM/PERSIST; no se permite convertir silenciosamente la ruta en limpieza si aparece un residuo.
+
+**Cambios futuros necesarios, no realizados:**
+
+1. Artefacto administrativo externo, con empaquetado y source/hash auditables, validación de manifest/custodia y perfiles read-only/create-closed; nuevo protocoloLua acotado CAS y parser/readback dedicados. Ni endpoint ni modo especial de API.
+2. Inventariador SCAN cursor/rank real, cobertura/cancelación/topología/duplicados, límites, attestaciones y verificación de no residuos; no sustituye el inventario propio del wrapper.
+3. Composición administrativa del lifecycle/guards reales y transporte StackExchange.Redis fijado, sin ejecutar Program/host/Mongo ni consumir HMAC/JWTmaterial. Preferir reutilización de source/componentes aceptados sin modificar su semántica; mecanismo de empaquetado exacto pendiente de aprobación, sin seleccionar paquetes/versiones nuevos.
+4. Contención y manejo de resultados inciertos; readbacks sin sobrescritura, integridad de evidencias, revocación de permisos y pruebas futuras específicas de CAS/races/ausencia/TTL/dirty/timeout/guard/SCANfallback. **No pruebas en esta entrega**.
+
+**Permisos temporales mínimos propuestos:** lecturas/inventario de §111.6 + EVAL/HSET sobre M para creación y mantenimiento/apertura posteriores autorizados; comandos de transporte exactos tras revisión. **Sin KEYS, DEL, ZREM, PERSIST, writes de buckets ni permisos revoked** para la rama estricta mínima; SCAN es exposiciónDB explícita. PERSIST solo sería agregado por una decisión nueva para una rama con registry no vacío, no hoy. Selectores y controles de EVAL no se presumen validados; no se emite ACL final ni cambio IAM/SG/grupo por inferencia.
+
+**¿Sin modificar imagen aceptada? Sí, por compatibilidad del contrato diseñado, no como capacidad ya probada.** Se producen exactamente los12campos/protocolo/snapshot/G/state que entiende el consumidor actual; UNKNOWN queda en custodia externa. Puede construirse después un artefactoCONTROL independiente sin rebuild/pull/tag/deployment de ENVER. La viabilidad final exige pruebas futuras y cerrar packaging/permisos/guards; si fallan, STOP y nueva decisión, no editar la imagen en este alcance. Digest y childlinuxamd64 aceptados de §108 permanecen intactos.
+
+**Falta exactamente para solicitar D-REC-EPOCH como decisión lista para continuar:**
+
+- Aprobación del contratoCONTROL detailed/caso sin residuos y semántica de baseUNKNOWN, actor/host/custodia/destino/ventana, incluyendo aceptación del alcanceDB de SCAN y revocación, sin ampliar runtimeACL.
+- Autorización **posterior** de implementación/pruebas del artefacto separado, evidencias de CAS/readbacks/fallos/compatibilidad12campos y composición real de guards/cliente. Hoy no existe herramienta ni esas pruebas.
+- Universo completo de consumidores/escritores, exclusión/inflight0/Tlast verificables y mecanismo de contención continuada; no solo las observaciones A/B históricas.
+- Cotas de todas las políticas previas relevantes y prueba temporal que fije Wsafe. Hoy solo Wtarget900 está acreditada; **no hay Wsafe histórica demostrada**.
+- Inventario remoto íntegro bajo cierre y pasada final vacía por expiración natural, dentro de límites/capacidad. Actualmente no se ha ejecutado; residuos persistentes impedirían esta ruta y exigirían aclaración expresa antes de cualquier limpieza alternativa.
+- D-REC-PATH/MAINT/LOSS/CONTROL delimitadas y evidencia vinculada; luego petición de época como **recuperación, no primer uso**, con procedimiento externo de futura G y custodia de incompletitud histórica. La literalG no existe ni se exige fabricarla para aprobar el diseño previo.
+
+C/I **ya aceptadas** no figuran como faltante. 01 sigue bloqueado por G/CONTROL; cerrar ese bloqueo no acepta03/04 ni abredeployment. **02 RESUELTO; 03 DISEÑO JSON/tmpfs APROBADO / NO VALIDADO EN RUNTIME; 04 PENDIENTE; T008/T017/T019/T020 COMPLETE / ACCEPTED; GATE-I-B PENDING / NOT SATISFIED; dev HISTORY UNCERTAIN; development INDETERMINATE; MaxActivePartitions5000 APROBADO / NO APLICADO; metadata.snapshot/metadata.generation/registry no inicializados**. No evidencia nueva remota altera esas observaciones.
+
+### 111.10. Fuentes públicas y cierre documental
+
+Consulta exclusivamente documental, no conexión al destino: [Valkey SCAN](https://valkey.io/commands/scan/) confirma cursor completo/duplicados/COUNT hint y elementos concurrentes; [Valkey PERSIST](https://valkey.io/commands/persist/) confirma eliminación de TTL, no persistencia física; [ElastiCache export](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html) confirma export RDB para análisisoffline con recursos/permisos adicionales. La documentación actual contiene funciones posteriores a7.2: **no se adoptan**. No se invocó ElastiCacheAPI, Redis, AWSCLI, Docker ni herramientas de pruebas.
+
+Solo **taskv0.122.0/§111 y [memoria §172](../../memoria.md)** modificados por este incremento; se conservan §110 y anteriores, código/infraestructura/constituciones y trabajo preexistente. Integridad inicial en salida de sesión13:45:09.606Z:14fuentes iguales/252protegidos intactos, branchfeature/infrastructure/HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb, staged0. **Ggenerada/SecretString/hashHMAC/Redis/initialize-fence-maintain-activate/AWSoperativo/IAM-ACLchanges/Docker/deployment/Terraform/rebuild/pruebas/commit/push:0. STOP antes de crear herramienta o cambiar estado remoto.**
+
+## 112. Artefacto CONTROL externo: implementación local y pruebas unitarias, sin transporte remoto
+
+### 112.1. Autorización y alcance ejecutado
+
+El responsable acepta §111 como baseline y autoriza **crear herramienta administrativa independiente y ejecutar únicamente sus pruebas locales con dobles**, sin Redis real/Docker/AWS/secretos/G operativa/IAM/ACL/Terraform/deployment. Se implementan [tools/Enver.QuotaControl](../../tools/Enver.QuotaControl/README.md) y [sus pruebas](../../tools/Enver.QuotaControl.Tests/Program.cs). Se conservan API, Dockerfile, imagen aceptada y solución; no se reejecutan pruebas ni builds de ENVER.
+
+**Estado observado: IMPLEMENTACIÓN LOCAL / NO HABILITADA NI VALIDADA PARA OPERACIÓN REMOTA.** C/I exactas de §110 **APPROVED / NOT APPLIED**. Ninguna ejecución de estos tests aplica la configuración a development real ni autoriza inventario/control posterior. 01 continúa **BLOQUEO DURO DE STARTUP únicamente por recuperaciónG/procedimientoCONTROL**.
+
+### 112.2. Arquitectura y archivos creados
+
+**13 archivos nuevos**, inventario y detalles en [README de la herramienta](../../tools/Enver.QuotaControl/README.md):
+
+- `tools/Enver.QuotaControl/Enver.QuotaControl.csproj`: consola net10.0, Lua embebido, sin PackageReference/ProjectReference a API.
+- `tools/Enver.QuotaControl/NuGet.Config`: sources vacíos; restore offline y NuGetAuditfalse, sin escoger bibliotecas/versiones adicionales.
+- `tools/Enver.QuotaControl/Contract.cs`: descriptor aprobado, JSON estricto, G/tiempo/snapshot/plan/readback12campos.
+- `tools/Enver.QuotaControl/RedisProtocol.cs`: enum cerrado TYPE/PTTL/PEXPIRETIME/HGETALL/ZCARD/ZRANGE/SCAN/TIME/EVAL, comandos/respuestas tipados e interfaz, DisabledRedisClient.
+- `tools/Enver.QuotaControl/Inventory.cs`: algoritmo SCAN completo/observaciones y resumen saneado.
+- `tools/Enver.QuotaControl/RecoverClosed.lua`: nuevo CAS de metadataausente hacia closed sin Gbase ficticia.
+- `tools/Enver.QuotaControl/ControlService.cs`: precheck/inventory/readback y apply protegido, sin retries.
+- `tools/Enver.QuotaControl/Program.cs`: parser de cinco comandos y salidaJSON; ninguna opción de red/credenciales/activate.
+- `tools/Enver.QuotaControl/descriptor.approved.json`: descriptor sin secretos ni G, C/I/reglas/capacidad/sourceinterpretación de §110/111.
+- `tools/Enver.QuotaControl/README.md`: arquitectura, formatos, matrizRedis, ejecución local, límites y faltantes remotos.
+- `tools/Enver.QuotaControl.Tests/Enver.QuotaControl.Tests.csproj`: runner unitario net10.0 sin paquetes externos, referencia únicamente al CONTROL.
+- `tools/Enver.QuotaControl.Tests/FakeRedis.cs`: doble en memoria y modeloCAS, ninguna conexión ni intérpreteLua.
+- `tools/Enver.QuotaControl.Tests/Program.cs`:50tests con fixtures constantes/tiempo fijo, sin RNG ni generación de época operativa.
+
+Los bin/obj de estos dos proyectos se generan localmente y quedan ignorados por reglas existentes. No se crea proyecto de la API, se cambia solución o se modifica global.json. SDK10.0.403 existente y net10.0 del stack confirmado. No IHost/ProgramAPI/initializerMongo/serviciosAWS/secretstores/HMAC ni integración a imagen.
+
+### 112.3. Comandos implementados y protección efectiva
+
+**Núcleo testeable:** los cinco flujos existen en código y operan sobre IRedisCommandClient; plan es puro. **CLI local:** plan-closed construye el plan con entradas explícitas; precheck/inventory/readback devuelven **RemoteTransportDisabled** y apply devuelve **ApplyDisabled**. No se implementó un adaptador de red/secretos ni flag para activar escrituras; esto conserva el alcance sin secretos ni operaciones remotas. No presentar CLI como inventariador vivo listo para usar.
+
+`ApplyClosedAsync` exige cliente de simulación local, precheck completo y sesión estable antes del únicoEVAL; después respuesta estructurada/readback. El CLI no puede inyectar ese cliente. La marca IsLocalSimulation identifica dobles **no acredita permisos humanos ni barreras físicas**; un futuro transporte y autorización operacional no se habilitan renombrando esa marca. No booleano de usuario que sustituya gates o evidencia.
+
+**Inventory:** SCAN cursor0→0/MATCHexacto/COUNT100/sinTYPEfilter, páginasvacías y deduplicación; TYPE/PTTL/PEXPIRETIME por key encontrada; HGETALLM y ZCARD/ZRANGEpaginas≤100WITHSCORES de zsets. Contrasta miembros/formas/horizontes/TTL/huérfanos, observa cambiosM/R y sesión; exceso5000buckets/5000registry/300eventosbucket/10000páginas u otra inconsistencia aborta, no trunca/limpia. Reporte solo presencia/cantidades/discrepancias, sin keys opacas/miembros/valores. Pasada completa no prueba exclusión histórica ni snapshot simultáneo. Sin detección real de topología: contrato de sesión debe implementarse en futuro adaptador.
+
+**Precheck:** valida descriptor exacto antes deE/S, exige metadata y registry ausentes, ningún bucket observado y cero discrepancias; cualquier residuo bloquea, incluso tipos incorrectos/huérfanos. No claims de never-used o continuidad.
+
+**Plan-closed:** descriptor/G/tiempo explícitos, sinI/O; valida32hexminúsculas/nonzero, descriptor exacto/snapshot20componentes. Construye exactamente protocol1/snapshot/G/closed/count0/horizon0/dirty0/version1/fence=t/last=t/drain=t+900000000/maximumWindow900000000. UNKNOWN se mantiene fuera de12campos. Tiempo suministrado no se marca verificado y G no se aprueba por pasar sintaxis; no RNG ni valor default.
+
+**Apply Lua:** comprueba nombresM/R y snapshot/G exactos, TYPE M.none/R.none, TIME positivo/representable; única mutación HSET12camposM.closed. Sin ready/overwrite/registrywrites/bucketwrites/DEL/ZREM/PERSIST/TTL/cleanup. Doscreadores no se sobrescriben porCAS en diseñoLua; **la atomicidad real no se ha probado en Valkey**. Si un bucket aparece entre precheck yEVAL porque se incumplióexclusión, el CAS deM/R no lo impide: readback falla conservandoM.closed/bucket. Ese límite se prueba explícitamente con doble y no se maquilla como inventarioatómico global.
+
+**Readback:** TYPEhash/HGETALL/PTTL-1, exactamente12campos, C/I/snapshot/G y todos los valores del plan, inventoryfinalR/Bvacíos. Nuevocampo/faltante/dirty/state/TTL/revisión/tiempo incorrectos o respuesta inesperada bloquean; no correcciones. ResultadoEVALperdido/incierto conservaestado y exige readback separado, sinreintento/regeneraciónG/recreación traspérdida. No activate/maintain/fence/initialize implementados.
+
+### 112.4. Matriz de comandos y delta respecto del diseño
+
+Comandos **semánticos sobre la interfaz**, ninguno enviado a red en esta entrega. Sin handshake implícito porque **no hay adaptador de red**.
+
+| Subcomando | Redis commands required | read/write | scope | riesgo |
+| --- | --- | --- | --- | --- |
+| precheck | TYPE, PTTL, PEXPIRETIME, SCAN, TIME; HGETALL siM.hash; ZCARD/ZRANGE WITHSCORES si zsets | read | M/R/BdevelopmentDB0 | SCAN enumeraDB; ausencia actual no prueba historia/cese |
+| inventory | TYPE, PTTL, PEXPIRETIME, SCAN, TIME; HGETALL siM.hash; ZCARD/ZRANGE WITHSCORES si zsets | read | M/R/BdevelopmentDB0 | Identificadores internos no se exponen; concurrencia invalida cobertura |
+| plan-closed | **Ninguno** | puro/local | descriptor/G/tiempo recibidos | Plan válido no es aprobación de época/tiempo/escritura |
+| apply-closed | precheck + **EVAL**, dentro TYPE/TIME/**HSET** + readback | read/write | único HSETM, no writesR/B | CAS no cubre todosB, respuesta perdida incierta; CLIbloqueado |
+| readback | TYPE,HGETALL,PTTL,PEXPIRETIME,SCAN,TIME; ZCARD/ZRANGE WITHSCORES si zsets | read | M/R/BdevelopmentDB0 | Discrepancia solo rechaza; no reparar ni inferirclosedtrasresultadoincierto |
+
+**Delta explícito solicitado:** HGETALL sustituye HLEN/HMGET de la propuesta §111 y cardinalidad exacta se valida enmemoria; no grants de esos comandos por herencia. SinAUTH/HELLO/PING/ECHO/INFO/CLIENT/SELECT/EVALSHA/SCRIPTLOAD hoy: transporte/autenticación/probes futuros requieren otra revisión/aprobación. NoKEYS/DEL/ZREM/PERSIST ni familiarevoked/dev. Tabla noAccessString ni autorizaciónIAM/ACL/SG. SCAN MATCH sigue sin aislamientoACLporprefijo; HSET/EVAL no están confinados por servidor a SHA/closed. No contraseñaCLI/connectionstring/ENV/token/HMAC/materialJWT/staticAWSkeys, rotación o generacióncredenciales.
+
+### 112.5. Pruebas ejecutadas y alcance de evidencia
+
+Comandos locales autorizados, proyectos aislados:
+
+```powershell
+dotnet restore tools/Enver.QuotaControl.Tests/Enver.QuotaControl.Tests.csproj --configfile tools/Enver.QuotaControl/NuGet.Config -p:NuGetAudit=false --verbosity minimal
+dotnet run --project tools/Enver.QuotaControl.Tests/Enver.QuotaControl.Tests.csproj --no-restore --configuration Release
+```
+
+Restore sinfeeds ni PackageReference; solo framework instalado. RunnerBCL sin adoptarframework/version adicional. Un error inicial decompilación por sombreado de Array se corrigió enarchivo nuevo; ejecuciónintermedia41/41 y resultadofinal **50/50 PASS, failed0, exit0**, salida de sesión. No builds/pruebasdelproyectoAPI/solución, noRedisreal/Docker/AWS. Revisión de integridad14:12:30.969Z confirma250archivos preexistentes fuera de docs/tools con digest **0f966f6598853f8df9887333aea39155a3dc732b31d8bac41817c1b6423e2a08**, sin cambios; HEADinvariable/staged0.
+
+Casos cubiertos: descriptor/snapshot/JSONduplicado-extra-faltante; Ginválida; tiempos/overflow; parserCLIrechazaactivate/credenciales/opciones; precheckmetadata/registry/bucketresidual; cursorhasta0/páginasvacías/dedup/tipoerróneo/scope/cambiodesesión/límites; CASdoblecarreraM/R sinoverwrite; éxitoúnicoHSETclosed; resultadoperdido/no retry/reaplicación; respuestaLua desconocida/invalidatime; readbackcampoextra-faltante/PTTL/state/C-I-G/dirty/count/horizon/version/drain/protocol/maximumWindow/last; HGETALLduplicado-impar; residuotardío/exclusiónrota; salidasaneada/CLIbloqueado.
+
+**Lua NO ejecutado en intérprete ni Valkey.** Se audita estáticamente el recurso embebido: snapshot exacto, llamadas TYPE/TYPE/TIME/HSET,12pares deHSET y prohibiciónready/otroscomandos. FakeRedis modela CAS/respuestas para probarorquestación; no es intérprete ni pruebaderequivalenciaLua/servidor. No acreditar por estos tests TLS/auth/ACL/CASremoto/durabilidad/topología/drenaje/continuidad ni seguridadintegral. No se ejecutó apply contraRedisreal. FixturesG/tiempo son deterministas y nooperativas, no una selección de época para startup.
+
+### 112.6. Salida, límites y evidencia faltante antes de inventory real
+
+SalidaJSON una línea `schema=enver.quota-control/1`, `mode=local-only`; plan `planned_not_applied`, UNKNOWNexterno, operationallyApprovedfalse/serverTimeVerifiedfalse/admissionOpenedfalse, fields12. Bloqueo: enumcode sinmensajesexternos/ecoargumentos; exit2, inciertoexit3, resultadolocalválidoexit0. No logs persistentes/secretos/PII/keysB o miembrosR en salida; nofileoutput por defecto. Observaciones internas no soninforme serializable seguro; usar resumen.
+
+**Antes de ejecutar inventory real falta:** (1) autorización read-only delimitada de actor/host/destinoDB0/primary/hash/comandos/ventana/custodia y alcanceDB deSCAN; (2) diseñar/implementar/revisar adaptadorTLS y autenticaciónCONTROLsegura **sinCLI/ENV/logs**, hoy ausentes; aprobar ese inputsecretantes deincorporarlo, no reutilizar runtimecredenciales porinferencia; (3) acreditarACLefectiva/red/TLS/identidad/timeouts/RESP/probesexactos/sesión-topología conpruebasposteriores autorizadas; (4) paraqueinventariosirva a recuperación, universo consumidores/exclusión/inflight0/cortecontinuo verificables. No se cambiaIAM/ACL/SG automáticamente para cumplirlo.
+
+**Antes D-REC-EPOCH**, además: Wsafehistórica/Tlast/tiempocompartido/exclusióncontinuada, inventariofinalvacío por expiraciónnatural, controlCAS y composición deguards verificados en alcance futuro, D-REC-MAINT/PATH/LOSS/CONTROL delimitadas. Hoy soloWtarget900acreditada, noWsafe; persistentes⇒STOP,sincleanup. G/aprobaciónliteral/escritura/apertura sonmandatosposteriores. Compatibilidaddeforma conimagenaceptadasinmodificación, **no integraciónrealvalidada**.
+
+**Estado final preservado:** C/I APPROVED / NOT APPLIED; G operativaNO GENERADA/NO APROBADA; **01 BLOQUEO DURO;02 RESUELTO;03 DISEÑO JSON/tmpfs APROBADO / NO VALIDADO EN RUNTIME;04 PENDIENTE;T008/T017/T019/T020 COMPLETE / ACCEPTED;GATE-I-B PENDING / NOT SATISFIED;dev HISTORY UNCERTAIN;development INDETERMINATE;5000 APROBADO / NO APLICADO;metadata.snapshot/metadata.generation/registry no inicializados**. Esteincremento cambiaúnicamente tools y task/memoria; §111/anterior, API/imagen/Dockerfile/infra/state/constituciones/trabajopreexistente intactos. **Redisreal/AWS/secretreads/IAM-ACL/Terraform/Docker/deployment/Goperativa/commit/push0. STOP tras implementación y tests locales.**
+
+## 113. Preparación de INVENTORY CONTROL real, exclusivamente de lectura; NO EJECUTADO
+
+### 113.1. Aceptación, fuentes y límites de esta entrega
+
+El responsable acepta §112 y fija **CONTROL TOOL = IMPLEMENTED / LOCALLY VERIFIED / NOT EXECUTED**. «NOT EXECUTED» significa sin ejecución operacional contra Valkey; las50unitarias locales de §112 se conservan como evidencia histórica, no se repiten. Autoriza únicamente preparar INVENTORY real con identidad distinta de runtime, no crearla, asociarla ni abrir conexiones. Este incremento solo actualiza task/memoria; no implementa transporte, broker de credenciales ni scripts auxiliares.
+
+Fuentes locales revisadas: [README CONTROL](../../tools/Enver.QuotaControl/README.md), [Inventory.cs](../../tools/Enver.QuotaControl/Inventory.cs), [RedisProtocol.cs](../../tools/Enver.QuotaControl/RedisProtocol.cs), [Program.cs](../../tools/Enver.QuotaControl/Program.cs), [ControlService.cs](../../tools/Enver.QuotaControl/ControlService.cs), [infra/elasticache.tf](../../infra/elasticache.tf), evidencia histórica de §67 y §§102–112. Consulta solo de documentación pública AWS: [RBAC](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html), [CreateUser](https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_CreateUser.html), [ModifyUserGroup](https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_ModifyUserGroup.html), [IAM de ElastiCache](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticache.html) y [Session Manager/port forwarding a host remoto](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html). No consultas a endpoints de cuenta, APIs AWS operativas ni lectura de secretos.
+
+**Bloqueo previo:** el CLI de §112 inyecta DisabledRedisClient. No hay adaptador TLS/autenticación/RESP operativo ni acreditación remota de sesión/topología; inventory devuelve RemoteTransportDisabled. La preparación siguiente es un procedimiento futuro condicionado, **no un comando listo para conexión real ni autorización de implementar esos faltantes**. Apply permanece bloqueado. No atribuir estado actual de AWS a la evidencia histórica.
+
+### 113.2. Comandos Redis exhaustivos de INVENTORY
+
+| Comando | Emisión del código actual | Scope de keys | Efecto |
+| --- | --- | --- | --- |
+| SCAN | cursor inicial0 hasta respuesta0; MATCH exacto `enver:{development:auth:ratelimit}:bucket:*`, COUNT100, sin TYPE filter | Enumera DB0, no solo las keys permitidas por ACL | Lectura; deduplicar y no finalizar por página vacía |
+| TYPE | M/R, cada bucket único; relectura final de M/R | M/R/B | Lectura |
+| PTTL | Tras TYPE, incluso si key ausente | M/R/B | Lectura |
+| PEXPIRETIME | Tras PTTL, incluso si ausente | M/R/B | Lectura |
+| HGETALL | Solo si M es hash; inicial y final | M | Lectura; no volcar contenido al informe |
+| ZCARD | Si key observada es zset, antes y después de sus rangos | R/B y también M si está corrupta como zset | Lectura; límites estrictos, sin truncar |
+| ZRANGE WITHSCORES | Rangos por rank de hasta100miembros, si zset no vacío | R/B y M si zset incorrecto | Lectura; valores solo en memoria |
+| TIME | Siempre al final de la pasada, aun con inventario vacío | Sin key | Lectura; código valida reloj y contrasta horizontes |
+
+**Ocho comandos de datos, ninguno solicita escribir el dataset.** HGETALL es necesario para la implementación aceptada aunque no aparezca en la lista conceptual del responsable; no se sustituye por HMGET/HLEN ni se omite para evitar NOPERM. TIME realmente se invoca en InventoryReader.ReadAsync y es obligatorio sin cambiar el código. El código también lee zsets de tipo incorrecto antes de reportar discrepancias; por eso el ámbito ACL de ZCARD/ZRANGE no se limita artificialmente a R/B.
+
+No KEYS, HSET, DEL, ZREM, PERSIST, FLUSH*, CONFIG, EVAL/EVALSHA, SCRIPT, MULTI/EXEC ni otros comandos de escritura/administración. No +@read ni +@all. El enum compartido contiene EVAL para apply simulado, **pero inventory no lo invoca y la identidad propuesta no lo concede**. Lecturas pueden observar expiración natural/evicción o actividad propia del motor; no se promete inmovilidad física byte a byte. No se provoca limpieza mediante comandos.
+
+**Handshake futuro separado:** propuesta de cliente RESP2 mínimo, conexión nueva en DB0 y un AUTH username/password sobre TLS; AUTH solo autentica la sesión y no escribe keys. No requiere conceder +auth a la identidad para autenticar una conexión inicialmente no autenticada. No HELLO/PING/INFO/CLIENT/SELECT/ECHO ni reconexión automática por defecto. Si la biblioteca elegida después exige comandos adicionales, STOP y revisión explícita del manifiesto/ACL, no ampliar por ensayo. Esta secuencia de red aún no está implementada/verificada.
+
+### 113.3. Identidad temporal y ACL exacta propuesta, NO APLICADA
+
+Propuesta de **UserId=UserName=`enver-dev-quota-control`**, Engine=valkey, AuthenticationMode=password, una credencial efímera exclusiva. Nombre23caracteres, comienza por letra y solo letras/guiones, sin guiones consecutivos; compatible por forma con CreateUser. Es distinto de `enver-dev-runtime`. La búsqueda local no acredita que esté libre en AWS: verificar después nombre/ID en la región y todos los usuarios del grupo; si ya existe una identidad ajena, STOP, no modificarla/adoptarla. Reutilizar una identidad CONTROL existente solo tras acreditación de propietario, ACL, engine, autenticación y alcance equivalentes y aprobación separada; no hacerlo silenciosamente.
+
+**AccessString exacta propuesta** para ese usuario, no para runtime; contraseña va en AuthenticationMode, jamás en AccessString:
+
+```text
+on -@all resetkeys resetchannels ~enver:{development:auth:ratelimit}:metadata ~enver:{development:auth:ratelimit}:registry ~enver:{development:auth:ratelimit}:bucket:* +scan +type +pttl +pexpiretime +hgetall +zcard +zrange +time
+```
+
+Lista cerrada de comandos; resetchannels sin permisos pubsub, patrones exactos sin `~*`, sin familia `dev` ni revocaciones. Los patrones restringen operaciones que reciben keys, pero otorgan el producto de esos patrones por los comandos permitidos: **no restringen HGETALL solo a M ni fuerzan el MATCH/COUNT particular de SCAN**. El cliente debe conservar el manifiesto auditado. No ACL SELECTOR nuevo ni capacidad adicional adoptados aquí. No validación remota de aceptación/efectividad de esta AccessString.
+
+**Riesgo explícito a aprobar:** SCAN permite enumerar los nombres de la DB aunque MATCH filtre el resultado; los patrones de keys ACL no confinan esa enumeración. Ni un host administrativo ni DB0 son aislamiento por prefijo. Un titular de esta credencial podría ejecutar SCAN sin MATCH y conocer otros nombres; la herramienta no lo hace, pero la exposición de DB necesita aceptación expresa y custodia. Si esa exposición no se acepta, esta ruta no es admisible; no sustituir por KEYS ni por inventario incompleto del registry.
+
+### 113.4. Destino, host autorizado y entrega de credencial propuesta
+
+Destino histórico, **a revalidar bajo autorización futura**: cuenta926925605666, regiónus-east-1, replicationgroup/usergroup `enver-dev-valkey`, primary `master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com`, puerto6379, DB0, cluster-mode disabled, Valkey7.2.6 observado, TLSrequired. TLS debe verificar cadena/hostname/SNI de ese endpoint; jamás TrustServerCertificate/insecure ni downgrade a texto claro/endpointIP. No usar usuario/password runtime.
+
+**Ruta administrativa propuesta, no aprobada ni abierta:** ejecutar la herramienta en una estación administrativa del responsable, con sesión AWS federada/SSO temporal; túnel SSM `AWS-StartPortForwardingSessionToRemoteHost` por A=`i-0a66085b7b2411393` al endpoint:6379, listener local127.0.0.1:16379. La conexión TCP local atraviesa ese túnel, pero TLS permanece extremo a extremo con SNI/validación del hostname Valkey, no localhost. No alojar/iniciar API, instalar herramienta en A o modificar su runtimeRole. Antes de elegir esta ruta acreditar autorización de estación/A, SSM Agent compatible, instancia administrada online, plugin, DNS/ruta y SG efectivos; listener exclusivamente loopback/usuario autorizado. Hoy ninguno revalidado. Si falla, STOP; no SG/puertos públicos/SSH/hostnetwork/hoplimit/IAM/SSMconfig improvisados, ni salto automático a B. Un host administrativo privado ya autorizado podría reemplazar el túnel solo con otra selección explícita del responsable.
+
+**Credencial CONTROL futura:** creación mediante llamada SDK/API con password efímera generada bajo autorización posterior, retenida solo en RAM del proceso administrativo, y entregada al futuro adaptador mediante pipe anónimo local de un solo uso con handles restringidos (no archivo nombrado ni config). Identidad/endpoint son datos no secretos. El proceso broker y el adaptador con esta entrada **no existen hoy** y requieren implementación/revisión local aparte; no se acepta password en el parser actual ni se inventa una opción --password.
+
+Formato propuesto para esa password futura:64caracteres alfanuméricos seleccionados mediante OS-CSPRNG sin sesgo; cumple la longitud16–128 y evita los símbolos prohibidos por RBAC. Este formato es una propuesta, no una contraseña creada ni decisión de G. No usar fixtures de las pruebas como credenciales.
+
+Nada de password en argv, ENV, shell history, scripts/archivos JSON temporales, clipboard, stdout/stderr, excepciones, trazas de protocolo, depuración SDK/HTTP o transcript. No AWS CLI CreateUser con --passwords ni payload en línea. Generar contraseña CONTROL, si se autoriza en el futuro, es distinto de generar G; **ninguna de ambas se genera en esta preparación**. Si se pierde la credencial, STOP y revocar la identidad creada: AWS no recupera la contraseña por DescribeUsers. No leer secretos runtime/HMAC. Sin nuevo secret persistente por defecto; una alternativa de vault/Secrets Manager sería alcance y permisos adicionales, no necesarios para esta rama efímera.
+
+### 113.5. Cambios AWS necesarios frente a no necesarios
+
+**Asociación requerida:** en ElastiCache RBAC crear el usuario no basta. Debe pertenecer al user group que ya está asociado al replicationgroup. Evidencia histórica §67: grupo `enver-dev-valkey` activo, solo runtime, ya asociado a RG del mismo nombre. HCL local confirma esa asociación y membresía exclusivamente runtime. Verificación actual futura mediante Describe* antes de cualquier cambio; no se ha hecho aquí.
+
+| NECESARIO, solo tras autorización | Parámetros/alcance futuro exactos |
+| --- | --- |
+| Precheck de solo lectura AWS | DescribeUsers/DescribeUserGroups/DescribeReplicationGroups/DescribeCacheClusters; identidad de operador GetCallerIdentity y validación cuenta/región, usuario libre, membresía exacta, engine/estado/primary/TLS/SG. DescribeUsers no devuelve passwords |
+| CreateUser si nombre libre y no hay CONTROL ya aprobado | UserId/UserName enver-dev-quota-control, Engine valkey, AccessString§113.3, AuthenticationMode Type=password/Passwords=[credencialRAM]; sin tags adicionales en esta propuesta |
+| Esperar usuario active | Polling DescribeUsers acotado por ventana/timeout aprobado; no asumir éxito por HTTP200 |
+| ModifyUserGroup para alta | UserGroupId=enver-dev-valkey, UserIdsToAdd=[enver-dev-quota-control]; **sin UserIdsToRemove ni cambioEngine**. Runtime debe permanecer |
+| Esperar propagación | Usuario/grupo active, asociación al RG exacta, ningún cambio pendiente y RG available; timeout ⇒STOP. Estadoactive no reemplaza evidencia de TLS/auth real |
+| Revocar al terminar o fallar | Cerrar conexión/pipe/túnel, ModifyUserGroup UserIdsToRemove=[soloCONTROL], esperar eliminación efectiva/membresía original/estados estables; DeleteUser solo si fue creado en esta intervención, esperar ausencia |
+| Custodia y control de cambios | Actor/host/ventana/aprobación/alcanceSCAN y baseline de membresía/ACLruntime; aprobación de excepción temporal por ownershipTerraform y revocación programada/supervisada |
+
+**NO NECESARIO para la rama propuesta:** ModifyUser runtime, nueva contraseña runtime, CreateUserGroup, DeleteUserGroup, ModifyReplicationGroup, cambiar asociación RG↔grupo, cluster/SG/subnets/puerto/parámetros/versión, nuevasEC2, reboot/failover, permisosRedisdeescritura, ModifyUser CONTROL (se crea exacto y se elimina), IAM user/access keys/policies/roles nuevos, iam:PassRole, elasticache:Connect (solo aplica a alternativa IAMauth no elegida), SecretsManager/KMS nuevos, Terraform apply/import/refresh/stateedit o rebuild/deployment. Si los permisos/ruta existentes no bastan, STOP y solicitar nueva decisión, no habilitarlos aquí.
+
+**Conflicto de ownership a resolver antes del alta:** infra/elasticache.tf declara Terraform dueño de membresía y prohíbe gestión externa concurrente. Aprobar una **excepción temporal controlada** con responsable IaC: freeze de applies/automatizaciones durante alta→baja, registrar drift temporal, reponer exactamente baseline y verificarlo después. Preparar no concede esa excepción. Sin aprobación ⇒STOP antes de ModifyUserGroup, aunque IAM lo permita. No editar HCL/ignore_changes ni sobrescribir lista completa para sortearlo. Los cambios de membresía pueden tener efectos de servicio; no prometer impacto cero a runtime.
+
+### 113.6. IAM requerido por fase, sin crear ni ampliar políticas
+
+Permisos del **operador administrativo temporal**, no del role runtime ni del usuario Redis. Autenticación federada/STS existente; no staticAWSkeys. La política efectiva real, SCP/boundary/sessionpolicy y permisos SSM siguen sin verificar. Esta tabla es requerimiento para revisar una autorización futura, no una política aplicada ni afirmación de que el operador los tenga.
+
+| Acciones | Resource/scope propuesto |
+| --- | --- |
+| sts:GetCallerIdentity | Verificación cuenta/actor; no requiere un Allow explícito para invocarla; no otorgar sts:* |
+| elasticache:DescribeUsers | ARN runtime `arn:aws:elasticache:us-east-1:926925605666:user:enver-dev-runtime` y CONTROL `arn:aws:elasticache:us-east-1:926925605666:user:enver-dev-quota-control`. Si colisiones de UserName obligan listar otros usuarios, alcance de lectura regional adicional requiere aprobación expresa, no acceso global por defecto |
+| elasticache:DescribeUserGroups | `arn:aws:elasticache:us-east-1:926925605666:usergroup:enver-dev-valkey` |
+| elasticache:DescribeReplicationGroups | `arn:aws:elasticache:us-east-1:926925605666:replicationgroup:enver-dev-valkey` |
+| elasticache:DescribeCacheClusters | `arn:aws:elasticache:us-east-1:926925605666:cluster:enver-dev-valkey-001` histórico; verificar ID, no adivinar si cambió |
+| elasticache:CreateUser, elasticache:DeleteUser | Solo ARN CONTROL anterior; modo de autenticación password para creación, sin recursos runtime |
+| elasticache:ModifyUserGroup | ARN del grupo y de los usuarios requeridos por evaluación IAM de esa operación; al menos CONTROL. No asumir que el permiso de grupo basta: AWS declara recursos user y usergroup. Si la evaluación requiere runtime por membresía retenida, autorizarlo solo para ModifyUserGroup, nunca ModifyUser/DeleteUser de runtime |
+
+Limitar región a us-east-1 y cuenta/recursos anteriores; no `elasticache:*`/administrador general. IAM de ModifyUserGroup **no sustituye** el diff de UserIdsToAdd/Remove aprobado: un permiso sobre grupo puede permitir retirar runtime; controles de operador y verificación son necesarios. No atribuir a IAM una restricción por parámetros que no se ha probado. No AddTagsToResource salvo decisión posterior de tags, no permisos SecretString/GetSecretValue/CreateSecret/KMS/iam:* para la rama RAM.
+
+**Si se elige la ruta SSM propuesta**, revisar además permisos existentes de ssm:StartSession sobre `arn:aws:ec2:us-east-1:926925605666:instance/i-0a66085b7b2411393` y documento AWS `arn:aws:ssm:us-east-1::document/AWS-StartPortForwardingSessionToRemoteHost`; ssm:TerminateSession sobre la sesión propia. ResumeSession no necesario si no se permite reconexión; DescribeInstanceInformation/DescribeSessions/DescribeInstanceProperties (según comprobación del cliente) y ec2:DescribeInstances/ec2:DescribeSecurityGroups para precheck administrativo son lecturas condicionales, con alcance mínimo soportado; acciones no compatibles con Resource específico requieren Resource=* y aprobación explícita de esa lectura. Nada de permisos administrativos SSM nuevos en A/role; si faltan capacidades existentes ⇒STOP. Host/port de forwarding no quedan necesariamente restringidos por permitir ese documento: ese riesgo de túnel exige autorización de destino/proceso/ventana, no presumir aislamiento IAM a6379.
+
+### 113.7. Secuencia futura exacta, condicionada y aún NO AUTORIZADA
+
+1. **PRECHECK:** aprobar actor/estación/ruta/ventana/artefacto y comando inventory únicamente, riesgoSCAN DB, secretbroker, monitoreo de topología, evidencia y revocación. Implementar/revisar aparte adaptadorTLS+RESP2 read-only, lista de8comandos+AUTH, entradaRAM/pipe y señales de sesión/topología; mantener apply inaccesible y sinACLwrite. Obtener hash/versión del artefacto futuro (no es el hash del binario local actual). No saltarse esta fase creando usuario primero.
+2. **PRECHECK AWS autorizado por separado:** validar cuenta/región/naming/membresía/primary/TLS/estado, SG/ruta/SSM si aplica y permisos efectivos; capturar baseline saneado de UserId/UserName/engine/mode/ACLruntime/usergroupids/status y exclusión de IaC. Aprobar excepción temporal de membresía; cualquier desviación ⇒STOP antes de mutar.
+3. **Exclusión acreditada:** inventariar todos los escritores/consumidores, mantener barrera externa e inflight0/resolución de comandos encolados; registrar cobertura, inicio y responsables. No iniciar API para comprobarlo ni usar inventory como prueba del cese. Sin acreditación ⇒STOP, aunque el Redis esté vacío.
+4. **Crear identidad CONTROL:** solo nombre libre y CreateUser exacto§113.5, credencial efímeraRAM, ninguna modificación del runtime; esperar active con timeout aprobado. Registrar solo ARN/estado/AccessString/requestId/tiempos, no password.
+5. **Asociarla:** ModifyUserGroup aditivo soloCONTROL al grupo existente; esperar propagación active/sinpending, runtime aún miembro y ACL intacta. No sustituir grupo del RG ni ejecutar Terraform durante la ventana.
+6. **Conectar desde estación autorizada:** abrir túnelSSM condicionado, TLS con validación de endpoint, AUTHcontrolRAM, conexión únicaDB0. Sin probes ocultos, auto-retry/reconnect/redirecciones/MOVED/ASK ni fallback a runtime. Obtener evidencia de sesión estable y primary antes/durante/después; si no puede acreditarse continuidad de topología, STOP. Lecturas AWS antes/después por sí solas no excluyen cambios transitorios silenciosos.
+7. **Ejecutar inventory únicamente:** pasada única SCAN0→0, sinTYPEfilter, deduplicación, observaciones permitidas/relecturasM/R/TIME, sin commandswrite. Si detecta residuo la conclusión ya es STOP; la implementación actual puede completar el diagnóstico read-only acotado, pero nunca avanzar a otro subcomando ni insistir hasta obtenervacío. Anteerror/ambigüedad no reanudar cursor ni mezclar sesiones: conservar fallo y nueva autorización antes de otra pasada.
+8. **Guardar evidencia saneada:** informe allowlist y hash, versión/hashherramienta y descriptor, actor/controlARN/endpoint/DB/ruta, tiemposinicio-fin yTIME, cursorinicial0/final0/iterationcomplete/páginas/recuentodeduplicado, presenciasM/R/discrepancias/cancelación/errores, identidad de sesión sin tokens y constancia de estabilidad/exclusión. No rawSCAN/keysB/miembrosR/metadataHGETALL ni bytes RESP/secretos. **El resumen actual no expone páginas/cursor/TIME/sesión ni prueba exclusión; esta evidencia ampliada necesita diseño/implementación local aparte**. No inventar esos campos como ya existentes.
+9. **Revocar/quitar siempre, tanto PASS como STOP:** cerrar todos los recursos cliente/pipe/túnel, borrar buffers sensibles cuando sea posible, quitar exclusivamenteCONTROL con ModifyUserGroup, esperar membresíaoriginal/active/nopending, DeleteUser si creado aquí y confirmarausencia. No considerar revocado solo porque se cerró el CLI; RBAC no tiene TTL automático. Timeout de revocación ⇒ incidente abierto/escalado a responsable, mantenerexclusión y no declarar cierre. No CLIENTKILL/ACLSETUSER improvisados.
+10. **Verificar runtime intacto:** comparar baseline con DescribeUsers/DescribeUserGroups/RG después, grupo y runtimeACL/authmode/PasswordCount/engine/ARN/asociación iguales, sinCONTROL ni pendientes y sin cambiosSG/endpoint/imagen/infra; revisión de acciones administrativas de ventana si evidencia existente lo permite. Count igual no prueba mismo password: la garantía requiere además no haber ejecutado ModifyUser/rotaciones y custodia de acciones, no leer ni hashear el secreto. No iniciarAPI ni probarconsumo para esta verificación. Cerrar freezeIaC solo con membresía baseline acreditada.
+
+### 113.8. PASS/STOP y rollback
+
+**PASS exige todo simultáneamente en la ventana acreditada:**
+
+- Metadata TYPE=none y PTTL/PEXPIRETIME=-2 tanto al inicio como en relectura final; registry igual; 0buckets únicos observados, 0miembrosregistry y 0discrepancias.
+- SCAN completo desde0 hasta respuesta0, sin página omitida/truncación/filtroTYPE/cursorreutilizado; deduplicación y límites respetados. No equivalencia entre página vacía y fin.
+- TLS/authCONTROL correctos, destinoDB0/primary exacto, sesión estable y topología acreditada sinreconnect/failover/redirección; tiempo/respuestas válidas, ninguna ambigüedad ni errores.
+- Exclusión completa acreditada, inflight0 y barrera mantenida durante toda la pasada/relectura; evidencia íntegra saneada y evaluación humana del resultado. Sin ella no puede emitirse la conclusión exigida.
+
+**STOP:** metadata oregistry presentes aun vacíos; cualquierbucket aunque desaparezca luego, dato/tipoextraño o incongruencia; SCANincompleto/cancelado/cotas/timeout; NOPERM inesperado/TLS/autherror; cambio o incertidumbre de sesión/topología; resultado nodeterminista/no verificable; falta de exclusión/custodia/permisos; drift noaprobado o revocación no acreditada. No ensancharACL ni reintentar, reparar/limpiar/borrar keys o arrancar aplicación como respuesta.
+
+**Exit0 de inventory NO ES PASS:** Program.cs actualmente devuelve validated/exit0 también con residuos. Evaluar InventorySummary (metadataPresent=false, registryPresent=false, bucketCount=0, registryMemberCount=0, discrepancies=0, iterationCompleted=true), más evidencia de cursor/sesión/topología/exclusión aún faltante. `mode=local-only` hoy no puede presentarse como resultado remoto real; futuro contrato de salida debe distinguirlo por implementación autorizada, no edición manual del informe.
+
+Única conclusión permitida si se cumple todo en una ejecución futura: **CURRENT INVENTORY EMPTY UNDER ACCREDITED EXCLUSION**, acotada a esa DB/namespace/ventana. **No never used**, no G histórica recuperada, no recuperaciónaprobada, no Wsafe/Tlast demostrados por esperar900s, no permiso apply/ready/deployment. Conexión exitosa sola tampoco acredita inventario.
+
+**Rollback:** no rollback de datos porque no se enviarán comandos de escritura; conservar cierre/exclusión y evidencia, cerrarcliente/túnel, retirar solo identidad/membresíatemporal creada y confirmar baseline. Si falloantesasociación, eliminar solo usuario nuevo; trasasociación, quitarlo→esperar→eliminarlo. Si existía previamente y su uso se aprobó, no eliminar identidad ajena ni asociaciones previas: restaurar únicamente delta propio acreditado. Ante deriva concurrente no restablecer lista completa ni tocar runtime: STOP/escalar. No restaurar snapshot de consumos, borrar M/R/B, cancelarconsumo, regenerarG ni convertirvacío en first-use. FalloAWSdecleanup no autoriza compensaciones Redis.
+
+### 113.9. Comando futuro y cierre de preparación
+
+Desde la raíz, **solo como sintaxis futura**, después de autorizar/implementar/verificar transporte y provisión segura sin secretos enCLI:
+
+```powershell
+dotnet tools/Enver.QuotaControl/bin/Release/net10.0/Enver.QuotaControl.dll inventory --descriptor tools/Enver.QuotaControl/descriptor.approved.json
+```
+
+Sinpasswords/G/connectionstrings/ENV ni flags inventados; endpoint/identidad/rutaTLS y pipe se fijarán en el contrato futuro aprobado fuera delargv. No se ejecutó este comando: **con el binario actual termina bloqueado por RemoteTransportDisabled**, no inventaría Valkey. No dotnetrun/rebuild deAPI/imagen ni comando apply-closed incluido. No autoriza crear un usuario que hoy la herramienta no puedeusar.
+
+**Preparación documental terminada; identidad/ACL/IAM/ruta/membresía son propuestas NO APLICADAS, aún sujetas a los prechecks/aprobaciones descritos.** Solo taskv0.124.0/§113 y memoria§174 cambian; README/código/tools/tests/API/Dockerfile/infra/estado/constituciones e historial de§112 intactos. No nuevos artefactos, builds/pruebas, AWSoperativo, Redisreal, secretos/credenciales/G generados, IAM/ACL/usergroupchanges, Docker/deployment/Terraform/commit/push. **STOP antes de cualquier cambio AWS o Redis.**
+
+Preservado: **C/I APPROVED / NOT APPLIED; DEPLOY-CONFIG-01 BLOQUEO DURO DE STARTUP por G/CONTROL;02 RESUELTO;03 DISEÑO JSON/tmpfs APROBADO / NO VALIDADO EN RUNTIME;04 PENDIENTE;T008/T017/T019/T020 COMPLETE / ACCEPTED;GATE-I-B PENDING / NOT SATISFIED;dev HISTORY UNCERTAIN;development INDETERMINATE;5000 APROBADO / NO APLICADO;metadata.snapshot/metadata.generation/registry no inicializados**. La última afirmación conserva el estado de evidencia anterior, no una observación remota nueva.
+
+## 114. Transporte remoto CONTROL INVENTORY: implementación y verificación exclusivamente locales
+
+### 114.1. Autorización y estado observado
+
+Responsable acepta §113 como baseline y autoriza **implementar localmente transporteTLS/RESP/pipe/allowlist/evidencia/exitcodes y ejecutar unitarias con dobles, sin conexión real**. Estado conservado **CONTROL TOOL = IMPLEMENTED / LOCALLY VERIFIED / NOT EXECUTED**. No usuario, password operativa, asociación al grupo, túnelSSM o conexiónAWS/Redis real creados. El transporte tiene capacidad futura de conexión explícita: **no confundir capacidad con autorización o validación operacional**.
+
+Solo se intervienen `tools/Enver.QuotaControl`, `tools/Enver.QuotaControl.Tests`, este task y memoria. NoAPI/imagen/Dockerfile/solución/infra/IAM/ACL/Terraform/cloud. Integridad inicial de sesión2026-11-17T14:44:37.869Z:250archivos fuera de tools/task/memoria, digest **0f966f6598853f8df9887333aea39155a3dc732b31d8bac41817c1b6423e2a08**; HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb. Historial§113/anteriores se conserva, no se reescribe para declarar adaptador ya existente entonces.
+
+### 114.2. Arquitectura y archivos
+
+Siete archivos nuevos, todos sin dependenciasNuGet ni referenciaAPI:
+
+| Archivo | Responsabilidad |
+| --- | --- |
+| [RemotePolicy.cs](../../tools/Enver.QuotaControl/RemotePolicy.cs) | Allowlist por operación/argumentos y validación de formas de respuesta; categorías cerradas de errores |
+| [PipeCredential.cs](../../tools/Enver.QuotaControl/PipeCredential.cs) | Frame limitado de credencial, bytes sin string, EOF y borrado best-effort |
+| [RespCodec.cs](../../tools/Enver.QuotaControl/RespCodec.cs) | RESP2 estricto/acotado y encoding de comandos; AUTH sin secretstring |
+| [RemoteTransport.cs](../../tools/Enver.QuotaControl/RemoteTransport.cs) | Único punto de sockets, TLS/SNI/identidad fijos, AUTHúnico/timeouts y sesión sin retry/reconnect |
+| [InventoryExecution.cs](../../tools/Enver.QuotaControl/InventoryExecution.cs) | Ejecución acotada, evidencia saneada y clasificación/exitcodes |
+| [RemoteDoubles.cs](../../tools/Enver.QuotaControl.Tests/RemoteDoubles.cs) | Sesión/fábrica/duplex/pipe en memoria, sin red/handshakeTLS |
+| [RemoteTests.cs](../../tools/Enver.QuotaControl.Tests/RemoteTests.cs) | 40pruebas nuevas, unidas a50base |
+
+Actualizados `Contract.cs` (códigos cerrados), `RedisProtocol.cs` (simple/bulk diferenciados y error sinpayload), `Inventory.cs` (evidencia y preservación de presencia inicial/final), `Program.cs` (opt-in inventory/pipe/exitcodes/cancelación), `Tests/Program.cs` (runner y expectativasdeexitcodes) y [README CONTROL](../../tools/Enver.QuotaControl/README.md) (contrato vigente/plantillas/límites). Sin paquetes/proyectos nuevos adicionales; SDK10.0.403/net10.0existentes. Se mantienen CASLua/ControlService/descriptor y gates de apply. Hay20archivos fuente/documentales de tools en total, no nuevos artefactos auxiliares fuera del alcance.
+
+### 114.3. Ruta, TLS/SNI, DB0 y sesión
+
+**Endpoint/usuario lógicos inmutables:** `master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com`:6379, DB0, `enver-dev-quota-control`. No host/user/db/URI/secretconfig arbitrarios. `--transport direct`: DNSendpoint fijo, primeraIPv4, un intentoTCP6379. `--transport ssm-tunnel --tunnel-port <1024..65535>`: socket exclusivamente127.0.0.1:puerto; **SslClientAuthenticationOptions.TargetHost sigue siendo el hostname Valkey real**, preservando SNI y validaciónhost. No TLS hacia localhost, IPcertificatetrust o downgrade. El programa no iniciaSSM ni acredita que el listener llegue al RG; ese precheck externo sigue pendiente según§113.
+
+TLS1.2/1.3, sinTLSresumption, trustdelSO/revocaciónOnline; callback solo endurece la validación: erroresSSL, falta de cert/chain, leafautofirmado/cadena inválida se rechazan. Sin roots propias/clientcerts/TrustServerCertificate/hostnamebypass. Dependencias reales delSO/trust/CRL-egress se verificarán en alcance futuro; no verificadas por las pruebas de configuración.
+
+Conexión exclusiva por operación, sinpool/multiplexación/pipeline, unAUTHRESP2username/password, respuesta válida solo `+OK`; DB0 inicial sinSELECT. Timeouts fijos: operaciónincluidopipe≤30s, DNS+TCP+TLS≤5s, AUTH/cadacomando≤5s; cancelación/Ctrl+C y cierre enfallos. No retries/reconnect/otraIP/fallbackruntime ni seguimientoMOVED/ASK. Cualquier fallo invalida sesión y cierra canal. Se comprueba identidad/conexión/socketendpoint/cierre antes/después de roundtrips. No se imprimen tickets/secretosTLS; protocolo/cipher son metadata no secreta.
+
+**Límite de topología explícito:** scope reportado `SINGLE_PINNED_TLS_CONNECTION_NOT_INDEPENDENT_PRIMARY_ATTESTATION`; sessionCoherent solo acredita coherencia observada de esa conexión continua con TLSendpoint esperado, no ausencia global de cambios silenciosos/rolprimary fuera del canal. Sin INFO/ROLE/COMMAND ni sondeosAWS incorporados. La acreditación de RG/primary/túnel y exclusión sigue externa; si falta, el orquestador no debe aceptar la operación como inventario acreditado aun si el recorrido técnico fue vacío. Cambios de sesión, desconexión/redirecciones/estado topológico no utilizable detectados producen20. No inventariador de cluster/shards/replicas.
+
+### 114.4. Credencial exclusivamente por pipe, sin secreto operativo creado
+
+CLI exige `--credential-pipe <handle-numérico-heredado>` junto al opt-in de transporte. Abre AnonymousPipeClientStream en direcciónIn; .NET comprueba tipo de handlepipe y rechaza archivo regular. Solo el identificador del handle, no la password, va enargv. No ruta de archivo/config/appsettings/stdin/TTY ni ENV/connectionstring/passwordCLI. El padre/custodio debe crear pipeanónimo privado de un uso y restringir herencia a ese hijo; no copiar handles entreconsolas ni usar echo/file-redirection para inyectarcredenciales.
+
+Frame: **uint32big-endian N, NbytesASCII compatiblesRBAC16..128, EOF**; se rechazan espacios y símboloscoma/comillas/barra/@, longitudes/payload extra/truncación. El escritor debe cerrar después del frame; sinEOF/pipebloqueado vencepresupuesto/cancelación antesdeconectar. Usuario fijo no viene del pipe. Validación de descriptor/opciones/credencial ocurre antes de abrir red.
+
+Secreto en byte[], sinToStringmaterial ni JSON/exceptionpayload; frameAUTH y bufferspropios se borran con CryptographicOperations.ZeroMemory enfinally y credencial se dispone trasAUTH; ToStringredactado. No logs de password/connectionstring/AUTH/pipe, ni rawRESP/erroresservidor/debugHTTP. **Borrado best-effort, no garantía sobre buffers internos de CLR/SslStream/SO, swap/dumps/EDR**: política delhost/custodia debe cubrirlo. Clasificación de error conserva solo categoría, no mensaje externo.
+
+No se implementa generador/broker de password real ni CreateUser. El productor futuro deberá construir frame enRAM, pasar clienthandle heredado, cerrar copia local y escritor adecuadamente; procedimiento/actor/custodia se aprueban aparte. Fixtures de test son literales ficticios no operativos, **no G ni password seleccionada para AWS**. No RNG ni extracción de SecretString/HMAC/runtimecredenciales.
+
+### 114.5. Allowlist y RESP estricto
+
+**Allowlist wire INVENTORY exacta:** AUTH (handshakeúnico), SCAN, TYPE, PTTL, PEXPIRETIME, HGETALL, ZCARD, ZRANGE WITHSCORES, TIME. Los ocho últimos sonlecturas; AUTH cambiaautenticaciónsesión, no keys. Se validan operación, verbo/arity y argumentos: keysM/R/Bexactos, SCANMATCH/COUNTfijos/cursorcanónico, ZRANGErankacotado/WITHSCORES. No APIExecute(raw). Toda otra operación remota, EVAL ocomando fuera de lista ⇒ **POLICYFAILURE antes deencoding/I/O**, cierre/invalidation. Sin KEYS/HSET/DEL/ZREM/PERSIST/FLUSH*/CONFIG/MONITOR/CLIENTKILL/COMMAND/SELECT/HELLO/PING/SCRIPT/EVALSHA, tampoco+@read/+@allporconveniencia. LasACLpropuestas§113no se aplican ni amplían; SCAN sigueexponiendoenumeraciónDBaunqueMATCHfiltre.
+
+RESP2 admite simple strings, errores, enteros, bulkstrings/arrays y nulls (`$-1`/`*-1`); rechazaRESP3/UTF8inválido/CRLFinválido/enterosno canónicos, overflow, tamaños absurdos y profundidadextra. Cotasporrespuesta: **4096bytes/bulk,1024bytes/línea,20000elementos/array,22000nodos,8MiB, dosnivelescontenedores** (arraySCAN + arraykeys). Nulls se parsean pero se rechazan donde elcomando nolos admite. TYPE exige simpleknownword, TTLentero, HGETALL/ZRANGEparesbulk, SCANshape2, TIMEdosbulksválidos. Errorservidor solo categoría: AUTHdenied→30,NOPERM→50,MOVED/ASK/estadosno utilizables→20,otros→40. Sinpayloadexterno en salida.
+
+Se conservan límitesdedominio5000buckets/5000registry/300eventosbucket/10000páginas; excesoabortasintruncar/limpiar. Dominios corruptos/extra/observación ambigua no se reparan. Luaapply embebido anterior no puede pasar estaallowlistniIsLocalSimulationguard.
+
+### 114.6. Evidencia, semántica y exit codes
+
+Envelope de ejecución `schema=enver.quota-control/2`, modeinventory-remote, commandinventory; trace saneado contiene **runIdlocalfecha+contador(noG), endpoint lógico/puerto/DB/ruta/controluser, IP:puertoTCPelegido, TLSprotocol/cipher, started/finishedUTC, duraciónmonotónica, scanStarted/scanFinishedUTC, initial/finalcursor, pages, uniqueKeys, duplicateKeys, completed y serverTIMEμs**. UnrunId delimita una sola conexión; no se reportaTLSsessionticket. En túnel resolvedTarget esloopback, no una IPValkey independienteacreditada. Datosnofinalizadosnull/completedfalse; jamás fabricarevidencia para completar campos.
+
+Resumen solo presenciaM/R, bucketCount/registryMemberCount/discrepancias yiterationCompleted; presenciafinal deM/Rnoocultaporobservacióninicialvacía. No rawSCAN/HGETALL/miembros/nombres opacos/eventos/contraseñas. Guardado/hash/custodiainforme externo sigue fuera delCLI (unJSONstdout, sinarchivosnuevos). Plan/localflowsmantienen schema1; errores deCLIanterioresaltransporte puedenusar envelope1local-only, pero inventory ya devuelve sus nuevos códigos.
+
+| Exit inventory | Resultado |
+| --- | --- |
+| 0 | PASS técnico: M/Rausentes,0buckets/discrepancias, SCAN0→0completo,0duplicados yconexióncoherente |
+| 10 | RESIDUE_FOUND: M/R/Bobservados presentes, incluso vacíos o solo presentes en relectura final |
+| 20 | INCOMPLETE: SCAN/cotas/sesión/topologíadetectadaincoherentes, timeout/cancelación, duplicados o transporte no seleccionado |
+| 30 | AUTH_TLS_FAILURE |
+| 40 | PROTOCOL_FAILURE: RESP/forma/TIME/truncación inválidos |
+| 50 | POLICY/ALLOWLIST_FAILURE, incluido NOPERM/opciones/descriptor incompatibles |
+| 60 | CREDENTIAL_INPUT_FAILURE: handle/frame/formato inválido |
+| 70 | LOCAL_FAILURE no clasificable, saneado |
+
+No hay exit0 simplemente por finalizar. Incompletitud de recorrido/sesión/duplicados tiene prioridad sobre residuo para evitar validar pasadaambigua. DuplicadosSCAN puedenserlegítimos; se deduplican para conteo, pero **toda duplicación se trata conservadoramente como20** hasta nueva ejecución autorizada, no retry automático. Sin errores,0discrepancias yM/RausentesincluyePTTL/PEXPIRETIME=-2inicial/final porvalidacióndominio.
+
+Solo conexit0 se emite **CURRENT INVENTORY EMPTY**, más exclusionAccreditedByToolfalse/operationallyApprovedfalse/admissionOpenedfalse. La herramienta no imprime claims de primeruso/never-used ni **CURRENT INVENTORY EMPTY UNDER ACCREDITED EXCLUSION**; esa conclusiónampliada soloexterna sicumpletodo§113(exclusión, inflight, topología/primary, ventana/custodia). Vacío no recuperaG ni acreditaWsafe/Tlast/gates, applyoapertura.
+
+### 114.7. Pruebas locales y evidencia observada
+
+Comandoejecutado únicamente para estosproyectos independientes, sinrestore/feeds/paquetesinstalados:
+
+```powershell
+dotnet run --project tools/Enver.QuotaControl.Tests/Enver.QuotaControl.Tests.csproj --no-restore --configuration Release
+```
+
+Resultado **90/90 PASS, failed0, exit0** (50base+40transporte). Ejecuciones intermedias79/79y87/87 también satisfactorias, sin pruebas deAPI/solución. Casos nuevos: TLS/SNI/DB0/certpolicyconfigsinbypass, rutas/puertos, pipeválido/inválido/truncado/extra/bloqueado/cancelado, saneamiento, allowlistporoperación/comandosprohibidos/EVALprevioadatos, RESPvalid/malformed/nulos/UTF8/nesting/cotas/8MiB/shape, AUTHfallido/NOPERM/TIME/MOVED, SCANcompleto/incompleto/residuosM-R-B/presenciatardía/duplicados, sesiónincoherente/cancelaciónduranteAUTH-SCAN/cierre/noretry, evidencia yexitcodes, applyguard remoto.
+
+Laspruebas usan **solo MemoryStream/duplex/fábricasesión doblados; nunca TlsSessionFactory.OpenAsync**. ConfigTLS/chainvalidation se comprueba como configuración/casosde rechazo, no handshake real/compatibilidadElastiCache. No redloopback, Redislocal/real, AWS, Docker, túnelSSM ni secretosreales. Lua sigue sin ejecuciónenintérprete/Valkey (auditoríaestructural/modeloCAS anterior), noaceptaciónremota/seguridadintegral.
+
+### 114.8. Comandos futuros, pendientes y STOP
+
+Plantilla para el padre/custodio futuro, **NO EJECUTADA**; variable solohandleheredado, no password:
+
+```powershell
+dotnet tools/Enver.QuotaControl/bin/Release/net10.0/Enver.QuotaControl.dll inventory --descriptor tools/Enver.QuotaControl/descriptor.approved.json --transport ssm-tunnel --tunnel-port 16379 --credential-pipe $ControlPipeHandle
+```
+
+Ruta directa desdehostprivadoexplícitamenteautorizado: reemplazaropcionesdetúnel por`--transport direct`, conservando handle. Noendpoint/pass/G/tokenenargv/ENV, noStartSessionautomático, nogeneradorsecretos. Sin--transport siguebloqueado(exit20), yotroscomandosnuncaobtienenruta. Nocomandosapplyincluidos/ejecutados.
+
+**Antes inventoryreal faltan:** aprobación/hash/host/actor/ventanadeejecución, custodiaproductor/pipe/passwordefímeraCONTROL yverificaciónSO/trust/CRL/RESP/timeoutreales; precheckAWSactualdenaming/grupo/RG/primary/SG/SSM si aplica, permiso/identidadseparadayalta-bajatemporal según§113; excepciónfreezeIaC/membresía/revocación; túnel/destinoprimary ysin cambiostopológicos acreditados, universo escritores/exclusióninflight0/continuidad/custodiainforme. Ninguno de esos recursos/opciones se crea por esteincremento. No pruebas de escritura para comprobarACLniexcepcióncleanup.
+
+**STOP completado código/tests locales; inventory real NO EJECUTADO.** Solo tools+task/memoria, sinAPI/imagen/Dockerfile/infra/estado/IAM/ACL/Terraform/G/usuario/group/passwordreal/SSM/AWSoperativo/Redisreal/deployment/commit/push. **C/I APPROVED / NOT APPLIED;01 BLOQUEO DURO DE STARTUP por G/CONTROL;02 RESUELTO;03 DISEÑO JSON/tmpfs APROBADO / NO VALIDADO EN RUNTIME;04 PENDIENTE;T008/T017/T019/T020 COMPLETE / ACCEPTED;GATE-I-B PENDING / NOT SATISFIED;dev HISTORY UNCERTAIN;development INDETERMINATE;5000 APROBADO / NO APLICADO;metadata.snapshot/metadata.generation/registry no inicializados**, sinnuevaobservaciónremota.
+
+## 115. Primer intento de PRECHECK AWS para INVENTORY real: STOP por sesión expirada
+
+### 115.1. Autorización y alcance efectivamente alcanzado
+
+Responsable acepta §114 y autoriza secuencia **PRECHECK AWS read-only → si pasa, identidad CONTROL temporal/ACL exacta/asociación → inventory read-only por TLS/pipe → revocación y verificaciónruntime**. No apply-closed/G/escriturasRedis/maintain/activate/D-REC-EPOCH/deployment. La autorización condicional de fases2–5 no permite saltar un precheck fallido ni sustituir perfil por credenciales permanentes.
+
+**Estado observado: PRECHECK BLOCKED / EXPIRED TOKEN; INVENTORY NOT EXECUTED.** CONTROL TOOL conserva **IMPLEMENTED / LOCALLY VERIFIED / NOT EXECUTED**; pruebas90/90de§114 sonhistóricas, no se repiten. No se ejecuta el binarioCONTROL, no se genera password, no se crea/consulta/modifica usuario ni grupo, no se abre túnel/conexiónValkey.
+
+### 115.2. Identidad, comandos y timestamps saneados
+
+Descubrimiento local de herramientas y listado local de nombres de perfiles, sin leer/imprimir credenciales. Un intento inicial `aws sts get-caller-identity` sin perfil explícito finaliza **NoCredentials / exit1**; no acredita identidad ni cuenta. Se revisa la documentación local y se selecciona el perfil administrativo temporal histórico **enver-admin-temp**, sin probar roles de infraestructura/estado ni el permanente enver-infra.
+
+Comando de identidad acotado, sin secretos enargv:
+
+```powershell
+aws sts get-caller-identity --profile enver-admin-temp --region us-east-1 --no-cli-pager --cli-connect-timeout 5 --cli-read-timeout 10 --output json
+```
+
+Ejecutado en hijo con overrides de credenciales/perfil/endpoint heredados retirados, metadatafallbackdeshabilitado, AWS_MAX_ATTEMPTS=1, pager/auto-promptdesactivados y regiónus-east-1. Variables fijadas son de selección/seguridad no secretas; no se exportan claves/sessiontoken ni passwordCONTROL. No salida de awsconfigureconvalores, debug SDK o lectura de secrets.
+
+| Evidencia | Resultado |
+| --- | --- |
+| Inicio | **2026-11-17T15:09:44.029Z** |
+| Fin | **2026-11-17T15:09:47.511Z** |
+| Perfil invocado | **enver-admin-temp** |
+| API | **STS GetCallerIdentity** |
+| Exit del AWS CLI | **254** |
+| Error saneado | **ExpiredToken** |
+| Identidad AWS actual | **NO ACREDITADA**; STS no devolvió identidad válida |
+| Cuenta/ARN objetivo |926925605666 / identidad administrativa histórica de§114; **no verificados actualmente**, no convertirlos en resultado observado |
+| Fallback/renovación/cambio de permisos | **0** tras el fallo; ningún perfil alternativo probado |
+
+Se detiene inmediatamente la actividadAWS tras ExpiredToken. No DescribeReplicationGroups/DescribeUserGroups/DescribeUsers/DescribeCacheClusters/EC2/SSM, CreateUser, ModifyUserGroup, DeleteUser, IAM oSecretsAPI después del fallo. Ninguna consulta de permisos/recurso fue rechazada en esta fase porque no se alcanzó esa verificación; no atribuir AccessDenied o ausencia de recurso a la expiración de identidad.
+
+### 115.3. Resultado completo por fase, sin inventario ni revocación ficticios
+
+| Campo/fase solicitada | Estado en este intento |
+| --- | --- |
+| RG enver-dev-valkey / usergroup enver-dev-valkey / runtimeuser | **NO VERIFICADOS ACTUALMENTE**; precheck detuvo antes de Describe* |
+| Ausencia de enver-dev-quota-control | **NO VERIFICADA**; no confundir «no creado por este intento» con «no existe en AWS» |
+| Endpoint lógico previsto | `master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com`:6379, DB0, según baseline; **no revalidado** |
+| Primary/topología/TLS reales y ausencia de cambios pendientes | **NO VERIFICADOS** |
+| EC2 A/SSM/ruta/estación administrativa | **NO VERIFICADOS**; túneles/sesiones iniciadas0 |
+| FreezeTerraform | No se ejecutó Terraform; **freeze de todos los actores/automatizaciones aún NO ACREDITADO**. El compromiso de este agente de no aplicar no prueba freeze global |
+| Exclusión de escritores/inflight0 | **NO ACREDITADA** en esta ventana; no se infiere de autorización o startupbloqueado |
+| Usuario/password/asociaciónCONTROL creados | **0 / 0 / 0** |
+| Ejecución Enver.QuotaControl inventory | **NO EJECUTADA** |
+| Exit code inventory | **NO APLICA**;254 corresponde aSTS, no inventar exit20 delCONTROL |
+| Inicio/finSCAN, páginas, cursorfinal | **NO MEDIDOS / NO APLICA**; no huboSCAN0→0 |
+| Claves únicas/duplicados/TIMEserver | **NO MEDIDOS**; no registrar0 como si se hubiera observado vacío |
+| Metadata/registry/buckets | **DESCONOCIDOS ACTUALMENTE**, sin consultas Redis |
+| Conclusión del inventory | **NINGUNA**: no PASS/RESIDUE_FOUND, vacío o exclusión acreditada |
+| RevocaciónCONTROL | **NO APLICA AL DELTA DE ESTE INTENTO**: no usuario/membresía/password nuevos que retirar; no borrar identidad preexistente no inspeccionada |
+| Estado final runtime/grupo/RG | Sin mutaciones de este intento; **estado remoto final NO VERIFICADO** |
+
+La aceptación de §114 no resuelve por sí sola custodia/productor seguro, identidad vigente, primary/exclusión/freeze o monitoreo de ventana. Se mantienen esos prechecks antes de cualquier alta temporal. El comando base del responsable sin flagsde ruta no conecta por diseño§114; una ejecución futura requerirá **opciones implementadas --transport/--credential-pipe y --tunnel-port si corresponde**, mecanismo heredado aprobado y ningún passwordenargv. No se intentó usar una invocación incompleta ni modificar código para saltarse protección.
+
+### 115.4. Acción pendiente y cierre
+
+**Responsable debe renovar manualmente enver-admin-temp y comunicar reanudación de Fase1.** Entonces repetir STS y, solo con identidad/cuenta/región válidas, continuar los Describe*/prechecks autorizados, confirmar freezeexterno/exclusión/custodia y puertas§113/114 antes de crear CONTROL. No renovar/asumir otra sesión/usar perfil permanente por iniciativa del agente. No se conserva una password o usuario nuevo de este intento que requiera limpieza diferida.
+
+Registro local previo a actualización documental **2026-11-17T15:10:19.053Z**:270archivosfueratask/memoria(incluidos20CONTROL) digest **fa6fc3498e6b4b590e5f9b44fc205aadd33fe2e71e76d7d8ce59eb99ca6ccac6**, HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb/staged0. Solo taskv0.126.0/§115 y memoria§176 se actualizan; código/READMECONTROL/tests/API/imagen/infra/estado/constituciones y trabajo anterior conservados. Sin nuevos scripts/broker/artefactosauxiliares, builds/pruebas, Terraform, claves/payloadsecretos, usuario/asociación, IAM/ACL, SSM/Valkey, G/apply/maintain/activate/deployment/commit/push.
+
+**C/I APPROVED / NOT APPLIED; DEPLOY-CONFIG-01 BLOQUEO DURO DE STARTUP por G/CONTROL;02 RESUELTO;03 DISEÑO JSON/tmpfs APROBADO / NO VALIDADO EN RUNTIME;04 PENDIENTE;T008/T017/T019/T020 COMPLETE / ACCEPTED;GATE-I-B PENDING / NOT SATISFIED;dev HISTORY UNCERTAIN;development INDETERMINATE;5000 APROBADO / NO APLICADO;metadata.snapshot/metadata.generation/registry no inicializados según evidencia anterior**, sin confirmación remota nueva. **STOP en Fase1 por ExpiredToken; inventory real permanece NO EJECUTADO.**
+
+## 116. Reanudación de §115 tras renovación manual: identidad válida, STOP por DescribeCacheClusters denegado
+
+### 116.1. Autorización y alcance alcanzado
+
+Responsable informa renovación manual de **enver-admin-temp**, STS correcto y autoriza reanudar exclusivamente desde§115: precheckread-only y solo si todas las puertas pasan altaCONTROL→inventory→revocación. Preserva§113–115/noG/noapply/nolifecycle/noRediswrites/noACLruntime/no deployment/nofallback/norenovaciónautomática. La interrupción de respuesta durante este incremento se interpreta como continuación del mismo trabajo, no otra autorización o reinicio de llamadas completadas.
+
+**Estado actual: PRECHECK AWS PARCIAL / BLOQUEADO POR ACCESSDENIED; inventory NO EJECUTADO.** Se supera el bloqueo de identidad de§115 con nuevaevidencia, conservando aquel fallo histórico. CONTROL TOOL permanece **IMPLEMENTED / LOCALLY VERIFIED / NOT EXECUTED**;90/90unitarias históricas no repetidas. No se creaCONTROL/password/asociación/túnel ni conexiónValkey.
+
+### 116.2. Identidad y lecturas AWS saneadas
+
+Perfil exclusivo **enver-admin-temp**, regiónus-east-1; hijo retira overrides de credenciales/perfil/endpoint y deshabilita metadatafallback, pager, autoprompt y retries(AWS_MAX_ATTEMPTS1), sin exponer valores. No otroperfil, nuevas credenciales o asunción/renovación automática. Las salidas usadas son metadata administrativa allowlist; sinSecretString, passwords, HMAC, rawconnectionstrings o tokens.
+
+| Comando/API | Ventana UTC2026-11-17 | Resultado observado |
+| --- | --- | --- |
+| STS GetCallerIdentity | **15:17:17.675Z–15:17:21.820Z** | **exit0**, cuenta926925605666, ARN **arn:aws:iam::926925605666:user/enver-terraform-local**, identidad esperada. Perfil de sesión temporal renovada informado por responsable; STS no prueba vigencia futura/permisosintegrales |
+| DescribeReplicationGroups — enver-dev-valkey | **15:19:20.565Z–15:19:25.671Z** | **exit0**; available, pending{}, usergroupids=[enver-dev-valkey], TLStrue/mode required, clusterdisabled, 1nodegroupavailable/1miembroprimary, sinreplicasobservadas |
+| DescribeUserGroups — enver-dev-valkey | **15:20:34.445Z–15:20:39.130Z** | **exit0**, active/enginevalkey, UserIds=[enver-dev-runtime], PendingChangesnull, ReplicationGroups=[enver-dev-valkey] |
+| DescribeUsers — enver-dev-runtime | **15:20:39.136Z–15:20:43.228Z** | **exit0**, UserId/UserNameexactos, active/valkey, Authenticationpassword/PasswordCount1, grupoúnicoenver-dev-valkey; ACLliteral coincide con§102 |
+| DescribeUsers — enver-dev-quota-control | **15:20:43.228Z–15:20:47.872Z** | **exit254 / UserNotFound**, resultado esperado del precheck de ausencia; **no usuario existente observado**, noAccessDenied/ExpiredToken |
+| DescribeCacheClusters — enver-dev-valkey-001, show-cache-node-info | **15:21:38.983Z–15:21:43.945Z** | **exit254 / AccessDenied**; **STOP**, sin metadata de clústerdevuelta ni siguientes llamadasAWS |
+
+**Primary observado:** `master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com`:6379, nodegroup0001, miembro `enver-dev-valkey-001`/node0001/roleprimary/us-east-1a. TLSrequired es configuraciónAWSobservada, **no handshakeTLS/authCONTROLreal acreditado**. Es una observación puntual, no estabilidad durante una ventanaSCAN que no existió.
+
+**RuntimeACL:** SHA256deltextoACLno secreto **c8dd259d05ec62e012929732cb83b7b184d178ffc75a53f301a51896b008dee6**, idéntico a literalaceptado§102; cuatro patronesdevelopment/sinSCANruntime. No es hash de HMAC/password ni lectura de material secreto. PasswordCount1/modopassword no prueba bytes delsecret; no se leyó/modificó. UserARN `arn:aws:elasticache:us-east-1:926925605666:user:enver-dev-runtime` y asociaciónúnica conservados en esa lectura.
+
+Incidencia de evaluación **local**, sin mutación ni segundo requestRG: la primera proyecciónRG devolvió campos esperados, pero su bandera calculadapassfalse se debió a comillas alteradas en comparaciónJSON por PowerShell/argv. Diagnóstico sinAWS confirmó el literal de comparación distinto del arrayJSONreal. Se reemplazó comparación por comprobaciónarray/length/elemento en las siguientes lecturas y se revisaron los camposRG ya recibidos contra el contrato. **No se presenta ese flag original como PASS automático ni como incompatibilidad AWS**; la respuesta administrativa inequívoca se conserva y el precheck global no se declara aprobado. No archivos/scripts nuevos creados para esa comprobación.
+
+### 116.3. Denegación efectiva y STOP
+
+Acción denegada: **elasticache:DescribeCacheClusters**. Recurso solicitado: **enver-dev-valkey-001**, ARNobjetivo **arn:aws:elasticache:us-east-1:926925605666:cluster:enver-dev-valkey-001**, cuenta926925605666/us-east-1. Comando administrativo solicitado:
+
+```powershell
+aws elasticache describe-cache-clusters --cache-cluster-id enver-dev-valkey-001 --show-cache-node-info --profile enver-admin-temp --region us-east-1 --no-cli-pager --cli-connect-timeout 5 --cli-read-timeout 10 --output json
+```
+
+Se usó proyección allowlist de metadata del clúster; no servidorRedis/comandosmanuales. La denegación no es ausencia de clúster ni cambio de primary. **No se auditó causaIAMconcreta** (identitypolicy/boundary/SCP/sessionpolicy); no atribuir automáticamente a una capa ni generarAdministratorAccess/wildcards. Resolver acceso efectivo a esa lectura con el responsable, no omitirla para lograrPASS ni ensayarotroperfil.
+
+STOP inmediato tras esarespuesta: **DescribeInstances A y DescribeInstanceInformation SSM previstos NO INVOCADOS**, ni consultas adicionalesAWS/IAM, simulaciones, intentosCreateUser/ModifyUserGroup/DeleteUser o retries. No se implementa broker ni se cambian transportecode/ACL/IAM/red/host como compensación.
+
+### 116.4. Resultado por fase y ausencia de delta que revocar
+
+| Fase/dato | Estado al detenerse |
+| --- | --- |
+| Identidad y RG/grupo/runtime/namingCONTROL | Evidencia puntual anterior acreditada; **no significa precheck integralPASS** |
+| Clúster miembro/version/parámetros/estado actual | **NO VERIFICADOS**, DescribeCacheClustersdenegado; no sustituir por versiónhistórica/HCL |
+| EC2 A/SSM/ruta/túnel | **NO VERIFICADOS en esta ejecución**; StartSession0/SendCommand0 |
+| FreezeTerraform global | **NO ACREDITADO aún**; Terraformnoejecutado poragente no acredita todos los actores/automatizaciones |
+| Exclusión completa/inflight0/estabilidadprimary enventana/custodiaproductorpipe | **NO ACREDITADOS aún**; no se infieren de autorização/startupbloqueado/ausenciadeusuario |
+| CreaciónCONTROL/password/asociación | **0 / 0 / 0** |
+| Inventory | **NO EJECUTADO**, sin exitcodeCONTROL;254esdelAWSCLIprecheck |
+| IniciofinSCAN/páginas/cursorfinal/keysúnicas/duplicados/TIMEserver | **NO MEDIDOS**, no sustituir por0 |
+| Metadata/registry/buckets | **NO OBSERVADOS en este intento**; no conclusión vacío/residuos/primeruso |
+| Revocación | **NO APLICA al delta0 de esta ejecución**; CONTROLUserNotFoundantesdelSTOP y ninguna creación posterior; noDeleteUser innecesario |
+| Runtime/usergroup/RG final | Últimas lecturasprecheck sanas y sinmutacionesdelagente; **no nueva relectura posterior aSTOP** ni prueba de estabilidad de una ventana de inventory |
+
+NoPASSni conclusiónCURRENT INVENTORY EMPTY(ni ampliada bajoexclusión) emitida. La revocaciónobligatoriade§113–115 seguirá aplicando si unincrementofuturo llegaacrearCONTROL, tantoPASScomoSTOP; aquí noexiste deltaadministrativo propio que limpiar.
+
+Conteos de invocacionesAWSdeesteincremento: **STS1, DescribeReplicationGroups1, DescribeUserGroups1, DescribeUsers2(runtimeexit0/CONTROLUserNotFound), DescribeCacheClusters1denegado**. Los erroreslocales de comparación no generan requestsAWSadicionales. **AWSwrites0/Redisconnections0/Rediswrites0/Secretsreads0/IAMcalls0/SSM0**; nopassword/Ggenerados, ningún perfilalternativo o fallback.
+
+### 116.5. Pendiente y cierre
+
+Responsable debe **resolver la denegación efectiva de DescribeCacheClusters para el recurso anterior y autorizar reanudación**. Después revalidaridentidad/recursossegúnvigencia y completar precheckEC2A/SSM/ruta/freeze/exclusión/custodia/cleanup antesdecrearCONTROL. No se autoriza por este registro cambioIAM/ACL/instalación/toolingnuevo; ni nuevos intentos deprovisión porinferencia. Mantener toda la secuencia condicional§113–115 y el bloqueo deD-REC-EPOCH/G/apply/lifecycle/deployment.
+
+Integridad local pre-docs **2026-11-17T15:22:19.968Z**:270archivos fuera de task/memoria digest **fa6fc3498e6b4b590e5f9b44fc205aadd33fe2e71e76d7d8ce59eb99ca6ccac6**, HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb/staged0. Solo taskv0.127.0/§116 y memoria§177 actualizados; §115/176yanteriores/código/tools/tests/API/imagen/infra/estado/constituciones/trabajoprevio intactos. Sin nuevas instalaciones/builds/tests/auxiliares, Terraform/Docker/IAM-ACLwrites/deployment/commit/push.
+
+**C/I APPROVED / NOT APPLIED;01 BLOQUEO DURO DE STARTUP por G/CONTROL;02 RESUELTO;03 DISEÑO JSON/tmpfs APROBADO / NO VALIDADO EN RUNTIME;04 PENDIENTE;T008/T017/T019/T020 COMPLETE / ACCEPTED;GATE-I-B PENDING / NOT SATISFIED;dev HISTORY UNCERTAIN;development INDETERMINATE;5000 APROBADO / NO APLICADO;metadata.snapshot/metadata.generation/registry no inicializados según evidencia previa**, sin nuevas observaciones de datosRedis. **STOP enFase1 porAccessDenied; CONTROL/inventory/revocación de delta0 NO EJECUTADOS.**
+
+## 117. Reanudación de §116: lecturas AWS correctas, STOP antes de CONTROL por puertas operativas no acreditadas
+
+### 117.1. Autorización y resultado
+
+El responsable informa que agregó y verificó manualmente `elasticache:DescribeCacheClusters` con `enver-admin-temp`; autoriza continuar desde §116, con fases2–5 solo si TODOS los prechecks pasan, incluido **freeze operativo acreditado**. Se conservan §113–115, la excepción temporal de membresía bajo ownership Terraform y las prohibiciones de G/apply/lifecycle/Rediswrites/runtimeACL/deployment/Terraform apply/fallback/renovación automática/secretos en salida.
+
+**Lecturas AWS ejecutadas: PASS. Fase1 global: NO APROBADA / STOP antes de crear CONTROL.** No hay acreditación de freeze global ni exclusión completa/inflight0 en la información disponible; no convertir «NO Terraform apply» en prueba de que todos los actores y automatizaciones están congelados. La autorización condicional no es una declaración de que ya se cumplieron esas condiciones. CONTROL TOOL conserva **IMPLEMENTED / LOCALLY VERIFIED / NOT EXECUTED**;90/90pruebas locales históricas no repetidas.
+
+### 117.2. Evidencia administrativa saneada — 2026-11-17 UTC
+
+Perfil exclusivo **enver-admin-temp**, regiónus-east-1. Procesos hijos sin overrides heredados de credenciales/perfil/endpoint, metadatafallback deshabilitado, AWS_MAX_ATTEMPTS1, pager/autoprompt desactivados; sin credenciales exportadas, debug, fallback o renovación. Las consultas AWS CLI llevan timeoutsconnect5s/read10s y timeoutdeproceso25s; proyecciones allowlist sin payloads secretos.
+
+| API / recurso | Inicio–fin UTC | Resultado |
+| --- | --- | --- |
+| STS GetCallerIdentity | **15:33:32.331Z–15:33:36.977Z** | exit0; cuenta926925605666, **arn:aws:iam::926925605666:user/enver-terraform-local**, identidad esperada |
+| DescribeReplicationGroups / enver-dev-valkey | **15:34:24.888Z–15:34:29.221Z** | exit0; available, PendingModifiedValues{}, TLStrue/**required**, clusterdisabled, único grupoenver-dev-valkey, único miembroenver-dev-valkey-001/primary/node0001/us-east-1a |
+| DescribeUserGroups / enver-dev-valkey | **15:34:29.226Z–15:34:33.911Z** | exit0; active/valkey, soloenver-dev-runtime, PendingChangesnull, RGexacto |
+| DescribeUsers / enver-dev-runtime | **15:34:33.912Z–15:34:38.917Z** | exit0; ID/nombreexactos, active/valkey/passwordcount1, grupoúnicoexacto; ACLliteral igual§102 |
+| DescribeUsers / enver-dev-quota-control | **15:34:38.917Z–15:34:43.285Z** | exit254/**UserNotFound**, ausencia esperada; no denegación |
+| DescribeCacheClusters / enver-dev-valkey-001, show-cache-node-info | **15:34:43.286Z–15:34:46.775Z** | **exit0**, available/valkey7.2.6, pending{}, parámetroenver-dev-valkey/**in-sync**, CacheNodeIdsToReboot[], nodo0001available/us-east-1a |
+| EC2 DescribeInstances / A i-0a66085b7b2411393 | **15:34:46.776Z–15:34:52.046Z** | exit0; running/us-east-1a, VPC/subnet/SG/profile esperados; IMDSrequired/hop1/applied |
+| SSM DescribeInstanceInformation / A | **15:34:52.047Z–15:34:56.556Z** | exit0; **Online**, Linux, AgentVersion **3.3.5828.0**, compatible por versión con forwarding remoto; LastPing2026-11-17T09:30:03.696000-06:00 |
+
+**Primary lógico observado:** `master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com`:6379. Nodeendpoint: `enver-dev-valkey-001.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com`:6379. TLSrequired es configuración administrativa, no handshake real. SGcache **sg-0af65898948bd0578/active**, subnetgroupenver-dev-cache-subnets. EC2 A: VPC **vpc-060f67e600affd569**, subnet **subnet-0120d869dd659e2a1**, único SG **sg-070d06cfebe866427**, profile **arn:aws:iam::926925605666:instance-profile/enver-dev-api-runtime**. Identificadores coinciden con baseline; **no se consultaron reglas SG/rutas/DNS actuales**.
+
+ACLruntime SHA256deltexto no secreto **c8dd259d05ec62e012929732cb83b7b184d178ffc75a53f301a51896b008dee6**, igual§102/116. No hash de password/HMAC ni lectura de secretos. PasswordCount1 no acredita bytes del secreto; no se leyó/modificó. Todas las validaciones locales de estas respuestas dieronPASS; sin repetir la incidencia de comillas§116.
+
+La denegación DescribeCacheClusters§116 queda superada por esta llamadaexit0, **no por auditoría de la nueva política IAM**. No se modifica/inspecciona IAM. Las lecturas son observaciones puntuales coherentes con baseline: **no acreditan continuidad de primary/topología durante una ventana inventory**, ni ausencia universal de todo tipo de mantenimiento. Ningún inventory ocurrió.
+
+### 117.3. Puertas pendientes y razón del STOP
+
+1. **Freeze global / owner IaC:** falta constancia del responsable y ventana de congelación de todos los applies/automatizaciones y operadores, excepción temporal de membresía y supervisión hasta restitución baseline. Este agente no ejecutó Terraform; eso no acredita el freeze global. No se instala un bloqueo ni cambia Terraform/IAM para fabricarlo.
+2. **Exclusión acreditada:** falta inventario completo de escritores/consumidores, barrera mantenida y evidencia inflight0/comandos encolados resueltos, responsable e inicio/cobertura. Startupbloqueado, API no desplegada por este agente o vacío eventual no prueban exclusión (§113.7.3). No se inicia API para comprobarla.
+3. **Custodia/productor seguro:** transporte consumidor de pipe existe, pero el productor/broker operativo sigue sin implementación aprobada/acreditada (§114/README CONTROL). Antes de alta deben existir padre/custodio y procedimiento RAM→CreateUser→handleheredado, sin secretosargv/ENV/disco/logs. No se improvisa broker ni genera password para descubrir luego que no puede entregarse.
+4. **Ruta y operación completas:** A running/SSMOnline/versioncompatible no acreditan por sí solos plugin local, permisosStart/TerminateSession, listenerloopback, DNS/SG/ruta efectiva, trust/revocación TLS, hash del artefacto ejecutable, ventana/supervisión y monitoreo de topología. No se abren sesiones/túneles ni se hacen probes Redis para saltar las otras puertas. Estas comprobaciones permanecen pendientes, no se declaran fallidas ni aprobadas sin ejecutarlas.
+
+**STOP antes de CONTROL**, sin nuevas llamadasAWS después de SSM ni intento de asociar para comprobar permisos. Para reanudar, aportar primero constancia de freeze/excepciónIaC y exclusión con cobertura/responsable/ventana, y acordar la preparación/revisión del productor seguro y prechecks operativos restantes. No pedir nuevas credenciales ni más permisos por inferencia: en este intento no hubo AccessDenied. Sigue siendo necesaria reanudación delimitada y revalidación según vigencia; no se encadenan automáticamente fases2–5.
+
+### 117.4. Resultado y revocación
+
+**AWScalls8:** STS1/DescribeRG1/DescribeGroup1/DescribeUsers2/DescribeCacheClusters1/EC2Describe1/SSMDescribe1. **AWSwrites0, IAMcalls0, Secretsreads0, CreateUser0, passwordCONTROL0, ModifyUserGroup0, StartSession0, SendCommand0, Redisconnections0/Rediswrites0, inventory0**.
+
+Exitcodeinventory **NO APLICA**;254esUserNotFoundesperado del precheck de ausencia. SCANinicio/fin/páginas/cursorfinal/clavesúnicas/duplicados/TIMEserver/M-R-B **NO MEDIDOS**, no cero inventado, PASSvacío ni NEVERUSED. **Revocación no aplica al delta0**: CONTROL ausente en consulta y no creado después; noDeleteUser ni retirada innecesaria. Si una ejecución futura creaCONTROL, revocación completa sigue obligatoria tantoPASScomoSTOP. Runtime/grupo/RG intactos en lecturas precheck y sinmutaciones propias; **no relectura posterior aSTOP** ni garantía de inmutabilidad de otros actores.
+
+Baseline local **2026-11-17T15:33:31.098Z**,270archivos fuera task/memoria digest **fa6fc3498e6b4b590e5f9b44fc205aadd33fe2e71e76d7d8ce59eb99ca6ccac6**, HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb/staged0. Solo taskv0.128.0/§117 y memoria§178 se actualizan; historial§116/177yanteriores, código/API/imagen/tools/tests/infra/estado/constituciones/trabajoprevio conservados. Sin builds/tests/scripts/broker/instalaciones/Terraform/Docker/IAM-ACLchanges/G/apply/initialize/fence/maintain/activate/D-REC-EPOCH/deployment/commit/push.
+
+**C/I APPROVED / NOT APPLIED;01 BLOQUEO DURO DE STARTUP por G/CONTROL;02 RESUELTO;03 DISEÑO JSON/tmpfs APROBADO / NO VALIDADO EN RUNTIME;04 PENDIENTE;T008/T017/T019/T020 COMPLETE / ACCEPTED;GATE-I-B PENDING / NOT SATISFIED;dev HISTORY UNCERTAIN;development INDETERMINATE;5000 APROBADO / NO APLICADO;metadata.snapshot/metadata.generation/registry no inicializados según evidencia previa**, sin nueva observación de datosRedis. **STOP enFase1 por puertas operativas no acreditadas; inventory real NO EJECUTADO.**
+
+## 118. Acreditación operativa PRE-CONTROL: FASE 1 = NOT ACCREDITED
+
+### 118.1. Autorización y límites
+
+Responsable acepta §117 y autoriza exclusivamente acreditar A freeze global, B exclusión/inflight y C preparación local de ruta/artefacto/pipe. **No autoriza crear CONTROL/password/membresía/túnel/conexión Redis ni inventory**, aun si se acreditaran A+B+C; Fase2 exigiría nueva autorización expresa. Sin cambios AWS/IAM/ACL/Terraform/state, G, lifecycle, deployment, commit o push.
+
+Se inspeccionan archivos, referencias Git en caché, procesos y tareas de Windows y artefactos binarios **sin ejecutarlos**. Al no poder acreditar A se detiene la progresión operativa: **no AWS API, GitHub API, fetch, SSM SendCommand/StartSession, Docker, Redis, builds o pruebas nuevas**. B se entrega como universo candidato y brecha explícita, no como observación remota actual. C se analiza offline para documentar hallazgos y procedimiento; nada se instala/implementa.
+
+### 118.2. Matriz de acreditación
+
+| Condición | Evidencia | PASS/STOP | Limitación |
+| --- | --- | --- | --- |
+| A1 Terraform local sin apply | Snapshot Windows **2026-11-17T15:42:45.4645453Z**: procesos relevantes Terraform/AWS/dotnet/Redis/Valkey/CONTROL/Docker/pluginSSM observados0; locklocalTerraform ausente | **PASS local puntual** | No bloqueo continuo; no cobertura de WSL/otras máquinas/otros ejecutores |
+| A2 Terraform remoto / CI infra / workflows | infra/main.tf declara backendlocal; no backendcloud/remoto en HCL inspeccionado. .github ausente; workflows0 en 5heads locales y 4refsorigin en caché, consulta15:45:34.753Z | **STOP global** | No prueba de otros workspaces/repos, ramas remotas actuales, runs queued/in_progress, schedules o automatizaciones externas. gh no disponible enPATH; no se presume estadoGitHub por el checkout |
+| A3 automatizaciones y scripts | Windows ScheduledTasks15:44:25.8188823Z:178 tareas leídas, coincidenciasnominalesENVER/Terraform/AWS/Redis0;2 tareas con shellgenérico. Bootstrapversionado solo preparaDocker/SSM, no despliegaAPI. Existen helpersadministrativos históricos enTemp, no ejecutados | **STOP global** | Búsqueda nominal no audita semántica de tareas genéricas, scripts fuera del repo, otros hosts o event sources; no deshabilita nada |
+| A4 sesiones administrativas / humanos | Snapshotlocal sin mutadores relevantes visibles; ningún cambio por este agente | **STOP** | No inventario actual de sesionesSSM/consola/SDK/CloudShell/otrosoperadores ni confirmación de todos los titulares con capacidadCreateUser/DeleteUser/ModifyUserGroup |
+| A5 excepción temporal de membresía | Delta delimitado: agregar únicamenteCONTROL → inventory único → retirar únicamenteCONTROL → baseline exacto **UserIds=[enver-dev-runtime]**, RG asociado al mismo grupo; sinModifyUserruntime/listreplace/ignore_changes | **PASS delimitación / STOP activación** | No habilita Fase2; falta ownerIaC, responsables/cobertura y ventana de freeze mantenido hasta restitución verificada |
+| **A FREEZE GLOBAL** | Parciales anteriores | **STOP** | No están demostradas simultáneamente las cinco condiciones de freeze global |
+| **B exclusión completa + inflight0** | Universo candidato§118.3; lecturasA/B antiguas acreditaban contenedores/procesos/unidades/listener0 solo entonces | **STOP** | Sin observación remota nueva, inventario exhaustivo, barreraantidespacho/antirreinicio, corteT0 ni cierre de comandos ya despachados |
+| C artefacto/source/tests históricos | DLL existe; vínculoDLL↔PDB válido,13/13 documentosPDB coinciden porSHA256 con fuentes actuales; DLLdependencia del runner idéntica. Digest20tools igual§114;90/90PASS históricos§114.7 | **PASS estático/histórico** | No nueva ejecución de pruebas, firma de build ni handshake/integración; timestamps por sí solos no se usan como prueba |
+| C apply remoto/TLS | Program.cs79 bloqueaapply; CLI42 solo permite opcionesremotas eninventory; ControlService37 exige simulación; RemoteTransport144 no es simulación; RemotePolicy8–11 niegaEVAL/escrituras. TargetHost fijo, TLS1.2/1.3, trust/revocaciónestrictos | **PASS revisión local** | No se ejecutóapply ni prueba de red; no demuestra trust/ruta reales |
+| C productor/pipe operativo | Existe consumidorAnonymousPipeClientStream; frameuint32BE+16..128bytes+EOF, saneamiento/zeroizationbest-effort. README121–129 declara productor futuro | **STOP** | **Productor/broker operativo no implementado/acreditado**, no password creado ni prueba de herencia/custodia operativa; contrato no equivale a productor listo |
+| C SSM/ruta/ventana | Plantillas y cierre§118.5; A Online/agentcompatible solo evidencia histórica§117. Plugin no encontrado enPATH ni **C:\Program Files\Amazon\SessionManagerPlugin\bin\session-manager-plugin.exe** | **STOP** | No descarta otra instalación; falta ejecutable/ruta verificados. Sin instalación, túnel, DNS/SG/trust/monitoreo ni prueba de bindingloopback |
+| **C RUTA/ARTEFACTO/PIPE PREPARADOS** | Parciales anteriores | **STOP** | Artefacto inspeccionado no resuelve productor y ruta operacional |
+
+**Decisión: FASE 1 = NOT ACCREDITED.** No se solicita ejecución de Fase2 ni se reutiliza su autorización condicional anterior para crear recursos.
+
+### 118.3. Universo candidato de escritores y brecha inflight
+
+Este es un **inventario de fuentes posibles identificadas**, no un universo cerrado demostrado:
+
+| Fuente posible | Evidencia disponible / estado actual |
+| --- | --- |
+| EC2 A i-0a66085b7b2411393 y B i-00de11a3f3c1a8aa5: API, containers, procesosdotnet/Enver, systemd, reinicios automáticos, listener8080 | Observaciones históricas§99–102; no convertirlas en conteos actuales. En este incremento contenedores/procesos/unidades/listenerA/B = **NO MEDIDOS** |
+| Cron/systemdtimers/at/jobs/scripts en A/B y otros hosts posibles | **NO VERIFICADOS actualmente**; bootstraplocal no demuestra ausencia de tareas añadidas después |
+| Register/Login/Logout runtime | Source: Composition/RegisterControls.cs, LoginControls.cs, LogoutControls.cs → RedisAuthenticationQuotaStore.EvaluateAndConsumeAsync → scriptConsumeAuthenticationQuota. Capacidad de escritura del usuario runtime permanece; no se modificaACL |
+| Lifecycle/administración y herramientasCONTROL anteriores | RedisAuthenticationQuotaLifecycle y helpersTemp de diagnósticos/ACL son capacidades candidatas; CONTROLactual tieneapplyremotobloqueado. No se ejecutan helpers históricos ni se presupone su inactividad global |
+| Estación Windows/WSL, pruebas integración/seguridad/capacidad, otros desarrolladores y CI | SnapshotWindowsrelevantes0; ningún runner iniciado aquí. WSL/otros ejecutores/CI actuales **NO VERIFICADOS**; los proyectos de pruebas existentes no son prueba de ejecución actual ni de ausencia futura |
+| Sesiones Redis/SDK/redis-cli/valkey-cli, túneles y holders de credenciales runtime/admin | SnapshotWindowscli0, sin conexiónRedis de este agente. Otras sesiones/clientes/credenciales no inventariados; **no CLIENT LIST ni consultas Redis** |
+
+No se puede registrar containersENVER0, dotnetENVER0, listener8080ausente, systemdinactivo o timers/jobsescritores0 para A/B **hoy**. Aun una futura observación nueva de esos ceros no cerraría el universo ni impediría reinicios/despachos posteriores.
+
+**Inflight: UNKNOWN, no0.** Mecanismo de cierre acreditado: **ninguno**; barrera aplicada/verificada: **ninguna**; instanteT0 después del cual ningún escritor pueda despachar: **no establecido**. Faltan (1) listado completo de dispatchers/holders y responsables, (2) barrera externa con cobertura antinuevosdespachos/antirreinicio mantenida, (3) acuses de drenaje por conexión/cola y respuestas terminales para toda operación ya enviada, o una cota exhaustiva de ejecución servidor/colas demostrada con recibo de drenaje y tiempo acotado. Debe incluir buffers/colas de clientes, red, ejecuciónRedis y posibles retries/automatismos; ausencia de proceso, timeoutcliente/socketcerrado, ALB retirado o esperar900s **no acreditan** finalización de comandos ya aceptados. No existe aquí coordinador/ledger/procedimiento servidor que resuelva esa incertidumbre. No se introducefence/ACL/networkchange como compensación.
+
+### 118.4. Identidad de los artefactos locales no secretos
+
+Inspección15:42:49.321Z, confirmaciónestáticaPE/PortablePDB15:44:29.559Z. DLL108032bytes, mtime15:05:14.082Z; runnerDLL111616bytes, mtime15:05:16.464Z. **El vínculoPDB y checksums se comprueban sin cargar/ejecutar assemblies.** Documentos:10sourcesCONTROL+3generados; todos13coinciden. Copia `tools/Enver.QuotaControl.Tests/bin/Release/net10.0/Enver.QuotaControl.dll` idéntica al DLLseleccionado. Fuente/testsource/control20files digest inalterado respecto§114; soporte de correspondencia con baseline90PASS histórico, no nueva certificación de tests.
+
+| Artefacto | SHA-256 |
+| --- | --- |
+| tools/Enver.QuotaControl/bin/Release/net10.0/Enver.QuotaControl.dll | **6b32414eb3a66cf9339aa066af2049da11f21339c095427204d146d42622823f** |
+| tools/Enver.QuotaControl/descriptor.approved.json | **52f6cc3519295c3e11ce4d8a07f64b4c896e3ac8bf502bfe0b684b15a0142ca8** |
+| tools/Enver.QuotaControl/bin/Release/net10.0/Enver.QuotaControl.pdb | cbb414f9c37c2188188a1dc8cdf1d321bb814185edaceba8ddf0f3b4dc65c3fd |
+| tools/Enver.QuotaControl.Tests/bin/Release/net10.0/Enver.QuotaControl.Tests.dll | d8a4318db1deb1d0d967f03f12089adad2cf5109dc6d94a42cf433b97e9dfebf |
+| 20archivosCONTROL/testsource/docs, agregadoordenadoruta-NUL-hash unidosporLF | **8c53b9bca334abee9548e5cc8decf02023f3ec2b4c6996af5d3b051a4e28c21c** |
+| Program.cs | 5ecbcceeeaa5e9ecc4801374c49071dbf27f9152b4e7d7df2b17c4a944d342da |
+| RemoteTransport.cs | e6f527999c4671bb52fda9d467d7f4193ff414eed269b4daca48080056727ea5 |
+| RemotePolicy.cs | 47507ca829d5460f5d7085ff20c0c1428b2adaade48c897b18d6e32972a0502f |
+| PipeCredential.cs | 85fbec1537a16f88c29457eccf71e2f3f1d3786baa8b50bf8346976bc96112ec |
+| InventoryExecution.cs | f9f86655fe70924ecd7466259a6494fbfd41f27ef1c2ca42c6b4b3fdfe83638b |
+
+Últimas5rutas relativas a tools/Enver.QuotaControl/. Descriptor conservaDevelopment/development/C/Iaprobados/capacidad5000; ningunaGse añade. **CONTROL remoto = IMPLEMENTED / LOCALLY VERIFIED / NOT EXECUTED.**
+
+### 118.5. Procedimiento preparado, NO EJECUTABLE aún por falta de acreditación
+
+**Productor pendiente:** padre administrativo revisado debe generar posteriormente64caracteresalfanuméricosCSPRNGsin sesgo solo enRAM, hacerCreateUser mediante API/SDK sinsecretosCLI/ENV/disco/logs y mantenercustodia; crearAnonymousPipeServerStreamdeunuso con herenciarestringida al hijo, entregaruint32BE+bytes+EOF, cerrar copialocaldelhandlecliente y limpiar buffers propios. El handle debe heredarse realmente al proceso; no copiarlo entreconsolas. No se implementa ni aprueba un broker nuevo en esta entrega. Revisar además anti-dumps/transcripts/EDR/swap y copias internas nozeroizables; no prometer borrado perfecto del SO/CLR.
+
+**Ruta futura exacta:** estaciónactual autorizada→SSMporA→primary6379; listenerlocal16379solo loopback. Antes: pluginhash/procedencia/ruta, permisosStart/TerminateSessionexistentes, SG/DNS/ruta/trustTLS/topologíamonitorizados y custodio/ventana acreditados. Ausencia de plugin utilizable ⇒STOP, no instalación o fallbackB/directo. Plantilla de sesión, sinpassword y **NO EJECUTADA**:
+
+```powershell
+aws ssm start-session --target i-0a66085b7b2411393 --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters "host=master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com,portNumber=6379,localPortNumber=16379" --profile enver-admin-temp --region us-east-1 --no-cli-pager
+```
+
+El supervisor futuro deberá conservar SessionId saneado y PID del plugin propios. Comprobar bindloopback efectivo antes de que el padre inicie inventory; listener no restringible/ocupado ⇒cerrar sesiónpropia ySTOP, sin exponerpuertos. El padre, no un usuario copiandohandles, iniciaría exclusivamente:
+
+```powershell
+dotnet tools/Enver.QuotaControl/bin/Release/net10.0/Enver.QuotaControl.dll inventory --descriptor tools/Enver.QuotaControl/descriptor.approved.json --transport ssm-tunnel --tunnel-port 16379 --credential-pipe $ControlPipeHandle
+```
+
+**TLS hostname/SNI fijo = master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com**, aun conTCP127.0.0.1:16379; DB0, TLS1.2/1.3, onlinecertificaterevocation, sinhostname/certbypass, retries o reconexiones. Los comandos son plantillasdeprocedimiento, no software supervisor ya implementado ni autorizaciónFase2.
+
+**Máximo procedimental definido:900s(15min)** desde primerCreateUser hasta ausenciaCONTROL y baselineverificado; ninguna ventana comienza ahora. Subpresupuestos secuenciales máximos: crear/active120s, asociar/propagar180s, abrir/verificartúnel60s, inventory30s, **reserva510s para revocación** (retirar/propagar240s, eliminar/ausencia180s, compararbaseline90s). No iniciar si no puede custodiarse cierre ni hay vigenciasuficiente de sesiónadministrativa verificada por responsable (mínimo20min al inicio como margen). Revalidar prechecks/hashes/primary y acreditar A+B+C justo antes; cualquier sobrepaso omite etapas restantes y pasa a cleanup/incidente, nunca extiende autorización de inventory.
+
+| Incidencia futura | Cierre obligatorio, sin escrituras Redis |
+| --- | --- |
+| ExpiraciónAWS | CancelarCLI/cerrarpipe/TLS/pluginpropios; no fallback ni renovaciónautomática. Cleanup administrativo con mismaidentidadvigente si aún posible; si no, escalar al responsable para renovaciónmanual/intervención expresamente delimitada. No declararrevocación sin evidencia |
+| Túnel roto / TLS / AUTH / inventoryexitno0 / respuestaambigua | Cancelar una sola pasada, preservar informesaneado, cerrar recursos; sinretry/reconnect. Retirar únicamenteCONTROL→esperarbaseline→eliminarusuario creado→confirmarausencia |
+| Cambio/continuidadinciertadeprimary | STOP, sin nuevo destino/pasada; mismo cleanup. No concluirvacíoacreditado |
+| Usuario/grupopending otimeout | No iniciarTLS/inventory; inspeccionar delta propio y limpiar cuando el estado admitaoperación. SinModifyUserruntime ni sustitucióndelista; error/ambigüedadescalados |
+| Revocaciónfallida o900s excedidos | **INCIDENTEABIERTO**; noPASS/cierre ficticio, mantenerfreeze/exclusión y supervisión, escalar alresponsable. NoTTLautomático deCONTROL, noCleanupRedis ni compensaciónACL/IAM/red. El techo900s no garantiza borrado siAWS rechaza/noresponde |
+
+Cerrar túnel propio incluye terminarplugin/sockets y `aws ssm terminate-session --session-id <SessionId-propio> --profile enver-admin-temp --region us-east-1 --no-cli-pager` cuando exista sesiónvigente; nunca sesionesajenas. Restauración verificable: grupoactive/UserIds=[runtime]/sinpending, CONTROLUserNotFound, RGavailable/primaryTLSgrupoiguales, runtimeACL/authmode/passwordcount/engine/ARN/asociacionesiguales; countigual no prueba bytessecretos. Si se detectadriftajeno, no sobrescribirlista ni tocar runtime: incidente y responsable. Nada de esta secuencia se ejecutó.
+
+### 118.6. Cierre y evidencia faltante exacta
+
+**FASE 1 = NOT ACCREDITED**. Faltan: (A) responsable/cobertura/ventana y evidencia actual de congelación de CI/workspaces externos/sesiones/automatizaciones/todoslosoperadores; (B) inventario cerrado de escritores incluidas A/B/jobs/admins, observacionesactuales y barreraT0 mantenida más recibos/cotaexhaustiva de drenajeinflight; (C) productoroperativo revisado, pluginSSMutilizable y controles de ruta/host/trust/topología/custodia. No basta una afirmación del agente ni las lecturaspuntuales de§117. No se solicitan más permisosAWS ni autorizaciónFase2 en este estado.
+
+Baseline **2026-11-17T15:42:49.321Z**:270archivosfueratask/memoriadigest **fa6fc3498e6b4b590e5f9b44fc205aadd33fe2e71e76d7d8ce59eb99ca6ccac6**, HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb/staged0. Solo taskv0.129.0/§118 y memoria§179; históricos y código/tools/binarios/API/imagen/infra/state/constituciones/trabajoprevio conservados. AWS/SSM/GitHubAPI/Redis/Docker/Terraform/build/tests/password/usuario/membresía/túnel/G0; sin commit/push. Revocaciónnoaplicadelta0.
+
+**C/I APPROVED / NOT APPLIED;01 BLOQUEO DURO DE STARTUP por G/CONTROL;02 RESUELTO;03 DISEÑO JSON/tmpfs APROBADO / NO VALIDADO EN RUNTIME;04 PENDIENTE;T008/T017/T019/T020 COMPLETE / ACCEPTED;GATE-I-B PENDING / NOT SATISFIED;dev HISTORY UNCERTAIN;development INDETERMINATE;5000 APROBADO / NO APLICADO;metadata.snapshot/metadata.generation/registry no inicializados según evidencia previa**, sin nuevas observacionesRedis. **STOP PRE-CONTROL; ninguna Fase2 iniciada.**
+
+## 119. Cierre de preparación operativa: freeze preparado, A/B observados y productor pipe implementado localmente
+
+### 119.1. Autorización y decisión
+
+Responsable acepta§118, mantiene Fase1NOTACCREDITED y autoriza únicamente checklistfreeze, observacionesA/B, análisisbarrera/inflight, productorpipe con tests sintéticos y preparaciónlocalpluginSSM. **No crear CONTROL/passwordreal/membresía/túnel/conexiónRedis/inventory/G/deployment**, ni IAM/ACL/Terraform/workflows/commit/push. Se crean **9archivos** en tres carpetas independientes y se sincronizan task/memoria; no se modifica CONTROLoriginal/API/imagen/infra/estado.
+
+**FASE 1 = NOT ACCREDITED.** El productor local queda implementado/probado, no operativo. La acreditación de freeze requiere responsable/ventana/aceptación, el universo de escritores sigue no cerrado/T0noestablecido/inflightUNKNOWN y el plugin no es utilizable desde la configuración actual. Ninguna Fase2 se inicia ni se solicita su ejecución en este estado.
+
+| Condición | Estado | Evidencia | Qué falta |
+| --- | --- | --- | --- |
+| A freeze/checklist | **PREPARADO / NO ACREDITADO** | [Checklist aceptable por responsable](../../tools/Enver.QuotaControl.Operations/README.md), baselineexacto y excepciónsoloCONTROL, ventana≤900s; Terraformlocal0; GitHub0workflows/0runsactivos | Nombre/contacto/custodios, inicio/cierremáximoUTC reales, cobertura/acuses de todos los operadores/CI/workspaces/sesiones, aceptación expresa y supervisión mantenida |
+| B hostsA/B | **OBSERVADOS**, no universo cerrado | DosSSMreadonlySuccess0; contenedoresall/running0/procesosindicadores0/listener8080=0/establecidas6379=0/systemdjobs0;7timers/1archivo cron-script porhost sinindicador | Auditoría de scripts transitivos/otrosclientes/holders y mecanismo antinuevosdespachos/antirreinicio; no confundir ceros actuales con cierre continuo |
+| B T0/inflight | **NO ESTABLECIDO / UNKNOWN** | Documento define prueba exigida de bloqueo global y drenaje | Control externo que cubra TODO el universo y acuses/cotaexhaustiva de lo ya aceptado; no basta esperar900s, socketcerrado o timeoutcliente |
+| C productorpipe | **IMPLEMENTED / LOCALLY VERIFIED / SYNTHETIC ONLY** | BibliotecaWindowsx64 separada;29/29PASS/exit0, cero paquetes/red/passwordreal; consumidoraceptado porDLLsinrebuild | Revisar/custodiar padre real e integración posteriorRAM/CreateUser/revocación/evidencia bajo autorización separada; no implica altaAWSautorizada |
+| C plugin/ruta | **NO UTILIZABLE actualmente** | NoPATH/registroHKLM-HKCU/5rutas; WindowsX64/AWSCLI2.40.1AMD64. PlantillaSSMpreparada, sinStartSession | Ruta de pluginexistente revisada, o instalaciónlocal explícitamente autorizada con firma/versión/hash/procedencia; posterior verificación de ruta/trust/topología |
+| ArtefactoCONTROL | **INTACTO**, NOT EXECUTED operativo |20filesdigest§114igual/DLLdescriptorhashes§118iguales;APIimagenintactas | Sin nuevas pruebas deTLS/Redisreal ni acreditaciónoperativa por esa integridad |
+
+### 119.2. Freeze y GitHub verificados hasta donde permite el alcance
+
+El checklist define responsableúnico/custodios, Tfreeze y cierre≤Tfreeze+15min, prohibiciones deTerraformapply/manualElastiCache/pipelines y nuevosdespachos, acuses de no concurrencia, excepciónaditiva de membresía y restauraciónexacta **UserIds=[enver-dev-runtime]**. Todos los campos humanos/temporales permanecenPENDIENTE/NOINICIADO, no inventados ni aceptados por el agente. Ante cleanupfallido el techo15min pasa a incidenteabierto y no a liberación ficticia del freeze.
+
+**GitHubAPI de lectura**, con credencial existente nointeractiva del gestorGit, sin mostrarla, login/fallback/ediciones: **enverdelivery/ENVER-Backend**, defaultbranchmain, consultas **2026-11-17T15:59:32.087Z–15:59:34.134Z**. Actionsworkflows total0; runs queued/in_progress/waiting/pending/requested total0 en cada consulta, sin truncación. **No hay un workflow registrado concreto candidato a reconciliar infraestructura en ese repositorio en esa lectura**. No demuestra ausencia de otrosCI/repos/automatizaciones futuras; no se deshabilita/modifica ningún workflow. Si se identifica otro, el checklist exige ID/path/ref/commit/triggers/schedules/reusables/scripts/runner y evidencia actual de noejecución/noencolado/no despacho mantenido.
+
+SnapshotWindows **16:10:50.2823354Z**: Terraformprocesses0/applyobservado0, no prueba global. Backendlocal y ausenciaworkflowslocales conservados de§118. AWSCLIversiónlocal **aws-cli/2.40.1 Python/3.14.8 Windows/10 script-exe/AMD64**. No Terraform ejecutado, WSL iniciado, procesos detenidos, cambios administrativos o sesiones cerradas por este agente.
+
+### 119.3. Reobservación autorizada A/B y límite de sesiones
+
+STS **15:59:23.299Z–15:59:28.945Z** perfil exclusivoenver-admin-temp/us-east-1, cuenta926925605666/ARNexacto **arn:aws:iam::926925605666:user/enver-terraform-local**, PASS. Overridescredenciales/endpoint retirados en hijos, metadatafallback/retries/pager/autoprompt deshabilitados, sin renovar/asumir/cambiar perfil. DescribeInstanceInformation **16:02:29.807Z**: A/BOnline/Linux/agent3.3.5828.0.
+
+Nuevo [observe-host.py](../../tools/Enver.QuotaControl.Operations/observe-host.py), SHA256 **db63dac4a786d5adb92a6849fbb765f404ac82e5b0fe7943cded3744ca11c162**. Enviado comoPythonstdin por AWS-RunShellScript: solo listados/proc/ss/systemctl/dockerps/lecturaacotadacron-scripts, sinRedis/secretos/env-argv-ExecStartdumps ni cambios de servicios/host. Se excluyen los ancestros del observador para evitar contarse a sí mismo; no se excluyen otros procesos. Salida soloJSONallowlist, contenido/erroresrawnoexportados.
+
+| Host | CommandId | Ventana del cliente UTC | Hora host UTC, independiente | Resultado |
+| --- | --- | --- | --- | --- |
+| A i-0a66085b7b2411393 | **39095430-0e16-458b-a54c-da8da6d677b7** | **16:02:29.816Z–16:02:40.520Z** |16:01:47.373351–16:01:48.081053 |Success/ResponseCode0/stderrvacío |
+| B i-00de11a3f3c1a8aa5 | **4e3ea562-1962-49fc-98c9-edc678e8bb14** | **16:02:40.520Z–16:02:50.597Z** |16:01:57.571519–16:01:58.306916 |Success/ResponseCode0/stderrvacío |
+
+**Cada host:** allcontainers0/running0/enverindicators0; procesosdirectos/wrappersindicadores0/unreadable0; listener8080=0; TCPestablecidas6379=0 sin abrir conexión; servicesunitfiles183/matching0, serviceslist132/matching0, systemdjobs0, atq0. **7timers:** fstrim,logrotate,refresh-policy-routes@ens5,sysstat-collect,sysstat-summary,systemd-tmpfiles-clean,update-motd; targets/ExecStart leídosprivadamente, sinindicador. Cron/scripts:1archivoenrutasinspeccionadas/unreadable0/truncatedfalse/sinindicador. **No se auditaron transitivamente todos sus scripts ni se afirma jobsescritoresglobales0**; refresh-policy-routes además identifica una dependencia de ruta a revisar, no se desactiva.
+
+Las horas de hosts y cliente difieren; **sin sincronía acreditada**. No derivar T0/Tlast/continuidad ni drenaje del orden aparente de esos relojes. Las lecturas son snapshots y no una barrera ni prueba de comandos ya finalizados.
+
+Después, **ssm:DescribeSessions Active filtrado aA:16:02:55.412Z/exit254/AccessDenied**. STOP inmediato de llamadasAWS: sesionesBno consultadas, sinreintento/fallback/renovación/IAMchange ni solicitud automática de más permisos. No se concluye «sesionesadministrativas0». El responsable deberá aportar evidencia de cobertura de sesiones/operadores por medios ya autorizados antes de acreditarfreeze.
+
+Incidencia local previa: un comandoNodeconheredoc mal escapado fue rechazado por el parserPowerShell **antes de ejecutarNode/AWS**; se corrigió el quoting local. No dobleSendCommand ni ejecución remota previa oculta. **SSMSendCommand2**, ambos expresamente observacionales; crean sus recibos/metadatos de comandoSSM, no infraestructura ni datosRedis. No StartSession/túnel ni lifecycle/aplicación/API iniciados. LecturasGetCommandInvocation se acotan a esosCommandIds; no rawlogs ajenos.
+
+### 119.4. Universo y control mínimo faltante para T0/inflight
+
+El inventario ahora cubre observacionalmente A/B y nominalmenteWindows/GitHubrepo. **UNIVERSE NOT CLOSED**: faltan scripts transitivos/otrosworkspaces-estaciones-WSL-runners/CIexterno y holders/administradores/conexiones que podrían despachar con credencialruntime. Sourceconserva las rutasRegister/Login/Logout y lifecycle; ausencia de procesosnominales no elimina esa capacidad. CONTROLanterior conservaapplyremotobloqueado, pero eso no prueba inactividad global de otros helpers/SDK.
+
+El checklist especifica **T0 = confirmación del último acuse de bloqueo de nuevosdespachos** por un planoexterno de mantenimiento que controle TODOS los dispatchers/reinicios/colas/admins del universo y mantenga cierre. **No se ha implementado/aplicado/acreditado ese plano**, ni hay timestampT0. FreezeIaC no impide por sí solo consumosRedis. Para consumers0 se necesitan observaciónactual+antirreinicio+acuses por dueño. Para newwritesafterT0impossibleunderfreeze, cobertura de todos los holders/admins, no solo pipelines. Para inflightresuelto, respuestas terminales/recibos exhaustivos por operación/cola/conexión, o cota completa demostrada de ejecuciónservidor/colas seguida de drenaje verificable; incluir comandosaceptados/retries/red/buffers. **Inflight=UNKNOWN**, no0 por sockets0/procesos0/timeoutcliente/esperar900s.
+
+**Control mínimo faltante:** inventario cerrado + enforcement externo antinuevosdespachos/antirreinicio + protocolo verificable de acuses/drenaje. Si precisa coordinación o barrera de infraestructura adicional, requiere diseño/autoridad propios; no se cambiaACL/red/fence/lifecycle aquí ni se selecciona unilateralmente un mecanismo que omita clientes.
+
+### 119.5. Productor independiente implementado y probado localmente
+
+[README productor](../../tools/Enver.QuotaControl.PipeProducer/README.md), proyectoBCLnet10.0 sinCLI niAWSSDK. Entrada exclusivaReadOnlyMemory<byte>delcreador; no generadorpassword, stdin/ENV/archivo/clipboard/logs ni AWSCreateUser. APIpública fijaDLLdescriptorhashes§118/inventory/túnel16379; no optionsapply/otroscomandos. Consumidoraceptado referenciado comoDLLexistente porrunner, nuncaProjectReference al proyectoCONTROL; no rebuildoriginal.
+
+Pipeanónimooriginalnoheredable; duplicaciónacotada del extremolector + **CreateProcessW/STARTUPINFOEX/PROC_THREAD_ATTRIBUTE_HANDLE_LIST**. Hijo suspendido, jobprivadoKILL_ON_JOB_CLOSE antesdereanudar, cierresinmediatos de extremosduplicadosno usados. Solo el hijo seleccionado recibe credencial, además de handlesstdioexplícitos; sin herencia general. Frameuint32BE/Nbytes/EOF, borrado de framepropio; creador conserva/borra entrada. Entornomínimo sin credenciales/herencia del padre, sin shell; stdin/stderrNUL. Stdoutprivado≤64KiB/JSONdepth8 se proyecta a métricas/tiempos/conexión tipados; rechaza secretosraw/decodificados, duplicados/malformed/oversize/PASSinconsistente, noexportarrawJSON/keys/HGETALL/erroresservidor. No logcallback ni innerexceptions.
+
+Presupuestoejecución45s más esperascleanup≤10s; reservar**55s** en ventana900s. Cancelación/deadline/crash⇒cerrarpipe/jobpropios y esperar cierre; cleanupincumplido⇒errorCleanup/incidente, no garantíaRTOSantekernelbloqueado. Ajusteconservador del checklist:120screar+180sasociar+60stúnel+55sproductor/inventory+**485srevocación**(215sretirar/180seliminar/90sbaseline). No ventana iniciada. Modelo: padreúnico/revisado sin códigoajeno con herencia general concurrente; no sandbox frente a mismo usuario con privilegiosdeduplicación/admin/debugger/inyector/hostcomprometido. Se documentan integridadTOCTOU/custodia/dumps/EDR/swap y zeroizationbest-effort; no se promete borrado de copiasOS/CLR/JSON.
+
+**Resultado final29/29PASS, failed0, exit0**, suitequota-control-pipe-producer-synthetic **16:15:35.692Z–16:15:59.097Z**. Tests usan procesosWindows reales locales/fixturesnooperativas, nuncaCONTROLinventory/red/TLS/Redis/AWS. Cubren exactframe/EOF y consumidorrealexistente, longitudes16/128, readerclosed, handleheredableajenoexcluido/hermanonoautorizadonohereda, envmínimo/secretnoargv-env-logs, cancelantes/durante, deadline/jobcleanup, crash, execmissing, invalidinput/lifetime/quoting, no leak dehandles, outputprivado/tipado/oversize/malformed/secretJSONescapado, artifactmismatchprechild. Capturaexterna de logs de suite confirma **syntheticSecretInCapturedLogs=false**, salidarawsuprimida. Restauraciónconfeedsvacíos y ambosassets **0paquetesNuGet**. Ejecucionesintermedias21/21,25/25 y29/29 conservadas; falloCS8604 local de nulabilidad al ampliarproyección fue corregido antes del29/29final. Ningún cambioAPI/imagen/CONTROLreal.
+
+El productor queda **IMPLEMENTED / LOCALLY VERIFIED / SYNTHETIC ONLY**. El creador operativo de password/AWSCreateUser/revocación/supervisión **no se implementó ni ejecutó**. Esta capacidad no autoriza usar una passwordreal o inventario: faltan las puertasA/B/ruta y aprobaciónposterior deoperación/custodia.
+
+### 119.6. Plugin/ruta y conservación de artefactos
+
+Detecciónlocal **15:59:28.7710920Z**, OS/procesoX64. Sin plugin enPATH, sinregistroSessionManagerPlugin enuninstallHKLM64/HKLM32/HKCU, sinbinario enProgramFilesAmazon/ProgramFilesx86Amazon/LocalAppDataAmazon/WinGetLinks/Scoopshims (cinco rutas detalladas enCLI). No se afirma ausencia en todoeldisco; **no es invocable por AWSCLI mediantePATHactual**. Falta instalaciónWindowsx64 autorizada con firma/procedencia/versión/hash, o rutaexistente que se aporte y verifique. No descarga/instalación/PATHmodificado/ejecuciónplugin/startsession. Comando futuro exacto y cierre en [procedimiento operativo](../../tools/Enver.QuotaControl.Operations/README.md), no ejecutados.
+
+TLSextremoextremo/SNI **master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com**, aun listenerlocal16379; sinhostname/certificadobypass. No probeRedis ni reconstrucción deCONTROL. ObservaciónSSMporRunCommand es independiente del plugininteractivo y no prueba que éste esté disponible.
+
+| Artefacto / agregado | SHA-256 |
+| --- | --- |
+| CONTROLoriginalDLL | **6b32414eb3a66cf9339aa066af2049da11f21339c095427204d146d42622823f** |
+| Descriptoraprobado | **52f6cc3519295c3e11ce4d8a07f64b4c896e3ac8bf502bfe0b684b15a0142ca8** |
+|20filesCONTROLoriginal/testsource/docs | **8c53b9bca334abee9548e5cc8decf02023f3ec2b4c6996af5d3b051a4e28c21c**, inalterado§114/118 |
+| ProductorDLLnuevo | **4ba45f6762c2f4f4603cd2a1c89d0f175bf2cb06bee761ceca43f977591f4354** |
+| RunnerDLLnuevo | **6080ae3d68ffb848d38f21ca89c83dc08d6f90ee59590318c15f132aee763e41** |
+|9archivosnuevos productor/tests/operaciones | **9a1ffead69eae8de29b4b943797ee6ce71b4f1de922e11e5f130da2742a804e7** |
+
+### 119.7. Cierre
+
+**FASE 1 = NOT ACCREDITED.** Pendientes exactos: aceptación responsable/ventana/cobertura de checklistfreeze; sesionesadministrativas no verificadas; universo deescritores cerrado y controlbarreraT0/drenaje; pluginSSMutilizable y posteriorruta/trust/topología/custodiaoperativa. No se piden permisosAWSadicionales ni se iniciaFase2 por esta entrega.
+
+Integridadpre-docs **16:17:15.651Z**:270archivospreexistentesfueratask/memoriadigest **fa6fc3498e6b4b590e5f9b44fc205aadd33fe2e71e76d7d8ce59eb99ca6ccac6**, HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb/staged0. Baselineinicial15:52:34.387Zigual; solo9archivosnuevos +task§119/memoria§180. Historial§118/179yanteriores/trabajoprevio/infra/state/constituciones/API/imagen/CONTROLoriginalintactos. Statehashes60b3198916a557e2cc78fabc1b44e0c124d72eb83018c86093ad4daff5e0f5d258/backup57cf4d7e1f7a623ccf048d3b77b841c094171764b8ae86d1099efa5c5e28393279 conservados.
+
+AWSobservaciónsí/GitHubreadonlysí/SSMRunCommand2; **StartSession0/ElastiCache-IAM-EC2configwrites0/SecretsManagerreads0/Redisconnections-writes0/passwordreal0/usuarioCONTROL0/membresía0/G0/Terraform0/deployment0/commit-push0**. No inventoryoperativo/initialize/fence/maintain/activate/applyclosed. No deltaCONTROLque revocar. **CONTROL TOOL IMPLEMENTED / LOCALLY VERIFIED / NOT EXECUTED**;90/90históricos no repetidos, nueva suiteproductor29/29 separada.
+
+**C/I APPROVED / NOT APPLIED;01 BLOQUEO DURO DE STARTUP por G/CONTROL;02 RESUELTO;03 DISEÑO JSON/tmpfs APROBADO / NO VALIDADO EN RUNTIME;04 PENDIENTE;T008/T017/T019/T020 COMPLETE / ACCEPTED;GATE-I-B PENDING / NOT SATISFIED;dev HISTORY UNCERTAIN;development INDETERMINATE;5000 APROBADO / NO APLICADO;metadata.snapshot/metadata.generation/registry no inicializados según evidencia previa**, sin nuevas observaciones de datosRedis. **STOP PRE-CONTROL, sin autorizaciónFase2 inferida.**
+
+## 120. §119 aceptado: reanudación de acreditación operativa, sin apertura de Fase 2
+
+### 120.1. Alcance y resultado
+
+El responsable acepta §119 y solicita continuar exclusivamente freeze global, universo de escritores, T0/inflight, plugin/ruta SSM e integridad CONTROL/productor. Después de la interrupción informa tokens restablecidos. Se conserva §119 como baseline: no repetir suites aceptadas, reconstruir CONTROL ni reabrir tareas aceptadas. No crear CONTROL/password/membresía, abrir túnel/Redis, ejecutar inventory, generar G, aplicar CLOSED/lifecycle, desplegar o cambiar IAM/ACL/Terraform/workflows. Incluso una acreditación futura exigiría autorización explícita de Fase 2.
+
+**FASE 1 = NOT ACCREDITED.** No hay freeze activo acreditado, universo cerrado, T0 ni inflight=0. La integración del plugin no es utilizable en el entorno observado y la lectura de disponibilidad del documento SSM fue denegada. Se detienen las llamadas AWS y no se inicia ventana ni Fase 2.
+
+| Condición | Estado | Evidencia | Qué falta |
+| --- | --- | --- | --- |
+| A. Freeze global | **NO ACREDITADO / NO INICIADO** | Checklist §119 conservado; Terraform local 0; repositorio GitHub con 0 workflows/runs activos en la revalidación | Responsable único y custodios designados, inicio/fin ≤900s, aceptación de prohibiciones/excepción/restauración; cobertura y acuses de todos los operadores, sesiones, estaciones, workspaces y automatizaciones, mantenidos toda la ventana |
+| B. Universo de escritores | **NO CERRADO; writers actuales UNKNOWN** | Inventario clasificado en §120.4; A/B sin indicadores en snapshots históricos, no reobservación de procesos ahora; auditoría estática local de 45 archivos | Auditoría transitiva de cada timer/script/job y cierre de otros clientes/holders/CI; evidencia actual y control antirreinicio/nuevo despacho de cada candidato |
+| C. T0 / inflight | **NO ESTABLECIDO / UNKNOWN** | Contrato verificable §120.5; el código reconoce resultado uncertain después del despacho | Fuente temporal acreditada, recibo de barrera global y T0 real, consumidores=0 mantenido, recibos terminales exhaustivos o cota servidor/colas/red/retries demostrada y verificación final |
+| D. Plugin/ruta SSM | **NO UTILIZABLE / DOCUMENTO NO ACREDITADO** | AWS CLI 2.40.1 AMD64, Windows/proceso X64; sin plugin en PATH/registro/rutas; perfil STS válido y A/B Online; DescribeDocument AccessDenied | Ruta real del binario instalado con procedencia/arquitectura/versión y resolución CLI verificadas; evidencia de disponibilidad del documento por un medio ya autorizado, sin ampliar IAM automáticamente |
+| E. Integridad CONTROL / productor | **BASELINE LOCAL CONSERVADO** | 20 archivos CONTROL y 9 archivos de §119 coinciden; cuatro hashes de artefactos coinciden; 29/29 PASS históricos siguen aplicables al mismo código/binarios | No falta nueva suite por esta revalidación. Uso real requiere creador/custodios y supervisión operativa aprobados; no confundir biblioteca sintética con broker AWS/revocación implementados |
+
+### 120.2. Revalidación efectiva después del aviso de renovación
+
+- **STS 2026-11-17T18:31:43.851Z–18:31:47.670Z:** perfil exclusivo `enver-admin-temp`, región `us-east-1`, cuenta `926925605666`, ARN `arn:aws:iam::926925605666:user/enver-terraform-local`: PASS. Sin fallback, renovación por agente, cambio de perfil, endpoints alternativos o metadata credentials.
+- **Windows 18:31:49.4242437Z:** procesos Terraform 0 / apply observado 0. Es un snapshot local, no freeze global ni inspección de otros workspaces/WSL/estaciones.
+- **GitHub 18:34:01.479Z–18:34:02.852Z**, lectura API con credencial existente no interactiva, sin exponerla: `enverdelivery/ENVER-Backend`, workflows total 0; runs queued/in_progress/waiting/pending/requested total 0 en cada lectura, sin truncación. No cambios en workflows, runners, credenciales o colas. No prueba otros repos/CI ni imposibilidad de despachos posteriores.
+- **DescribeInstanceInformation 18:36:38.921Z–18:36:42.508Z:** A `i-0a66085b7b2411393` y B `i-00de11a3f3c1a8aa5`, ambos Online/Linux/agent `3.3.5828.0`. No es observación actual de sus procesos/timers ni acreditación del plugin local.
+- **DescribeDocument 18:36:42.514Z–18:36:46.059Z**, nombre exacto `AWS-StartPortForwardingSessionToRemoteHost`: **exit254 / AccessDenied ⇒ STOP de llamadas AWS**. No se lee contenido del documento ni se infiere su disponibilidad/permisos de ejecución de la documentación pública. No reintento, ampliación IAM ni nueva solicitud automática de permisos.
+- `DescribeSessions` no se repite: denegación histórica §119 conservada como falta de cobertura administrativa; tampoco se consultan sesiones B. No se concluye sesiones=0. No nuevos SendCommand/GetCommandInvocation/StartSession ni auditoría remota después del STOP.
+
+### 120.3. Plugin: avance interrumpido conservado y estado observable
+
+En la continuación interrumpida, antes del aviso actual, se autorizó la instalación/configuración local y se descargó el paquete desde la URL oficial de AWS:
+`https://s3.amazonaws.com/session-manager-downloads/plugin/latest/windows/SessionManagerPluginSetup.exe`.
+Se conserva en `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-pre-control-ssm-20261117\SessionManagerPluginSetup.exe`: **8 871 560 bytes**, FileVersion **1.2.896.0**, SHA-256 **116a121ca6a781b7985d0c9fa3c5c9143440acde7822de2e32733665eed30347**. Es hash del instalador público, no de credencial/HMAC.
+
+El cmdlet Authenticode falló por TypeData duplicado del módulo de PowerShell, incluso en el intento sin perfil; no se cambió módulo/policy. Verificación nativa **WinVerifyTrust / GENERIC_VERIFY_V2**, sin UI, con revocación de cadena salvo raíz: **16:55:29.3813804Z / status 00000000**, firmante **Amazon Web Services, Inc.**. Esta evidencia valida el paquete descargado, no una instalación. La consola no estaba elevada y el agente no ejecutó el instalador ni solicitó elevación. El usuario informó ambas acciones manuales realizadas; las verificaciones posteriores no encontraron instalación utilizable y STS aún expiraba entonces. El aviso más reciente permite confirmar STS válido, no asumir instalada una ruta inexistente.
+
+**Revalidación 18:39:07.6284869Z:** `aws-cli/2.40.1 Python/3.14.8 Windows/10 script-exe/AMD64`; SO/proceso X64. Sin resolución `session-manager-plugin`, registro uninstall HKLM64/HKLM32/HKCU vacío en 18:31, sin binario en cinco raíces comprobadas (Program Files/Amazon, Program Files x86/Amazon, LocalAppData/Amazon, WinGet/Links, Scoop/shims), sin entrada SessionManagerPlugin en PATH persistente de usuario/máquina. No se afirma ausencia en todo el disco. **No puede ejecutarse `session-manager-plugin --version` ni acreditarse arquitectura del binario/integración CLI sin una ruta real.** No descarga, instalación, PATH persistente o configuración modificados en esta reanudación.
+
+Procedimiento Windows x64 ya determinado: responsable ejecuta el instalador AWS verificado con derechos de administrador, conserva la instalación estándar `C:\Program Files\Amazon\SessionManagerPlugin\bin`, y abre consola nueva para recoger PATH; si usa ruta personalizada, la aporta para revisión. Solo entonces verificar `session-manager-plugin --version`, PE AMD64 y resolución por el mismo entorno de AWS CLI, sin StartSession. No extraer/copiar binarios ni eludir elevación como alternativa no aprobada.
+
+Comando futuro exacto, **preparado y NO ejecutado**, conservado en [operaciones](../../tools/Enver.QuotaControl.Operations/README.md):
+
+```powershell
+aws ssm start-session --target i-0a66085b7b2411393 --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters "host=master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com,portNumber=6379,localPortNumber=16379" --profile enver-admin-temp --region us-east-1 --no-cli-pager
+```
+
+TLS extremo a extremo, SNI/hostname lógico `master.enver-dev-valkey.kb2qe0.use1.cache.amazonaws.com`, validación de cadena/hostname/revocación intacta. Ni lectura pública del procedimiento ni SSM Online sustituyen disponibilidad del documento, trust/topología ni autorización futura del túnel.
+
+### 120.4. Registro de universo: capacidad no equivale a actividad
+
+WRITER significa capacidad de escribir cuotas, no ejecución observada. NON-WRITER se limita al camino/binario exacto comprobado. UNKNOWN permanece bloqueante si puede alcanzar Redis o habilitar un escritor. Se distingue mutación administrativa de escritura directa de cuotas.
+
+| Entrada | Clasificación para cuotas | Evidencia y dependencia pendiente |
+| --- | --- | --- |
+| API: Login/Register/Logout → store → protocolo Lua | **WRITER capaz**; actividad actual UNKNOWN | Rutas aceptadas conservadas; `RedisAuthenticationQuotaScriptProtocol.ExecuteAsync` despacha ScriptEvaluateAsync. Snapshot §119 sin API no impide relanzamiento |
+| RedisAuthenticationQuotaLifecycle | **WRITER capaz**; actividad actual UNKNOWN | Código de operaciones de lifecycle conservado; no invocado aquí, sin acuses globales de no despacho |
+| A y B: contenedores, dotnet/Enver, servicios, listeners, jobs | **UNKNOWN como universo continuo** | Ceros históricos §119, 183 unit files/132 servicios sin indicador por host; nombres/ausencias no prueban cuerpos transitivos, unidades transitorias o antirreinicio. SSM Online actual no actualiza aquellos ceros |
+| fstrim.timer, A/B | **UNKNOWN** | Falta resolver servicio/ejecutable real, drop-ins, hooks/scripts/dependencias y procedencia/integridad efectivas; nombre estándar no prueba inocuidad |
+| logrotate.timer, A/B | **UNKNOWN** | Falta resolver configuración incluida y hooks prerotate/postrotate/firstaction/lastaction, scripts y comandos transitivos |
+| refresh-policy-routes@ens5.timer, A/B | **UNKNOWN** | Falta auditar script, includes/ejecutables, configuración y cambios de ruta inducidos; no desactivado |
+| sysstat-collect.timer, A/B | **UNKNOWN** | Falta resolver unidad, recolector, configuración, auxiliares/hooks y dependencias reales |
+| sysstat-summary.timer, A/B | **UNKNOWN** | Falta resolver unidad, script/resumen, configuración y llamadas transitivas |
+| systemd-tmpfiles-clean.timer, A/B | **UNKNOWN** | Falta resolver binario/unidad/drop-ins y reglas efectivas; no se clasifica por nombre |
+| update-motd.timer, A/B | **UNKNOWN** | Falta resolver generadores, includes, scripts y subprocessos realmente configurados |
+| Cron/scripts: 1 archivo observado por host; atq/jobs 0 | **UNKNOWN** | El observador no exportó identidad/cuerpo/grafo del archivo; no inventarlos. Resolver archivo, includes, run-parts/anacron y demás disparadores; cero jobs no cierra futuro despacho |
+| Helpers temporales anteriores / SDK / CLI administrativos | **UNKNOWN para cuotas; candidatos a mutación administrativa** | Escaneo estático 18:38:34.722Z: 45 archivos de código, 0 omitidos dentro del alcance; familias acl-controlled-change/resume con indicadores modify-user y dependencias `./common.cjs`; prepare.cjs de acl-alignment-read-enabled con indicador Redis. Tokens pueden ser comentarios, no prueba de ejecución ni revisión semántica completa. No se ejecutó helper alguno |
+| Tests integración/seguridad | **WRITER de su Redis de fixture; destino operativo UNKNOWN fuera del camino fijado** | Fixture crea Redis Testcontainers, conexión derivada del contenedor; scopes usan fixture.RedisConnectionString. Existen overrides de configuración. No se acredita cobertura de otros harnesses/clientes ni se ejecutan pruebas |
+| CONTROL original remoto/inventory exacto | **NON-WRITER de cuotas** en ese camino | CLI bloquea apply; ControlService rechaza apply remoto; RemoteTransport IsLocalSimulation=false y allowlist rechaza EVAL/escrituras antes de envío. No supone otros ejecutables/clientes inocuos |
+| Productor exacto + runner sintético §119 | **NON-WRITER de cuotas** en caminos comprobados | Productor fija inventory/DLL/descriptor; runner local sin red, invocación de API solo workspace inválido. No es creador AWS ni supervisor de revocación |
+| GitHub repo consultado | **Sin workflow actual registrado; cobertura global UNKNOWN** | Ceros actuales no descartan nuevos dispatches, otros repos, CI, runners/workspaces o SDK |
+| Otros operadores/estaciones/WSL/holders/sesiones | **UNKNOWN** | Sin inventario cerrado por propietarios, acuses ni evidencia autorizada de todas las sesiones; DescribeSessions previamente denegado |
+
+El escaneo local se ejecutó como lector independiente en el temporal aprobado; nunca require/import/spawn de los archivos inspeccionados, sin imprimir contenido, credenciales, argv/env o logs. Alcance: directorios `enver-*`, extensiones de código, profundidad≤4/tamaño≤256KiB. No convierte ausencia de indicadores en NON-WRITER ni cierra dependencias dinámicas/binarios/otros lugares. Un primer intento inline fue rechazado por el parser PowerShell antes de Node; se usó después archivo lector independiente, sin llamadas AWS ni dobles ejecuciones de helpers.
+
+**UNIVERSO NO CERRADO; writers activos UNKNOWN, no 0.** La auditoría remota transitiva no se ejecutó por STOP AWS. Se requiere evidencia de cuerpos/configuración/dependencias efectivos y su cierre por medios ya autorizados, no inferir permisos nuevos.
+
+### 120.5. Barrera verificable requerida, aún no aplicada
+
+El checklist de [operaciones](../../tools/Enver.QuotaControl.Operations/README.md) sigue sin responsable/ventana/aceptación. Prohíbe Terraform apply y cambios manuales ElastiCache, exige CI/operadores fuera, excepción temporal aditiva solo CONTROL y restauración exacta `UserIds=[enver-dev-runtime]`. Un acta sin cobertura mantenida no acredita freeze ni bloqueo de datos.
+
+Contrato de barrera para su acreditación posterior, **no implementación ni autorización de cambios técnicos**:
+
+1. Cerrar registro de todos los candidatos con propietario, ejecutable/configuración, credencial/vía de red, disparadores, reinicios, colas/retries y mecanismo externo de bloqueo verificado. Ningún UNKNOWN con capacidad de escribir puede omitirse.
+2. Responsable acepta y mantiene ventana≤900s y recoge por cada entrada recibo de bloqueo de nuevos despachos y autorreinicios. El bloqueo debe abarcar administradores/SDK/tests/scripts, no solo API/ALB/IaC. Una promesa o snapshot sin mecanismo verificable no prueba imposibilidad de escritura.
+3. Coordinador único registra **T0 después del último recibo de bloqueo**, verifica cobertura del registro cerrado y conserva el bloqueo hasta cierre. Recibo exige identidad del candidato, mecanismo/evidencia, instante y última operación emitida/cola pendiente. No hay T0 mientras falte cualquiera.
+4. Fuente temporal: UTC del coordinador con sincronización/incertidumbre acreditadas más reloj monotónico para duración y cierre≤900s; registrar por separado relojes de hosts y su relación acreditada. Sin sincronía no comparar timestamps A/B/cliente como prueba de T0/Tlast.
+5. Drenaje: por cada emisor, reconciliar operaciones previas y colas/buffers/retries con respuestas terminales verificables. Alternativa solo con cota exhaustiva demostrada de aceptación/ejecución servidor y red/colas, seguida de verificación. Comando aceptado pero respuesta perdida = unresolved/STOP, no agotado por timeout.
+6. Registrar verificación final con recibos referenciados, consumidores=0, nuevos despachos bloqueados, pendientes=0 y hora UTC/monotónica; el bloqueo debe seguir mantenido. Sin ese recibo final no declarar inflight=0.
+
+`RedisAuthenticationQuotaScriptProtocol.cs` líneas104–114 confirma que después de MarkDispatched/ScriptEvaluateAsync un fallo devuelve **uncertain**, no una cancelación probada del servidor. Por ello 250ms/timeout local, procesos/conexiones 0 o esperar900s no proporcionan cota de drenaje. **Fuente temporal acreditada PENDIENTE; T0 NO ESTABLECIDO; recibos/cota PENDIENTES; verificación final NO REALIZADA; inflight UNKNOWN.** No se aplica enforcement, ACL, red, fence o lifecycle.
+
+### 120.6. Integridad local y cierre
+
+Revalidación **18:33:59.649Z**: 279 archivos fuera de task/memoria con digest **e1cf4c29ea8cc697d62bba7b96cf312ecb3405b31a69cbd65e1137c5332a894e**, igual al inicio de la continuación interrumpida 16:51:16.371Z. Dentro de ellos, 270 preexistentes a §119 mantienen digest **fa6fc3498e6b4b590e5f9b44fc205aadd33fe2e71e76d7d8ce59eb99ca6ccac6**. HEAD `78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb`, staging vacío.
+
+Revalidación **18:38:34.707Z**: 20 archivos CONTROL original/tests/docs **8c53b9bca334abee9548e5cc8decf02023f3ec2b4c6996af5d3b051a4e28c21c**; los 9 archivos de §119 **9a1ffead69eae8de29b4b943797ee6ce71b4f1de922e11e5f130da2742a804e7**. DLL CONTROL, descriptor, DLL productor y DLL runner coinciden exactamente con los cuatro hashes §119.6. Baseline **29/29 PASS 16:15:35.692Z–16:15:59.097Z** válido para el mismo código/binarios; no prueba operativa, suite nueva ni rebuild. Los 90/90 originales permanecen históricos.
+
+Lectura reafirma allowlist read-only de inventory, bloqueo remoto de apply, TLS/SNI estricto y credencial futura exclusivamente RAM del creador → pipe anónimo con lista de handles restringida. No argv/ENV/archivos/logs/history; el único argumento es handle no secreto realmente heredado. Host/padre/custodia y supervisor de revocación operativos siguen requiriendo revisión/implementación autorizada separada, no resueltos por el hash o las pruebas sintéticas.
+
+Se actualizan únicamente task/memoria y el checklist operativo; sin cambios de código, pruebas, CONTROL, API, imagen, Dockerfile, infra/state o constituciones. Historial §§119/180 y anteriores conservado. Sin usuario/password/membresía/túnel/Redis/inventory/G/lifecycle/deployment/IAM-ACL/Terraform/commit/push; no delta CONTROL que revocar. Permanece **CONTROL TOOL IMPLEMENTED / LOCALLY VERIFIED / NOT EXECUTED** (operativamente), productor **IMPLEMENTED / LOCALLY VERIFIED / SYNTHETIC ONLY**.
+
+**C/I APPROVED / NOT APPLIED;01 BLOQUEO DURO DE STARTUP;02 RESUELTO;03 DISEÑO JSON/tmpfs APROBADO / NO VALIDADO EN RUNTIME;04 PENDIENTE;T008/T017/T019/T020 COMPLETE / ACCEPTED;GATE-I-B PENDING / NOT SATISFIED;Development/enver_development/enver:development/MaxActivePartitions5000 APROBADO / NO APLICADO;dev HISTORY UNCERTAIN;development INDETERMINATE.** No inicialización metadata/registry ni nueva evidencia Redis. **STOP: FASE 1 = NOT ACCREDITED; no Fase 2.**
+
+## 121. Revalidación SSM tras intervención manual: plugin y documento verificados, freeze/drenaje pendientes
+
+Responsable acepta §120, recibe instrucciones manuales separadas y después informa `ssm:DescribeDocument` agregado/validado. Autoriza revalidar plugin, documento, perfil, A Online, freeze/writers/T0/inflight e integridad, **sin StartSession/túnel/CONTROL/password/membresía/Redis/G/deployment**. Las instrucciones manuales anteriores fueron respuesta de conversación, no ejecución de IAM por el agente.
+
+**Lecturas 2026-11-17 UTC:**
+
+| Comprobación | Evidencia | Resultado y límite |
+| --- | --- | --- |
+| Plugin Windows |18:54:01.8965000Z; `C:\Program Files\Amazon\SessionManagerPlugin\bin\session-manager-plugin.exe`, versión1.2.896.0/exit0, PEMachine8664, SO/procesoX64 | **Instalado / verificado localmente**. La consola del harness tenía PATH antiguo; PATH persistente ya contiene la carpeta instalada. Se antepone esa carpeta solo en el proceso de comprobación, sin escribir PATH persistente; hijo nativo UseShellExecute=false encuentra plugin por nombre/--version/exit0. Otras consolas antiguas deben renovar su entorno. AWSCLI2.40.1AMD64, sin instalación por agente ni StartSession como prueba |
+| Perfil exclusivo |STS18:54:04.269Z–18:54:08.967Z, enver-admin-temp/us-east-1, cuenta926925605666/arn:aws:iam::926925605666:user/enver-terraform-local | **PASS**; sin fallback, renovación automática, credenciales alternativas o salida de tokens |
+| Documento requerido |DescribeDocument18:54:08.971Z–18:54:13.132Z, AWS-StartPortForwardingSessionToRemoteHost, OwnerAmazon/StatusActive/DocumentTypeSession/DefaultVersion1; parámetrosportNumber/localPortNumber/host | **PASS**; supera denegación §120. No GetDocument, StartSession ni acreditación de permisos futuros de sesión/cierre |
+| EC2 A SSM |DescribeInstanceInformation18:54:13.133Z–18:54:16.930Z, i-0a66085b7b2411393/Online/Linux/agent3.3.5828.0 | **PASS**; no reobservación actual de procesos/containers/timers ni validación TLS/Redis |
+| Terraform local | Snapshot de la comprobación Windows:procesos0/applyobservado0 | No prueba global ni barrera mantenida |
+| GitHub repo |18:54:48.057Z–18:54:49.414Z, enverdelivery/ENVER-Backend, workflows0/runsqueued-in_progress-waiting-pending-requested0, completo | Solo ese repositorio/instantes; sin cambios, no impide despachos posteriores ni cierra otros CI/repos/workspaces |
+| Integridad |18:54:00.857Z,278archivosprotegidoscoinciden con digest§120; cuatro hashes CONTROL/descriptor/productor/runner coinciden | **Baseline local conservado**;29/29PASS históricos del mismo código/binarios, sin suite/rebuild nuevos. HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb/stagingvacío |
+
+**Reevaluación operativa:** checklist de [operaciones](../../tools/Enver.QuotaControl.Operations/README.md) sin responsable/custodios designados, inicio/fin≤900s ni aceptación/cobertura mantenida. Universo de §120.4 **NO CERRADO**, sin nueva evidencia transitiva de scripts/timers/jobs/otros clientes/holders/operadores; los ceros A/B siguen históricos. `DescribeSessions` anteriormente denegado no se repite ni se infiere corregido por el permiso de documento. No nuevos RunCommand ni cambios de enforcement/servicios/ACL/red. Faltan recibos del bloqueo global de todos los dispatchers/autorreinicios, fuente temporal acreditada/T0 real, respuestas terminales o cota exhaustiva servidor/colas/red/retries y recibo final de drenaje. **Writers actuales UNKNOWN; inflight UNKNOWN**, no0 por snapshots/timeouts/espera. Creador/custodia/supervisión operativos no se acreditan por el productor sintético.
+
+Se sincronizan únicamente task/memoria/checklist; código/API/imagen/Dockerfile/infra/state/CONTROL/productor e historial anterior intactos. Sin modificación IAM por agente/instalación/StartSession/túnel/CONTROL/passwordreal/membresía/Redis/inventory/G/applyclosed/initialize/fence/maintain/activate/deployment/Terraform/commit/push. Sin deltaCONTROL que revocar. **CONTROL IMPLEMENTED / LOCALLY VERIFIED / NOT EXECUTED operativo; productor IMPLEMENTED / LOCALLY VERIFIED / SYNTHETIC ONLY. C/I APPROVED / NOT APPLIED;01 BLOQUEO DURO DE STARTUP;02 RESUELTO;03 DISEÑO JSON/tmpfs APROBADO / NO VALIDADO EN RUNTIME;04 PENDIENTE;T008/T017/T019/T020 COMPLETE / ACCEPTED;GATE-I-B PENDING / NOT SATISFIED;Development/enver_development/enver:development/MaxActivePartitions5000 APROBADO / NO APLICADO;dev HISTORY UNCERTAIN;development INDETERMINATE.** No metadata/registry nuevos. **FASE 1 = NOT ACCREDITED; STOP antes de Fase 2.**
+
+## 122. Acta preparada: Kevin designado en todos los roles, ventana no iniciada
+
+### 122.1. Alcance y declaración humana
+
+Después del STOP por falta de datos humanos, el responsable aporta nombres y restricciones y autoriza **únicamente preparar el acta y reevaluar la evidencia técnica faltante**. No iniciar ventana ni crear CONTROL/password/membresía/túnel/Redis/inventory/G/deployment. No se reutiliza la autorización anterior de auditoría para ejecutar nuevos comandos técnicos en esta entrega documental.
+
+Se actualiza el [acta operativa, §1 y §9](../../tools/Enver.QuotaControl.Operations/README.md): **Kevin Alexander Vega Zarza** es responsable único, autoridad de creación futura/aborto, creador CONTROL futuro, custodio temporal, operador inventory futuro, supervisor, revocador y verificador del baseline final. Es una designación explícita en todos esos roles, no aprobación de alta ni evidencia de ejecución técnica. No exigir otros nombres por iniciativa del agente ni afirmar separación independiente de roles.
+
+Se registra como **declaración del responsable**, sin ampliar su alcance:
+
+- No existen otros operadores humanos autorizados concurrentes durante la ventana. El acuse de Kevin cubre su declaración; no equivale a inexistencia de sesiones, otros accesos/holders técnicos, automatizaciones o clientes capaces.
+- No autorizados Terraform apply, cambios manuales ElastiCache, deployments o reinicios de servicios escritores.
+- GitHub Actions/workflows activos/en cola0 **según evidencia anterior**, no una nueva lectura o un bloqueo de disparadores.
+- A/B se mantendrán sin runtime ENVER activo: compromiso futuro, no observación actual/continua ni cierre antirreinicio.
+- Máximo15min y orden expresa **NO INICIAR TODAVÍA**. No fijar inicio retroactivo ni usar timestamp documental como fuente temporal acreditada.
+
+### 122.2. Reevaluación limitada
+
+| Condición | Evidencia / falta concreta | Estado | Responsable |
+| --- | --- | --- | --- |
+| Designaciones y acuse humano | Mensaje explícito con todos los roles y declaración de no concurrencia autorizada | **REGISTRADOS**, ya no faltan nombres | Kevin Alexander Vega Zarza |
+| Freeze global | Prohibiciones parciales/compromiso recibidos; faltan cobertura técnica de sesiones/automatizaciones/estaciones/holders, mecanismo mantenido, fuente temporal e inicio/fin real autorizados | **NO INICIADO / NO ACREDITADO** | Kevin Alexander Vega Zarza |
+| Universo de writers | Sigue pendiente auditoría transitiva de siete timers por host y resto de cron/scripts/jobs/services/containers/tests/admins/CI/estaciones/otros clientes y holders según §120.4; resolver ruta/usuario/comandos/configuración/dependencias y capacidad | **NO CERRADO; writers activos UNKNOWN** | Kevin Alexander Vega Zarza |
+| T0 e inflight | Falta barrera verificable de todos los dispatchers/autorreinicios, recibos y fuente temporal acreditada; respuestas terminales/cota exhaustiva servidor-colas-red-retries y recibo final Tf | **T0 NO ESTABLECIDO; consumers/inflight UNKNOWN** | Kevin Alexander Vega Zarza |
+| Custodia y supervisión | Nombres resueltos; falta revisión/disponibilidad operativa del creadorRAM→pipe y supervisor de abort/revocación/baseline, no demostrada por biblioteca sintética | **DESIGNADOS / OPERACIÓN NO ACREDITADA** | Kevin Alexander Vega Zarza |
+
+El acta conserva el protocolo de expiración⇒STOP/escalado sin fallback/renovación automática; revocación fallida, baseline no verificable o exceso de plazo⇒incidente abierto. Kevin será autoridad de aborto y confirmará revocación/baseline con evidencia en una operación futura autorizada; sin delta hoy no se ejecuta revocación ni se afirma su funcionamiento. No aceptación final de todas las casillas ni autorización Fase2 inferidas.
+
+Tfreeze/inicio **NO INICIADO**, cierre máximo real **NO FIJADO** (≤inicio+900s cuando se autorice), fuente temporal/sincronía/incertidumbre **PENDIENTES**, T0/Tf **NO REGISTRADOS**. No inferir consumers/writers/inflight0 de compromiso humano, procesos/socket0 históricos, espera o timeoutcliente. **FASE 1 = NOT ACCREDITED.**
+
+### 122.3. Conservación y cierre
+
+Solo acta/checklist, task y memoria sincronizados, sin nuevos artefactos ni auditoría remota/pruebas/probesAWS/plugin/TLS/Redis. Evidencia de SSM/plugin/documento y baseline29/29PASS de §121 se conserva como histórica, no revalidación actual. Integridad documental previa:278archivos protegidos fuera de estos tres documentos mantienen digest **26546846cfb0fcb5624108ab45318368a1cb6aefef5ef3325ff48ea6e7bcb5b4**; HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb/stagingvacío. Historial§§121/182 y anteriores intacto. No ventanas/barreras/servicios/infra/credenciales/código modificados.
+
+Sin AWS/StartSession/túnel/CONTROL/passwordreal/membresía/Redis/inventory/G/applyclosed/initialize/fence/maintain/activate/IAM-ACL/Terraform/deployment/commit/push; no metadata/registry nuevos ni deltaCONTROL que revocar. **CONTROL IMPLEMENTED / LOCALLY VERIFIED / NOT EXECUTED operativo; productor IMPLEMENTED / LOCALLY VERIFIED / SYNTHETIC ONLY. C/I APPROVED / NOT APPLIED;01 BLOQUEO DURO DE STARTUP;02 RESUELTO;03 DISEÑO JSON/tmpfs APROBADO / NO VALIDADO EN RUNTIME;04 PENDIENTE;T008/T017/T019/T020 COMPLETE / ACCEPTED;GATE-I-B PENDING / NOT SATISFIED;Development/enver_development/enver:development/MaxActivePartitions5000 APROBADO / NO APLICADO;dev HISTORY UNCERTAIN;development INDETERMINATE. STOP antes de ventana y Fase2.**
+
+## 123. §122 aceptado: auditoría transitiva y preparación técnica de Fase1, NOT READY
+
+### 123.1. Autorización y entrega
+
+El responsable acepta §122, mantiene roles de Kevin y ventana NO INICIADA, autoriza auditoría de writers A/B/locales y diseño de freeze/T0-inflight/custodia/checklist, **no ejecutar freeze ni Fase2**. Se actualizan solo [operaciones §§10–15](../../tools/Enver.QuotaControl.Operations/README.md), este task y memoria§184; lectores/evidencia saneada independientes en el temporal aprobado. No se modifica código/configuración del proyecto ni se implementa broker de creación/revocación. Las lecturas SSM ejecutan únicamente el lector; no ejecutan los scripts auditados, pruebas ni aplicación.
+
+### 123.2. Evidencia observada 2026-11-17 UTC
+
+| Lectura | Recibo / resultado | Límite |
+| --- | --- | --- |
+| STS exclusivo enver-admin-temp/us-east-1 |19:05:24.881–19:05:30.216; cuenta926925605666/arn:aws:iam::926925605666:user/enver-terraform-local PASS; revalidado al comenzar cada colección | Sin fallback/renovación; no prueba expiración futura ni autoridad de cleanup |
+| A dependencia inicial |05e3f696-6d90-4bca-9cb6-83b60673deee,19:08:00.486–19:08:12.118,Success0;7timers/31registrosarchivo | Contenedores incluidos detenidos0/jobs0/atq0/listener8080=0/TCP6379establecidas0; snapshot, no consumers/inflight0 |
+| B dependencia inicial |60f6f3ab-377e-4a0a-a325-566c53f73cf4,19:08:12.121–19:08:23.362,Success0;7timers/31registrosarchivo | Mismos ceros; no barrera ni auditoría total de procesos y servicios |
+| A/B follow-up efectivo |A70d15ffb-a7e5-4d19-878a-09db422032b7,19:10:51.769–19:11:03.050; B1386afcc-9042-4aa4-964e-837722785164,19:11:03.054–19:11:14.739;Success0,21registrosarchivo/host | Primer intentoA7fdca158-4b20-4ede-8d47-ecd062b07ce3 OUTPUT_LIMIT; controlador se detuvo sin B. Solo se corrigió presentación del lector mediante compresión de evidencia ya saneada, límites23KiBtransporte/128KiBdescomprimido; no permisos/ejecución de scripts inspeccionados |
+| A/B hojas/hooks/configuración |A5118c367-9777-4077-a729-eac706c1acc6,19:13:30.891–19:13:43.595; B42a60968-a622-4de4-9716-99bfd86c4a55,19:13:43.598–19:13:55.087;Success0,15registrosarchivo+30tmpfilesporhost | Registros solapados/referencias/ausencias/binarios y líneas redactadas, no conteo de auditorías semánticas cerradas |
+| Tiempo A/B |NTP=yes/NTPSynchronized=yes; primer script A19:07:17.770–19:07:18.440 frente a cliente19:08:00.486–19:08:12.118 | Relojes no acreditados comparables; no inferir offset preciso/T0/Tlast. Fuente/incertidumbre del coordinador sin acreditar |
+| ENI SGbackend |19:17:38.351–19:17:42.716; sg-070d06cfebe866427 solo Aeni-01ecdecf22b187764 y Beni-049a982368fb2bca8 en consulta regional | Snapshot no prueba universo de holders, asociaciónRG completa, otros caminos ni futuras altasENI |
+| SGcache |19:17:42.720–19:17:46.967; sg-0af65898948bd0578/VPCvpc-060f67e600affd569/TCP6379soloSGbackend/sinCIDRIPv4-IPv6 | Sin conexión Redis ni prueba de rutas/NACL/topología total |
+| Windows |19:13:31.988; proyecciónTerraform/dotnet/Redis/plugin0, aws.exe propio observado; ScheduledTasks leídas,0candidatas por filtro | No cuerpos de todos los wrappers/servicios/tasks, WSL no inspeccionado; no universo global |
+| GitHub |19:22:55.581–19:22:55.596; relectura fallida antes de workflows, error saneado/STOP sin fallback | No atribuir causa, cero actual ni verificación de CI; ceros §121 permanecen históricos |
+
+Evidencia local externa: `C:\Users\Alexander Vega\AppData\Local\Temp\opencode\enver-writer-transitive-20261117\<instance-id>[-followup|-leaves].json`; scripts lectores audit-host.py/audit-followup.py/audit-leaves.py/run-audit.cjs. Sin payloads secretos, argv/env generales o logsservidor exportados; fuente OS acotada/saneada y RPM. DescribeSessions previamente denegado no repetido ni considerado corregido por DescribeDocument.
+
+### 123.3. Resultado de auditoría y diseño
+
+Registro por candidato con ruta/usuario/dependencias/accesoRedis/escritura/evidencia en operaciones§10. Todos los7timers activos, servicios rootpor defecto/Restart=no/sin drop-ins ni EnvironmentFiles configurados en lectura. Se resolvió el servicio y comando efectivo, sysconfigsysstat/sa1/sa2/sadc/sar, logrotate.conf→6includes y hooks chronyc/accton/sssd, tmpfiles--clean→30reglas proyectadas y update-motd→70-available-updates→dnf/plugins. setup-policy-routes carga `/usr/share/amazon-ec2-net-utils/lib.sh` (no la ruta inicialmente derivada /lib/lib.sh, ausente); código real consultaIMDS/cambia rutas/networkd. RPM limpio de sysstat/logrotate/systemd/amazon-ec2-net-utils no acredita automáticamente todo el universo. rpm -Vf de util-linux/system-release/dnf-data no limpio es resultado de paquete: **no atribuir manipulación o discrepancia al binario individual**; algunos archivos específicos sin mismatch observado, dependencias sin cerrar.
+
+No se clasifican timers NON-WRITER por nombre/ausencia de redis en texto. Persisten dependencias/configuraciones dinámicas/binarios/auxiliares sin frontera de confianza acreditada;183servicefilesporhost solo enumerados, no todos auditados efectivamente; cron/rootcrontab sin job actual y directorios observados sin entradas no impiden nuevas inserciones. API/lifecycle **WRITER capaces**; harness **WRITER de fixture**, destino fuera del camino fijo/overrides UNKNOWN; CONTROL remoto inventory/productor exactos **NON-WRITER de cuotas**. Helpers administrativos, credenciales/holders/sesiones, otros clientes/CI/workspaces/estaciones/WSL siguen sin cobertura completa. **UNIVERSO NO CERRADO; writers activos/consumers/inflight UNKNOWN.**
+
+Operaciones§11 define seis controles candidatos con aplicación/verificación/reversión/riesgo: puertas admin/CI/APIs (no existe un «deny terraform apply»), masksruntime de unidades/activadores aprobados, schedulers/jobs/harness, respaldoegress/forward6379 opcional con coberturaIPv4-IPv6/netns/precedencia, exclusividad administrativa/holders y supervisor/tiempo. Ninguno aplicado. Faltan listas/principals/puertas/comandos exactos/capacidad contra bypass; root elude masks/reglas locales y bloqueo de red no bloquea encolado en origen. No desactivar indiscriminadamente timers/SSM/red; respaldo que bloquea todo6379 impediría futuro túnel y **no puede retirarse para Fase2 preservando la misma acreditación sin aislamiento equivalente y nueva verificación**. Diseño parcial, no freeze listo.
+
+Operaciones§12 define Tfreeze antes del primer control, UTC con fuente/incertidumbre y monotónico del coordinador, recibo completo BarrierCommitted después del último acuse con consumers0, reconciliación de todo despacho anterior, DrainVerified/Tf tras pendientes0 y controles mantenidos. Registro verificable/coordinador y fuente temporal aún pendientes. Código `RedisAuthenticationQuotaScriptProtocol.cs:96–114` devuelve uncertain tras fallo posterior a MarkDispatched/ScriptEvaluateAsync: **no cota servidor contractual demostrada**. Ni250ms, timeout, TCP/procesos0 o900s prueban finalización; hacen falta terminales exhaustivos históricos o cota completa servidor/red/colas/buffers/retries con hipótesis demostradas. Instrumentación futura solo hacia delante no resuelve pasado desconocido.
+
+Operaciones§13 revisa RAM→pipe restringido/childabsoluto/inventoryfijado/EOF/handle-list/jobkill/cancel/deadline/cleanup55s/borradobest-effort, sin repetir29PASS. Define diseño de generación futura32bytescriptográficos/base64url43ASCII, integraciónCreateUserenmemoria del mismo creador sin argv/ENV/archivos/logs, asociaciónaditiva, únicoinventory, retirodelta/DeleteUser y baselineRG/grupo/runtime en PASS/STOP. **Generación propuesta, no ejecutada ni broker implementado**; no elegir paquetes/SDK o modificar host por inferencia. Recibos CREATED/ASSOCIATED/INVENTORY COMPLETED-STOPPED/REVOKED/DELETED/BASELINE RESTORED definidos; active/control-plane solo no acredita invalidación universal de conexiones. Expiración⇒STOP/escaladoKevinsinrenovación/fallback; cleanup/plazofallido⇒incidenteabierto. Presupuesto anterior900s no deja tiempo adicional para freeze/drenaje: recalcular margen real antes de READY.
+
+Checklist único operaciones§14: **PRE-FREEZE → FREEZE → verificar writers → T0 → inflight0 → Tf → FASE1 ACCREDITED → STOP**, cada paso con acción/resultado/evidencia/STOP, sin Fase2. **Bloqueado enP1** por universo, método de drenaje/tiempo y custodio técnico no preparados; no es receta final lista para ejecutar mientras falten controles exactos.
+
+### 123.4. Condiciones y conservación
+
+| Condición | Estado | Evidencia | Qué falta |
+| --- | --- | --- | --- |
+| Roles | FORMALIZADOS | §122 aceptado y Kevin en todos los roles | No otro nombre; no inferir permiso de inicio |
+| Universo | NO CERRADO | Lecturas A/B/configuración/hooks y registro operaciones§10 | Cierre de referencias/servicios/holders/sesiones/clientes/CI, ningún UNKNOWN escritor |
+| Freeze | DISEÑO PARCIAL / NO APLICADO | ControlesFZ-1..6 operaciones§11 | Listas/autoridad/comandos/recibos y cobertura real contra bypass; autorización posterior de aplicación |
+| T0/inflight | MÉTODO CONDICIONAL / UNKNOWN | Código uncertain y contrato operaciones§12 | Tiempo/registro acreditables; terminales exhaustivos o cota completa demostrada |
+| Custodia/revocación | PRODUCTOR REVISADO / OPERACIÓN NO PREPARADA | Biblioteca exacta y procedimiento/recibos operaciones§13 | Creador-revocador/supervisor real, host/autoridad/abort/revocación/baseline y margen de cierre |
+| Ventana | NO INICIADA; NOT READY | Checklist operaciones§14 y resultado§15 | Completar técnicos antes de solicitar autorización de inicio |
+
+Baseline previo19:19:12.084:278archivosprotegidos excluyendo estos tresMarkdown, digest **26546846cfb0fcb5624108ab45318368a1cb6aefef5ef3325ff48ea6e7bcb5b4**; HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb/stagingvacío. Historialtask§§2–122 y memoria§§2–183 se conserva, solo se añaden entradas y se actualiza estado actual. No código/API/imagen/Dockerfile/CONTROL/productor/infra/state/constituciones modificados ni suites aceptadas repetidas.
+
+Comprobación documental19:30:55.227:278protegidos/digest idénticos, hashes de historias previas task/memoria coinciden, enlaces relativos válidos, sin trailing whitespace, HEAD igual/stagingvacío. `git diff --check` exit0; avisos LF→CRLF de archivos ya existentes no son cambios realizados ni autorización para normalizarlos.
+
+**FASE 1 = NOT READY; NOT ACCREDITED.** Ventana NO INICIADA, sinT0/Tf. No CONTROL/passwordreal/membresía/StartSession/túnel/Redis/inventory/G/applyclosed/initialize/fence/maintain/activate/deployment/freeze/serviciosdeshabilitados/IAM-ACL-red-workflows-Terraform modificados/commit/push; no deltaCONTROL que revocar. **CONTROL IMPLEMENTED / LOCALLY VERIFIED / NOT EXECUTED operativo; productor IMPLEMENTED / LOCALLY VERIFIED / SYNTHETIC ONLY. C/I APPROVED / NOT APPLIED;01 BLOQUEO DURO DE STARTUP;02 RESUELTO;03 DISEÑO JSON/tmpfs APROBADO / NO VALIDADO EN RUNTIME;04 PENDIENTE;T008/T017/T019/T020 COMPLETE / ACCEPTED;GATE-I-B PENDING / NOT SATISFIED;Development/enver_development/enver:development/MaxActivePartitions5000 APROBADO / NO APLICADO;dev HISTORY UNCERTAIN;development INDETERMINATE.** Sin metadata/registry nuevos ni G histórica recuperada. STOP antes de iniciar ventana y antes de Fase2.
+
+## 124. §123 aceptado: cierre acotado de pendientes, STOP AWS ExpiredToken
+
+El responsable acepta §123 y pide únicamente clasificación final de pendientes, accionesfreeze exactas, W_inflight porwriter y checklistoperativoCONTROL, **sin ampliar arquitectura ni aplicar nada/iniciarventana**. Kevin conserva todos losroles. Entrega A–E en [operaciones§16](../../tools/Enver.QuotaControl.Operations/README.md); registro en memoria§185. Se usan fuentes§§118–123 y se revisan solo los pendientes/cotas, sin volver a probar/reconstruir CONTROL/productor/API.
+
+**Evidencia actual2026-11-17UTC:**
+
+| Lectura | Resultado / límite |
+| --- | --- |
+| STS19:34:18.871–19:34:22.295, perfilenver-admin-temp/us-east-1 | **ExpiredToken⇒STOPAWS**; ninguna llamadaAWS posterior, sin renovación/fallback. No reauditoríaA/B ni retryDescribeSessionsdenegado |
+| LocalCI19:35:33.394 | Sin.github/configCIidentificada, workflows0 en9refs locales, unworktree, backendTerraformlocal. Sin fetch/GitHubactual. CerosGitHub§121 históricos; fallo§123 no bloquea por sísolo y no se inventan otras automatizaciones |
+| Windows19:36:09.103 | ProyecciónTerraform/dotnet/Redis/plugin0, tareasENVERpor nombre0; WSLprocesos presentes; Ubuntu y docker-desktop registrados, no iniciar ninguno |
+| WSLlist-running19:36:40.336 | Solo docker-desktopactivo; Ubuntu no enejecución. Operaciónsolo listado, no execdedistro |
+| Dockerlocal | Primerintento por nombre no completó; ruta absoluta C:/Program Files/Docker/Docker/resources/bin/docker.exe→namedpipe local, ps--all a19:38:26.112: **ETIMEDOUT20s**. No reinicio/start/stopDocker ni contenedores0presumidos |
+| Comparación deJSONhistóricos19:41:43.794 | ProyeccionesA/B de scripts/config/hooks reseñados y tmpfilescoinciden; no nueva observaciónremota ni equivalencia de archivos omitidos |
+| WindowsTime19:42:55.023 | w32tm/query/status/verbose⇒**0x80070426/servicionoiniciado**; sin iniciar/cambiarreloj. FuenteUTC/incertidumbre equivalente no acreditadas |
+
+**Clasificación acotada:** en las invocaciones/configuración históricas reales, logrotate→6includes/hooksOS chronyc/accton/HUPsssd, refresh-policy-routes→bibliotecaIMDS/networkd verificada, sa1/sysconfig/sadc, sa2/sysconfig/sar/compresión y systemd-tmpfiles--clean son **NON-WRITER de cuotas**. No requieren masks ni demostración formal de todos los binariosOS; clasificación del camino no significa aislamiento de root. Persisten dos pendientes de timer: fstrimefectivo (detalle de verificaciónELFutil-linux, sin atribuir al binario el fallo de paquete) y update-motd→dnfplugins habilitados/código/entrypoints, de los que solo hay nombres/configparcial. Cronarchivo sinjobs/colas0 se clasifica como observado, no como imposibilidad de nuevos jobs.
+
+Fuenteslocales de harness cierran destino de llamadores revisados: fixture.Redis.GetConnectionString, scopes/restarts usan de nuevo fixture.RedisConnectionString, namespacesrandom/no credencialruntimeAWS. **WRITERDE FIXTURE/NON-WRITER del destinooperativo en esos caminos**, no «tests nunca pueden escribir». Helpersvalidate/observe conallowlist y precheckreadonly **NON-WRITERdecuotas**; applyACL→common→ModifyUser+SSMvalidate es **ADMINMUTADOR**, no EVAL de datos. Bootstrapinstala/habilitaDockerSSM, no API; no nuevo deploymentlauncher existente identificado. Mantener W1API/W2lifecycle/CONTROL/productor clasificados previamente. W3 son emisores administrativos capaces de los holders conocidos Kevin/estaciónWindows/rolesA-B; no pedir otro responsable ni inventar otros actores. Cobertura de sesionesW3 y engineDockerlocal sigue sin cerrar; tabla por elemento/ruta/SI-NO/evidencia y límites en operaciones§16A. No sustituir desconocimiento por SI/NO ficticio.
+
+**Freeze:** operaciones§16B retira del itinerario denyIAM genérico/firewall6379/máscarasgenerales/deshabilitarCI oschedulers noidentificados. Lista acciones reales de Kevin sobrelaunchers conocidos, observaciónexactaWindows/WSL/Docker y SSMreaderaceptado, verificación de sesiones por medio autorizado, STOP si candidato sinID. **No receta de parada completa aún**: no inventar enver.service, PIDs oSessionIds ni prometer enforcement técnico a partir de declaraciónhumana. No aplicar masks/kill/stop ni nuevoscontroles.
+
+**W_inflight NO ACREDITADO**, distinto deWsafe: W1últimoEVALevaluate con750msoperación/2000msconexión base (no configruntime aplicada), HTTP8000/8000/4000ms, multiplexerFailFast/Sync-AsyncTimeout/AbortOnConnectFailfalse/ExponentialRetry deconexión y sinretrymutadoraplicativo; WaitAsync y uncertain no cancelan servidor. W2últimoEVALinitialize-fence-maintain-activate, mismo protocolo y límites de cantidad no temporales. W3último comando del cliente genérico aún no identificado, ningún timeoutuniversal; helpersrevisados no emiten cuotas. Porcada W hace falta terminal/nodespacho/exclusión verificable o cota completa red-buffers-colas-servidor y sus hipótesis; no usar250/750ms/900s/TTLs/55sproductor comoW. Fixtures/CONTROLreadonly fuera delWdestino. Timers/plugins/Dockerpendientes no reciben una cota inventada. Solo si todoslostérminos acreditados: freeze→writers0→T0→esperaW demostrada→reverificación de hipótesis/controles/colas/consumers/conexiones/procesos→Tf→inflight0; método NO habilitado ahora.
+
+**ChecklistCONTROL C0–C7:** autorizaciónFase2 ybaseline/identidad/margen; creadorRAM→CreateUserexacto§113; ModifyUserGroupaditivo; únicoRunInventoryAsync mediantepipe/hijofijados; abortcancel/dispose/buffers/childpropios; retiromembresíasoloCONTROL; DeleteUsersolodelta/UserNotFound; comparaciónbaselineRG/grupo/runtime/procesos/sesiones yplazo. LlamadasAPI/recibos/STOP exactos en operaciones§16D, **no comandosCLI conpassword**. El creador-revocador real no existe: una lista de llamadas no lo implementa. Expiry/fallocleanup/plazo⇒STOP/escaladoKevin/incidenteabierto, sin renovación/fallback/cierre presumido.
+
+**Bloqueos concretos restantes:** (1) sesiónAWSexpirada y lectura pendiente de fstrim/plugins/sesionesconocidas, sin presumir reparada denegaciónprevia; (2) DockerDesktopactivo sin inventariopor timeout; (3) W1/W2/W3 sin cota o exclusión/terminal acreditado, individualizados; (4) WindowsTimeinactivo sinUTC/incertidumbreequivalente; (5) ejecutablecreador-revocador ausente. No bloqueos por refrescarGitHub/otra persona/CIhipotético/auditarformalmentetodoSO/todos183servicespornombre ni nueva arquitectura.
+
+**FASE 1 = NOT READY / NOT ACCREDITED; ventana NO INICIADA.** Solo operaciones/task/memoria editados, baseline278protegidos **26546846cfb0fcb5624108ab45318368a1cb6aefef5ef3325ff48ea6e7bcb5b4**/HEAD78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb/stagingvacío previos conservados. Sin CONTROL/passwordreal/membresía/StartSession/túnel/Redis/G/lifecycle/deployment/freeze/servicios-reloj-IAM-ACL-red-CI-Terraform modificados/retest/rebuild/commit/push. **C/I APPROVED / NOT APPLIED;01 BLOQUEO DURO DE STARTUP;02 RESUELTO;03 DISEÑO JSON/tmpfs APROBADO / NO VALIDADO EN RUNTIME;04 PENDIENTE;T008/T017/T019/T020 COMPLETE / ACCEPTED;GATE-I-B PENDING / NOT SATISFIED;Development/enver_development/enver:development/MaxActivePartitions5000 APROBADO / NO APLICADO;dev HISTORY UNCERTAIN;development INDETERMINATE.** CONTROLoriginal/productor intactos en estadosaceptados, sin metadata/registry/G/deltaCONTROLnuevo ni Fase2 autorizada.
+
+## 125. §124 aceptado; cierre acotado de cinco pendientes y orquestador local, sin ventana
+
+**Autorización:** responsable acepta §124; permite exclusivamente lecturas SSM/AWS
+con el perfil fijo, inventario Docker por pipe/socket Linux sin arrancar o parar
+contenedores, verificación de emisores/terminales, selección temporal y construcción
+local del creador-revocador con simulaciones. No freeze, CONTROL/password real,
+Redis, G, deployment, IAM/ACL/red/Terraform ni commit/push. Ningún subagente/skill.
+La instrucción de STOP por ExpiredToken solo aplica si vuelve a ocurrir; **no se
+observó una nueva expiración en esta entrega**. Read-only SSM RunCommand no es
+StartSession, túnel, aplicación de freeze ni ejecución del orquestador contra AWS.
+
+Detalle y clasificación final por ruta en
+[operaciones §17](../../tools/Enver.QuotaControl.Operations/README.md#17-cierre-acotado-de-los-cinco-pendientes-124-aceptado).
+§§118–124 quedan históricos, sin reabrir clasificaciones aceptadas.
+
+| Resultado | Evidencia actual / límite |
+| --- | --- |
+| A. fstrim | **NON-WRITER de cuotas** en A/B: timer/service/drop-in efectivo, ExecStart y argumentos fijos; ELF `/usr/sbin/fstrim`, util-linux2.37.4-1.amzn2023.0.7/x86_64, SHA256 `d061b94101497e046ae4034d0709f8e08a5cbcc8cec088635d8364c31f2dff63`, digest específico RPM coincide en ambos. Camino FITRIM/lista de montajes sin cliente Redis ni scripts/red/obtención de credenciales; root no equivale a aislamiento de capacidades |
+| B. update-motd | **NON-WRITER de cuotas** en rutas efectivas A/B: wrapper→hook70→`dnf updateinfo`/`check-release-update`→Python/main/plugins efectivos, dispatch/registro y callbacks revisados. Metadata/repositorios HTTP(S), cachés locales/SQLite y texto MOTD; sin llamada Redis o recuperación de su password en esos caminos. No afirmar que carece de red o que no ejecuta scripts |
+| C. Docker Desktop | Socket rawLinux bajo namespace del dockerd activo, sin reiniciar;33contenedores,0running/33exited/PID0. Inspección de imágenes/entrypoints/ENV por indicadores, restart/montajes/redes; otros proyectos y Kubernetes local, no emisor operativo ENVER identificado. Basket apunta al servicio Docker distributedcache, no al endpointAWS. No inferir vacío del timeout/HTTP500 del proxy, ni capacidad eterna a partir de estar detenido |
+| D. W1/W2/W3 | A/B:0containers/jobs/at/listener8080/TCP6379; Windows:0procesos seleccionados/0sockets pertinentes en su snapshot. No emisor W1/W2 operativo observado; ningún EVAL operacional pendiente identificado, **no prueba de que exista uno**. Falta atribuir último despacho/no-despacho y terminalidad. W3/cobertura SSM actual **DescribeSessions Active AccessDenied**, sin cierre de sesiones desconocidas ni modificación de permisos |
+| E. UTC principal | **A/chrony→Amazon Time Sync169.254.169.123**: fuente seleccionada,reach377/leapNormal/stratum4. Calibración de UTC remoto a monotónico local por bracket SSM medido11.3351487s; incertidumbre conservadora de ese mapeo **±5.685s**, no confundir con≈1ms del relojA. No se inicia T0 ni se usa DateTimeUTC de Windows como autoridad |
+| F. Creador/revocador | [Orchestrator](../../tools/Enver.QuotaControl.Orchestrator/README.md) nuevo, BCL/net10/sin paquetes ni SDK nuevo; máquina de estados, HTTPS Query/SigV4 fijo y productor existente por referencia binaria. **28/28 pruebas locales PASS**, incluidos los10casos exigidos, errores ambiguos, plazos, preflight real de hashes sin hijo y contratoHTTP simulado. AWS real0/Redis0/passwordreal0/hijoCONTROL0 en suite; código cloud NO EJECUTADO operativamente |
+
+**Barrera futura preparada, no aplicada:** todos los emisores identificados
+detenidos + clientes/sesiones conocidos cerrados con recibos + ningún socket
+atribuible activo. Solo excluye despachos futuros de ese conjunto; no convierte
+por sí sola un timeout/cancelación/EOF en finalización de EVAL ya aceptado.
+W1: `evaluate`; W2: initialize/fence/maintain/activate; W3: comando concreto aún
+no identificado. Si se acredita no-despacho o terminal para cada camino real,
+no hace falta inventar una cota de espera; hoy falta esa evidencia. Alternativa
+para un uncertain real: observación externa autorizada de finalización/ausencia de
+trabajo en el servidor y de buffers/colas de los clientes identificados, no solo
+TIME/CurrConnections/TTL. No conceder nuevos comandos/grants para obtenerla.
+
+**Únicamente blockers restantes:** cobertura de sesiones administrativas SSM
+actual denegada; atribución/no-despacho o terminal completo de W1/W2/W3. No
+exigir nuevos humanos, CI hipotético, refreshGitHub o verificación formal de todo
+el SO. La falta de ejecución AWS del orquestador es el límite impuesto a esta
+entrega local, no una autorización para probarlo remotamente ni iniciar ventana.
+
+**FASE 1 = NOT READY; NO ACCREDITED; ventana NO INICIADA.** No T0/Tf, freeze,
+CONTROL/password real, membresía, StartSession/túnel, Redis, G, lifecycle real o
+deployment. No servicios/reloj/IAM/ACL/red/workflows/Terraform modificados. API,
+imagen, Dockerfile, CONTROL original y productor aceptados conservados; sus suites
+no repetidas ni sus proyectos recompilados. Estados aceptados de §124 sin cambio.
+
+**Verificación de conservación (sello local20:37:50):**278archivos del baseline sin
+cambio por hash individual; historial previo task/memoria idéntico, HEAD intacto,
+stagingvacío. `git diff --check` exit0, enlaces relativos válidos y sin whitespace
+final en archivos nuevos. DLL Orchestrator local SHA256
+**7b72d24564cc1d80a6f950a3735f8e882d84206a8c920de05ad1c063f1bde635**;
+sin claim de aceptación humana o validación AWS de ese binario nuevo.
+
+## 126. Evidencia manual SSM satisfecha; único bloqueo de inflight operacional
+
+Responsable comunica STS PASS con principal
+`arn:aws:iam::926925605666:user/enver-terraform-local` y DescribeSessions Active
+PASS con **Sessions=[]** en el contexto autorizado `enver-admin-temp` del proyecto.
+**Fuente: observación manual informada por el responsable**, sin timestamp exacto
+ni salida cruda adjuntos; no se atribuye al agente una nueva ejecución o precisión
+temporal. Cobertura administrativa SSM **SATISFECHA PARA ESA OBSERVACIÓN**;
+AccessDenied de §125 queda histórico. No repetir DescribeSessions salvo contradicción
+nueva. InvalidClientTokenId de SimulatePrincipalPolicy no invalida la operación real
+exitosa, no genera bloqueo, no se vuelve a ejecutar ni se amplía IAM.
+
+**NO ACTIVE EMITTERS = SATISFECHO EN EL ALCANCE OBSERVADO.** Se reutilizan los
+snapshots/clasificaciones acumulados y la nueva observación SSM, sin presentarlos
+como capturas simultáneas ni como enforcement continuo: no API/lifecycle activo,
+contenedores Docker detenidos/PID0, sockets pertinentes ausentes y sesiones SSM0.
+No freeze/ventana/T0 iniciados. No se reabren otros prerrequisitos.
+
+**NO COMMAND IN FLIGHT = NO ACREDITADO. Único blocker técnico restante:**
+atribución de despachos operacionales de W1/W2 y su cierre, o exclusión verificable
+de esos despachos. Evidencia mínima, exclusivamente de los caminos conocidos:
+
+| Camino | Qué queda exactamente por acreditar |
+| --- | --- |
+| W1 API→RedisAuthenticationQuotaStore→EVAL evaluate | Un registro de ejecuciones/despliegues del API con destino efectivo atribuible que demuestre que no hubo ejecución capaz de despachar cuotas al endpoint operativo en el tramo aún no cubierto; alternativamente, correlación de los EVAL mutadores realmente despachados con respuestas terminales, sin intento uncertain restante. Tests fixture ya excluidos: no volver a auditarlos |
+| W2 lifecycle→initialize/fence/maintain/activate | Registro atribuible de invocaciones/destinos que confirme cero despachos operacionales de esas operaciones en el tramo no cubierto; si hubo invocaciones, cierre terminal de todos sus EVAL relevantes, incluidos los lotes despachados. Ausencia de un invocador actual no acredita por sí sola ausencia de invocación anterior |
+| W3 administrativo/control | Los caminos identificados ya revisados son observación readonly/control-plane ACL, no mutación de cuotas; CONTROL no fue ejecutado y su inventory es readonly. **Excluido del inflight mutador de cuotas en esos caminos**, con cobertura SSM0 satisfecha. No exigir historial de comandos hipotéticos de otro holder ni inventar un mutador pendiente; solo evidencia contradictoria concreta reabriría la atribución |
+
+Un cierre de no-despacho debe cubrir el tramo desde la última frontera acreditada
+de inflight0 o, si no existe, las ejecuciones posibles de **estos caminos conocidos**
+contra este destino. No es una auditoría general del SO ni lectura de history/secretos.
+Si hubo EVAL sin respuesta, solo su finalización atribuible u observación externa
+autorizada equivalente de finalización/colas puede cerrar ese intento; no el cierre
+del cliente, sockets0, sesiones0, timeout o esperar900s. No se ha identificado un
+EVAL operacional pendiente real: se identifica **evidencia ausente**, no trabajo
+pendiente demostrado. Wsafe no resuelve este punto.
+
+**FASE 1 = NOT READY; ventana NO INICIADA.** Registro y análisis documental
+únicamente, sin AWS/SSM/SimulatePrincipalPolicy/Redis, compilaciones/pruebas o
+código ejecutados; sin freeze, CONTROL real, password real, G, deployment,
+IAM o commit/push. Detalle vigente en
+[operaciones §18](../../tools/Enver.QuotaControl.Operations/README.md#18-ssm0-manual-y-distinción-emisoresinflight).

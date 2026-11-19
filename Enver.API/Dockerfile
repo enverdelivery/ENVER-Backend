@@ -8,7 +8,7 @@ RUN apt-get update \
         libc6=2.39-0ubuntu8.12 \
         libc-bin=2.39-0ubuntu8.12 \
     && rm -rf /var/lib/apt/lists/*
-USER $APP_UID
+USER 1654:1654
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
