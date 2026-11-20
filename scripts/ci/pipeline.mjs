@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {Closed, requireThat, command, root, policy, policyHash, privateDir, evidence, readJson, save, sha256, identity, output, emit, exactSDK, classify, parseTrx, aggregate, filesBelow, container, GitHub} from './lib.mjs';
+import {Closed, requireThat, command, root, policy, policyHash, privateDir, evidence, readJson, save, sha256, identity, output, emit, exactSDK, classify, parseTrx, aggregate, filesBelow, container, GitHub, recordDiagnostic} from './lib.mjs';
+import {trxDiagnostic, diagnosticLimits} from './diagnostics.mjs';
 
 export const controls = ['build_test', 'integration_validation', 'runtime_tool_tests', 'semgrep', 'dependency_review', 'secret_scan', 'container_lint', 'iac_validation', 'contract_tests', 'docker_build'];
 export const projects = {
@@ -25,6 +26,7 @@ function suite(name) {
   requireThat(!fs.existsSync(file), 'NO_AUTOMATIC_SUITE_RERUN_' + name.toUpperCase());
   const r = command('dotnet', ['test', projects[name], '-c', 'Release', '--no-build', '--no-restore', '--logger', `trx;LogFileName=${name}.trx`, '--results-directory', dir], {allowFailure: true});
   if (!fs.existsSync(file)) return {state: 'BLOCKED', reason: r.error?.code === 'ETIMEDOUT' ? 'TEST_TIMEOUT' : 'MISSING_NATIVE_RESULT'};
+  requireThat(fs.statSync(file).size <= diagnosticLimits.trxCharacters, 'TRX_DIAGNOSTIC_SIZE', 'BLOCKED');
   const xml = fs.readFileSync(file, 'utf8');
   try {
     const counts = parseTrx(xml);
@@ -32,7 +34,8 @@ function suite(name) {
   } catch {
     const counters = xml.match(/<Counters\s+([^>]+)>/)?.[1] || '';
     const number = name => Number(counters.match(new RegExp('\\b' + name + '="(\\d+)"'))?.[1] || 0);
-    return {state: 'FAIL', reason: 'FAILED_SKIPPED_OR_INCOMPLETE_SUITE', total: number('total'), passed: number('passed'), failed: number('failed'), skipped: number('notExecuted')};
+    const diagnostic = recordDiagnostic('test', {suite: name, ...trxDiagnostic(xml)});
+    return {state: 'FAIL', reason: 'FAILED_SKIPPED_OR_INCOMPLETE_SUITE', total: number('total'), passed: number('passed'), failed: number('failed'), skipped: number('notExecuted'), diagnostic};
   }
 }
 function suitesMustPass(details, names) {

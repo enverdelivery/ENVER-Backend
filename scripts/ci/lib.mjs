@@ -3,6 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
+import {commandDiagnostic, githubDiagnostic, sanitizeDiagnostic} from './diagnostics.mjs';
 
 export const root = path.resolve(import.meta.dirname, '../..');
 export const policy = JSON.parse(fs.readFileSync(path.join(root, 'scripts/ci/policy.json')));
@@ -10,6 +11,7 @@ export const policy = JSON.parse(fs.readFileSync(path.join(root, 'scripts/ci/pol
 export const policyHash = sha256(JSON.stringify(policy));
 export const evidence = process.env.ENVER_EVIDENCE_DIR || path.join(process.env.RUNNER_TEMP || os.tmpdir(), 'enver-evidence');
 export const privateDir = path.join(process.env.RUNNER_TEMP || os.tmpdir(), 'enver-ci-private');
+export const diagnosticDir = path.join(process.env.RUNNER_TEMP || os.tmpdir(), 'enver-ci-diagnostics');
 export const states = ['PASS', 'FAIL', 'NOT APPLICABLE', 'NOT EXECUTED', 'BLOCKED'];
 export class Closed extends Error {
   constructor(code, state = 'FAIL') { super(code); this.code = code; this.state = state; }
@@ -24,18 +26,29 @@ export function save(file, value) {
   fs.mkdirSync(path.dirname(file), {recursive: true, mode: 0o700});
   fs.writeFileSync(file, JSON.stringify(value, null, 2) + '\n', {mode: 0o600});
 }
+let diagnosticSequence = 0;
+export function recordDiagnostic(kind, value) {
+  requireThat(['command', 'test', 'dependency-review'].includes(kind), 'DIAGNOSTIC_KIND');
+  let diagnostic = sanitizeDiagnostic(value);
+  if (Buffer.byteLength(JSON.stringify(diagnostic)) > 512 * 1024)
+    diagnostic = {available: false, reason: 'DIAGNOSTIC_RECORD_SIZE_LIMIT'};
+  save(path.join(diagnosticDir, `${kind}-${++diagnosticSequence}.json`), {schema: 1, kind, diagnostic});
+  return diagnostic;
+}
 export function command(executable, args, options = {}) {
   const r = spawnSync(executable, args, {
     cwd: root, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, timeout: 30 * 60 * 1000,
     env: {...process.env, DOTNET_CLI_TELEMETRY_OPTOUT: '1', AWS_EC2_METADATA_DISABLED: 'true'}, ...options,
   });
+  const diagnostic = commandDiagnostic(executable, args, r, options.env || process.env);
+  if (diagnostic) r.diagnostic = recordDiagnostic('command', diagnostic);
   if (!options.allowFailure) {
     const tool = path.basename(executable).replace(/[^a-z0-9]/gi, '_');
     requireThat(!r.error, (r.error?.code === 'ETIMEDOUT' ? 'COMMAND_TIMEOUT_' : 'COMMAND_UNAVAILABLE_') + tool, 'BLOCKED');
     if (r.status !== 0) {
       const failure = new Closed('COMMAND_FAILED_' + tool);
       const operation = args.find(a => ['restore', 'build', 'test', 'run', 'init', 'fmt', 'validate'].includes(a));
-      failure.details = {tool, operation: operation || 'OTHER_FIXED_OPERATION', exitCode: r.status};
+      failure.details = {tool, operation: operation || 'OTHER_FIXED_OPERATION', exitCode: r.status, ...(r.diagnostic ? {diagnostic: r.diagnostic} : {})};
       throw failure;
     }
   }
@@ -130,7 +143,12 @@ export class GitHub {
     const r = await fetch('https://api.github.com' + endpoint, {headers: {
       Authorization: `Bearer ${this.token}`, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28',
     }, signal: AbortSignal.timeout(30000)});
-    requireThat(r.ok, 'GITHUB_API_' + r.status, 'BLOCKED');
+    if (!r.ok) {
+      const failure = new Closed('GITHUB_API_' + r.status, 'BLOCKED');
+      if (/^\/repos\/[^/]+\/[^/]+\/dependency-graph\/compare\//.test(endpoint))
+        failure.details = {diagnostic: recordDiagnostic('dependency-review', await githubDiagnostic(r, endpoint, process.env, this.token))};
+      throw failure;
+    }
     return binary ? Buffer.from(await r.arrayBuffer()) : r.json();
   }
   async pages(endpoint, key) {
