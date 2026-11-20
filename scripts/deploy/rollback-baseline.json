@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "approved": false,
+  "repository": "enverdelivery/ENVER-Backend",
+  "manifestDigest": "sha256:41483906445df7b1ad53de32dfc8b6c416bfd53c17cf043cd5a33476c357a856",
+  "environment": "development",
+  "reason": "Deployment manual histórico; incorporación como retorno CI/CD pendiente de revisión y autorización explícitas. No fabricar evidencia GitHub retroactiva."
+}

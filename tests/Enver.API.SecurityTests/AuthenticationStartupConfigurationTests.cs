@@ -1,5 +1,6 @@
 using System.Net;
 using Enver.Testing;
+using Microsoft.Extensions.Options;
 
 namespace Enver.API.SecurityTests;
 
@@ -31,6 +32,8 @@ public sealed class AuthenticationStartupConfigurationTests(AuthenticationDepend
         using var factory = new AuthenticationApiFactory(dependencies, overrides);
 
         var exception = Assert.ThrowsAny<Exception>(() => factory.CreateClient());
+        Assert.True(exception is OptionsValidationException || exception is AggregateException aggregate &&
+            aggregate.InnerExceptions.All(e => e is OptionsValidationException));
         var details = exception.ToString();
 
         Assert.Contains(expectedValidator, details, StringComparison.Ordinal);

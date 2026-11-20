@@ -1,0 +1,90 @@
+# Operación del pipeline ENVER (004)
+
+**Actualización posterior FIX PIPELINE:** [diagnóstico y validación vigente](fix-pipeline-validation.md). El informe inicial `validation.md` conserva los resultados históricos, incluidos sus fallos; no se confunden con el resultado de esta corrección.
+
+## Estado y límites
+
+Implementación local revisada sobre `feature/ci-cd`, basada en `origin/develop` `2e89e3c`, que contiene `bab1f17`. El gate REVIEW AND COMMIT CI-CD BRANCH autoriza un único commit nuevo y push exclusivo de esta rama, no PR/merge/dispatch ni operación AWS. El resultado Git se verifica después mediante SHA y referencia remota; no se presupone en este corte documental. Estado vigente y evidencias en [tasks §§15–16](../specs/004-ci-cd/tasks.md); `validation.md` y los apartados anteriores de `fix-pipeline-validation.md` conservan su historial. El diseño normativo sigue en `specs/004-ci-cd/{spec,plan,tasks}.md`; el singular `task.md` es histórico.
+
+**Código implementado no significa servicio configurado ni deployment probado.** Publicación y despliegue quedan cerrados mientras falten las variables de habilitación, OIDC, roles, environment y evidencia de retorno. No activar esas variables durante una mera prueba de CI. Consultar `tasks.md` y `validation.md` para resultados y pendientes reales.
+
+## Tres workflows
+
+| Archivo | Jobs declarados | Función |
+|---|---:|---|
+| `.github/workflows/ci.yml` | 12 | PR a develop/main y push a develop/main, sin AWS/OIDC. Runtime tiene dos runners (Linux y Windows), por PipeProducer y el precheck Windows del Orchestrator. |
+| `.github/workflows/hardening.yml` | 10 | Contrato reutilizable `workflow_call`, dispatch manual y adaptador independiente de push develop no documental; nunca despliega. |
+| `.github/workflows/deploy-dev.yml` | 10 | Exclusivamente dispatch humano desde develop. Compensación incluida en ese mismo run. |
+
+El adaptador independiente espera CI **terminado del SHA exacto**; no usa `workflow_run`, `needs` entre workflows ni dispatch automático. No llamar al hardening reutilizable esperando la terminación del mismo run CI que lo está llamando: crearía una espera circular. Los contratos reutilizables heredan evento/ref/permisos del llamador y no amplían la confianza de publicación. Las trust policies de esta entrega solo habilitan publicación desde el workflow directo `hardening.yml` de develop; un llamador distinto no obtiene AWS por reutilizarlo.
+
+La suite portable del Orchestrator ejecuta los casos de control/cleanup/fail-closed y una negativa de precheck que comprueba cero lecturas/mutaciones/generaciones de secretos antes de STOP. La comprobación positiva de estación/artefactos históricos se conserva como modo **separado** `--historical-artifact-validation` del ejecutable de tests, nunca invocado por CI. Ese modo conserva `PipeInventory.Precheck()` y sus hashes sin cambios; fallo histórico no se convierte en PASS ni se finge que ocurrió en un runner. La suite declara explícitamente HISTORICAL_ARTIFACT_VALIDATION NOT EXECUTED. No se excluye el Orchestrator ni sus contratos portables del job runtime.
+
+Solo con autorización para esa evidencia de estación, el comando separado es `dotnet run --project tools/Enver.QuotaControl.Orchestrator.Tests -c Release --no-build --no-restore -- --historical-artifact-validation`. No se ejecuta en esta corrección ni es un reemplazo de los tests portables.
+
+`Detect Changes` trata diff incierto, archivos desconocidos y cambios de scripts/workflows/globales como alcance técnico. Documentation-only no genera imagen. En develop los cambios técnicos generan candidata con controles completos. Los jobs fuera de alcance **ejecutan un reporte NOT APPLICABLE**, no quedan silenciosamente skipped. `PR Quality Gate` rechaza cualquier resultado requerido ausente, interno skipped, job skipped inesperado, intento ajeno o error. Se ejecutan UT/IT/ST reales; el job de integración conserva el fallo original y ejecuta también ST, sin retry para obtener verde. Los TRX y stdout nativos permanecen privados en el runner; solo se suben conteos/nombres de métodos y resultados saneados.
+
+### Imagen y custodia
+
+Un único `docker buildx build --platform linux/amd64` exporta OCI, sin push. Se desactivan manifest lists de attestations en esa exportación para fijar un único manifest OCI. SHA del commit, run e intento identifican la construcción; el digest del **manifest**, no Image ID/config digest/tag, autoriza su uso. Se verifican hash de archivo, manifiesto/config/blobs, plataforma y usuario. El CI gate vincula el registro a ese mismo OCI.
+
+Hardening consume el OCI, no lo reconstruye. Skopeo copia con `--preserve-digests`; cualquier cambio de formato/digest falla. Publicación usa un tag de trazabilidad por SHA/run/intento y comprueba ECR. `approved.json` conserva SHA, ambos runs/intentos, policy hash, hashes de evidencia y manifest digest. El resolver ordena por la historia first-parent de develop (no por último workflow verde/tag), verifica aprobación, artefactos ZIP por SHA256, controles/jobs y ECR, y congela la selección. Un rerun/artefacto caducado o evidencia incoherente bloquea. No hay fallback a reconstruir o a `latest`.
+
+### Política procesable y herramientas
+
+`ci/policy.json` fija SDK **10.0.403**, imágenes de scanners por manifest digest, versiones, vigencia de candidata de 168 horas y retención de 14 días. Son parámetros explícitos revisables antes de habilitar operación, no evidencia de presupuesto/licencias aprobados. High/Critical bloquean; inicialmente **no hay excepciones de vulnerabilidades**, tampoco se omiten automáticamente los unfixed. Una excepción futura necesita autorización, justificación, alcance y vencimiento; no agregar ignores para conseguir verde.
+
+Semgrep usa reglas locales de texto acotadas para C# (firma literal, bypass TLS, shell y exposición de excepciones), sin registry de reglas, métricas ni upload de código. Se emplea motor generic/regex porque incluso 1.186.0 produce PartialParsing en un constructor primario válido del repo; **no se acredita cobertura AST/interprocedural** ni se ignora un error de análisis. CodeQL C# profundo y Trivy image siguen obligatorios para promover. Dependency Review usa el endpoint oficial GitHub de comparación en PR y NuGet audit incluye dependencias transitivas de solución y tools. API/licencia/feed no disponibles = BLOCKED, no PASS. Fuera de PR solo la comparación es NOT APPLICABLE; NuGet sigue siendo obligatorio.
+
+Gitleaks conserva reglas estándar y reglas runtime. `.gitleaksignore` registra **11 fingerprints históricos exactos**, revisados como prosa o fixtures JWT negativas. Una allowlist adicional compara exactamente tres términos documentales inocuos del grupo `secret` de generic-api-key (no directorios ni reglas completas); así se puede revisar un archivo Markdown modificado entero sin cambiar sus antecedentes. No permite credenciales nuevas. El canary de `ci/scanner-selftest.mjs` comprueba detección/redacción con material aleatorio no operativo que nunca se imprime o sube. Informes con findings no se suben como artefactos; deben revisarse con redacción y autorización apropiadas.
+
+Terraform solo `fmt -check`, `init -backend=false -lockfile=readonly`, `validate` y Trivy config sobre copia de **fuentes publicables**. State, planes, tfvars locales y cache `.terraform` no entran al scanner; no se confunden planes históricos con el HCL vigente. Sin credenciales, plan cloud ni apply. [EGRESS-REVIEW.md](../infra/EGRESS-REVIEW.md) registra la corrección HCL autorizada: TCP443/27017 públicos con dos excepciones exactas AVD-AWS-0104 aprobadas por el responsable hasta2026-12-19, y TCP6379 solo al SG cache. Sin excepción global; el gate bloquea al vencimiento. Cuatro findings LOW/MEDIUM existentes siguen visibles. AWS aún no incorpora esta restricción; revisar conectividad/orden antes de cualquier apply posterior.
+
+Stryker es manual/selectivo, sobre `AuthenticationInputValidator` y UnitTests, concurrencia 2 y umbral 60; NoCoverage cuenta como no detectado. Compatibilidad/umbral medido y ejecución GitHub siguen pendientes. ZAP/RESTler tienen jobs y estados explícitos: **no se ejecutan** sin laboratorio HTTP real desechable y OpenAPI comprobado. Solicitar `run_dynamic=true` produce BLOCKED mientras falten esos prerrequisitos. No existe escaneo contra CloudFront/ALB/A-B compartidos ni PASS de un piloto inexistente.
+
+## GitHub/OIDC: AWS y GitHub configurados; prueba STS pendiente
+
+1. Revisar disponibilidad/licencia de Dependency Graph/Review y CodeQL, capacidad de runners Docker/Linux/Windows, coste/retención y actores autorizados. Configurar required check **PR Quality Gate** en develop/main; **Hardening Gate** corresponde a promoción, no exigir un check que no corre en PR. No se cambian branch protections aquí.
+2. Integrar los archivos mediante el flujo aprobado y tener `deploy-dev.yml` en la **default branch** para que GitHub muestre `Actions → Deploy ENVER Dev → Run workflow`. La presencia local no crea el botón. Seleccionar develop al despachar; main/feature/bots/actores no listados son rechazados.
+3. **CREADO/CONFIGURADO y read-back GitHub PASS:** environment exacto `development`, una regla custom name develop/type branch, sin tags/wildcard, espera ni reviewers obligatorios. El404 inicial es histórico. Proteger workflows/scripts/policy y settings OIDC; no habilitar publicación/deploy mientras falte configuración y autorización operativa. Esta restricción no permite AWS desde feature o PR.
+4. **CONFIGURADO y read-back GitHub PASS:** subject de `deploy/iam/github-oidc-subject.json`, `use_default:false` y claves ordenadas `repo`, `context`, `workflow_ref`, `event_name`; use_immutable_subject:true y prefijo inmutable esperado. Repo creado2026-11-04, ownerId350055774/repoId1445184810. Los `*-trust.json` exigen `repo:enverdelivery@350055774/ENVER-Backend@1445184810`, environment development, workflow exacto en develop y evento: Publisher push/dispatch; Deploy solo dispatch. El use_default:true inicial es histórico; no sustituir la trust por wildcard ni quitar IDs para lograr acceso. **OIDC→STS RUNTIME TEST=PENDING UNTIL GITHUB EXECUTION** tras publicar; no se despacha Publisher/Deploy para probarlo ni se imprimen JWT/credenciales.
+5. **CREADO y read-back verificado** el provider `arn:aws:iam::926925605666:oidc-provider/token.actions.githubusercontent.com`, URL `https://token.actions.githubusercontent.com`, único audience `sts.amazonaws.com`, con autorización IAM específica y exclusivamente profile enver-infra. No duplicado ni thumbprint inventado: IAM obtuvo el certificado al crear el provider.
+6. **CREADOS y read-back verificados** `enver-github-ecr-publisher` y `enver-github-deploy-dev`: trust/policy coinciden con los JSON; cada rol tiene1inline/0managed adjuntas, sesión máxima3600s. Publisher solo ECR enver-dev-api, sin SSM. Deploy solo ECR DescribeImages, documento fijo SSM a dos instancias y lecturas invocation/target health; sin IAM, secret-read, EC2/ALB/CloudFront mutation o Terraform. Los únicos `Resource:"*"` son GetAuthorizationToken, GetCommandInvocation y DescribeTargetHealth, sin granularidad de recurso soportada y restringidos a us-east-1. Workflow fija el TG; no se presenta esa fijación como restricción IAM por ARN. ARNs reales fijos en hardening.yml/deploy-dev.yml; variables `ENVER_PUBLISHER_ROLE_ARN`/`ENVER_DEPLOY_ROLE_ARN` ya no son necesarias. No ampliar permisos por AccessDenied sin revisión.
+7. **PENDIENTE/BLOCKED** revisar/crear el documento SSM **ENVER-Dev-ImageDeployment-v1**, versión **1**, desde `deploy/ssm-document.json`: GetDocument fue denegado al profile autorizado; existencia desconocida, no creado ni invocado. Se necesita permiso SSM delimitado en un gate separado, no mantener permisos IAM de bootstrap para resolverlo. No usar AWS-RunShellScript libre. El workflow compara contenido/version/hash y lo fija en SendCommand (la versión/hash se controla en código, no se afirma restricción de versión por IAM). Requiere Agent compatible ENV_VAR/Python3/Docker/systemd/findmnt/rol runtime IMDSv2; no se instala nada aquí. El generador local no llama AWS ni el documento expone secretos o recibe shell arbitrario.
+
+**Bootstrap temporal = REMOVED:** retirada administrativa verificada por lectura default v4 de ENVER-Terraform-IAM-Runtime, exactamente9statements originales y0temporales. Intento previo AccessDenied conservado en tasks §13; retirada verificada en §14. Provider/roles permanecen según evidencia acreditada y confirmación administrativa; lecturas posteriores denegadas no se convierten en nueva verificación. No volver a modificar esa política ni reañadir permisos para inspección. **SSM DOCUMENT=PENDING** y ningún deploy/initialize ejecutado en estos gates; histórico initialize total1. Próximo gate tras verificar commit/push: **CREATE PR feature/ci-cd → develop AND VALIDATE REAL GITHUB CI**, sin PR automático ni dispatch en esta entrega.
+
+Variables de habilitación de repositorio/environment verificadas **no activadas** en la revisión; configuración restante pendiente según autorización propia:
+
+| Variable | Valor tras revisión y configuración real |
+|---|---|
+| `ENVER_PUBLISH_ENABLED` | Mantener ausente/false hasta autorización de publicación |
+| `ENVER_DEPLOY_ENABLED` | Mantener ausente/false hasta autorización operativa posterior |
+| `ENVER_DEPLOY_ACTORS` | Lista explícitamente aprobada, separada por comas; sin default inventado |
+| `ENVER_CODEQL_ENABLED` | `true` solo si la disponibilidad privada fue verificada; el repositorio público se detecta por API |
+
+No se necesitan GitHub secrets de AWS, JWT, OriginSecret, Mongo o Redis. Cada job AWS obtiene y elimina su sesión OIDC propia; no se trasladan credenciales entre jobs. El login de ECR del Publisher queda en un archivo privado efímero fuera del repositorio y se elimina; no se imprime ni sube. EC2 usa su rol runtime sin modificarlo.
+
+## Gate operativo posterior: deployment y retorno
+
+Antes de habilitar DEV debe existir candidata aprobada **y un digest anterior compatible/aprobado/retenido**. `deploy/rollback-baseline.json` preserva el digest manual conocido con `approved=false`: se requiere incorporación explícita, evidencia hash, responsable y vigencia; no se fabrica CI retrospectivo. Sin retorno aprobado, preflight termina antes de modificar referencias/reiniciar.
+
+El agente fijo admite solo snapshot/deploy/verify/restore/finalize, digests y run/intento validados. Nunca recibe shell, host, rol, imagen de otro registro o secretos desde inputs. Conserva runtime JSON, secret input/overlay, wrappers/unidad, authority/generación y configuración por fingerprints privados. Verifica servicio, usuario, rootfs, capacidades, tmpfs/permisos/mount RO, manifest exacto, binding `0.0.0.0:8080`, health local/privada y target. Usa materialización ordinaria existente, sin initialize, rotación ni instalación remota.
+
+Orden A→readiness/target→B→readiness/target→HTTPS health. Falla A: no B. Falla B/final: retorno B→A si es seguro, máximo un intento de retorno por nodo; sin restart si ya está en el digest anterior. Si B no puede reconciliarse, no se arriesga A con otro cambio. El resultado original permanece FAILED aun con rollback PASS. Concurrencia `enver-development-deploy`, cancel-in-progress=false, cubre compensación.
+
+Un SendCommand de estado incierto **no se reenvía**. Polling tiene presupuesto; un runner perdido/CommandId no recuperable queda BLOCKED, no promete rollback ejecutado. Lock remoto y journal root-only impiden otra operación sobre un estado pendiente. Resolver esos incidentes necesita un gate humano de reconciliación; no borrar journals ni guards para saltarse la protección.
+
+Los reruns de deployment (attempt distinto de1) se rechazan para no repetir operaciones consumibles ni confundir estados/artefactos de otro intento. Se requiere reconciliación y un dispatch humano nuevo autorizado. Se comprueban actor y triggering actor; un bot no hereda la autorización del humano original mediante rerun.
+
+`run_smoke_tests=true` solicita controles no destructivos: sin identidad sintética reutilizable aprobada, AUTH es NOT EXECUTED y se informa la restricción; health/targets/readiness siempre obligatorios. No hay creación ilimitada de cuentas ni se interpreta logout repetido como aceptación distribuida. La conexión viewer es HTTPS; el baseline DEV sigue **NO END-TO-END TLS**. Ni health ni el pipeline cierran AUTH-027 por inferencia.
+
+## Validación local reproducible (sin cloud)
+
+- `node --test scripts/tests/pipeline.test.mjs`
+- `python3 -B -m unittest discover -s scripts/tests -p '*_test.py'` en Linux, o entorno Python aislado equivalente.
+- `node scripts/ci/scan-changes.mjs` y `node scripts/ci/scanner-selftest.mjs`, con `RUNNER_TEMP` fuera del repositorio.
+- Actionlint 1.7.12 y parser YAML 1.2 sobre workflows y composite actions; versiones/hash de descarga verificados fuera del repositorio.
+- SDK exacto mediante global.json; comandos reales de suites descritos en `ci/pipeline.mjs`, sin retries ni conteos históricos.
+
+No ejecutar `docker_build`, `publish_candidate` o fases de deployment como parte de una validación puramente sintáctica. Los comandos AWS de los scripts son código pendiente de una autorización operativa: su existencia no autoriza correrlos.

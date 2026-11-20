@@ -11,12 +11,16 @@ using Enver.Testing;
 using Enver.API.Security;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Options;
+using Enver.API.Configuration;
+using Enver.API.Composition;
+using Xunit.Abstractions;
 
 
 namespace Enver.API.SecurityTests;
 
 [Collection(AuthenticationDependenciesCollection.Name)]
-public sealed class LoginSecurityTests(AuthenticationDependenciesFixture fixture)
+public sealed class LoginSecurityTests(AuthenticationDependenciesFixture fixture, ITestOutputHelper output)
 {
     [Fact, Trait("Task", "051")]
     public async Task Issued_JWT_has_only_approved_claims_header_and_no_PII_or_secret_in_events()
@@ -52,11 +56,44 @@ public sealed class LoginSecurityTests(AuthenticationDependenciesFixture fixture
     [Fact, Trait("Task", "051")]
     public async Task Security_rehash_race_has_one_winner_no_loop_and_only_closed_observability()
     {
-        await using var scope = await LoginTestScope.CreateAsync(fixture); var a = scope.First; var b = await scope.AddHostAsync();
+        // Igual que el IT A/B: verifica el CAS concurrente, no el agotamiento del perfil sintético de 1 s.
+        // La reproducción acreditó RequestBudget en la reverificación y emisión; no cambia producción.
+        const int raceBudgetMilliseconds = 4000;
+        await using var scope = await LoginTestScope.CreateAsync(fixture,
+            testOnlyLoginBudgetMilliseconds: raceBudgetMilliseconds, captureRaceDiagnostics: true);
+        var a = scope.First; var b = await scope.AddHostAsync();
+        Assert.Equal("1000", fixture.CreateConfiguration()["Authentication:LoginBudgetMilliseconds"]);
+        Assert.All(new[] { a, b }, host =>
+        {
+            Assert.Equal(raceBudgetMilliseconds, host.Services.GetRequiredService<IOptions<AuthenticationOptions>>().Value.LoginBudgetMilliseconds);
+            Assert.Equal(500, host.Services.GetRequiredService<IOptions<MongoDbOptions>>().Value.OperationTimeoutMilliseconds);
+            Assert.Equal(250, host.Services.GetRequiredService<IOptions<RedisOptions>>().Value.OperationTimeoutMilliseconds);
+            Assert.Equal(1, host.Services.GetRequiredService<HashingConcurrencyGate>().Limit);
+        });
         await a.SeedAsync(secret: "short", legacy: true); var ready = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously); var arrived = 0;
         async Task Barrier() { if (Interlocked.Increment(ref arrived) == 2) ready.SetResult(); await ready.Task.WaitAsync(TimeSpan.FromSeconds(10)); }
         a.Users.BeforeWrite = Barrier; b.Users.BeforeWrite = Barrier;
         var results = await Task.WhenAll(a.LoginAsync(password: "short"), b.LoginAsync(password: "short"));
+        for (var i = 0; i < results.Length; i++)
+        {
+            var host = i == 0 ? a : b;
+            string? code = null;
+            if (results[i].StatusCode == HttpStatusCode.ServiceUnavailable)
+            {
+                using var problem = JsonDocument.Parse(await results[i].Content.ReadAsStringAsync());
+                code = problem.RootElement.GetProperty("code").GetString() == "temporarily_unavailable" ? "temporarily_unavailable" : "other";
+            }
+            output.WriteLine("LOGIN_RACE_SAFE " + JsonSerializer.Serialize(new
+            {
+                Host = i == 0 ? "A" : "B", Status = (int)results[i].StatusCode, Code = code,
+                LoginBudgetMilliseconds = host.Services.GetRequiredService<IOptions<AuthenticationOptions>>().Value.LoginBudgetMilliseconds,
+                Index = host.Services.GetRequiredService<AuthenticationDependencyAdmission>().IndexStatus.ToString(),
+                DummyReady = host.Services.GetRequiredService<DummyPasswordHash>().IsInitialized,
+                HashingLimit = host.Services.GetRequiredService<HashingConcurrencyGate>().Limit,
+                host.Users.Lookups, host.Users.Writes, host.Users.Reads, host.Kdf.Hashes, host.Kdf.Verifications,
+                Issuances = host.Issuer.Calls, Steps = host.RaceDiagnostics!.Snapshot
+            }));
+        }
         foreach (var r in results) { using (r) Assert.Equal(HttpStatusCode.OK, r.StatusCode); }
         Assert.Equal(2, a.Users.Writes + b.Users.Writes); Assert.Equal(1, a.Users.Reads + b.Users.Reads); Assert.Equal(2, a.Issuer.Calls + b.Issuer.Calls);
         Assert.Equal(2, scope.Logs.Messages.Count(m => m == "Authentication login success"));

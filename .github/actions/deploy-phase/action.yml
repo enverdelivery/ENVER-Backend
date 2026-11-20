@@ -1,0 +1,47 @@
+name: ENVER deployment phase
+description: Fase fija, estado saneado y sesión OIDC independiente cuando corresponde.
+inputs:
+  phase:
+    description: Operación fija versionada
+    required: true
+  aws:
+    description: Obtener sesión temporal exclusivamente para esta fase
+    default: 'false'
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      with:
+        node-version: '24'
+    - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      if: inputs.phase != 'validate' && inputs.phase != 'resolve'
+      with:
+        pattern: deploy-state-*
+        path: ${{ runner.temp }}/enver-evidence/input
+    - name: Validate fixed configuration before OIDC
+      if: inputs.aws == 'true'
+      shell: bash
+      run: node scripts/deploy/deploy.mjs validate
+    - uses: aws-actions/configure-aws-credentials@b47578312673ae6fa5b5096b330d9fbac3d116df
+      if: inputs.aws == 'true'
+      with:
+        role-to-assume: ${{ env.ENVER_DEPLOY_ROLE }}
+        aws-region: us-east-1
+        allowed-account-ids: '926925605666'
+        role-session-name: enver-deploy-${{ github.run_id }}-${{ inputs.phase }}
+        role-duration-seconds: ${{ inputs.phase == 'compensate' && 2700 || 1800 }}
+        unset-current-credentials: true
+        retry-max-attempts: 1
+    - name: Execute fixed phase
+      if: always() && (inputs.phase == 'summary' || success())
+      shell: bash
+      env:
+        ENVER_PHASE: ${{ inputs.phase }}
+      run: node scripts/deploy/deploy.mjs "$ENVER_PHASE"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always() && inputs.phase != 'validate'
+      with:
+        name: deploy-state-${{ inputs.phase }}-${{ github.run_id }}-${{ github.run_attempt }}
+        path: ${{ runner.temp }}/enver-evidence/current/state.json
+        if-no-files-found: warn
+        retention-days: 14

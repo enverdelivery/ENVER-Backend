@@ -100,6 +100,8 @@ public sealed class AuthenticationDependencyCompositionTests(AuthenticationDepen
     {
         using var factory = new AuthenticationApiFactory(fixture, new Dictionary<string, string?> { [key] = value });
         var error = Assert.ThrowsAny<Exception>(() => factory.CreateClient());
+        Assert.True(error is OptionsValidationException || error is AggregateException aggregate &&
+            aggregate.InnerExceptions.All(e => e is OptionsValidationException));
         Assert.Contains("AuthenticationComposition:", error.ToString());
         Assert.False(fixture.ContainsSyntheticSecret(error.ToString()));
     }

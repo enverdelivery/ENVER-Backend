@@ -1,0 +1,9 @@
+<Project>
+  <!-- Match the existing committed lockfiles without editing runtime projects or regenerating locks. -->
+  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Enver.RuntimeConfig.Materializer'">
+    <RuntimeIdentifiers>linux-x64;win-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Enver.RuntimeConfig.Materializer.Tests'">
+    <RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+</Project>

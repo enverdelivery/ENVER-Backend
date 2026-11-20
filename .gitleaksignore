@@ -1,0 +1,16 @@
+# Revisión local 004: once falsos positivos históricos, NO excepciones de secretos.
+# Fingerprint exacto commit/path/regla/línea: no se excluyen directorios ni reglas.
+# Prosa de gobierno (frases sobre políticas, claves/certificados y operaciones).
+bab1f17728a4212471f4964d994fe42927bb6170:specs/004-ci-cd/tasks.md:generic-api-key:131
+bab1f17728a4212471f4964d994fe42927bb6170:memoria.md:generic-api-key:1115
+25daa836c0571d4c0c02486e49ce435a108f0558:specs/003-infrastructure/task.md:generic-api-key:1489
+bab1f17728a4212471f4964d994fe42927bb6170:memoria.md:generic-api-key:4976
+bab1f17728a4212471f4964d994fe42927bb6170:specs/003-infrastructure/task.md:generic-api-key:6552
+bab1f17728a4212471f4964d994fe42927bb6170:specs/003-infrastructure/task.md:generic-api-key:9263
+bab1f17728a4212471f4964d994fe42927bb6170:specs/003-infrastructure/task.md:generic-api-key:9280
+a8e5b5c8515b5aac76036664a1247b66d9c51600:memoria.md:generic-api-key:212
+# Fixtures negativas: payload sub=synthetic, firma literal no criptográfica;
+# prefijo JWT incompleto para prueba de longitud; jti inválido con firma "signature".
+6e3fed42d2813bd8fdd71ab928dbb046339bee4b:tests/Enver.API.SecurityTests/RedisOperationalScopeSecurityTests.cs:jwt:78
+c70c05ed42359ced0703f2c87bfe2550f0d5c2a4:tests/Enver.API.UnitTests/RedisInfrastructureTests.cs:generic-api-key:38
+1658c57478c8866ae5abe9aaabefe7fcba088508:tests/Enver.API.SecurityTests/AuthenticationBoundarySecurityTests.cs:jwt:258

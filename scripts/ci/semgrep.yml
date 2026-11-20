@@ -1,0 +1,23 @@
+rules:
+  - id: enver-no-literal-signing-material
+    languages: [generic]
+    severity: ERROR
+    message: No introducir material de firma literal en opciones de producción.
+    paths:
+      include: ['**/*.cs']
+    pattern-regex: 'new\s+SymmetricSecurityKey\s*\(\s*Encoding\.(?:UTF8|ASCII)\.GetBytes\s*\(\s*"[^"\r\n]+"\s*\)\s*\)'
+  - id: enver-no-certificate-bypass
+    languages: [generic]
+    severity: ERROR
+    message: No desactivar validación TLS.
+    pattern-regex: 'ServerCertificateCustomValidationCallback\s*=\s*HttpClientHandler\.DangerousAcceptAnyServerCertificateValidator'
+  - id: enver-no-shell-user-input
+    languages: [generic]
+    severity: ERROR
+    message: Revisar comandos shell; no transportar entradas HTTP a shell.
+    pattern-regex: 'Process\.Start\s*\(\s*"(?:cmd|powershell|sh|bash)(?:\.exe)?"\s*,'
+  - id: enver-no-raw-exception-http
+    languages: [generic]
+    severity: ERROR
+    message: No devolver excepción sin saneamiento a HTTP.
+    pattern-regex: 'await\s+[\w.]+\.WriteAsync\s*\(\s*\w+\.ToString\s*\(\s*\)\s*\)'

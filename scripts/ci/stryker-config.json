@@ -1,0 +1,12 @@
+{
+  "stryker-config": {
+    "project": "Enver.API.csproj",
+    "solution": "Enver.Backend.slnx",
+    "test-projects": ["tests/Enver.API.UnitTests/Enver.API.UnitTests.csproj"],
+    "mutate": ["**/Features/Authentication/Validation/AuthenticationInputValidator.cs"],
+    "reporters": ["json"],
+    "concurrency": 2,
+    "thresholds": {"high": 80, "low": 60, "break": 60},
+    "additional-timeout": 10000
+  }
+}

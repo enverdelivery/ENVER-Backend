@@ -1,0 +1,39 @@
+name: ENVER control
+description: Control local con evidencia saneada; nunca obtiene credenciales AWS.
+inputs:
+  control:
+    description: ID cerrado del control
+    required: true
+  dotnet:
+    description: Preparar SDK exacto
+    default: 'false'
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      with:
+        node-version: '24'
+    - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4.3.1
+      if: inputs.dotnet == 'true' && fromJSON(env.ENVER_SCOPE)[inputs.control] != false
+      with:
+        global-json-file: global.json
+    - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2
+      if: inputs.control == 'iac_validation' && fromJSON(env.ENVER_SCOPE).iac_validation
+      with:
+        terraform_version: '1.17.1'
+        terraform_wrapper: false
+    - uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
+      if: inputs.control == 'docker_build' && fromJSON(env.ENVER_SCOPE).docker_build
+    - name: Execute control (fail closed)
+      shell: bash
+      env:
+        ENVER_CONTROL: ${{ inputs.control }}
+      run: node scripts/ci/pipeline.mjs "$ENVER_CONTROL"
+    - name: Upload sanitized result only
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      with:
+        name: evidence-${{ inputs.control }}-${{ runner.os }}-${{ github.run_id }}-${{ github.run_attempt }}
+        path: ${{ runner.temp }}/enver-evidence/${{ inputs.control }}.json
+        if-no-files-found: error
+        retention-days: 14
