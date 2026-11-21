@@ -1,0 +1,14 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {"Sid": "OneRepositoryRead", "Effect": "Allow", "Action": ["ecr:DescribeImages"], "Resource": "arn:aws:ecr:us-east-1:926925605666:repository/enver-dev-api"},
+    {"Sid": "FixedDocumentAndTwoTargetsOnly", "Effect": "Allow", "Action": "ssm:SendCommand", "Resource": [
+      "arn:aws:ssm:us-east-1:926925605666:document/ENVER-Dev-ImageDeployment-v1",
+      "arn:aws:ec2:us-east-1:926925605666:instance/i-0a66085b7b2411393",
+      "arn:aws:ec2:us-east-1:926925605666:instance/i-00de11a3f3c1a8aa5"
+    ]},
+    {"Sid": "PinnedDocumentRead", "Effect": "Allow", "Action": "ssm:GetDocument", "Resource": "arn:aws:ssm:us-east-1:926925605666:document/ENVER-Dev-ImageDeployment-v1"},
+    {"Sid": "CommandReceipt", "Effect": "Allow", "Action": "ssm:GetCommandInvocation", "Resource": "*", "Condition": {"StringEquals": {"aws:RequestedRegion": "us-east-1"}}},
+    {"Sid": "TargetHealthRead", "Effect": "Allow", "Action": "elasticloadbalancing:DescribeTargetHealth", "Resource": "*", "Condition": {"StringEquals": {"aws:RequestedRegion": "us-east-1"}}}
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "version": "enver-cicd-v1",
+  "repository": "enverdelivery/ENVER-Backend",
+  "branch": "develop",
+  "environment": "development",
+  "sdk": "10.0.403",
+  "candidateMaxAgeHours": 168,
+  "artifactRetentionDays": 14,
+  "requiredHardening": ["container_scan", "codeql"],
+  "optionalHeavy": ["mutation", "dast", "fuzzing"],
+  "mutationThreshold": 60,
+  "images": {
+    "semgrep": "semgrep/semgrep@sha256:6e1b04340e60e910fbb4ddbf3c857ab0918f064417ad5ac530014ccb3cf8c8f1",
+    "gitleaks": "ghcr.io/gitleaks/gitleaks@sha256:b5918eb91b8d2473cec722f066abb4352e4ffdc4ec9f4283ec143aba9ec9ebc4",
+    "hadolint": "hadolint/hadolint@sha256:30a8fd2e785ab6176eed53f74769e04f125afb2f74a6c52aef7d463583b6d45e",
+    "trivy": "aquasec/trivy@sha256:91bcccab7cb503127b0d792db7c652c4e556c9ff30eeb0908b6ae1980d7727ad",
+    "skopeo": "quay.io/skopeo/stable@sha256:c4c8a9d6fc95e331fa92fc31de3f6c9b5fe4761c82f0acb99669eef067fb7c33"
+  },
+  "toolVersions": {"semgrep": "1.186.0", "gitleaks": "8.24.2", "hadolint": "2.12.0", "trivy": "0.61.1", "skopeo": "1.18.0", "stryker": "5.1.0", "terraform": "1.17.1"},
+  "mongoShell": {
+    "image": "docker.io/library/mongo:7.0.48-jammy@sha256:e0da75c955723fb6918111a60e3249079e5ea082c70038dcbc2f5fa32e29ab8c",
+    "version": "2.14.3"
+  },
+  "vulnerabilities": {"block": ["HIGH", "CRITICAL"], "ignoreUnfixed": false, "exceptions": []},
+  "iacExceptions": [
+    {"rule": "AVD-AWS-0104", "resource": "aws_vpc_security_group_egress_rule.backend_https", "port": 443, "owner": "responsable ENVER", "expires": "2026-12-19", "approval": "EXPLICIT_FIX_PIPELINE"},
+    {"rule": "AVD-AWS-0104", "resource": "aws_vpc_security_group_egress_rule.backend_atlas", "port": 27017, "owner": "responsable ENVER", "expires": "2026-12-19", "approval": "EXPLICIT_FIX_PIPELINE"}
+  ],
+  "runtimeProjects": {
+    "linux": ["Enver.QuotaControl.Tests", "Enver.QuotaControl.Bootstrap.Tests", "Enver.RuntimeConfig.Materializer.Tests"],
+    "win32": ["Enver.QuotaControl.PipeProducer.Tests", "Enver.QuotaControl.Orchestrator.Tests"]
+  },
+  "aws": {
+    "account": "926925605666",
+    "region": "us-east-1",
+    "registry": "926925605666.dkr.ecr.us-east-1.amazonaws.com",
+    "repository": "enver-dev-api",
+    "instances": {"A": "i-0a66085b7b2411393", "B": "i-00de11a3f3c1a8aa5"},
+    "targetGroup": "arn:aws:elasticloadbalancing:us-east-1:926925605666:targetgroup/enver-dev-api-tg/025d00fc6b95df06",
+    "healthUrl": "https://d3htt8nzgp6ksn.cloudfront.net/health",
+    "ssmDocument": "ENVER-Dev-ImageDeployment-v1",
+    "ssmVersion": "1"
+  }
+}

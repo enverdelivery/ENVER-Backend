@@ -78,8 +78,8 @@ public sealed class MongoUserStoreIntegrationTests(AuthenticationDependenciesFix
     public Task Disabled_is_returned_and_own_databases_and_cleanup_are_isolated() =>
         Mongo024IntegrationScope.SafelyAsync(async () =>
         {
-            await using var first = new Mongo024IntegrationScope(fixture);
-            await using var second = new Mongo024IntegrationScope(fixture);
+            await using var first = new Mongo024IntegrationScope(fixture, output.WriteLine);
+            await using var second = new Mongo024IntegrationScope(fixture, output.WriteLine);
             await PrepareIndexAsync(first, "isolation-first");
             await PrepareIndexAsync(second, "isolation-second");
             using var budget = new RequestBudget(8000, default);
@@ -164,13 +164,8 @@ public sealed class MongoUserStoreIntegrationTests(AuthenticationDependenciesFix
 
     private async Task WarmUpAsync(IMongoClient client, string host)
     {
-        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
         var elapsed = Stopwatch.StartNew();
-        var response = await client.GetDatabase("admin").RunCommandAsync<BsonDocument>(
-            new BsonDocument("ping", 1), ReadPreference.Primary, timeout.Token).WaitAsync(timeout.Token);
-        Assert.True(response.GetValue("ok", 0).ToDouble() == 1);
-        Assert.Contains(client.Cluster.Description.Servers,
-            server => server.Type == MongoDB.Driver.Core.Servers.ServerType.ReplicaSetPrimary);
+        await Mongo024IntegrationScope.WaitForClientReadyAsync(client);
         output.WriteLine($"T024 WARM_UP_HOST={host} OPERATION=ping PRIMARY_AVAILABLE=true ELAPSED_MS={elapsed.ElapsedMilliseconds} TEST_ONLY_TIMEOUT_MS=5000 OUTSIDE_REQUEST_BUDGET=true");
     }
 
@@ -283,9 +278,12 @@ internal sealed class Mongo024IntegrationScope : IAsyncDisposable
     {
         // Solo precondiciones sintéticas: nunca entregar este cliente al store/initializer.
         // El socket runtime de 500 ms no debe gobernar el DDL del harness. Conserva
-        // concerns/wtimeout, selección/conexión, RetryWrites y las Options del SUT.
+        // concerns/wtimeout y RetryWrites; selección/conexión se amplían solo
+        // aquí, sin modificar el cliente ni las Options del SUT.
         var settings = Client.Settings.Clone();
         settings.SocketTimeout = TimeSpan.FromSeconds(5);
+        settings.ConnectTimeout = TimeSpan.FromSeconds(5);
+        settings.ServerSelectionTimeout = TimeSpan.FromSeconds(5);
         using var setupClient = new MongoClient(settings);
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         timeout.CancelAfter(TimeSpan.FromSeconds(5));
@@ -294,7 +292,30 @@ internal sealed class Mongo024IntegrationScope : IAsyncDisposable
         Assert.True(ping.GetValue("ok", 0).ToDouble() == 1);
         await setupClient.GetDatabase(Options.DatabaseName).GetCollection<UserDocument>("users")
             .Indexes.CreateOneAsync(definition, cancellationToken: timeout.Token).WaitAsync(timeout.Token);
-        RecordDiagnostic("SETUP_INDEX_CREATED=true SETUP_SOCKET_TIMEOUT_MS=5000 SETUP_TOKEN_LIMIT_MS=5000 SUT_OPERATION_TIMEOUT_MS=500 SUT_SOCKET_TIMEOUT_MS=500 CONCERNS_CHANGED=false RETRY_WRITES=false INITIALIZER_CALLED=false");
+        RecordDiagnostic("SETUP_INDEX_CREATED=true SETUP_CONNECTION_AND_SOCKET_TIMEOUT_MS=5000 SETUP_TOKEN_LIMIT_MS=5000 SUT_OPERATION_TIMEOUT_MS=500 SUT_SOCKET_TIMEOUT_MS=500 CONCERNS_CHANGED=false RETRY_WRITES=false INITIALIZER_CALLED=false");
+    }
+    public static async Task WaitForClientReadyAsync(IMongoClient client)
+    {
+        // Idempotent readiness only, OUTSIDE any SUT request. Cold Docker/driver
+        // connections may exceed a single 500ms phase. Never repeat a write/test.
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+        while (true)
+        {
+            timeout.Token.ThrowIfCancellationRequested();
+            try
+            {
+                var ping = await client.GetDatabase("admin").RunCommandAsync<BsonDocument>(
+                    new BsonDocument("ping", 1), ReadPreference.Primary, timeout.Token).WaitAsync(timeout.Token);
+                Assert.True(ping.GetValue("ok", 0).ToDouble() == 1);
+                Assert.Contains(client.Cluster.Description.Servers,
+                    server => server.Type == MongoDB.Driver.Core.Servers.ServerType.ReplicaSetPrimary);
+                return;
+            }
+            catch (Exception failure) when (failure is MongoConnectionException or TimeoutException && !timeout.IsCancellationRequested)
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(100), timeout.Token);
+            }
+        }
     }
     public ConcurrentQueue<bool> Writes { get; } = new();
     public ConcurrentQueue<bool> Reads { get; } = new();
@@ -313,6 +334,8 @@ internal sealed class Mongo024IntegrationScope : IAsyncDisposable
         var command = exception as MongoCommandException;
         var labels = command is null ? "not-applicable" : string.Join(",", command.ErrorLabels.Select(SafeToken));
         RecordDiagnostic($"EXCEPTION OPERATION={operation} PHASE={diagnosticPhase} TYPE={exception.GetType().FullName} CODE={command?.Code.ToString() ?? "not-applicable"} CODE_NAME={(command is null ? "not-applicable" : SafeToken(command.CodeName))} ERROR_LABELS=[{labels}] INNER_TYPE={exception.InnerException?.GetType().FullName ?? "none"}");
+        for (var inner = exception.InnerException; inner is not null; inner = inner.InnerException)
+            RecordDiagnostic($"INNER_EXCEPTION TYPE={inner.GetType().FullName}");
     }
     private void RecordDiagnosticTopology()
     {
@@ -333,7 +356,15 @@ internal sealed class Mongo024IntegrationScope : IAsyncDisposable
         SetDiagnosticPhase("cleanup/drop-database");
         Assert.StartsWith($"{fixture.MongoDatabase}_t024025_", Options.DatabaseName, StringComparison.Ordinal);
         using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-        await Client.DropDatabaseAsync(Options.DatabaseName, timeout.Token);
+        // Cleanup DDL must not reuse the request socket deadline or hide a completed
+        // assertion with an unrelated 500ms transport timeout. Still one bounded drop,
+        // same endpoint/own database/concerns; never change the SUT client/options.
+        var settings = Client.Settings.Clone();
+        settings.ConnectTimeout = TimeSpan.FromSeconds(5);
+        settings.ServerSelectionTimeout = TimeSpan.FromSeconds(5);
+        settings.SocketTimeout = TimeSpan.FromSeconds(10);
+        using var cleanup = new MongoClient(settings);
+        await cleanup.DropDatabaseAsync(Options.DatabaseName, timeout.Token).WaitAsync(timeout.Token);
     }
     public async ValueTask DisposeAsync()
     {
@@ -355,7 +386,10 @@ internal sealed class Mongo024IntegrationScope : IAsyncDisposable
         catch (Exception exception)
         {
             // Conservar categoría de fallo sin publicar MongoException, keyValue, documentos o secretos.
-            throw new XunitException($"T-AUTH-024/025: evidencia no acreditada; tipo={exception.GetType().Name}; detalles sensibles suprimidos.");
+            var location = new StackTrace(exception, true).GetFrames()
+                .Where(f => f.GetFileName() is not null).Take(6)
+                .Select(f => $"{Path.GetFileName(f.GetFileName())}:{f.GetFileLineNumber()}");
+            throw new XunitException($"T-AUTH-024/025: evidencia no acreditada; tipo={exception.GetType().Name}; fuente={string.Join(",", location)}; detalles sensibles suprimidos.");
         }
     }
 }

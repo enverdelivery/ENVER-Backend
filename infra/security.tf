@@ -44,16 +44,46 @@ resource "aws_vpc_security_group_egress_rule" "alb_to_backend" {
   tags                         = local.common_tags
 }
 
-resource "aws_vpc_security_group_egress_rule" "backend_initial" {
+# Excepción aprobada explícitamente en FIX PIPELINE, solo este recurso/regla.
+# Owner: responsable ENVER. Caduca 2026-12-19; revisar antes de cualquier apply.
+# Endpoints públicos AWS/ECR/SSM/Secrets/Dynamo/S3: HTTPS, sin CIDRs fijos aprobados.
+#trivy:ignore:AVD-AWS-0104:exp:2026-12-19
+resource "aws_vpc_security_group_egress_rule" "backend_https" {
   security_group_id = aws_security_group.sg_backend.id
-  description       = "Provisional IPv4 outbound access pending complete dependency egress design"
+  description       = "HTTPS to public AWS service endpoints; temporary reviewed destination exception"
   cidr_ipv4         = "0.0.0.0/0"
-  ip_protocol       = "-1"
+  ip_protocol       = "tcp"
+  from_port         = 443
+  to_port           = 443
   tags              = local.common_tags
 }
 
-# Egreso IPv4 amplio provisional para no inventar puertos/destinos completos.
-# No abre ingress ni reemplaza allowlist Atlas/TLS/IAM. Afinar con dependencias.
+# Atlas SRV usa destinos públicos dinámicos, no direcciones privadas inventadas.
+# Excepción exacta aprobada; owner/caducidad/condiciones en EGRESS-REVIEW.md.
+#trivy:ignore:AVD-AWS-0104:exp:2026-12-19
+resource "aws_vpc_security_group_egress_rule" "backend_atlas" {
+  security_group_id = aws_security_group.sg_backend.id
+  description       = "MongoDB Atlas TLS 27017; temporary reviewed destination exception"
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "tcp"
+  from_port         = 27017
+  to_port           = 27017
+  tags              = local.common_tags
+}
+
+resource "aws_vpc_security_group_egress_rule" "backend_cache" {
+  security_group_id            = aws_security_group.sg_backend.id
+  referenced_security_group_id = aws_security_group.cache.id
+  description                  = "Valkey TLS only to the existing cache security group"
+  ip_protocol                  = "tcp"
+  from_port                    = 6379
+  to_port                      = 6379
+  tags                         = local.common_tags
+}
+
+# AmazonProvidedDNS (resolver VPC) no se filtra mediante SG: no abrir DNS público.
+# No UDP/TCP53 genérico, HTTP80, puertos SSH, Redis público ni all-protocol.
+# No abre ingress ni reemplaza allowlist Atlas/TLS/IAM. Sin apply en este gate.
 # No ingress 22/2375/2376, no ingress público de aplicación y no regla 80 aún.
 # SSM requerirá rol/profile, agente y conectividad probados en otra autorización.
 # T-INFRA-005 pide diseño/separación, no crear trust todavía: no rol/profile IAM

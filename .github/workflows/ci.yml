@@ -1,0 +1,228 @@
+name: ENVER CI
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+permissions:
+  contents: read
+concurrency:
+  group: enver-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+defaults:
+  run:
+    shell: bash
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+  DOTNET_NOLOGO: '1'
+  AWS_EC2_METADATA_DISABLED: 'true'
+jobs:
+  detect_changes:
+    name: Detect Changes
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      scope: ${{ steps.detect.outputs.scope }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - id: detect
+        run: node scripts/ci/pipeline.mjs detect_changes
+  build_test:
+    name: Build & Test
+    needs: detect_changes
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      ENVER_SCOPE: ${{ needs.detect_changes.outputs.scope }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/ci-control
+        with:
+          control: build_test
+          dotnet: 'true'
+  integration_validation:
+    name: Mongo / Redis / Dynamo Integration Validation
+    needs: [detect_changes, build_test]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      ENVER_SCOPE: ${{ needs.detect_changes.outputs.scope }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/ci-control
+        with:
+          control: integration_validation
+          dotnet: 'true'
+  runtime_tool_tests:
+    name: Runtime Tool Tests (${{ matrix.os }})
+    needs: detect_changes
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    env:
+      ENVER_SCOPE: ${{ needs.detect_changes.outputs.scope }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/ci-control
+        with:
+          control: runtime_tool_tests
+          dotnet: 'true'
+  semgrep:
+    name: Semgrep SAST
+    needs: detect_changes
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      ENVER_SCOPE: ${{ needs.detect_changes.outputs.scope }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/ci-control
+        with:
+          control: semgrep
+  dependency_review:
+    name: Dependency Review
+    needs: detect_changes
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      ENVER_SCOPE: ${{ needs.detect_changes.outputs.scope }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/ci-control
+        with:
+          control: dependency_review
+          dotnet: 'true'
+  secret_scan:
+    name: Secret Scan
+    needs: detect_changes
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      ENVER_SCOPE: ${{ needs.detect_changes.outputs.scope }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: ./.github/actions/ci-control
+        with:
+          control: secret_scan
+  container_lint:
+    name: Dockerfile / Container Lint
+    needs: detect_changes
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      ENVER_SCOPE: ${{ needs.detect_changes.outputs.scope }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/ci-control
+        with:
+          control: container_lint
+  iac_validation:
+    name: IaC Validation
+    needs: detect_changes
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      ENVER_SCOPE: ${{ needs.detect_changes.outputs.scope }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/ci-control
+        with:
+          control: iac_validation
+  contract_tests:
+    name: Contract Tests
+    needs: [detect_changes, integration_validation]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+    env:
+      ENVER_SCOPE: ${{ needs.detect_changes.outputs.scope }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: evidence-integration_validation-*
+          path: ${{ runner.temp }}/enver-evidence/input
+      - uses: ./.github/actions/ci-control
+        with:
+          control: contract_tests
+  docker_build:
+    name: Docker Build
+    needs: [detect_changes, build_test, integration_validation, runtime_tool_tests, semgrep, dependency_review, secret_scan, container_lint, iac_validation, contract_tests]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      ENVER_SCOPE: ${{ needs.detect_changes.outputs.scope }}
+      NEEDS_JSON: ${{ toJSON(needs) }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/ci-control
+        with:
+          control: docker_build
+      - name: OCI image (never ECR from CI)
+        if: success() && fromJSON(env.ENVER_SCOPE).docker_build
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: oci-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/enver-evidence/image/
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 14
+  pr_quality_gate:
+    name: PR Quality Gate
+    if: always()
+    needs: [detect_changes, build_test, integration_validation, runtime_tool_tests, semgrep, dependency_review, secret_scan, container_lint, iac_validation, contract_tests, docker_build]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+    env:
+      ENVER_SCOPE: ${{ needs.detect_changes.outputs.scope || '{}' }}
+      NEEDS_JSON: ${{ toJSON(needs) }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: evidence-*
+          path: ${{ runner.temp }}/enver-evidence/input
+      - if: always()
+        run: node scripts/ci/pipeline.mjs pr_quality_gate
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: success()
+        with:
+          name: ci-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/enver-evidence/ci-report.json
+          if-no-files-found: error
+          retention-days: 14

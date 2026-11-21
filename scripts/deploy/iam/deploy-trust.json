@@ -1,0 +1,12 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Principal": {"Federated": "arn:aws:iam::926925605666:oidc-provider/token.actions.githubusercontent.com"},
+    "Action": "sts:AssumeRoleWithWebIdentity",
+    "Condition": {"StringEquals": {
+      "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
+      "token.actions.githubusercontent.com:sub": "repo:enverdelivery@350055774/ENVER-Backend@1445184810:environment:development:workflow_ref:enverdelivery/ENVER-Backend/.github/workflows/deploy-dev.yml@refs/heads/develop:event_name:workflow_dispatch"
+    }}
+  }]
+}
