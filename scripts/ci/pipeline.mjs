@@ -15,10 +15,15 @@ function projectArgs(project) {
   return project.replaceAll('\\', '/').startsWith('tools/')
     ? ['-p:CustomAfterMicrosoftCommonTargets=' + path.join(root, 'scripts/ci/RuntimeToolRestore.targets')] : [];
 }
-function restore(project) {
+export function restoreArguments(project) {
   const locked = project.endsWith('.slnx') || fs.existsSync(path.join(root, path.dirname(project), 'packages.lock.json'));
-  command('dotnet', ['restore', project, ...(locked ? ['--locked-mode'] : []), ...projectArgs(project), '--verbosity', 'quiet']);
+  // Bootstrap references API packages but inherits CONTROL's deliberately empty feed list.
+  // Override only those two restores, using the existing public NuGet source, no credentials.
+  const bootstrap = /^tools\/Enver\.QuotaControl\.Bootstrap(?:\.Tests)?\//.test(project.replaceAll('\\', '/'));
+  return ['restore', project, ...(locked ? ['--locked-mode'] : []),
+    ...(bootstrap ? ['--source', 'https://api.nuget.org/v3/index.json'] : []), ...projectArgs(project), '--verbosity', 'quiet'];
 }
+function restore(project) { command('dotnet', restoreArguments(project)); }
 function build(project) { command('dotnet', ['build', project, '-c', 'Release', '--no-restore', ...projectArgs(project), '--verbosity', 'quiet']); }
 function suite(name) {
   const dir = path.join(privateDir, name); fs.mkdirSync(dir, {recursive: true});
@@ -62,17 +67,37 @@ async function buildTest() {
   exactSDK(); restore('Enver.Backend.slnx'); build('Enver.Backend.slnx');
   return suitesMustPass({build: 'PASS', configuration: 'Release', sdk: policy.sdk, unit: suite('unit')}, ['unit']);
 }
+export function prepareMongoShell(run = command) {
+  const {image, version} = policy.mongoShell;
+  const fixture = fs.readFileSync(path.join(root, 'tests/Shared/AuthenticationDependenciesFixture.cs'), 'utf8');
+  requireThat(fixture.includes(`MongoImage = "${image}"`), 'MONGO_SHELL_FIXTURE_IMAGE_MISMATCH');
+  requireThat(/^docker\.io\/library\/mongo:[\w.-]+@sha256:[a-f0-9]{64}$/.test(image) && /^\d+\.\d+\.\d+$/.test(version), 'MONGO_SHELL_PIN');
+  // Testcontainers resolves the shell INSIDE its Mongo image, never on the runner host.
+  // Pull the approved digest, then verify shell availability/version with no network or credentials.
+  run('docker', ['pull', image]);
+  const result = run('docker', ['run', '--rm', '--network', 'none', '--entrypoint', '/bin/sh', image,
+    '-c', 'command -v mongosh >/dev/null && mongosh --version']);
+  requireThat(result.status === 0 && result.stdout.trim() === version, 'MONGO_SHELL_UNAVAILABLE_OR_VERSION_MISMATCH');
+  return {image, version, state: 'PASS', location: 'TESTCONTAINERS_IMAGE', network: 'NONE'};
+}
 async function integration() {
   exactSDK(); command('docker', ['info', '--format', '{{.ServerVersion}}']);
+  const mongoShell = prepareMongoShell();
   // Separate runner: restore/build this exact SHA explicitly; no reliance on another runner's cache.
   restore('Enver.Backend.slnx'); build('Enver.Backend.slnx');
-  const details = {integration: suite('integration'), security: suite('security'), dependencies: 'EXISTING_TESTCONTAINERS_FIXTURES_ONLY'};
+  const details = {integration: suite('integration'), security: suite('security'), mongoShell, dependencies: 'EXISTING_TESTCONTAINERS_FIXTURES_ONLY'};
   return suitesMustPass(details, ['integration', 'security']);
 }
 async function runtime() {
   exactSDK(); const list = policy.runtimeProjects[process.platform];
   requireThat(list?.length, 'RUNTIME_PLATFORM', 'BLOCKED');
   const results = [];
+  if (process.platform === 'win32') {
+    // PipeProducer.Tests consumes PipeCredential from this DLL via its existing HintPath.
+    // A fresh runner has no workstation bin/: build the exact checkout, never a historical artifact.
+    const prerequisite = 'tools/Enver.QuotaControl/Enver.QuotaControl.csproj';
+    restore(prerequisite); build(prerequisite);
+  }
   for (const project of list) {
     const file = `tools/${project}/${project}.csproj`;
     restore(file); build(file);
@@ -164,6 +189,17 @@ export function iacSourcePaths(paths) {
     (/\.tf(?:\.json)?$/.test(p) || p === 'infra/.terraform.lock.hcl' || /^infra\/bootstrap\/[\w./-]+\.(?:json|sh)$/.test(p)) &&
     !/\.tfstate|\.tfvars|\.tfplan|(?:^|\/)tfplan/i.test(p));
 }
+export function verifyValidationLock(before, after) {
+  const hashLine = /^\s*"(?:h1:[A-Za-z0-9+/]{43}=|zh:[a-f0-9]{64})",?\s*$/gm;
+  const structure = text => text.replace(hashLine, '').replace(/\s/g, '');
+  const hashes = text => [...text.matchAll(/"((?:h1|zh):[^"\r\n]+)"/g)].map(m => m[1]);
+  const oldHashes = hashes(before), newHashes = hashes(after);
+  requireThat(structure(before) === structure(after), 'IAC_PROVIDER_SELECTION_CHANGED');
+  requireThat(oldHashes.some(h => h.startsWith('zh:')) && oldHashes.every(h => newHashes.includes(h)), 'IAC_LOCK_HASH_REMOVED');
+  const added = newHashes.filter(h => !oldHashes.includes(h));
+  requireThat(new Set(newHashes).size === newHashes.length && added.every(h => /^h1:[A-Za-z0-9+/]{43}=$/.test(h)), 'IAC_UNEXPECTED_LOCK_HASH_CHANGE');
+  return {repositoryLock: 'UNCHANGED', addedPlatformHashes: added.length};
+}
 async function iac() {
   requireThat(policy.iacExceptions.every(e => Date.now() < Date.parse(e.expires + 'T00:00:00Z')), 'IAC_EXCEPTION_EXPIRED', 'BLOCKED');
   // Only publicable source enters validation/scanning: never scan workstation plans,
@@ -177,12 +213,18 @@ async function iac() {
     const dest = path.join(source, file.slice('infra/'.length)); fs.mkdirSync(path.dirname(dest), {recursive: true});
     fs.copyFileSync(path.join(root, file), dest);
   }
+  const committedLock = fs.readFileSync(path.join(root, 'infra/.terraform.lock.hcl'), 'utf8');
   command('terraform', [`-chdir=${source}`, 'fmt', '-check', '-recursive']);
-  command('terraform', [`-chdir=${source}`, 'init', '-backend=false', '-input=false', '-lockfile=readonly']);
+  // This is a fresh PRIVATE snapshot, never the repository lock or workstation cache.
+  // readonly suppresses Linux h1 recording even after the archive matches an approved zh;
+  // validate subsequently rejects that unpacked provider. Permit only additive platform h1.
+  command('terraform', [`-chdir=${source}`, 'init', '-backend=false', '-input=false']);
+  const lock = verifyValidationLock(committedLock, fs.readFileSync(path.join(source, '.terraform.lock.hcl'), 'utf8'));
+  requireThat(fs.readFileSync(path.join(root, 'infra/.terraform.lock.hcl'), 'utf8') === committedLock, 'IAC_REPOSITORY_LOCK_CHANGED');
   command('terraform', [`-chdir=${source}`, 'validate', '-no-color']);
   const r = container('trivy', ['config', '--misconfig-scanners', 'terraform', '--skip-dirs', '/repo/.terraform', '--include-non-failures', '--format', 'json', '--output', '/private/iac.json', '/repo'], {network: 'bridge', repository: source});
   requireThat(r.status === 0, 'TRIVY_IAC_EXECUTION', 'BLOCKED');
-  return {terraform: 'PASS', sourceFiles: paths.length, localStatePlansVariables: 'EXCLUDED', ...assessTrivy(readJson(path.join(privateDir, 'iac.json')), policy.iacExceptions),
+  return {terraform: 'PASS', lock, sourceFiles: paths.length, localStatePlansVariables: 'EXCLUDED', ...assessTrivy(readJson(path.join(privateDir, 'iac.json')), policy.iacExceptions),
     exceptions: policy.iacExceptions};
 }
 export const contractMethods = [

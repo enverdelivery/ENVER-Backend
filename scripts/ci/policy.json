@@ -17,6 +17,10 @@
     "skopeo": "quay.io/skopeo/stable@sha256:c4c8a9d6fc95e331fa92fc31de3f6c9b5fe4761c82f0acb99669eef067fb7c33"
   },
   "toolVersions": {"semgrep": "1.186.0", "gitleaks": "8.24.2", "hadolint": "2.12.0", "trivy": "0.61.1", "skopeo": "1.18.0", "stryker": "5.1.0", "terraform": "1.17.1"},
+  "mongoShell": {
+    "image": "docker.io/library/mongo:8.0.34-noble@sha256:3c64937121b9437095921c4bb2569911084c05f7b88e4a263d62a8959d2b2399",
+    "version": "2.14.0"
+  },
   "vulnerabilities": {"block": ["HIGH", "CRITICAL"], "ignoreUnfixed": false, "exceptions": []},
   "iacExceptions": [
     {"rule": "AVD-AWS-0104", "resource": "aws_vpc_security_group_egress_rule.backend_https", "port": 443, "owner": "responsable ENVER", "expires": "2026-12-19", "approval": "EXPLICIT_FIX_PIPELINE"},
