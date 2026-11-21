@@ -32,6 +32,7 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
     private readonly CancellationTokenSource _lifetimeCancellation = new(TimeSpan.FromMinutes(10));
     private readonly HashSet<string> _ownedRedisKeys = new(StringComparer.Ordinal);
     private readonly string _mongoPassword = Convert.ToBase64String(RandomNumberGenerator.GetBytes(24));
+    private bool _mongoCreateAttempted, _mongoCreated, _mongoStartAccepted, _mongoReady, _mongoStopping, _mongoCleanupStarted;
     private readonly string _jwtKey = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
     private readonly string _rateLimitingKey = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
     private MongoDbContainer? _mongo;
@@ -65,6 +66,11 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
             .WithPassword(_mongoPassword)
             .WithReplicaSet(ReplicaSetName)
             .Build();
+        Mongo.Creating += (_, _) => _mongoCreateAttempted = true;
+        Mongo.Created += (_, _) => _mongoCreated = true;
+        Mongo.Starting += (_, _) => _mongoStartAccepted = true;
+        Mongo.Started += (_, _) => _mongoReady = true;
+        Mongo.Stopping += (_, _) => _mongoStopping = true;
         _redis = new RedisBuilder(RedisImage)
             .WithLogger(logger)
             .WithCommand("redis-server", "--maxmemory-policy", "noeviction", "--maxmemory", "64mb")
@@ -92,6 +98,12 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
         }
         catch (Exception exception)
         {
+            string? lifecycle = null;
+            if (startupPhase == "mongo-start")
+            {
+                try { lifecycle = await CaptureMongoLifecycleAsync(); }
+                catch { lifecycle = "CAPTURE_UNAVAILABLE; startup=FAILED"; }
+            }
             // The module's cached discovery exception omits its exec result. Probe only
             // this failing container, before disposal; never retry startup or pass setup.
             var shellDiagnostic = exception is NotSupportedException &&
@@ -99,6 +111,10 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
                 ? await ProbeMongoShellFailureAsync() : null;
             await ReportStartupFailureAsync(startupPhase);
             await DisposeContainersAsync();
+            if (lifecycle is not null)
+            {
+                throw new InvalidOperationException($"Mongo startup failed; lifecycle={lifecycle}; shell={shellDiagnostic ?? "NOT_REQUESTED"}", exception);
+            }
             if (shellDiagnostic is not null)
             {
                 // TRX ErrorInfo carries this whitelist. Arbitrary container logs and
@@ -107,6 +123,115 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
             }
             throw;
         }
+    }
+
+    private async Task<string> CaptureMongoLifecycleAsync()
+    {
+        // Read-only Docker metadata, before ANY fixture cleanup. Never inspect Config/Env.
+        var sink = new StartupDiagnosticSink();
+        var knownSecrets = new[] { _mongoPassword, _jwtKey, _rateLimitingKey, "fakeSecretAccessKey" };
+        var diagnosticSecrets = knownSecrets.SelectMany(value => new[] { value,
+            System.Text.Json.JsonSerializer.Serialize(value)[1..^1],
+            Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(value)) });
+        var redactor = new SensitiveTestcontainersLogger(sink, diagnosticSecrets);
+        string Clean(string value, int limit)
+        {
+            redactor.LogInformation("{Diagnostic}", value);
+            var clean = sink.Message;
+            return clean.Length <= limit ? clean : "[TRUNCATED]" + clean[^limit..];
+        }
+        string? id = null;
+        try { id = Mongo.Id; } catch { /* Creation can fail before a container id exists. */ }
+        var events = new { createAttempted = _mongoCreateAttempted, created = _mongoCreated,
+            startAcceptedAndPortsMapped = _mongoStartAccepted, ready = _mongoReady,
+            stoppingObserved = _mongoStopping, cleanupStarted = _mongoCleanupStarted };
+        if (id is null || !Regex.IsMatch(id, "^[a-f0-9]{64}$"))
+            return System.Text.Json.JsonSerializer.Serialize(new { events, inspect = "NO_CONTAINER_ID", replicaSet = "NOT_OBSERVED" });
+
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(12));
+        const string format = "{\"status\":{{json .State.Status}},\"running\":{{json .State.Running}},\"exitCode\":{{json .State.ExitCode}},\"oomKilled\":{{json .State.OOMKilled}},\"error\":{{json .State.Error}},\"startedAt\":{{json .State.StartedAt}},\"finishedAt\":{{json .State.FinishedAt}},\"restartCount\":{{json .RestartCount}},\"health\":{{if .State.Health}}{{json .State.Health.Status}}{{else}}\"NONE\"{{end}}}";
+        var inspect = await ReadDockerDiagnosticAsync(["inspect", "--type", "container", "--format", format, id], timeout.Token);
+        System.Text.Json.JsonElement? state = null;
+        var inspectError = inspect.Error ?? (inspect.ExitCode is not 0 ? Clean(inspect.Stderr, 400) : null);
+        if (inspect.ExitCode == 0)
+        {
+            try
+            {
+                using var document = System.Text.Json.JsonDocument.Parse(inspect.Stdout);
+                // The format above is a closed projection. Sanitize the sole free-text field.
+                var fields = document.RootElement.EnumerateObject().ToDictionary(p => p.Name,
+                    p => p.Name == "error" ? (object?)Clean(p.Value.GetString() ?? "", 400) : p.Value.Clone());
+                state = System.Text.Json.JsonSerializer.SerializeToElement(fields);
+            }
+            catch { inspectError = "INVALID_OR_OVERSIZED_STATE_PROJECTION"; }
+        }
+        var logs = await ReadDockerDiagnosticAsync(["logs", "--tail", "40", "--timestamps", id], timeout.Token);
+        var safeLogs = Clean(logs.Stdout + "\n" + logs.Stderr, int.MaxValue);
+        // Keep a fatal/error reason even if a long backtrace fills the end of the log.
+        var signals = safeLogs.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries)
+            .Where(line => Regex.IsMatch(line, "\"s\"\\s*:\\s*\"[EF]\"|error|fatal|permission denied|no space|illegal instruction|illegal option|requires.*AVX", RegexOptions.IgnoreCase))
+            .Take(3).Select(line => line.Length > 350 ? line[..350] + "[TRUNCATED]" : line);
+        var tail = safeLogs.Length > 600 ? "[TRUNCATED]" + safeLogs[^600..] : safeLogs;
+        var logTail = "SIGNALS\n" + string.Join('\n', signals) + "\nTAIL\n" + tail;
+        var replicaSet = "NOT_QUERIED_CONTAINER_NOT_RUNNING_OR_STATE_UNAVAILABLE";
+        if (state is { } live && live.TryGetProperty("running", out var running) && running.ValueKind == System.Text.Json.JsonValueKind.True)
+        {
+            try
+            {
+                var query = await Mongo.ExecScriptAsync("try{var s=rs.status();print(s.myState===1?'PRIMARY':'NOT_PRIMARY');quit(0);}catch(e){print(e.codeName==='NotYetInitialized'?'NOT_INITIALIZED':'UNAVAILABLE');quit(1);}", timeout.Token);
+                replicaSet = query.Stdout.Trim() switch { "PRIMARY" => "PRIMARY", "NOT_PRIMARY" => "NOT_PRIMARY", "NOT_INITIALIZED" => "NOT_INITIALIZED", _ => "UNAVAILABLE" };
+            }
+            catch { replicaSet = "QUERY_UNAVAILABLE"; }
+        }
+        var header = System.Text.Json.JsonSerializer.Serialize(new { events, state, inspectExit = inspect.ExitCode,
+            inspectError, logsExit = logs.ExitCode, logsError = logs.Error, replicaSet,
+            startup = "FAILED", cachedStateIsNotLiveEvidence = true });
+        return header + "\nSANITIZED_LOG_TAIL\n" + logTail;
+    }
+
+    private static async Task<(int? ExitCode, string Stdout, string Stderr, string? Error)> ReadDockerDiagnosticAsync(string[] arguments, CancellationToken token)
+    {
+        using var process = new System.Diagnostics.Process { StartInfo = new System.Diagnostics.ProcessStartInfo("docker")
+            { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, CreateNoWindow = true } };
+        foreach (var argument in arguments) process.StartInfo.ArgumentList.Add(argument);
+        try
+        {
+            process.Start();
+            var stdout = ReadBoundedAsync(process.StandardOutput, token);
+            var stderr = ReadBoundedAsync(process.StandardError, token);
+            await process.WaitForExitAsync(token);
+            return (process.ExitCode, await stdout, await stderr, null);
+        }
+        catch (Exception failure)
+        {
+            try { if (!process.HasExited) process.Kill(); } catch { }
+            // No exception message/arguments/environment or arbitrary Docker error output.
+            return (null, "", "", failure.GetType().Name);
+        }
+    }
+
+    private static async Task<string> ReadBoundedAsync(StreamReader reader, CancellationToken token)
+    {
+        var output = new System.Text.StringBuilder();
+        var buffer = new char[4096];
+        var oversized = false;
+        int length;
+        while ((length = await reader.ReadAsync(buffer.AsMemory(), token)) > 0)
+        {
+            if (output.Length + length > 65536) oversized = true;
+            if (!oversized) output.Append(buffer, 0, length);
+        }
+        // Do not publish fragments cut out of an unredacted secret.
+        return oversized ? "OMITTED_SIZE_LIMIT" : output.ToString();
+    }
+
+    private sealed class StartupDiagnosticSink : ILogger
+    {
+        public string Message { get; private set; } = "";
+        public bool IsEnabled(LogLevel logLevel) => true;
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
+        public void Log<TState>(LogLevel level, EventId id, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
+            => Message = formatter(state, exception);
     }
 
     private async Task<string> ProbeMongoShellFailureAsync()
@@ -461,6 +586,7 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
 
         if (_mongo is not null)
         {
+            _mongoCleanupStarted = true;
             await _mongo.DisposeAsync();
             _mongo = null;
         }
