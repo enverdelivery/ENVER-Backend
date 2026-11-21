@@ -54,8 +54,8 @@ public sealed class MongoPersistenceIntegrationTests(AuthenticationDependenciesF
             Assert.Equal("rs0", hello["setName"].AsString);
             Assert.True(hello["isWritablePrimary"].AsBoolean);
             Assert.Single(hello["hosts"].AsBsonArray);
-            Assert.Equal("8.0.34", build["version"].AsString);
-            output.WriteLine("T027 COMPONENTS=023+024+025 CLIENTS=2 CREATION=Confirmed CROSS_CLIENT_READS=id+email BSON_FIELDS=7 UUID=Standard_SUBTYPE4 INDEX=unique_compatible INITIALIZER=Ready TOPOLOGY=rs0 NODES=1 VERSION=8.0.34 ATLAS=false FAILOVER=false");
+            Assert.Equal("7.0.48", build["version"].AsString);
+            output.WriteLine("T027 COMPONENTS=023+024+025 CLIENTS=2 CREATION=Confirmed CROSS_CLIENT_READS=id+email BSON_FIELDS=7 UUID=Standard_SUBTYPE4 INDEX=unique_compatible INITIALIZER=Ready TOPOLOGY=rs0 NODES=1 VERSION=7.0.48 ATLAS=false FAILOVER=false");
         });
 
     [Fact]

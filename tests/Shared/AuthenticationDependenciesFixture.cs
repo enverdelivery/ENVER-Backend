@@ -22,7 +22,7 @@ public sealed class AuthenticationDependenciesCollection : ICollectionFixture<Au
 
 public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
 {
-    public const string MongoImage = "docker.io/library/mongo:8.0.34-noble@sha256:3c64937121b9437095921c4bb2569911084c05f7b88e4a263d62a8959d2b2399";
+    public const string MongoImage = "docker.io/library/mongo:7.0.48-jammy@sha256:e0da75c955723fb6918111a60e3249079e5ea082c70038dcbc2f5fa32e29ab8c";
     public const string RedisImage = "docker.io/library/redis:8.2.11-bookworm@sha256:99ffb973380cc2f47bca06bd094f7f8c7138a0879a63cb8939896a22b7a65bba";
     public const string DynamoDbImage = "amazon/dynamodb-local:3.1.0@sha256:7ef4a2c45b58c2901e70a4f28e0953a422c2c631baaaf5e2c15e0805740c7752";
     public const string RyukImage = "testcontainers/ryuk:0.14.0@sha256:7c1a8a9a47c780ed0f983770a662f80deb115d95cce3e2daa3d12115b8cd28f0";
@@ -251,7 +251,7 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
             var pathCheck = await Mongo.ExecAsync(["/bin/sh", "-c", "case \":$PATH:\" in *:/usr/bin:*) exit 0;; *) exit 1;; esac"], timeout.Token);
             metadata += $"; containerPathHasUsrBin={pathCheck.ExitCode switch { 0 => "True", 1 => "False", _ => "UNKNOWN" }}";
             var version = await Mongo.ExecAsync(["/usr/bin/mongosh", "--version"], timeout.Token);
-            metadata += $"; explicitShellExit={version.ExitCode?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "UNKNOWN"}; pinnedVersion={version.Stdout.Trim() == "2.14.0"}";
+            metadata += $"; explicitShellExit={version.ExitCode?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "UNKNOWN"}; pinnedVersion={version.Stdout.Trim() == "2.14.3"}";
         }
         catch
         {
