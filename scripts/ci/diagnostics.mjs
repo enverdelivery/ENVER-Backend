@@ -48,6 +48,8 @@ export function sanitizeDiagnostic(value) {
 function approvedArguments(tool, args) {
   const simplePath = v => /^[\w .:/\\-]+$/.test(v) && !/secret|password|token|credential/i.test(v);
   if (args.length > 40) return false;
+  if (tool === 'node') return args[0] === '--test' && args.length > 1 && args.slice(1).every(a =>
+    simplePath(a) && /(?:^|[\\/])scripts[\\/]tests[\\/][\w.-]+\.test\.mjs$/.test(a));
   if (tool === 'terraform') return args.length === 3 && /^-chdir=/.test(args[0]) && simplePath(args[0].slice(7)) && args[1] === 'validate' && args[2] === '-no-color';
   for (let i = 0; i < args.length; i++) {
     const a = args[i];
@@ -64,8 +66,8 @@ function approvedArguments(tool, args) {
 
 export function commandDiagnostic(executable, args, result, env = process.env) {
   const tool = path.basename(executable).replace(/\.exe$/i, '').toLowerCase();
-  const operation = tool === 'dotnet' ? args[0] : args.find(a => a === 'validate');
-  if (!(tool === 'dotnet' && ['restore', 'build', 'test'].includes(operation) || tool === 'terraform' && operation === 'validate')) return null;
+  const operation = tool === 'dotnet' ? args[0] : tool === 'node' ? args[0] : args.find(a => a === 'validate');
+  if (!(tool === 'dotnet' && ['restore', 'build', 'test'].includes(operation) || tool === 'terraform' && operation === 'validate' || tool === 'node' && approvedArguments(tool, args))) return null;
   if (result.status === 0 && !result.error) return null;
   const cleanArgs = args.map(a => safeText(a, {env, characters: 1024, lines: 1}));
   const argumentsSafe = approvedArguments(tool, args) && args.every((a, i) => a === cleanArgs[i]);
@@ -73,7 +75,7 @@ export function commandDiagnostic(executable, args, result, env = process.env) {
   // los fallos de assertions proceden del TRX sin StdOut/StdErr del test.
   const useful = value => {
     const clean = redact(value ?? '', env);
-    if (tool === 'terraform') return clean;
+    if (tool === 'terraform' || tool === 'node') return clean;
     return clean.split(/\r?\n/).filter(l => operation === 'test'
       ? /\b(?:NU|MSB|CS|NETSDK)\d{4}\b/.test(l)
       : /\b(?:error|warning)\b|\b(?:NU|MSB|CS|NETSDK)\d{4}\b|error MSBuild|Build FAILED/i.test(l)).join('\n');

@@ -41,6 +41,12 @@ export function command(executable, args, options = {}) {
     env: {...process.env, DOTNET_CLI_TELEMETRY_OPTOUT: '1', AWS_EC2_METADATA_DISABLED: 'true'}, ...options,
   });
   const diagnostic = commandDiagnostic(executable, args, r, options.env || process.env);
+  if (diagnostic?.tool === 'node') diagnostic.context = {
+    platform: process.platform, arch: process.arch, nodeVersion: process.version,
+    cwd: options.cwd || root, executable: 'node',
+    nodeDirectoryOnPath: (process.env.PATH || '').split(path.delimiter).some(p =>
+      path.resolve(p).toLowerCase() === path.dirname(process.execPath).toLowerCase()),
+  };
   if (diagnostic) r.diagnostic = recordDiagnostic('command', diagnostic);
   if (!options.allowFailure) {
     const tool = path.basename(executable).replace(/[^a-z0-9]/gi, '_');

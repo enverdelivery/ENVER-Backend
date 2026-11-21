@@ -103,7 +103,7 @@ test('uncertain SSM state is reconciled before restore; no blind retry', async (
 test('workflows count names triggers and immutable action pins', () => {
   const dir = path.join(root, '.github/workflows');
   assert.deepEqual(fs.readdirSync(dir).sort(), ['ci.yml', 'deploy-dev.yml', 'hardening.yml']);
-  const yaml = fs.readFileSync(path.join(dir, 'deploy-dev.yml'), 'utf8');
+  const yaml = fs.readFileSync(path.join(dir, 'deploy-dev.yml'), 'utf8').replaceAll('\r\n', '\n');
   const triggers = yaml.split('permissions:')[0];
   assert.match(yaml, /^name: Deploy ENVER Dev$/m); assert.match(triggers, /^  workflow_dispatch:$/m);
   assert.doesNotMatch(triggers, /^  (?:push|pull_request|schedule|workflow_run|workflow_call):/m);

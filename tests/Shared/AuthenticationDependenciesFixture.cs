@@ -90,12 +90,49 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
             await VerifyDynamoDbAsync(token);
             await CreateDynamoDbTableAsync(token);
         }
-        catch
+        catch (Exception exception)
         {
+            // The module's cached discovery exception omits its exec result. Probe only
+            // this failing container, before disposal; never retry startup or pass setup.
+            var shellDiagnostic = exception is NotSupportedException &&
+                exception.Message == "The mongosh or mongo binary could not be found."
+                ? await ProbeMongoShellFailureAsync() : null;
             await ReportStartupFailureAsync(startupPhase);
             await DisposeContainersAsync();
+            if (shellDiagnostic is not null)
+            {
+                // TRX ErrorInfo carries this whitelist. Arbitrary container logs and
+                // environment values are deliberately excluded from CI artifacts.
+                throw new InvalidOperationException(shellDiagnostic, exception);
+            }
             throw;
         }
+    }
+
+    private async Task<string> ProbeMongoShellFailureAsync()
+    {
+        var metadata = $"Mongo shell discovery failed; context=fixture-container; containerState={Mongo.State}; hostPlatform={Environment.OSVersion.Platform}; hostArch={System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture}; hostCwdIsRooted={Path.IsPathRooted(Environment.CurrentDirectory)}";
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+        try
+        {
+            var discovery = await Mongo.ExecAsync(["/bin/sh", "-c", "command -v mongosh || command -v mongo"], timeout.Token);
+            var resolved = discovery.Stdout.Trim() switch
+            {
+                "/usr/bin/mongosh" => "/usr/bin/mongosh",
+                "/usr/bin/mongo" => "/usr/bin/mongo",
+                _ => "UNEXPECTED_OR_EMPTY"
+            };
+            metadata += $"; postFailureDiscoveryExit={discovery.ExitCode?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "UNKNOWN"}; resolved={resolved}";
+            var pathCheck = await Mongo.ExecAsync(["/bin/sh", "-c", "case \":$PATH:\" in *:/usr/bin:*) exit 0;; *) exit 1;; esac"], timeout.Token);
+            metadata += $"; containerPathHasUsrBin={pathCheck.ExitCode switch { 0 => "True", 1 => "False", _ => "UNKNOWN" }}";
+            var version = await Mongo.ExecAsync(["/usr/bin/mongosh", "--version"], timeout.Token);
+            metadata += $"; explicitShellExit={version.ExitCode?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "UNKNOWN"}; pinnedVersion={version.Stdout.Trim() == "2.14.0"}";
+        }
+        catch
+        {
+            metadata += "; remainingMetadata=UNAVAILABLE";
+        }
+        return metadata + "; originalDiscoveryExit=NOT_EXPOSED_BY_MODULE; startup=FAILED";
     }
 
     private async Task ReportStartupFailureAsync(string phase)

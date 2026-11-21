@@ -55,6 +55,15 @@ test('terraform validate preserves exact multiline diagnostic without state/vari
   const d = commandDiagnostic('terraform', ['-chdir=/tmp/enver-ci-private/iac-source', 'validate', '-no-color'], {status: 1, stderr}, {});
   assert.equal(d.stderr, stderr); assert.equal(d.operation, 'validate'); assert.equal(d.exitCode, 1);
 });
+test('only the fixed Node helper test command preserves bounded sanitized assertions and stack', () => {
+  const secret = canary(), args = ['--test', '/repo/scripts/tests/pipeline.test.mjs'];
+  const d = commandDiagnostic('node', args, {status: 1, stdout: `not ok 1 - workflow assertion\nAssertionError [ERR_ASSERTION]\n at TestContext (/repo/scripts/tests/pipeline.test.mjs:110:10)\nPassword=${secret}`, stderr: ''}, {});
+  assert.equal(d.operation, '--test'); assert.equal(d.exitCode, 1); assert.deepEqual(d.arguments, args);
+  assert.match(d.stdout, /ERR_ASSERTION/); assert.match(d.stdout, /pipeline.test.mjs:110/); noLeaks(d, [secret]);
+  for (const other of [['-e', 'untrusted'], ['--test', '/repo/tests/business.test.mjs'], ['--test', '/repo/scripts/tests/token.test.mjs']])
+    assert.equal(commandDiagnostic('node', other, {status: 1, stdout: secret}, {}), null);
+  assert.equal(commandDiagnostic('node', args, {status: 0}, {}), null);
+});
 test('dotnet test command diagnostic excludes arbitrary application logs; TRX carries assertions', () => {
   const secret = canary(), d = commandDiagnostic('dotnet', ['test', 'Example.csproj'], {status: 1, stdout: `application error: ${secret}\nExample.cs(1): error CS0001: fixture`, stderr: 'arbitrary application stderr'}, {});
   noLeaks(d, [secret]); assert.equal(d.stderr, ''); assert.match(d.stdout, /CS0001/);

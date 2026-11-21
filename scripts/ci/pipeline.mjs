@@ -119,7 +119,12 @@ async function runtime() {
       ...(project === 'Enver.QuotaControl.Orchestrator.Tests' ? {historicalArtifactValidation: 'NOT EXECUTED; SEPARATE_WORKSTATION_EVIDENCE'} : {})});
   }
   const tests = filesBelow(path.join(root, 'scripts/tests')).filter(f => f.endsWith('.test.mjs'));
-  requireThat(tests.length > 0, 'PIPELINE_TESTS_MISSING'); command('node', ['--test', ...tests]);
+  requireThat(tests.length > 0, 'PIPELINE_TESTS_MISSING');
+  // Helper tests deliberately persist synthetic diagnostics: never publish those as job failures.
+  const helperTemp = path.join(privateDir, 'node-helper-tests');
+  fs.mkdirSync(helperTemp, {recursive: true});
+  command('node', ['--test', ...tests], {env: {...process.env, RUNNER_TEMP: helperTemp,
+    ENVER_EVIDENCE_DIR: path.join(helperTemp, 'evidence')}});
   if (process.platform === 'linux') command('python3', ['-B', '-m', 'unittest', 'discover', '-s', 'scripts/tests', '-p', '*_test.py']);
   return {platform: process.platform, suites: results, pipelineTests: 'PASS', realAWS: false};
 }
