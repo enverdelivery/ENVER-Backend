@@ -29,6 +29,7 @@ internal sealed class DistributedQuotaTestScope
     internal IDatabase Db => Data.Database;
     internal QuotaHost A { get; private set; } = null!;
     internal QuotaHost B { get; private set; } = null!;
+    internal DistributedQuotaDiagnostics? Diagnostics { get; private set; }
     private readonly AuthenticationDependenciesFixture fixture;
     private readonly ITestOutputHelper output;
     private readonly string hmac = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
@@ -43,10 +44,11 @@ internal sealed class DistributedQuotaTestScope
 
     // Presupuesto de harness: acota el cuerpo de la prueba; no es SLA, RequestBudget ni timeout funcional de Redis.
     internal static async Task RunAsync(AuthenticationDependenciesFixture fixture, ITestOutputHelper output,
-        Func<DistributedQuotaTestScope, Task> test, TimeSpan? syntheticWindow = null, TimeSpan? budget = null)
+        Func<DistributedQuotaTestScope, Task> test, TimeSpan? syntheticWindow = null, TimeSpan? budget = null, bool diagnostics = false)
     {
         var data = await RedisAuthenticationQuotaTestScope.CreateAsync(fixture, syntheticWindow);
         var scope = new DistributedQuotaTestScope(fixture, output, data);
+        if (diagnostics) scope.Diagnostics = new(scope.Config.Keys.Metadata);
         Exception? primary = null;
         try
         {
@@ -58,10 +60,26 @@ internal sealed class DistributedQuotaTestScope
             Assert.NotSame(scope.A.Guard, scope.B.Guard);
             Assert.NotSame(scope.A.Detector, scope.B.Detector);
             Assert.NotSame(scope.A.Pseudonymizer, scope.B.Pseudonymizer);
+            if (scope.Diagnostics is { } trace)
+            {
+                scope.A.Detector.SignalObserved += (_, signal) => trace.Connectivity("A", signal.Signal);
+                scope.B.Detector.SignalObserved += (_, signal) => trace.Connectivity("B", signal.Signal);
+            }
             // Un TimeoutException del presupuesto debe fallar la prueba; nunca se captura para simular éxito.
+            using var observer = scope.Diagnostics?.Observe();
             await test(scope).WaitAsync(budget ?? TimeSpan.FromMinutes(5));
         }
-        catch (Exception failure) { primary = failure; throw; }
+        catch (Exception failure)
+        {
+            primary = failure;
+            if (scope.Diagnostics is null) throw;
+            try { primary = await scope.Diagnostics.FailureAsync(scope, failure); }
+            catch (Exception diagnosticFailure)
+            {
+                primary = new AggregateException("Falló el diagnóstico; se conserva el fallo original.", failure, diagnosticFailure);
+            }
+            throw primary;
+        }
         finally
         {
             List<Exception> cleanup = [];
@@ -80,7 +98,7 @@ internal sealed class DistributedQuotaTestScope
     }
 
     internal QuotaHost Host(string? connection = null, RedisAuthenticationQuotaConfiguration? config = null,
-        IAuthenticationSecurityState? global = null) => new(fixture, config ?? Config, hmac, connection ?? fixture.RedisConnectionString, global);
+        IAuthenticationSecurityState? global = null) => new(fixture, config ?? Config, hmac, connection ?? fixture.RedisConnectionString, global, Diagnostics);
 
     /// <summary>Host/owner adicional del caso, liberado antes de A/B y del scope de datos.</summary>
     internal T Own<T>(T owner) where T : IAsyncDisposable { extraOwners.Add(owner); return owner; }
@@ -130,8 +148,10 @@ internal sealed class DistributedQuotaTestScope
     internal async Task<AuthenticationQuotaConsumeResult> SendAsync(int host, AuthenticationQuotaConsumeRequest request, string phase = "matrix",
         RedisAuthenticationQuotaStore? store = null)
     {
+        Diagnostics?.Request(request);
         using var budget = RedisAuthenticationQuotaTestScope.Budget();
         var result = await (store ?? (host == 0 ? A : B).Store).EvaluateAndConsumeAsync(request, budget);
+        Diagnostics?.Decision(result);
         outcomes.AddOrUpdate((phase, host, request.Operation, result.Status), 1, (_, value) => value + 1);
         return result;
     }
@@ -215,6 +235,7 @@ internal sealed class DistributedQuotaTestScope
         private readonly RedisAuthenticationQuotaConfiguration config;
         private readonly string hmac;
         private readonly IAuthenticationSecurityState global;
+        private readonly DistributedQuotaDiagnostics? diagnostics;
         internal RedisOptions RedisOptions { get; }
         private long dispatches;
         internal long Dispatches => Interlocked.Read(ref dispatches);
@@ -224,9 +245,10 @@ internal sealed class DistributedQuotaTestScope
         internal HmacAuthenticationScopePseudonymizer Pseudonymizer => Services.GetRequiredService<HmacAuthenticationScopePseudonymizer>();
         internal RedisAuthenticationQuotaStore Store => Services.GetRequiredService<RedisAuthenticationQuotaStore>();
 
-        internal QuotaHost(AuthenticationDependenciesFixture fixture, RedisAuthenticationQuotaConfiguration config, string hmac, string connection, IAuthenticationSecurityState? global)
+        internal QuotaHost(AuthenticationDependenciesFixture fixture, RedisAuthenticationQuotaConfiguration config, string hmac, string connection, IAuthenticationSecurityState? global, DistributedQuotaDiagnostics? diagnostics)
         {
             this.fixture = fixture; this.config = config; this.hmac = hmac; this.global = global ?? RedisAuthenticationQuotaTestScope.Open;
+            this.diagnostics = diagnostics;
             RedisOptions = new() { ConnectionString = connection + ",allowAdmin=true", NamespacePrefix = "enver:" + config.Snapshot.Environment,
                 OperationTimeoutMilliseconds = 2000, ConnectionTimeoutMilliseconds = 2000 };
         }
@@ -261,8 +283,14 @@ internal sealed class DistributedQuotaTestScope
                         {
                             Interlocked.Increment(ref dispatches);
                             Assert.InRange(invocation.Keys.Length, 4, 8); // 2 control + scopes + <=3 hints.
-                            return await (await Connections.GetMultiplexerAsync(budget.Token)).GetDatabase().ScriptEvaluateAsync(
+                            diagnostics?.Reached();
+                            var database = (await Connections.GetMultiplexerAsync(budget.Token)).GetDatabase();
+                            var pending = database.ScriptEvaluateAsync(
                                 RedisAuthenticationQuotaScriptProtocol.ScriptText, invocation.Keys, invocation.Arguments, CommandFlags.DemandMaster);
+                            diagnostics?.Submitted();
+                            var response = await pending;
+                            diagnostics?.Reply(response);
+                            return response;
                         });
                 });
             });
