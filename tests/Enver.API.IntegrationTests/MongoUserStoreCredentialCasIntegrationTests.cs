@@ -100,14 +100,7 @@ internal static class Mongo026Evidence
     public static User User(UserStatus status = UserStatus.Active, string email = "synthetic-cas@example.invalid") =>
         new(Guid.NewGuid(), "Synthetic CAS", email, "synthetic-cas-original", status, Created, Created);
 
-    public static async Task WarmAsync(IMongoClient client)
-    {
-        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-        var ping = await client.GetDatabase("admin").RunCommandAsync<BsonDocument>(new BsonDocument("ping", 1),
-            ReadPreference.Primary, timeout.Token).WaitAsync(timeout.Token);
-        Assert.True(ping.GetValue("ok", 0).ToDouble() == 1);
-        Assert.Contains(client.Cluster.Description.Servers, server => server.Type == ServerType.ReplicaSetPrimary);
-    }
+    public static Task WarmAsync(IMongoClient client) => Mongo024IntegrationScope.WaitForClientReadyAsync(client);
 
     public static async Task PrepareAsync(Mongo024IntegrationScope scope)
     {

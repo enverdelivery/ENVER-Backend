@@ -1,0 +1,28 @@
+title = "ENVER: reglas estándar y material runtime"
+[extend]
+useDefault = true
+
+# Vocabulario documental revisado, no credenciales: comparación exacta del
+# grupo secret de generic-api-key. No excluye archivos ni otras reglas.
+[[rules]]
+id = "generic-api-key"
+[[rules.allowlists]]
+regexTarget = "secret"
+regexes = ['''^(?:SHA/ref/policy|claves/certificados|IDs/nombresrecursosdev)$''']
+
+[[rules]]
+id = "enver-runtime-secret"
+description = "Material secreto literal de runtime"
+regex = '''(?i)(?:OriginSecret|PseudonymizationKeyBase64|KeyBase64|AWS_SECRET_ACCESS_KEY|JWT_SECRET)["'\]\s:=>]{1,12}["']([A-Za-z0-9+/_=-]{32,256})["']'''
+secretGroup = 1
+entropy = 4.5
+
+[[rules]]
+id = "enver-credential-uri"
+description = "URI con password no placeholder"
+regex = '''(?i)(?:mongodb(?:\+srv)?|rediss?)://[^\s:/<>]+:([^\s@/<>{}]+)@'''
+secretGroup = 1
+entropy = 3.5
+[[rules.allowlists]]
+regexTarget = "secret"
+regexes = ['''(?i)(synthetic|placeholder|testonly|example|canary|\$\{|%7b)''']

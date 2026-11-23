@@ -3,6 +3,8 @@
 [Bb]in/
 [Oo]bj/
 artifacts/
+__pycache__/
+*.pyc
 BenchmarkDotNet.Artifacts/
 *.nupkg
 *.snupkg

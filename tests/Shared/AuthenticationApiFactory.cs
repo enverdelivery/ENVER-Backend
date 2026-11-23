@@ -9,6 +9,7 @@ using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Security.Claims;
+using System.Runtime.ExceptionServices;
 using Amazon.DynamoDBv2.Model;
 using Enver.API.Composition;
 using Enver.API.Features.Authentication.Application;
@@ -35,6 +36,7 @@ public sealed class AuthenticationApiFactory : WebApplicationFactory<Authenticat
 {
     private readonly AuthenticationDependenciesFixture _dependencies;
     private readonly IReadOnlyDictionary<string, string?> _configuration;
+    private ExceptionDispatchInfo? _startupValidationFailure;
 
     public AuthenticationApiFactory(AuthenticationDependenciesFixture dependencies, IReadOnlyDictionary<string, string?>? overrides = null)
     {
@@ -65,13 +67,54 @@ public sealed class AuthenticationApiFactory : WebApplicationFactory<Authenticat
             services.AddSingleton<IAmazonDynamoDB>(_ => _dependencies.CreateDynamoDbClient());
             services.AddSingleton<TestHostLocalState>();
             services.AddSingleton(new TestHostExternalDependencyProbe(_dependencies));
+            // Program deliberately sanitizes process-startup failures and disposes the host.
+            // Observe/rethrow ONLY Options validation in the in-process harness, before that
+            // boundary masks it as an ObjectDisposedException in WebApplicationFactory.
+            // The real validator still runs once, unchanged, before hosted services/clients.
+            var validator = services.Last(d => d.ServiceType == typeof(IStartupValidator));
+            services.Remove(validator);
+            services.Add(ServiceDescriptor.Describe(typeof(IStartupValidator), provider =>
+            {
+                var inner = (IStartupValidator)(validator.ImplementationInstance ??
+                    validator.ImplementationFactory?.Invoke(provider) ??
+                    ActivatorUtilities.CreateInstance(provider, validator.ImplementationType!));
+                return new ObservedStartupValidator(inner, failure =>
+                    _startupValidationFailure = ExceptionDispatchInfo.Capture(failure));
+            }, validator.Lifetime));
         });
     }
 
     protected override IHost CreateHost(IHostBuilder builder)
     {
         builder.UseEnvironment(_dependencies.EnvironmentName);
-        return base.CreateHost(builder);
+        try
+        {
+            var host = base.CreateHost(builder);
+            // DeferredHost.Start may complete normally when SafeStartup returns exit1.
+            // Surface the observed validation failure before WAF resolves TestServer
+            // from the now-disposed provider, not only when Start itself throws.
+            _startupValidationFailure?.Throw();
+            return host;
+        }
+        catch when (_startupValidationFailure is not null)
+        {
+            _startupValidationFailure.Throw();
+            throw;
+        }
+    }
+
+    private sealed class ObservedStartupValidator(IStartupValidator inner, Action<Exception> record) : IStartupValidator
+    {
+        public void Validate()
+        {
+            try { inner.Validate(); }
+            catch (Exception failure) when (failure is OptionsValidationException ||
+                failure is AggregateException aggregate && aggregate.InnerExceptions.All(e => e is OptionsValidationException))
+            {
+                record(failure);
+                throw;
+            }
+        }
     }
 }
 

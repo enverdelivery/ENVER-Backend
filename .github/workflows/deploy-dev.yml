@@ -1,0 +1,203 @@
+name: Deploy ENVER Dev
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Entorno permitido
+        type: choice
+        options: [development]
+        default: development
+        required: true
+      run_smoke_tests:
+        description: Smoke no destructivo (sin alta de cuentas; health siempre obligatorio)
+        type: boolean
+        default: true
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: enver-development-deploy
+  cancel-in-progress: false
+defaults:
+  run:
+    shell: bash
+env:
+  GH_TOKEN: ${{ github.token }}
+  ENVER_ENVIRONMENT: ${{ inputs.environment }}
+  ENVER_SMOKE: ${{ inputs.run_smoke_tests }}
+  ENVER_DEPLOY_ENABLED: ${{ vars.ENVER_DEPLOY_ENABLED }}
+  ENVER_DEPLOY_ROLE: arn:aws:iam::926925605666:role/enver-github-deploy-dev
+  ENVER_DEPLOY_ACTORS: ${{ vars.ENVER_DEPLOY_ACTORS }}
+  AWS_EC2_METADATA_DISABLED: 'true'
+jobs:
+  validate_dispatch:
+    name: Validate Dispatch
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    environment: development
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/deploy-phase
+        with:
+          phase: validate
+  resolve_candidate:
+    name: Resolve Approved Candidate
+    needs: validate_dispatch
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment: development
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: ./.github/actions/deploy-phase
+        with:
+          phase: resolve
+  aws_preflight:
+    name: AWS Preflight / Revalidate
+    needs: resolve_candidate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment: development
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/deploy-phase
+        with:
+          phase: preflight
+          aws: 'true'
+  deploy_a:
+    name: Deploy EC2 A
+    needs: aws_preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment: development
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/deploy-phase
+        with:
+          phase: deploy_a
+          aws: 'true'
+  ready_a:
+    name: A Readiness + Target Healthy
+    needs: deploy_a
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment: development
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/deploy-phase
+        with:
+          phase: ready_a
+          aws: 'true'
+  deploy_b:
+    name: Deploy EC2 B
+    needs: ready_a
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment: development
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/deploy-phase
+        with:
+          phase: deploy_b
+          aws: 'true'
+  ready_b:
+    name: B Readiness + Target Healthy
+    needs: deploy_b
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment: development
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/deploy-phase
+        with:
+          phase: ready_b
+          aws: 'true'
+  post_deploy:
+    name: HTTPS Health + Optional Smoke
+    needs: ready_b
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment: development
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/deploy-phase
+        with:
+          phase: post
+          aws: 'true'
+  compensate:
+    name: Compensating Rollback (B then A)
+    if: always() && !cancelled() && (needs.deploy_a.result == 'failure' || needs.ready_a.result == 'failure' || needs.deploy_b.result == 'failure' || needs.ready_b.result == 'failure' || needs.post_deploy.result == 'failure')
+    needs: [aws_preflight, deploy_a, ready_a, deploy_b, ready_b, post_deploy]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    environment: development
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    env:
+      NEEDS_JSON: ${{ toJSON(needs) }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/deploy-phase
+        with:
+          phase: compensate
+          aws: 'true'
+  deployment_summary:
+    name: Deployment Summary
+    if: always()
+    needs: [validate_dispatch, resolve_candidate, aws_preflight, deploy_a, ready_a, deploy_b, ready_b, post_deploy, compensate]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    environment: development
+    env:
+      NEEDS_JSON: ${{ toJSON(needs) }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/deploy-phase
+        with:
+          phase: summary

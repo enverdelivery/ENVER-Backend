@@ -8,11 +8,12 @@ using Enver.Testing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using Xunit.Abstractions;
 
 namespace Enver.API.IntegrationTests;
 
 [Collection(AuthenticationDependenciesCollection.Name)]
-public sealed class PasswordRehashIntegrationTests(AuthenticationDependenciesFixture fixture)
+public sealed class PasswordRehashIntegrationTests(AuthenticationDependenciesFixture fixture, ITestOutputHelper output)
 {
     private const string Secret = "short";
     private static readonly DateTime Later = new(2026, 11, 11, 12, 0, 0, DateTimeKind.Utc);
@@ -30,7 +31,7 @@ public sealed class PasswordRehashIntegrationTests(AuthenticationDependenciesFix
     public Task Real_store_preserves_CAS_contract_and_bounded_conflict_resolution(string scenario, PasswordRehashStatus expected) =>
         Mongo024IntegrationScope.SafelyAsync(async () =>
         {
-            await using var scope = new Mongo024IntegrationScope(fixture); await Mongo026Evidence.PrepareAsync(scope);
+            await using var scope = new Mongo024IntegrationScope(fixture, output.WriteLine); await Mongo026Evidence.PrepareAsync(scope);
             var original = Legacy(); using var setup = new RequestBudget(8000, default);
             Assert.Equal(UserInsertStatus.Confirmed, (await scope.Store.InsertAsync(original, setup)).Status);
             var passwords = Passwords(); var store = new Probe(scope.Store);
@@ -66,7 +67,7 @@ public sealed class PasswordRehashIntegrationTests(AuthenticationDependenciesFix
     public Task Independent_clients_rehash_same_legacy_secret_one_winner_then_reverify_without_overwrite() =>
         Mongo024IntegrationScope.SafelyAsync(async () =>
         {
-            await using var scope = new Mongo024IntegrationScope(fixture); await Mongo026Evidence.PrepareAsync(scope);
+            await using var scope = new Mongo024IntegrationScope(fixture, output.WriteLine); await Mongo026Evidence.PrepareAsync(scope);
             var original = Legacy(); using var setup = new RequestBudget(8000, default);
             Assert.Equal(UserInsertStatus.Confirmed, (await scope.Store.InsertAsync(original, setup)).Status);
             using var actorA = new Mongo026Actor(scope); using var actorB = new Mongo026Actor(scope);

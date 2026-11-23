@@ -31,9 +31,9 @@ public sealed class MongoBsonIntegrationTests(AuthenticationDependenciesFixture 
         Assert.Single(hello["hosts"].AsBsonArray);
         Assert.Equal("wiredTiger", status["storageEngine"]["name"].AsString);
         Assert.True(status["storageEngine"]["persistent"].AsBoolean);
-        Assert.Equal("8.0.34", build["version"].AsString);
+        Assert.Equal("7.0.48", build["version"].AsString);
         Assert.Contains(client.Cluster.Description.Servers, server => server.Type == ServerType.ReplicaSetPrimary);
-        Report("TOPOLOGY=rs0 NODES=1 WRITABLE_PRIMARY=true ENGINE=WiredTiger PERSISTENT=true VERSION=8.0.34 SINGLETON_REUSED=true CLOUD_OR_FAILOVER=false");
+        Report("TOPOLOGY=rs0 NODES=1 WRITABLE_PRIMARY=true ENGINE=WiredTiger PERSISTENT=true VERSION=7.0.48 SINGLETON_REUSED=true CLOUD_OR_FAILOVER=false");
     });
 
     [Fact]

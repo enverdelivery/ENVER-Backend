@@ -97,3 +97,9 @@ specs/
 .specify/
 AGENTS.md
 constitution.md
+
+# Helpers/policies de CI/CD no forman parte del contexto de la API.
+scripts/
+.config/
+.gitleaks.toml
+.gitleaksignore

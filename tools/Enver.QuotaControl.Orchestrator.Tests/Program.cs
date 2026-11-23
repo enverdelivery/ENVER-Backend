@@ -4,10 +4,20 @@ using System.Net;
 using System.Xml.Linq;
 using Enver.QuotaControl.Orchestrator;
 
+// This is a separate, explicitly requested workstation evidence path, NOT a CI test.
+// The pinned production hashes and PipeInventory implementation remain unchanged.
+if (args.SequenceEqual(new[] { "--historical-artifact-validation" }))
+{
+    try { new PipeInventory().Precheck(); Console.WriteLine("HISTORICAL_ARTIFACT_VALIDATION PASS; no child or AWS calls"); return 0; }
+    catch { Console.WriteLine("HISTORICAL_ARTIFACT_VALIDATION FAIL; workstation/artifact contract not satisfied; no child or AWS calls"); return 1; }
+}
+if (args.Length != 0) { Console.WriteLine("STOP unknown test mode; no action performed"); return 2; }
 var passed = 0;
+var executed = 0;
 void Check(bool value) { if (!value) throw new Exception("ASSERTION_FAILED"); }
 async Task Test(string name, Func<Task> action)
 {
+    executed++;
     try { await action(); passed++; Console.WriteLine("PASS " + name); }
     catch { Console.WriteLine("FAIL " + name); Environment.ExitCode = 1; }
 }
@@ -175,11 +185,17 @@ await Test("executable default is STOP before any profile or network access", as
     finally { Console.SetOut(output); }
     Check(capture.ToString().Contains("no action performed", StringComparison.Ordinal));
 });
-await Test("local PipeProducer CONTROL descriptor hashes checked without child", () =>
+await Test("inventory precheck rejection stops before plane reads secret generation or mutation", async () =>
 {
-    new PipeInventory().Precheck(); return Task.CompletedTask;
+    var plane = new FakePlane(); var secret = new SyntheticSecret();
+    await using var session = new ControlSession(plane, new FakeInventory { RejectPrecheck = true }, secret, TimeSpan.FromSeconds(900));
+    await session.ExecuteAsync("precheck");
+    Check(session.State == SessionState.Stop && secret.Buffer is null && plane.Reads == 0 && plane.Actions.Count == 0);
+    Check(session.Receipts.Any(r => r.Failure == Failure.Precheck));
 });
-Console.WriteLine($"RESULT {passed}/28 PASS; simulated only; AWS=0 Redis=0 PipeProducer child=0 real passwords=0");
+Console.WriteLine($"RESULT {passed}/{executed} PASS; simulated only; AWS=0 Redis=0 PipeProducer child=0 real passwords=0");
+Console.WriteLine("HISTORICAL_ARTIFACT_VALIDATION NOT EXECUTED in portable CI mode; separate explicit workstation evidence required");
+return Environment.ExitCode;
 
 sealed class SyntheticSecret : ISecretFactory
 {
@@ -189,8 +205,8 @@ sealed class SyntheticSecret : ISecretFactory
 }
 sealed class FakeInventory : IInventory
 {
-    public bool Complete = true, Throw, PasswordMatched;
-    public void Precheck() { }
+    public bool Complete = true, Throw, PasswordMatched, RejectPrecheck;
+    public void Precheck() { if (RejectPrecheck) throw new ControlFailure(Failure.Precheck); }
     public Task<InventoryResult> RunAsync(ReadOnlyMemory<byte> password, CancellationToken token)
     {
         PasswordMatched = password.Span.SequenceEqual(Encoding.ASCII.GetBytes(SyntheticSecret.Value));
@@ -202,10 +218,12 @@ sealed class FakePlane : IControlPlane
 {
     public bool Exists, Member, Expired, AmbiguousCreate, AmbiguousAssociate, AmbiguousDelete, OmitMemberOnce, DriftAfterDelete, PasswordMatched;
     public Action? AfterDelete;
+    public int Reads;
     public string Runtime = "baseline-runtime", Fail = "";
     public List<string> Actions = [];
     public Task<Snapshot> ReadAsync(CancellationToken token)
     {
+        Reads++;
         var visible = Member;
         if (Member && OmitMemberOnce) { visible = false; OmitMemberOnce = false; }
         return Task.FromResult(new Snapshot(Runtime, "fixed-resource", visible ? [FixedResources.Runtime, FixedResources.Control] : [FixedResources.Runtime], true, Exists ? ControlPresence.Expected : ControlPresence.Absent));

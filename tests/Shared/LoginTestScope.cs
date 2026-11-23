@@ -1,4 +1,5 @@
 using System.Net;
+using System.Collections.Concurrent;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
@@ -6,6 +7,7 @@ using Amazon.DynamoDBv2;
 using Enver.API.Composition;
 using Enver.API.Configuration;
 using Enver.API.Features.Authentication.Application.Ports;
+using Enver.API.Features.Authentication.Application.Quotas;
 using Enver.API.Features.Authentication.Core;
 using Enver.API.Http;
 using Enver.API.Security;
@@ -31,15 +33,16 @@ public sealed class LoginTestScope : IAsyncDisposable
     private readonly LogoutTestScope resources;
     private readonly AuthenticationDependenciesFixture fixture;
     private readonly int? testOnlyLoginBudgetMilliseconds;
+    private readonly bool captureRaceDiagnostics;
     private readonly List<LoginTestHost> hosts = [];
     public LoginTestHost First => hosts[0];
     public LogoutLogCapture Logs => resources.Logs;
-    private LoginTestScope(LogoutTestScope resources, AuthenticationDependenciesFixture fixture, int? testOnlyLoginBudgetMilliseconds)
-    { this.resources = resources; this.fixture = fixture; this.testOnlyLoginBudgetMilliseconds = testOnlyLoginBudgetMilliseconds; }
+    private LoginTestScope(LogoutTestScope resources, AuthenticationDependenciesFixture fixture, int? testOnlyLoginBudgetMilliseconds, bool captureRaceDiagnostics)
+    { this.resources = resources; this.fixture = fixture; this.testOnlyLoginBudgetMilliseconds = testOnlyLoginBudgetMilliseconds; this.captureRaceDiagnostics = captureRaceDiagnostics; }
     public static async Task<LoginTestScope> CreateAsync(AuthenticationDependenciesFixture fixture, bool mongoUnavailable = false,
-        int? testOnlyLoginBudgetMilliseconds = null)
+        int? testOnlyLoginBudgetMilliseconds = null, bool captureRaceDiagnostics = false)
     {
-        var scope = new LoginTestScope(await LogoutTestScope.CreateAsync(fixture, mongoUnavailable), fixture, testOnlyLoginBudgetMilliseconds);
+        var scope = new LoginTestScope(await LogoutTestScope.CreateAsync(fixture, mongoUnavailable), fixture, testOnlyLoginBudgetMilliseconds, captureRaceDiagnostics);
         try { await scope.AddHostAsync(); return scope; }
         catch { await scope.DisposeAsync(); throw; }
     }
@@ -50,7 +53,7 @@ public sealed class LoginTestScope : IAsyncDisposable
             configuration = new ConfigurationBuilder().AddConfiguration(configuration).AddInMemoryCollection(new Dictionary<string, string?>
             { ["Authentication:LoginBudgetMilliseconds"] = milliseconds.ToString(System.Globalization.CultureInfo.InvariantCulture) }).Build();
         var host = new LoginTestHost(fixture, configuration,
-            resources.First.Services.GetRequiredService<IHostEnvironment>().EnvironmentName, Logs);
+            resources.First.Services.GetRequiredService<IHostEnvironment>().EnvironmentName, Logs, captureRaceDiagnostics);
         hosts.Add(host); await host.StartAsync(); return host;
     }
     public async Task TrackAsync(string token) => resources.Track(await resources.First.InputAsync(token));
@@ -73,9 +76,11 @@ public sealed class LoginTestHost : IAsyncDisposable
     public LoginIssuerProbe Issuer => Services.GetRequiredService<LoginIssuerProbe>();
     public LogoutQuotaProbe Quotas => Services.GetRequiredService<LogoutQuotaProbe>();
     public LogoutAuthorityProbe Authority => Services.GetRequiredService<LogoutAuthorityProbe>();
+    public LoginRaceDiagnostics? RaceDiagnostics { get; }
 
-    internal LoginTestHost(AuthenticationDependenciesFixture fixture, IConfiguration configuration, string environment, LogoutLogCapture logs)
+    internal LoginTestHost(AuthenticationDependenciesFixture fixture, IConfiguration configuration, string environment, LogoutLogCapture logs, bool captureRaceDiagnostics)
     {
+        RaceDiagnostics = captureRaceDiagnostics ? new LoginRaceDiagnostics() : null;
         host = new HostBuilder().ConfigureLogging(l => { l.ClearProviders(); l.AddProvider(logs); })
             .ConfigureWebHost(web => web.UseTestServer().UseEnvironment(environment)
                 .ConfigureAppConfiguration((_, c) => c.AddInMemoryCollection(configuration.AsEnumerable()))
@@ -86,11 +91,11 @@ public sealed class LoginTestHost : IAsyncDisposable
                     s.AddSingleton<IAmazonDynamoDB>(_ => fixture.CreateDynamoDbClient());
                     s.AddAuthenticationDependencies(context.Configuration);
                     var user = s.Last(d => d.ServiceType == typeof(IUserStore)); s.Remove(user);
-                    s.AddSingleton(p => new LoginUserStoreProbe((IUserStore)user.ImplementationFactory!(p)));
+                    s.AddSingleton(p => new LoginUserStoreProbe((IUserStore)user.ImplementationFactory!(p), RaceDiagnostics));
                     s.AddSingleton<IUserStore>(p => p.GetRequiredService<LoginUserStoreProbe>());
                     s.AddSingleton<LoginKdfProbe>(); s.AddSingleton<IPasswordHasher<User>>(p => p.GetRequiredService<LoginKdfProbe>());
                     s.AddSingleton<PasswordService>();
-                    s.AddSingleton<LoginPasswordProbe>(p => new(p.GetRequiredService<PasswordService>()));
+                    s.AddSingleton<LoginPasswordProbe>(p => new(p.GetRequiredService<PasswordService>(), RaceDiagnostics));
                     s.AddSingleton<IPasswordService>(p => p.GetRequiredService<LoginPasswordProbe>());
                     var quota = s.Last(d => d.ServiceType == typeof(IAuthenticationQuotaStore)); s.Remove(quota);
                     s.AddSingleton(p => new LogoutQuotaProbe((IAuthenticationQuotaStore)quota.ImplementationFactory!(p)));
@@ -98,6 +103,15 @@ public sealed class LoginTestHost : IAsyncDisposable
                     var authority = s.Last(d => d.ServiceType == typeof(IAuthenticationSecurityAuthority)); s.Remove(authority);
                     s.AddSingleton(p => new LogoutAuthorityProbe((IAuthenticationSecurityAuthority)authority.ImplementationFactory!(p)));
                     s.AddSingleton<IAuthenticationSecurityAuthority>(p => p.GetRequiredService<LogoutAuthorityProbe>());
+                    if (RaceDiagnostics is { } diagnostic)
+                    {
+                        var controls = s.Last(d => d.ServiceType == typeof(ILoginControls)); s.Remove(controls);
+                        s.AddSingleton<ILoginControls>(p => new LoginControlsDiagnosticProbe(
+                            (ILoginControls)ActivatorUtilities.CreateInstance(p, controls.ImplementationType!), diagnostic));
+                        var emission = s.Last(d => d.ServiceType == typeof(ILoginTokenIssuer)); s.Remove(emission);
+                        s.AddSingleton<ILoginTokenIssuer>(p => new LoginEmissionDiagnosticProbe(
+                            (ILoginTokenIssuer)ActivatorUtilities.CreateInstance(p, emission.ImplementationType!), diagnostic));
+                    }
                     s.AddSingleton(p => new LoginIssuerProbe(new JwtTokenIssuer(p.GetRequiredService<JwtKeyRing>(), TimeProvider.System)));
                     s.AddSingleton<IAccessTokenIssuer>(p => p.GetRequiredService<LoginIssuerProbe>());
                     s.AddSingleton(p => new JwtClaimsValidator(p.GetRequiredService<JwtKeyRing>(), TimeProvider.System));
@@ -150,7 +164,7 @@ public sealed class LoginTestHost : IAsyncDisposable
     { Client?.Dispose(); try { await host.StopAsync(); } finally { host.Dispose(); } }
 }
 
-public sealed class LoginUserStoreProbe(IUserStore inner) : IUserStore
+public sealed class LoginUserStoreProbe(IUserStore inner, LoginRaceDiagnostics? diagnostic = null) : IUserStore
 {
     public IUserStore Inner => inner;
     public int Lookups, Reads, Writes;
@@ -162,22 +176,31 @@ public sealed class LoginUserStoreProbe(IUserStore inner) : IUserStore
     public UserStatus? LastReadUserStatus { get; private set; }
     public Func<Task>? BeforeWrite;
     public async ValueTask<UserReadResult> FindByNormalizedEmailAsync(string email, RequestBudget budget)
-    { Interlocked.Increment(ref Lookups); return ReadOutcome == UserReadStatus.Unavailable ? new(UserReadStatus.Unavailable) : await inner.FindByNormalizedEmailAsync(email, budget); }
+    {
+        Interlocked.Increment(ref Lookups);
+        var result = ReadOutcome == UserReadStatus.Unavailable ? new(UserReadStatus.Unavailable) : await inner.FindByNormalizedEmailAsync(email, budget);
+        diagnostic?.Record(LoginDiagnosticPhase.Lookup, result.Status, budget, result.CancellationCause); return result;
+    }
     public async ValueTask<UserReadResult> FindByIdAsync(Guid id, RequestBudget budget)
     {
         Interlocked.Increment(ref Reads);
         var result = ReadOutcome == UserReadStatus.Unavailable ? new UserReadResult(UserReadStatus.Unavailable) : await inner.FindByIdAsync(id, budget);
-        LastReadByIdStatus = result.Status; LastReadUserStatus = result.User?.Status; return result;
+        LastReadByIdStatus = result.Status; LastReadUserStatus = result.User?.Status;
+        diagnostic?.Record(LoginDiagnosticPhase.Reread, result.Status, budget, result.CancellationCause); return result;
     }
     public ValueTask<UserInsertResult> InsertAsync(User user, RequestBudget budget) => inner.InsertAsync(user, budget);
     public async ValueTask<UserCredentialUpdateResult> CompareExchangePasswordHashAsync(Guid id, string old, UserStatus status, string hash, DateTime at, RequestBudget budget)
     {
-        Interlocked.Increment(ref Writes); LastReplacementHash = hash; if (BeforeWrite is not null) await BeforeWrite();
+        Interlocked.Increment(ref Writes); LastReplacementHash = hash;
+        diagnostic?.Record(LoginDiagnosticPhase.BarrierEnter, budget.Cause, budget);
+        if (BeforeWrite is not null) await BeforeWrite();
+        diagnostic?.Record(LoginDiagnosticPhase.BarrierExit, budget.Cause, budget);
         if (WriteOutcome == UserCredentialUpdateStatus.Unavailable)
         { LastCredentialUpdateStatus = WriteOutcome.Value; return new(WriteOutcome.Value); }
         var result = await inner.CompareExchangePasswordHashAsync(id, old, status, hash, at, budget);
         var reported = WriteOutcome == UserCredentialUpdateStatus.Uncertain && result.Status == UserCredentialUpdateStatus.Updated ? new(UserCredentialUpdateStatus.Uncertain) : result;
-        LastCredentialUpdateStatus = reported.Status; return reported;
+        LastCredentialUpdateStatus = reported.Status;
+        diagnostic?.Record(LoginDiagnosticPhase.Cas, reported.Status, budget, reported.CancellationCause); return reported;
     }
 }
 public sealed class LoginKdfProbe : IPasswordHasher<User>
@@ -188,18 +211,63 @@ public sealed class LoginKdfProbe : IPasswordHasher<User>
     public PasswordVerificationResult VerifyHashedPassword(User user, string hash, string password)
     { Interlocked.Increment(ref Verifications); return inner.VerifyHashedPassword(user, hash, password); }
 }
-public sealed class LoginPasswordProbe(IPasswordService inner) : IPasswordService
+public sealed class LoginPasswordProbe(IPasswordService inner, LoginRaceDiagnostics? diagnostic = null) : IPasswordService
 {
     public int Verifies, Dummies, Rehashes;
     public PasswordVerificationStatus? LastVerificationStatus { get; private set; }
     public PasswordVerificationStatus Verify(User user, string secret, RequestBudget budget)
-    { Interlocked.Increment(ref Verifies); var result = inner.Verify(user, secret, budget); LastVerificationStatus = result; return result; }
+    {
+        Interlocked.Increment(ref Verifies); diagnostic?.Record(LoginDiagnosticPhase.VerifyEnter, budget.Cause, budget);
+        var result = inner.Verify(user, secret, budget); LastVerificationStatus = result;
+        diagnostic?.Record(LoginDiagnosticPhase.VerifyExit, result, budget); return result;
+    }
     public PasswordVerificationStatus VerifyDummy(string secret, RequestBudget budget) { Interlocked.Increment(ref Dummies); return inner.VerifyDummy(secret, budget); }
     public PasswordHashResult Hash(User user, string secret, RequestBudget budget) => inner.Hash(user, secret, budget);
-    public PasswordHashResult Rehash(User user, string secret, RequestBudget budget) { Interlocked.Increment(ref Rehashes); return inner.Rehash(user, secret, budget); }
+    public PasswordHashResult Rehash(User user, string secret, RequestBudget budget)
+    {
+        Interlocked.Increment(ref Rehashes); diagnostic?.Record(LoginDiagnosticPhase.RehashEnter, budget.Cause, budget);
+        var result = inner.Rehash(user, secret, budget); diagnostic?.Record(LoginDiagnosticPhase.RehashExit, result.Status, budget); return result;
+    }
 }
 public sealed class LoginIssuerProbe(IAccessTokenIssuer inner) : IAccessTokenIssuer
 {
     public int Calls; public Action? AfterIssue;
     public AccessTokenIssueResult Issue(Guid subject) { Interlocked.Increment(ref Calls); var token = inner.Issue(subject); AfterIssue?.Invoke(); return token; }
+}
+
+// Opt-in solo para la carrera A/B: enums y tiempos, nunca identidad, hash, payload o excepción.
+public enum LoginDiagnosticPhase { AdmissionEnter, AdmissionExit, QuotaEnter, QuotaExit, Lookup, VerifyEnter, VerifyExit, RehashEnter, RehashExit, BarrierEnter, BarrierExit, Cas, Reread, EmissionEnter, EmissionExit }
+public sealed record LoginDiagnosticStep(string Phase, string Outcome, double RemainingMilliseconds, string RequestCause, string DependencyCause);
+public sealed class LoginRaceDiagnostics
+{
+    private readonly ConcurrentQueue<LoginDiagnosticStep> steps = new();
+    public LoginDiagnosticStep[] Snapshot => steps.ToArray();
+    public void Record<T>(LoginDiagnosticPhase phase, T outcome, RequestBudget budget,
+        BudgetCancellationCause dependencyCause = BudgetCancellationCause.None) where T : struct, Enum =>
+        steps.Enqueue(new(phase.ToString(), outcome.ToString(), Math.Round(budget.Remaining.TotalMilliseconds, 3),
+            budget.Cause.ToString(), dependencyCause.ToString()));
+}
+internal sealed class LoginControlsDiagnosticProbe(ILoginControls inner, LoginRaceDiagnostics diagnostic) : ILoginControls
+{
+    public async ValueTask<AuthenticationSecurityDecision> CheckAsync(RequestBudget budget)
+    {
+        diagnostic.Record(LoginDiagnosticPhase.AdmissionEnter, budget.Cause, budget);
+        var result = await inner.CheckAsync(budget); diagnostic.Record(LoginDiagnosticPhase.AdmissionExit, result.Admission, budget); return result;
+    }
+    public async ValueTask<AuthenticationQuotaConsumeResult> ConsumeAsync(string email, AuthenticationCanonicalOrigin origin, RequestBudget budget)
+    {
+        diagnostic.Record(LoginDiagnosticPhase.QuotaEnter, budget.Cause, budget);
+        var result = await inner.ConsumeAsync(email, origin, budget); diagnostic.Record(LoginDiagnosticPhase.QuotaExit, result.Status, budget); return result;
+    }
+}
+internal enum LoginDiagnosticEmission { Issued, Unavailable }
+internal sealed class LoginEmissionDiagnosticProbe(ILoginTokenIssuer inner, LoginRaceDiagnostics diagnostic) : ILoginTokenIssuer
+{
+    public async ValueTask<AccessTokenIssueResult?> IssueAsync(Guid subject, RequestBudget budget)
+    {
+        diagnostic.Record(LoginDiagnosticPhase.EmissionEnter, budget.Cause, budget);
+        var result = await inner.IssueAsync(subject, budget);
+        diagnostic.Record(LoginDiagnosticPhase.EmissionExit, result?.Status == AccessTokenIssueStatus.Issued
+            ? LoginDiagnosticEmission.Issued : LoginDiagnosticEmission.Unavailable, budget); return result;
+    }
 }
