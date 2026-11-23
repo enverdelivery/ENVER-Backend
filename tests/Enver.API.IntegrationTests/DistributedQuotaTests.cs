@@ -52,6 +52,8 @@ public sealed class DistributedQuotaTests(AuthenticationDependenciesFixture fixt
         DistributedQuotaTestScope.RunAsync(fixture, output, async s =>
         {
             var request = s.Request(0);
+            s.Diagnostics?.Phase("blocker-rejection", 1);
+            s.Diagnostics?.Request(request);
             var now = await s.Data.NowAsync();
             long maximumHorizon = 0;
             foreach (var scope in request.Scopes)
@@ -59,6 +61,7 @@ public sealed class DistributedQuotaTests(AuthenticationDependenciesFixture fixt
                 // Préparation de frontière synthétique, pas 15 minutes de trafic réel.
                 var remaining = scope.ScopeType == AuthenticationQuotaScopeType.Email ? 600_100_000L : 800_700_000L;
                 var timestamp = now - 900_000_000L + remaining;
+                s.Diagnostics?.Seed(scope.ScopeType, now, timestamp, timestamp + 900_000_000L);
                 await s.Data.SeedAsync(request, scope, Enumerable.Repeat(timestamp, scope.Definition.PermitLimit));
                 maximumHorizon = Math.Max(maximumHorizon, timestamp + 900_000_000L);
             }
@@ -68,19 +71,24 @@ public sealed class DistributedQuotaTests(AuthenticationDependenciesFixture fixt
                 Enver.API.Infrastructure.Redis.RedisAuthenticationQuotaScriptProtocol.ScriptText, invocation.Keys, invocation.Arguments));
             Assert.Equal("rejected", reply.Status);
             var logicalRetry = (maximumHorizon - reply.NowMicroseconds + 999999) / 1000000;
+            s.Diagnostics?.Retry(maximumHorizon, previousLast, reply.NowMicroseconds, reply.RetryAfterSeconds);
             if (reply.NowMicroseconds > previousLast) Assert.Equal(logicalRetry, reply.RetryAfterSeconds);
             else Assert.True(reply.RetryAfterSeconds >= logicalRetry);
             await s.AssertAttemptAsync(request, false);
             // El mismo intento, ya rechazado, no se insertó; el horizonte bloqueante se prepara vencido
             // de forma sintética para comprobar que el rechazo no impone una penalización perpetua.
+            s.Diagnostics?.Phase("boundary-release", 1);
             foreach (var scope in request.Scopes)
             {
                 await s.Db.KeyDeleteAsync(s.Data.Key(request, scope));
-                await s.Data.SeedAsync(request, scope, [await s.Data.NowAsync() - 900_000_001L]);
+                var boundaryNow = await s.Data.NowAsync();
+                var timestamp = boundaryNow - 900_000_001L;
+                s.Diagnostics?.Seed(scope.ScopeType, boundaryNow, timestamp, timestamp + 900_000_000L);
+                await s.Data.SeedAsync(request, scope, [timestamp]);
             }
             Assert.Equal(AuthenticationQuotaStoreStatus.Admitted, (await s.SendAsync(1, request)).Status);
             await s.AssertAttemptAsync(request, true);
-        });
+        }, diagnostics: true);
 
     [Fact]
     public Task Recreating_API_host_preserves_shared_buckets_revision_and_HMAC_identity() =>
