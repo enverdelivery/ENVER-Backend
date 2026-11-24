@@ -28,6 +28,7 @@ internal sealed class RedisAuthenticationQuotaTestScope : IAsyncDisposable
     internal RedisAuthenticationQuotaStore Store { get; }
     internal RedisAuthenticationQuotaStore SecondStore { get; }
     internal RedisAuthenticationQuotaLifecycle Lifecycle { get; }
+    internal Action<long>? RedisTimeObserved { get; set; }
 
     private RedisAuthenticationQuotaTestScope(AuthenticationDependenciesFixture fixture, TimeSpan? window)
     {
@@ -177,7 +178,9 @@ internal sealed class RedisAuthenticationQuotaTestScope : IAsyncDisposable
     internal async Task<long> NowAsync()
     {
         var result = (RedisResult[])(await Database.ExecuteAsync("TIME"))!;
-        return checked((long)result[0] * 1000000 + (long)result[1]);
+        var now = checked((long)result[0] * 1000000 + (long)result[1]);
+        RedisTimeObserved?.Invoke(now);
+        return now;
     }
     internal async Task WaitUntilAsync(long target, TimeSpan? maximumWait = null)
     {

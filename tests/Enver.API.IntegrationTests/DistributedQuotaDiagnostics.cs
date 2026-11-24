@@ -160,15 +160,19 @@ internal sealed class DistributedQuotaDiagnostics
             : "UNRESOLVED_OR_DIFFERENT_FAILURE";
         object[] eventRows, exceptionRows;
         lock (sync) { eventRows = events.ToArray(); exceptionRows = exceptions.ToArray(); }
-        var json = JsonSerializer.Serialize(new { stage = 1, classification, phase, round, partition,
+        var json = JsonSerializer.Serialize(new { stage = 1, timing = scope.Timing?.Evidence(), classification, phase, round, partition,
             final, evalReached, evalSubmitted, evalReturned, luaGuard = "NOT_OBSERVABLE",
             truncated, observerIncomplete, events = eventRows, exceptions = exceptionRows, beforeCleanup = snapshot });
         // El colector CI conserva ErrorInfo, no StdOut. Original como InnerException con su stack.
         // Omitir arrays enteros si fuera necesario; nunca cortar un JSON ni un valor sensible.
         if (json.Length > 4400)
-            json = JsonSerializer.Serialize(new { stage = 1, classification, phase, round, partition,
+            json = JsonSerializer.Serialize(new { stage = 1, timing = scope.Timing?.Evidence(), classification, phase, round, partition,
                 final, evalReached, evalSubmitted, evalReturned, luaGuard = "NOT_OBSERVABLE",
                 truncated = true, observerIncomplete, exceptions = exceptionRows, beforeCleanup = snapshot });
+        if (json.Length > 4400)
+            json = JsonSerializer.Serialize(new { stage = 1, timing = scope.Timing?.Evidence(), classification, phase, round, partition,
+                final, evalReached, evalSubmitted, evalReturned, luaGuard = "NOT_OBSERVABLE", truncated = true, observerIncomplete,
+                omitted = "EXCEPTION_EVENTS_AND_POSTFAILURE_SNAPSHOT" });
         return new InvalidOperationException("DISTRIBUTED_QUOTA_DIAGNOSTIC " + json, original);
     }
 

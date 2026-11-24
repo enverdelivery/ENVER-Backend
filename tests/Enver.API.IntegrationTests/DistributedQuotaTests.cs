@@ -53,6 +53,7 @@ public sealed class DistributedQuotaTests(AuthenticationDependenciesFixture fixt
         {
             var request = s.Request(0);
             s.Diagnostics?.Phase("blocker-rejection", 1);
+            s.Timing?.Phase("blocker-rejection");
             s.Diagnostics?.Request(request);
             var now = await s.Data.NowAsync();
             long maximumHorizon = 0;
@@ -78,6 +79,7 @@ public sealed class DistributedQuotaTests(AuthenticationDependenciesFixture fixt
             // El mismo intento, ya rechazado, no se insertó; el horizonte bloqueante se prepara vencido
             // de forma sintética para comprobar que el rechazo no impone una penalización perpetua.
             s.Diagnostics?.Phase("boundary-release", 1);
+            s.Timing?.Phase("boundary-release");
             foreach (var scope in request.Scopes)
             {
                 await s.Db.KeyDeleteAsync(s.Data.Key(request, scope));
@@ -88,7 +90,7 @@ public sealed class DistributedQuotaTests(AuthenticationDependenciesFixture fixt
             }
             Assert.Equal(AuthenticationQuotaStoreStatus.Admitted, (await s.SendAsync(1, request)).Status);
             await s.AssertAttemptAsync(request, true);
-        }, diagnostics: true);
+        }, diagnostics: true, timeObservability: true);
 
     [Fact]
     public Task Recreating_API_host_preserves_shared_buckets_revision_and_HMAC_identity() =>
