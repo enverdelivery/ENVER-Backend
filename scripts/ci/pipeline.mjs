@@ -254,13 +254,17 @@ async function contract() {
   return verifyContract(result);
 }
 export function inspectOCI(archive, layoutDirectory) {
-  const entries = command('tar', ['-tf', archive]).stdout.split(/\r?\n/).filter(Boolean);
+  // GNU tar interpreta C:\... en -f como host remoto; basename local + cwd funciona
+  // también con BSD tar, sin seleccionar binarios ni alterar PATH del runner.
+  const tarArchive = './' + path.basename(archive);
+  const tarOptions = {cwd: path.dirname(path.resolve(archive))};
+  const entries = command('tar', ['-tf', tarArchive], tarOptions).stdout.split(/\r?\n/).filter(Boolean);
   requireThat(entries.length > 2 && entries.every(n => /^(?:\.\/)?(?:index\.json|oci-layout|blobs\/?|blobs\/sha256\/?|blobs\/sha256\/[a-f0-9]{64})\/?$/.test(n)), 'OCI_PATHS');
   // Proyección opcional del MISMO contenido verificado a layout OCI para Trivy.
   // Nunca extraer rutas/links del tar: solo escribir nombres fijos y blobs por digest.
   if (layoutDirectory) fs.mkdirSync(layoutDirectory, {recursive: true, mode: 0o700});
   function blob(name) {
-    const bytes = command('tar', ['-xOf', archive, name], {encoding: null, maxBuffer: 512 * 1024 * 1024}).stdout;
+    const bytes = command('tar', ['-xOf', tarArchive, name], {...tarOptions, encoding: null, maxBuffer: 512 * 1024 * 1024}).stdout;
     if (layoutDirectory) {
       const destination = path.join(layoutDirectory, name);
       fs.mkdirSync(path.dirname(destination), {recursive: true, mode: 0o700});

@@ -16,7 +16,7 @@ function fixture(body) {
     fs.mkdirSync(path.join(rootfs, 'etc'), {recursive: true});
     fs.writeFileSync(path.join(rootfs, 'etc', 'os-release'), 'ID=alpine\nVERSION_ID=3.21.0\n');
     const layerTar = path.join(dir, 'layer.tar');
-    command('tar', ['-cf', layerTar, '-C', rootfs, 'etc']);
+    command('tar', ['-cf', './layer.tar', '-C', rootfs, 'etc'], {cwd: dir});
     function blob(bytes) {
       const hash = sha256(bytes);
       fs.writeFileSync(path.join(source, 'blobs', 'sha256', hash), bytes);
@@ -33,7 +33,7 @@ function fixture(body) {
       manifests: [{...manifest, mediaType: 'application/vnd.oci.image.manifest.v1+json'}]}));
     fs.writeFileSync(path.join(source, 'oci-layout'), '{"imageLayoutVersion":"1.0.0"}');
     const archive = path.join(dir, 'image.tar');
-    command('tar', ['-cf', archive, '-C', source, 'index.json', 'oci-layout', 'blobs']);
+    command('tar', ['-cf', './image.tar', '-C', source, 'index.json', 'oci-layout', 'blobs'], {cwd: dir});
     body({dir, source, archive, manifest});
   } finally { fs.rmSync(dir, {recursive: true, force: true}); }
 }
@@ -49,19 +49,19 @@ test('OCI projection preserves canonical archive hash, exact manifest digest and
     assert.equal(fs.lstatSync(path.join(layout, file)).isFile(), true);
     assert.equal(fs.lstatSync(path.join(layout, file)).isSymbolicLink(), false);
   }
-  assert.ok(command('tar', ['-tf', archive]).stdout.includes('index.json'));
+  assert.ok(command('tar', ['-tf', './image.tar'], {cwd: dir}).stdout.includes('index.json'));
   assert.equal(trivyImageArguments[trivyImageArguments.indexOf('--input') + 1], '/private/trivy-image');
   assert.ok(trivyImageArguments.includes('vuln'));
 }));
 test('OCI projection rejects unexpected archive paths before writing any layout', () => fixture(({dir, source, archive}) => {
   fs.writeFileSync(path.join(source, 'unexpected.txt'), 'not an OCI entry');
-  command('tar', ['-rf', archive, '-C', source, 'unexpected.txt']);
+  command('tar', ['-rf', './image.tar', '-C', source, 'unexpected.txt'], {cwd: dir});
   const layout = path.join(dir, 'rejected');
   assert.throws(() => inspectOCI(archive, layout), {code: 'OCI_PATHS'});
   assert.equal(fs.existsSync(layout), false);
 }));
 test('OCI projection never accepts a manifest whose bytes differ from its digest', () => fixture(({dir, source, archive, manifest}) => {
   fs.appendFileSync(path.join(source, 'blobs', 'sha256', manifest.digest.slice(7)), ' ');
-  command('tar', ['-cf', archive, '-C', source, 'index.json', 'oci-layout', 'blobs']);
+  command('tar', ['-cf', './image.tar', '-C', source, 'index.json', 'oci-layout', 'blobs'], {cwd: dir});
   assert.throws(() => inspectOCI(archive, path.join(dir, 'rejected')), {code: 'OCI_MANIFEST_HASH'});
 }));
