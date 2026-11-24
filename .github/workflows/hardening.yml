@@ -1,0 +1,343 @@
+name: ENVER Hardening
+on:
+  workflow_call:
+    inputs:
+      ci_run_id:
+        type: string
+        required: true
+      run_mutation:
+        type: boolean
+        default: false
+      run_dynamic:
+        type: boolean
+        default: false
+  workflow_dispatch:
+    inputs:
+      ci_run_id:
+        description: Run CI develop exacto; vacío resuelve el SHA del dispatch
+        type: string
+        required: false
+      run_mutation:
+        description: Ejecutar Stryker sobre validadores
+        type: boolean
+        default: false
+      run_dynamic:
+        description: Solicitar piloto aislado (bloquea mientras falten laboratorio/OpenAPI)
+        type: boolean
+        default: false
+  # Adapter independiente: conserva CI sin AWS ni OIDC. Nunca usa workflow_run.
+  push:
+    branches: [develop]
+    paths-ignore: ['**/*.md']
+permissions:
+  contents: read
+  actions: read
+defaults:
+  run:
+    shell: bash
+env:
+  GH_TOKEN: ${{ github.token }}
+  ENVER_MUTATION: ${{ inputs.run_mutation || false }}
+  ENVER_DYNAMIC: ${{ inputs.run_dynamic || false }}
+  AWS_EC2_METADATA_DISABLED: 'true'
+jobs:
+  verify_candidate:
+    name: Verify Candidate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    outputs:
+      ci_run: ${{ steps.locate.outputs.ci_run }}
+      ci_attempt: ${{ steps.locate.outputs.ci_attempt }}
+      sha: ${{ steps.locate.outputs.sha }}
+      oci_name: ${{ steps.locate.outputs.oci_name }}
+      ci_report_name: ${{ steps.locate.outputs.ci_report_name }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - id: locate
+        env:
+          ENVER_CI_RUN: ${{ inputs.ci_run_id }}
+        run: node scripts/ci/hardening.mjs locate
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ steps.locate.outputs.oci_name }}
+          run-id: ${{ steps.locate.outputs.ci_run }}
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/enver-evidence/image
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ steps.locate.outputs.ci_report_name }}
+          run-id: ${{ steps.locate.outputs.ci_run }}
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/enver-evidence/ci
+      - env:
+          ENVER_SOURCE_SHA: ${{ steps.locate.outputs.sha }}
+        run: node scripts/ci/hardening.mjs verify_candidate
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: hardening-evidence-verify-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/enver-evidence/verify_candidate.json
+          if-no-files-found: error
+          retention-days: 14
+  container_scan:
+    name: Container Vulnerability Scan
+    needs: verify_candidate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      ENVER_SOURCE_SHA: ${{ needs.verify_candidate.outputs.sha }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ needs.verify_candidate.outputs.oci_name }}
+          run-id: ${{ needs.verify_candidate.outputs.ci_run }}
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/enver-evidence/image
+      - run: node scripts/ci/hardening.mjs container_scan
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: hardening-evidence-container-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/enver-evidence/container_scan.json
+            ${{ runner.temp }}/enver-evidence/trivy-diagnostic.json
+          if-no-files-found: error
+          retention-days: 14
+  codeql:
+    name: CodeQL SAST
+    needs: verify_candidate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
+    env:
+      ENVER_SOURCE_SHA: ${{ needs.verify_candidate.outputs.sha }}
+      ENVER_CODEQL_ENABLED: ${{ vars.ENVER_CODEQL_ENABLED }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ needs.verify_candidate.outputs.sha }}
+          persist-credentials: false
+      - id: available
+        run: node scripts/ci/hardening.mjs codeql_preflight
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9
+        with:
+          global-json-file: global.json
+      - uses: github/codeql-action/init@33d7b85da1a04171e211befe2c739303b9a4c066 # v4 verified commit
+        with:
+          languages: csharp
+          build-mode: manual
+      - run: |
+          dotnet restore Enver.Backend.slnx --locked-mode --verbosity quiet
+          dotnet build Enver.Backend.slnx -c Release --no-restore --verbosity quiet
+      - uses: github/codeql-action/analyze@33d7b85da1a04171e211befe2c739303b9a4c066
+        with:
+          output: ${{ runner.temp }}/enver-ci-private/codeql
+          upload: never
+      - run: node scripts/ci/hardening.mjs codeql
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: hardening-evidence-codeql-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/enver-evidence/codeql.json
+            ${{ runner.temp }}/enver-evidence/codeql-findings.json
+          if-no-files-found: error
+          retention-days: 14
+  mutation:
+    name: Mutation Testing
+    needs: verify_candidate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    env:
+      ENVER_SOURCE_SHA: ${{ needs.verify_candidate.outputs.sha }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ needs.verify_candidate.outputs.sha }}
+          persist-credentials: false
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9
+        if: inputs.run_mutation
+        with:
+          global-json-file: global.json
+      - run: node scripts/ci/hardening.mjs mutation
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: hardening-evidence-mutation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/enver-evidence/mutation.json
+          if-no-files-found: error
+          retention-days: 14
+  dynamic_preflight:
+    name: Dynamic Target Preflight
+    needs: verify_candidate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      ENVER_SOURCE_SHA: ${{ needs.verify_candidate.outputs.sha }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: node scripts/ci/hardening.mjs dynamic_preflight
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: hardening-evidence-dynamic-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/enver-evidence/dynamic_preflight.json
+          if-no-files-found: error
+          retention-days: 14
+  dast:
+    name: DAST OWASP ZAP
+    if: always()
+    needs: [verify_candidate, dynamic_preflight]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      ENVER_SOURCE_SHA: ${{ needs.verify_candidate.outputs.sha }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: node scripts/ci/hardening.mjs dast
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: hardening-evidence-dast-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/enver-evidence/dast.json
+          if-no-files-found: error
+          retention-days: 14
+  fuzzing:
+    name: REST API Fuzzing
+    if: always()
+    needs: [verify_candidate, dynamic_preflight]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      ENVER_SOURCE_SHA: ${{ needs.verify_candidate.outputs.sha }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: node scripts/ci/hardening.mjs fuzzing
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: hardening-evidence-fuzzing-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/enver-evidence/fuzzing.json
+          if-no-files-found: error
+          retention-days: 14
+  hardening_report:
+    name: Hardening Report
+    if: always()
+    needs: [verify_candidate, container_scan, codeql, mutation, dynamic_preflight, dast, fuzzing]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      report_hash: ${{ steps.report.outputs.report_hash }}
+    env:
+      ENVER_SOURCE_SHA: ${{ needs.verify_candidate.outputs.sha }}
+      NEEDS_JSON: ${{ toJSON(needs) }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: hardening-evidence-*
+          path: ${{ runner.temp }}/enver-evidence/input
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        if: needs.verify_candidate.result == 'success'
+        with:
+          name: ${{ needs.verify_candidate.outputs.ci_report_name }}
+          run-id: ${{ needs.verify_candidate.outputs.ci_run }}
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/enver-evidence/ci
+      - id: report
+        if: always()
+        run: node scripts/ci/hardening.mjs hardening_report
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: hardening-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/enver-evidence/hardening-report.json
+          if-no-files-found: error
+          retention-days: 14
+  hardening_gate:
+    name: Hardening Gate
+    if: always()
+    needs: [verify_candidate, container_scan, codeql, mutation, dynamic_preflight, dast, fuzzing, hardening_report]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      ENVER_SOURCE_SHA: ${{ needs.verify_candidate.outputs.sha }}
+      NEEDS_JSON: ${{ toJSON(needs) }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: hardening-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/enver-evidence/report
+      - run: node scripts/ci/hardening.mjs hardening_gate
+  publish_candidate:
+    name: Publish Approved Candidate
+    needs: [verify_candidate, hardening_report, hardening_gate]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment: development
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    env:
+      ENVER_SOURCE_SHA: ${{ needs.verify_candidate.outputs.sha }}
+      ENVER_PUBLISH_ENABLED: ${{ vars.ENVER_PUBLISH_ENABLED }}
+      ENVER_PUBLISHER_ROLE: arn:aws:iam::926925605666:role/enver-github-ecr-publisher
+      ENVER_HARDENING_REPORT_HASH: ${{ needs.hardening_report.outputs.report_hash }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - run: node scripts/ci/hardening.mjs publisher_preflight
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ needs.verify_candidate.outputs.oci_name }}
+          run-id: ${{ needs.verify_candidate.outputs.ci_run }}
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/enver-evidence/image
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ needs.verify_candidate.outputs.ci_report_name }}
+          run-id: ${{ needs.verify_candidate.outputs.ci_run }}
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/enver-evidence/ci
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: hardening-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/enver-evidence/report
+      - uses: aws-actions/configure-aws-credentials@b47578312673ae6fa5b5096b330d9fbac3d116df # v4.2.1
+        with:
+          role-to-assume: ${{ env.ENVER_PUBLISHER_ROLE }}
+          aws-region: us-east-1
+          allowed-account-ids: '926925605666'
+          role-session-name: enver-publish-${{ github.run_id }}
+          unset-current-credentials: true
+          retry-max-attempts: 1
+      - run: node scripts/ci/hardening.mjs publish_candidate
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: approved-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/enver-evidence/approval/approved.json
+          if-no-files-found: error
+          retention-days: 14
