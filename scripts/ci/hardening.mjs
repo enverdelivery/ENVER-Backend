@@ -3,6 +3,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {Closed, requireThat, command, root, policy, policyHash, privateDir, evidence, readJson, save, sha256, identity, output, emit, exactSDK, filesBelow, container, GitHub, validateRun} from './lib.mjs';
 import {inspectOCI, assessTrivy} from './pipeline.mjs';
+import {trivyDiagnostic, observeTrivyVersion, trivyImageArguments, codeqlFindings} from './hardening-diagnostics.mjs';
 
 const hardControls = ['verify_candidate', 'container_scan', 'codeql', 'mutation', 'dynamic_preflight', 'dast', 'fuzzing'];
 function trustedRef() {
@@ -63,9 +64,29 @@ async function scanImage() {
   const candidate = readJson(oneFile('candidate.json'));
   requireThat(actual.manifestDigest === candidate.manifestDigest && actual.artifactHash === candidate.artifactHash, 'SCAN_IMAGE_CHANGED');
   const dir = path.dirname(oneFile('image.tar'));
-  const r = container('trivy', ['image', '--input', '/image/image.tar', '--scanners', 'vuln', '--format', 'json', '--output', '/private/image-scan.json'], {network: 'bridge', writable: [[dir, '/image']]});
+  const r = container('trivy', trivyImageArguments, {network: 'bridge', writable: [[dir, '/image']]});
+  const diagnostic = trivyDiagnostic(r, {reportPath: path.join(privateDir, 'image-scan.json'),
+    targetDigest: actual.manifestDigest, toolImage: policy.images.trivy, declaredVersion: policy.toolVersions.trivy});
+  const diagnosticPath = path.join(evidence, 'trivy-diagnostic.json');
+  save(diagnosticPath, diagnostic);
+  // Sondeo posterior del digest cacheado: --pull=never evita reintentar una descarga fallida.
+  // Sin red, mounts ni influencia en el resultado del scan; no cambia su presupuesto.
+  try {
+    observeTrivyVersion(diagnostic, command('docker', ['run', '--rm', '--pull=never', '--platform', 'linux/amd64',
+      '--network', 'none', '--read-only', '--cap-drop', 'ALL', '--security-opt', 'no-new-privileges',
+      ...(typeof process.getuid === 'function' ? ['--user', `${process.getuid()}:${process.getgid()}`] : []),
+      '--env', 'HOME=/tmp', policy.images.trivy, '--version'], {timeout: 15000, allowFailure: true}));
+  } catch { diagnostic.toolVersionSource = 'VERSION_PROBE_UNAVAILABLE'; }
+  save(diagnosticPath, diagnostic);
   requireThat(r.status === 0, 'TRIVY_IMAGE_EXECUTION', 'BLOCKED');
-  return {...assessTrivy(readJson(path.join(privateDir, 'image-scan.json'))), manifestDigest: actual.manifestDigest};
+  try {
+    const assessment = assessTrivy(readJson(path.join(privateDir, 'image-scan.json')));
+    diagnostic.stage = 'TRIVY_POLICY_PASS'; diagnostic.policyEvaluation = 'PASS';
+    return {...assessment, manifestDigest: actual.manifestDigest};
+  } catch (error) {
+    diagnostic.stage = error.code === 'TRIVY_HIGH_CRITICAL' ? 'TRIVY_FINDINGS' : 'TRIVY_REPORT_FAILURE';
+    diagnostic.policyEvaluation = 'FAIL'; throw error;
+  } finally { save(diagnosticPath, diagnostic); }
 }
 async function codeqlPreflight() {
   const repo = await new GitHub().request(`/repos/${policy.repository}`);
@@ -75,12 +96,18 @@ async function codeqlPreflight() {
 }
 async function codeqlResult() {
   const files = filesBelow(path.join(privateDir, 'codeql')).filter(f => f.endsWith('.sarif'));
+  const diagnosticPath = path.join(evidence, 'codeql-findings.json');
+  save(diagnosticPath, {schema: 1, sarifGenerated: files.length > 0, sarifFiles: files.length,
+    parseState: 'NOT_COMPLETED', totalResults: null, blockingResultCount: null, findings: []});
   requireThat(files.length > 0, 'CODEQL_NO_SARIF', 'BLOCKED');
   let count = 0;
+  const documents = [];
   for (const file of files) {
     const data = readJson(file); requireThat(data.runs?.length > 0 && data.runs.every(r => Array.isArray(r.results)), 'CODEQL_INCOMPLETE');
     count += data.runs.reduce((n, r) => n + r.results.length, 0);
+    documents.push(data);
   }
+  save(diagnosticPath, {...codeqlFindings(documents, {repository: root}), parseState: 'PASS'});
   requireThat(count === 0, 'CODEQL_FINDINGS'); return {sarifRuns: files.length, findings: count};
 }
 async function mutation() {

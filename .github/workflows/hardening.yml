@@ -104,7 +104,9 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: hardening-evidence-container-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/enver-evidence/container_scan.json
+          path: |
+            ${{ runner.temp }}/enver-evidence/container_scan.json
+            ${{ runner.temp }}/enver-evidence/trivy-diagnostic.json
           if-no-files-found: error
           retention-days: 14
   codeql:
@@ -145,7 +147,9 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: hardening-evidence-codeql-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/enver-evidence/codeql.json
+          path: |
+            ${{ runner.temp }}/enver-evidence/codeql.json
+            ${{ runner.temp }}/enver-evidence/codeql-findings.json
           if-no-files-found: error
           retention-days: 14
   mutation:
