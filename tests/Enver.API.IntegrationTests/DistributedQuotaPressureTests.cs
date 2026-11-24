@@ -166,6 +166,7 @@ public sealed class DistributedQuotaPressureTests(AuthenticationDependenciesFixt
             // Tres rondas: crecer hasta 5000, presionar la frontera y reasignar tras el vencimiento real.
             for (var round = 0; round < 3; round++)
             {
+                s.CapacityDiagnostics?.BeginRound(round + 1);
                 var start = round * 100000 + 1;
                 var initialRequest = s.Request(0, email: start, origin: start);
                 Assert.Equal(AuthenticationQuotaStoreStatus.Admitted, (await s.SendAsync(0, initialRequest, $"capacity-start-{round + 1}")).Status);
@@ -176,6 +177,7 @@ public sealed class DistributedQuotaPressureTests(AuthenticationDependenciesFixt
                 Assert.InRange(missing, 0, 4998);
                 Assert.Equal(0, missing % 2);
                 var requests = Enumerable.Range(start + 1, (int)(missing / 2)).Select(i => s.Request(i % 2, email: i, origin: i)).ToArray();
+                s.CapacityDiagnostics?.Prepared(accountedBefore, missing, requests.Length);
                 foreach (var batch in requests.Chunk(32))
                     await Task.WhenAll(batch.SelectMany(r => r.Scopes.Select(scope => s.Data.SeedBucketAsync(s.Data.Key(r, scope), s.Data.Member(r, scope),
                         [new SortedSetEntry(r.InternalAttemptId, now)], now + 10_000_000))));
@@ -214,15 +216,20 @@ public sealed class DistributedQuotaPressureTests(AuthenticationDependenciesFixt
                 }
                 // Vencimiento real del horizonte máximo: registro y buckets quedan fuera; la ocupación se reasigna.
                 var horizon = (long)await s.Db.HashGetAsync(s.Config.Keys.Metadata, "horizon");
-                await s.Data.WaitUntilAsync(horizon + 1, TimeSpan.FromSeconds(20));
+                if (s.CapacityDiagnostics is { } capacity) await capacity.BeforeWaitAsync(s, horizon);
+                await s.Data.WaitUntilAsync(horizon + 1, TimeSpan.FromSeconds(20),
+                    s.CapacityDiagnostics is { } observer ? observer.WaitCrossed : null);
                 var reassigned = s.Request(1, email: start + 50000, origin: start + 50000);
+                s.CapacityDiagnostics?.Arm();
                 Assert.Equal(AuthenticationQuotaStoreStatus.Admitted, (await s.SendAsync(1, reassigned, $"capacity-post-expiry-{round + 1}")).Status);
                 var accounted = await s.Data.CountAsync();
+                s.CapacityDiagnostics?.Accounted(accounted);
                 output.WriteLine($"CAPACITY_POST_EXPIRY_ROUND={round + 1} ACCOUNTED={accounted} REASSIGNED=Admitted");
                 Assert.Equal(2, accounted);
                 Assert.InRange(accounted, 1, 5000);
+                if (s.CapacityDiagnostics is { } completed) await completed.RoundCompleteAsync(s);
             }
-        }, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(240));
+        }, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(240), capacityDiagnostics: true);
 
     [Fact]
     public Task Lazy_cleanup_revalidates_renewed_hint_and_releases_only_three_residues_during_other_host_consumption() =>

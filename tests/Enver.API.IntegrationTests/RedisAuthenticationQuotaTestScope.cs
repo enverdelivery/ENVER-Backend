@@ -179,40 +179,51 @@ internal sealed class RedisAuthenticationQuotaTestScope : IAsyncDisposable
         var result = (RedisResult[])(await Database.ExecuteAsync("TIME"))!;
         return checked((long)result[0] * 1000000 + (long)result[1]);
     }
-    internal async Task WaitUntilAsync(long target, TimeSpan? maximumWait = null)
+    internal async Task WaitUntilAsync(long target, TimeSpan? maximumWait = null, Action<long>? observed = null)
     {
         // Stopwatch limita la espera del harness; únicamente Redis TIME decide si terminó la ventana.
         var timeout = maximumWait ?? TimeSpan.FromSeconds(10);
         var timer = Stopwatch.StartNew();
-        while (await NowAsync() < target)
+        long now;
+        while ((now = await NowAsync()) < target)
         {
             Assert.True(timer.Elapsed < timeout, "No se alcanzó el horizonte Redis dentro del límite de prueba.");
             await Task.Delay(5);
         }
+        observed?.Invoke(now);
     }
     internal async Task<long> CountAsync() => (long)await Database.HashGetAsync(Configuration.Keys.Metadata, "count");
 
-    internal async Task SeedAsync(AuthenticationQuotaConsumeRequest request, AuthenticationQuotaScope scope, IEnumerable<long> times)
+    internal async Task SeedAsync(AuthenticationQuotaConsumeRequest request, AuthenticationQuotaScope scope, IEnumerable<long> times,
+        DistributedQuotaSeedExpiryDiagnostics? diagnostics = null)
     {
         var entries = times.Select(t => new SortedSetEntry(Guid.NewGuid().ToString("N"), t)).ToArray();
         var horizon = checked((long)entries.Max(e => e.Score) + RedisAuthenticationQuotaConfiguration.WindowMicroseconds(scope.Definition.Window));
-        await SeedBucketAsync(Key(request, scope), Member(request, scope), entries, horizon);
-        await SynchronizeMetadataAsync();
+        await SeedBucketAsync(Key(request, scope), Member(request, scope), entries, horizon, diagnostics);
+        await SynchronizeMetadataAsync(diagnostics);
+        if (diagnostics is not null)
+            await diagnostics.AfterSeedAsync(Database, Configuration.Keys.Registry, Key(request, scope));
     }
-    internal async Task SeedBucketAsync(string key, string member, SortedSetEntry[] entries, long horizon)
+    internal async Task SeedBucketAsync(string key, string member, SortedSetEntry[] entries, long horizon,
+        DistributedQuotaSeedExpiryDiagnostics? diagnostics = null)
     {
         Track(key);
         await Database.SortedSetAddAsync(key, entries, CommandFlags.DemandMaster);
-        await Database.ExecuteAsync("PEXPIREAT", key, (horizon + 999) / 1000);
+        if (diagnostics is null) await Database.ExecuteAsync("PEXPIREAT", key, (horizon + 999) / 1000);
+        else await diagnostics.ExpireAsync(Database, key, "bucket", (horizon + 999) / 1000);
         await Database.SortedSetAddAsync(Configuration.Keys.Registry, member, horizon, CommandFlags.DemandMaster);
     }
-    internal async Task SynchronizeMetadataAsync()
+    internal async Task SynchronizeMetadataAsync(DistributedQuotaSeedExpiryDiagnostics? diagnostics = null)
     {
         var count = await Database.SortedSetLengthAsync(Configuration.Keys.Registry);
         var top = await Database.SortedSetRangeByRankWithScoresAsync(Configuration.Keys.Registry, -1, -1);
         var horizon = top.Length == 0 ? 0 : (long)top[0].Score;
         await Database.HashSetAsync(Configuration.Keys.Metadata, [new HashEntry("count", count), new HashEntry("horizon", horizon)]);
-        if (count > 0) await Database.ExecuteAsync("PEXPIREAT", Configuration.Keys.Registry, (horizon + 999) / 1000);
+        if (count > 0)
+        {
+            if (diagnostics is null) await Database.ExecuteAsync("PEXPIREAT", Configuration.Keys.Registry, (horizon + 999) / 1000);
+            else await diagnostics.ExpireAsync(Database, Configuration.Keys.Registry, "registry", (horizon + 999) / 1000);
+        }
     }
     internal async Task FillRegisterAsync(int requests)
     {
