@@ -68,6 +68,7 @@ internal sealed class DistributedQuotaTestScope
             // Un TimeoutException del presupuesto debe fallar la prueba; nunca se captura para simular éxito.
             using var observer = scope.Diagnostics?.Observe();
             await test(scope).WaitAsync(budget ?? TimeSpan.FromMinutes(5));
+            scope.Diagnostics?.Report(output);
         }
         catch (Exception failure)
         {

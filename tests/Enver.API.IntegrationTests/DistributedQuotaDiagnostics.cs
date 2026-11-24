@@ -11,7 +11,7 @@ using StackExchange.Redis;
 namespace Enver.API.IntegrationTests;
 
 // Opt-in de un único test. Sin mensajes de excepción, argumentos, claves Redis ni payloads.
-// El camino sano no agrega comandos Redis, serialización ni escritura de logs.
+// El boundary-release agrega solo las mediciones de expiración expresamente autorizadas.
 internal sealed class DistributedQuotaDiagnostics
 {
     private static readonly AsyncLocal<DistributedQuotaDiagnostics?> Current = new();
@@ -27,6 +27,7 @@ internal sealed class DistributedQuotaDiagnostics
     private RedisResult? response;
     private DistributedQuotaLuaGuardDiagnostics.Evidence? lua;
     private AuthenticationQuotaConsumeRequest? request;
+    internal DistributedQuotaSeedExpiryDiagnostics SeedExpiry { get; } = new();
 
     internal DistributedQuotaDiagnostics(string metadataKey) =>
         partition = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(metadataKey)))[..16];
@@ -95,9 +96,12 @@ internal sealed class DistributedQuotaDiagnostics
         final = "NOT_RETURNED";
     }
 
-    internal void Seed(AuthenticationQuotaScopeType scope, long redisTime, long timestamp, long horizon) =>
+    internal void Seed(AuthenticationQuotaScopeType scope, long redisTime, long timestamp, long horizon)
+    {
+        if (phase == "boundary-release") SeedExpiry.Begin(scope.ToString(), redisTime);
         Add(new { phase, round, kind = "seed", scope = scope.ToString(), redisTimeUs = redisTime,
             timestampUs = timestamp, boundaryUs = horizon, expectedExpiryMs = (horizon + 999) / 1000 });
+    }
 
     internal void Retry(long maximumHorizon, long previousLast, long now, long retry) =>
         Add(new { phase, round, kind = "retry", maximumHorizonUs = maximumHorizon, previousLastUs = previousLast,
@@ -121,6 +125,7 @@ internal sealed class DistributedQuotaDiagnostics
         {
             var reply = RedisAuthenticationQuotaScriptProtocol.Parse(response);
             luaUnavailable = reply.IsSemantic && reply.Status == "unavailable";
+            if (phase == "boundary-release") SeedExpiry.Returned(lua?.Code ?? "NOT_OBSERVABLE", reply.NowMicroseconds);
             Add(new { phase, round, kind = "eval-return", semantic = reply.IsSemantic, status = reply.Status,
                 category = reply.Category, logicalNowUs = reply.NowMicroseconds, retrySeconds = reply.RetryAfterSeconds });
         }
@@ -128,6 +133,9 @@ internal sealed class DistributedQuotaDiagnostics
         Add(new { phase, round, kind = "decision", final, cause = result.CancellationCause.ToString(),
             retryMs = result.RetryAfter?.TotalMilliseconds, evalReached, evalSubmitted, evalReturned });
     }
+
+    internal void Report(Xunit.Abstractions.ITestOutputHelper output) =>
+        output.WriteLine("QUOTA_SEED_EXPIRY_DIAGNOSTIC " + SeedExpiry.Evidence().GetRawText());
 
     internal async Task<Exception> FailureAsync(DistributedQuotaTestScope scope, Exception original)
     {
@@ -165,24 +173,25 @@ internal sealed class DistributedQuotaDiagnostics
         DistributedQuotaLuaGuardDiagnostics.Evidence? luaEvidence;
         lock (sync) { eventRows = events.ToArray(); exceptionRows = exceptions.ToArray(); luaEvidence = lua; }
         var luaGuard = luaEvidence?.Code ?? "NOT_OBSERVABLE";
+        var seedExpiry = SeedExpiry.Evidence();
         var luaSummary = luaEvidence is null ? null : new { luaEvidence.Code, luaEvidence.Line,
             luaEvidence.Condition, luaEvidence.Statement, luaEvidence.DataTruncated, luaEvidence.DataInvalid };
         var json = JsonSerializer.Serialize(new { stage = 2, classification, phase, round, partition,
-            final, evalReached, evalSubmitted, evalReturned, luaGuard, lua = luaEvidence,
+            final, evalReached, evalSubmitted, evalReturned, luaGuard, lua = luaEvidence, seedExpiry,
             truncated, observerIncomplete, events = eventRows, exceptions = exceptionRows, beforeCleanup = snapshot });
         // El colector CI conserva ErrorInfo, no StdOut. Original como InnerException con su stack.
         // Degradación acotada: nunca cortar un JSON, un marcador ni un valor sensible.
         if (json.Length > 4400)
             json = JsonSerializer.Serialize(new { stage = 2, classification, phase, round, partition,
-                final, evalReached, evalSubmitted, evalReturned, luaGuard, lua = luaEvidence,
+                final, evalReached, evalSubmitted, evalReturned, luaGuard, lua = luaEvidence, seedExpiry,
                 truncated = true, observerIncomplete, exceptions = exceptionRows, beforeCleanup = snapshot });
         if (json.Length > 4400)
             json = JsonSerializer.Serialize(new { stage = 2, classification, phase, round, partition,
-                final, evalReached, evalSubmitted, evalReturned, luaGuard, lua = luaEvidence,
+                final, evalReached, evalSubmitted, evalReturned, luaGuard, lua = luaEvidence, seedExpiry,
                 truncated = true, observerIncomplete, exceptions = exceptionRows, snapshotOmitted = "ERRORINFO_LIMIT" });
         if (json.Length > 4400)
             json = JsonSerializer.Serialize(new { stage = 2, classification, phase, round, partition,
-                final, evalReached, evalSubmitted, evalReturned, luaGuard, lua = luaSummary,
+                final, evalReached, evalSubmitted, evalReturned, luaGuard, lua = luaSummary, seedExpiry,
                 truncated = true, observerIncomplete, dataOmitted = "ERRORINFO_LIMIT" });
         return new InvalidOperationException("DISTRIBUTED_QUOTA_DIAGNOSTIC " + json, original);
     }

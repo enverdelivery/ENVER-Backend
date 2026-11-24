@@ -84,8 +84,11 @@ public sealed class DistributedQuotaTests(AuthenticationDependenciesFixture fixt
                 var boundaryNow = await s.Data.NowAsync();
                 var timestamp = boundaryNow - 900_000_001L;
                 s.Diagnostics?.Seed(scope.ScopeType, boundaryNow, timestamp, timestamp + 900_000_000L);
-                await s.Data.SeedAsync(request, scope, [timestamp]);
+                await s.Data.SeedAsync(request, scope, [timestamp], s.Diagnostics?.SeedExpiry);
             }
+            if (s.Diagnostics is { } diagnostic)
+                await diagnostic.SeedExpiry.BeforeEvalAsync(s.Db, s.Config.Keys.Registry,
+                    s.Data.Key(request, request.Scopes.Single(item => item.ScopeType == AuthenticationQuotaScopeType.Origin)));
             Assert.Equal(AuthenticationQuotaStoreStatus.Admitted, (await s.SendAsync(1, request)).Status);
             await s.AssertAttemptAsync(request, true);
         }, diagnostics: true);
