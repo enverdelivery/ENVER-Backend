@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "capturedAt": "2026-11-24T09:53:09.801Z",
+  "purpose": "Documentation only; no approval granted",
+  "files": [
+    {
+      "file": "oci-identity.json",
+      "sha256": "648bcc9a61436d7190d04883fdca5d0e1f8ba3c2149ab204f5f889b093608f46",
+      "bytes": 8442,
+      "kind": "exact original UTF-8 payloads in JSON wrapper"
+    },
+    {
+      "file": "source-snapshot.json",
+      "sha256": "366bc550fa03e282ed60a585a362b547d8e10d5b245bc11d36a569a98f9f2dfc",
+      "bytes": 52287,
+      "kind": "derived non-secret documentation evidence"
+    },
+    {
+      "file": "historical-checks.json",
+      "sha256": "8df823a25aaba79764bbb0804c334791e3d1e6f4d2cafafbbe4f556d282910b8",
+      "bytes": 9058,
+      "kind": "derived non-secret documentation evidence"
+    },
+    {
+      "file": "github-history.json",
+      "sha256": "5ebfc5143857cdd58f23f3e9d55d3a46f288b6844135372edad9776a08290428",
+      "bytes": 14831,
+      "kind": "derived non-secret documentation evidence"
+    }
+  ],
+  "committedReferences": [
+    {
+      "kind": "committed Git blob",
+      "commit": "d12e50e1fbaff728f3bd45fdaa6909ddbfd8f095",
+      "file": "scripts/deploy/deploy.mjs",
+      "sha256": "50b6e57cfb912b1669a5c510c0c633e76d2977d6ecf7c0f553cc02c19f429875"
+    },
+    {
+      "kind": "committed Git blob",
+      "commit": "d12e50e1fbaff728f3bd45fdaa6909ddbfd8f095",
+      "file": "scripts/deploy/candidates.mjs",
+      "sha256": "2bfec029edf7087e22c75f5dce9895352bd91f17bc4bb395e0766a61d73f5d49"
+    },
+    {
+      "kind": "committed Git blob",
+      "commit": "d12e50e1fbaff728f3bd45fdaa6909ddbfd8f095",
+      "file": "scripts/deploy/rollback-baseline.json",
+      "sha256": "6e87288a7a0e23fba4e76f274d3c067915af6387f6ef79ef62119e043e64ca5a"
+    },
+    {
+      "kind": "committed Git blob",
+      "commit": "d12e50e1fbaff728f3bd45fdaa6909ddbfd8f095",
+      "file": ".github/workflows/deploy-dev.yml",
+      "sha256": "54447787c4c3b0fe182978f833e8b8cff3749c121ad0806cd395311b1b8c3fc4"
+    },
+    {
+      "kind": "committed Git blob",
+      "commit": "d12e50e1fbaff728f3bd45fdaa6909ddbfd8f095",
+      "file": "scripts/ci/policy.json",
+      "sha256": "f8479807c5c730bd8e55a4fd312b6a16e874e7af39e33c1ed5f9b78540854c60"
+    },
+    {
+      "kind": "committed Git blob",
+      "commit": "bab1f17728a4212471f4964d994fe42927bb6170",
+      "file": "memoria.md",
+      "sha256": "3669b2efa0261a5c791ef3a84f5b6a7deb99848a17bc5324472885e6ef3058bf"
+    }
+  ],
+  "unavailableSources": [
+    "Historical rollback approved-candidate artifact: NOT AVAILABLE FOR PRESERVATION; not found",
+    "Historical rollback Hardening approval: NOT AVAILABLE FOR PRESERVATION; not found",
+    "Current A/B digest or journal receipt: NOT AVAILABLE FOR PRESERVATION; not verified without new instance execution"
+  ],
+  "sourceRetention": "Original local files are temporary and may disappear. Full receipts, TRX, image.tar, layers and binaries not copied; only allowlisted projections and selected exact UTF-8 content are preserved."
+}
