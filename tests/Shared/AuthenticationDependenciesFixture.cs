@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using Amazon;
 using Amazon.DynamoDBv2;
@@ -677,26 +678,13 @@ public sealed class AuthenticationDependenciesFixture : IAsyncLifetime
 /// <summary>Frontera de diagnóstico exclusiva del harness; no cambia niveles ni el logger global.</summary>
 internal sealed class SensitiveTestcontainersLogger : ILogger
 {
-    private const string Redacted = "[REDACTED]";
-    private static readonly Regex ConnectionUri = new(
-        @"\b(?:mongodb(?:\+srv)?|rediss?)://[^\s""'<>]+|\b[a-z][a-z0-9+.-]*://[^\s""'<>]*:[^\s""'<>]*@[^\s""'<>]+",
-        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1));
-    private static readonly Regex CredentialPair = new(@"\b[^\s:@/]+:[^\s@/]+@",
-        RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1));
-    private static readonly Regex SensitiveArgument = new(
-        @"(?<label>(?:--(?:password|token|secret|jwt|hmac-key)|-p|[\w.:-]*(?:password|secret|token|jwt|hmacKey|keyBase64|connectionString))[""']?\s*(?:=|:|\s)\s*)(?:""[^""]*""|'[^']*'|[^\s,;}]+)",
-        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1));
-    private static readonly Regex Bearer = new(@"\bBearer\s+[^\s""',;}]+",
-        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1));
     private readonly ILogger sink;
-    private readonly string[] secrets;
+    private readonly TestcontainersSecretRedactor redactor;
 
     public SensitiveTestcontainersLogger(ILogger sink, IEnumerable<string> secrets)
     {
         this.sink = sink;
-        this.secrets = secrets.Where(value => !string.IsNullOrEmpty(value))
-            .SelectMany(value => new[] { value, Uri.EscapeDataString(value) }).Distinct()
-            .OrderByDescending(value => value.Length).ToArray();
+        redactor = new TestcontainersSecretRedactor(secrets);
     }
 
     public bool IsEnabled(LogLevel logLevel) => sink.IsEnabled(logLevel);
@@ -706,7 +694,7 @@ internal sealed class SensitiveTestcontainersLogger : ILogger
         var text = state is IEnumerable<KeyValuePair<string, object?>> values
             ? string.Join(" ", values.Select(pair => $"{pair.Key}={pair.Value}"))
             : state.ToString() ?? string.Empty;
-        return sink.BeginScope(Redact(text));
+        return sink.BeginScope(redactor.Redact(text));
     }
 
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,
@@ -724,15 +712,66 @@ internal sealed class SensitiveTestcontainersLogger : ILogger
             message += Environment.NewLine + exception;
         }
 
-        sink.Log(logLevel, eventId, Redact(message), null, static (text, _) => text);
+        sink.Log(logLevel, eventId, redactor.Redact(message), null, static (text, _) => text);
+    }
+}
+
+/// <summary>Redacción pura antes de ILogger: retiene huellas, nunca las credenciales originales.</summary>
+internal sealed class TestcontainersSecretRedactor
+{
+    private const string Redacted = "[REDACTED]";
+    private static readonly Regex ConnectionUri = new(
+        @"\b(?:mongodb(?:\+srv)?|rediss?)://[^\s""'<>]+|\b[a-z][a-z0-9+.-]*://[^\s""'<>]*:[^\s""'<>]*@[^\s""'<>]+",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1));
+    private static readonly Regex CredentialPair = new(@"\b[^\s:@/]+:[^\s@/]+@",
+        RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1));
+    private static readonly Regex SensitiveArgument = new(
+        @"(?<label>(?:--(?:password|token|secret|jwt|hmac-key)|-p|[\w.:-]*(?:password|secret|token|jwt|hmacKey|keyBase64|connectionString))[""']?\s*(?:=|:|\s)\s*)(?:""[^""]*""|'[^']*'|[^\s,;}]+)",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1));
+    private static readonly Regex Bearer = new(@"\bBearer\s+[^\s""',;}]+",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1));
+    private readonly byte[] fingerprintKey = RandomNumberGenerator.GetBytes(32);
+    private readonly SecretFingerprints[] fingerprints;
+    private sealed record SecretFingerprints(int Length, byte[][] Digests);
+
+    internal TestcontainersSecretRedactor(IEnumerable<string> secrets)
+    {
+        fingerprints = secrets.Where(value => !string.IsNullOrEmpty(value))
+            .SelectMany(value => new[] { value, Uri.EscapeDataString(value) }).Distinct()
+            .GroupBy(value => value.Length).OrderByDescending(group => group.Key)
+            .Select(group => new SecretFingerprints(group.Key, group.Select(value => Fingerprint(value.AsSpan())).ToArray()))
+            .ToArray();
     }
 
-    private string Redact(string text)
+    private byte[] Fingerprint(ReadOnlySpan<char> value)
     {
-        foreach (var secret in secrets)
+        var bytes = new byte[Encoding.UTF8.GetByteCount(value)];
+        try
         {
-            text = text.Replace(secret, Redacted, StringComparison.Ordinal);
+            Encoding.UTF8.GetBytes(value, bytes);
+            return HMACSHA256.HashData(fingerprintKey, bytes);
         }
+        finally { CryptographicOperations.ZeroMemory(bytes); }
+    }
+
+    internal string Redact(string text)
+    {
+        var clean = new StringBuilder(text.Length);
+        for (var offset = 0; offset < text.Length;)
+        {
+            var matchedLength = 0;
+            foreach (var group in fingerprints)
+            {
+                if (group.Length > text.Length - offset) continue;
+                var digest = Fingerprint(text.AsSpan(offset, group.Length));
+                var matched = group.Digests.Any(known => CryptographicOperations.FixedTimeEquals(known, digest));
+                CryptographicOperations.ZeroMemory(digest);
+                if (matched) { matchedLength = group.Length; break; }
+            }
+            if (matchedLength > 0) { clean.Append(Redacted); offset += matchedLength; }
+            else { clean.Append(text[offset]); offset++; }
+        }
+        text = clean.ToString();
 
         text = ConnectionUri.Replace(text, Redacted);
         text = CredentialPair.Replace(text, Redacted);

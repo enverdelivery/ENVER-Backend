@@ -253,10 +253,22 @@ async function contract() {
   requireThat(['repository', 'sha', 'run', 'attempt'].every(k => result[k] === id[k]), 'CONTRACT_FOREIGN_RESULTS');
   return verifyContract(result);
 }
-export function inspectOCI(archive) {
+export function inspectOCI(archive, layoutDirectory) {
   const entries = command('tar', ['-tf', archive]).stdout.split(/\r?\n/).filter(Boolean);
   requireThat(entries.length > 2 && entries.every(n => /^(?:\.\/)?(?:index\.json|oci-layout|blobs\/?|blobs\/sha256\/?|blobs\/sha256\/[a-f0-9]{64})\/?$/.test(n)), 'OCI_PATHS');
-  function blob(name) { return command('tar', ['-xOf', archive, name], {encoding: null, maxBuffer: 512 * 1024 * 1024}).stdout; }
+  // Proyección opcional del MISMO contenido verificado a layout OCI para Trivy.
+  // Nunca extraer rutas/links del tar: solo escribir nombres fijos y blobs por digest.
+  if (layoutDirectory) fs.mkdirSync(layoutDirectory, {recursive: true, mode: 0o700});
+  function blob(name) {
+    const bytes = command('tar', ['-xOf', archive, name], {encoding: null, maxBuffer: 512 * 1024 * 1024}).stdout;
+    if (layoutDirectory) {
+      const destination = path.join(layoutDirectory, name);
+      fs.mkdirSync(path.dirname(destination), {recursive: true, mode: 0o700});
+      fs.writeFileSync(destination, bytes, {mode: 0o600});
+    }
+    return bytes;
+  }
+  if (layoutDirectory) requireThat(JSON.parse(blob('oci-layout')).imageLayoutVersion === '1.0.0', 'OCI_LAYOUT_VERSION');
   const index = JSON.parse(blob('index.json'));
   requireThat(index.schemaVersion === 2 && index.manifests?.length === 1, 'OCI_SINGLE_MANIFEST');
   const manifestDigest = index.manifests[0].digest;
