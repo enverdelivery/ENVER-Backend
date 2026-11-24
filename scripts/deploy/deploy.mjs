@@ -51,10 +51,21 @@ export class AWSPlane {
   }
   async document() {
     const expected = readJson(path.join(root, 'scripts/deploy/ssm-document.json'));
-    const live = this.aws('ssm', 'get-document', ['--name', policy.aws.ssmDocument, '--document-version', policy.aws.ssmVersion, '--document-format', 'JSON']);
+    const pinned = ['--name', policy.aws.ssmDocument, '--document-version', policy.aws.ssmVersion];
+    const live = this.aws('ssm', 'get-document', [...pinned, '--document-format', 'JSON']);
+    const metadata = this.aws('ssm', 'describe-document', pinned)?.Document;
+    // Content and hash metadata must describe the same explicitly pinned document/version.
+    requireThat(live?.Name === policy.aws.ssmDocument && metadata?.Name === policy.aws.ssmDocument
+      && live.DocumentVersion === policy.aws.ssmVersion && metadata.DocumentVersion === policy.aws.ssmVersion
+      && live.Status === 'Active' && metadata.Status === 'Active'
+      && live.DocumentType === 'Command' && metadata.DocumentType === 'Command'
+      && live.DocumentFormat === 'JSON' && typeof live.Content === 'string'
+      && metadata.Owner === policy.aws.account && metadata.SchemaVersion === expected.schemaVersion
+      && metadata.HashType === 'Sha256' && typeof metadata.Hash === 'string'
+      && metadata.Hash.length === 64 && /^[a-f0-9]{64}$/.test(metadata.Hash), 'SSM_DOCUMENT_NOT_PINNED', 'BLOCKED');
     const canonical = v => JSON.stringify(v, (key, value) => value && typeof value === 'object' && !Array.isArray(value) ? Object.fromEntries(Object.entries(value).sort(([a], [b]) => a.localeCompare(b))) : value);
-    requireThat(canonical(JSON.parse(live.Content)) === canonical(expected) && live.HashType === 'Sha256' && /^[a-f0-9]{64}$/.test(live.Hash), 'SSM_DOCUMENT_NOT_PINNED', 'BLOCKED');
-    this.s.documentHash = live.Hash;
+    requireThat(canonical(JSON.parse(live.Content)) === canonical(expected), 'SSM_DOCUMENT_NOT_PINNED', 'BLOCKED');
+    this.s.documentHash = metadata.Hash;
   }
   async ecr(manifestDigest) {
     digest(manifestDigest);
