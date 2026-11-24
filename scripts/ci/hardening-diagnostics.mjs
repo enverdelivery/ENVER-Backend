@@ -6,7 +6,7 @@ import {fileURLToPath} from 'node:url';
 import {redact, safeText} from './diagnostics.mjs';
 
 export const scannerLimits = {inputBytes: 10 * 1024 * 1024, results: 100, artifactBytes: 256 * 1024};
-export const trivyImageArguments = ['image', '--input', '/image/image.tar', '--scanners', 'vuln', '--format', 'json', '--output', '/private/image-scan.json'];
+export const trivyImageArguments = ['image', '--input', '/private/trivy-image', '--scanners', 'vuln', '--format', 'json', '--output', '/private/image-scan.json'];
 function text(value, env, characters = 512, lines = 4) {
   // Extensión local del saneamiento compartido para asignaciones propias de scanners.
   const assignments = redact(value, env).replace(/\b(?:registry[_-]?auth|api[_-]?key|client[_-]?secret|credentials?|password|passwd|token|secret)["']?\s*[:=]\s*(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|[^\r\n]*)/gi, '[REDACTED_SCANNER_ASSIGNMENT]');
@@ -16,10 +16,10 @@ function text(value, env, characters = 512, lines = 4) {
 export function trivyDiagnostic(result, {reportPath, targetDigest, toolImage, declaredVersion, env = process.env}) {
   const diagnostic = {schema: 1, executable: 'docker', tool: 'trivy', toolImage,
     toolVersion: null, declaredToolVersion: declaredVersion, toolVersionSource: 'NOT_OBSERVED',
-    targetType: 'OCI_ARCHIVE', targetPath: '/image/image.tar', targetDigest,
+    targetType: 'OCI_LAYOUT', targetPath: '/private/trivy-image', targetDigest,
     command: ['docker', 'run', '--rm', '--platform', 'linux/amd64', '--network', 'bridge',
       '--cap-drop', 'ALL', '--security-opt', 'no-new-privileges', '--workdir', '/repo',
-      '<repository-readonly-mount>', '<private-output-mount>', '<image-mount>', '<runner-uid-gid>',
+      '<repository-readonly-mount>', '<private-output-mount>', '<runner-uid-gid>',
       '--env', 'HOME=/tmp', '--env', 'TRIVY_CACHE_DIR=/tmp/trivy-cache', toolImage, ...trivyImageArguments],
     exitCode: Number.isInteger(result.status) ? result.status : null, exitCodeSource: 'DOCKER_RUN',
     nativeTrivyExitCode: Number.isInteger(result.status) && result.status >= 0 && result.status < 125 ? result.status : null,

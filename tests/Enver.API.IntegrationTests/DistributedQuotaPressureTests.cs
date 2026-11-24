@@ -214,11 +214,29 @@ public sealed class DistributedQuotaPressureTests(AuthenticationDependenciesFixt
                     var peak = await s.MeasureAsync("capacity-at-5000");
                     Assert.Equal(5000, peak.Accounted);
                 }
-                // Vencimiento real del horizonte máximo: registro y buckets quedan fuera; la ocupación se reasigna.
+                // El horizonte lógico usa us; Redis vence en ms y PTTL=0 aún puede conservar el registry.
+                // Cruzar el primer ms posterior al PEXPIREAT, no solo horizon+1us.
                 var horizon = (long)await s.Db.HashGetAsync(s.Config.Keys.Metadata, "horizon");
-                if (s.CapacityDiagnostics is { } capacity) await capacity.BeforeWaitAsync(s, horizon);
-                await s.Data.WaitUntilAsync(horizon + 1, TimeSpan.FromSeconds(20),
+                var physicalExpiryMs = checked((horizon + 999) / 1000);
+                var observedExpiryMs = (long)await s.Db.ExecuteAsync("PEXPIRETIME", s.Config.Keys.Registry);
+                Assert.True(observedExpiryMs == physicalExpiryMs || observedExpiryMs == -2,
+                    "El registry debe conservar su expiración acreditada o ya estar ausente.");
+                var waitTargetUs = checked((physicalExpiryMs + 1) * 1000);
+                if (s.CapacityDiagnostics is { } capacity) await capacity.BeforeWaitAsync(s, horizon, waitTargetUs);
+                await s.Data.WaitUntilAsync(waitTargetUs, TimeSpan.FromSeconds(20),
                     s.CapacityDiagnostics is { } observer ? observer.WaitCrossed : null);
+                var registryPttl = (long)await s.Db.ExecuteAsync("PTTL", s.Config.Keys.Registry);
+                var registryCount = await s.Db.SortedSetLengthAsync(s.Config.Keys.Registry);
+                var oldBuckets = await s.ExistingTrackedBucketCountAsync();
+                var metadataBeforeEval = await s.Data.CountAsync();
+                s.CapacityDiagnostics?.Released(registryPttl, registryCount, oldBuckets, metadataBeforeEval);
+                Assert.Equal(-2, registryPttl);
+                Assert.Equal(0, registryCount);
+                Assert.Equal(0, oldBuckets);
+                // Metadata es persistente/lazy: no resetearla con escrituras del harness.
+                // El evaluate productivo reconoce registry ausente tras el horizonte y parte de ZCARD=0.
+                Assert.Equal(5000, metadataBeforeEval);
+                output.WriteLine($"CAPACITY_RELEASE_ROUND={round + 1} PHYSICAL_EXPIRY_MS={physicalExpiryMs} WAIT_TARGET_US={waitTargetUs} REGISTRY_PTTL={registryPttl} REGISTRY_COUNT={registryCount} PREVIOUS_BUCKETS={oldBuckets} METADATA_BEFORE_EVAL={metadataBeforeEval}");
                 var reassigned = s.Request(1, email: start + 50000, origin: start + 50000);
                 s.CapacityDiagnostics?.Arm();
                 Assert.Equal(AuthenticationQuotaStoreStatus.Admitted, (await s.SendAsync(1, reassigned, $"capacity-post-expiry-{round + 1}")).Status);

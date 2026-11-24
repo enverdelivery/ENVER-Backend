@@ -60,13 +60,14 @@ export async function verify() {
   return {candidate, ci, artifactId: artifact.id, ciReportHash: sha256(fs.readFileSync(oneFile('ci-report.json')))};
 }
 async function scanImage() {
-  const actual = inspectOCI(oneFile('image.tar'));
+  const actual = inspectOCI(oneFile('image.tar'), path.join(privateDir, 'trivy-image'));
   const candidate = readJson(oneFile('candidate.json'));
   requireThat(actual.manifestDigest === candidate.manifestDigest && actual.artifactHash === candidate.artifactHash, 'SCAN_IMAGE_CHANGED');
-  const dir = path.dirname(oneFile('image.tar'));
-  const r = container('trivy', trivyImageArguments, {network: 'bridge', writable: [[dir, '/image']]});
+  const r = container('trivy', trivyImageArguments, {network: 'bridge'});
   const diagnostic = trivyDiagnostic(r, {reportPath: path.join(privateDir, 'image-scan.json'),
     targetDigest: actual.manifestDigest, toolImage: policy.images.trivy, declaredVersion: policy.toolVersions.trivy});
+  diagnostic.sourceArchiveHash = actual.artifactHash;
+  diagnostic.layoutManifestDigest = actual.manifestDigest;
   const diagnosticPath = path.join(evidence, 'trivy-diagnostic.json');
   save(diagnosticPath, diagnostic);
   // Sondeo posterior del digest cacheado: --pull=never evita reintentar una descarga fallida.

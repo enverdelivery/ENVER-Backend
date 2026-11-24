@@ -213,6 +213,15 @@ internal sealed class DistributedQuotaTestScope
         return new(total, events, active, accounted);
     }
 
+    // Solo claves ya conocidas del namespace del caso: EXISTS acotado, sin SCAN ni escrituras.
+    internal async Task<long> ExistingTrackedBucketCountAsync()
+    {
+        long existing = 0;
+        foreach (var batch in buckets.Keys.Select(key => (RedisKey)key).Chunk(128))
+            existing += await Db.KeyExistsAsync(batch, CommandFlags.DemandMaster);
+        return existing;
+    }
+
     internal async Task CleanupQuotaAsync()
     {
         foreach (var batch in buckets.Keys.Select(k => (RedisKey)k).Append(Config.Keys.Registry).Append(Config.Keys.Metadata).Chunk(128))

@@ -15,9 +15,13 @@ public sealed class TestcontainersLoggingPrivacyTests
         const string connection = "mongodb://fixture-user:synthetic-password%2B%2F%3D@localhost:27017/?replicaSet=rs0";
         var sink = new CapturingLogger();
         var logger = new SensitiveTestcontainersLogger(sink, [password, jwt, hmac, "synthetic-dynamo-secret"]);
-        using (logger.BeginScope(new Dictionary<string, object?> { ["service"] = "MongoDB", ["password"] = password }))
+        // Probar el secreto crudo en la frontera de redacción, sin entregarlo al API de logging.
+        var redactor = new TestcontainersSecretRedactor([password, jwt, hmac, "synthetic-dynamo-secret"]);
+        var redacted = redactor.Redact($"before {password} middle {Uri.EscapeDataString(password)} after");
+        Assert.True(redacted == "before [REDACTED] middle [REDACTED] after");
+        using (logger.BeginScope(new Dictionary<string, object?> { ["service"] = "MongoDB", ["password"] = new RedactedLogValue() }))
         {
-            logger.LogInformation("Execute mongosh --username fixture-user --password {Password} --quiet at container abc123", password);
+            logger.LogInformation("Execute mongosh --username fixture-user --password {Password} --quiet at container abc123", new RedactedLogValue());
             logger.LogInformation("Connection {Connection} Redis redis://localhost:6379 URI https://user:other-password@localhost/ Pair other-user:other-password@", connection);
             logger.LogInformation("JWT={Jwt} HMACKey={Hmac} SecretAccessKey=synthetic-dynamo-secret", jwt, hmac);
             logger.LogWarning("--password 'another private value' --token another-token RedisPassword=another-redis-password Authorization: Bearer another-bearer");
@@ -52,6 +56,12 @@ public sealed class TestcontainersLoggingPrivacyTests
         Assert.All(sink.RawStates, state => Assert.IsType<string>(state));
         Assert.All(sink.Exceptions, exception => Assert.Null(exception));
         Assert.True(logger.IsEnabled(LogLevel.Error));
+    }
+
+    // El estado compartido con ILogger nunca contiene ni retiene la credencial sintética.
+    private sealed class RedactedLogValue
+    {
+        public override string ToString() => "[REDACTED]";
     }
 
     private sealed class CapturingLogger : ILogger

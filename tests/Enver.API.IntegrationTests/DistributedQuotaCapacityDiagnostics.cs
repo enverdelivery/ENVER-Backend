@@ -16,10 +16,10 @@ internal sealed class DistributedQuotaCapacityDiagnostics
 {
     private readonly string partition;
     private readonly List<object> rounds = new(3);
-    private object? startState, beforeWait;
+    private object? startState, beforeWait, released;
     private RedisResult? response;
     private int round, generatedRequests, seedRequests, hintCount;
-    private long accountedBefore, missing, horizon, accounted;
+    private long accountedBefore, missing, horizon, accounted, waitTargetUs;
     private object? eval;
     private long? redisTimeAtWaitCrossing;
     private Task<JsonElement>? transition;
@@ -36,13 +36,18 @@ internal sealed class DistributedQuotaCapacityDiagnostics
     {
         round = value; response = null; eval = null; beforeWait = null;
         accounted = -1; CaptureEval = false;
-        transition = null; redisTimeAtWaitCrossing = null;
+        transition = null; redisTimeAtWaitCrossing = null; released = null; waitTargetUs = 0;
     }
     internal void Prepared(long before, long missingCount, int seededRequests)
     { accountedBefore = before; missing = missingCount; seedRequests = seededRequests; }
 
-    internal async Task BeforeWaitAsync(DistributedQuotaTestScope scope, long value)
-    { horizon = value; beforeWait = await SnapshotAsync(scope, value); }
+    internal async Task BeforeWaitAsync(DistributedQuotaTestScope scope, long value, long targetUs)
+    { horizon = value; waitTargetUs = targetUs; beforeWait = await SnapshotAsync(scope, value); }
+
+    internal void Released(long registryPttl, long registryCount, long previousBuckets, long metadataCount) =>
+        released = new { registryPttl, registryCount, previousBuckets, metadataCount,
+            physicalExpiryConfirmed = registryPttl == -2 && registryCount == 0 && previousBuckets == 0,
+            accountingRefresh = "NEXT_PRODUCTION_EVALUATE" };
 
     internal void Arm() => CaptureEval = true;
     internal void WaitCrossed(long value) => redisTimeAtWaitCrossing = value;
@@ -146,8 +151,8 @@ internal sealed class DistributedQuotaCapacityDiagnostics
     }
 
     private object Row(object? countTransition) => new { round, accountedBefore, missing, seedRequests,
-        seedScopeOccurrences = seedRequests * 2, waitHorizonUs = horizon, waitTargetUs = horizon + 1,
-        redisTimeAtWaitCrossing, expectedAccounted = 2, actualAccounted = accounted, beforeWait, eval, countTransition };
+        seedScopeOccurrences = seedRequests * 2, waitHorizonUs = horizon, waitTargetUs,
+        redisTimeAtWaitCrossing, expectedAccounted = 2, actualAccounted = accounted, beforeWait, released, eval, countTransition };
 
     private static async Task<object> SnapshotAsync(DistributedQuotaTestScope scope, long cutoff)
     {
@@ -202,7 +207,7 @@ internal sealed class DistributedQuotaCapacityDiagnostics
             completedRounds = rounds.Count });
         if (json.Length > 4400)
             json = JsonSerializer.Serialize(new { partition, round, expectedAccounted = 2, actualAccounted = accounted,
-                waitHorizonUs = horizon, redisTimeAtWaitCrossing, countTransition = observedTransition,
+                waitHorizonUs = horizon, waitTargetUs, redisTimeAtWaitCrossing, released, countTransition = observedTransition,
                 contextOmitted = true });
         return new InvalidOperationException("DISTRIBUTED_CAPACITY_DIAGNOSTIC " + json, original);
     }
