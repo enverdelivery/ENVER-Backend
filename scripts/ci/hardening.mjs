@@ -184,6 +184,11 @@ function publisherPreflight() {
   requireThat(process.env.ENVER_PUBLISHER_ROLE === `arn:aws:iam::${policy.aws.account}:role/enver-github-ecr-publisher`, 'PUBLISHER_ROLE_CONFIGURATION_PENDING', 'BLOCKED');
   return {configured: true};
 }
+export function approvalTimestamps() {
+  const createdAtMs = Date.now();
+  return {createdAt: new Date(createdAtMs).toISOString(),
+    expiresAt: new Date(createdAtMs + policy.candidateMaxAgeHours * 3600000).toISOString()};
+}
 async function publish() {
   publisherPreflight(); const verified = await verify();
   const summaryPath = oneFile('hardening-report.json'), summary = readJson(summaryPath);
@@ -207,8 +212,8 @@ async function publish() {
     ciRun: candidate.run, ciAttempt: candidate.attempt, hardeningRun: identity().run, hardeningAttempt: identity().attempt,
     workflowSha: process.env.GITHUB_SHA, manifestDigest: candidate.manifestDigest, artifactHash: candidate.artifactHash,
     policy: policy.version, policyHash, evidenceHashes: {ci: verified.ciReportHash, hardening: sha256(fs.readFileSync(summaryPath))},
-    securityResults: summary.results.map(r => ({control: r.control, state: r.state})), createdAt: new Date().toISOString(),
-    expiresAt: new Date(Date.now() + policy.candidateMaxAgeHours * 3600000).toISOString(), ecr: `${policy.aws.registry}/${policy.aws.repository}`, tag};
+    securityResults: summary.results.map(r => ({control: r.control, state: r.state})), ...approvalTimestamps(),
+    ecr: `${policy.aws.registry}/${policy.aws.repository}`, tag};
   save(path.join(evidence, 'approval', 'approved.json'), approval);
   return {manifestDigest: approval.manifestDigest, candidateSha: approval.sha, registryVerified: true};
 }
