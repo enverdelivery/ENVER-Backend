@@ -1,0 +1,361 @@
+{
+  "schema": 1,
+  "capturedAt": "2026-11-24T09:53:09.801Z",
+  "kind": "read-only GitHub API inventory and summaries, not signed attestations; negative findings bounded to available history",
+  "hardeningTotal": 7,
+  "hardeningRuns": [
+    {
+      "id": 45356792502,
+      "conclusion": "success",
+      "attempt": 1,
+      "sha": "d12e50e1fbaff728f3bd45fdaa6909ddbfd8f095",
+      "event": "workflow_dispatch",
+      "createdAt": "2026-11-24T08:30:58Z"
+    },
+    {
+      "id": 45350748771,
+      "conclusion": "failure",
+      "attempt": 2,
+      "sha": "d12e50e1fbaff728f3bd45fdaa6909ddbfd8f095",
+      "event": "push",
+      "createdAt": "2026-11-24T07:47:42Z"
+    },
+    {
+      "id": 45345979966,
+      "conclusion": "failure",
+      "attempt": 1,
+      "sha": "cc9d1584c5214d652fcbba9769194a20d08aabb2",
+      "event": "push",
+      "createdAt": "2026-11-24T07:10:43Z"
+    },
+    {
+      "id": 45331001569,
+      "conclusion": "failure",
+      "attempt": 1,
+      "sha": "5f4c58dfd72b09ca092bdf35902d8bdd854ac904",
+      "event": "push",
+      "createdAt": "2026-11-24T05:06:56Z"
+    },
+    {
+      "id": 45325409482,
+      "conclusion": "failure",
+      "attempt": 1,
+      "sha": "c324a530936c7d080542cb7cb56ec897e3329bf2",
+      "event": "push",
+      "createdAt": "2026-11-24T04:17:56Z"
+    },
+    {
+      "id": 45264378396,
+      "conclusion": "failure",
+      "attempt": 1,
+      "sha": "010451100d3d74a9857be4bb19fc992205e1f20d",
+      "event": "push",
+      "createdAt": "2026-11-23T20:55:41Z"
+    },
+    {
+      "id": 45090479737,
+      "conclusion": "failure",
+      "attempt": 1,
+      "sha": "78b280d63ab35f9ad1ffe8136b2f9af99494f6e1",
+      "event": "push",
+      "createdAt": "2026-11-23T00:43:51Z"
+    }
+  ],
+  "deployWorkflowRunTotal": 0,
+  "artifactTotal": 292,
+  "reviewedReports": [
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14903440917,
+      "name": "approved-candidate-45356792502-1",
+      "run": 45356792502,
+      "sha": "d12e50e1fbaff728f3bd45fdaa6909ddbfd8f095",
+      "archiveDigest": "sha256:c917dae3924a7d34e2891654f3bc5d2c3255abceaf93c961c24e36e24fb44c80",
+      "file": "approved.json",
+      "fileSha256": "5fabb1389067361526008d37aad48508f0f8156a8a9fd1ec34ce22e5457e7ecf",
+      "bytes": 1548,
+      "containsRollbackDigest": false,
+      "candidateDigest": "sha256:78ef88839df7b0dadfb6f3f6170b3890a07e6819e4c26e658a94959345262eee",
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14903440917"
+    },
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14903231327,
+      "name": "hardening-report-45356792502-1",
+      "run": 45356792502,
+      "sha": "d12e50e1fbaff728f3bd45fdaa6909ddbfd8f095",
+      "archiveDigest": "sha256:36c2a2810e56ee3b26adcb569574ca9bf25a06f6ff471a8e3e65de317a86b07f",
+      "file": "hardening-report.json",
+      "fileSha256": "49c72d905e3aa620155edafd9dbf49cfb53dfec3a1a45d0212e2cce2f36e8a4b",
+      "bytes": 393774,
+      "containsRollbackDigest": false,
+      "candidateDigest": "sha256:78ef88839df7b0dadfb6f3f6170b3890a07e6819e4c26e658a94959345262eee",
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14903231327"
+    },
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14900986286,
+      "name": "ci-report-45350749025-1",
+      "run": 45350749025,
+      "sha": "d12e50e1fbaff728f3bd45fdaa6909ddbfd8f095",
+      "archiveDigest": "sha256:550d572cbabe35411b8fe0fa9f3d610fd9651c3eb7115a0760bcc51b39d4b777",
+      "file": "ci-report.json",
+      "fileSha256": "d10b9c459a16930f08fa4f444462b41511df89da8bc06a67037e48339aa2a202",
+      "bytes": 188074,
+      "containsRollbackDigest": false,
+      "candidateDigest": null,
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14900986286"
+    },
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14900435569,
+      "name": "ci-report-45349423460-1",
+      "run": 45349423460,
+      "sha": "4fe40f2812b539ef2ccac5a1db753249a561f3cf",
+      "archiveDigest": "sha256:2b1a49e4e253fec0564cf6add0230f7995ae1203b645b894012a6b5a04418d72",
+      "file": "ci-report.json",
+      "fileSha256": "55215f8044facac9f20429a0afe21feb1c2791e6e79b9f9243f1ac788820157a",
+      "bytes": 187125,
+      "containsRollbackDigest": false,
+      "candidateDigest": null,
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14900435569"
+    },
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14900213267,
+      "name": "hardening-report-45350748771-1",
+      "run": 45350748771,
+      "sha": "d12e50e1fbaff728f3bd45fdaa6909ddbfd8f095",
+      "archiveDigest": "sha256:ca9aa91b9e2e24773c134dec6872b2ecb4dda9e2f28f209aa994ba357e7a861b",
+      "file": "hardening-report.json",
+      "fileSha256": "ffe79c840cbccf5aaa8e15e8601c004e9ce6f73c745b3ec0be85ba2b812b5046",
+      "bytes": 393774,
+      "containsRollbackDigest": false,
+      "candidateDigest": "sha256:78ef88839df7b0dadfb6f3f6170b3890a07e6819e4c26e658a94959345262eee",
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14900213267"
+    },
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14897758707,
+      "name": "hardening-report-45345979966-1",
+      "run": 45345979966,
+      "sha": "cc9d1584c5214d652fcbba9769194a20d08aabb2",
+      "archiveDigest": "sha256:f0a32b4e3405317366a69328387e72ea3a783fa487935cd029467ab8c85e9fa4",
+      "file": "hardening-report.json",
+      "fileSha256": "16445725805d98d437b4114dd1c243ec81070cf43b3f7ab6d87c0fe41ee6320a",
+      "bytes": 3043,
+      "containsRollbackDigest": false,
+      "candidateDigest": "NOT RESOLVED",
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14897758707"
+    },
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14897024784,
+      "name": "ci-report-45344537874-1",
+      "run": 45344537874,
+      "sha": "3c6285bf28ba21bcd79b04f21a60ad85b2f6fc00",
+      "archiveDigest": "sha256:54cac21c5c4527d84b90133038cb2c17238ba0709e17e648cadea2be52ab143c",
+      "file": "ci-report.json",
+      "fileSha256": "5cbaca532114144290f39268daaa30ec5726d92f55fd9001b4f2578800b23266",
+      "bytes": 188045,
+      "containsRollbackDigest": false,
+      "candidateDigest": null,
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14897024784"
+    },
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14892606523,
+      "name": "ci-report-45331001468-1",
+      "run": 45331001468,
+      "sha": "5f4c58dfd72b09ca092bdf35902d8bdd854ac904",
+      "archiveDigest": "sha256:eddb71df58e2b8b71e043220d00cf1bbd603b8520e3208c993b0051d77fad80b",
+      "file": "ci-report.json",
+      "fileSha256": "7f23617a50bc5d03d063e7549c7b64eda7c1965d97abf989a3b589e54a48a1d5",
+      "bytes": 188074,
+      "containsRollbackDigest": false,
+      "candidateDigest": null,
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14892606523"
+    },
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14891806127,
+      "name": "ci-report-45329148798-1",
+      "run": 45329148798,
+      "sha": "7a87bb0d3ed7185890276365fa379c2e426f1927",
+      "archiveDigest": "sha256:9c0f41f7bff5104999b3b2709db22d3f3702c8b22938867892da692abac844b0",
+      "file": "ci-report.json",
+      "fileSha256": "879178254a5ab2d5b87bee064b86ff7e28f235ef03304918475f9c76740f536c",
+      "bytes": 188046,
+      "containsRollbackDigest": false,
+      "candidateDigest": null,
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14891806127"
+    },
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14891474366,
+      "name": "hardening-report-45331001569-1",
+      "run": 45331001569,
+      "sha": "5f4c58dfd72b09ca092bdf35902d8bdd854ac904",
+      "archiveDigest": "sha256:00125853bbf476b0124f6dec8572de97bf2dcfc802a1559cda7e03ab3625d13d",
+      "file": "hardening-report.json",
+      "fileSha256": "a5412e63be2c58524a584c7109baa5c4ab1dd3fb4811c8d11562b7f07f38ac24",
+      "bytes": 393521,
+      "containsRollbackDigest": false,
+      "candidateDigest": "sha256:4b529aba7b0b6e07e7a448a1cd5a6ee4950ebb9cb65c8672ac443f23cece1503",
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14891474366"
+    },
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14889987094,
+      "name": "hardening-report-45325409482-1",
+      "run": 45325409482,
+      "sha": "c324a530936c7d080542cb7cb56ec897e3329bf2",
+      "archiveDigest": "sha256:f5aa2a65f723f5f4bba643db7ac7c886a135e12851ce53fa684bfad3601bd66b",
+      "file": "hardening-report.json",
+      "fileSha256": "dfb2063c66f1eaae4b8ac39b5430b495348d7f6ca55e2ee29b5bc1c51541847c",
+      "bytes": 393521,
+      "containsRollbackDigest": false,
+      "candidateDigest": "sha256:2730e5c703c33087834520001d3a7a6a8289ffb9991df535a0a477c75b0169d6",
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14889987094"
+    },
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14888989771,
+      "name": "ci-report-45325409374-1",
+      "run": 45325409374,
+      "sha": "c324a530936c7d080542cb7cb56ec897e3329bf2",
+      "archiveDigest": "sha256:562c57319d341b7dd0b78db2e072ec7617292d5f9b4ab6ceedb91e72ef854431",
+      "file": "ci-report.json",
+      "fileSha256": "b48ab832706c4aa249b118425d00880ff744d67dbee48db869bff4024ff64262",
+      "bytes": 188074,
+      "containsRollbackDigest": false,
+      "candidateDigest": null,
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14888989771"
+    },
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14888891985,
+      "name": "ci-report-45323365705-1",
+      "run": 45323365705,
+      "sha": "453a313d8d59a6e070f670744e1b58d71ae4b0f1",
+      "archiveDigest": "sha256:934b20b056b6c820a73b1c927e46cb3980311dedf664a006555a87cd2a11fe0c",
+      "file": "ci-report.json",
+      "fileSha256": "25b112ba111dafdc7c8b3264500baf44267aeb1e9de758918e293535f1ca6ea4",
+      "bytes": 187125,
+      "containsRollbackDigest": false,
+      "candidateDigest": null,
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14888891985"
+    },
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14863705399,
+      "name": "hardening-report-45264378396-1",
+      "run": 45264378396,
+      "sha": "010451100d3d74a9857be4bb19fc992205e1f20d",
+      "archiveDigest": "sha256:d26006649702810648bb86aadc92d78dc171af249f6ef210d1a5e98cdf38624b",
+      "file": "hardening-report.json",
+      "fileSha256": "afdf4502d1c943ad0ce8e7a5252ab9c7d7f30ffa8f41e62cc673bada08a59e1f",
+      "bytes": 3043,
+      "containsRollbackDigest": false,
+      "candidateDigest": "NOT RESOLVED",
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14863705399"
+    },
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14860094065,
+      "name": "ci-report-45260297588-1",
+      "run": 45260297588,
+      "sha": "419a82a68b0a5cbfec0cab49ff33a37b1cd07dae",
+      "archiveDigest": "sha256:7248419654493d4497049f2a278cbf78096a89063bcc3d291cd79636797011e3",
+      "file": "ci-report.json",
+      "fileSha256": "6063abdf35d584384dff8a39ff5dc2a4b7dec50be28d7767be04a8e8d16ae05f",
+      "bytes": 186381,
+      "containsRollbackDigest": false,
+      "candidateDigest": null,
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14860094065"
+    },
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14781630708,
+      "name": "hardening-report-45090479737-1",
+      "run": 45090479737,
+      "sha": "78b280d63ab35f9ad1ffe8136b2f9af99494f6e1",
+      "archiveDigest": "sha256:3b0b8fef6a8b22907bdec0c518e0a46a6739d199a15885fd0d3bb228a5927515",
+      "file": "hardening-report.json",
+      "fileSha256": "a35143999038ee545a4b7dc63a7810ca6cbc6acc087d6043746b95fbab9ffcc3",
+      "bytes": 3043,
+      "containsRollbackDigest": false,
+      "candidateDigest": "NOT RESOLVED",
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14781630708"
+    },
+    {
+      "kind": "GitHub artifact; existing downloaded JSON",
+      "id": 14692778357,
+      "name": "ci-report-44867784676-1",
+      "run": 44867784676,
+      "sha": "d959739cf4c3faf4bbecd0cd95cdb78491b8965a",
+      "archiveDigest": "sha256:985e5cbf1ee4f530224ef26a4b6d54b8c8c755342fd5f9856f6ce4ff4c779a44",
+      "file": "ci-report.json",
+      "fileSha256": "009b4345086a994b571e58dcc277948a8e354359ad61dd42ae50dcafd0acfd3b",
+      "bytes": 187297,
+      "containsRollbackDigest": false,
+      "candidateDigest": null,
+      "api": "https://api.github.com/repos/enverdelivery/ENVER-Backend/actions/artifacts/14692778357"
+    }
+  ],
+  "rollbackApprovedCandidateFound": false,
+  "rollbackHardeningApprovalFound": false,
+  "newerCandidateApproval": {
+    "schema": 1,
+    "repository": "enverdelivery/ENVER-Backend",
+    "branch": "develop",
+    "sha": "d12e50e1fbaff728f3bd45fdaa6909ddbfd8f095",
+    "ciRun": "45350749025",
+    "ciAttempt": "1",
+    "hardeningRun": "45356792502",
+    "hardeningAttempt": "1",
+    "workflowSha": "d12e50e1fbaff728f3bd45fdaa6909ddbfd8f095",
+    "manifestDigest": "sha256:78ef88839df7b0dadfb6f3f6170b3890a07e6819e4c26e658a94959345262eee",
+    "artifactHash": "217f8ae7d7273c2e433563098c9ac6f9acd548ad1360dd4ffc78bd8f8a127105",
+    "policy": "enver-cicd-v1",
+    "policyHash": "3f0fb0b2b8bb929a328bbd856de9bc07805b48a19d851817ef5b84e774684350",
+    "evidenceHashes": {
+      "ci": "d10b9c459a16930f08fa4f444462b41511df89da8bc06a67037e48339aa2a202",
+      "hardening": "49c72d905e3aa620155edafd9dbf49cfb53dfec3a1a45d0212e2cce2f36e8a4b"
+    },
+    "securityResults": [
+      {
+        "control": "codeql",
+        "state": "PASS"
+      },
+      {
+        "control": "container_scan",
+        "state": "PASS"
+      },
+      {
+        "control": "dast",
+        "state": "NOT EXECUTED"
+      },
+      {
+        "control": "dynamic_preflight",
+        "state": "NOT EXECUTED"
+      },
+      {
+        "control": "fuzzing",
+        "state": "NOT EXECUTED"
+      },
+      {
+        "control": "mutation",
+        "state": "NOT EXECUTED"
+      },
+      {
+        "control": "verify_candidate",
+        "state": "PASS"
+      }
+    ],
+    "createdAt": "2026-11-24T08:34:30.828Z",
+    "expiresAt": "2026-12-01T08:34:30.948Z",
+    "ecr": "926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api",
+    "tag": "candidate-d12e50e1fbaff728f3bd45fdaa6909ddbfd8f095-45350749025-1"
+  }
+}

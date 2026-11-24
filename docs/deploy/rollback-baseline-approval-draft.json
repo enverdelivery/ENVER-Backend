@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "approved": false,
+  "manifestDigest": "sha256:41483906445df7b1ad53de32dfc8b6c416bfd53c17cf043cd5a33476c357a856",
+  "repository": "enverdelivery/ENVER-Backend",
+  "environment": "development",
+  "evidenceHash": "db562052f2d0b562c85bfb6a7be91840a4ae0863f0d33a62ca00adc2133008ba",
+  "approvedBy": "<HUMAN APPROVER REQUIRED>",
+  "expiresAt": "<FUTURE EXPIRATION REQUIRED>"
+}

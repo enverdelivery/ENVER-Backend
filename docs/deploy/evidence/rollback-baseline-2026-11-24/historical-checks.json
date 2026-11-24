@@ -1,0 +1,238 @@
+{
+  "schema": 1,
+  "kind": "derived allowlisted historical summaries; originals are unsigned local receipts",
+  "originalSources": [
+    {
+      "kind": "historical local receipt",
+      "source": "enver-cloudfront-image-2026-11-19T02-21-08-479Z/verified-oci-manifest.json",
+      "sha256": "41483906445df7b1ad53de32dfc8b6c416bfd53c17cf043cd5a33476c357a856",
+      "bytes": 2196,
+      "availability": "AVAILABLE; only allowlisted fields preserved unless explicitly marked byte-exact"
+    },
+    {
+      "kind": "historical local receipt",
+      "source": "enver-cloudfront-image-2026-11-19T02-21-08-479Z/image.tar!/blobs/sha256/19860cb8d7f8dc35a7183ddd4ee22e8ba5a919148c03652256ec0f4387c74b61",
+      "sha256": "19860cb8d7f8dc35a7183ddd4ee22e8ba5a919148c03652256ec0f4387c74b61",
+      "bytes": 5087,
+      "availability": "AVAILABLE; config member byte-exact UTF-8 preserved; archive/layers not copied"
+    },
+    {
+      "kind": "historical local receipt",
+      "source": "enver-cloudfront-image-2026-11-19T02-21-08-479Z/preparation.json",
+      "sha256": "d54e7a51b6825e7d58912db3f67110373e357a3f32134a5dfb9da91c03031f3d",
+      "bytes": 19369,
+      "availability": "AVAILABLE; only allowlisted fields preserved unless explicitly marked byte-exact"
+    },
+    {
+      "kind": "historical local receipt",
+      "source": "enver-cloudfront-image-2026-11-19T02-21-08-479Z/context/.dockerignore",
+      "sha256": "80cda3fdbeca705ce5e9b7dcbea48cf6cdee91670675f2ddf5f573c8b661efef",
+      "bytes": 1458,
+      "availability": "AVAILABLE; only allowlisted fields preserved unless explicitly marked byte-exact"
+    },
+    {
+      "kind": "historical local receipt",
+      "source": "enver-cloudfront-image-2026-11-19T02-21-08-479Z/source-audit.json",
+      "sha256": "fb643e13b54bb2442eff91c318a3bd6b26b3c5325c072d8d8a50107bc9c11122",
+      "bytes": 363,
+      "availability": "AVAILABLE; only allowlisted fields preserved unless explicitly marked byte-exact"
+    },
+    {
+      "kind": "historical local receipt",
+      "source": "enver-cloudfront-image-2026-11-19T02-21-08-479Z/final-receipt.json",
+      "sha256": "c3ded76c8498b1844d43985f8ea4606be4a43ae07d7978d83c44223f17aa5f73",
+      "bytes": 3058,
+      "availability": "AVAILABLE; only allowlisted fields preserved unless explicitly marked byte-exact"
+    },
+    {
+      "kind": "historical local receipt",
+      "source": "enver-cloudfront-disabled-deploy-2026-11-19T03-20-55-396Z/final-receipt.json",
+      "sha256": "928d892088c76e32893aa8ecec243e321ddfa94b416e80b90eb66a3d55209df8",
+      "bytes": 4694,
+      "availability": "AVAILABLE; only allowlisted fields preserved unless explicitly marked byte-exact"
+    },
+    {
+      "kind": "historical local receipt",
+      "source": "enver-cloudfront-activate-2026-11-19T04-07-19-211Z/final-receipt.json",
+      "sha256": "f14acc5e890b2283efd8a703723630d55611490674f6760bbfb7268816d4ccf0",
+      "bytes": 59280,
+      "availability": "AVAILABLE; only allowlisted fields preserved unless explicitly marked byte-exact"
+    },
+    {
+      "kind": "historical local receipt",
+      "source": "enver-cloudfront-activate-2026-11-19T04-07-19-211Z/activate-a-result.json",
+      "sha256": "cd1e6cef36155898d85a1609bb9df0aac807f7c9a2e8f968545a3c1aa9b376dc",
+      "bytes": 28461,
+      "availability": "AVAILABLE; only allowlisted fields preserved unless explicitly marked byte-exact"
+    },
+    {
+      "kind": "historical local receipt",
+      "source": "enver-cloudfront-activate-2026-11-19T04-07-19-211Z/activate-b-result.json",
+      "sha256": "e7ead2eacc946abff0f52b16e856287aa5fa05349baa78216d22e943a69482b1",
+      "bytes": 54881,
+      "availability": "AVAILABLE; only allowlisted fields preserved unless explicitly marked byte-exact"
+    },
+    {
+      "kind": "historical local receipt",
+      "source": "enver-cloudfront-image-2026-11-19T02-21-08-479Z/build-metadata.json",
+      "sha256": "6efcc623a7d58d9e846972ec96ce7a0bdf7ba99e280adb37e30498952889e2b1",
+      "bytes": 2636,
+      "availability": "AVAILABLE; only allowlisted fields preserved unless explicitly marked byte-exact"
+    },
+    {
+      "kind": "historical local receipt",
+      "source": "enver-cloudfront-image-2026-11-19T02-21-08-479Z/layer-scan.json",
+      "sha256": "1646f6bebc23e01f6e708b4c4d75e1187aeeed81864d04ee221b911d5a14d143",
+      "bytes": 794,
+      "availability": "AVAILABLE; only allowlisted fields preserved unless explicitly marked byte-exact"
+    },
+    {
+      "kind": "historical local receipt",
+      "source": "enver-cloudfront-proxy-review-2026-11-19T02-13-21-840Z/proxy-scope-tests-final.trx",
+      "sha256": "27dc08c533663c216bc5ee978425b52e8b36b1a3c51a943f8476e8959f4881f1",
+      "bytes": 233989,
+      "availability": "AVAILABLE; only allowlisted fields preserved unless explicitly marked byte-exact"
+    }
+  ],
+  "tests": {
+    "rerunNow": false,
+    "counters": {
+      "total": 152,
+      "executed": 152,
+      "passed": 152,
+      "failed": 0,
+      "error": 0,
+      "timeout": 0,
+      "aborted": 0,
+      "inconclusive": 0,
+      "passedButRunAborted": 0,
+      "notRunnable": 0,
+      "notExecuted": 0,
+      "disconnected": 0,
+      "warning": 0,
+      "completed": 0,
+      "inProgress": 0,
+      "pending": 0
+    },
+    "unitTestResultCount": 152,
+    "allResultsPassed": true
+  },
+  "dllPdbSourceAudit": {
+    "status": "PASS",
+    "dllPdbLinked": true,
+    "matchedSourceDocuments": 95,
+    "generatedDocuments": 6,
+    "allSealedCSharpSourcesMatched": true,
+    "cloudFrontAdapterPresent": true,
+    "actualImageOptionsDefaultsVerified": true,
+    "cloudFrontEnabled": false,
+    "originSecretEmpty": true,
+    "allowLocalHttp": false,
+    "directConnectionApproved": false,
+    "knownProxiesEmpty": true,
+    "apiEntrypointExecuted": false
+  },
+  "historicalImage": {
+    "status": "PUSH_PASS_REMOTE_IDENTITY_VERIFIED",
+    "manifestDigest": "sha256:41483906445df7b1ad53de32dfc8b6c416bfd53c17cf043cd5a33476c357a856",
+    "configDigest": "sha256:19860cb8d7f8dc35a7183ddd4ee22e8ba5a919148c03652256ec0f4387c74b61",
+    "remoteManifestMatch": true,
+    "remoteConfigMatch": true,
+    "platform": "linux/amd64"
+  },
+  "disabledDeployment": {
+    "at": "2026-11-19T03:22:42.402Z",
+    "status": "PASS / CLOUDFRONT-READY IMAGE A/B DEPLOY ? MODE DISABLED",
+    "immutableImage": "926925605666.dkr.ecr.us-east-1.amazonaws.com/enver-dev-api@sha256:41483906445df7b1ad53de32dfc8b6c416bfd53c17cf043cd5a33476c357a856",
+    "configDigest": "sha256:19860cb8d7f8dc35a7183ddd4ee22e8ba5a919148c03652256ec0f4387c74b61",
+    "nodes": {
+      "a": {
+        "instance": "i-0a66085b7b2411393",
+        "image": "NEW DIGEST MATCH",
+        "configDigest": "MATCH",
+        "target": "healthy",
+        "loopbackHealth": 200,
+        "privateHealth": 200
+      },
+      "b": {
+        "instance": "i-00de11a3f3c1a8aa5",
+        "image": "NEW DIGEST MATCH",
+        "configDigest": "MATCH",
+        "target": "healthy",
+        "loopbackHealth": 200,
+        "privateHealth": 200
+      }
+    }
+  },
+  "activation": {
+    "completedAt": "2026-11-19T04:13:38.249Z",
+    "status": "PASS",
+    "manifestDigest": "sha256:41483906445df7b1ad53de32dfc8b6c416bfd53c17cf043cd5a33476c357a856",
+    "configDigest": "sha256:19860cb8d7f8dc35a7183ddd4ee22e8ba5a919148c03652256ec0f4387c74b61",
+    "nodes": {
+      "a": {
+        "instance": "i-0a66085b7b2411393",
+        "status": "PASS",
+        "image": "MATCH",
+        "configDigest": "MATCH",
+        "service": "active",
+        "container": "RUNNING",
+        "health": {
+          "loopback": {
+            "exitCode": 0,
+            "http": 200,
+            "healthyBody": true
+          },
+          "private": {
+            "exitCode": 0,
+            "http": 200,
+            "healthyBody": true
+          }
+        },
+        "target": "healthy"
+      },
+      "b": {
+        "instance": "i-00de11a3f3c1a8aa5",
+        "status": "PASS",
+        "image": "MATCH",
+        "configDigest": "MATCH",
+        "service": "active",
+        "container": "RUNNING",
+        "health": {
+          "loopback": {
+            "exitCode": 0,
+            "http": 200,
+            "healthyBody": true
+          },
+          "private": {
+            "exitCode": 0,
+            "http": 200,
+            "healthyBody": true
+          }
+        },
+        "target": "healthy"
+      }
+    },
+    "targetStates": {
+      "i-00de11a3f3c1a8aa5": "healthy",
+      "i-0a66085b7b2411393": "healthy"
+    },
+    "registerHttps": "PASS",
+    "loginHttps": "PASS",
+    "logoutHttps": "PASS",
+    "httpsHealth": "200 PASS",
+    "postLogoutRevocation": "NOT EXECUTED",
+    "httpOnlyRisk": "ACCEPTED FOR DEV / ACADEMIC ONLY",
+    "endToEndTls": false,
+    "stepACompletedAt": "2026-11-19T04:11:59.286Z",
+    "stepBCompletedAt": "2026-11-19T04:12:43.717Z"
+  },
+  "layerScan": {
+    "status": "PASS",
+    "limitation": "Historical layer/secret scan; not a Hardening vulnerability approval"
+  },
+  "currentInstalledDigestAB": "NOT VERIFIED",
+  "currentJournals": "NOT VERIFIED",
+  "historicalInitializeTotal": 1,
+  "initializeExecutedNow": false
+}

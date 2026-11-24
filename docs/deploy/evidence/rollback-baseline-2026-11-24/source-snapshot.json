@@ -1,0 +1,1055 @@
+{
+  "schema": 1,
+  "historicalHead": "78a5e40ab4fbe6f6c79cc20db994e40d3eb3a2fb",
+  "dirtyBuild": true,
+  "snapshotHash": "691adba8adc33a8c4640a094f224ffab07f7d32c1f368c20e6a4622eb28f97e7",
+  "snapshotHashAlgorithm": "SHA-256 of UTF-8 JSON.stringify(contextManifest), preserving entry order and property order",
+  "contextManifest": [
+    {
+      "path": ".dockerignore",
+      "sha256": "80cda3fdbeca705ce5e9b7dcbea48cf6cdee91670675f2ddf5f573c8b661efef"
+    },
+    {
+      "path": "Enver.API/Composition/AuthenticationDependencyAdmission.cs",
+      "sha256": "4a7c19cf2f34508627059c5e80e4ff5459fcfe968db045e8f8a4fb887e10142b"
+    },
+    {
+      "path": "Enver.API/Composition/AuthenticationDependencyOptions.cs",
+      "sha256": "39beb8e7fadac170c187d00eb8d9fbe6bd45d35a3d378b34b5137a06c2ea695e"
+    },
+    {
+      "path": "Enver.API/Composition/AuthenticationServiceCollectionExtensions.cs",
+      "sha256": "dcaf3de5bc1bc089a8d7bec4b63849a10eea1f64441f5a61c5681442e1fd1e2f"
+    },
+    {
+      "path": "Enver.API/Composition/AuthenticationTransport.cs",
+      "sha256": "6beb450f9a60380c30a49e4f0d30d26cd4470cf04c8de8b5dc31b08d8a865cc8"
+    },
+    {
+      "path": "Enver.API/Composition/CloudFrontTrustAdapter.cs",
+      "sha256": "459ed22a5b722d0ee168e4ebc9e4101a04c7658681519c666a37e48a2d255f5e"
+    },
+    {
+      "path": "Enver.API/Composition/LoginControls.cs",
+      "sha256": "82dd2d6379e06f34a49c9f588fa5b7bddbb43a994e7e266165639e6c053c769b"
+    },
+    {
+      "path": "Enver.API/Composition/LogoutControls.cs",
+      "sha256": "0c9d9189835b780bd33c0bf3742ae8377b06d58a1e77a625b6c3fb4879ac3fbe"
+    },
+    {
+      "path": "Enver.API/Composition/RegisterControls.cs",
+      "sha256": "0fc3b6dc1ec1e041a158c6413aa70d5cd5d011b735bde9086e90612ade70adbe"
+    },
+    {
+      "path": "Enver.API/Composition/RuntimeConfiguration.cs",
+      "sha256": "58b73d5dac3aefd0242dbcc8c3f626bf11192338ecb4a675d11d339028e0cdd1"
+    },
+    {
+      "path": "Enver.API/Configuration/AuthenticationOptions.cs",
+      "sha256": "d61ce0603e59bfce3125fd360caa11621c64d112e9d9a57cbc2806a841448e48"
+    },
+    {
+      "path": "Enver.API/Configuration/AuthenticationOptionsValidation.cs",
+      "sha256": "b13efa281a9a6d424afc66af04b578cc67ce626a5f155ef7bba355997629728d"
+    },
+    {
+      "path": "Enver.API/Configuration/AuthenticationSecurityAuthorityOptions.cs",
+      "sha256": "e2c53dbeb05cb428acea25b23c44b9d0c2ed4dec205215632d1183d5743b108a"
+    },
+    {
+      "path": "Enver.API/Configuration/JwtOptions.cs",
+      "sha256": "cba24320a41926d2c82d9102a3b54ad6a35242f9272f3479350a79da617b8644"
+    },
+    {
+      "path": "Enver.API/Configuration/MongoDbOptions.cs",
+      "sha256": "b64e2652b94de006bc8d9f7c9241f76eaa4d0fb3485db72d7d48c109ce3a6aa2"
+    },
+    {
+      "path": "Enver.API/Configuration/RateLimitingOptions.cs",
+      "sha256": "54b7d936eccc03c1dca523aa811d7699ce10e3c38f3a71f0e653db6dbff3680f"
+    },
+    {
+      "path": "Enver.API/Configuration/RedisOptions.cs",
+      "sha256": "c2902a36fe1f5a1ff248d2d21aa1fd9ebaa8f34cfc9a5c97b4921ef7816778b5"
+    },
+    {
+      "path": "Enver.API/Controllers/AuthenticationController.cs",
+      "sha256": "35660c6007d9ab820574a6ad2867c383cd849b1cfc3350aacc25b8391e01cc1d"
+    },
+    {
+      "path": "Enver.API/Dockerfile",
+      "sha256": "993dd609c65a0aab7c7202913452db1527f2e1c4a295426f810f5c19b4718960"
+    },
+    {
+      "path": "Enver.API/Enver.API.csproj",
+      "sha256": "d1e5f5f1e0a3fdb8ab50a4431854c8a318523b04a33c83db7a976775e84718c6"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/AuthenticationInputs.cs",
+      "sha256": "3c6ad480749e7343f5c3dc97a8508700f6d734791b9a0f2ddbf99037e86a3500"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/AuthenticationResults.cs",
+      "sha256": "dc99e3e058ce3b8be663a923fb4babc9be532b8d69f64f09fe1c16866e9e6fc1"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/AuthenticationService.cs",
+      "sha256": "e156e5b8cb2e0919dc8d27250e23869c6a31cf5d70751475bfc1178b75d1d965"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/PasswordRehashCoordinator.cs",
+      "sha256": "1a500719875b5ab0e4a2d49fb8b3391148cce8cd1e667ce5b2eb09a7003337a0"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/IAccessTokenIssuer.cs",
+      "sha256": "93c6013868aa8d1d1066ff087ed93a1bd7193aa752717b76bc1adfbed78480c8"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/IAuthenticationQuotaStore.cs",
+      "sha256": "ecac58d131d78acdb2389c4b0e5d70ed27509aff4b6e078c0abcb41d01cb45e0"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/IAuthenticationScopePseudonymizer.cs",
+      "sha256": "6953e0b08e51bf19ed4b8f25235eebbde10daf18188ef1eb765f40fd931030fc"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/IAuthenticationSecurityAuthority.cs",
+      "sha256": "777bcfba1a011856f4b9579c925d27a2202bf07eee9e74b2cebc2f653dc5debd"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/IAuthenticationSecurityState.cs",
+      "sha256": "e1b9d0b67336599bd039c557fd52cdb2109a100aecc2225f21a0bf8fc54ee17c"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/ILoginControls.cs",
+      "sha256": "4638acc5ac47d4330503ef0c2510e483c5dce778d1107e5775e13643bb9d056b"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/ILoginTokenIssuer.cs",
+      "sha256": "e67c7135683313947d387b374f945c5876625ac58283b03f515b2bb210c7268a"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/ILogoutControls.cs",
+      "sha256": "c2a0853749eee6df6de9d4f825dc33245b84c5dde85b9cefbd3ef38bf766eb22"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/IPasswordService.cs",
+      "sha256": "2457074e13eb72f14f135136e22c558b046f3c9039013d7f90f225275a10021a"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/IRegisterControls.cs",
+      "sha256": "aeee4de7333b4016d472d9d708f0eab2e7459ee67a6a3d88f346c304d9cdc668"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/ITokenRevocationStore.cs",
+      "sha256": "70727c2a3e4df0f639c57d8853046a20b040511e0e21cc31bdfa43aeb845a8cc"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/IUserStore.cs",
+      "sha256": "37e2d9b7986f0cce43b0adfe8998dc8318f6f1c64cd06bc66e3c70e527646bf7"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationPseudonymizationTransition.cs",
+      "sha256": "b6c611ff1cebc99d323cd596f502d59fea1da68011b864d55afffdbcac7fe7e8"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaCapacityContract.cs",
+      "sha256": "96e21a8944650626d290eda52ea4eba27990f8969d336d88c32c29a1bf34cd95"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaCapacityDescriptor.cs",
+      "sha256": "7b5c395ef26b63b700dd7996948ecd6405bd010b2cf277d7ca60450f3aa2707a"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaConfigurationSnapshot.cs",
+      "sha256": "407c24097522a11e4e6bfc04031b4bbc90c319b26c034d6806c4c1aa8afc2cc1"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaEvaluationContract.cs",
+      "sha256": "9e9cc48d225286f493b154d521e82e881a8540e507e9ef074756abed3276a3ac"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaModels.cs",
+      "sha256": "faf3fc0c8f10e9811618b17e80e72d7d11b877c488e4b30b07308a6f0b09b165"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaPartitionState.cs",
+      "sha256": "76e5908b1717db12e02877ac8f9a78d0151c273ece9d1af87c5dae5f80de90bc"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaPolicyDescriptor.cs",
+      "sha256": "1886564d6ca368c7d741b04cf06a58a6dcf568f087591667c548a9ed332e9d23"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaRecoveryContract.cs",
+      "sha256": "f4565e3dbdfe61ac785cb709efec02de8e9225b8325eb8c2ea09f910f69aedfc"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaRetryAfter.cs",
+      "sha256": "9363ec26fd31f1d9562e02219f06a2bf66c03906d18bc878828130c56728df82"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationScopeIdentity.cs",
+      "sha256": "e3b25ada463ecc79da453ad930c245598e17849ccdeef5652f3952fc697759db"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Contracts/LoginRequest.cs",
+      "sha256": "b51078daeae65d7cd31671545e06fc9737553d7371d3d9ae226047b21cffcfa4"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Contracts/LoginResponse.cs",
+      "sha256": "37dd41610a5f3065a3052bc360b061dff90b6e69c6a4f46ccbecd52856213cd7"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Contracts/RegisterRequest.cs",
+      "sha256": "6ff8eee101d6b23ee4380365b2c008d173ea402f2a0397d39015fd9844cb2d57"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Contracts/RegisterResponse.cs",
+      "sha256": "61d5f33567be36efe5f26c7b631ef789e599a6b7a884babdaae09bda79db758d"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Core/User.cs",
+      "sha256": "09b353be3c67645d7dab8f9b7273d61a3c02f242106682de789dcd92e49b0044"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Core/UserStatus.cs",
+      "sha256": "699352c5c890c5949fec35db41a5e966b82b079026ea4d7369d7aa0231f5002a"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Validation/AuthenticationAdmissionResults.cs",
+      "sha256": "28f1c68dfa91c9c9952b04518b0fb492b6c48e393fb99287349cf53fdbd994d2"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Validation/AuthenticationInputValidator.cs",
+      "sha256": "1c553e1b4df7d92a5b9439566409857b5db77b479713f6944573bc7bd28f58eb"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Validation/InstitutionalEmailNormalizer.cs",
+      "sha256": "799a0107e6558ad662b1c8d8468efadf711e5cc00a40a5171a6c90e08ce79807"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Validation/PasswordPolicy.cs",
+      "sha256": "c1182a20a5dd0cc56200b52d40a4087c4c719011829d7e521166cf555e289b9b"
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Validation/UnicodeInput.cs",
+      "sha256": "29dcd085f0c22ac1b42046023236f06f58fbf636c0fe095dfc55112c10cac2f8"
+    },
+    {
+      "path": "Enver.API/Http/ApiExceptionHandler.cs",
+      "sha256": "181581a80844ea79e03a16c406ff93b0d5a6f22a7867e96f334a985c9c26ea6c"
+    },
+    {
+      "path": "Enver.API/Http/ApiProblemDetails.cs",
+      "sha256": "44d21491ce7a5e1ebf8802cf5ee0e9bce0ad58adc7b6ef20f9d80015585912ce"
+    },
+    {
+      "path": "Enver.API/Http/AuthenticationOriginProvider.cs",
+      "sha256": "8b05bb4f23ce57d8c4ec194763f8a22901fe7f435cd6250b8c5fa168bee1ee67"
+    },
+    {
+      "path": "Enver.API/Http/AuthenticationRequestLimitsMiddleware.cs",
+      "sha256": "7a83f0e280c9088a3bf22eea24489f41dd4d65ef44e2bcd0af00104134081b03"
+    },
+    {
+      "path": "Enver.API/Http/AuthenticationValidationCoordinator.cs",
+      "sha256": "b965c4cc4dd1d6c551f8929e04c097f2a3a3479a919d79755f352d66980ea634"
+    },
+    {
+      "path": "Enver.API/Http/AuthenticationValidationFilter.cs",
+      "sha256": "3fcdadce9e2936b4cc5ce2e9d66192137ea3bd4da04412ac58cd74bae15f2613"
+    },
+    {
+      "path": "Enver.API/Http/LoginEndpointConvention.cs",
+      "sha256": "80c9897167da41b038859bf6f77d81df762f56e3d75c514aa504c1e452b33920"
+    },
+    {
+      "path": "Enver.API/Http/RegisterBoundaryContinuation.cs",
+      "sha256": "a831efcfa8efa7f3784f7fddefe4970a8ffc70091860ea1d0a229ef0cc575b3e"
+    },
+    {
+      "path": "Enver.API/Http/RequestBudget.cs",
+      "sha256": "c5eec5d3af7f6402505e25e5b5cc45a56569a78c006c81e662e4960eead80644"
+    },
+    {
+      "path": "Enver.API/Http/RequestContextMiddleware.cs",
+      "sha256": "fcdf19d01c55b98e9a6d1d14ace1a268a39541feb5313dafb4d4971830aaf266"
+    },
+    {
+      "path": "Enver.API/Infrastructure/Aws/DynamoDbAuthenticationSecurityAuthority.cs",
+      "sha256": "7584ea0165e3b9eae4633197286a3084fd070337aa4d40d4b4811dfcfc3f6e66"
+    },
+    {
+      "path": "Enver.API/Infrastructure/MongoDB/MongoClientFactory.cs",
+      "sha256": "df67e0526a699ce11773420fdd48a8a2b6c453e3295c898244189c027cb185ab"
+    },
+    {
+      "path": "Enver.API/Infrastructure/MongoDB/MongoUserStore.cs",
+      "sha256": "cdc06b32da8cbdf057d64402708094ecc6ff78a853113ecc85e27dbedfbf309c"
+    },
+    {
+      "path": "Enver.API/Infrastructure/MongoDB/MongoUsersInitializer.cs",
+      "sha256": "d6a21d3883d657c4dcee7e3b09b9b3f6b9a00eff1a910d79c0aec846420c58f8"
+    },
+    {
+      "path": "Enver.API/Infrastructure/MongoDB/UserDocument.cs",
+      "sha256": "6b8260b9a79632fa5126b35bdecded92ad8b21e67b96e4f487610e024eebb075"
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaConfiguration.cs",
+      "sha256": "a5f8a243117733a836ca6e582c16eed74dcc468c481e9665762693d67e072cdd"
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaKeyBuilder.cs",
+      "sha256": "7f10d2a7a0a7777fed05f64a5165166e0753d53790bc4b1d47c126c2d102be29"
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaLifecycle.cs",
+      "sha256": "42bca566ec26016ba6e389812de09632d71619e1a12b3763d0d4068c9da71fb3"
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaScriptProtocol.cs",
+      "sha256": "855dd594983e5637544dc8d8762c5edab4f585701c8b84089413e0a00c808c3c"
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaStore.cs",
+      "sha256": "0d512736352fe89e516d8d815a380b962407f317d07944e9fb4ab736c90d9c1a"
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisConnections.cs",
+      "sha256": "aad4ed7142b38c16fa52061165b595c9c0a820b252e0f3156c58663c38cb8132"
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisKeyBuilder.cs",
+      "sha256": "e6641ffd7597a18b2262c7283aa2c62ef0f7e3fa67912f3e75612baf6cb67b66"
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisSecurityStateDetector.cs",
+      "sha256": "db16da65309b194c350965b0152184ea1f726be6eef99d5235e7daa111191c08"
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisSecurityStateGuard.cs",
+      "sha256": "a2e2c4ea8098e6155c11a221f4adb57a694ecdb61c3585c062ed70a1051c87ef"
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisTokenRevocationStore.cs",
+      "sha256": "1cecb23650f84a8d8fcdf0cf7f8772c7db48f3ce1d3f18ac14b9071676e4db4d"
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/Scripts/ConsumeAuthenticationQuota.lua",
+      "sha256": "052ec050c7d604976b1e02a9abccbd1412c59c77c6b817c08542b26546f75544"
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/Scripts/RevokeToken.lua",
+      "sha256": "fa0fe6845c2feb8ff7a303e8138a78e169bf733824c236b56c342d74da79270c"
+    },
+    {
+      "path": "Enver.API/Infrastructure/Security/AuthenticationSecurityCoordinator.cs",
+      "sha256": "67e3e433df7d1f520608c1d6c2bd3c2416ce9f77c62f60f6d1c77ec65446048d"
+    },
+    {
+      "path": "Enver.API/Infrastructure/Security/HmacAuthenticationScopePseudonymizer.cs",
+      "sha256": "8048bbfeec83c25c5710bb3b21c4c695fc4a3f06121bfbbe2810016a6ae7208e"
+    },
+    {
+      "path": "Enver.API/Observability/AuthenticationEvents.cs",
+      "sha256": "12632efa4d0df5c2a1173fa8c2a491a1281bae1a18393479618fd84d2d1d733b"
+    },
+    {
+      "path": "Enver.API/Observability/SafeStartup.cs",
+      "sha256": "8dc591033114ec804343df23e6cb3a43b91a7c3f8c5848be9ed8fa8d7a66cef7"
+    },
+    {
+      "path": "Enver.API/Program.cs",
+      "sha256": "5832a4f632ebf787068ce70ee5aaee80717b55154be4e00409e8b8901230f0ba"
+    },
+    {
+      "path": "Enver.API/Security/AuthenticationAuthorizationResultHandler.cs",
+      "sha256": "e50cd35bf887cd6f2673a6e5e93c301e5b568577e6eac83068c524c089ddead8"
+    },
+    {
+      "path": "Enver.API/Security/AuthenticationPolicies.cs",
+      "sha256": "efc512883be5fe7427332443112fa8e27d45d1a0c32c63bd7b98b5a77d80e57e"
+    },
+    {
+      "path": "Enver.API/Security/DummyPasswordHash.cs",
+      "sha256": "b15a89cae2d269b151d193926b1ea61f223302a93c96d9ac2e8075bdbcbf387d"
+    },
+    {
+      "path": "Enver.API/Security/HashingConcurrencyGate.cs",
+      "sha256": "c0c60d5f5f727ba09de39803104e7100f05a76e77d65e6823d3fa6f54706ffa5"
+    },
+    {
+      "path": "Enver.API/Security/JwtBearerConfiguration.cs",
+      "sha256": "f1b5b75a1af90ef761caf053c0ef00c019853c77a2bcddba691752a4d2acb580"
+    },
+    {
+      "path": "Enver.API/Security/JwtClaimsValidator.cs",
+      "sha256": "3f3730db6f678bd3e1761f8c746324e6205bf946b4990c141e943c7f4cccbfaa"
+    },
+    {
+      "path": "Enver.API/Security/JwtKeyRing.cs",
+      "sha256": "9f991dc9b8789996eec579c73974df2eec414863236617fecde31278d33129a9"
+    },
+    {
+      "path": "Enver.API/Security/JwtTokenIssuer.cs",
+      "sha256": "3ec71a9299769b3568cbcf8ee30e334a80196318949727acf5cbb42d4ea96b6c"
+    },
+    {
+      "path": "Enver.API/Security/PasswordService.cs",
+      "sha256": "f0b2ff9bfdcb6c7587e52f114884bce69b4d979502f16a852316ca57f621cbea"
+    },
+    {
+      "path": "Enver.API/Security/RevocationAuthorizationHandler.cs",
+      "sha256": "234004c410a24017a172f833109c99c05918303a55d85e00fb67bdfc8c5e8ece"
+    },
+    {
+      "path": "Enver.API/appsettings.Development.json",
+      "sha256": "015a65a6f9892ad455e42469722a2812ac4f3ec1e470227fba73e97b9869d029"
+    },
+    {
+      "path": "Enver.API/appsettings.json",
+      "sha256": "efd406cde4db03bba4ccf2eeb4427840df551855dc80cfed6b4c6c28ab0b0fa7"
+    },
+    {
+      "path": "Enver.API/packages.lock.json",
+      "sha256": "21f03fe61b94ddc32c5e61af45f264da4bb95e4c6971565813d520a0742e49ee"
+    },
+    {
+      "path": "global.json",
+      "sha256": "0a568475b41b131ef308328ae8eed9df85c42c776505089e3153c0a13220b6fb"
+    }
+  ],
+  "comparedDevelopCommit": "d12e50e1fbaff728f3bd45fdaa6909ddbfd8f095",
+  "originalFilesVerified": 104,
+  "comparisons": [
+    {
+      "path": ".dockerignore",
+      "historicalSha256": "80cda3fdbeca705ce5e9b7dcbea48cf6cdee91670675f2ddf5f573c8b661efef",
+      "contractBlobSha256": "5fd8e73f8f158860a97fc5d3c8991cdf284182d62333068124bb255a342798b9",
+      "normalizedEqual": false
+    },
+    {
+      "path": "Enver.API/Composition/AuthenticationDependencyAdmission.cs",
+      "historicalSha256": "4a7c19cf2f34508627059c5e80e4ff5459fcfe968db045e8f8a4fb887e10142b",
+      "contractBlobSha256": "4a7c19cf2f34508627059c5e80e4ff5459fcfe968db045e8f8a4fb887e10142b",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Composition/AuthenticationDependencyOptions.cs",
+      "historicalSha256": "39beb8e7fadac170c187d00eb8d9fbe6bd45d35a3d378b34b5137a06c2ea695e",
+      "contractBlobSha256": "39beb8e7fadac170c187d00eb8d9fbe6bd45d35a3d378b34b5137a06c2ea695e",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Composition/AuthenticationServiceCollectionExtensions.cs",
+      "historicalSha256": "dcaf3de5bc1bc089a8d7bec4b63849a10eea1f64441f5a61c5681442e1fd1e2f",
+      "contractBlobSha256": "dcaf3de5bc1bc089a8d7bec4b63849a10eea1f64441f5a61c5681442e1fd1e2f",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Composition/AuthenticationTransport.cs",
+      "historicalSha256": "6beb450f9a60380c30a49e4f0d30d26cd4470cf04c8de8b5dc31b08d8a865cc8",
+      "contractBlobSha256": "6beb450f9a60380c30a49e4f0d30d26cd4470cf04c8de8b5dc31b08d8a865cc8",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Composition/CloudFrontTrustAdapter.cs",
+      "historicalSha256": "459ed22a5b722d0ee168e4ebc9e4101a04c7658681519c666a37e48a2d255f5e",
+      "contractBlobSha256": "459ed22a5b722d0ee168e4ebc9e4101a04c7658681519c666a37e48a2d255f5e",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Composition/LoginControls.cs",
+      "historicalSha256": "82dd2d6379e06f34a49c9f588fa5b7bddbb43a994e7e266165639e6c053c769b",
+      "contractBlobSha256": "82dd2d6379e06f34a49c9f588fa5b7bddbb43a994e7e266165639e6c053c769b",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Composition/LogoutControls.cs",
+      "historicalSha256": "0c9d9189835b780bd33c0bf3742ae8377b06d58a1e77a625b6c3fb4879ac3fbe",
+      "contractBlobSha256": "0c9d9189835b780bd33c0bf3742ae8377b06d58a1e77a625b6c3fb4879ac3fbe",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Composition/RegisterControls.cs",
+      "historicalSha256": "0fc3b6dc1ec1e041a158c6413aa70d5cd5d011b735bde9086e90612ade70adbe",
+      "contractBlobSha256": "0fc3b6dc1ec1e041a158c6413aa70d5cd5d011b735bde9086e90612ade70adbe",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Composition/RuntimeConfiguration.cs",
+      "historicalSha256": "58b73d5dac3aefd0242dbcc8c3f626bf11192338ecb4a675d11d339028e0cdd1",
+      "contractBlobSha256": "58b73d5dac3aefd0242dbcc8c3f626bf11192338ecb4a675d11d339028e0cdd1",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Configuration/AuthenticationOptions.cs",
+      "historicalSha256": "d61ce0603e59bfce3125fd360caa11621c64d112e9d9a57cbc2806a841448e48",
+      "contractBlobSha256": "d61ce0603e59bfce3125fd360caa11621c64d112e9d9a57cbc2806a841448e48",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Configuration/AuthenticationOptionsValidation.cs",
+      "historicalSha256": "b13efa281a9a6d424afc66af04b578cc67ce626a5f155ef7bba355997629728d",
+      "contractBlobSha256": "b13efa281a9a6d424afc66af04b578cc67ce626a5f155ef7bba355997629728d",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Configuration/AuthenticationSecurityAuthorityOptions.cs",
+      "historicalSha256": "e2c53dbeb05cb428acea25b23c44b9d0c2ed4dec205215632d1183d5743b108a",
+      "contractBlobSha256": "e2c53dbeb05cb428acea25b23c44b9d0c2ed4dec205215632d1183d5743b108a",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Configuration/JwtOptions.cs",
+      "historicalSha256": "cba24320a41926d2c82d9102a3b54ad6a35242f9272f3479350a79da617b8644",
+      "contractBlobSha256": "cba24320a41926d2c82d9102a3b54ad6a35242f9272f3479350a79da617b8644",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Configuration/MongoDbOptions.cs",
+      "historicalSha256": "b64e2652b94de006bc8d9f7c9241f76eaa4d0fb3485db72d7d48c109ce3a6aa2",
+      "contractBlobSha256": "b64e2652b94de006bc8d9f7c9241f76eaa4d0fb3485db72d7d48c109ce3a6aa2",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Configuration/RateLimitingOptions.cs",
+      "historicalSha256": "54b7d936eccc03c1dca523aa811d7699ce10e3c38f3a71f0e653db6dbff3680f",
+      "contractBlobSha256": "54b7d936eccc03c1dca523aa811d7699ce10e3c38f3a71f0e653db6dbff3680f",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Configuration/RedisOptions.cs",
+      "historicalSha256": "c2902a36fe1f5a1ff248d2d21aa1fd9ebaa8f34cfc9a5c97b4921ef7816778b5",
+      "contractBlobSha256": "c2902a36fe1f5a1ff248d2d21aa1fd9ebaa8f34cfc9a5c97b4921ef7816778b5",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Controllers/AuthenticationController.cs",
+      "historicalSha256": "35660c6007d9ab820574a6ad2867c383cd849b1cfc3350aacc25b8391e01cc1d",
+      "contractBlobSha256": "35660c6007d9ab820574a6ad2867c383cd849b1cfc3350aacc25b8391e01cc1d",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Dockerfile",
+      "historicalSha256": "993dd609c65a0aab7c7202913452db1527f2e1c4a295426f810f5c19b4718960",
+      "contractBlobSha256": "7d767321515a6c7a00e5add823ff58e284ced8176395dccef3128cc36ac69065",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Enver.API.csproj",
+      "historicalSha256": "d1e5f5f1e0a3fdb8ab50a4431854c8a318523b04a33c83db7a976775e84718c6",
+      "contractBlobSha256": "d1e5f5f1e0a3fdb8ab50a4431854c8a318523b04a33c83db7a976775e84718c6",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/AuthenticationInputs.cs",
+      "historicalSha256": "3c6ad480749e7343f5c3dc97a8508700f6d734791b9a0f2ddbf99037e86a3500",
+      "contractBlobSha256": "3c6ad480749e7343f5c3dc97a8508700f6d734791b9a0f2ddbf99037e86a3500",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/AuthenticationResults.cs",
+      "historicalSha256": "dc99e3e058ce3b8be663a923fb4babc9be532b8d69f64f09fe1c16866e9e6fc1",
+      "contractBlobSha256": "dc99e3e058ce3b8be663a923fb4babc9be532b8d69f64f09fe1c16866e9e6fc1",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/AuthenticationService.cs",
+      "historicalSha256": "e156e5b8cb2e0919dc8d27250e23869c6a31cf5d70751475bfc1178b75d1d965",
+      "contractBlobSha256": "e156e5b8cb2e0919dc8d27250e23869c6a31cf5d70751475bfc1178b75d1d965",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/PasswordRehashCoordinator.cs",
+      "historicalSha256": "1a500719875b5ab0e4a2d49fb8b3391148cce8cd1e667ce5b2eb09a7003337a0",
+      "contractBlobSha256": "1a500719875b5ab0e4a2d49fb8b3391148cce8cd1e667ce5b2eb09a7003337a0",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/IAccessTokenIssuer.cs",
+      "historicalSha256": "93c6013868aa8d1d1066ff087ed93a1bd7193aa752717b76bc1adfbed78480c8",
+      "contractBlobSha256": "93c6013868aa8d1d1066ff087ed93a1bd7193aa752717b76bc1adfbed78480c8",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/IAuthenticationQuotaStore.cs",
+      "historicalSha256": "ecac58d131d78acdb2389c4b0e5d70ed27509aff4b6e078c0abcb41d01cb45e0",
+      "contractBlobSha256": "ecac58d131d78acdb2389c4b0e5d70ed27509aff4b6e078c0abcb41d01cb45e0",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/IAuthenticationScopePseudonymizer.cs",
+      "historicalSha256": "6953e0b08e51bf19ed4b8f25235eebbde10daf18188ef1eb765f40fd931030fc",
+      "contractBlobSha256": "6953e0b08e51bf19ed4b8f25235eebbde10daf18188ef1eb765f40fd931030fc",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/IAuthenticationSecurityAuthority.cs",
+      "historicalSha256": "777bcfba1a011856f4b9579c925d27a2202bf07eee9e74b2cebc2f653dc5debd",
+      "contractBlobSha256": "777bcfba1a011856f4b9579c925d27a2202bf07eee9e74b2cebc2f653dc5debd",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/IAuthenticationSecurityState.cs",
+      "historicalSha256": "e1b9d0b67336599bd039c557fd52cdb2109a100aecc2225f21a0bf8fc54ee17c",
+      "contractBlobSha256": "e1b9d0b67336599bd039c557fd52cdb2109a100aecc2225f21a0bf8fc54ee17c",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/ILoginControls.cs",
+      "historicalSha256": "4638acc5ac47d4330503ef0c2510e483c5dce778d1107e5775e13643bb9d056b",
+      "contractBlobSha256": "4638acc5ac47d4330503ef0c2510e483c5dce778d1107e5775e13643bb9d056b",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/ILoginTokenIssuer.cs",
+      "historicalSha256": "e67c7135683313947d387b374f945c5876625ac58283b03f515b2bb210c7268a",
+      "contractBlobSha256": "e67c7135683313947d387b374f945c5876625ac58283b03f515b2bb210c7268a",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/ILogoutControls.cs",
+      "historicalSha256": "c2a0853749eee6df6de9d4f825dc33245b84c5dde85b9cefbd3ef38bf766eb22",
+      "contractBlobSha256": "c2a0853749eee6df6de9d4f825dc33245b84c5dde85b9cefbd3ef38bf766eb22",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/IPasswordService.cs",
+      "historicalSha256": "2457074e13eb72f14f135136e22c558b046f3c9039013d7f90f225275a10021a",
+      "contractBlobSha256": "2457074e13eb72f14f135136e22c558b046f3c9039013d7f90f225275a10021a",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/IRegisterControls.cs",
+      "historicalSha256": "aeee4de7333b4016d472d9d708f0eab2e7459ee67a6a3d88f346c304d9cdc668",
+      "contractBlobSha256": "aeee4de7333b4016d472d9d708f0eab2e7459ee67a6a3d88f346c304d9cdc668",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/ITokenRevocationStore.cs",
+      "historicalSha256": "70727c2a3e4df0f639c57d8853046a20b040511e0e21cc31bdfa43aeb845a8cc",
+      "contractBlobSha256": "70727c2a3e4df0f639c57d8853046a20b040511e0e21cc31bdfa43aeb845a8cc",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Ports/IUserStore.cs",
+      "historicalSha256": "37e2d9b7986f0cce43b0adfe8998dc8318f6f1c64cd06bc66e3c70e527646bf7",
+      "contractBlobSha256": "37e2d9b7986f0cce43b0adfe8998dc8318f6f1c64cd06bc66e3c70e527646bf7",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationPseudonymizationTransition.cs",
+      "historicalSha256": "b6c611ff1cebc99d323cd596f502d59fea1da68011b864d55afffdbcac7fe7e8",
+      "contractBlobSha256": "b6c611ff1cebc99d323cd596f502d59fea1da68011b864d55afffdbcac7fe7e8",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaCapacityContract.cs",
+      "historicalSha256": "96e21a8944650626d290eda52ea4eba27990f8969d336d88c32c29a1bf34cd95",
+      "contractBlobSha256": "96e21a8944650626d290eda52ea4eba27990f8969d336d88c32c29a1bf34cd95",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaCapacityDescriptor.cs",
+      "historicalSha256": "7b5c395ef26b63b700dd7996948ecd6405bd010b2cf277d7ca60450f3aa2707a",
+      "contractBlobSha256": "7b5c395ef26b63b700dd7996948ecd6405bd010b2cf277d7ca60450f3aa2707a",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaConfigurationSnapshot.cs",
+      "historicalSha256": "407c24097522a11e4e6bfc04031b4bbc90c319b26c034d6806c4c1aa8afc2cc1",
+      "contractBlobSha256": "407c24097522a11e4e6bfc04031b4bbc90c319b26c034d6806c4c1aa8afc2cc1",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaEvaluationContract.cs",
+      "historicalSha256": "9e9cc48d225286f493b154d521e82e881a8540e507e9ef074756abed3276a3ac",
+      "contractBlobSha256": "9e9cc48d225286f493b154d521e82e881a8540e507e9ef074756abed3276a3ac",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaModels.cs",
+      "historicalSha256": "faf3fc0c8f10e9811618b17e80e72d7d11b877c488e4b30b07308a6f0b09b165",
+      "contractBlobSha256": "faf3fc0c8f10e9811618b17e80e72d7d11b877c488e4b30b07308a6f0b09b165",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaPartitionState.cs",
+      "historicalSha256": "76e5908b1717db12e02877ac8f9a78d0151c273ece9d1af87c5dae5f80de90bc",
+      "contractBlobSha256": "76e5908b1717db12e02877ac8f9a78d0151c273ece9d1af87c5dae5f80de90bc",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaPolicyDescriptor.cs",
+      "historicalSha256": "1886564d6ca368c7d741b04cf06a58a6dcf568f087591667c548a9ed332e9d23",
+      "contractBlobSha256": "1886564d6ca368c7d741b04cf06a58a6dcf568f087591667c548a9ed332e9d23",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaRecoveryContract.cs",
+      "historicalSha256": "f4565e3dbdfe61ac785cb709efec02de8e9225b8325eb8c2ea09f910f69aedfc",
+      "contractBlobSha256": "f4565e3dbdfe61ac785cb709efec02de8e9225b8325eb8c2ea09f910f69aedfc",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationQuotaRetryAfter.cs",
+      "historicalSha256": "9363ec26fd31f1d9562e02219f06a2bf66c03906d18bc878828130c56728df82",
+      "contractBlobSha256": "9363ec26fd31f1d9562e02219f06a2bf66c03906d18bc878828130c56728df82",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Application/Quotas/AuthenticationScopeIdentity.cs",
+      "historicalSha256": "e3b25ada463ecc79da453ad930c245598e17849ccdeef5652f3952fc697759db",
+      "contractBlobSha256": "e3b25ada463ecc79da453ad930c245598e17849ccdeef5652f3952fc697759db",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Contracts/LoginRequest.cs",
+      "historicalSha256": "b51078daeae65d7cd31671545e06fc9737553d7371d3d9ae226047b21cffcfa4",
+      "contractBlobSha256": "b51078daeae65d7cd31671545e06fc9737553d7371d3d9ae226047b21cffcfa4",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Contracts/LoginResponse.cs",
+      "historicalSha256": "37dd41610a5f3065a3052bc360b061dff90b6e69c6a4f46ccbecd52856213cd7",
+      "contractBlobSha256": "37dd41610a5f3065a3052bc360b061dff90b6e69c6a4f46ccbecd52856213cd7",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Contracts/RegisterRequest.cs",
+      "historicalSha256": "6ff8eee101d6b23ee4380365b2c008d173ea402f2a0397d39015fd9844cb2d57",
+      "contractBlobSha256": "6ff8eee101d6b23ee4380365b2c008d173ea402f2a0397d39015fd9844cb2d57",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Contracts/RegisterResponse.cs",
+      "historicalSha256": "61d5f33567be36efe5f26c7b631ef789e599a6b7a884babdaae09bda79db758d",
+      "contractBlobSha256": "61d5f33567be36efe5f26c7b631ef789e599a6b7a884babdaae09bda79db758d",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Core/User.cs",
+      "historicalSha256": "09b353be3c67645d7dab8f9b7273d61a3c02f242106682de789dcd92e49b0044",
+      "contractBlobSha256": "09b353be3c67645d7dab8f9b7273d61a3c02f242106682de789dcd92e49b0044",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Core/UserStatus.cs",
+      "historicalSha256": "699352c5c890c5949fec35db41a5e966b82b079026ea4d7369d7aa0231f5002a",
+      "contractBlobSha256": "699352c5c890c5949fec35db41a5e966b82b079026ea4d7369d7aa0231f5002a",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Validation/AuthenticationAdmissionResults.cs",
+      "historicalSha256": "28f1c68dfa91c9c9952b04518b0fb492b6c48e393fb99287349cf53fdbd994d2",
+      "contractBlobSha256": "28f1c68dfa91c9c9952b04518b0fb492b6c48e393fb99287349cf53fdbd994d2",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Validation/AuthenticationInputValidator.cs",
+      "historicalSha256": "1c553e1b4df7d92a5b9439566409857b5db77b479713f6944573bc7bd28f58eb",
+      "contractBlobSha256": "1c553e1b4df7d92a5b9439566409857b5db77b479713f6944573bc7bd28f58eb",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Validation/InstitutionalEmailNormalizer.cs",
+      "historicalSha256": "799a0107e6558ad662b1c8d8468efadf711e5cc00a40a5171a6c90e08ce79807",
+      "contractBlobSha256": "799a0107e6558ad662b1c8d8468efadf711e5cc00a40a5171a6c90e08ce79807",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Validation/PasswordPolicy.cs",
+      "historicalSha256": "c1182a20a5dd0cc56200b52d40a4087c4c719011829d7e521166cf555e289b9b",
+      "contractBlobSha256": "c1182a20a5dd0cc56200b52d40a4087c4c719011829d7e521166cf555e289b9b",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Features/Authentication/Validation/UnicodeInput.cs",
+      "historicalSha256": "29dcd085f0c22ac1b42046023236f06f58fbf636c0fe095dfc55112c10cac2f8",
+      "contractBlobSha256": "29dcd085f0c22ac1b42046023236f06f58fbf636c0fe095dfc55112c10cac2f8",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Http/ApiExceptionHandler.cs",
+      "historicalSha256": "181581a80844ea79e03a16c406ff93b0d5a6f22a7867e96f334a985c9c26ea6c",
+      "contractBlobSha256": "181581a80844ea79e03a16c406ff93b0d5a6f22a7867e96f334a985c9c26ea6c",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Http/ApiProblemDetails.cs",
+      "historicalSha256": "44d21491ce7a5e1ebf8802cf5ee0e9bce0ad58adc7b6ef20f9d80015585912ce",
+      "contractBlobSha256": "44d21491ce7a5e1ebf8802cf5ee0e9bce0ad58adc7b6ef20f9d80015585912ce",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Http/AuthenticationOriginProvider.cs",
+      "historicalSha256": "8b05bb4f23ce57d8c4ec194763f8a22901fe7f435cd6250b8c5fa168bee1ee67",
+      "contractBlobSha256": "8b05bb4f23ce57d8c4ec194763f8a22901fe7f435cd6250b8c5fa168bee1ee67",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Http/AuthenticationRequestLimitsMiddleware.cs",
+      "historicalSha256": "7a83f0e280c9088a3bf22eea24489f41dd4d65ef44e2bcd0af00104134081b03",
+      "contractBlobSha256": "7a83f0e280c9088a3bf22eea24489f41dd4d65ef44e2bcd0af00104134081b03",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Http/AuthenticationValidationCoordinator.cs",
+      "historicalSha256": "b965c4cc4dd1d6c551f8929e04c097f2a3a3479a919d79755f352d66980ea634",
+      "contractBlobSha256": "b965c4cc4dd1d6c551f8929e04c097f2a3a3479a919d79755f352d66980ea634",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Http/AuthenticationValidationFilter.cs",
+      "historicalSha256": "3fcdadce9e2936b4cc5ce2e9d66192137ea3bd4da04412ac58cd74bae15f2613",
+      "contractBlobSha256": "3fcdadce9e2936b4cc5ce2e9d66192137ea3bd4da04412ac58cd74bae15f2613",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Http/LoginEndpointConvention.cs",
+      "historicalSha256": "80c9897167da41b038859bf6f77d81df762f56e3d75c514aa504c1e452b33920",
+      "contractBlobSha256": "80c9897167da41b038859bf6f77d81df762f56e3d75c514aa504c1e452b33920",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Http/RegisterBoundaryContinuation.cs",
+      "historicalSha256": "a831efcfa8efa7f3784f7fddefe4970a8ffc70091860ea1d0a229ef0cc575b3e",
+      "contractBlobSha256": "a831efcfa8efa7f3784f7fddefe4970a8ffc70091860ea1d0a229ef0cc575b3e",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Http/RequestBudget.cs",
+      "historicalSha256": "c5eec5d3af7f6402505e25e5b5cc45a56569a78c006c81e662e4960eead80644",
+      "contractBlobSha256": "c5eec5d3af7f6402505e25e5b5cc45a56569a78c006c81e662e4960eead80644",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Http/RequestContextMiddleware.cs",
+      "historicalSha256": "fcdf19d01c55b98e9a6d1d14ace1a268a39541feb5313dafb4d4971830aaf266",
+      "contractBlobSha256": "fcdf19d01c55b98e9a6d1d14ace1a268a39541feb5313dafb4d4971830aaf266",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/Aws/DynamoDbAuthenticationSecurityAuthority.cs",
+      "historicalSha256": "7584ea0165e3b9eae4633197286a3084fd070337aa4d40d4b4811dfcfc3f6e66",
+      "contractBlobSha256": "7584ea0165e3b9eae4633197286a3084fd070337aa4d40d4b4811dfcfc3f6e66",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/MongoDB/MongoClientFactory.cs",
+      "historicalSha256": "df67e0526a699ce11773420fdd48a8a2b6c453e3295c898244189c027cb185ab",
+      "contractBlobSha256": "df67e0526a699ce11773420fdd48a8a2b6c453e3295c898244189c027cb185ab",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/MongoDB/MongoUserStore.cs",
+      "historicalSha256": "cdc06b32da8cbdf057d64402708094ecc6ff78a853113ecc85e27dbedfbf309c",
+      "contractBlobSha256": "cdc06b32da8cbdf057d64402708094ecc6ff78a853113ecc85e27dbedfbf309c",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/MongoDB/MongoUsersInitializer.cs",
+      "historicalSha256": "d6a21d3883d657c4dcee7e3b09b9b3f6b9a00eff1a910d79c0aec846420c58f8",
+      "contractBlobSha256": "d6a21d3883d657c4dcee7e3b09b9b3f6b9a00eff1a910d79c0aec846420c58f8",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/MongoDB/UserDocument.cs",
+      "historicalSha256": "6b8260b9a79632fa5126b35bdecded92ad8b21e67b96e4f487610e024eebb075",
+      "contractBlobSha256": "6b8260b9a79632fa5126b35bdecded92ad8b21e67b96e4f487610e024eebb075",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaConfiguration.cs",
+      "historicalSha256": "a5f8a243117733a836ca6e582c16eed74dcc468c481e9665762693d67e072cdd",
+      "contractBlobSha256": "a5f8a243117733a836ca6e582c16eed74dcc468c481e9665762693d67e072cdd",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaKeyBuilder.cs",
+      "historicalSha256": "7f10d2a7a0a7777fed05f64a5165166e0753d53790bc4b1d47c126c2d102be29",
+      "contractBlobSha256": "7f10d2a7a0a7777fed05f64a5165166e0753d53790bc4b1d47c126c2d102be29",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaLifecycle.cs",
+      "historicalSha256": "42bca566ec26016ba6e389812de09632d71619e1a12b3763d0d4068c9da71fb3",
+      "contractBlobSha256": "42bca566ec26016ba6e389812de09632d71619e1a12b3763d0d4068c9da71fb3",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaScriptProtocol.cs",
+      "historicalSha256": "855dd594983e5637544dc8d8762c5edab4f585701c8b84089413e0a00c808c3c",
+      "contractBlobSha256": "855dd594983e5637544dc8d8762c5edab4f585701c8b84089413e0a00c808c3c",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisAuthenticationQuotaStore.cs",
+      "historicalSha256": "0d512736352fe89e516d8d815a380b962407f317d07944e9fb4ab736c90d9c1a",
+      "contractBlobSha256": "0d512736352fe89e516d8d815a380b962407f317d07944e9fb4ab736c90d9c1a",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisConnections.cs",
+      "historicalSha256": "aad4ed7142b38c16fa52061165b595c9c0a820b252e0f3156c58663c38cb8132",
+      "contractBlobSha256": "aad4ed7142b38c16fa52061165b595c9c0a820b252e0f3156c58663c38cb8132",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisKeyBuilder.cs",
+      "historicalSha256": "e6641ffd7597a18b2262c7283aa2c62ef0f7e3fa67912f3e75612baf6cb67b66",
+      "contractBlobSha256": "e6641ffd7597a18b2262c7283aa2c62ef0f7e3fa67912f3e75612baf6cb67b66",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisSecurityStateDetector.cs",
+      "historicalSha256": "db16da65309b194c350965b0152184ea1f726be6eef99d5235e7daa111191c08",
+      "contractBlobSha256": "db16da65309b194c350965b0152184ea1f726be6eef99d5235e7daa111191c08",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisSecurityStateGuard.cs",
+      "historicalSha256": "a2e2c4ea8098e6155c11a221f4adb57a694ecdb61c3585c062ed70a1051c87ef",
+      "contractBlobSha256": "a2e2c4ea8098e6155c11a221f4adb57a694ecdb61c3585c062ed70a1051c87ef",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/RedisTokenRevocationStore.cs",
+      "historicalSha256": "1cecb23650f84a8d8fcdf0cf7f8772c7db48f3ce1d3f18ac14b9071676e4db4d",
+      "contractBlobSha256": "1cecb23650f84a8d8fcdf0cf7f8772c7db48f3ce1d3f18ac14b9071676e4db4d",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/Scripts/ConsumeAuthenticationQuota.lua",
+      "historicalSha256": "052ec050c7d604976b1e02a9abccbd1412c59c77c6b817c08542b26546f75544",
+      "contractBlobSha256": "052ec050c7d604976b1e02a9abccbd1412c59c77c6b817c08542b26546f75544",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/Redis/Scripts/RevokeToken.lua",
+      "historicalSha256": "fa0fe6845c2feb8ff7a303e8138a78e169bf733824c236b56c342d74da79270c",
+      "contractBlobSha256": "fa0fe6845c2feb8ff7a303e8138a78e169bf733824c236b56c342d74da79270c",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/Security/AuthenticationSecurityCoordinator.cs",
+      "historicalSha256": "67e3e433df7d1f520608c1d6c2bd3c2416ce9f77c62f60f6d1c77ec65446048d",
+      "contractBlobSha256": "67e3e433df7d1f520608c1d6c2bd3c2416ce9f77c62f60f6d1c77ec65446048d",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Infrastructure/Security/HmacAuthenticationScopePseudonymizer.cs",
+      "historicalSha256": "8048bbfeec83c25c5710bb3b21c4c695fc4a3f06121bfbbe2810016a6ae7208e",
+      "contractBlobSha256": "8048bbfeec83c25c5710bb3b21c4c695fc4a3f06121bfbbe2810016a6ae7208e",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Observability/AuthenticationEvents.cs",
+      "historicalSha256": "12632efa4d0df5c2a1173fa8c2a491a1281bae1a18393479618fd84d2d1d733b",
+      "contractBlobSha256": "12632efa4d0df5c2a1173fa8c2a491a1281bae1a18393479618fd84d2d1d733b",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Observability/SafeStartup.cs",
+      "historicalSha256": "8dc591033114ec804343df23e6cb3a43b91a7c3f8c5848be9ed8fa8d7a66cef7",
+      "contractBlobSha256": "8dc591033114ec804343df23e6cb3a43b91a7c3f8c5848be9ed8fa8d7a66cef7",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Program.cs",
+      "historicalSha256": "5832a4f632ebf787068ce70ee5aaee80717b55154be4e00409e8b8901230f0ba",
+      "contractBlobSha256": "5832a4f632ebf787068ce70ee5aaee80717b55154be4e00409e8b8901230f0ba",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Security/AuthenticationAuthorizationResultHandler.cs",
+      "historicalSha256": "e50cd35bf887cd6f2673a6e5e93c301e5b568577e6eac83068c524c089ddead8",
+      "contractBlobSha256": "e50cd35bf887cd6f2673a6e5e93c301e5b568577e6eac83068c524c089ddead8",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Security/AuthenticationPolicies.cs",
+      "historicalSha256": "efc512883be5fe7427332443112fa8e27d45d1a0c32c63bd7b98b5a77d80e57e",
+      "contractBlobSha256": "efc512883be5fe7427332443112fa8e27d45d1a0c32c63bd7b98b5a77d80e57e",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Security/DummyPasswordHash.cs",
+      "historicalSha256": "b15a89cae2d269b151d193926b1ea61f223302a93c96d9ac2e8075bdbcbf387d",
+      "contractBlobSha256": "b15a89cae2d269b151d193926b1ea61f223302a93c96d9ac2e8075bdbcbf387d",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Security/HashingConcurrencyGate.cs",
+      "historicalSha256": "c0c60d5f5f727ba09de39803104e7100f05a76e77d65e6823d3fa6f54706ffa5",
+      "contractBlobSha256": "c0c60d5f5f727ba09de39803104e7100f05a76e77d65e6823d3fa6f54706ffa5",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Security/JwtBearerConfiguration.cs",
+      "historicalSha256": "f1b5b75a1af90ef761caf053c0ef00c019853c77a2bcddba691752a4d2acb580",
+      "contractBlobSha256": "f1b5b75a1af90ef761caf053c0ef00c019853c77a2bcddba691752a4d2acb580",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Security/JwtClaimsValidator.cs",
+      "historicalSha256": "3f3730db6f678bd3e1761f8c746324e6205bf946b4990c141e943c7f4cccbfaa",
+      "contractBlobSha256": "3f3730db6f678bd3e1761f8c746324e6205bf946b4990c141e943c7f4cccbfaa",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Security/JwtKeyRing.cs",
+      "historicalSha256": "9f991dc9b8789996eec579c73974df2eec414863236617fecde31278d33129a9",
+      "contractBlobSha256": "9f991dc9b8789996eec579c73974df2eec414863236617fecde31278d33129a9",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Security/JwtTokenIssuer.cs",
+      "historicalSha256": "3ec71a9299769b3568cbcf8ee30e334a80196318949727acf5cbb42d4ea96b6c",
+      "contractBlobSha256": "3ec71a9299769b3568cbcf8ee30e334a80196318949727acf5cbb42d4ea96b6c",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Security/PasswordService.cs",
+      "historicalSha256": "f0b2ff9bfdcb6c7587e52f114884bce69b4d979502f16a852316ca57f621cbea",
+      "contractBlobSha256": "f0b2ff9bfdcb6c7587e52f114884bce69b4d979502f16a852316ca57f621cbea",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/Security/RevocationAuthorizationHandler.cs",
+      "historicalSha256": "234004c410a24017a172f833109c99c05918303a55d85e00fb67bdfc8c5e8ece",
+      "contractBlobSha256": "234004c410a24017a172f833109c99c05918303a55d85e00fb67bdfc8c5e8ece",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/appsettings.Development.json",
+      "historicalSha256": "015a65a6f9892ad455e42469722a2812ac4f3ec1e470227fba73e97b9869d029",
+      "contractBlobSha256": "b803174f517239872fde6ef6bcf44bfa5b0997f081b759ba3dd3db82e0df4b3f",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/appsettings.json",
+      "historicalSha256": "efd406cde4db03bba4ccf2eeb4427840df551855dc80cfed6b4c6c28ab0b0fa7",
+      "contractBlobSha256": "f52b54ba6dad37f083e8168867b6177388f719124bad3d96c7587f2fd5d0e505",
+      "normalizedEqual": true
+    },
+    {
+      "path": "Enver.API/packages.lock.json",
+      "historicalSha256": "21f03fe61b94ddc32c5e61af45f264da4bb95e4c6971565813d520a0742e49ee",
+      "contractBlobSha256": "1aa73c107dc65b3b16effd01385b7e47e932c6d2522630f9ff99fb991ab4f63b",
+      "normalizedEqual": true
+    },
+    {
+      "path": "global.json",
+      "historicalSha256": "0a568475b41b131ef308328ae8eed9df85c42c776505089e3153c0a13220b6fb",
+      "contractBlobSha256": "0a568475b41b131ef308328ae8eed9df85c42c776505089e3153c0a13220b6fb",
+      "normalizedEqual": true
+    }
+  ],
+  "dockerignoreUtf8": "**/.classpath\r\n**/.dockerignore\r\n**/.env\r\n**/.git\r\n**/.gitignore\r\n**/.project\r\n**/.settings\r\n**/.toolstarget\r\n**/.vs\r\n**/.vscode\r\n**/*.*proj.user\r\n**/*.dbmdl\r\n**/*.jfm\r\n**/azds.yaml\r\n**/bin\r\n**/charts\r\n**/docker-compose*\r\n**/Dockerfile*\r\n**/node_modules\r\n**/npm-debug.log\r\n**/obj\r\n**/secrets.dev.yaml\r\n**/values.dev.yaml\r\nLICENSE\nREADME.md\n\n# CI, pruebas, cobertura y logs locales.\n**/.github\n**/TestResults\n**/coverage\n**/coverage.*\n**/*.coverage\n**/*.coveragexml\n**/*.trx\n**/*.log\n\n# Configuración local, secretos y material criptográfico.\n**/.env.*\n**/appsettings.Local.json\n**/appsettings.*.Local.json\n**/appsettings.Runtime.json\n**/secrets.json\n**/*.pfx\n**/*.p12\n**/*.pem\n**/*.key\n**/.aws\n**/.azure\n**/.ssh\n**/.docker\n\n# Estado y variables locales de Terraform; no excluir su lockfile.\n**/.terraform\n**/*.tfstate\n**/*.tfstate.*\n**/*.tfvars\n**/*.tfvars.json\n**/*.tfplan\n\n# Artefactos generados y preferencias de IDE/OS.\n**/dist\n**/build\n**/artifacts\n**/BenchmarkDotNet.Artifacts\n**/.idea\n**/*.user\n**/*.suo\n**/*.userosscache\n**/*.sln.docstates\n**/*.publishsettings\n**/*.pubxml.user\n**/*.DotSettings.user\n**/*.sln.iml\n**/*.tmp\n**/*.temp\n**/*.bak\n**/*.swp\n**/*.swo\n**/*~\n**/.DS_Store\n**/Thumbs.db\n**/Desktop.ini\n\n# Estado local de runners y herramientas de CI.\n**/_work\n**/_temp\n**/_diag\n**/.act\n**/.actrc\n**/.act.secrets\n**/.act.vars\n\n# Gobierno/documentación ajenos al build de la API.\nmemoria.md\nspecs/\n.opencode/\n.specify/\nAGENTS.md\nconstitution.md\n",
+  "preservationLimit": "Full context files not copied; names and original hashes preserved, differing .dockerignore preserved byte-exact inside UTF-8 string. Other contents can be compared to pinned Git sources after CRLF-to-LF normalization. Not a reproducible-build attestation."
+}
