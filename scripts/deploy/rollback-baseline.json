@@ -1,8 +1,11 @@
 {
   "schema": 1,
-  "approved": false,
+  "approved": true,
   "repository": "enverdelivery/ENVER-Backend",
   "manifestDigest": "sha256:41483906445df7b1ad53de32dfc8b6c416bfd53c17cf043cd5a33476c357a856",
   "environment": "development",
+  "evidenceHash": "db562052f2d0b562c85bfb6a7be91840a4ae0863f0d33a62ca00adc2133008ba",
+  "approvedBy": "vega2004",
+  "expiresAt": "2027-01-31T23:59:59Z",
   "reason": "Deployment manual histórico; incorporación como retorno CI/CD pendiente de revisión y autorización explícitas. No fabricar evidencia GitHub retroactiva."
 }
