@@ -30,6 +30,10 @@ internal sealed class DistributedQuotaTestScope
     internal QuotaHost A { get; private set; } = null!;
     internal QuotaHost B { get; private set; } = null!;
     internal DistributedQuotaDiagnostics? Diagnostics { get; private set; }
+    internal DistributedQuotaCapacityDiagnostics? CapacityDiagnostics { get; private set; }
+    internal int TrackedBucketCount => buckets.Count;
+    internal object TrackedScopeCounts() => buckets.Values.GroupBy(value => value.ScopeType)
+        .Select(group => new { scope = group.Key.ToString(), identities = group.Count() }).ToArray();
     private readonly AuthenticationDependenciesFixture fixture;
     private readonly ITestOutputHelper output;
     private readonly string hmac = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
@@ -44,14 +48,17 @@ internal sealed class DistributedQuotaTestScope
 
     // Presupuesto de harness: acota el cuerpo de la prueba; no es SLA, RequestBudget ni timeout funcional de Redis.
     internal static async Task RunAsync(AuthenticationDependenciesFixture fixture, ITestOutputHelper output,
-        Func<DistributedQuotaTestScope, Task> test, TimeSpan? syntheticWindow = null, TimeSpan? budget = null, bool diagnostics = false)
+        Func<DistributedQuotaTestScope, Task> test, TimeSpan? syntheticWindow = null, TimeSpan? budget = null, bool diagnostics = false,
+        bool capacityDiagnostics = false)
     {
         var data = await RedisAuthenticationQuotaTestScope.CreateAsync(fixture, syntheticWindow);
         var scope = new DistributedQuotaTestScope(fixture, output, data);
         if (diagnostics) scope.Diagnostics = new(scope.Config.Keys.Metadata);
+        if (capacityDiagnostics) scope.CapacityDiagnostics = new(scope.Config.Keys.Metadata);
         Exception? primary = null;
         try
         {
+            if (scope.CapacityDiagnostics is { } capacity) await capacity.StartedAsync(scope);
             scope.A = scope.Host(); scope.B = scope.Host();
             Assert.NotSame(scope.A.Services, scope.B.Services);
             Assert.NotSame(scope.A.Server, scope.B.Server);
@@ -69,10 +76,16 @@ internal sealed class DistributedQuotaTestScope
             using var observer = scope.Diagnostics?.Observe();
             await test(scope).WaitAsync(budget ?? TimeSpan.FromMinutes(5));
             scope.Diagnostics?.Report(output);
+            scope.CapacityDiagnostics?.Report(scope, output);
         }
         catch (Exception failure)
         {
             primary = failure;
+            if (scope.CapacityDiagnostics is { } capacity)
+            {
+                primary = await capacity.FailureAsync(scope, failure);
+                throw primary;
+            }
             if (scope.Diagnostics is null) throw;
             try { primary = await scope.Diagnostics.FailureAsync(scope, failure); }
             catch (Exception diagnosticFailure)
@@ -99,7 +112,7 @@ internal sealed class DistributedQuotaTestScope
     }
 
     internal QuotaHost Host(string? connection = null, RedisAuthenticationQuotaConfiguration? config = null,
-        IAuthenticationSecurityState? global = null) => new(fixture, config ?? Config, hmac, connection ?? fixture.RedisConnectionString, global, Diagnostics);
+        IAuthenticationSecurityState? global = null) => new(fixture, config ?? Config, hmac, connection ?? fixture.RedisConnectionString, global, Diagnostics, CapacityDiagnostics);
 
     /// <summary>Host/owner adicional del caso, liberado antes de A/B y del scope de datos.</summary>
     internal T Own<T>(T owner) where T : IAsyncDisposable { extraOwners.Add(owner); return owner; }
@@ -136,6 +149,7 @@ internal sealed class DistributedQuotaTestScope
         });
         var request = new AuthenticationQuotaConsumeRequest(operation, Guid.NewGuid().ToString("N"), revision ?? Config.Snapshot.Policy.Revision,
             identities.Select(id => new AuthenticationQuotaScope(id.ScopeType, owner.Pseudonymizer.Pseudonymize(id), Config.Snapshot.Policy.GetDefinition(operation, id.ScopeType))));
+        CapacityDiagnostics?.CreatedRequest();
         Track(request); return request;
     }
 
@@ -153,6 +167,7 @@ internal sealed class DistributedQuotaTestScope
         using var budget = RedisAuthenticationQuotaTestScope.Budget();
         var result = await (store ?? (host == 0 ? A : B).Store).EvaluateAndConsumeAsync(request, budget);
         Diagnostics?.Decision(result);
+        CapacityDiagnostics?.Decision(result);
         outcomes.AddOrUpdate((phase, host, request.Operation, result.Status), 1, (_, value) => value + 1);
         return result;
     }
@@ -237,6 +252,7 @@ internal sealed class DistributedQuotaTestScope
         private readonly string hmac;
         private readonly IAuthenticationSecurityState global;
         private readonly DistributedQuotaDiagnostics? diagnostics;
+        private readonly DistributedQuotaCapacityDiagnostics? capacity;
         internal RedisOptions RedisOptions { get; }
         private long dispatches;
         internal long Dispatches => Interlocked.Read(ref dispatches);
@@ -246,10 +262,12 @@ internal sealed class DistributedQuotaTestScope
         internal HmacAuthenticationScopePseudonymizer Pseudonymizer => Services.GetRequiredService<HmacAuthenticationScopePseudonymizer>();
         internal RedisAuthenticationQuotaStore Store => Services.GetRequiredService<RedisAuthenticationQuotaStore>();
 
-        internal QuotaHost(AuthenticationDependenciesFixture fixture, RedisAuthenticationQuotaConfiguration config, string hmac, string connection, IAuthenticationSecurityState? global, DistributedQuotaDiagnostics? diagnostics)
+        internal QuotaHost(AuthenticationDependenciesFixture fixture, RedisAuthenticationQuotaConfiguration config, string hmac, string connection, IAuthenticationSecurityState? global, DistributedQuotaDiagnostics? diagnostics,
+            DistributedQuotaCapacityDiagnostics? capacity)
         {
             this.fixture = fixture; this.config = config; this.hmac = hmac; this.global = global ?? RedisAuthenticationQuotaTestScope.Open;
             this.diagnostics = diagnostics;
+            this.capacity = capacity;
             RedisOptions = new() { ConnectionString = connection + ",allowAdmin=true", NamespacePrefix = "enver:" + config.Snapshot.Environment,
                 OperationTimeoutMilliseconds = 2000, ConnectionTimeoutMilliseconds = 2000 };
         }
@@ -291,8 +309,9 @@ internal sealed class DistributedQuotaTestScope
                             var script = diagnostics is null
                                 ? RedisAuthenticationQuotaScriptProtocol.ScriptText
                                 : DistributedQuotaLuaGuardDiagnostics.ScriptText;
-                            var pending = database.ScriptEvaluateAsync(
-                                script, invocation.Keys, invocation.Arguments, CommandFlags.DemandMaster);
+                            var pending = capacity?.CaptureEval == true
+                                ? capacity.ExecuteAsync(database, config, invocation)
+                                : database.ScriptEvaluateAsync(script, invocation.Keys, invocation.Arguments, CommandFlags.DemandMaster);
                             diagnostics?.Submitted();
                             var response = await pending;
                             if (diagnostics is not null)

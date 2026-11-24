@@ -179,16 +179,18 @@ internal sealed class RedisAuthenticationQuotaTestScope : IAsyncDisposable
         var result = (RedisResult[])(await Database.ExecuteAsync("TIME"))!;
         return checked((long)result[0] * 1000000 + (long)result[1]);
     }
-    internal async Task WaitUntilAsync(long target, TimeSpan? maximumWait = null)
+    internal async Task WaitUntilAsync(long target, TimeSpan? maximumWait = null, Action<long>? observed = null)
     {
         // Stopwatch limita la espera del harness; únicamente Redis TIME decide si terminó la ventana.
         var timeout = maximumWait ?? TimeSpan.FromSeconds(10);
         var timer = Stopwatch.StartNew();
-        while (await NowAsync() < target)
+        long now;
+        while ((now = await NowAsync()) < target)
         {
             Assert.True(timer.Elapsed < timeout, "No se alcanzó el horizonte Redis dentro del límite de prueba.");
             await Task.Delay(5);
         }
+        observed?.Invoke(now);
     }
     internal async Task<long> CountAsync() => (long)await Database.HashGetAsync(Configuration.Keys.Metadata, "count");
 
