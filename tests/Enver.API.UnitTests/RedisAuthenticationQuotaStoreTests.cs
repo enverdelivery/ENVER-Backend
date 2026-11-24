@@ -4,10 +4,11 @@ using Enver.API.Features.Authentication.Application.Quotas;
 using Enver.API.Http;
 using Enver.API.Infrastructure.Redis;
 using StackExchange.Redis;
+using Xunit.Abstractions;
 
 namespace Enver.API.UnitTests.RedisQuotas;
 
-public sealed class RedisAuthenticationQuotaStoreTests
+public sealed class RedisAuthenticationQuotaStoreTests(ITestOutputHelper output)
 {
     [Theory]
     [InlineData("admitted", "ok", 0, AuthenticationQuotaStoreStatus.Admitted)]
@@ -92,18 +93,42 @@ public sealed class RedisAuthenticationQuotaStoreTests
     public async Task Post_dispatch_timeout_is_uncertain()
     {
         var calls = 0;
+        var clock = new ControlledBudgetClock();
+        using var budget = new RequestBudget(1000, CancellationToken.None, clock);
+        var remote = new TaskCompletionSource<RedisResult>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var dispatchReached = false;
+        var dispatchedAtTimeout = false;
+        var dependencyCanceled = false;
+        var causeAtDispatch = BudgetCancellationCause.None;
         await using var connections = new RedisConnections(QuotaTestData.Options());
-        var store = QuotaTestData.Store(connections, execute: async (dependency, _) =>
+        var store = QuotaTestData.Store(connections, execute: (dependency, _) =>
         {
             calls++;
-            await Task.Delay(Timeout.InfiniteTimeSpan, dependency.Token);
-            return QuotaTestData.Reply("admitted", "ok");
+            dispatchReached = true;
+            causeAtDispatch = dependency.Cause;
+            var token = dependency.Token;
+            var waiting = remote.Task.WaitAsync(token);
+            // Solo tras entrar en execute (MarkDispatched ya ocurrió): vence la dependencia,
+            // no la petición. Ningún timer real ni scheduling del runner decide el resultado.
+            clock.Advance(QuotaTestData.Options().OperationTimeoutMilliseconds);
+            dependencyCanceled = token.IsCancellationRequested;
+            dispatchedAtTimeout = dependency.ResultUncertain;
+            return new ValueTask<RedisResult>(waiting);
         });
-        using var budget = new RequestBudget(1000, CancellationToken.None);
         var result = await store.EvaluateAndConsumeAsync(QuotaTestData.Request(), budget);
+        output.WriteLine($"QUOTA_TIMEOUT virtualElapsedMs={clock.Milliseconds} requestStartMs=0 requestDeadlineMs=1000 dependencyStartMs=0 dependencyDeadlineMs=50 dispatchReached={dispatchReached} dispatchCompleted={remote.Task.IsCompleted} dependencyCanceled={dependencyCanceled} dispatchedAtTimeout={dispatchedAtTimeout} causeAtDispatch={causeAtDispatch} requestCause={budget.Cause} finalCause={result.CancellationCause}");
         Assert.Equal(AuthenticationQuotaStoreStatus.Uncertain, result.Status);
         Assert.Equal(BudgetCancellationCause.DependencyTimeout, result.CancellationCause);
         Assert.Equal(1, calls);
+        Assert.True(dispatchReached);
+        Assert.Equal(BudgetCancellationCause.None, causeAtDispatch);
+        Assert.True(dispatchedAtTimeout);
+        Assert.True(dependencyCanceled);
+        Assert.False(remote.Task.IsCompleted);
+        Assert.False(budget.Token.IsCancellationRequested);
+        Assert.Equal(BudgetCancellationCause.None, budget.Cause);
+        Assert.Equal(TimeSpan.FromMilliseconds(950), budget.Remaining);
+        Assert.Equal(50, clock.Milliseconds);
     }
 
     [Fact]
@@ -113,6 +138,49 @@ public sealed class RedisAuthenticationQuotaStoreTests
         var store = QuotaTestData.Store(connections, execute: (_, _) => ValueTask.FromResult(RedisResult.Create((RedisValue)"unexpected")));
         using var budget = new RequestBudget(1000, CancellationToken.None);
         Assert.Equal(AuthenticationQuotaStoreStatus.Uncertain, (await store.EvaluateAndConsumeAsync(QuotaTestData.Request(), budget)).Status);
+    }
+
+    // Reloj local al caso: además del timestamp controla los timers CTS. Cambiar solo
+    // GetTimestamp dejaría CancelAfter real y conservaría la carrera que se está probando.
+    private sealed class ControlledBudgetClock : TimeProvider
+    {
+        private long ticks;
+        private readonly List<ControlledTimer> timers = [];
+        internal long Milliseconds => ticks / TimeSpan.TicksPerMillisecond;
+        public override long TimestampFrequency => TimeSpan.TicksPerSecond;
+        public override long GetTimestamp() => ticks;
+        public override ITimer CreateTimer(TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period)
+        {
+            var timer = new ControlledTimer(this, callback, state);
+            timer.Change(dueTime, period);
+            timers.Add(timer);
+            return timer;
+        }
+        internal void Advance(int milliseconds)
+        {
+            ticks += TimeSpan.FromMilliseconds(milliseconds).Ticks;
+            foreach (var timer in timers.ToArray()) timer.FireIfDue();
+        }
+        private sealed class ControlledTimer(ControlledBudgetClock clock, TimerCallback callback, object? state) : ITimer
+        {
+            private long due = long.MaxValue;
+            private bool disposed;
+            public bool Change(TimeSpan dueTime, TimeSpan period)
+            {
+                if (period != Timeout.InfiniteTimeSpan) throw new NotSupportedException("Solo deadlines de una ejecución.");
+                if (disposed) return false;
+                due = dueTime == Timeout.InfiniteTimeSpan ? long.MaxValue : clock.ticks + dueTime.Ticks;
+                return true;
+            }
+            internal void FireIfDue()
+            {
+                if (disposed || due > clock.ticks) return;
+                due = long.MaxValue;
+                callback(state);
+            }
+            public void Dispose() => disposed = true;
+            public ValueTask DisposeAsync() { Dispose(); return ValueTask.CompletedTask; }
+        }
     }
 }
 
