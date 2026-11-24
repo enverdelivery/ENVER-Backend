@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import {requireThat, command, policy, policyHash, privateDir, sha256, digest, GitHub, validateRun, states} from '../ci/lib.mjs';
+import {Closed, requireThat, command, policy, policyHash, privateDir, sha256, digest, GitHub, validateRun, states} from '../ci/lib.mjs';
 
 export function validateApproval(a, now = Date.now()) {
   requireThat(a.schema === 1 && a.repository === policy.repository && a.branch === policy.branch && /^[a-f0-9]{40}$/.test(a.sha) && /^[a-f0-9]{40}$/.test(a.workflowSha), 'APPROVAL_SOURCE');
@@ -8,11 +8,13 @@ export function validateApproval(a, now = Date.now()) {
   requireThat(a.policyHash === policyHash && a.policy === policy.version && /^[a-f0-9]{64}$/.test(a.artifactHash), 'APPROVAL_POLICY');
   requireThat(a.ecr === `${policy.aws.registry}/${policy.aws.repository}`, 'APPROVAL_REGISTRY');
   for (const key of ['ciRun', 'ciAttempt', 'hardeningRun', 'hardeningAttempt']) requireThat(/^\d+$/.test(String(a[key])), 'APPROVAL_RUN');
-  requireThat(Number.isFinite(Date.parse(a.createdAt)) && Date.parse(a.createdAt) <= now && Date.parse(a.expiresAt) > now && Date.parse(a.expiresAt) - Date.parse(a.createdAt) <= policy.candidateMaxAgeHours * 3600000, 'APPROVAL_EXPIRED');
   for (const key of ['ci', 'hardening']) requireThat(/^[a-f0-9]{64}$/.test(a.evidenceHashes?.[key]), 'APPROVAL_EVIDENCE_HASH');
   for (const name of ['verify_candidate', ...policy.requiredHardening]) requireThat(a.securityResults.filter(r => r.control === name).length === 1 && a.securityResults.find(r => r.control === name).state === 'PASS', 'APPROVAL_CONTROL_' + name);
   requireThat(a.securityResults.every(r => states.includes(r.state)), 'APPROVAL_UNKNOWN_STATE');
-  requireThat(!a.securityResults.some(r => ['FAIL', 'BLOCKED'].includes(r.state)), 'APPROVAL_FINDINGS'); return a;
+  requireThat(!a.securityResults.some(r => ['FAIL', 'BLOCKED'].includes(r.state)), 'APPROVAL_FINDINGS');
+  // Do not classify a locally malformed/security-invalid approval as temporal-only.
+  requireThat(Number.isFinite(Date.parse(a.createdAt)) && Date.parse(a.createdAt) <= now && Date.parse(a.expiresAt) > now && Date.parse(a.expiresAt) - Date.parse(a.createdAt) <= policy.candidateMaxAgeHours * 3600000, 'APPROVAL_EXPIRED');
+  return a;
 }
 async function jsonFromArtifact(api, artifact, filename) {
   const bytes = await api.download(artifact, 8 * 1024 * 1024);
@@ -28,6 +30,9 @@ async function jsonFromArtifact(api, artifact, filename) {
 }
 export async function verifyApproval(a, api = new GitHub()) {
   validateApproval(a);
+  return verifyApprovalEvidence(a, api);
+}
+async function verifyApprovalEvidence(a, api) {
   const ci = await api.request(`/repos/${policy.repository}/actions/runs/${a.ciRun}`);
   validateRun(ci, a.sha, 'ci');
   requireThat(ci.event === 'push' && ci.conclusion === 'success' && ci.status === 'completed' && String(ci.run_attempt) === String(a.ciAttempt), 'APPROVAL_CI_STATE');
@@ -57,9 +62,22 @@ export async function approvedCandidates(api = new GitHub()) {
     const artifact = artifacts.find(a => a.name === name && !a.expired);
     if (!artifact) continue;
     const {value} = await jsonFromArtifact(api, artifact, 'approved.json');
-    if (!ranks.has(value.sha) || Date.parse(value.expiresAt) <= Date.now()) continue;
+    if (!ranks.has(value.sha)) continue;
     requireThat(String(value.hardeningRun) === String(run.id) && String(value.hardeningAttempt) === String(run.run_attempt), 'APPROVAL_ARTIFACT_RUN');
-    candidates.push(await verifyApproval(value, api));
+    let temporalRejection = false;
+    try { validateApproval(value); }
+    catch (error) {
+      if (!(error instanceof Closed) || error.code !== 'APPROVAL_EXPIRED') throw error;
+      temporalRejection = true;
+    }
+    // Evidence/API failures must propagate, even if they resemble a temporal error.
+    // An invalid date must not hide a simultaneous integrity/provenance failure.
+    await verifyApprovalEvidence(value, api);
+    if (temporalRejection) {
+      console.warn(`Candidate rejected: ${name} (APPROVAL_EXPIRED)`);
+      continue;
+    }
+    candidates.push(value);
   }
   return candidates.sort((a, b) => ranks.get(a.sha) - ranks.get(b.sha) || Number(b.hardeningRun) - Number(a.hardeningRun));
 }
