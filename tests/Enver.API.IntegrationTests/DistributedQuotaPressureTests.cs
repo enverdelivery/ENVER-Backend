@@ -37,7 +37,7 @@ public sealed class DistributedQuotaPressureTests(AuthenticationDependenciesFixt
                 Assert.InRange(m.Accounted, 1, 624);
             }
             Assert.Equal(3000, s.A.Dispatches + s.B.Dispatches);
-        }, budget: TimeSpan.FromSeconds(180));
+        }, budget: TimeSpan.FromSeconds(180), timeObservability: true);
 
     [Fact]
     public Task P2_mixed_5000_partitions_102000_events_memory_and_revocations_during_pressure() =>
@@ -156,7 +156,7 @@ public sealed class DistributedQuotaPressureTests(AuthenticationDependenciesFixt
             Assert.Equal("preserve", (await s.Db.StringGetAsync(witness)).ToString());
             var policy = (RedisResult[])(await s.Db.ExecuteAsync("CONFIG", "GET", "maxmemory-policy"))!;
             Assert.Equal("noeviction", policy[1].ToString());
-        }, budget: TimeSpan.FromSeconds(300));
+        }, budget: TimeSpan.FromSeconds(300), timeObservability: true);
 
     [Fact]
     public Task Capacity_boundary_race_release_and_three_reassignment_rounds_never_exceed_5000() =>
@@ -222,7 +222,7 @@ public sealed class DistributedQuotaPressureTests(AuthenticationDependenciesFixt
                 Assert.Equal(2, accounted);
                 Assert.InRange(accounted, 1, 5000);
             }
-        }, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(240));
+        }, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(240), timeObservability: true);
 
     [Fact]
     public Task Lazy_cleanup_revalidates_renewed_hint_and_releases_only_three_residues_during_other_host_consumption() =>
@@ -257,5 +257,5 @@ public sealed class DistributedQuotaPressureTests(AuthenticationDependenciesFixt
             foreach (var id in residues) Assert.Null(await s.Db.SortedSetScoreAsync(s.Config.Keys.Registry, id));
             Assert.Equal(2, await s.Db.SortedSetLengthAsync(s.Data.Key(first, first.Scopes[0])));
             output.WriteLine("LAZY_RELEASES=5 MAX_CANDIDATES_PER_EVAL=3 RENEWED_CANDIDATE_PRESERVED=true");
-        }, budget: TimeSpan.FromSeconds(90));
+        }, budget: TimeSpan.FromSeconds(90), timeObservability: true);
 }

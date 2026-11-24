@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Runtime.CompilerServices;
 using Enver.API.Configuration;
 using Enver.API.Features.Authentication.Application.Ports;
 using Enver.API.Features.Authentication.Application.Quotas;
@@ -30,6 +31,7 @@ internal sealed class DistributedQuotaTestScope
     internal QuotaHost A { get; private set; } = null!;
     internal QuotaHost B { get; private set; } = null!;
     internal DistributedQuotaDiagnostics? Diagnostics { get; private set; }
+    internal DistributedQuotaTimingDiagnostics? Timing { get; private set; }
     private readonly AuthenticationDependenciesFixture fixture;
     private readonly ITestOutputHelper output;
     private readonly string hmac = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
@@ -44,11 +46,17 @@ internal sealed class DistributedQuotaTestScope
 
     // Presupuesto de harness: acota el cuerpo de la prueba; no es SLA, RequestBudget ni timeout funcional de Redis.
     internal static async Task RunAsync(AuthenticationDependenciesFixture fixture, ITestOutputHelper output,
-        Func<DistributedQuotaTestScope, Task> test, TimeSpan? syntheticWindow = null, TimeSpan? budget = null, bool diagnostics = false)
+        Func<DistributedQuotaTestScope, Task> test, TimeSpan? syntheticWindow = null, TimeSpan? budget = null, bool diagnostics = false,
+        bool timeObservability = false, [CallerMemberName] string scenario = "")
     {
         var data = await RedisAuthenticationQuotaTestScope.CreateAsync(fixture, syntheticWindow);
         var scope = new DistributedQuotaTestScope(fixture, output, data);
         if (diagnostics) scope.Diagnostics = new(scope.Config.Keys.Metadata);
+        if (timeObservability)
+        {
+            scope.Timing = new(scope.Config.Keys.Metadata, scenario);
+            data.RedisTimeObserved = scope.Timing.RedisTime;
+        }
         Exception? primary = null;
         try
         {
@@ -67,11 +75,21 @@ internal sealed class DistributedQuotaTestScope
             }
             // Un TimeoutException del presupuesto debe fallar la prueba; nunca se captura para simular éxito.
             using var observer = scope.Diagnostics?.Observe();
+            scope.Timing?.Phase("body");
             await test(scope).WaitAsync(budget ?? TimeSpan.FromMinutes(5));
+            scope.Timing?.Finish("PASSED");
+            scope.Timing?.Report(output);
         }
         catch (Exception failure)
         {
             primary = failure;
+            scope.Timing?.Finish("FAILED");
+            if (scope.Diagnostics is null && scope.Timing is not null)
+            {
+                try { primary = scope.Timing.Failure(failure); }
+                catch { primary = failure; }
+                throw primary;
+            }
             if (scope.Diagnostics is null) throw;
             try { primary = await scope.Diagnostics.FailureAsync(scope, failure); }
             catch (Exception diagnosticFailure)
@@ -149,8 +167,12 @@ internal sealed class DistributedQuotaTestScope
         RedisAuthenticationQuotaStore? store = null)
     {
         Diagnostics?.Request(request);
+        var timing = Timing?.BeginAttempt(host, phase);
         using var budget = RedisAuthenticationQuotaTestScope.Budget();
-        var result = await (store ?? (host == 0 ? A : B).Store).EvaluateAndConsumeAsync(request, budget);
+        AuthenticationQuotaConsumeResult result;
+        try { result = await (store ?? (host == 0 ? A : B).Store).EvaluateAndConsumeAsync(request, budget); }
+        catch { if (timing is { } failed) Timing?.EndAttempt(failed, null); throw; }
+        if (timing is { } finished) Timing?.EndAttempt(finished, result);
         Diagnostics?.Decision(result);
         outcomes.AddOrUpdate((phase, host, request.Operation, result.Status), 1, (_, value) => value + 1);
         return result;
@@ -211,7 +233,9 @@ internal sealed class DistributedQuotaTestScope
             for (var i = worker; i < count; i += 8)
             {
                 var due = TimeSpan.FromTicks(duration.Ticks * i / count);
+                var timing = Timing?.Sample();
                 if (due > timer.Elapsed) await Task.Delay(due - timer.Elapsed);
+                if (timing is { } before) Timing?.Paced(before, worker, i, (timer.Elapsed - due).TotalMilliseconds);
                 await action(i, worker % 2);
             }
         }));
