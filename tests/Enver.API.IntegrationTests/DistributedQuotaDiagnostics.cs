@@ -25,6 +25,7 @@ internal sealed class DistributedQuotaDiagnostics
     private bool evalReached, evalSubmitted, evalReturned, luaUnavailable, truncated, observerIncomplete;
     private string final = "NOT_RETURNED";
     private RedisResult? response;
+    private DistributedQuotaLuaGuardDiagnostics.Evidence? lua;
     private AuthenticationQuotaConsumeRequest? request;
 
     internal DistributedQuotaDiagnostics(string metadataKey) =>
@@ -90,6 +91,7 @@ internal sealed class DistributedQuotaDiagnostics
         phase = name; round = attempt;
         evalReached = evalSubmitted = evalReturned = luaUnavailable = false;
         response = null;
+        lua = null;
         final = "NOT_RETURNED";
     }
 
@@ -102,6 +104,7 @@ internal sealed class DistributedQuotaDiagnostics
             logicalNowUs = now, retrySeconds = retry, calculatedRetrySeconds = (maximumHorizon - now + 999999) / 1000000 });
 
     internal void Request(AuthenticationQuotaConsumeRequest value) => request = value;
+    internal void Lua(DistributedQuotaLuaGuardDiagnostics.Evidence? value) { lock (sync) lua = value; }
     internal void Connectivity(string host, RedisConnectionSignal signal) =>
         Add(new { phase, round, kind = "connectivity", host, signal = signal.ToString() });
     internal void Reached() => evalReached = true;
@@ -159,16 +162,28 @@ internal sealed class DistributedQuotaDiagnostics
             : final == "Unavailable" && !evalSubmitted ? "PRE_EVAL_UNAVAILABLE"
             : "UNRESOLVED_OR_DIFFERENT_FAILURE";
         object[] eventRows, exceptionRows;
-        lock (sync) { eventRows = events.ToArray(); exceptionRows = exceptions.ToArray(); }
-        var json = JsonSerializer.Serialize(new { stage = 1, classification, phase, round, partition,
-            final, evalReached, evalSubmitted, evalReturned, luaGuard = "NOT_OBSERVABLE",
+        DistributedQuotaLuaGuardDiagnostics.Evidence? luaEvidence;
+        lock (sync) { eventRows = events.ToArray(); exceptionRows = exceptions.ToArray(); luaEvidence = lua; }
+        var luaGuard = luaEvidence?.Code ?? "NOT_OBSERVABLE";
+        var luaSummary = luaEvidence is null ? null : new { luaEvidence.Code, luaEvidence.Line,
+            luaEvidence.Condition, luaEvidence.Statement, luaEvidence.DataTruncated, luaEvidence.DataInvalid };
+        var json = JsonSerializer.Serialize(new { stage = 2, classification, phase, round, partition,
+            final, evalReached, evalSubmitted, evalReturned, luaGuard, lua = luaEvidence,
             truncated, observerIncomplete, events = eventRows, exceptions = exceptionRows, beforeCleanup = snapshot });
         // El colector CI conserva ErrorInfo, no StdOut. Original como InnerException con su stack.
-        // Omitir arrays enteros si fuera necesario; nunca cortar un JSON ni un valor sensible.
+        // Degradación acotada: nunca cortar un JSON, un marcador ni un valor sensible.
         if (json.Length > 4400)
-            json = JsonSerializer.Serialize(new { stage = 1, classification, phase, round, partition,
-                final, evalReached, evalSubmitted, evalReturned, luaGuard = "NOT_OBSERVABLE",
+            json = JsonSerializer.Serialize(new { stage = 2, classification, phase, round, partition,
+                final, evalReached, evalSubmitted, evalReturned, luaGuard, lua = luaEvidence,
                 truncated = true, observerIncomplete, exceptions = exceptionRows, beforeCleanup = snapshot });
+        if (json.Length > 4400)
+            json = JsonSerializer.Serialize(new { stage = 2, classification, phase, round, partition,
+                final, evalReached, evalSubmitted, evalReturned, luaGuard, lua = luaEvidence,
+                truncated = true, observerIncomplete, exceptions = exceptionRows, snapshotOmitted = "ERRORINFO_LIMIT" });
+        if (json.Length > 4400)
+            json = JsonSerializer.Serialize(new { stage = 2, classification, phase, round, partition,
+                final, evalReached, evalSubmitted, evalReturned, luaGuard, lua = luaSummary,
+                truncated = true, observerIncomplete, dataOmitted = "ERRORINFO_LIMIT" });
         return new InvalidOperationException("DISTRIBUTED_QUOTA_DIAGNOSTIC " + json, original);
     }
 

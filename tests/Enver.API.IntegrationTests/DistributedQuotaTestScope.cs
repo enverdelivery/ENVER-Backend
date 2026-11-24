@@ -285,10 +285,20 @@ internal sealed class DistributedQuotaTestScope
                             Assert.InRange(invocation.Keys.Length, 4, 8); // 2 control + scopes + <=3 hints.
                             diagnostics?.Reached();
                             var database = (await Connections.GetMultiplexerAsync(budget.Token)).GetDatabase();
+                            // Solo el camino diagnosticado usa la copia instrumentada de test;
+                            // el resto de la suite conserva el script productivo sin envoltura.
+                            var script = diagnostics is null
+                                ? RedisAuthenticationQuotaScriptProtocol.ScriptText
+                                : DistributedQuotaLuaGuardDiagnostics.ScriptText;
                             var pending = database.ScriptEvaluateAsync(
-                                RedisAuthenticationQuotaScriptProtocol.ScriptText, invocation.Keys, invocation.Arguments, CommandFlags.DemandMaster);
+                                script, invocation.Keys, invocation.Arguments, CommandFlags.DemandMaster);
                             diagnostics?.Submitted();
                             var response = await pending;
+                            if (diagnostics is not null)
+                            {
+                                response = DistributedQuotaLuaGuardDiagnostics.Unwrap(response, out var guard);
+                                diagnostics.Lua(guard);
+                            }
                             diagnostics?.Reply(response);
                             return response;
                         });
