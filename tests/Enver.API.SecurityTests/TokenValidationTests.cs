@@ -22,7 +22,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Enver.API.SecurityTests;
 
-public sealed class TokenValidationTests
+public sealed partial class TokenValidationTests
 {
     [Theory, Trait("Task", "039"), Trait("Task", "042")]
     [InlineData("malformed")][InlineData("oversized")][InlineData("signature")][InlineData("issuer")]
@@ -141,7 +141,7 @@ public sealed class TokenValidationTests
         public JwtTokenIssuer Issuer { get; }
         public Store Store { get; } = new();
         public State State { get; } = new();
-        public Harness()
+        public Harness(Action<IServiceCollection>? configure = null)
         {
             var ring = new JwtKeyRing(new JwtOptions { Algorithm = "HS256", Issuer = "enver-api", Audience = "enver-mobile", LifetimeSeconds = 900,
                 ClockSkewSeconds = 30, ActiveKid = "A", Keys = [new() { Kid = "A", KeyBase64 = Convert.ToBase64String(key) }] },
@@ -157,6 +157,7 @@ public sealed class TokenValidationTests
                 services.AddSingleton<IAuthenticationSecurityState>(State); services.AddSingleton<ITokenRevocationStore>(Store);
                 services.AddSingleton<IAuthorizationHandler, RevocationAuthorizationHandler>();
                 services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthenticationAuthorizationResultHandler>();
+                configure?.Invoke(services);
             }).Configure(app =>
             {
                 app.UseMiddleware<RequestContextMiddleware>(); app.UseRouting(); app.UseAuthentication(); app.UseAuthorization();
@@ -165,6 +166,7 @@ public sealed class TokenValidationTests
                     e.MapGet("/_jwt", () => "ok").RequireAuthorization();
                     e.MapGet("/_fallback", () => "ok");
                     e.MapPost("/_misused", () => "must-not-authorize").RequireAuthorization(AuthenticationPolicies.Logout);
+                    if (configure is not null) e.MapControllers();
                 });
             })).Start(); Server = application.GetTestServer(); client = Server.CreateClient();
         }
@@ -177,9 +179,9 @@ public sealed class TokenValidationTests
             var compact = Base64UrlEncoder.Encode(Encoding.UTF8.GetBytes(header)) + "." + Base64UrlEncoder.Encode(payload);
             return compact + "." + Base64UrlEncoder.Encode(HMACSHA256.HashData(key, Encoding.ASCII.GetBytes(compact)));
         }
-        public Task<HttpResponseMessage> SendAsync(string? token, string path = "/_jwt", HttpMethod? method = null)
+        public Task<HttpResponseMessage> SendAsync(string? token, string path = "/_jwt", HttpMethod? method = null, HttpContent? content = null)
         {
-            var request = new HttpRequestMessage(method ?? HttpMethod.Get, path);
+            var request = new HttpRequestMessage(method ?? HttpMethod.Get, path) { Content = content };
             if (token is not null) request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + token);
             return client.SendAsync(request);
         }
