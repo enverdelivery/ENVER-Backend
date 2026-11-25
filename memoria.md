@@ -1,5 +1,15 @@
 # Memoria de ENVER Backend
 
+## Incremento 008 — Presign local
+
+Publicación autorizada por separado: un commit de Presign V1 en `feature/media-008`, push de esa rama y PR hacia `develop`, con observación del CI. No autoriza merge, infraestructura, asociación con Orders, despliegue ni initialize.
+
+Autorizado en `feature/media-008`, base `f84c096ccba9fedaa45cfeff57fc5c1737501ec2`: POST S3 multipart, JPEG/PNG, 1 byte–5 MiB y 300 s. Solo devuelve campos temporales del formulario. El adaptador exige una sesión temporal de un proveedor de firma dedicado. Los permisos reales de staging requieren un gate separado. Opciones `Media:MaxReservationsPerWindow=10` y `Media:ReservationWindowMinutes=10` se suministran explícitamente; si faltan o son inválidas no se firma. Cuota Mongo atómica con TTL de contadores; cada nueva reserva consume cupo incluso si la firma posterior falla. `pending` no acredita carga ni contenido. Sin CloudFront, verificador ni asociación con Orders; T-ORD-009 pendiente.
+
+Evidencia local: restore locked y Release sin errores ni advertencias (SDK local 10.0.404, pin intacto), unitarias dirigidas 13/13, seguridad 39/39 e integración 20/20 (1 Media, 19 regresiones Auth/Users/Orders). La prueba SDK construyó la política localmente con valores sintéticos, sin invocar AWS. No se acredita infraestructura ni Android real, ni se autoriza publicar, desplegar o initialize (total histórico 1).
+
+Revisión de credenciales: se reemplazó el perfil AWS local por `IMediaSigningCredentials`, con proveedor de runtime EC2/IMDS para el rol explícito `Media:UploadSigningInstanceRole`. Sin fallback a perfiles locales ni a la identidad general; sin sesión temporal no se firma. Otro proveedor dedicado, por ejemplo STS, puede sustituirlo en DI sin cambiar el firmante. La restricción IAM a staging y la disponibilidad de IMDS no están acreditadas. Release 0 errores/advertencias; prueba local de firma 1/1 y seguridad HTTP Media 1/1, sin llamadas AWS. Sin cambios a Orders ni al estado 5/8 de 008.
+
 ## Incremento 006 — Pedidos V1 sin foto
 
 Publicación autorizada por separado: un commit enfocado de 006 en `feature/orders-006`, push de esa rama y PR hacia `develop`; observación del CI sin modificarlo. No autoriza merge ni despliegue. T-ORD-009 permanece pendiente de la integración con Spec 008; no bloquea V1 sin foto.
