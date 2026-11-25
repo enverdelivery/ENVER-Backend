@@ -13,6 +13,7 @@ internal static class UsersServiceCollectionExtensions
         services.AddSingleton<IUserProfileStore>(sp => new MongoUserProfileStore(sp.GetRequiredService<IMongoDatabase>(),
             sp.GetRequiredService<IOptions<MongoDbOptions>>().Value));
         services.AddSingleton<IRescuerEligibility, DisabledRescuerEligibility>();
+        services.AddSingleton<IRescuerEnrollment, DisabledRescuerEnrollment>();
         services.AddScoped<UserProfileService>();
     }
 }

@@ -1,5 +1,15 @@
 # Memoria de ENVER Backend
 
+## Incremento 010 — Rescuer Enrollment & Eligibility
+
+`feature/rescuer-eligibility-010`, base `588c2565673e0bbd77dba25621cd41ce9ce35df3`. **REVIEW SPEC 010 PLAN AND TASKS: CONDITIONAL PASS**, solo para el trabajo local autorizado. La incorporación automática mediante `POST /api/v1/users/me/rescuer-enrollment` reutiliza Auth y Perfil, persiste concesión y evento en Mongo y no cambia el modo. El registro predeterminado conserva `DisabledRescuerEligibility` y la ruta no escribe sin composición de prueba explícita. El [catálogo 010](specs/010-rescuer-eligibility/task.md) registra evidencia y pendientes.
+
+Validación inicial dirigida: Release con SDK `10.0.403`, 0 errores/avisos, UT 38/38, seguridad 42/42 e IT 19/19 (incluye 010 en MongoDB real y el pipeline de Auth). La tanda complementaria registró cuatro fallos de Orders/Delivery antes de las carreras: luego 4/4 en el SHA base aislado y 4/4 en la rama, sin causa raíz confirmada. La revisión de implementación acreditó 5 PASS local, 4 PARTIAL y 1 BLOCKED.
+
+Remediación y continuación local: precedencia de cuerpo vacío de enrollment, prueba de pérdida del ACK real del commit (reconciliación `200` o `503` sin evidencia, una concesión/un evento en ambos casos) y orden determinista de revocación (primera solicitud `403`, revisión 2, consentimiento intacto, dos eventos). Release 0 errores/avisos, UT 38/38, seguridad 42/42, Mongo 010 6/6 acumulado y regresión de Perfil/Orders/Delivery 6/6. Catálogo revalidado: 8 PASS local, 1 BLOCKED y 1 PARTIAL. No se reprodujeron los cuatro fallos históricos; causa no determinada.
+
+No hay cuota operativa, reglas reales publicadas ni canal de revocación/rehabilitación. La semántica local de `accept` en curso no constituye ratificación. Se conserva **CRITICAL BSON 006/007 y rollback**: sin activación de elegibilidad, Delivery operativo, publicación ni despliegue. Histórico de initialize: 1.
+
 ## Incremento 009 — Calificación V1
 
 Publicación autorizada por separado: un commit de Ratings V1 en `feature/ratings-009`, push de esa rama y PR hacia `develop`, con observación del CI. No autoriza merge, cambios de infraestructura, despliegue ni initialize.
