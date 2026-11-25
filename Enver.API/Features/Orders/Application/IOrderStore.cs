@@ -6,7 +6,7 @@ namespace Enver.API.Features.Orders.Application;
 public enum OrderStoreStatus { Confirmed, Missing, Duplicate, Unavailable }
 public sealed record OrderStoreResult<T>(OrderStoreStatus Status, T? Value = null) where T : class;
 public sealed record OrderPosition(DateTime CreatedAt, Guid Id);
-public enum OrderListing { Feed, Mine }
+public enum OrderListing { Feed, Mine, AssignedToMe }
 public sealed record OrderCreation(Order Order, Guid IdempotencyKey, string Fingerprint);
 
 public interface IOrderStore
@@ -16,5 +16,6 @@ public interface IOrderStore
     Task<OrderStoreResult<Order>> FindVisibleAsync(Guid id, Guid viewer, RequestBudget budget);
     Task<OrderStoreResult<IReadOnlyList<Order>>> ListAsync(OrderListing listing, Guid viewer, OrderPosition? after, int take, RequestBudget budget);
     Task<OrderStoreResult<Order>> CancelPublishedAsync(Guid id, Guid owner, DateTime now, RequestBudget budget);
+    Task<OrderStoreResult<Order>> AdvanceDeliveryAsync(Guid id, Guid actor, OrderDeliveryAction action, DateTime now, RequestBudget budget);
     Task<OrderStoreResult<Order>> FindOwnedAsync(Guid id, Guid owner, RequestBudget budget);
 }

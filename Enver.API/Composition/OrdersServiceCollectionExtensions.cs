@@ -16,5 +16,7 @@ internal static class OrdersServiceCollectionExtensions
         services.AddSingleton(sp => new OrderCursor(sp.GetRequiredService<IOptions<RateLimitingOptions>>().Value.PseudonymizationKeyBase64));
         services.AddScoped(sp => new OrderService(sp.GetRequiredService<Features.Authentication.Application.Ports.IUserStore>(),
             sp.GetRequiredService<Features.Users.Application.IUserProfileStore>(), sp.GetRequiredService<IOrderStore>(), TimeProvider.System));
+        services.AddScoped(sp => new OrderDeliveryService(sp.GetRequiredService<IOrderStore>(),
+            sp.GetRequiredService<Features.Users.Application.IRescuerEligibility>(), TimeProvider.System));
     }
 }

@@ -15,7 +15,7 @@ namespace Enver.API.Controllers;
 [ApiController]
 [Authorize(Policy = AuthenticationPolicies.Normal)]
 [Route("api/v1/orders")]
-public sealed class OrdersController(OrderService orders, OrderCursor cursors) : ControllerBase
+public sealed class OrdersController(OrderService orders, OrderCursor cursors, OrderDeliveryService delivery) : ControllerBase
 {
     private const int MaxBodyBytes = 24 * 1024;
     private static readonly UTF8Encoding Utf8 = new(false, true);
@@ -25,8 +25,14 @@ public sealed class OrdersController(OrderService orders, OrderCursor cursors) :
     [HttpGet("{id}")] public Task Detail([FromRoute] string id) => ExecuteAsync(Operation.Detail, id);
     [HttpPost] public Task Create() => ExecuteAsync(Operation.Create);
     [HttpPost("{id}/cancel")] public Task Cancel([FromRoute] string id) => ExecuteAsync(Operation.Cancel, id);
+    [HttpGet("assigned-to-me")] public Task AssignedToMe() => ExecuteAsync(Operation.AssignedToMe);
+    [HttpPost("{id}/accept")] public Task Accept([FromRoute] string id) => ExecuteAsync(Operation.Delivery, id, OrderDeliveryAction.Accept);
+    [HttpPost("{id}/start-delivery")] public Task StartDelivery([FromRoute] string id) => ExecuteAsync(Operation.Delivery, id, OrderDeliveryAction.Start);
+    [HttpPost("{id}/arrive")] public Task Arrive([FromRoute] string id) => ExecuteAsync(Operation.Delivery, id, OrderDeliveryAction.Arrive);
+    [HttpPost("{id}/request-completion")] public Task RequestCompletion([FromRoute] string id) => ExecuteAsync(Operation.Delivery, id, OrderDeliveryAction.RequestCompletion);
+    [HttpPost("{id}/confirm-completion")] public Task ConfirmCompletion([FromRoute] string id) => ExecuteAsync(Operation.Delivery, id, OrderDeliveryAction.ConfirmCompletion);
 
-    private async Task ExecuteAsync(Operation operation, string? routeId = null)
+    private async Task ExecuteAsync(Operation operation, string? routeId = null, OrderDeliveryAction deliveryAction = default)
     {
         if (HttpContext.Features.Get<ValidatedJwtIdentity>() is not { } identity || !OrderInput.TryId(identity.Subject, out var viewer))
         { await ApiProblemDetails.TryWriteAsync(HttpContext, 401); return; }
@@ -35,10 +41,17 @@ public sealed class OrdersController(OrderService orders, OrderCursor cursors) :
         {
             var (outcome, account) = await orders.AuthenticateAccountAsync(viewer, budget);
             if (account is null) { await WriteErrorAsync(outcome); return; }
-            if (operation is Operation.Feed or Operation.Mine)
+            OrderListing? listing = operation switch
+            {
+                Operation.Feed => OrderListing.Feed,
+                Operation.Mine => OrderListing.Mine,
+                Operation.AssignedToMe => OrderListing.AssignedToMe,
+                _ => null
+            };
+            if (listing is { } list)
             {
                 if (await HasBodyAsync(budget.Token)) { await InvalidAsync(); return; }
-                await ListAsync(operation == Operation.Feed ? OrderListing.Feed : OrderListing.Mine, viewer, budget);
+                await ListAsync(list, viewer, budget);
                 return;
             }
             if (Request.Query.Count != 0) { await InvalidAsync(); return; }
@@ -55,10 +68,15 @@ public sealed class OrdersController(OrderService orders, OrderCursor cursors) :
             else
             {
                 if (!OrderInput.TryId(routeId, out var id) || await HasBodyAsync(budget.Token)) { await InvalidAsync(); return; }
-                result = operation == Operation.Cancel ? await orders.CancelAsync(id, viewer, budget) : await orders.DetailAsync(id, viewer, budget);
+                result = operation switch
+                {
+                    Operation.Cancel => await orders.CancelAsync(id, viewer, budget),
+                    Operation.Delivery => await delivery.AdvanceAsync(id, viewer, deliveryAction, budget),
+                    _ => await orders.DetailAsync(id, viewer, budget)
+                };
             }
 
-            if (result.Order is not { } order) { await WriteErrorAsync(result.Outcome); return; }
+            if (result.Order is not { } order) { await WriteErrorAsync(result.Outcome, operation); return; }
             budget.ThrowIfCancellationRequested();
             if (result.Outcome == OrderOutcome.Created)
             {
@@ -129,14 +147,15 @@ public sealed class OrdersController(OrderService orders, OrderCursor cursors) :
 
     private ValueTask<bool> InvalidAsync() => ApiProblemDetails.TryWriteAsync(HttpContext, 400);
 
-    private async ValueTask WriteErrorAsync(OrderOutcome outcome)
+    private async ValueTask WriteErrorAsync(OrderOutcome outcome, Operation? operation = null)
     {
         if (outcome == OrderOutcome.Unavailable) { await ApiProblemDetails.TryWriteAsync(HttpContext, 503); return; }
         var (status, title, code, detail) = outcome switch
         {
             OrderOutcome.Forbidden => (403, "Forbidden", "forbidden", "No se permite acceder a este recurso."),
             OrderOutcome.NotFound => (404, "Not Found", "not_found", "No se encontró este recurso."),
-            OrderOutcome.StateConflict => (409, "Conflict", "order_state_conflict", "El estado actual no permite cancelar el pedido."),
+            OrderOutcome.StateConflict => (409, "Conflict", "order_state_conflict", operation == Operation.Cancel
+                ? "El estado actual no permite cancelar el pedido." : "El estado actual no permite esta transición."),
             OrderOutcome.IdempotencyConflict => (409, "Conflict", "idempotency_conflict", "La clave ya se usó con otros datos."),
             _ => throw new ArgumentOutOfRangeException(nameof(outcome))
         };
@@ -148,5 +167,5 @@ public sealed class OrdersController(OrderService orders, OrderCursor cursors) :
         await Response.WriteAsJsonAsync(problem, options: null, contentType: "application/problem+json", cancellationToken: HttpContext.RequestAborted);
     }
 
-    private enum Operation { Feed, Mine, Detail, Create, Cancel }
+    private enum Operation { Feed, Mine, Detail, Create, Cancel, AssignedToMe, Delivery }
 }
