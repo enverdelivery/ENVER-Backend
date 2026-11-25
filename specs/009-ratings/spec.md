@@ -1,6 +1,6 @@
 # Especificación 009 — Calificación de entrega
 
-**v0.1.0 · Borrador para revisión · Responsable de implementación: B.** Rige la [constitución canónica](../../.specify/memory/constitution.md). Elegibilidad tras completar y unicidad son requisitos; las concreciones de MVP necesitan aprobación. No autoriza implementación.
+**v0.1.1 · V1 autorizado para implementación local · Responsable de implementación: B.** Rige la [constitución canónica](../../.specify/memory/constitution.md). La autorización local no incluye publicación, despliegue ni verificación Android.
 
 ## 1. Propósito
 
@@ -8,7 +8,7 @@ Registrar una calificación de una entrega completada, sin introducir un motor d
 
 ## 2. Alcance
 
-Una escritura de calificación por relación permitida y pedido. MVP propuesto: el solicitante propietario califica al rescatista asignado, no a la inversa.
+Una escritura de calificación por relación permitida y pedido. En V1 solo el solicitante propietario califica al rescatista asignado, no a la inversa.
 
 ## 3. Endpoints
 
@@ -26,7 +26,7 @@ Una escritura de calificación por relación permitida y pedido. MVP propuesto: 
 
 ## 6. Autorización
 
-Aplicar [005 §§6, 8](../005-users-profile/spec.md). Solo el propietario del pedido puede calificar al asignado bajo la dirección propuesta. No depende del modo activo. La respuesta solo se entrega al autor autenticado.
+Aplicar [005 §§6, 8](../005-users-profile/spec.md). Solo el propietario del pedido puede calificar al asignado. No depende del modo activo. La respuesta solo se entrega al autor autenticado.
 
 ## 7. Persistencia / requisitos de datos
 
@@ -47,4 +47,4 @@ Edición/borrado, listado, agregados Home/Perfil, moderación avanzada, penaliza
 
 ## 11. Dependencias / decisiones
 
-[006](../006-orders/spec.md) aporta identidad y participantes del pedido; [007](../007-delivery/spec.md) completa el pedido y preserva asignación terminal. **Confirmar** dirección solicitante → rescatista y disponibilidad del formulario Android. Los campos `rating` de 005/006 pueden seguir null hasta que se apruebe su proyección.
+[006](../006-orders/spec.md) aporta identidad y participantes del pedido; [007](../007-delivery/spec.md) completa el pedido y preserva asignación terminal. Dirección solicitante → rescatista **confirmada**; sigue pendiente verificar el formulario Android. Los campos `rating` de 005/006 pueden seguir null hasta que se apruebe su proyección.

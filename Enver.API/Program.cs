@@ -21,6 +21,7 @@ return await SafeStartup.Run(async startup =>
     builder.Services.AddAuthenticationPipeline();
     builder.Services.AddUsers();
     builder.Services.AddOrders();
+    builder.Services.AddRatings();
     builder.Services.AddMedia(builder.Configuration);
 
     startup.Phase = StartupPhase.HostBuild;

@@ -1,6 +1,6 @@
 # Plan 009 — Calificación de entrega
 
-**v0.1.0 · Borrador para revisión · Desarrollador B.** Fuentes: [spec.md](spec.md), [constitución canónica](../../.specify/memory/constitution.md). No autoriza ejecución técnica.
+**v0.1.1 · Ejecución local autorizada para V1 · Desarrollador B.** Fuentes: [spec.md](spec.md), [constitución canónica](../../.specify/memory/constitution.md).
 
 ## 1. Objetivo
 Registrar una calificación por relación permitida tras completar un pedido; no calcular reputación en esta escritura.
@@ -18,7 +18,7 @@ UUID propio, `orderId`, `authorId`, `recipientId`, `score`, `comment` y `created
 `POST /api/v1/orders/{id}/rating`: validar → verificar visibilidad, propietario, asignado y `Completado` → insertar → `201` con la proyección de spec §4; reenvío idéntico confirmado `200` con el mismo registro y fecha.
 
 ## 6. Autorización
-Solo solicitante propietario → rescatista asignado bajo la propuesta vigente. Derivar autor de `sub` y destinatario de Order; nunca del JSON ni de `activeRole`. Devolver la calificación solo al autor autenticado.
+Solo solicitante propietario → rescatista asignado, según la decisión aprobada. Derivar autor de `sub` y destinatario de Order; nunca del JSON ni de `activeRole`. Devolver la calificación solo al autor autenticado.
 
 ## 7. Validación
 UUID en ruta; score entero estricto 1–5, comentario opcional/null de hasta 500 caracteres tras trim y vacío normalizado a null. Rechazar campos ajenos, incluidos actor y destinatario.
@@ -36,7 +36,7 @@ HTTP: pedido propio completado, incompleto, ajeno y no participante, score/lími
 Confirmar dirección y contrato de participantes/Completado → DTO y store → caso de uso y endpoint → prueba de unicidad. Trabajar con fixtures del contrato estable sin esperar todos los endpoints 007.
 
 ## 12. Riesgos y decisiones abiertas
-Confirmar dirección de calificación y formulario Android antes de cerrar la ruta funcional. Revisar el diseño si se permite reabrir o reasignar pedidos completados. Home/Perfil pueden mantener rating null sin bloquear 009.
+La dirección está confirmada. Verificar el formulario Android en un gate posterior. Revisar el diseño si se permite reabrir o reasignar pedidos completados. Home/Perfil pueden mantener rating null sin bloquear 009.
 
 ## 13. Definición de terminado
 Ruta y AC-RAT-01/02 aceptados, con evidencia de autorización, conflicto y unicidad concurrente; sin motor de reputación ni cambios Auth/CI.

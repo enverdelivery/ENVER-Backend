@@ -1,5 +1,11 @@
 # Memoria de ENVER Backend
 
+## Incremento 009 — Calificación V1
+
+Publicación autorizada por separado: un commit de Ratings V1 en `feature/ratings-009`, push de esa rama y PR hacia `develop`, con observación del CI. No autoriza merge, cambios de infraestructura, despliegue ni initialize.
+
+Autorizado localmente en `feature/ratings-009` sobre `302f281aa25d40d52f88df84cfdcaf1b9909d898`. Solo el solicitante propietario puede calificar al rescatista asignado de un pedido `Completado`. Score entero 1–5 y comentario opcional/null de hasta 500 caracteres después de trim. Unicidad Mongo por pedido, autor y destinatario: `201` creación, `200` repetición idéntica normalizada, `409 rating_already_exists` si difiere. Sin agregados ni escrituras en Orders/Users. [7/8 tareas con evidencia local](specs/009-ratings/task.md); pendiente comprobar formulario Android. Sin commit, push, PR, despliegue ni initialize (histórico 1).
+
 ## Incremento 007 — Entrega y asignación
 
 Autorizado en `feature/delivery-007` sobre `f84c096ccba9fedaa45cfeff57fc5c1737501ec2` (005 #18 y 006 #19 integrados). Se reutilizan `orders`, sus DTOs, la política Bearer normal y el CAS por estado y actor; 006 no tenía versión numérica. Cada transición registra la marca del paso en la misma escritura. `accept` revalida la elegibilidad de 005 también al repetir; el modo activo no autoriza. Sin fuente aprobada, la configuración normal permanece deshabilitada. Para los pedidos ya asignados se exige cuenta activa y participación persistida. El alcance es local, sin publicar ni desplegar; initialize histórico 1. [Tareas y evidencia 007](specs/007-delivery/task.md).
