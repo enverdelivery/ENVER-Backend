@@ -11,7 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="../../Enver.API/Enver.API.csproj" />
     <PackageReference Include="AWSSDK.SecretsManager" Version="4.0.100.18" />
-    <PackageReference Include="AWSSDK.Core" Version="4.0.102.18" />
+    <PackageReference Include="AWSSDK.Core" Version="4.0.103" />
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <Content Include="../../Enver.API/appsettings.json" Link="defaults/appsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="../../Enver.API/appsettings.Development.json" Link="defaults/appsettings.Development.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
