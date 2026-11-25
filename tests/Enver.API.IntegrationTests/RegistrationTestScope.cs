@@ -30,6 +30,7 @@ internal sealed class RegistrationTestScope : IAsyncDisposable
 {
     private readonly AuthenticationDependenciesFixture fixture;
     private readonly OwnedCompositionAuthority authority;
+    private readonly bool probeRegistrationStore;
     private readonly string databaseName;
     private readonly string environment = "reg_" + Guid.NewGuid().ToString("N");
     private readonly List<AuthenticationApiFactory> owners = [];
@@ -43,17 +44,18 @@ internal sealed class RegistrationTestScope : IAsyncDisposable
     internal QuotaProbe Quotas => Services.GetRequiredService<QuotaProbe>();
     internal StoreProbe Store => Services.GetRequiredService<StoreProbe>();
 
-    private RegistrationTestScope(AuthenticationDependenciesFixture fixture, OwnedCompositionAuthority authority)
+    private RegistrationTestScope(AuthenticationDependenciesFixture fixture, OwnedCompositionAuthority authority, bool probeRegistrationStore)
     {
         this.fixture = fixture; this.authority = authority;
+        this.probeRegistrationStore = probeRegistrationStore;
         databaseName = fixture.MongoDatabase + "_reg_" + Guid.NewGuid().ToString("N")[..8];
     }
 
     internal static async Task<RegistrationTestScope> CreateAsync(AuthenticationDependenciesFixture fixture, bool initializeQuota = true,
-        bool openAuthority = true, IReadOnlyDictionary<string, string?>? overrides = null)
+        bool openAuthority = true, IReadOnlyDictionary<string, string?>? overrides = null, bool probeRegistrationStore = true)
     {
         var authority = await OwnedCompositionAuthority.CreateAsync(fixture, openAuthority);
-        var scope = new RegistrationTestScope(fixture, authority);
+        var scope = new RegistrationTestScope(fixture, authority, probeRegistrationStore);
         try
         {
             scope.AddHost(overrides);
@@ -97,9 +99,12 @@ internal sealed class RegistrationTestScope : IAsyncDisposable
             var quota = services.Last(d => d.ServiceType == typeof(IAuthenticationQuotaStore)); services.Remove(quota);
             services.AddSingleton(p => new QuotaProbe((IAuthenticationQuotaStore)quota.ImplementationFactory!(p)));
             services.AddSingleton<IAuthenticationQuotaStore>(p => p.GetRequiredService<QuotaProbe>());
-            var store = services.Last(d => d.ServiceType == typeof(IUserStore)); services.Remove(store);
-            services.AddSingleton(p => new StoreProbe((IUserStore)store.ImplementationFactory!(p)));
-            services.AddSingleton<IUserStore>(p => p.GetRequiredService<StoreProbe>());
+            if (probeRegistrationStore)
+            {
+                var store = services.Last(d => d.ServiceType == typeof(IUserStore)); services.Remove(store);
+                services.AddSingleton(p => new StoreProbe((IUserStore)store.ImplementationFactory!(p)));
+                services.AddSingleton<IUserStore>(p => p.GetRequiredService<StoreProbe>());
+            }
         }));
         hosts.Add(host);
         var client = host.CreateClient(); clients.Add(client);

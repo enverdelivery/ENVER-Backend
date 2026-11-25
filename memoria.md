@@ -1,5 +1,13 @@
 # Memoria de ENVER Backend
 
+## Incremento 006 — Pedidos V1 sin foto
+
+Publicación autorizada por separado: un commit enfocado de 006 en `feature/orders-006`, push de esa rama y PR hacia `develop`; observación del CI sin modificarlo. No autoriza merge ni despliegue. T-ORD-009 permanece pendiente de la integración con Spec 008; no bloquea V1 sin foto.
+
+Autorizado en `feature/orders-006`, base `13ef4e9305f1ee3bb5bc58a94e5cb60be346e579`. MXN fijo, importe Decimal128 y `cost` decimal con dos posiciones; `is100PercentYours=false` es solo compatibilidad Android. Se conservan etiquetas y ubicación estructurada; el horario es una preferencia. Solo el propietario cancela un `Publicado` mediante CAS; repetición confirmada sin nueva mutación. Sin 008, se admite `mediaId` omitido o nulo; un UUID no verificable devuelve 503 sin persistirlo y `imageUrl` es nulo. La carrera real con accept corresponde a 007. No se autoriza publicar, integrar 007–009, cambiar infraestructura, desplegar ni repetir initialize (total histórico 1).
+
+Validación local final: Release 0 errores/advertencias con SDK instalado 10.0.404 (pin intacto), unitarias Orders 12/12, seguridad dirigida 38/38 e integración Testcontainers 23/23 (Orders 2, regresión Auth/Users 21). El fixture HTTP usa el store Auth real en lugar del probe exclusivo de registro; la prueba de carrera separa el DDL inicial de las escrituras simultáneas. Cinco rutas y 10/11 [tareas](specs/006-orders/task.md) acreditadas localmente para V1 sin foto. T-ORD-009 y la carrera con `accept` no se acreditan. Sin commit, push ni PR.
+
 ## Incremento 005 — Perfil propio y modo activo
 
 Publicación autorizada por separado: un commit de 005 en `feature/users-orders`, envío de esa rama a `origin` y PR hacia `develop`. Se observará el CI sin modificarlo. No se autoriza merge, despliegue, initialize ni implementación de 006–009.
