@@ -20,6 +20,7 @@ return await SafeStartup.Run(async startup =>
     builder.Services.AddAuthenticationDependencies(builder.Configuration);
     builder.Services.AddAuthenticationPipeline();
     builder.Services.AddUsers();
+    builder.Services.AddOrders();
 
     startup.Phase = StartupPhase.HostBuild;
     await using var app = builder.Build();
