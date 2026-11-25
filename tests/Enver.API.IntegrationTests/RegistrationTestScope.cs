@@ -52,13 +52,14 @@ internal sealed class RegistrationTestScope : IAsyncDisposable
     }
 
     internal static async Task<RegistrationTestScope> CreateAsync(AuthenticationDependenciesFixture fixture, bool initializeQuota = true,
-        bool openAuthority = true, IReadOnlyDictionary<string, string?>? overrides = null, bool probeRegistrationStore = true)
+        bool openAuthority = true, IReadOnlyDictionary<string, string?>? overrides = null, bool probeRegistrationStore = true,
+        Action<IServiceCollection>? configureServices = null)
     {
         var authority = await OwnedCompositionAuthority.CreateAsync(fixture, openAuthority);
         var scope = new RegistrationTestScope(fixture, authority, probeRegistrationStore);
         try
         {
-            scope.AddHost(overrides);
+            scope.AddHost(overrides, configureServices);
             // Abrir conexiones/setup explícitos fuera del presupuesto de los requests; no reintentar la operación.
             using var setup = new CancellationTokenSource(TimeSpan.FromSeconds(5));
             await scope.Database.RunCommandAsync<BsonDocument>(new BsonDocument("ping", 1), cancellationToken: setup.Token);
@@ -79,7 +80,7 @@ internal sealed class RegistrationTestScope : IAsyncDisposable
         catch { await scope.DisposeAsync(); throw; }
     }
 
-    internal HttpClient AddHost(IReadOnlyDictionary<string, string?>? overrides = null)
+    internal HttpClient AddHost(IReadOnlyDictionary<string, string?>? overrides = null, Action<IServiceCollection>? configureServices = null)
     {
         var values = new Dictionary<string, string?>
         {
@@ -105,6 +106,7 @@ internal sealed class RegistrationTestScope : IAsyncDisposable
                 services.AddSingleton(p => new StoreProbe((IUserStore)store.ImplementationFactory!(p)));
                 services.AddSingleton<IUserStore>(p => p.GetRequiredService<StoreProbe>());
             }
+            configureServices?.Invoke(services);
         }));
         hosts.Add(host);
         var client = host.CreateClient(); clients.Add(client);

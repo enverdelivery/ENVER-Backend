@@ -26,10 +26,11 @@ internal sealed class OrderDocument
     [BsonElement("cancelledAt")] public DateTime? CancelledAt { get; init; }
     [BsonElement("idempotencyKey"), BsonGuidRepresentation(GuidRepresentation.Standard)] public Guid IdempotencyKey { get; init; }
     [BsonElement("fingerprint")] public required string Fingerprint { get; init; }
+    [BsonElement("delivery"), BsonIgnoreIfNull] public OrderDeliveryDocument? Delivery { get; init; }
 
     public Order ToOrder() => new(Id, OwnerId, RescuerId, RequesterName,
         new(Category, Title, SpecialInstructions, Amount, Location.ToLocation(), DeliveryTime, MediaId),
-        Currency, Status, CreatedAt, UpdatedAt, CancelledAt);
+        Currency, Status, CreatedAt, UpdatedAt, CancelledAt) { Delivery = Delivery?.ToProgress() };
 
     public static OrderDocument From(OrderCreation creation)
     {
@@ -42,9 +43,38 @@ internal sealed class OrderDocument
             Amount = draft.Amount, Currency = order.Currency, Location = OrderLocationDocument.From(draft.Location),
             DeliveryTime = draft.DeliveryTime, MediaId = draft.MediaId, Status = order.Status, CreatedAt = order.CreatedAt,
             UpdatedAt = order.UpdatedAt, CancelledAt = order.CancelledAt, IdempotencyKey = creation.IdempotencyKey,
-            Fingerprint = creation.Fingerprint
+            Fingerprint = creation.Fingerprint, Delivery = OrderDeliveryDocument.From(order.Delivery)
         };
     }
+}
+
+internal sealed class OrderDeliveryDocument
+{
+    [BsonElement("accepted"), BsonIgnoreIfNull] public OrderDeliveryMarkDocument? Accepted { get; init; }
+    [BsonElement("started"), BsonIgnoreIfNull] public OrderDeliveryMarkDocument? Started { get; init; }
+    [BsonElement("arrived"), BsonIgnoreIfNull] public OrderDeliveryMarkDocument? Arrived { get; init; }
+    [BsonElement("completionRequested"), BsonIgnoreIfNull] public OrderDeliveryMarkDocument? CompletionRequested { get; init; }
+    [BsonElement("completed"), BsonIgnoreIfNull] public OrderDeliveryMarkDocument? Completed { get; init; }
+
+    public OrderDeliveryProgress ToProgress() => new(Accepted?.ToMark(), Started?.ToMark(), Arrived?.ToMark(),
+        CompletionRequested?.ToMark(), Completed?.ToMark());
+
+    public static OrderDeliveryDocument? From(OrderDeliveryProgress? steps) => steps is null ? null : new()
+    {
+        Accepted = OrderDeliveryMarkDocument.From(steps.Accepted), Started = OrderDeliveryMarkDocument.From(steps.Started),
+        Arrived = OrderDeliveryMarkDocument.From(steps.Arrived), CompletionRequested = OrderDeliveryMarkDocument.From(steps.CompletionRequested),
+        Completed = OrderDeliveryMarkDocument.From(steps.Completed)
+    };
+}
+
+internal sealed class OrderDeliveryMarkDocument
+{
+    [BsonElement("actorId"), BsonGuidRepresentation(GuidRepresentation.Standard)] public Guid ActorId { get; init; }
+    [BsonElement("at")] public DateTime At { get; init; }
+
+    public OrderDeliveryMark ToMark() => new(ActorId, At);
+    public static OrderDeliveryMarkDocument? From(OrderDeliveryMark? mark) =>
+        mark is null ? null : new() { ActorId = mark.ActorId, At = mark.At };
 }
 
 internal sealed class OrderLocationDocument

@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Enver.API.Configuration;
 using Enver.API.Features.Orders.Application;
 using Enver.API.Features.Orders.Core;
@@ -87,7 +88,13 @@ public sealed class MongoOrderStore(IMongoDatabase database, MongoDbOptions opti
     public Task<OrderStoreResult<IReadOnlyList<Order>>> ListAsync(OrderListing listing, Guid viewer, OrderPosition? after,
         int take, RequestBudget budget) => RunAsync<IReadOnlyList<Order>>(async token =>
     {
-        var filter = listing == OrderListing.Mine ? Filter.Eq(x => x.OwnerId, viewer) : Filter.Eq(x => x.Status, OrderStatus.Published);
+        var filter = listing switch
+        {
+            OrderListing.Feed => Filter.Eq(x => x.Status, OrderStatus.Published),
+            OrderListing.Mine => Filter.Eq(x => x.OwnerId, viewer),
+            OrderListing.AssignedToMe => Filter.Eq(x => x.RescuerId, viewer),
+            _ => throw new ArgumentOutOfRangeException(nameof(listing))
+        };
         if (after is { } cursor)
             filter &= Filter.Lt(x => x.CreatedAt, cursor.CreatedAt) |
                 (Filter.Eq(x => x.CreatedAt, cursor.CreatedAt) & Filter.Lt(x => x.Id, cursor.Id));
@@ -95,14 +102,45 @@ public sealed class MongoOrderStore(IMongoDatabase database, MongoDbOptions opti
         return rows.Select(x => x.ToOrder()).ToArray();
     }, budget);
 
-    public Task<OrderStoreResult<Order>> CancelPublishedAsync(Guid id, Guid owner, DateTime now, RequestBudget budget) =>
+    private Task<OrderStoreResult<Order>> UpdateAsync(FilterDefinition<OrderDocument> filter,
+        UpdateDefinition<OrderDocument> update, RequestBudget budget) =>
         RunAsync<Order>(async token =>
         {
-            var filter = Filter.Eq(x => x.Id, id) & Filter.Eq(x => x.OwnerId, owner) & Filter.Eq(x => x.Status, OrderStatus.Published);
-            var update = Builders<OrderDocument>.Update.Set(x => x.Status, OrderStatus.Cancelled)
-                .Max(x => x.UpdatedAt, now).Set(x => x.CancelledAt, now);
             var row = await collection.FindOneAndUpdateAsync(filter, update,
                 new FindOneAndUpdateOptions<OrderDocument> { ReturnDocument = ReturnDocument.After }, token);
             return row?.ToOrder();
         }, budget);
+
+    public Task<OrderStoreResult<Order>> CancelPublishedAsync(Guid id, Guid owner, DateTime now, RequestBudget budget) =>
+        UpdateAsync(Filter.Eq(x => x.Id, id) & Filter.Eq(x => x.OwnerId, owner) & Filter.Eq(x => x.Status, OrderStatus.Published),
+            Builders<OrderDocument>.Update.Set(x => x.Status, OrderStatus.Cancelled)
+                .Max(x => x.UpdatedAt, now).Set(x => x.CancelledAt, now), budget);
+
+    public Task<OrderStoreResult<Order>> AdvanceDeliveryAsync(Guid id, Guid actor, OrderDeliveryAction action, DateTime now,
+        RequestBudget budget)
+    {
+        var (previous, next) = OrderDeliveryTransitions.For(action);
+        Expression<Func<OrderDocument, OrderDeliveryMarkDocument?>> selectMark = action switch
+        {
+            OrderDeliveryAction.Accept => x => x.Delivery!.Accepted,
+            OrderDeliveryAction.Start => x => x.Delivery!.Started,
+            OrderDeliveryAction.Arrive => x => x.Delivery!.Arrived,
+            OrderDeliveryAction.RequestCompletion => x => x.Delivery!.CompletionRequested,
+            OrderDeliveryAction.ConfirmCompletion => x => x.Delivery!.Completed,
+            _ => throw new ArgumentOutOfRangeException(nameof(action))
+        };
+        var mark = new ExpressionFieldDefinition<OrderDocument, OrderDeliveryMarkDocument?>(selectMark);
+        var actorFilter = action switch
+        {
+            OrderDeliveryAction.Accept => Filter.Ne(x => x.OwnerId, actor) & Filter.Eq(x => x.RescuerId, null),
+            OrderDeliveryAction.ConfirmCompletion => Filter.Eq(x => x.OwnerId, actor) &
+                Filter.Ne(x => x.RescuerId, null) & Filter.Ne(x => x.RescuerId, actor),
+            _ => Filter.Eq(x => x.RescuerId, actor)
+        };
+        var filter = Filter.Eq(x => x.Id, id) & Filter.Eq(x => x.Status, previous) & actorFilter & Filter.Eq(mark, null);
+        var update = Builders<OrderDocument>.Update.Set(x => x.Status, next).Max(x => x.UpdatedAt, now)
+            .Set(mark, new OrderDeliveryMarkDocument { ActorId = actor, At = now });
+        if (action == OrderDeliveryAction.Accept) update = update.Set(x => x.RescuerId, actor);
+        return UpdateAsync(filter, update, budget);
+    }
 }

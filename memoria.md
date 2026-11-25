@@ -1,5 +1,13 @@
 # Memoria de ENVER Backend
 
+## Incremento 007 — Entrega y asignación
+
+Autorizado en `feature/delivery-007` sobre `f84c096ccba9fedaa45cfeff57fc5c1737501ec2` (005 #18 y 006 #19 integrados). Se reutilizan `orders`, sus DTOs, la política Bearer normal y el CAS por estado y actor; 006 no tenía versión numérica. Cada transición registra la marca del paso en la misma escritura. `accept` revalida la elegibilidad de 005 también al repetir; el modo activo no autoriza. Sin fuente aprobada, la configuración normal permanece deshabilitada. Para los pedidos ya asignados se exige cuenta activa y participación persistida. El alcance es local, sin publicar ni desplegar; initialize histórico 1. [Tareas y evidencia 007](specs/007-delivery/task.md).
+
+Seis rutas y 10/10 tareas verificadas localmente: Release sin errores ni avisos, unitarias 19/19, seguridad dirigida 39/39, integración final 22/22 con ambas carreras en MongoDB real. Las incidencias de la primera integración y del control sobre el SHA inicial se conservan en el catálogo; la confirmación se ejecutó sin cambios de código o pruebas.
+
+**REVIEW SPEC 007 IMPLEMENTATION: CONDITIONAL PASS**, solo para integración y revisión de código. CRITICAL: el lector BSON estricto de 006 rechaza `delivery`; pendientes compatibilidad entre versiones y mínimo de rollback. HIGH: `DisabledRescuerEligibility` sigue siendo el proveedor por defecto; no hay autorización operativa para habilitar `accept`. MEDIUM: fallo histórico de Orders no reproducido en tres tandas de 4/4 casos; causa no determinada. LOW: precedencia HTTP entre visibilidad y participación pendiente de aclaración. Sin correcciones de estos hallazgos. **No aprobado para despliegue. Siguiente gate: AUTHORIZE SPEC 007 COMMIT AND PR**, sin autorizar merge, AWS, Terraform, SSM, CI/CD, deploy ni initialize; histórico 1.
+
 ## Incremento 006 — Pedidos V1 sin foto
 
 Publicación autorizada por separado: un commit enfocado de 006 en `feature/orders-006`, push de esa rama y PR hacia `develop`; observación del CI sin modificarlo. No autoriza merge ni despliegue. T-ORD-009 permanece pendiente de la integración con Spec 008; no bloquea V1 sin foto.

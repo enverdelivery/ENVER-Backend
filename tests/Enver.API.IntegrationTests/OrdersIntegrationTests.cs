@@ -19,8 +19,8 @@ namespace Enver.API.IntegrationTests;
 [Collection(AuthenticationDependenciesCollection.Name)]
 public sealed class OrdersIntegrationTests(AuthenticationDependenciesFixture fixture)
 {
-    private const string Root = "/api/v1/orders";
-    private const string Payload = """
+    internal const string Root = "/api/v1/orders";
+    internal const string Payload = """
         {"selectedCategory":"Comida","orderTitle":"Torta","specialInstructions":"Sin cebolla","tarifa":"30.01",
         "locationSearch":"No persistir","locationDetail":"Salón 302","selectedLat":20,"selectedLng":-99,
         "selectedAddressLabel":"Edificio B","selectedHabitualPlace":"Salón habitual","deliveryTime":"Ahora","mediaId":null}
@@ -202,11 +202,13 @@ public sealed class OrdersIntegrationTests(AuthenticationDependenciesFixture fix
         public Task<OrderStoreResult<Order>> FindOwnedAsync(Guid id, Guid owner, RequestBudget budget) => throw new NotSupportedException();
         public Task<OrderStoreResult<Order>> FindVisibleAsync(Guid id, Guid viewer, RequestBudget budget) => throw new NotSupportedException();
         public Task<OrderStoreResult<Order>> CancelPublishedAsync(Guid id, Guid owner, DateTime now, RequestBudget budget) => throw new NotSupportedException();
+        public Task<OrderStoreResult<Order>> AdvanceDeliveryAsync(Guid id, Guid actor, OrderDeliveryAction action, DateTime now,
+            RequestBudget budget) => throw new NotSupportedException();
         public Task<OrderStoreResult<IReadOnlyList<Order>>> ListAsync(OrderListing listing, Guid viewer, OrderPosition? after, int take,
             RequestBudget budget) => throw new NotSupportedException();
     }
 
-    private static async Task<(Guid Id, string Token)> SeedAsync(RegistrationTestScope scope, string email, RequestBudget budget)
+    internal static async Task<(Guid Id, string Token)> SeedAsync(RegistrationTestScope scope, string email, RequestBudget budget)
     {
         var user = User.Create("Nombre Auth", email, "synthetic-not-for-login", DateTime.UtcNow);
         Assert.Equal(UserInsertStatus.Confirmed, (await scope.Services.GetRequiredService<IUserStore>().InsertAsync(user, budget)).Status);
@@ -215,7 +217,7 @@ public sealed class OrdersIntegrationTests(AuthenticationDependenciesFixture fix
         return (user.Id, token.AccessToken!);
     }
 
-    private static async Task<HttpResponseMessage> SendAsync(RegistrationTestScope scope, string token, HttpMethod method,
+    internal static async Task<HttpResponseMessage> SendAsync(RegistrationTestScope scope, string token, HttpMethod method,
         string path, Guid? key = null, string? payload = null)
     {
         using var request = new HttpRequestMessage(method, path);
@@ -225,7 +227,7 @@ public sealed class OrdersIntegrationTests(AuthenticationDependenciesFixture fix
         return await scope.Client.SendAsync(request);
     }
 
-    private static async Task<JsonDocument> JsonAsync(HttpResponseMessage response, int status)
+    internal static async Task<JsonDocument> JsonAsync(HttpResponseMessage response, int status)
     {
         Assert.Equal(status, (int)response.StatusCode);
         Assert.Equal("no-store", response.Headers.CacheControl?.ToString());
