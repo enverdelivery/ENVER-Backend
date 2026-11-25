@@ -33,12 +33,15 @@ internal static class ProfileInput
                     if (property.Value.ValueKind == JsonValueKind.Null) break;
                     if (property.Value.ValueKind != JsonValueKind.String) return null;
                     phone = property.Value.GetString();
-                    if (phone is not { Length: >= 3 and <= 16 } || phone[0] != '+' ||
-                        phone[1] is < '1' or > '9' || !phone.Skip(2).All(char.IsAsciiDigit)) return null;
+                    if (!IsValidPhone(phone)) return null;
                     break;
                 default: return null;
             }
         }
         return name is null && !hasPhone && role is null ? null : new(name, hasPhone, phone, role);
     }
+
+    internal static bool IsValidPhone(string? phone) =>
+        phone is { Length: >= 3 and <= 16 } && phone[0] == '+' &&
+        phone[1] is >= '1' and <= '9' && phone.Skip(2).All(char.IsAsciiDigit);
 }
